@@ -67,7 +67,7 @@ GPT 生成回答（附文件 / 页码 / cell 引用）
 ### 2. 格式解析
 
 - **Notebook**：用 `nbformat` 按原始 cell 顺序读取 Markdown、代码、文本/HTML 输出、图片和附件，不执行 notebook；由 Markdown 标题建立章节路径，保留代码与其输出的关联。需处理异常/缺失的 cell ID，长输出、报错堆栈和大数组只保留可检索摘要。已确认部分课程存在中文重写版 notebook（中英夹杂、含 LaTeX 公式与 HTML 样式），双语支持按硬需求设计。
-- **PDF**（第二批接入）：先提取原生文字与版面，再逐页检查文本质量；扫描页或图片型课件按需 OCR（可调用 `qwen-vl-ocr` / `qwen3-vl` 系列 API，不本地部署视觉模型）。保留页码、表格结构、公式与图表位置。抽查确认课程 PDF（Keynote/Beamer 导出）均有原生文字层、`pdftotext` 可直接提取，但文本密度低、图表承载主要信息，解析时需重视图注环节。
+- **PDF**（第二批接入）：本地只做无模型的原生文字提取、页面渲染和质量检测；若页面缺少可靠文字层，或主要信息位于表格、公式和图表中，则调用 Qwen OCR / VL API 做结构化解析和图像说明。首期不启用 Docling 默认的本地版面、OCR 或表格模型；若使用 Docling，仅采用其 model-free native pipeline。课程资料中既有可直接提取文字的 PDF，也有前几页几乎提取不到文字的文件，因此不能假设所有 PDF 都无需 OCR。
 - 两种解析器统一产出 `document → section → block → asset` 结构；图片二进制不写入向量 payload。
 
 ### 3. 父子切块
@@ -80,12 +80,12 @@ GPT 生成回答（附文件 / 页码 / cell 引用）
 
 ### 5. 向量化（Qwen API）与存储
 
-调用 `text-embedding-v4`（Qwen3-Embedding 系列）**DashScope 原生接口**（非 OpenAI 兼容模式，只有原生接口才返回 sparse 向量），设置 `output_type=dense&sparse`，索引侧固定 `text_type=document`，一次调用同时获得：
+调用 `qwen3.7-text-embedding` **DashScope 原生接口**（非 OpenAI 兼容模式，当前 sparse 输出需要原生接口），设置 `output_type=dense&sparse`，索引侧固定 `text_type=document`，一次调用同时获得：
 
-- **dense 向量**：1,024 维（可选 64–2,048，MRL 灵活裁剪）
+- **dense 向量**：首期使用 1,024 维；更高或更低维度只通过同一 API 做对照实验
 - **sparse 向量**：词项权重（index/value/token），用于关键词匹配
 
-限制与用量：单次请求最多 10 条文本、单条最多 8,192 token；限流 RPM 1,800、TPM 120 万（仅输入）；价格约 ¥0.5/百万 token。按课程语料实测（约 200 万 token）估算，全量索引约需 500–700 次请求、几分钟内可完成，成本约 ¥1 元量级，不构成瓶颈。
+批大小、token 上限、限流和价格以实际开通地域及账户的当前 API 返回和官方文档为准，不把这些易变化的数值写成系统不变量。导入任务按批次调用，并实现限流退避、失败重试、断点续传和用量记录。
 
 向量与可过滤元数据（课程、文件、版本、发布日期、章节路径、cell/页码等）写入本机 Qdrant；父块正文与文件清单存 SQLite；原始文件与图片资源留在文件存储中。记录模型版本、维度和索引版本，便于后续更换配置时重建索引。
 
@@ -95,11 +95,11 @@ GPT 生成回答（附文件 / 页码 / cell 引用）
 
 ### 6. 查询与召回
 
-先解析用户明确选择的课程/文件范围和当前可见版本；原问题并行走 dense、sparse 检索，查询侧调用 embedding API 时使用 `text_type=query`（与索引侧的 `document` 区分，提升非对称检索效果），用 RRF 融合候选。保留课程编号、代码符号、公式和否定词，避免被过度改写。指代不明时补全问题；中文问英文课件时保留原问并增加英文术语查询。HyDE、step-back、多查询默认关闭，仅在评测显示收益时启用。
+先解析用户明确选择的课程/文件范围和当前可见版本；原问题并行走 dense、sparse 检索，查询侧调用 embedding API 时使用 `text_type=query`，用 RRF 融合候选。保留课程编号、代码符号、公式和否定词，避免被过度改写。指代补全、中文到英文的辅助查询和后续可能的 query transformation 均调用 Qwen 文本生成 API；原问题始终保留，模型生成内容只作为检索线索。HyDE、step-back、多查询默认关闭，仅在评测显示收益时启用。
 
 ### 7. 重排与回取
 
-对融合后的有限候选调用 `qwen3-rerank` API（单次最多 500 篇候选、单篇最多 4,000 token、请求总 token 上限 12 万，限流 RPM 5,400，几乎不构成瓶颈；`gte-rerank` 将于 2026-05-30 停服，不使用）。按 `parent_id` 去重后回取必要的父块、相邻 cell、原图或原表，并限制总上下文长度，记录每条证据的具体来源（文件、页码或 cell）。
+对融合后的有限候选调用 `qwen3.7-text-rerank` API。按 `parent_id` 去重后回取必要的父块、相邻 cell、原图或原表，并限制总上下文长度，记录每条证据的具体来源（文件、页码或 cell）。候选数量、请求预算、超时和重试策略通过实测确定。
 
 ## 对话部分（后续规划，当前不实现）
 
@@ -116,18 +116,177 @@ GPT 生成回答（附文件 / 页码 / cell 引用）
 | ---------------- | --------------------------------------------------- | ----------------------------------------------------------- |
 | 向量库           | Qdrant（本机 Docker）                               | dense + sparse 命名向量，支持课程/版本/发布日期等元数据过滤 |
 | 元数据与父块存储 | SQLite                                              | 文件清单、版本、父块正文、资源关系                          |
-| Embedding        | `text-embedding-v4`（Qwen API，DashScope 原生接口） | 一次调用同时获取 dense + sparse，不本地部署                 |
-| Reranker         | `qwen3-rerank`（Qwen API）                          | 对融合候选做语义重排                                        |
-| 对话模型（后续） | GPT                                                 | 仅在检索证据基础上生成回答，当前不开发                      |
+| Embedding        | `qwen3.7-text-embedding`（DashScope 原生 API）       | 一次调用同时获取 dense + sparse，不本地部署                 |
+| Query transformation | Qwen 文本生成 API                              | 仅在指代、跨语言或复杂问题中按需调用                        |
+| Reranker         | `qwen3.7-text-rerank` API                            | 对融合候选做语义重排                                        |
+| OCR / 图表理解   | Qwen OCR / VL API                                    | PDF 回退解析与图片说明，不本地部署视觉模型                  |
+| 对话模型（后续） | GPT API                                              | 仅在检索证据基础上生成回答，当前不开发                      |
 
 ## 关键约束
 
 - **Notebook 是首要数据模型**：cell 输出可能包含图片、HTML 表格或多种 MIME 表示，不能整份转纯文本后固定字符数切割。
 - **图表说明是检索线索，不是精确事实来源**：回答图中数值或曲线关系时需回取原图、表格或原始输出核对。
 - **父子块与多表示可以组合**：父子块解决"找到细节后补足上下文"，多表示解决"正文之外怎样找到代码、图和表"；不为每个子块复制同一份标题或章节摘要向量。
-- **存储与推理分离**：Qdrant、SQLite、原始文件保存在本地（后续可迁移到云端）；embedding、重排及未来可能的图像描述均调用 Qwen API，云端小机器只需承担存储和编排。
-- **全部依赖外部 API**：需处理限流重试（embedding 单次请求上限 10 条文本）、网络异常降级、API Key 保密，以及课件内容出境到第三方服务的取舍。
+- **存储与模型推理分离**：Qdrant、SQLite、原始文件和无模型解析工具保存在本地（后续可迁移到云端）；embedding、查询改写、重排、OCR、图像理解及最终问答全部调用外部 API，不下载或运行模型权重。
+- **全部模型推理依赖外部 API**：需处理限流退避、失败重试、网络异常、API Key 保密、费用观测，以及课件内容发送到第三方服务的取舍。API 不可用时暂停相关推理任务，不静默切换成本地模型。
 - **先测后调**：token 范围、候选数量、模型配置均是初始值，最终以真实课程问题的效果、延迟证据决定。
+
+## 项目结构
+
+项目采用按功能域组织的精简结构。`api` 只负责 HTTP 协议，`rag` 负责索引与检索流程，`clients` 封装外部模型 API，`stores` 封装本地存储。Python 包目录中的 `__init__.py` 在下图中省略。
+
+```text
+SRAG/
+├── app/
+│   ├── main.py                     # FastAPI 入口与应用生命周期
+│   ├── config.py                   # .env 的唯一读取入口
+│   ├── api/
+│   │   ├── health.py               # 健康检查
+│   │   ├── rag.py                  # 索引、文档管理与检索接口
+│   │   └── chat.py                 # 对话阶段添加
+│   ├── schemas/
+│   │   ├── document.py             # 文档、内容块、资源与父子块结构
+│   │   ├── embedding.py            # dense/sparse 向量结果结构
+│   │   ├── indexing.py             # 待写入存储的索引数据包
+│   │   ├── rag.py                  # 索引与检索请求/响应
+│   │   └── chat.py                 # 对话阶段添加
+│   ├── rag/
+│   │   ├── indexer.py              # 增量索引编排
+│   │   ├── chunker.py              # 父子切块与检索表示
+│   │   ├── retriever.py            # 混合检索、重排与父块回取
+│   │   └── parsers/
+│   │       ├── notebook.py         # Notebook 只读解析
+│   │       └── pdf.py              # PDF 阶段添加
+│   ├── clients/
+│   │   ├── dashscope.py            # Qwen API 客户端
+│   │   └── openai.py               # GPT API 客户端，对话阶段添加
+│   ├── stores/
+│   │   ├── qdrant.py               # dense/sparse 向量与过滤检索
+│   │   └── sqlite.py               # 文档版本、父块和导入状态
+│   └── chat/
+│       └── answerer.py             # 证据组织与回答生成，对话阶段添加
+├── tests/
+│   ├── fixtures/
+│   ├── test_notebook_parser.py
+│   ├── test_chunker.py
+│   ├── test_indexer.py
+│   └── test_retriever.py
+├── evals/
+│   ├── retrieval_cases.jsonl
+│   └── run_retrieval.py
+├── notebooks/
+│   └── chunk_embedding_experiment.ipynb
+├── data/                            # 本地运行数据，不提交 Git
+│   ├── assets/
+│   ├── qdrant/
+│   └── srag.sqlite3
+├── .env                             # 本机密钥与服务配置，不提交 Git
+├── .env.example                     # 可提交的配置模板
+├── compose.yml                      # 本地 Qdrant
+├── pyproject.toml
+├── README.md
+├── RAG.md
+└── agent.md
+```
+
+首期只创建 Notebook 检索闭环需要的文件。PDF、GPT 对话及对应文件在进入相关里程碑时添加，不创建无实现的空模块。
+
+### 依赖方向
+
+```text
+api
+ ├── rag.indexer ─── parsers + chunker + dashscope + stores
+ ├── rag.retriever ─ dashscope + stores
+ └── chat.answerer ─ rag.retriever + openai（后续）
+```
+
+- API 路由不直接操作 Qdrant、SQLite 或模型 SDK。
+- `clients` 只处理外部 API 请求、超时、重试和错误转换，不包含检索策略。
+- Query translation、dense+sparse 召回、RRF、rerank 和父块回取只有 `rag/retriever.py` 一个入口。
+- 外部资源在 FastAPI lifespan 中初始化，禁止在模块导入阶段连接数据库或验证 API Key。
+
+### 命名规范
+
+- 包和文件统一使用 `snake_case`；集合型目录使用复数，如 `clients`、`schemas`、`stores`、`parsers`。
+- 目录已表达上下文时不重复前缀，例如使用 `rag/indexer.py`，不使用 `rag_vector_index_service.py`。
+- 核心类使用职责名称，例如 `DocumentIndexer`、`ParentChildChunker`、`HybridRetriever`、`QdrantStore` 和 `MetadataStore`。
+- 暂不创建职责模糊的 `utils.py`、`common.py`、`manager.py` 或无实际复用需求的基类。
+
+## 配置接口
+
+所有外部模型 API 的密钥、地址和模型名统一从 `.env` 读取。仓库只提交 `.env.example`；`.env`、Qdrant 数据、SQLite 和解析出的资源目录均由 `.gitignore` 排除。切块和检索实验参数使用 `config.py` 中的版本化默认值，并将实际值记录到索引元数据中。
+
+```dotenv
+# 应用配置
+APP_ENV=development
+APP_HOST=127.0.0.1
+APP_PORT=8000
+COURSE_ROOT=/Users/Link/Course
+DATA_DIR=./data
+
+# DashScope / Qwen：RAG 模型配置
+DASHSCOPE_API_KEY=
+DASHSCOPE_BASE_URL=
+DASHSCOPE_EMBEDDING_MODEL=qwen3.7-text-embedding
+DASHSCOPE_EMBEDDING_DIMENSION=1024
+DASHSCOPE_EMBEDDING_BATCH_SIZE=20
+DASHSCOPE_RERANK_MODEL=qwen3.7-text-rerank
+DASHSCOPE_QUERY_MODEL=
+DASHSCOPE_OCR_MODEL=
+DASHSCOPE_VISION_MODEL=
+DASHSCOPE_TIMEOUT_SECONDS=60
+DASHSCOPE_MAX_RETRIES=3
+
+# OpenAI：对话阶段配置
+OPENAI_API_KEY=
+OPENAI_BASE_URL=https://api.openai.com/v1
+OPENAI_CHAT_MODEL=
+
+# 本地存储
+QDRANT_URL=http://localhost:6333
+QDRANT_API_KEY=
+QDRANT_COLLECTION=course_chunks
+SQLITE_PATH=./data/srag.sqlite3
+```
+
+## 已实现：Notebook 解析、父子切块与 Embedding
+
+- `NotebookParser` 只读解析真实 `.ipynb`，不执行代码；支持 Markdown 标题路径、代码、stdout、报错、纯文本/HTML 表格输出以及 PNG/JPEG/SVG/GIF 资源提取。
+- `ParentChildChunker` 按章节和源内容块构建父块，再生成带少量重叠的子块；ID 由内容稳定生成，子块保留实际来源 `block_id`，用于后续 cell 引用。
+- 当前 Token 数是不加载本地模型的中英文混合估算值，负责控制切块边界；实际用量以 DashScope 返回的 `usage.total_tokens` 为准。
+- `DashScopeClient` 使用原生 DashScope 接口，文档固定传入 `text_type=document`，查询固定传入 `text_type=query`，默认一次返回 1,024 维 dense 和 sparse 权重。
+- `DocumentIndexer.prepare_document()` 已串联 `ParsedDocument → 父子切块 → 批量 Embedding`，并校验每个子块与向量的顺序、数量和维度，输出可直接交给 SQLite/Qdrant 存储层的数据包。
+- 客户端支持最多 20 条一批、保持输入顺序、超时、有限重试和请求 ID 记录；API Key 不写日志。
+- 实验 Notebook：[`notebooks/chunk_embedding_experiment.ipynb`](./notebooks/chunk_embedding_experiment.ipynb)。在 `NOTEBOOK_PATH` 填写一个 `.ipynb` 地址后，它会通过项目的 Parser、Indexer、Chunker 和 Embedding 客户端展示内容块、父子块、向量维度、sparse 词项和查询相似度排序。
+
+运行实验：
+
+```bash
+uv run jupyter lab notebooks/chunk_embedding_experiment.ipynb
+```
+
+## 应用接口契约
+
+### RAG
+
+| 方法 | 路径 | 作用 |
+| --- | --- | --- |
+| `POST` | `/api/rag/index` | 提交一组明确选择的本地课程文件进行增量索引 |
+| `GET` | `/api/rag/index/{job_id}` | 查询索引任务状态 |
+| `GET` | `/api/rag/documents` | 查询已登记文档及版本 |
+| `DELETE` | `/api/rag/documents/{document_id}` | 删除文档及其派生索引 |
+| `POST` | `/api/rag/search` | 按课程、文件和可见版本过滤后检索证据 |
+
+检索响应必须包含 `chunk_id`、`parent_id`、融合或重排分数，以及文件、页码或 cell 定位。API 层不把 Qdrant 原始响应直接暴露给调用方。
+
+### 对话（后续）
+
+| 方法 | 路径 | 作用 |
+| --- | --- | --- |
+| `POST` | `/api/chat` | 基于检索证据返回完整回答 |
+| `POST` | `/api/chat/stream` | 以 SSE 返回流式回答和最终引用 |
+
+对话请求统一包含 `session_id`、`message`、`mode` 和课程/文件范围；`mode` 预留 `qa` 与 `summary`。GPT 只接收 `HybridRetriever` 产出的证据，不直接访问向量库。
 
 ## 首个可验收里程碑
 
@@ -136,9 +295,10 @@ GPT 生成回答（附文件 / 页码 / cell 引用）
 ## 参考资料
 
 - [Jupyter Notebook 文件格式](https://nbformat.readthedocs.io/en/latest/format_description.html)
-- [通用文本向量 API（text-embedding-v3/v4，dense+sparse 混合检索）](https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api)
-- [通用文本排序模型 API（qwen3-rerank）](https://help.aliyun.com/zh/model-studio/text-rerank-api)
+- [通用文本向量 API（qwen3.7-text-embedding，dense+sparse 混合检索）](https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api)
+- [通用文本排序模型 API（qwen3.7-text-rerank）](https://help.aliyun.com/zh/model-studio/text-rerank-api)
+- [Qwen OCR API](https://help.aliyun.com/en/model-studio/qwen-vl-ocr-api-reference)
 - [阿里云百炼限流说明](https://help.aliyun.com/zh/model-studio/rate-limit)
 - [Qwen3 Embedding 与 Reranker 技术背景](https://github.com/QwenLM/Qwen3-Embedding)（仅供架构原理参考，本项目通过 API 调用而非本地部署）
 - [Qdrant 本地部署](https://qdrant.tech/documentation/quick-start/)与[混合查询](https://qdrant.tech/documentation/search/hybrid-queries/)
-- [Docling 切块](https://docling-project.github.io/docling/concepts/chunking/)与[图片 OCR 序列化说明](https://docling-project.github.io/docling/_generated/examples/advanced_chunking_and_serialization/)
+- [Docling model-free native PDF pipeline](https://docling-project.github.io/docling/reference/pipeline_options/)
