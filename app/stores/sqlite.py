@@ -1,4 +1,4 @@
-"""保存文档版本、父块、资源和任务状态的 SQLite 存储边界。"""
+"""保存文档版本、结构关系、资源和任务状态的 SQLite 存储边界。"""
 
 from pathlib import Path
 

@@ -8,7 +8,7 @@
 - 支持资料的新版本、发布日期和下架。未到发布日期的资料不进入可查询范围。
 - 所有模型推理（embedding、查询改写、重排、OCR、图像理解和最终问答）都调用外部 API，不在本地或自建服务器下载、加载或服务模型权重。本地/云端只承载文件存储、SQLite、Qdrant、无模型解析工具和编排代码。
 - 先在本地电脑上完成解析、检索链路搭建和评估；成熟后再评估是否把 Qdrant 和编排服务迁往云端。当前云服务器为 4 核、4 GB 内存、40 GB SSD，不满足 [Milvus Standalone 的 8 GB 内存要求](https://milvus.io/docs/prerequisite-docker.md)。即便模型均走 API，仍需评估 Qdrant 内存、磁盘、API 延迟、限流、费用和网络稳定性。
-- `/Users/Link/Course` 是候选资料来源，不代表所有文件都应入库。导入采用明确的文件白名单，排除虚拟环境、缓存、训练数据集和无关图片。
+- `COURSE_ROOT` 指向候选资料来源，不代表所有文件都应入库。导入采用明确的文件白名单，排除虚拟环境、缓存、训练数据集和无关图片。
 - 全部模型推理走 API 意味着课件内容会发送给阿里云，后续生成回答时检索证据还可能发送给 OpenAI；这是已知取舍。需要妥善保管 API Key（不在客户端或仓库中明文存储），记录发送范围，并处理限流、重试与 API 不可用时暂停任务的策略。
 
 ## 数据流
@@ -17,13 +17,13 @@
 选定资料（ipynb；以后加入 PDF）
   → 文件登记与版本检查
   → 按格式解析为统一的章节 / 内容块 / 资源
-  → 父子块与少量图表、代码检索表示
-  → 调用 Qwen embedding API（dense + sparse）→ Qdrant 索引
-  → 查询范围过滤 → 混合召回 → 调用 Qwen 重排 API → 回取父块和原始资源
+  → Notebook 标题段、Cell Group 与自适应 Chunk
+  → Qwen 文本 dense+sparse 与图片融合向量 → Qdrant 索引
+  → 查询范围过滤 → 混合召回 → 调用 Qwen 重排 API → 回取相邻 cell 和原始资源
   → 基于证据回答并引用文件、页码或 cell
 ```
 
-原始文件和图片资源保留在文件存储中；SQLite 保存文件清单、版本、父块正文与资源关系；Qdrant 保存用于检索的子块及其向量。父块只存一次，检索命中后通过 `parent_id` 回取。
+原始文件和图片资源保留在文件存储中；SQLite 保存文件清单、版本、SectionRecord、Cell Group 与资源关系；Qdrant 保存 document outline、文本 chunk 和图片融合表示。Notebook 不预先复制大型父块正文，后续根据 `section_id`、相邻 chunk 和 cell 关系重组上下文。
 
 ## 各阶段方法
 
@@ -33,33 +33,35 @@
 | 2. Notebook 解析                | 用 `nbformat` 按原始 cell 顺序读取 Markdown、代码、文本/HTML 输出、图片和附件；不执行 notebook。由 Markdown 标题建立章节路径，保留代码与其输出的关联。                                                                                                                                                                                          | 处理异常或缺失的 cell ID；长输出、报错堆栈和大数组只保留可检索摘要，完整内容仍可回取。抽查确认部分课程存在中文重写版 notebook（中英夹杂、含 LaTeX 公式与 HTML 样式），双语支持是硬需求，不是可选扩展。                                                                                                     |
 | 3. PDF 解析                     | 第二批接入：本地只做无模型的原生文字提取、页面渲染和质量检测；缺少可靠文字层或主要依赖表格、公式、图表的页面调用 Qwen OCR / VL API。保留页码、表格结构、公式与图表位置。                                                                                                                                                                           | 若采用 Docling，首期只使用 model-free native pipeline，不启用其默认本地版面、OCR 或表格模型。课程资料中同时存在可直接提取文字和几乎提取不到文字的 PDF，需要逐页决定 API 回退。                                                                                                                                   |
 | 4. 统一内容结构                 | 两种解析器都产出 `document → section → block → asset`。Notebook block 定位到 cell；PDF block 定位到页码与区域。图片二进制不写入向量 payload。                                                                                                                                                                                                   | PPTX/DOCX 可通过新解析器接入同一结构。                                                                                                                                                                                                                                                                     |
-| 5. 父子切块                     | 父块是一个有边界的教学单元（小节、短课件页、相关 Markdown＋代码＋输出）；子块是可独立匹配的定义、解释、代码逻辑或图表说明。首轮试验：子块约 300–600 tokens，父块约 1,000–1,800 tokens。标题、公式、函数和图表说明优先保持完整。                                                                                                                 | 用检索题集调整大小和是否需要重叠；不把整本 PDF 或整个 notebook 当父块。                                                                                                                                                                                                                                    |
-| 6. 检索表示                     | 每个正文子块附上简短的课程/文件/章节前缀，生成一份 dense 和一份 sparse 表示。图表、复杂表格可有独立文字说明入口，均指回原始资源和父块。调用 embedding API 时索引侧固定使用 `text_type=document`。                                                                                                                                               | 仅当评估显示收益时，为代码用途或章节摘要增加独立入口；先不使用逐 token 的 ColBERT 多向量。                                                                                                                                                                                                                 |
-| 7. 向量化（Qwen API）与本地存储 | 调用 `qwen3.7-text-embedding` 的 DashScope 原生接口，一次获取 1,024 维 dense 与 sparse 词项权重。按批次调用并实现限流退避、失败重试、断点续传和用量记录；Qdrant 本机 Docker 存储向量及可过滤元数据。记录模型、维度和索引版本。                                                                                                                  | 用课程题集对比同一 API 内的不同维度、`instruct` 提示和有无 sparse 融合。更换维度或配置时新建索引并重算向量；API 数量限制与价格按实际地域和账户验证。                                                                                                                                                         |
-| 8. 查询与召回                   | 先解析用户明确选择的课程/文件范围和当前可见版本；原问题并行走 dense、sparse，使用 RRF 融合候选，查询侧调用 embedding API 时使用 `text_type=query`。保留课程编号、代码符号、公式和否定词。                                                                                                                                                       | 指代补全、英文辅助查询及其他 query transformation 调用 Qwen 文本生成 API；始终保留原问题。HyDE、step-back 和多查询默认关闭，仅在分类评测有收益时启用。                                                                                                                                                     |
-| 9. 重排与回取                   | 对融合后的有限候选调用 `qwen3.7-text-rerank` API；按 `parent_id` 去重后回取必要父块、相邻 cell、原图或原表，并限制总上下文长度。记录每条证据的具体来源。                                                                                                                                                                                          | 关注 API 延迟和网络抖动，据实测调整候选数量、请求预算、超时与重试策略；RRF 融合与语义重排分别评估。                                                                                                                                                                                                       |
+| 5. Notebook 结构化切块          | Markdown 形成叙述 group，代码与输出形成执行 group；连续相同标题路径形成 SectionRecord。标题段内按 120 soft-min、280 target、450 hard-max tokens 自适应装箱，短而完整的小节允许保留，只有拆分超长 cell 时使用 40 tokens overlap。                                                                                | PDF 后续使用独立切块策略；用课程题集调整参数，不强求 chunk 等长。                                                                                                                                                                                                                                          |
+| 6. 多粒度与多模态表示           | 每个 Notebook 生成一份 `document_outline`，每个 chunk 生成 `text_content`，受支持图片生成图片加章节上下文的 `visual_fusion`。Cell Group 只负责结构与溯源，不和 chunk 重复向量化；HTML/DataFrame 表格转为清理后的结构化文本。                                                                                                           | 只有图片表格或布局本身重要时增加视觉表示；代码自然语言摘要、假设问题和额外标题向量等候评测证明收益后再启用。                                                                                                                                                                                               |
+| 7. 向量化（Qwen API）与本地存储 | 文本调用 `qwen3.7-text-embedding` 获取 1,024 维 dense+sparse；图片调用 `qwen3-vl-embedding` 图文融合模式获取独立的 1,024 维视觉向量。不同模型空间使用不同命名向量。按批次调用并记录限流、重试、用量、模型和索引版本。                                                                                                                        | 用课程题集对比 document outline、visual fusion 的增量收益。更换模型、维度或切块配置时新建索引并重算向量；API 数量限制与价格按实际地域和账户验证。                                                                                                                                                            |
+| 8. 查询与召回                   | 先解析用户明确选择的课程/文件范围和当前可见版本；原问题并行走 dense、sparse，使用 RRF 融合候选，查询侧调用 embedding API 时使用 `text_type=query`。保留课程编号、代码符号、公式和否定词。                                                                                                                                                       | 指代补全、英文辅助查询、图片问题理解及其他 query transformation 调用 `deepseek-flash`；始终保留原问题。HyDE、step-back 和多查询默认关闭，仅在分类评测有收益时启用。                                                                                                                                         |
+| 9. 重排与回取                   | 对融合后的有限候选调用 `qwen3.7-text-rerank` API；按来源 chunk 和 asset 去重后，通过 `section_id`、相邻 chunk 与 cell 关系回取必要上下文、原图或原表，并限制总上下文长度。记录每条证据的具体来源。                                                                                                                                                | 关注 API 延迟和网络抖动，据实测调整候选数量、请求预算、超时与重试策略；RRF 融合与语义重排分别评估。                                                                                                                                                                                                       |
 | 10. 回答                        | 后续问答层优先接 GPT（以账户和服务地区实际可用性为前提）；只依据检索证据回答，给出文件名、页码或 cell 引用。资料不足时说明缺口。                                                                                                                                                                                                                | 课程/考试总结走按文件和章节枚举的覆盖流程，再分节汇总；不依赖一次 top-k 查询。                                                                                                                                                                                                                             |
-| 11. 增量更新                    | 新文件生成父块、子块和资源后再切换为可见版本；替换或删除文件时同步清理旧子块、派生说明和失效资源。每次导入记录失败与重试状态。                                                                                                                                                                                                                  | Web 上传与自动导入；检索时同时校验 `document_id`、版本和发布日期，避免旧版或未解封内容泄露。                                                                                                                                                                                                               |
-| 12. 评估                        | 人工标注约 60–100 个课程问题及原文件页码/cell，覆盖概念、代码、图表、指定文件、跨章节和无答案题。测 `Recall@k`、`nDCG@k`、引用准确性、回答依据、延迟与资源占用。                                                                                                                                                                                | 固定相同题集及证据预算，对比单层块、父子块、混合检索、多表示与重排；总结另测章节覆盖率，增量导入另测旧版本清理。                                                                                                                                                                                           |
+| 11. 增量更新                    | 新文件生成 SectionRecord、Chunk、多表示和资源后再切换为可见版本；替换或删除文件时同步清理旧表示和失效资源。每次导入记录失败与重试状态。                                                                                                                                                                                                         | Web 上传与自动导入；检索时同时校验 `document_id`、版本和发布日期，避免旧版或未解封内容泄露。                                                                                                                                                                                                               |
+| 12. 评估                        | 人工标注约 60–100 个课程问题及原文件页码/cell，覆盖概念、代码、图表、指定文件、跨章节和无答案题。测 `Recall@k`、`nDCG@k`、引用准确性、回答依据、延迟与资源占用。                                                                                                                                                                                | 固定相同题集及证据预算，对比 text content、document outline、visual fusion、混合检索与重排；总结另测章节覆盖率，增量导入另测旧版本清理。                                                                                                                                                                  |
 
 ## 关键约束
 
 - **Notebook 是首要数据模型。** 一个代码 cell 的输出可能包含图片、HTML 表格或多种 MIME 表示；不能把整份 notebook 转成纯文本后按固定字符数切割。
 - **图表说明是检索线索，不是精确事实来源。** 回答图中数值或曲线关系时回取原图、表格或原始输出核对。
-- **父子块与多表示可以组合。** 父子块解决“找到细节后补足上下文”，多表示解决“正文之外怎样找到代码、图和表”；不为每个子块复制同一份标题或章节摘要向量。
+- **Notebook 不预生成重复父块。** Cell Group、SectionRecord 和相邻 chunk 保存结构关系；多表示只用于 document outline、正文和视觉资源，不为 Cell Group 与 chunk 重复生成同一内容的向量。
 - **存储与模型推理分离。** Qdrant、SQLite、原始文件和无模型解析工具保存在本地（后续可迁移到云端）；所有模型推理通过 API 完成。API 不可用时暂停相关推理任务，不静默加载本地模型。
 - **全部模型推理依赖外部 API。** 需要处理限流退避、失败重试、网络异常、API Key 保密、费用观测，以及课件内容发送到第三方服务的取舍。
 - **先测后调。** 上述 token 范围、候选数量和模型均是初始配置；最终以真实课程问题的效果、延迟和内存证据决定。
 
 ## 首个可验收里程碑
 
-选取少量具有 Markdown 说明、代码、图片输出的 notebook，完成导入、父子块检索、按文件过滤及 cell 引用；建立一批人工问题，对比纯 dense、dense+sparse、加重排、加父块回取。该基线稳定后，再接入 PDF 和网页问答。
+选取少量具有 Markdown 说明、代码、表格和图片输出的 notebook，完成结构化导入、按文件过滤及 cell 引用；建立人工问题，对比 text content、document outline、visual fusion、混合召回和重排。该基线稳定后，再接入 PDF 和网页问答。
 
 ## 参考资料
 
 - [Jupyter Notebook 文件格式](https://nbformat.readthedocs.io/en/latest/format_description.html)
 - [通用文本向量 API（qwen3.7-text-embedding，dense+sparse 混合检索）](https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api)
+- [多模态向量 API（qwen3-vl-embedding，图文融合向量）](https://help.aliyun.com/zh/model-studio/multimodal-embedding-api-reference)
 - [通用文本排序模型 API（qwen3.7-text-rerank）](https://help.aliyun.com/zh/model-studio/text-rerank-api)
+- [DeepSeek 图像理解 API（deepseek-flash）](https://api-docs.deepseek.com/zh-cn/guides/vision/)
 - [Qwen OCR API](https://help.aliyun.com/en/model-studio/qwen-vl-ocr-api-reference)
 - [阿里云百炼限流说明](https://help.aliyun.com/zh/model-studio/rate-limit)
 - [Qwen3 Embedding 与 Reranker 技术背景（开源模型仓库，仅供架构原理参考，本项目通过 API 调用而非本地部署）](https://github.com/QwenLM/Qwen3-Embedding)

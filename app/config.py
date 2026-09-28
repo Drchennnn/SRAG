@@ -19,7 +19,7 @@ class Settings(BaseSettings):
     app_env: str = "development"
     app_host: str = "127.0.0.1"
     app_port: int = 8000
-    course_root: Path = Path("/Users/Link/Course")
+    course_root: Path = Path("./courses")
     data_dir: Path = Path("./data")
 
     dashscope_api_key: str = ""
@@ -27,12 +27,20 @@ class Settings(BaseSettings):
     dashscope_embedding_model: str = "qwen3.7-text-embedding"
     dashscope_embedding_dimension: int = 1024
     dashscope_embedding_batch_size: int = 20
+    dashscope_visual_embedding_model: str = "qwen3-vl-embedding"
+    dashscope_visual_embedding_dimension: int = 1024
+    dashscope_visual_max_image_bytes: int = 10 * 1024 * 1024
     dashscope_rerank_model: str = "qwen3.7-text-rerank"
-    dashscope_query_model: str = ""
     dashscope_ocr_model: str = ""
     dashscope_vision_model: str = ""
     dashscope_timeout_seconds: float = 60.0
     dashscope_max_retries: int = 3
+
+    deepseek_api_key: str = ""
+    deepseek_base_url: str = "https://api.deepseek.com"
+    deepseek_query_model: str = "deepseek-flash"
+    deepseek_timeout_seconds: float = 60.0
+    deepseek_max_retries: int = 3
 
     openai_api_key: str = ""
     openai_base_url: str = "https://api.openai.com/v1"
@@ -43,11 +51,10 @@ class Settings(BaseSettings):
     qdrant_collection: str = "course_chunks"
     sqlite_path: Path = Path("./data/srag.sqlite3")
 
-    child_chunk_min_tokens: int = 300
-    child_chunk_max_tokens: int = 600
-    child_chunk_overlap_tokens: int = 60
-    parent_chunk_min_tokens: int = 1000
-    parent_chunk_max_tokens: int = 1800
+    notebook_chunk_soft_min_tokens: int = 120
+    notebook_chunk_target_tokens: int = 280
+    notebook_chunk_max_tokens: int = 450
+    notebook_chunk_overlap_tokens: int = 40
     retrieval_top_k: int = 8
     notebook_output_max_chars: int = 12000
 

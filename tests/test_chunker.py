@@ -1,77 +1,84 @@
-"""父子切块器的结构与边界测试。"""
+"""Notebook 结构化切块的边界与追溯测试。"""
 
-from app.rag.chunker import ParentChildChunker, estimate_token_count
+from app.rag.chunker import NotebookChunker, estimate_token_count
 from app.schemas.document import BlockKind, ContentBlock, ParsedDocument
 
 
 def _sample_document() -> ParsedDocument:
-    explanation = (
-        "梯度下降通过损失函数的梯度更新参数。学习率决定每次更新的步长。"
-        "学习率过大会造成震荡，过小则会让收敛速度变慢。"
-    )
     return ParsedDocument(
         document_id="doc-gradient",
         source_path="course/gradient_descent.ipynb",
-        title="机器学习基础",
+        title="Lecture 3 - Optimization",
         blocks=[
             ContentBlock(
-                block_id="cell-1",
+                block_id="intro",
                 document_id="doc-gradient",
                 kind=BlockKind.MARKDOWN,
-                text="\n\n".join([explanation] * 5),
-                section_path=["优化方法", "梯度下降"],
-                cell_id="cell-1",
-                cell_index=0,
+                text="# 梯度下降\n梯度下降通过损失函数的梯度更新参数。",
+                section_path=["梯度下降"],
+                heading_level=1,
+                cell_id="intro",
             ),
             ContentBlock(
-                block_id="cell-2",
+                block_id="train:code",
                 document_id="doc-gradient",
                 kind=BlockKind.CODE,
-                text="for step in range(100):\n    weights -= learning_rate * gradient(weights)",
-                section_path=["优化方法", "梯度下降"],
-                cell_id="cell-2",
-                cell_index=1,
+                text="weights -= learning_rate * gradient(weights)",
+                section_path=["梯度下降"],
+                cell_id="train",
             ),
             ContentBlock(
-                block_id="cell-2-output",
+                block_id="train:output:0",
                 document_id="doc-gradient",
                 kind=BlockKind.OUTPUT,
                 text="最终损失: 0.031",
-                section_path=["优化方法", "梯度下降"],
-                cell_id="cell-2",
-                cell_index=1,
-                related_block_id="cell-2",
+                section_path=["梯度下降"],
+                cell_id="train",
+                related_block_id="train:code",
+            ),
+            ContentBlock(
+                block_id="rate",
+                document_id="doc-gradient",
+                kind=BlockKind.MARKDOWN,
+                text="# 学习率\n学习率过大会震荡，过小会减慢收敛。",
+                section_path=["学习率"],
+                heading_level=1,
+                cell_id="rate",
             ),
         ],
     )
 
 
-def test_chunker_builds_deterministic_parent_child_relations() -> None:
-    chunker = ParentChildChunker(
-        parent_min_tokens=60,
-        parent_max_tokens=120,
-        child_min_tokens=25,
-        child_max_tokens=55,
-        child_overlap_tokens=8,
+def test_chunker_keeps_sections_and_execution_groups_intact() -> None:
+    chunker = NotebookChunker(
+        soft_min_tokens=10,
+        target_tokens=45,
+        max_tokens=80,
+        overlap_tokens=8,
     )
     document = _sample_document()
 
-    parents, children = chunker.chunk(document)
-    repeated_parents, repeated_children = chunker.chunk(document)
+    result = chunker.chunk(document)
+    repeated = chunker.chunk(document)
 
-    assert len(parents) >= 2
-    assert len(children) >= len(parents)
-    assert [item.parent_id for item in parents] == [item.parent_id for item in repeated_parents]
-    assert [item.chunk_id for item in children] == [item.chunk_id for item in repeated_children]
-    assert {child.parent_id for child in children} <= {parent.parent_id for parent in parents}
-    assert all(child.text.startswith("[课程位置]") for child in children)
-    assert all(child.token_count <= 55 for child in children)
-    assert all(parent.token_count <= 120 for parent in parents)
-    assert all(child.block_ids for child in children)
-    assert any(child.block_ids == ["cell-1"] for child in children)
+    assert [item.chunk_id for item in result.chunks] == [
+        item.chunk_id for item in repeated.chunks
+    ]
+    assert [section.section_path for section in result.sections] == [["梯度下降"], ["学习率"]]
+    assert all(chunk.token_count <= 80 for chunk in result.chunks)
+    assert all(chunk.section_path in (["梯度下降"], ["学习率"]) for chunk in result.chunks)
+    execution_group = next(group for group in result.groups if group.kind.value == "execution")
+    assert execution_group.block_ids == ["train:code", "train:output:0"]
+    assert any(
+        {"train:code", "train:output:0"} <= set(chunk.block_ids)
+        for chunk in result.chunks
+    )
+    assert "梯度下降" in result.outline_text
+    assert "学习率" in result.outline_text
+    if len(result.chunks) > 1:
+        assert result.chunks[0].next_chunk_id == result.chunks[1].chunk_id
+        assert result.chunks[1].previous_chunk_id == result.chunks[0].chunk_id
 
 
 def test_token_estimator_supports_chinese_code_and_numbers() -> None:
-    text = "学习率 learning_rate = 0.01"
-
-    assert estimate_token_count(text) >= 6
+    assert estimate_token_count("学习率 learning_rate = 0.01") >= 6

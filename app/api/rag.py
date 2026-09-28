@@ -1,9 +1,13 @@
 """RAG 索引、文档管理与检索接口契约。"""
 
-from typing import NoReturn
+from collections.abc import AsyncIterator
+from typing import Annotated, NoReturn
 
-from fastapi import APIRouter, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status
 
+from app.config import get_settings
+from app.rag.indexer import DocumentIndexer
+from app.rag.retriever import HybridRetriever
 from app.schemas.rag import (
     DeleteDocumentResponse,
     DocumentSummary,
@@ -12,8 +16,31 @@ from app.schemas.rag import (
     SearchRequest,
     SearchResponse,
 )
+from app.stores.qdrant import QdrantStore
 
 router = APIRouter()
+
+
+async def get_document_indexer() -> AsyncIterator[DocumentIndexer]:
+    """按请求创建索引器，并在请求结束后关闭 Qdrant 连接。"""
+
+    indexer = DocumentIndexer.from_settings(get_settings())
+    try:
+        yield indexer
+    finally:
+        if isinstance(indexer.text_store, QdrantStore):
+            await indexer.text_store.close()
+
+
+async def get_retriever() -> AsyncIterator[HybridRetriever]:
+    """按请求创建检索器，并在请求结束后关闭 Qdrant 连接。"""
+
+    retriever = HybridRetriever.from_settings(get_settings())
+    try:
+        yield retriever
+    finally:
+        if isinstance(retriever.vector_store, QdrantStore):
+            await retriever.vector_store.close()
 
 
 def _pending() -> NoReturn:
@@ -29,10 +56,13 @@ def _pending() -> NoReturn:
     summary="创建索引任务",
     response_description="已创建的索引任务状态",
 )
-async def create_index(_: IndexRequest) -> IndexStatus:
+async def create_index(
+    request: IndexRequest,
+    indexer: Annotated[DocumentIndexer, Depends(get_document_indexer)],
+) -> IndexStatus:
     """提交明确选择的本地文件进行增量索引。"""
 
-    _pending()
+    return await indexer.index(request)
 
 
 @router.get(
@@ -77,9 +107,12 @@ async def delete_document(document_id: str) -> DeleteDocumentResponse:
     "/search",
     response_model=SearchResponse,
     summary="检索课程资料",
-    response_description="经过混合召回与重排的课程证据",
+    response_description="经过 dense 召回的课程证据",
 )
-async def search(_: SearchRequest) -> SearchResponse:
-    """通过统一的混合检索流程返回证据。"""
+async def search(
+    request: SearchRequest,
+    retriever: Annotated[HybridRetriever, Depends(get_retriever)],
+) -> SearchResponse:
+    """通过统一检索入口返回 dense baseline 证据。"""
 
-    _pending()
+    return await retriever.search(request)

@@ -1,4 +1,4 @@
-"""所有文档解析器统一输出的数据结构。"""
+"""Notebook 解析、结构分组与切块使用的数据结构。"""
 
 from enum import StrEnum
 
@@ -14,8 +14,16 @@ class BlockKind(StrEnum):
     FIGURE = "figure"
 
 
+class CellGroupKind(StrEnum):
+    NARRATIVE = "narrative"
+    EXECUTION = "execution"
+    TABLE = "table"
+    FIGURE = "figure"
+    MIXED = "mixed"
+
+
 class AssetRef(BaseModel):
-    """指向已提取图片、表格或其他原始资源的引用。"""
+    """指向已提取图片或原始本地资源。"""
 
     asset_id: str
     media_type: str
@@ -31,6 +39,7 @@ class ContentBlock(BaseModel):
     kind: BlockKind
     text: str = ""
     section_path: list[str] = Field(default_factory=list)
+    heading_level: int | None = None
     cell_id: str | None = None
     cell_index: int | None = None
     page: int | None = None
@@ -47,25 +56,56 @@ class ParsedDocument(BaseModel):
     blocks: list[ContentBlock]
 
 
-class ParentChunk(BaseModel):
-    """在 SQLite 中只保存一次的父级上下文块。"""
+class CellGroup(BaseModel):
+    """不可随意拆散的 Markdown 单元或代码执行单元。"""
 
-    parent_id: str
+    group_id: str
     document_id: str
-    text: str
+    kind: CellGroupKind
+    display_text: str
+    embedding_text: str
     block_ids: list[str]
+    cell_ids: list[str] = Field(default_factory=list)
     section_path: list[str] = Field(default_factory=list)
+    asset_ids: list[str] = Field(default_factory=list)
     token_count: int
 
 
-class ChildChunk(BaseModel):
-    """存入 Qdrant 的可检索子块表示。"""
+class SectionRecord(BaseModel):
+    """Notebook 标题段的结构记录，不重复保存大段正文。"""
+
+    section_id: str
+    document_id: str
+    heading: str | None = None
+    section_path: list[str] = Field(default_factory=list)
+    group_ids: list[str] = Field(default_factory=list)
+    chunk_ids: list[str] = Field(default_factory=list)
+
+
+class NotebookChunk(BaseModel):
+    """Notebook 中实际参与文本向量化的结构化内容块。"""
 
     chunk_id: str
-    parent_id: str
+    section_id: str
     document_id: str
-    text: str
+    kind: CellGroupKind
+    display_text: str
+    embedding_text: str
+    group_ids: list[str]
     block_ids: list[str]
+    cell_ids: list[str] = Field(default_factory=list)
     section_path: list[str] = Field(default_factory=list)
-    representation: str = "content"
+    asset_ids: list[str] = Field(default_factory=list)
     token_count: int
+    previous_chunk_id: str | None = None
+    next_chunk_id: str | None = None
+
+
+class NotebookChunkingResult(BaseModel):
+    """Notebook 结构化切块的完整结果。"""
+
+    document_id: str
+    outline_text: str
+    groups: list[CellGroup]
+    sections: list[SectionRecord]
+    chunks: list[NotebookChunk]

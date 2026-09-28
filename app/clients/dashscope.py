@@ -3,20 +3,38 @@
 from __future__ import annotations
 
 import asyncio
+import base64
 from collections.abc import Sequence
+from pathlib import Path
 from typing import Literal
 
 import httpx
 
 from app.config import Settings
-from app.schemas.embedding import EmbeddingBatch, EmbeddingVector, SparseValue
+from app.schemas.embedding import (
+    EmbeddingBatch,
+    EmbeddingVector,
+    MultimodalEmbeddingBatch,
+    MultimodalEmbeddingVector,
+    SparseValue,
+)
 
 TextType = Literal["document", "query"]
 OutputType = Literal["dense", "sparse", "dense&sparse"]
 
 _DEFAULT_BASE_URL = "https://dashscope.aliyuncs.com/api/v1"
 _EMBEDDING_PATH = "/services/embeddings/text-embedding/text-embedding"
+_MULTIMODAL_EMBEDDING_PATH = (
+    "/services/embeddings/multimodal-embedding/multimodal-embedding"
+)
 _RETRYABLE_STATUS_CODES = {408, 409, 429, 500, 502, 503, 504}
+_SUPPORTED_VISUAL_MEDIA_TYPES = {
+    "image/png",
+    "image/jpeg",
+    "image/webp",
+    "image/bmp",
+    "image/tiff",
+}
 
 
 class DashScopeClient:
@@ -33,8 +51,10 @@ class DashScopeClient:
         self.embedding_model = settings.dashscope_embedding_model
         self.embedding_dimension = settings.dashscope_embedding_dimension
         self.embedding_batch_size = settings.dashscope_embedding_batch_size
+        self.visual_embedding_model = settings.dashscope_visual_embedding_model
+        self.visual_embedding_dimension = settings.dashscope_visual_embedding_dimension
+        self.visual_max_image_bytes = settings.dashscope_visual_max_image_bytes
         self.rerank_model = settings.dashscope_rerank_model
-        self.query_model = settings.dashscope_query_model
         self.timeout_seconds = settings.dashscope_timeout_seconds
         self.max_retries = settings.dashscope_max_retries
         self.transport = transport
@@ -53,6 +73,61 @@ class DashScopeClient:
         """为待入库文本生成 dense+sparse 向量。"""
 
         return await self.embed(texts, text_type="document")
+
+    async def embed_visual_fusion(
+        self,
+        *,
+        text: str,
+        image_path: Path,
+        media_type: str,
+    ) -> MultimodalEmbeddingBatch:
+        """将一张图片与其课程上下文融合为同一个视觉向量。"""
+
+        clean_text = text.strip()
+        if not clean_text:
+            raise ValueError("多模态向量化的文本上下文不能为空")
+        if media_type not in _SUPPORTED_VISUAL_MEDIA_TYPES:
+            raise ValueError(f"qwen3-vl-embedding 不支持图片类型：{media_type}")
+        resolved_path = image_path.expanduser().resolve()
+        if not resolved_path.is_file():
+            raise FileNotFoundError(f"多模态向量化图片不存在：{resolved_path}")
+        image_bytes = resolved_path.read_bytes()
+        if len(image_bytes) > self.visual_max_image_bytes:
+            raise ValueError(
+                "多模态向量化图片超过大小限制："
+                f"{len(image_bytes)} > {self.visual_max_image_bytes} bytes"
+            )
+
+        encoded = base64.b64encode(image_bytes).decode("ascii")
+        payload = {
+            "model": self.visual_embedding_model,
+            "input": {
+                "contents": [
+                    {"text": clean_text},
+                    {"image": f"data:{media_type};base64,{encoded}"},
+                ]
+            },
+            "parameters": {
+                "enable_fusion": True,
+                "dimension": self.visual_embedding_dimension,
+                "output_type": "dense",
+            },
+        }
+        headers = {
+            "Authorization": f"Bearer {self.require_api_key()}",
+            "Content-Type": "application/json",
+        }
+        async with httpx.AsyncClient(
+            timeout=self.timeout_seconds,
+            transport=self.transport,
+        ) as client:
+            data = await self._post_with_retry(
+                client,
+                headers,
+                payload,
+                endpoint=_MULTIMODAL_EMBEDDING_PATH,
+            )
+        return self._parse_multimodal_embedding_response(data)
 
     async def embed_query(
         self,
@@ -135,8 +210,10 @@ class DashScopeClient:
         client: httpx.AsyncClient,
         headers: dict[str, str],
         payload: dict[str, object],
+        *,
+        endpoint: str = _EMBEDDING_PATH,
     ) -> dict[str, object]:
-        url = f"{self.base_url}{_EMBEDDING_PATH}"
+        url = f"{self.base_url}{endpoint}"
         last_error: Exception | None = None
 
         for attempt in range(self.max_retries + 1):
@@ -213,3 +290,38 @@ class DashScopeClient:
         total_tokens = usage.get("total_tokens", 0) if isinstance(usage, dict) else 0
         request_id = data.get("request_id")
         return vectors, int(total_tokens), request_id if isinstance(request_id, str) else None
+
+    def _parse_multimodal_embedding_response(
+        self,
+        data: dict[str, object],
+    ) -> MultimodalEmbeddingBatch:
+        output = data.get("output")
+        if not isinstance(output, dict):
+            raise RuntimeError("DashScope 多模态响应缺少 output")
+        raw_embeddings = output.get("embeddings")
+        if not isinstance(raw_embeddings, list) or len(raw_embeddings) != 1:
+            raise RuntimeError("DashScope 多模态融合响应必须包含一个向量")
+        raw = raw_embeddings[0]
+        if not isinstance(raw, dict) or not isinstance(raw.get("embedding"), list):
+            raise RuntimeError("DashScope 返回了无效的多模态向量")
+        dense = [float(value) for value in raw["embedding"]]
+        if len(dense) != self.visual_embedding_dimension:
+            raise RuntimeError(
+                "多模态向量维度与配置不一致："
+                f"期望 {self.visual_embedding_dimension}，实际 {len(dense)}"
+            )
+        usage = data.get("usage")
+        total_tokens = usage.get("total_tokens", 0) if isinstance(usage, dict) else 0
+        request_id = data.get("request_id")
+        return MultimodalEmbeddingBatch(
+            model=self.visual_embedding_model,
+            vectors=[
+                MultimodalEmbeddingVector(
+                    index=int(raw.get("index", 0)),
+                    dense=dense,
+                    input_type=str(raw.get("type", "fusion")),
+                )
+            ],
+            total_tokens=int(total_tokens),
+            request_ids=[request_id] if isinstance(request_id, str) else [],
+        )

@@ -1,4 +1,4 @@
-"""基于文档结构构建父块与子块。"""
+"""基于 Notebook 标题、cell 和执行关系构建结构化内容块。"""
 
 from __future__ import annotations
 
@@ -6,20 +6,26 @@ import hashlib
 import re
 from collections.abc import Iterable
 from dataclasses import dataclass
+from pathlib import Path
 
 from app.config import Settings
 from app.schemas.document import (
     BlockKind,
-    ChildChunk,
+    CellGroup,
+    CellGroupKind,
     ContentBlock,
-    ParentChunk,
+    NotebookChunk,
+    NotebookChunkingResult,
     ParsedDocument,
+    SectionRecord,
 )
 
 _TOKEN_PATTERN = re.compile(
     r"[\u3400-\u4dbf\u4e00-\u9fff]|[A-Za-z_][A-Za-z_0-9]*|\d+(?:\.\d+)?|[^\s]"
 )
 _SENTENCE_BOUNDARY = re.compile(r"(?<=[。！？!?；;])|(?<=[.!?])\s+")
+_ANSI_PATTERN = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
+_MEMORY_ADDRESS_PATTERN = re.compile(r"0x[0-9A-Fa-f]{6,}")
 
 _BLOCK_LABELS = {
     BlockKind.MARKDOWN: "说明",
@@ -32,260 +38,379 @@ _BLOCK_LABELS = {
 
 
 def estimate_token_count(text: str) -> int:
-    """在不加载本地模型 Tokenizer 的前提下估算 Token 数量。
-
-    中文字符、英文单词、数字和标点分别计为一个估算 Token。实际计费 Token
-    以 DashScope API 返回的 usage 为准。
-    """
+    """估算中英文、代码和标点组成的 Token 数。"""
 
     return len(_TOKEN_PATTERN.findall(text))
 
 
 @dataclass(frozen=True, slots=True)
-class _Fragment:
-    text: str
+class _GroupPiece:
+    display_text: str
+    embedding_text: str
+    group_ids: tuple[str, ...]
     block_ids: tuple[str, ...]
-    section_path: tuple[str, ...]
+    cell_ids: tuple[str, ...]
+    asset_ids: tuple[str, ...]
+    kinds: tuple[CellGroupKind, ...]
 
     @property
     def token_count(self) -> int:
-        return estimate_token_count(self.text)
+        return estimate_token_count(self.embedding_text)
 
 
-class ParentChildChunker:
-    """构建可追溯的父级上下文和可检索子块。"""
+class NotebookChunker:
+    """构建标题段、cell group 与自适应 Notebook chunk。"""
 
     def __init__(
         self,
         *,
-        parent_min_tokens: int = 1000,
-        parent_max_tokens: int = 1800,
-        child_min_tokens: int = 300,
-        child_max_tokens: int = 600,
-        child_overlap_tokens: int = 60,
+        soft_min_tokens: int = 120,
+        target_tokens: int = 280,
+        max_tokens: int = 450,
+        overlap_tokens: int = 40,
     ) -> None:
-        if not 0 < parent_min_tokens <= parent_max_tokens:
-            raise ValueError("父块 Token 范围无效")
-        if not 0 < child_min_tokens <= child_max_tokens:
-            raise ValueError("子块 Token 范围无效")
-        if not 0 <= child_overlap_tokens < child_max_tokens:
-            raise ValueError("子块重叠 Token 数必须小于子块最大 Token 数")
-
-        self.parent_min_tokens = parent_min_tokens
-        self.parent_max_tokens = parent_max_tokens
-        self.child_min_tokens = child_min_tokens
-        self.child_max_tokens = child_max_tokens
-        self.child_overlap_tokens = child_overlap_tokens
+        if not 0 < soft_min_tokens <= target_tokens <= max_tokens:
+            raise ValueError("Notebook Chunk Token 范围无效")
+        if not 0 <= overlap_tokens < max_tokens:
+            raise ValueError("Notebook Chunk 重叠 Token 数必须小于最大 Token 数")
+        self.soft_min_tokens = soft_min_tokens
+        self.target_tokens = target_tokens
+        self.max_tokens = max_tokens
+        self.overlap_tokens = overlap_tokens
 
     @classmethod
-    def from_settings(cls, settings: Settings) -> ParentChildChunker:
-        """从项目配置创建切块器。"""
-
+    def from_settings(cls, settings: Settings) -> NotebookChunker:
         return cls(
-            parent_min_tokens=settings.parent_chunk_min_tokens,
-            parent_max_tokens=settings.parent_chunk_max_tokens,
-            child_min_tokens=settings.child_chunk_min_tokens,
-            child_max_tokens=settings.child_chunk_max_tokens,
-            child_overlap_tokens=settings.child_chunk_overlap_tokens,
+            soft_min_tokens=settings.notebook_chunk_soft_min_tokens,
+            target_tokens=settings.notebook_chunk_target_tokens,
+            max_tokens=settings.notebook_chunk_max_tokens,
+            overlap_tokens=settings.notebook_chunk_overlap_tokens,
         )
 
-    def chunk(self, document: ParsedDocument) -> tuple[list[ParentChunk], list[ChildChunk]]:
-        """将统一文档结构转换为父块和可检索子块。"""
+    def chunk(self, document: ParsedDocument) -> NotebookChunkingResult:
+        """按标题段组织 cell group，并在段内进行自适应切块。"""
 
-        fragments = [
-            fragment
-            for block in document.blocks
-            for fragment in self._fragment_block(block)
-            if fragment.text.strip()
+        groups = [
+            group
+            if group.section_path
+            else group.model_copy(update={"section_path": [document.title]})
+            for group in self._build_groups(document)
         ]
-        parent_groups = self._build_parents(document, fragments)
-        parents = [parent for parent, _ in parent_groups]
-        children = [
-            child
-            for parent_index, (parent, group) in enumerate(parent_groups)
-            for child in self._build_children(document, parent, group, parent_index)
-        ]
-        return parents, children
+        section_groups = self._group_sections(groups)
+        sections: list[SectionRecord] = []
+        chunks: list[NotebookChunk] = []
 
-    def _fragment_block(self, block: ContentBlock) -> list[_Fragment]:
-        rendered = self._render_block(block)
-        if estimate_token_count(rendered) <= self.parent_max_tokens:
-            return [
-                _Fragment(
-                    text=rendered,
-                    block_ids=(block.block_id,),
-                    section_path=tuple(block.section_path),
-                )
-            ]
-
-        pieces = _split_text(rendered, self.parent_max_tokens, overlap_tokens=0)
-        return [
-            _Fragment(
-                text=piece,
-                block_ids=(block.block_id,),
-                section_path=tuple(block.section_path),
+        for section_index, (section_path, grouped) in enumerate(section_groups):
+            section_id = _stable_id(
+                "section",
+                document.document_id,
+                section_index,
+                " > ".join(section_path),
             )
-            for piece in pieces
-        ]
-
-    def _build_parents(
-        self,
-        document: ParsedDocument,
-        fragments: list[_Fragment],
-    ) -> list[tuple[ParentChunk, list[_Fragment]]]:
-        groups: list[list[_Fragment]] = []
-        current: list[_Fragment] = []
-        current_tokens = 0
-
-        for fragment in fragments:
-            section_changed = bool(current) and fragment.section_path != current[-1].section_path
-            exceeds_limit = bool(current) and (
-                current_tokens + fragment.token_count > self.parent_max_tokens
-            )
-            section_is_complete = section_changed and current_tokens >= self.parent_min_tokens
-
-            if exceeds_limit or section_is_complete:
-                groups.append(current)
-                current = []
-                current_tokens = 0
-
-            current.append(fragment)
-            current_tokens += fragment.token_count
-
-        if current:
-            groups.append(current)
-
-        parents: list[tuple[ParentChunk, list[_Fragment]]] = []
-        for index, group in enumerate(groups):
-            text = "\n\n".join(fragment.text for fragment in group).strip()
-            block_ids = _unique(block_id for fragment in group for block_id in fragment.block_ids)
-            section_path = _common_prefix([fragment.section_path for fragment in group])
-            parent = ParentChunk(
-                parent_id=_stable_id("parent", document.document_id, index, text),
-                document_id=document.document_id,
-                text=text,
-                block_ids=block_ids,
+            section_chunks = self._build_section_chunks(
+                document=document,
+                section_id=section_id,
                 section_path=section_path,
-                token_count=estimate_token_count(text),
+                groups=grouped,
             )
-            parents.append((parent, group))
-        return parents
-
-    def _build_children(
-        self,
-        document: ParsedDocument,
-        parent: ParentChunk,
-        fragments: list[_Fragment],
-        parent_index: int,
-    ) -> list[ChildChunk]:
-        prefix_tokens = max(
-            (
-                estimate_token_count(_section_prefix(document.title, list(fragment.section_path)))
-                for fragment in fragments
-            ),
-            default=0,
-        )
-        content_limit = max(1, self.child_max_tokens - prefix_tokens)
-        content_min = max(1, self.child_min_tokens - prefix_tokens)
-        content_overlap = min(self.child_overlap_tokens, max(0, content_limit - 1))
-        child_fragments = [
-            _Fragment(
-                text=piece,
-                block_ids=fragment.block_ids,
-                section_path=fragment.section_path,
-            )
-            for fragment in fragments
-            for piece in _split_text(fragment.text, content_limit, overlap_tokens=0)
-        ]
-        groups = _pack_fragments(
-            child_fragments,
-            max_tokens=content_limit,
-            min_tokens=content_min,
-            overlap_tokens=content_overlap,
-        )
-
-        children: list[ChildChunk] = []
-        for child_index, group in enumerate(groups):
-            piece = "\n\n".join(fragment.text for fragment in group).strip()
-            section_path = _common_prefix([fragment.section_path for fragment in group])
-            section_prefix = _section_prefix(document.title, section_path)
-            text = f"{section_prefix}\n\n{piece}" if section_prefix else piece
-            children.append(
-                ChildChunk(
-                    chunk_id=_stable_id(
-                        "child",
-                        document.document_id,
-                        parent_index,
-                        child_index,
-                        text,
-                    ),
-                    parent_id=parent.parent_id,
+            sections.append(
+                SectionRecord(
+                    section_id=section_id,
                     document_id=document.document_id,
-                    text=text,
-                    block_ids=_unique(
-                        block_id for fragment in group for block_id in fragment.block_ids
-                    ),
-                    section_path=section_path,
-                    token_count=estimate_token_count(text),
+                    heading=section_path[-1] if section_path else None,
+                    section_path=list(section_path),
+                    group_ids=[group.group_id for group in grouped],
+                    chunk_ids=[chunk.chunk_id for chunk in section_chunks],
                 )
             )
-        return children
+            chunks.extend(section_chunks)
+
+        linked_chunks = [
+            chunk.model_copy(
+                update={
+                    "previous_chunk_id": chunks[index - 1].chunk_id if index else None,
+                    "next_chunk_id": (
+                        chunks[index + 1].chunk_id if index + 1 < len(chunks) else None
+                    ),
+                }
+            )
+            for index, chunk in enumerate(chunks)
+        ]
+        return NotebookChunkingResult(
+            document_id=document.document_id,
+            outline_text=_build_outline(document, sections),
+            groups=groups,
+            sections=sections,
+            chunks=linked_chunks,
+        )
+
+    def _build_groups(self, document: ParsedDocument) -> list[CellGroup]:
+        groups: list[CellGroup] = []
+        blocks = document.blocks
+        index = 0
+        while index < len(blocks):
+            block = blocks[index]
+            grouped = [block]
+            if block.kind is BlockKind.CODE:
+                next_index = index + 1
+                while next_index < len(blocks):
+                    candidate = blocks[next_index]
+                    if candidate.related_block_id != block.block_id:
+                        break
+                    grouped.append(candidate)
+                    next_index += 1
+                index = next_index
+            elif block.related_block_id:
+                next_index = index + 1
+                while next_index < len(blocks):
+                    candidate = blocks[next_index]
+                    if candidate.related_block_id != block.related_block_id:
+                        break
+                    grouped.append(candidate)
+                    next_index += 1
+                index = next_index
+            else:
+                index += 1
+            groups.append(self._make_group(document, grouped, len(groups)))
+        return groups
 
     @staticmethod
-    def _render_block(block: ContentBlock) -> str:
-        label = _BLOCK_LABELS[block.kind]
-        body = block.text.strip()
-        asset_lines = [
-            f"资源：{asset.caption or asset.path}（{asset.media_type}）" for asset in block.assets
+    def _make_group(
+        document: ParsedDocument,
+        blocks: list[ContentBlock],
+        group_index: int,
+    ) -> CellGroup:
+        display_text = "\n\n".join(_render_block(block) for block in blocks).strip()
+        embedding_text = _clean_embedding_text(display_text)
+        kind = _group_kind(blocks)
+        block_ids = [block.block_id for block in blocks]
+        cell_ids = _unique(block.cell_id for block in blocks if block.cell_id)
+        asset_ids = _unique(asset.asset_id for block in blocks for asset in block.assets)
+        section_path = _common_prefix([tuple(block.section_path) for block in blocks])
+        return CellGroup(
+            group_id=_stable_id(
+                "group", document.document_id, group_index, *block_ids, embedding_text
+            ),
+            document_id=document.document_id,
+            kind=kind,
+            display_text=display_text,
+            embedding_text=embedding_text,
+            block_ids=block_ids,
+            cell_ids=cell_ids,
+            section_path=section_path,
+            asset_ids=asset_ids,
+            token_count=estimate_token_count(embedding_text),
+        )
+
+    @staticmethod
+    def _group_sections(
+        groups: list[CellGroup],
+    ) -> list[tuple[tuple[str, ...], list[CellGroup]]]:
+        sections: list[tuple[tuple[str, ...], list[CellGroup]]] = []
+        for group in groups:
+            section_path = tuple(group.section_path)
+            if sections and sections[-1][0] == section_path:
+                sections[-1][1].append(group)
+            else:
+                sections.append((section_path, [group]))
+        return sections
+
+    def _build_section_chunks(
+        self,
+        *,
+        document: ParsedDocument,
+        section_id: str,
+        section_path: tuple[str, ...],
+        groups: list[CellGroup],
+    ) -> list[NotebookChunk]:
+        prefix = _embedding_prefix(document, section_path)
+        prefix_tokens = estimate_token_count(prefix)
+        content_max = max(1, self.max_tokens - prefix_tokens)
+        content_target = max(1, self.target_tokens - prefix_tokens)
+        content_soft_min = max(1, self.soft_min_tokens - prefix_tokens)
+
+        pieces = [
+            piece
+            for group in groups
+            for piece in self._split_group(group, content_max)
+            if piece.embedding_text.strip()
         ]
-        if asset_lines:
-            body = "\n".join(part for part in (body, *asset_lines) if part)
-        if block.kind is BlockKind.CODE:
-            return f"[{label}]\n```python\n{body}\n```"
-        return f"[{label}]\n{body}".strip()
+        packed: list[list[_GroupPiece]] = []
+        current: list[_GroupPiece] = []
+        current_tokens = 0
+        for piece in pieces:
+            exceeds_max = current and current_tokens + piece.token_count > content_max
+            reached_target = current and current_tokens >= content_target
+            if exceeds_max or reached_target:
+                packed.append(current)
+                current = []
+                current_tokens = 0
+            current.append(piece)
+            current_tokens += piece.token_count
+        if current:
+            packed.append(current)
+
+        if len(packed) > 1:
+            last_tokens = sum(piece.token_count for piece in packed[-1])
+            previous_tokens = sum(piece.token_count for piece in packed[-2])
+            if last_tokens < content_soft_min and previous_tokens + last_tokens <= content_max:
+                packed[-2:] = [[*packed[-2], *packed[-1]]]
+
+        chunks: list[NotebookChunk] = []
+        for chunk_index, chunk_pieces in enumerate(packed):
+            display_text = "\n\n".join(piece.display_text for piece in chunk_pieces).strip()
+            body = "\n\n".join(piece.embedding_text for piece in chunk_pieces).strip()
+            embedding_text = f"{prefix}\n\n{body}" if prefix else body
+            kinds = {kind for piece in chunk_pieces for kind in piece.kinds}
+            kind = next(iter(kinds)) if len(kinds) == 1 else CellGroupKind.MIXED
+            chunks.append(
+                NotebookChunk(
+                    chunk_id=_stable_id(
+                        "chunk",
+                        document.document_id,
+                        section_id,
+                        chunk_index,
+                        embedding_text,
+                    ),
+                    section_id=section_id,
+                    document_id=document.document_id,
+                    kind=kind,
+                    display_text=display_text,
+                    embedding_text=embedding_text,
+                    group_ids=_unique(
+                        group_id for piece in chunk_pieces for group_id in piece.group_ids
+                    ),
+                    block_ids=_unique(
+                        block_id for piece in chunk_pieces for block_id in piece.block_ids
+                    ),
+                    cell_ids=_unique(
+                        cell_id for piece in chunk_pieces for cell_id in piece.cell_ids
+                    ),
+                    section_path=list(section_path),
+                    asset_ids=_unique(
+                        asset_id for piece in chunk_pieces for asset_id in piece.asset_ids
+                    ),
+                    token_count=estimate_token_count(embedding_text),
+                )
+            )
+        return chunks
+
+    def _split_group(self, group: CellGroup, max_tokens: int) -> list[_GroupPiece]:
+        if group.token_count <= max_tokens:
+            return [_group_piece(group)]
+        texts = _split_text(
+            group.display_text,
+            max_tokens,
+            overlap_tokens=min(self.overlap_tokens, max(0, max_tokens - 1)),
+        )
+        return [
+            _GroupPiece(
+                display_text=text,
+                embedding_text=_clean_embedding_text(text),
+                group_ids=(group.group_id,),
+                block_ids=tuple(group.block_ids),
+                cell_ids=tuple(group.cell_ids),
+                asset_ids=tuple(group.asset_ids) if index == 0 else (),
+                kinds=(group.kind,),
+            )
+            for index, text in enumerate(texts)
+        ]
 
 
-def _section_prefix(title: str, section_path: list[str]) -> str:
-    parts = [part for part in (title, *section_path) if part]
-    return f"[课程位置] {' > '.join(parts)}" if parts else ""
+def _group_piece(group: CellGroup) -> _GroupPiece:
+    return _GroupPiece(
+        display_text=group.display_text,
+        embedding_text=group.embedding_text,
+        group_ids=(group.group_id,),
+        block_ids=tuple(group.block_ids),
+        cell_ids=tuple(group.cell_ids),
+        asset_ids=tuple(group.asset_ids),
+        kinds=(group.kind,),
+    )
 
 
-def _stable_id(kind: str, *parts: object) -> str:
-    raw = "\x1f".join(str(part) for part in parts)
-    digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
-    return f"{kind}_{digest}"
+def _group_kind(blocks: list[ContentBlock]) -> CellGroupKind:
+    kinds = {block.kind for block in blocks}
+    if BlockKind.CODE in kinds:
+        return CellGroupKind.EXECUTION
+    if kinds == {BlockKind.TABLE}:
+        return CellGroupKind.TABLE
+    if kinds == {BlockKind.FIGURE}:
+        return CellGroupKind.FIGURE
+    if kinds <= {BlockKind.MARKDOWN, BlockKind.TEXT}:
+        return CellGroupKind.NARRATIVE
+    return CellGroupKind.MIXED
 
 
-def _unique(values: Iterable[str]) -> list[str]:
-    return list(dict.fromkeys(values))
+def _render_block(block: ContentBlock) -> str:
+    label = _BLOCK_LABELS[block.kind]
+    body = block.text.strip()
+    resources = [
+        f"资源：{asset.caption or Path(asset.path).name}（{asset.media_type}）"
+        for asset in block.assets
+    ]
+    if resources:
+        body = "\n".join(part for part in (body, *resources) if part)
+    if block.kind is BlockKind.CODE:
+        return f"[{label}]\n```python\n{body}\n```"
+    return f"[{label}]\n{body}".strip()
 
 
-def _common_prefix(paths: list[tuple[str, ...]]) -> list[str]:
-    if not paths:
-        return []
-    prefix: list[str] = []
-    for parts in zip(*paths, strict=False):
-        if len(set(parts)) != 1:
-            break
-        prefix.append(parts[0])
-    return prefix
+def _clean_embedding_text(text: str) -> str:
+    text = _ANSI_PATTERN.sub("", text)
+    text = _MEMORY_ADDRESS_PATTERN.sub("<memory-address>", text)
+    lines: list[str] = []
+    blank = False
+    for line in text.splitlines():
+        stripped = line.rstrip()
+        if not stripped:
+            if not blank:
+                lines.append("")
+            blank = True
+            continue
+        lines.append(stripped)
+        blank = False
+    return "\n".join(lines).strip()
 
 
-def _split_text(
-    text: str,
-    max_tokens: int,
-    *,
-    min_tokens: int = 1,
-    overlap_tokens: int = 0,
-) -> list[str]:
+def _embedding_prefix(document: ParsedDocument, section_path: tuple[str, ...]) -> str:
+    parts = [f"文件：{Path(document.source_path).name}", f"主题：{document.title}"]
+    if section_path:
+        parts.append(f"章节：{' > '.join(section_path)}")
+    return "\n".join(parts)
+
+
+def _build_outline(document: ParsedDocument, sections: list[SectionRecord]) -> str:
+    headings = _unique(
+        " > ".join(section.section_path)
+        for section in sections
+        if section.section_path
+    )
+    outline_blocks = [
+        _clean_embedding_text(block.text)
+        for block in document.blocks
+        if block.kind is BlockKind.MARKDOWN
+        and block.section_path
+        and block.section_path[-1].strip().lower() in {"outline", "目录", "大纲"}
+    ]
+    parts = [
+        f"文件：{Path(document.source_path).name}",
+        f"主题：{document.title}",
+    ]
+    if headings:
+        parts.append("章节：\n" + "\n".join(f"- {heading}" for heading in headings))
+    if outline_blocks:
+        parts.append("课程大纲：\n" + "\n\n".join(outline_blocks))
+    return "\n\n".join(parts)
+
+
+def _split_text(text: str, max_tokens: int, *, overlap_tokens: int = 0) -> list[str]:
     units = [unit for unit in _logical_units(text, max_tokens) if unit.strip()]
     if not units:
         return []
-
     chunks: list[str] = []
     current: list[str] = []
     current_tokens = 0
-
     for unit in units:
         unit_tokens = estimate_token_count(unit)
         if current and current_tokens + unit_tokens > max_tokens:
@@ -293,54 +418,12 @@ def _split_text(
             current = _overlap_tail(current, overlap_tokens)
             current_tokens = sum(estimate_token_count(item) for item in current)
             while current and current_tokens + unit_tokens > max_tokens:
-                removed = current.pop(0)
-                current_tokens -= estimate_token_count(removed)
+                current_tokens -= estimate_token_count(current.pop(0))
         current.append(unit)
         current_tokens += unit_tokens
-
     if current:
         chunks.append("\n\n".join(current).strip())
-
-    if len(chunks) > 1 and estimate_token_count(chunks[-1]) < min_tokens:
-        combined = f"{chunks[-2]}\n\n{chunks[-1]}"
-        if estimate_token_count(combined) <= max_tokens:
-            chunks[-2:] = [combined]
     return chunks
-
-
-def _pack_fragments(
-    fragments: list[_Fragment],
-    *,
-    max_tokens: int,
-    min_tokens: int,
-    overlap_tokens: int,
-) -> list[list[_Fragment]]:
-    if not fragments:
-        return []
-
-    groups: list[list[_Fragment]] = []
-    current: list[_Fragment] = []
-    current_tokens = 0
-
-    for fragment in fragments:
-        if current and current_tokens + fragment.token_count > max_tokens:
-            groups.append(current)
-            current = _overlap_fragment_tail(current, overlap_tokens)
-            current_tokens = sum(item.token_count for item in current)
-            while current and current_tokens + fragment.token_count > max_tokens:
-                removed = current.pop(0)
-                current_tokens -= removed.token_count
-        current.append(fragment)
-        current_tokens += fragment.token_count
-
-    if current:
-        groups.append(current)
-
-    if len(groups) > 1 and sum(item.token_count for item in groups[-1]) < min_tokens:
-        combined_tokens = sum(item.token_count for item in (*groups[-2], *groups[-1]))
-        if combined_tokens <= max_tokens:
-            groups[-2:] = [[*groups[-2], *groups[-1]]]
-    return groups
 
 
 def _logical_units(text: str, max_tokens: int) -> list[str]:
@@ -366,13 +449,11 @@ def _logical_units(text: str, max_tokens: int) -> list[str]:
 
 def _hard_split(text: str, max_tokens: int) -> list[str]:
     matches = list(_TOKEN_PATTERN.finditer(text))
-    if not matches:
-        return []
-    pieces: list[str] = []
-    for start in range(0, len(matches), max_tokens):
-        group = matches[start : start + max_tokens]
-        pieces.append(text[group[0].start() : group[-1].end()].strip())
-    return pieces
+    return [
+        text[group[0].start() : group[-1].end()].strip()
+        for start in range(0, len(matches), max_tokens)
+        if (group := matches[start : start + max_tokens])
+    ]
 
 
 def _overlap_tail(units: list[str], overlap_tokens: int) -> list[str]:
@@ -391,16 +472,22 @@ def _overlap_tail(units: list[str], overlap_tokens: int) -> list[str]:
     return list(reversed(result))
 
 
-def _overlap_fragment_tail(fragments: list[_Fragment], overlap_tokens: int) -> list[_Fragment]:
-    if overlap_tokens <= 0:
+def _common_prefix(paths: list[tuple[str, ...]]) -> list[str]:
+    if not paths:
         return []
-    result: list[_Fragment] = []
-    total = 0
-    for fragment in reversed(fragments):
-        if result and total + fragment.token_count > overlap_tokens:
+    prefix: list[str] = []
+    for parts in zip(*paths, strict=False):
+        if len(set(parts)) != 1:
             break
-        result.append(fragment)
-        total += fragment.token_count
-        if total >= overlap_tokens:
-            break
-    return list(reversed(result))
+        prefix.append(parts[0])
+    return prefix
+
+
+def _unique(values: Iterable[str]) -> list[str]:
+    return list(dict.fromkeys(values))
+
+
+def _stable_id(kind: str, *parts: object) -> str:
+    raw = "\x1f".join(str(part) for part in parts)
+    digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
+    return f"{kind}_{digest}"

@@ -1,6 +1,7 @@
 """DashScope 向量客户端的批处理与响应解析测试。"""
 
 import json
+from pathlib import Path
 
 import httpx
 import pytest
@@ -85,3 +86,53 @@ async def test_query_embedding_passes_query_type_and_instruction() -> None:
         "output_type": "dense&sparse",
         "instruct": "Retrieve course concepts",
     }
+
+
+@pytest.mark.asyncio
+async def test_visual_embedding_uses_image_text_fusion(tmp_path: Path) -> None:
+    captured: dict[str, object] = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.url.path.endswith(
+            "/services/embeddings/multimodal-embedding/multimodal-embedding"
+        )
+        captured.update(json.loads(request.content))
+        return httpx.Response(
+            200,
+            json={
+                "request_id": "visual-request",
+                "output": {
+                    "embeddings": [
+                        {"index": 0, "embedding": [0.1, 0.2, 0.3], "type": "fusion"}
+                    ]
+                },
+                "usage": {"input_tokens": 4, "image_tokens": 8, "total_tokens": 12},
+            },
+        )
+
+    image_path = tmp_path / "plot.png"
+    image_path.write_bytes(b"fake-png")
+    settings = Settings(
+        dashscope_api_key="test-key",
+        dashscope_visual_embedding_dimension=3,
+        dashscope_max_retries=0,
+    )
+    client = DashScopeClient(settings, transport=httpx.MockTransport(handler))
+
+    result = await client.embed_visual_fusion(
+        text="Lecture 3 > Decision Boundary",
+        image_path=image_path,
+        media_type="image/png",
+    )
+
+    contents = captured["input"]["contents"]
+    assert contents[0] == {"text": "Lecture 3 > Decision Boundary"}
+    assert contents[1]["image"].startswith("data:image/png;base64,")
+    assert captured["parameters"] == {
+        "enable_fusion": True,
+        "dimension": 3,
+        "output_type": "dense",
+    }
+    assert result.vectors[0].input_type == "fusion"
+    assert result.vectors[0].dense == [0.1, 0.2, 0.3]
+    assert result.total_tokens == 12

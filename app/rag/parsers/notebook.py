@@ -16,12 +16,29 @@ from app.config import Settings
 from app.schemas.document import AssetRef, BlockKind, ContentBlock, ParsedDocument
 
 _HEADING_PATTERN = re.compile(r"^(#{1,6})\s+(.+?)\s*$")
+_SETEXT_PATTERN = re.compile(r"^\s*(=+|-+)\s*$")
+_MARKDOWN_IMAGE_PATTERN = re.compile(r"!\[([^]]*)\]\(([^)]+)\)")
+_ANSI_PATTERN = re.compile(r"\x1b\[[0-?]*[ -/]*[@-~]")
 _SAFE_NAME_PATTERN = re.compile(r"[^A-Za-z0-9._-]+")
 _IMAGE_EXTENSIONS = {
     "image/png": ".png",
     "image/jpeg": ".jpg",
     "image/svg+xml": ".svg",
     "image/gif": ".gif",
+    "image/webp": ".webp",
+    "image/bmp": ".bmp",
+    "image/tiff": ".tiff",
+}
+_PATH_MEDIA_TYPES = {
+    ".png": "image/png",
+    ".jpg": "image/jpeg",
+    ".jpeg": "image/jpeg",
+    ".gif": "image/gif",
+    ".svg": "image/svg+xml",
+    ".webp": "image/webp",
+    ".bmp": "image/bmp",
+    ".tif": "image/tiff",
+    ".tiff": "image/tiff",
 }
 
 
@@ -31,18 +48,30 @@ class _HTMLTextExtractor(HTMLParser):
     def __init__(self) -> None:
         super().__init__()
         self.parts: list[str] = []
+        self.ignored_depth = 0
 
     def handle_data(self, data: str) -> None:
+        if self.ignored_depth:
+            return
         value = data.strip()
         if value:
             self.parts.append(value)
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         del attrs
+        if tag in {"style", "script"}:
+            self.ignored_depth += 1
+            return
+        if self.ignored_depth:
+            return
         if tag in {"br", "p", "div", "tr", "li", "h1", "h2", "h3", "h4"}:
             self.parts.append("\n")
         elif tag in {"td", "th"}:
             self.parts.append(" | ")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in {"style", "script"} and self.ignored_depth:
+            self.ignored_depth -= 1
 
     def text(self) -> str:
         return " ".join(" ".join(self.parts).split()).replace(" |  | ", " | ").strip()
@@ -79,7 +108,6 @@ class NotebookParser:
         resolved_document_id = document_id or _stable_id("document", source_path.as_posix())
         blocks: list[ContentBlock] = []
         section_path: list[str] = []
-        title = source_path.stem
 
         for cell_index, cell in enumerate(notebook.cells):
             cell_id = str(cell.get("id") or f"cell-{cell_index}")
@@ -90,19 +118,13 @@ class NotebookParser:
                 markdown_blocks, section_path = self._parse_markdown_cell(
                     source=source,
                     attachments=cell.get("attachments", {}),
+                    source_path=source_path,
                     document_id=resolved_document_id,
                     cell_id=cell_id,
                     cell_index=cell_index,
                     section_path=section_path,
                 )
                 blocks.extend(markdown_blocks)
-                if title == source_path.stem:
-                    first_heading = next(
-                        (block.section_path[0] for block in markdown_blocks if block.section_path),
-                        None,
-                    )
-                    if first_heading:
-                        title = first_heading
                 continue
 
             if cell_type == "code":
@@ -147,7 +169,7 @@ class NotebookParser:
         return ParsedDocument(
             document_id=resolved_document_id,
             source_path=source_path.as_posix(),
-            title=title,
+            title=_choose_document_title(source_path, blocks),
             blocks=blocks,
         )
 
@@ -156,42 +178,26 @@ class NotebookParser:
         *,
         source: str,
         attachments: dict[str, Any],
+        source_path: Path,
         document_id: str,
         cell_id: str,
         cell_index: int,
         section_path: list[str],
     ) -> tuple[list[ContentBlock], list[str]]:
         assets = self._extract_attachments(document_id, cell_id, attachments)
-        current_path = list(section_path)
-        pieces: list[tuple[str, list[str]]] = []
-        buffer: list[str] = []
-        buffer_path = list(current_path)
-
-        def flush() -> None:
-            text = "\n".join(buffer).strip()
-            if text:
-                pieces.append((text, list(buffer_path)))
-            buffer.clear()
-
-        for line in source.splitlines():
-            match = _HEADING_PATTERN.match(line)
-            if match:
-                flush()
-                level = len(match.group(1))
-                heading = match.group(2).strip()
-                current_path = current_path[: level - 1]
-                current_path.append(heading)
-                buffer_path = list(current_path)
-            buffer.append(line)
-        flush()
+        assets.extend(self._extract_linked_images(source_path, document_id, cell_id, source))
+        pieces, current_path = _split_markdown(source, section_path)
 
         if not pieces and (source.strip() or assets):
-            pieces.append((source.strip(), list(current_path)))
+            pieces.append((source.strip(), list(current_path), None))
 
         blocks: list[ContentBlock] = []
-        for piece_index, (text, piece_path) in enumerate(pieces):
+        for piece_index, (text, piece_path, heading_level) in enumerate(pieces):
             piece_assets = [
-                asset for asset in assets if f"attachment:{Path(asset.path).name}" in text
+                asset
+                for asset in assets
+                if Path(asset.path).name in text
+                or (asset.caption is not None and asset.caption in text)
             ]
             if not piece_assets and piece_index == 0:
                 piece_assets = assets
@@ -202,12 +208,41 @@ class NotebookParser:
                     kind=BlockKind.MARKDOWN,
                     text=text,
                     section_path=piece_path,
+                    heading_level=heading_level,
                     cell_id=cell_id,
                     cell_index=cell_index,
                     assets=piece_assets,
                 )
             )
         return blocks, current_path
+
+    @staticmethod
+    def _extract_linked_images(
+        source_path: Path,
+        document_id: str,
+        cell_id: str,
+        source: str,
+    ) -> list[AssetRef]:
+        assets: list[AssetRef] = []
+        for caption, target in _MARKDOWN_IMAGE_PATTERN.findall(source):
+            target = target.strip().strip("<>")
+            if target.startswith(("attachment:", "http://", "https://", "data:")):
+                continue
+            resolved = (source_path.parent / target).expanduser().resolve()
+            media_type = _PATH_MEDIA_TYPES.get(resolved.suffix.lower())
+            if not media_type or not resolved.is_file():
+                continue
+            assets.append(
+                AssetRef(
+                    asset_id=_stable_id(
+                        "asset", document_id, cell_id, resolved.as_posix(), media_type
+                    ),
+                    media_type=media_type,
+                    path=resolved.as_posix(),
+                    caption=caption.strip() or resolved.stem,
+                )
+            )
+        return assets
 
     def _parse_outputs(
         self,
@@ -250,7 +285,7 @@ class NotebookParser:
                 if assets and not text:
                     kind = BlockKind.FIGURE
 
-            text = _truncate(text, self.output_max_chars)
+            text = _truncate(_ANSI_PATTERN.sub("", text), self.output_max_chars)
             if text.strip() or assets:
                 blocks.append(
                     ContentBlock(
@@ -353,6 +388,77 @@ def _extract_display_text(data: dict[str, Any]) -> tuple[str, BlockKind]:
     if "application/json" in data:
         return json.dumps(data["application/json"], ensure_ascii=False), BlockKind.OUTPUT
     return "", BlockKind.OUTPUT
+
+
+def _split_markdown(
+    source: str,
+    section_path: list[str],
+) -> tuple[list[tuple[str, list[str], int | None]], list[str]]:
+    """按 ATX/Setext 标题拆分 Markdown，并保留层级路径。"""
+
+    pieces: list[tuple[str, list[str], int | None]] = []
+    current_path = list(section_path)
+    buffer: list[str] = []
+    buffer_path = list(current_path)
+    buffer_level: int | None = None
+
+    def flush() -> None:
+        text = "\n".join(buffer).strip()
+        if text:
+            pieces.append((text, list(buffer_path), buffer_level))
+        buffer.clear()
+
+    lines = source.splitlines()
+    index = 0
+    while index < len(lines):
+        line = lines[index]
+        atx_match = _HEADING_PATTERN.match(line)
+        setext_match = (
+            _SETEXT_PATTERN.match(lines[index + 1])
+            if index + 1 < len(lines) and line.strip()
+            else None
+        )
+        if atx_match:
+            flush()
+            level = len(atx_match.group(1))
+            heading = atx_match.group(2).strip()
+            current_path = [*current_path[: level - 1], heading]
+            buffer_path = list(current_path)
+            buffer_level = level
+            buffer.append(line)
+            index += 1
+            continue
+        if setext_match:
+            flush()
+            level = 1 if setext_match.group(1).startswith("=") else 2
+            heading = line.strip()
+            current_path = [*current_path[: level - 1], heading]
+            buffer_path = list(current_path)
+            buffer_level = level
+            buffer.extend((line, lines[index + 1]))
+            index += 2
+            continue
+        buffer.append(line)
+        index += 1
+    flush()
+    return pieces, current_path
+
+
+def _choose_document_title(source_path: Path, blocks: list[ContentBlock]) -> str:
+    headings = [
+        block.section_path[-1]
+        for block in blocks
+        if block.kind is BlockKind.MARKDOWN and block.heading_level and block.section_path
+    ]
+    specific = next(
+        (
+            heading
+            for heading in headings[:12]
+            if re.search(r"\b(lecture|tutorial|assignment|lab)\b|课程|讲义|实验", heading, re.I)
+        ),
+        None,
+    )
+    return specific or (headings[0] if headings else source_path.stem)
 
 
 def _coerce_text(value: Any) -> str:

@@ -40,7 +40,11 @@ class SearchRequest(BaseModel):
 
 
 class SourceReference(BaseModel):
+    course_id: str
+    document_id: str
     file: str
+    section_path: list[str] = Field(default_factory=list)
+    cell_ids: list[str] = Field(default_factory=list)
     cell_id: str | None = None
     cell_index: int | None = None
     page: int | None = None
@@ -48,7 +52,8 @@ class SourceReference(BaseModel):
 
 class SearchHit(BaseModel):
     chunk_id: str
-    parent_id: str
+    section_id: str
+    representation_type: str
     score: float
     content: str
     source: SourceReference
