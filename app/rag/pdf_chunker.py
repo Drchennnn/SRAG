@@ -67,8 +67,8 @@ class PDFChunker:
                 current_section = block.section_path.copy()
 
             # 累积内容
-            if block.display_text.strip():
-                current_content.append(block.display_text.strip())
+            if block.text.strip():
+                current_content.append(block.text.strip())
 
                 # 检查是否需要切分（超过 max_tokens）
                 combined_text = "\n\n".join(current_content)
@@ -135,7 +135,8 @@ class PDFChunker:
         return NotebookChunk(
             chunk_id=chunk_id,
             section_id=section_id,
-            kind="pdf_content",
+            document_id=document.document_id,
+            kind="mixed",
             section_path=section_path,
             embedding_text=embedding_text.strip(),
             display_text=content,

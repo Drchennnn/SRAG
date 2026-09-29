@@ -38,12 +38,12 @@ class PDFParser:
         result = self.converter.convert(str(file_path))
         markdown_text = result.document.export_to_markdown()
 
-        # 解析 Markdown 为结构化 blocks
-        blocks = self._parse_markdown_to_blocks(markdown_text, file_path)
-
         # 提取文档元信息
         document_title = result.document.title or file_path.stem
         document_id = f"document_{self._compute_hash(file_path)}"
+
+        # 解析 Markdown 为结构化 blocks
+        blocks = self._parse_markdown_to_blocks(markdown_text, file_path, document_id)
 
         return ParsedDocument(
             document_id=document_id,
@@ -58,6 +58,7 @@ class PDFParser:
         self,
         markdown: str,
         file_path: Path,
+        document_id: str,
     ) -> list[ContentBlock]:
         """将 Markdown 文本解析为 ContentBlock 列表。"""
         blocks: list[ContentBlock] = []
@@ -78,6 +79,7 @@ class PDFParser:
                             current_section.copy(),
                             "\n".join(current_content),
                             file_path,
+                            document_id,
                         )
                     )
                     block_index += 1
@@ -101,6 +103,7 @@ class PDFParser:
                     current_section.copy(),
                     "\n".join(current_content),
                     file_path,
+                    document_id,
                 )
             )
 
@@ -112,15 +115,16 @@ class PDFParser:
         section_path: list[str],
         content: str,
         file_path: Path,
+        document_id: str,
     ) -> ContentBlock:
         """创建一个 ContentBlock。"""
         return ContentBlock(
             block_id=f"block_{index}",
+            document_id=document_id,
             cell_id=None,  # PDF 没有 cell 概念
-            kind="markdown",  # PDF 内容统一为 markdown
+            kind="text",  # PDF 内容统一为 text
+            text=content,  # 使用 text 字段
             section_path=section_path,
-            raw_text=content,
-            display_text=content,
             assets=[],
         )
 

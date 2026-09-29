@@ -24,3 +24,79 @@ warning: `VIRTUAL_ENV=/Users/Link/miniforge3/envs/BY` does not match the project
 Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  62%|██████▏   | 477/770 [00:00<00:00, 4762.53it/s]Loading weights: 100%|██████████| 770/770 [00:00<00:00, 5414.42it/s]
 /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/torch/nn/modules/conv.py:560: UserWarning: Using padding='same' with even kernel lengths and odd dilation may require a zero-padded copy of the input be created (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/Convolution.cpp:1105.)
   return F.conv2d(
+Traceback (most recent call last):
+  File "/Users/Link/code/SRAG/test_minimal.py", line 69, in test_one_pdf
+    document = parser.parse(pdf_path)
+  File "/Users/Link/code/SRAG/app/rag/parsers/pdf.py", line 42, in parse
+    blocks = self._parse_markdown_to_blocks(markdown_text, file_path)
+  File "/Users/Link/code/SRAG/app/rag/parsers/pdf.py", line 76, in _parse_markdown_to_blocks
+    self._create_block(
+    ~~~~~~~~~~~~~~~~~~^
+        block_index,
+        ^^^^^^^^^^^^
+    ...<2 lines>...
+        file_path,
+        ^^^^^^^^^^
+    )
+    ^
+  File "/Users/Link/code/SRAG/app/rag/parsers/pdf.py", line 117, in _create_block
+    return ContentBlock(
+        block_id=f"block_{index}",
+    ...<5 lines>...
+        assets=[],
+    )
+  File "/Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 1 validation error for ContentBlock
+document_id
+  Field required [type=missing, input_value={'block_id': 'block_0', '...ong Kong', 'assets': []}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+Traceback (most recent call last):
+  File "/Users/Link/code/SRAG/test_minimal.py", line 109, in test_one_pptx
+    document = parser.parse(pptx_path)
+  File "/Users/Link/code/SRAG/app/rag/parsers/pptx.py", line 54, in parse
+    ContentBlock(
+    ~~~~~~~~~~~~^
+        block_id=f"slide_{slide_index + 1}",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        assets=[],
+        ^^^^^^^^^^
+    )
+    ^
+  File "/Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/pydantic/main.py", line 263, in __init__
+    validated_self = self.__pydantic_validator__.validate_python(data, self_instance=self)
+pydantic_core._pydantic_core.ValidationError: 2 validation errors for ContentBlock
+document_id
+  Field required [type=missing, input_value={'block_id': 'slide_1', '...，乐', 'assets': []}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+kind
+  Input should be 'markdown', 'code', 'output', 'text', 'table' or 'figure' [type=enum, input_value='slide', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+
+❌ 失败: 1 validation error for ContentBlock
+document_id
+  Field required [type=missing, input_value={'block_id': 'block_0', '...ong Kong', 'assets': []}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+
+======================================================================
+测试 PPTX: 课程笔记.pptx
+文件大小: 3994 KB
+======================================================================
+
+⏳ 解析中...
+
+❌ 失败: 2 validation errors for ContentBlock
+document_id
+  Field required [type=missing, input_value={'block_id': 'slide_1', '...，乐', 'assets': []}, input_type=dict]
+    For further information visit https://errors.pydantic.dev/2.13/v/missing
+kind
+  Input should be 'markdown', 'code', 'output', 'text', 'table' or 'figure' [type=enum, input_value='slide', input_type=str]
+    For further information visit https://errors.pydantic.dev/2.13/v/enum
+
+======================================================================
+📊 测试总结
+======================================================================
+   PDF:  ❌ 失败
+   PPTX: ❌ 失败
+

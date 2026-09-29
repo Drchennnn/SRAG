@@ -33,6 +33,10 @@ class PPTXParser:
         prs = Presentation(file_path)
         blocks: list[ContentBlock] = []
 
+        # 文档元信息
+        document_title = file_path.stem
+        document_id = f"document_{self._compute_hash(file_path)}"
+
         for slide_index, slide in enumerate(prs.slides):
             # 提取幻灯片标题
             title = self._extract_slide_title(slide)
@@ -53,18 +57,14 @@ class PPTXParser:
             blocks.append(
                 ContentBlock(
                     block_id=f"slide_{slide_index + 1}",
+                    document_id=document_id,
                     cell_id=None,
-                    kind="slide",
+                    kind="text",  # 改为 text（slide 不是有效的 BlockKind）
+                    text=content,  # 使用 text 字段
                     section_path=section_path,
-                    raw_text=content,
-                    display_text=content,
                     assets=[],
                 )
             )
-
-        # 文档元信息
-        document_title = file_path.stem
-        document_id = f"document_{self._compute_hash(file_path)}"
 
         return ParsedDocument(
             document_id=document_id,

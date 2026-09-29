@@ -40,17 +40,17 @@ class PPTXChunker:
 类型：PPTX
 幻灯片：{section_path[0] if section_path else chunk_id}
 
-{block.display_text}
+{block.text}
 """
 
             chunks.append(
                 NotebookChunk(
                     chunk_id=chunk_id,
                     section_id=f"section_{chunk_id}",
-                    kind="pptx_slide",
+                    kind="mixed",
                     section_path=section_path,
                     embedding_text=embedding_text.strip(),
-                    display_text=block.display_text,
+                    display_text=block.text,
                     group_ids=[],
                     block_ids=[block.block_id],
                     cell_ids=[],
@@ -58,6 +58,7 @@ class PPTXChunker:
                     token_count=estimate_token_count(embedding_text),
                     previous_chunk_id=None,
                     next_chunk_id=None,
+                    document_id=document.document_id,
                 )
             )
 
