@@ -34,7 +34,6 @@
 - [x] 暂时禁用 outline 召回，待 PDF/PPT 接入后重新评估文档发现需求。
 - [x] 接入 `qwen3.7-text-rerank` 候选重排。
 - [x] 接入 `deepseek-flash` 查询理解和按需改写；原始 query 始终保留，HyDE、step-back 和多查询仅在评估证明有效后启用。
-- [ ] 重新设计 outline 功能：分离 pipeline，用于文档发现而非精确答案排序。
 
 ### 多模态与上下文
 
@@ -61,6 +60,7 @@
 
 ## 后续阶段
 
+- [ ] 重新设计 Outline 功能：分离 pipeline，用于文档发现而非精确答案排序。
 - [ ] 实现 Web 文件上传接口与存储管理。
 - [ ] 接入 PDF 解析与 PDF 专用切块策略。
 - [ ] 接入 DeepSeek 回答层和网页交互。
