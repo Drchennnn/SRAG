@@ -31,12 +31,13 @@
 
 ### PDF/PPT 支持
 - [x] 设计 PDF/PPT 解析与切块方案
-- [ ] 实现 PDFParser（Docling）
-- [ ] 实现 PDFChunker（语义段落切分）
-- [ ] 实现 PPTXParser（python-pptx）
-- [ ] 实现 PPTXChunker（一张幻灯片 = 一个 chunk）
+- [x] 实现 PDFParser（Docling）
+- [x] 实现 PDFChunker（语义段落切分）
+- [x] 实现 PPTXParser（python-pptx）
+- [x] 实现 PPTXChunker（一张幻灯片 = 一个 chunk）
+- [ ] 验证 PDF/PPTX 切分质量（测试转移到 Kaggle）
 - [ ] 统一 Parser/Chunker Protocol
-- [ ] 在 5-10 个 PDF 上验证切分质量
+- [ ] 集成到索引 API
 
 ### 评估扩展
 - [ ] 准备 PDF/PPT 评估集（20-30 题）
