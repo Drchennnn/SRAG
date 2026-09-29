@@ -1,6 +1,6 @@
 # SRAG：课程资料检索系统
 
-SRAG 是一个面向课程资料的本地优先 RAG 项目。当前 Notebook 已形成可评估、可追溯的混合检索链路；PDF/PPTX 已有解析和切块原型，正在补齐质量验证与索引集成。模型推理统一使用 API，本地只运行 Qdrant、元数据存储、无模型解析工具和应用服务。
+SRAG 是一个面向课程资料的本地优先 RAG 项目。当前 Notebook 已形成可评估、可追溯的混合检索链路；PDF/PPTX 因主要是幻灯片资料，正在统一为按页处理的 SlideDeck 预处理链路。Embedding、查询、重排和回答使用外部 API；文档解析和按需 OCR 可在 Colab GPU 临时运行，本地保存 Qdrant、元数据和应用服务。
 
 详细设计见 [RAG.md](./RAG.md)，开发进度见 [CHECKLIST.md](./CHECKLIST.md)。
 
@@ -18,7 +18,7 @@ Notebook 混合检索闭环已经完成：
 - 支持未变化文件跳过 Embedding、新版本原子切换、旧向量清理和文档删除。
 - 真实课件验证了中文问题检索英文内容，以及文件、章节和 cell 来源回溯。
 - 已建立 20 题 Notebook 检索基线，并记录原始 query 的 dense Top 8 结果。
-- PDF/PPTX 已有独立 Parser/Chunker 原型，但尚未接入 `DocumentIndexer` 和索引 API。
+- PDF/PPTX 已收敛为统一 SlideDeck 预处理链路，已有页级解析、资源标注、超长页切分、整页图片和便携预处理包；尚未进行幻灯片 Embedding 或接入索引 API。
 
 当前检索支持：
 - **Dense + Sparse RRF 融合**：已接入 `/api/rag/search`，当前 20 题基线达到 Recall@8=1.00。
@@ -29,7 +29,7 @@ Notebook 混合检索闭环已经完成：
 
 Document outline 因融合问题暂时禁用，待 PDF/PPT 接入后重新设计。
 
-PDF/PPTX 当前边界：代码可生成统一 `ParsedDocument` 和 chunk 原型；项目依赖尚未写入 `pyproject.toml`，PDF 页码与图片资源、PPTX 图片/表格、跨文档稳定 ID、标准测试和索引 API 集成仍待完成。旧版 `.ppt` 也尚未支持。
+PDF/PPTX 当前统一按幻灯片处理：一页/一张作为基础 Chunk，保留页码、布局、相邻关系、整页截图和资源，只对超长页做页内切分。数字 PDF 优先读取原生文本，可在 Colab 对文本稀少页开启 OCR。资源会按重复率、位置和面积标注，视觉表示仍以整页截图为主。预处理输出 `deck.json + chunks.json + slides/ + assets/`；幻灯片 Embedding 与索引接入是下一阶段。旧版 `.ppt` 需先转换为 `.pptx`。
 
 ## 流程
 
@@ -55,6 +55,7 @@ chunk 内容 + 文件/章节/cell 来源
 | --- | --- |
 | API | FastAPI |
 | Notebook 解析 | nbformat |
+| 幻灯片预处理 | Docling、RapidOCR、python-pptx（Colab GPU） |
 | 文本 Embedding | `qwen3.7-text-embedding` API |
 | 视觉 Embedding | `qwen3-vl-embedding` API |
 | 查询理解（组件已实现，待集成） | `deepseek-flash` API |
@@ -63,7 +64,7 @@ chunk 内容 + 文件/章节/cell 来源
 | 元数据 | SQLite |
 | 回答模型（规划） | `deepseek-flash` API |
 
-项目不下载或运行本地模型权重。
+项目不在本地电脑或云服务器部署长期模型服务；Docling/RapidOCR 仅在 Colab 临时运行时下载并执行解析模型。
 
 ## 快速开始
 
@@ -74,6 +75,12 @@ chunk 内容 + 文件/章节/cell 来源
 ```bash
 uv sync --extra dev
 cp .env.example .env
+```
+
+需要在本地解析 PDF/PPTX 时安装文档可选依赖：
+
+```bash
+uv sync --extra dev --extra documents
 ```
 
 在 `.env` 中至少填写：
@@ -166,6 +173,12 @@ uv run jupyter lab notebooks/retrieval_end_to_end.ipynb
 
 用于检查 Cell Group、Section、Chunk、文本表示和图片融合表示。视觉表示当前只在准备阶段验证，尚未写入正式检索闭环。
 
+### Colab 幻灯片预处理实验
+
+[notebooks/cloud_document_preprocess.ipynb](./notebooks/cloud_document_preprocess.ipynb)
+
+用于在 Colab GPU 上运行统一 SlideDeck 预处理：PDF 原生文本与按需 OCR、PPTX 结构提取与整页渲染、资源标注、页级 Chunk，以及 ZIP 预处理包下载。该 Notebook 不调用 Embedding API，也不连接本地 Qdrant。
+
 ## 评估结果
 
 **20 题 Notebook 基线**（7 份 ML/X AI 课件）：
@@ -204,6 +217,9 @@ app/
 ├── rag/
 │   ├── parsers/         # 文件解析
 │   ├── chunker.py       # Notebook 结构化切块
+│   ├── slide_chunker.py # PDF/PPTX 统一页级切块
+│   ├── slide_assets.py  # 幻灯片资源信息价值标注
+│   ├── slide_preprocessor.py # 预处理包导出
 │   ├── indexer.py       # 索引编排
 │   ├── retriever.py     # 混合检索入口
 │   ├── fusion.py        # RRF 融合与去重
@@ -228,20 +244,10 @@ PROGRESS_HISTORY.md     # 完整里程碑历史
 
 根据 [CHECKLIST.md](./CHECKLIST.md)：
 
-**短期**：
-- 完成 PDF/PPTX 依赖声明、稳定溯源、自动化质量测试和索引 API 集成
-- 将 Rerank、查询理解、视觉召回和上下文扩展逐项接入正式检索入口
-- 扩展评估集到 80-100 题
-- 优化 Rerank 延迟和查询缓存
-
-**中期**：
-- 验证视觉召回效果
-- 接入 DeepSeek 回答生成
-- 重新设计 Document Outline
-
-**长期**：
-- Web 文件上传界面
-- 云端部署（可选）
+1. 用代表性 PDF/PPTX 验收 SlideDeck 的文本连续性、资源溯源与处理时间。
+2. 对幻灯片文字和整页截图分别生成文本与多模态向量，并接入本地索引。
+3. 用固定题集验证融合召回，再接通 Rerank、查询理解、上下文和回答生成。
+4. 检索质量稳定后再开发上传、来源展示和可选云端部署。
 
 ## 测试
 
@@ -250,4 +256,4 @@ uv run pytest -q
 uv run ruff check app tests
 ```
 
-Notebook 与检索核心测试当前通过 42 项。PDF/PPTX 质量脚本仍依赖个人绝对路径，尚未进入可重复的标准测试门禁；全量 Ruff 也仍有该脚本及少量新代码问题需要清理。
+核心测试包含无个人路径的 SlideDeck 切块、资源筛选、PPTX 预处理包和 PDF 页级烟雾测试。

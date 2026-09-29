@@ -4,22 +4,23 @@
 
 ## 当前状态
 
-更新时间：2026-09-29
+更新时间：2026-09-30
 
-- 阶段：Notebook 的 Dense+Sparse RRF 正式检索链路已完成；PDF/PPTX 仍是组件原型。
+- 阶段：Notebook 检索基线已完成；统一 SlideDeck 预处理已实现，正在真实课件验收。
 - 基线：20 题中 RRF 的 Recall@1=0.85、Recall@8=1.00、MRR@8=0.893；Outline 已禁用。
-- 当前目标：先把 Rerank、查询理解、视觉召回和上下文扩展接入正式查询入口，再稳定并接入 PDF/PPTX。
-- PDF/PPTX 缺口：依赖锁定、可重复测试、稳定 ID、页码/幻灯片与资源溯源、统一协议和索引 API 集成。
+- 当前目标：在 Colab 用代表性 PDF 验收页内连续性、资源溯源和处理时间；通过后开始幻灯片 Embedding。
+- 幻灯片策略：一页/一张为基础 Chunk；原生文本优先、按页 OCR 回退；整页视觉表示为主，只过滤明显装饰资源。
 - 阻塞：无。
 
 ## 最近变更
 
 | 日期 | 结果 |
 | --- | --- |
+| 2026-09-30 | 统一 SlideDeck Schema、PDF/PPTX Parser、SlideChunker、资源标注和预处理包已实现，已通过合成文件测试。 |
+| 2026-09-30 | Colab T4 完成 32 页 PDF 预处理实测；确认当前 Markdown 标题切分存在页内断层，图片只保留占位符。 |
+| 2026-09-30 | PDF/PPTX 统一改为 SlideDeck 设计；当前先完成解析和 Chunk，尚未开始幻灯片 Embedding。 |
 | 2026-09-29 | 正式查询入口采用 Dense+Sparse RRF；20 题基线达到 Recall@8=1.00。 |
 | 2026-09-29 | Outline 因标题候选压过正文 chunk 而停用；Rerank 高精度结果保留在独立消融路径。 |
-| 2026-09-29 | 新增 PDF/PPTX Parser 和 Chunker 原型，尚未进入正式索引链路。 |
-| 2026-09-29 | 复核组件边界并同步 README、RAG、CHECKLIST；未集成能力不再标记为正式完成。 |
 
 ## 更新规则
 

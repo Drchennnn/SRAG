@@ -52,6 +52,11 @@ class Settings(BaseSettings):
     notebook_chunk_target_tokens: int = 280
     notebook_chunk_max_tokens: int = 450
     notebook_chunk_overlap_tokens: int = 40
+    slide_chunk_max_tokens: int = 650
+    slide_chunk_overlap_tokens: int = 50
+    slide_pdf_enable_ocr_fallback: bool = False
+    slide_pdf_ocr_min_text_tokens: int = 8
+    slide_pptx_render_slides: bool = True
     retrieval_top_k: int = 8
     retrieval_enable_visual: bool = False
     retrieval_context_budget_tokens: int = 8000

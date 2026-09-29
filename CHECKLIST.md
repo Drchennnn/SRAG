@@ -2,114 +2,56 @@
 
 ## 已完成 ✅
 
-### 核心功能
-- [x] Notebook 解析与结构化切块（Markdown 标题段 + Cell Group）
-- [x] 文本 embedding（Qwen dense + sparse）
-- [x] 视觉 embedding 与入库（Qwen multimodal fusion）
-- [x] Qdrant 文本向量索引与召回（text_dense、text_sparse）
-- [x] Qdrant visual_dense 存取接口
-- [x] SQLite 元数据管理（版本、发布日期、资源）
-- [x] 索引 API（`POST /api/rag/index`）
-- [x] 检索 API（`POST /api/rag/search`）
+### Notebook 正式链路
+- [x] 只读解析、标题段与 Cell Group 自适应切块
+- [x] Qwen 文本 dense+sparse 与视觉表示生成
+- [x] Qdrant 命名向量、SQLite 版本生命周期和增量索引
+- [x] `/api/rag/index`、`/api/rag/search` 与范围过滤
+- [x] Dense+Sparse RRF 正式召回
+- [x] 20 题评估集与消融实验；RRF Recall@8=1.00、MRR@8=0.893
+- [x] 定位 Outline 融合问题并从正式入口禁用
 
-### 正式检索链路
-- [x] Dense + Sparse RRF 融合并接入 `/api/rag/search`
-- [x] 课程、文件、版本和发布日期过滤
-- [x] Document outline 召回实验与根因分析；正式入口暂时禁用
-
-### 已完成的实验组件
-- [x] Qwen Rerank 客户端与独立消融实验
-- [x] DeepSeek 查询理解客户端
-- [x] Visual fusion 召回方法
-- [x] 上下文预算与 chunk 排序工具
-
-### 评估
-- [x] 20 题 Notebook 评估集（15 开发 + 5 保留）
-- [x] Dense baseline（Recall@8=0.95, MRR=0.875）
-- [x] 4 种策略消融实验（Dense、RRF、RRF+Outline、RRF+Outline+Rerank）
-- [x] 确认 RRF 为当前正式入口默认策略
-- [x] 验证 RRF+Outline+Rerank 实验路径的精度上限
-- [x] 分析并禁用 Outline 召回
+### 已验证组件与原型
+- [x] Qwen Rerank、DeepSeek 查询理解、visual fusion 和上下文预算组件
+- [x] PDF/PPTX Parser 与 Chunker 初版原型
+- [x] Colab T4 文档预处理 Notebook
+- [x] 32 页幻灯片 PDF 实测；确认 Markdown 标题切分会破坏页内连续性，图片只保留占位符
+- [x] 确定 PDF/PPTX 统一采用 SlideDeck 数据模型
 
 ---
 
-## 进行中 🚧
+## 当前阶段：统一幻灯片预处理 🚧
 
-### 完整 Notebook 检索链路
-- [ ] 修复正式入口的候选保留逻辑，接入可配置的 Qwen Rerank
-- [ ] 接入可配置的 DeepSeek 查询理解；始终保留原始 query
-- [ ] 将 visual_dense 召回与文本候选融合，并建立图表题评估
-- [ ] 补齐相邻 chunk ID 与版本溯源，接入上下文扩展和预算控制
-- [ ] 通过 `/api/rag/search` 重新运行固定评估集，记录各步骤增量收益
+- [x] 定义 `SlideDeck`、`Slide`、`SlideAsset` 及稳定 ID、页码/幻灯片号、位置和相邻关系
+- [x] PDF 改为原生文本优先、稀疏页 OCR 回退，并保存整页截图和图片/表格资源
+- [x] PPTX 保留文本框、图片、表格和布局；可通过 LibreOffice 生成整页截图
+- [x] 实现统一 `SlideChunker`：一页/一张为基础 Chunk，仅拆分超长页
+- [x] 标注重复 Logo 和小型角落装饰；暂不逐图生成向量
+- [x] 输出可回传本地的 `deck.json + chunks.json + slides/ + assets/` 预处理包
+- [x] 锁定文档依赖，并建立无个人路径的 PDF/PPTX 自动化测试
+- [ ] 用代表性 PDF 与 PPTX 复测文本连续性、资源溯源和处理耗时
 
-### PDF/PPTX 支持
-- [x] 实现 PDFParser/PDFChunker 原型（Docling Markdown 文本路径）
-- [x] 实现 PPTXParser/PPTXChunker 原型（一张幻灯片一个 chunk）
-- [ ] 在 `pyproject.toml`/lockfile 声明并锁定 Docling、python-pptx
-- [ ] 建立无个人绝对路径、可快速重复的解析与切块测试
-- [ ] 补齐 PDF 页码、表格/图片资源和 PPTX 幻灯片号、表格/图片溯源
-- [ ] 修复跨文档稳定 section/chunk/representation ID
-- [ ] 统一 Parser/Chunker Protocol，并按文件类型分派
-- [ ] 集成到 SQLite、Qdrant 和索引 API
+## 下一阶段：Embedding 与索引
 
-### 评估扩展
-- [ ] 准备 PDF/PPT 评估集（20-30 题）
-- [ ] 扩展 Notebook 评估集到 60 题
+- [ ] 幻灯片文字调用 Qwen text dense+sparse Embedding
+- [ ] 有视觉信息的整页截图调用 Qwen 多模态 Embedding
+- [ ] 将 SlideDeck 接入 SQLite、Qdrant、文件类型分派和索引 API
+- [ ] 建立 20–30 题幻灯片检索集，验证文本、视觉与融合召回
 
----
+## 后续：完整检索与回答
 
-## 待完成 📋
+- [ ] 接通可配置的 Rerank、DeepSeek 查询理解、视觉召回和相邻上下文
+- [ ] 使用固定评估集记录每一步的精度与延迟收益
+- [ ] 接入基于检索证据的 DeepSeek 回答与来源引用
+- [ ] 增加文件上传、检索结果和来源追溯界面
 
-### 短期
+## 延后事项
 
-**PDF/PPTX 完善**
-- [ ] 优化 PDF 跨页内容处理
-- [ ] 实现图表与文字关联
-- [ ] 支持 PDF 表格解析
-- [ ] 评估 PDF 检索效果（目标 Recall@8 ≥ 0.90）
-
-**检索优化**
-- [ ] 实现查询结果缓存（本地文件/内存）
-- [ ] 优化 Rerank 延迟（批量调用、top-N 过滤）
-- [ ] 实现基础查询日志（延迟、命中情况）
-
-**评估完善**
-- [ ] 实现 LLM-as-Judge 自动评估（Context Precision/Recall）
-- [ ] 完成 80-100 题评估集（Notebook + PDF/PPT）
-- [ ] 增加难度分层和多模态查询
-
-### 中期
-
-**高级功能**
-- [ ] 重新设计 Document Outline（分离 pipeline，仅用于文档发现）
-
-**回答生成**
-- [ ] 扩展 DeepSeek 客户端并接入回答生成
-- [ ] 实现基于检索证据的回答生成
-- [ ] 评估回答质量（Faithfulness、Relevance）
-
-### 未来规划
-
-**Web 界面**
-- [ ] 文件上传接口
-- [ ] 检索结果展示
-- [ ] 来源追溯可视化
-
-**云端部署（可选）**
-- [ ] 评估 Qdrant Cloud 方案
-- [ ] 对象存储集成
-- [ ] 服务部署与运维
+- 查询缓存、复杂监控、压力测试和云端迁移在本地链路稳定后再评估。
+- Document Outline 仅保留为文档发现候选，不进入当前召回主线。
 
 ---
 
-## 已放弃 ❌
+**最后更新**：2026-09-30
 
-- ~~在线监控和用户满意度反馈~~（过度工程化）
-- ~~压力测试（并发 QPS、大规模索引）~~（过度工程化）
-- ~~A/B 测试框架~~（过度工程化）
-- ~~复杂的限流、降级策略~~（过度工程化）
-
----
-
-**最后更新**：2026-09-29  
-**当前重点**：先完成 Notebook 正式检索链路，再稳定并接入 PDF/PPTX
+**当前重点**：先完成统一 SlideDeck 预处理并验证质量，再开始幻灯片 Embedding。

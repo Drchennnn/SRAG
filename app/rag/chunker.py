@@ -298,7 +298,7 @@ class NotebookChunker:
     def _split_group(self, group: CellGroup, max_tokens: int) -> list[_GroupPiece]:
         if group.token_count <= max_tokens:
             return [_group_piece(group)]
-        texts = _split_text(
+        texts = split_text_by_tokens(
             group.display_text,
             max_tokens,
             overlap_tokens=min(self.overlap_tokens, max(0, max_tokens - 1)),
@@ -404,7 +404,10 @@ def _build_outline(document: ParsedDocument, sections: list[SectionRecord]) -> s
     return "\n\n".join(parts)
 
 
-def _split_text(text: str, max_tokens: int, *, overlap_tokens: int = 0) -> list[str]:
+def split_text_by_tokens(
+    text: str, max_tokens: int, *, overlap_tokens: int = 0
+) -> list[str]:
+    """按段落、行和句子边界切分文本，必要时按 Token 硬切。"""
     units = [unit for unit in _logical_units(text, max_tokens) if unit.strip()]
     if not units:
         return []

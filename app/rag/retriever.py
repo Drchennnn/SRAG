@@ -10,7 +10,7 @@ from qdrant_client import models
 from app.clients.dashscope import DashScopeClient
 from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
-from app.rag.fusion import merge_and_deduplicate, reciprocal_rank_fusion
+from app.rag.fusion import reciprocal_rank_fusion
 from app.schemas.embedding import EmbeddingVector, SparseValue
 from app.schemas.rag import SearchHit, SearchRequest, SearchResponse, SourceReference
 from app.stores.qdrant import QdrantStore
