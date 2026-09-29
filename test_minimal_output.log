@@ -1,0 +1,26 @@
+warning: `VIRTUAL_ENV=/Users/Link/miniforge3/envs/BY` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
+[32m[INFO] 2026-09-29 19:13:03,721 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-09-29 19:13:03,725 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-09-29 19:13:03,734 [RapidOCR] download_file.py:60: File exists and is valid: /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-09-29 19:13:03,734 [RapidOCR] main.py:50: Using /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_det_small.pth[0m
+[32m[INFO] 2026-09-29 19:13:03,847 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-09-29 19:13:03,847 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-09-29 19:13:03,849 [RapidOCR] download_file.py:60: File exists and is valid: /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-09-29 19:13:03,849 [RapidOCR] main.py:50: Using /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
+[32m[INFO] 2026-09-29 19:13:03,893 [RapidOCR] base.py:23: Using engine_name: torch[0m
+[32m[INFO] 2026-09-29 19:13:03,893 [RapidOCR] device_config.py:57: Using CPU device[0m
+[32m[INFO] 2026-09-29 19:13:03,907 [RapidOCR] download_file.py:60: File exists and is valid: /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_rec_small.pth[0m
+[32m[INFO] 2026-09-29 19:13:03,907 [RapidOCR] main.py:50: Using /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_rec_small.pth[0m
+
+🧪 PDF/PPTX 切分质量测试 (最小化)
+
+
+======================================================================
+测试 PDF: Lecture2a.pdf
+文件大小: 1.8 MB
+======================================================================
+
+⏳ 解析中...
+Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  62%|██████▏   | 477/770 [00:00<00:00, 4762.53it/s]Loading weights: 100%|██████████| 770/770 [00:00<00:00, 5414.42it/s]
+/Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/torch/nn/modules/conv.py:560: UserWarning: Using padding='same' with even kernel lengths and odd dilation may require a zero-padded copy of the input be created (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/Convolution.cpp:1105.)
+  return F.conv2d(
