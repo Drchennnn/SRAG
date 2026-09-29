@@ -6,7 +6,7 @@ SRAG 是一个面向课程资料的本地优先 RAG 项目。当前聚焦 Jupyte
 
 ## 当前状态
 
-Notebook 最小检索闭环已经完成：
+Notebook 最小检索闭环已经完成，PDF/PPTX 支持实现完成（待验证）：
 
 - 只读解析 `.ipynb`，保留 Markdown、代码、输出、HTML 表格、图片和原始 cell 顺序。
 - 按标题段和 Cell Group 自适应切块，代码与对应输出保持关联。
@@ -18,6 +18,7 @@ Notebook 最小检索闭环已经完成：
 - 支持未变化文件跳过 Embedding、新版本原子切换、旧向量清理和文档删除。
 - 真实课件验证了中文问题检索英文内容，以及文件、章节和 cell 来源回溯。
 - 已建立 20 题 Notebook 检索基线，并记录原始 query 的 dense Top 8 结果。
+- **PDF/PPTX 解析与切块已实现**（PDFParser、PPTXParser、PDFChunker、PPTXChunker），待验证切分质量。
 
 当前检索支持：
 - **Dense + Sparse RRF 融合**：并行召回并融合，达到 100% Recall@8

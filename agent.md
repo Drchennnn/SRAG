@@ -6,7 +6,7 @@
 
 更新时间：2026-09-29
 
-- 阶段：检索增强和多模态上下文已完成，消融实验已完成并识别最优策略，Outline 问题已分析并暂时禁用。
+- 阶段：PDF/PPTX 支持实现完成，待验证切分质量。
 - 已完成：
   - 数据生命周期（版本管理、增量索引、发布日期控制）
   - 20 题评估集（15 开发 + 5 保留，覆盖 7 份 ML/X AI Notebook）
@@ -15,16 +15,17 @@
   - 多模态与上下文：Visual fusion 索引与召回、上下文回取与预算管理
   - 消融实验：对比 4 种策略，识别 RRF 为最优性价比，Rerank 为最高精度
   - Outline 问题根因分析：包含关键词但无答案内容，在 RRF 中得分过高
+  - **PDF/PPTX 解析与切块**：PDFParser、PPTXParser、PDFChunker、PPTXChunker
 - 当前目标：
-  - 扩展评估集到 60-100 题（难度分层、多模态查询）
-  - 优化 Rerank 延迟（缓存、批量调用）
-  - 实现查询日志和监控
+  - 验证 PDF/PPTX 切分质量（测试转移到 Kaggle 运行）
+  - 统一 Parser/Chunker Protocol
+  - 集成到索引 API
 - 后续：
-  - 接入 PDF/PPT 解析后，重新评估 Outline 的文档发现价值
-  - 考虑分离 pipeline：Outline 用于文档发现，不参与精确答案排序
-  - 实现 LLM-as-Judge 自动评估
+  - 扩展评估集到 60-100 题（Notebook + PDF/PPT）
+  - 优化 Rerank 延迟（缓存、批量调用）
+  - 重新设计 Outline（分离 pipeline 或最小化）
   - 验证视觉召回效果
-- 阻塞：无。所有核心功能已实现并评估完成。
+- 阻塞：无。PDF 测试因 Docling 处理慢转移到 Kaggle。
 - 评估结论：
   - **推荐默认策略**：RRF（Recall@1=0.85, Recall@8=1.00, 延迟=829ms）
   - **高精度场景**：RRF+Rerank（Recall@1=0.90, MRR=0.950, 延迟=2140ms）
@@ -60,3 +61,4 @@
 | 2026-09-29 | 完成多模态与上下文：实现 visual fusion 表示索引与召回、上下文回取（相邻 chunk、原图原表）、上下文预算管理；视觉召回默认关闭，可通过配置启用。 |
 | 2026-09-29 | 完成消融实验：对比 Dense、RRF、RRF+Outline、RRF+Outline+Rerank 四种策略；RRF 提升 Recall@1 至 0.85 并达到 100% Recall@8；Rerank 进一步提升至 Recall@1=0.90、MRR=0.950；识别 Outline 融合问题导致严重退化（Recall@1 降至 0.00），需修复后再启用。推荐默认采用 RRF 策略。 |
 | 2026-09-29 | 分析 Outline 问题根本原因：Document outline 包含所有章节标题和关键词，在 Dense 和 Sparse 两路召回中都得分高，经 RRF 融合后系统性排在精确 text_content 前面，但 outline 只有标题无具体答案内容，导致用户查询无法匹配到正确 chunk。当前方案：完全禁用 Outline 召回，待 PDF/PPT 接入后再评估是否需要分离 pipeline 实现文档发现功能。 |
+| 2026-09-29 | 设计并实现 PDF/PPTX 解析与切块：PDFParser（Docling 语义切分）、PPTXParser（python-pptx）、PDFChunker（120-450 tokens）、PPTXChunker（一张幻灯片一个 chunk）；修复 ContentBlock 字段问题；测试因 Docling 处理慢转移到 Kaggle 运行。 |
