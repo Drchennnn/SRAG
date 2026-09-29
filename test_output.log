@@ -1,28 +1,0 @@
-warning: `VIRTUAL_ENV=/Users/Link/miniforge3/envs/BY` does not match the project environment path `.venv` and will be ignored; use `--active` to target the active environment instead
-[32m[INFO] 2026-09-29 19:10:19,843 [RapidOCR] base.py:23: Using engine_name: torch[0m
-[32m[INFO] 2026-09-29 19:10:19,846 [RapidOCR] device_config.py:57: Using CPU device[0m
-[32m[INFO] 2026-09-29 19:10:19,854 [RapidOCR] download_file.py:60: File exists and is valid: /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_det_small.pth[0m
-[32m[INFO] 2026-09-29 19:10:19,854 [RapidOCR] main.py:50: Using /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_det_small.pth[0m
-[32m[INFO] 2026-09-29 19:10:19,957 [RapidOCR] base.py:23: Using engine_name: torch[0m
-[32m[INFO] 2026-09-29 19:10:19,957 [RapidOCR] device_config.py:57: Using CPU device[0m
-[32m[INFO] 2026-09-29 19:10:19,959 [RapidOCR] download_file.py:60: File exists and is valid: /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
-[32m[INFO] 2026-09-29 19:10:19,959 [RapidOCR] main.py:50: Using /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/ch_ptocr_mobile_v2.0_cls_mobile.pth[0m
-[32m[INFO] 2026-09-29 19:10:19,998 [RapidOCR] base.py:23: Using engine_name: torch[0m
-[32m[INFO] 2026-09-29 19:10:19,998 [RapidOCR] device_config.py:57: Using CPU device[0m
-[32m[INFO] 2026-09-29 19:10:20,014 [RapidOCR] download_file.py:60: File exists and is valid: /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_rec_small.pth[0m
-[32m[INFO] 2026-09-29 19:10:20,014 [RapidOCR] main.py:50: Using /Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/rapidocr/models/PP-OCRv6_rec_small.pth[0m
-
-🧪 PDF/PPTX 切分质量测试
-
-
-============================================================
-测试 PDF: Lecture1 Intro.pdf
-文件大小: 1347.0 KB
-============================================================
-
-⏳ 正在解析 PDF...
-Loading weights:   0%|          | 0/770 [00:00<?, ?it/s]Loading weights:  96%|█████████▌| 740/770 [00:00<00:00, 7360.70it/s]Loading weights: 100%|██████████| 770/770 [00:00<00:00, 7447.38it/s]
-/Users/Link/code/SRAG/.venv/lib/python3.14/site-packages/torch/nn/modules/conv.py:560: UserWarning: Using padding='same' with even kernel lengths and odd dilation may require a zero-padded copy of the input be created (Triggered internally at /Users/runner/work/pytorch/pytorch/aten/src/ATen/native/Convolution.cpp:1105.)
-  return F.conv2d(
-/Users/Link/.local/share/uv/python/cpython-3.14.7-macos-aarch64-none/lib/python3.14/multiprocessing/resource_tracker.py:475: UserWarning: resource_tracker: There appear to be 1 leaked semaphore objects to clean up at shutdown: {'/mp-blq017ot'}
-  warnings.warn(

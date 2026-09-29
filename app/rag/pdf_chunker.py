@@ -38,9 +38,6 @@ class PDFChunker:
 
         基于标题段进行切分，类似 Notebook。
         """
-        if document.file_type != "pdf":
-            raise ValueError(f"PDFChunker 只支持 PDF 文档，当前类型：{document.file_type}")
-
         chunks: list[NotebookChunk] = []
         chunk_index = 0
 

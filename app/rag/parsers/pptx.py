@@ -70,9 +70,7 @@ class PPTXParser:
             document_id=document_id,
             source_path=str(file_path),
             title=document_title,
-            file_type="pptx",
             blocks=blocks,
-            assets=[],
         )
 
     def _extract_slide_title(self, slide) -> str:

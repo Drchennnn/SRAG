@@ -39,7 +39,7 @@ class PDFParser:
         markdown_text = result.document.export_to_markdown()
 
         # 提取文档元信息
-        document_title = result.document.title or file_path.stem
+        document_title = file_path.stem  # Docling 的 DoclingDocument 没有 title 属性
         document_id = f"document_{self._compute_hash(file_path)}"
 
         # 解析 Markdown 为结构化 blocks
@@ -49,9 +49,7 @@ class PDFParser:
             document_id=document_id,
             source_path=str(file_path),
             title=document_title,
-            file_type="pdf",
             blocks=blocks,
-            assets=[],  # Docling 图片提取在后续版本实现
         )
 
     def _parse_markdown_to_blocks(

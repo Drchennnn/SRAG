@@ -1,4 +1,4 @@
-"""最小化测试：只测试1个PDF和1个PPTX来验证切分质量。"""
+"""测试 PDF/PPTX 解析和切块质量。"""
 
 from pathlib import Path
 
@@ -48,9 +48,8 @@ def analyze_chunks(chunks, file_type):
         print(f"     ... (共 {len(chunk.embedding_text.split('\n'))} 行)")
 
 
-def test_one_pdf():
-    """只测试一个小PDF。"""
-    # 选择一个相对较小的 PDF
+def test_pdf_quality():
+    """测试 PDF 切分质量。"""
     pdf_path = Path("/Users/Link/Course/CS5495 X AI/Lecture2/Lecture2a.pdf")
 
     if not pdf_path.exists():
@@ -89,8 +88,8 @@ def test_one_pdf():
         return False
 
 
-def test_one_pptx():
-    """只测试一个PPTX。"""
+def test_pptx_quality():
+    """测试 PPTX 切分质量。"""
     pptx_path = Path("/Users/Link/Course/CS5489 Machine learning/CS5489_Machine_Learning/课程笔记.pptx")
 
     if not pptx_path.exists():
@@ -130,10 +129,10 @@ def test_one_pptx():
 
 
 if __name__ == "__main__":
-    print("\n🧪 PDF/PPTX 切分质量测试 (最小化)\n")
+    print("\n🧪 PDF/PPTX 切分质量测试\n")
 
-    pdf_ok = test_one_pdf()
-    pptx_ok = test_one_pptx()
+    pdf_ok = test_pdf_quality()
+    pptx_ok = test_pptx_quality()
 
     print(f"\n{'='*70}")
     print("📊 测试总结")

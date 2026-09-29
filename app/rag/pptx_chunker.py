@@ -25,9 +25,6 @@ class PPTXChunker:
 
         每张幻灯片作为一个独立的 chunk。
         """
-        if document.file_type != "pptx":
-            raise ValueError(f"PPTXChunker 只支持 PPTX 文档，当前类型：{document.file_type}")
-
         chunks: list[NotebookChunk] = []
 
         for block in document.blocks:
