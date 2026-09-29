@@ -97,7 +97,7 @@ class PPTXParser:
         slide_image_dir: Path,
     ) -> Slide:
         slide_id = f"{document_id}-slide-{slide_no:04d}"
-        title = _extract_slide_title(slide)
+        title = _extract_slide_title(slide, slide_height)
         elements: list[SlideElement] = []
         assets: list[SlideAsset] = []
 
@@ -142,9 +142,18 @@ def _iter_shapes(shapes: Any) -> Iterable[Any]:
             yield from _iter_shapes(shape.shapes)
 
 
-def _extract_slide_title(slide: Any) -> str:
+def _extract_slide_title(slide: Any, slide_height: float) -> str:
     title_shape = slide.shapes.title
-    return title_shape.text.strip() if title_shape and title_shape.text else ""
+    if title_shape and title_shape.text.strip():
+        return title_shape.text.strip()
+    candidates = [
+        shape
+        for shape in _iter_shapes(slide.shapes)
+        if (text := getattr(shape, "text", "").strip())
+        and len(text) <= 120
+        and float(shape.top) / slide_height <= 0.18
+    ]
+    return min(candidates, key=lambda shape: shape.top).text.strip() if candidates else ""
 
 
 def _shape_kind(shape: Any, slide_title: str) -> SlideElementKind:
@@ -207,9 +216,7 @@ def _save_picture(
         return None
     blob = image.blob
     digest = hashlib.sha256(blob).hexdigest()
-    path = asset_dir / (
-        f"{slide_id}-asset-{shape_index:04d}-{digest[:12]}.{image.ext or 'bin'}"
-    )
+    path = asset_dir / (f"{slide_id}-asset-{shape_index:04d}-{digest[:12]}.{image.ext or 'bin'}")
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_bytes(blob)
     return SlideAsset(
@@ -238,9 +245,7 @@ def _link_slides(slides: list[Slide]) -> list[Slide]:
         slide.model_copy(
             update={
                 "previous_slide_id": slides[index - 1].slide_id if index else None,
-                "next_slide_id": (
-                    slides[index + 1].slide_id if index + 1 < len(slides) else None
-                ),
+                "next_slide_id": (slides[index + 1].slide_id if index + 1 < len(slides) else None),
             }
         )
         for index, slide in enumerate(slides)

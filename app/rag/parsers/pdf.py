@@ -70,12 +70,9 @@ class PDFParser:
             for page_no in sorted(document.pages)
         ]
         if self.enable_ocr_fallback:
-            slides = self._replace_sparse_pages_with_ocr(
+            slides = self._supplement_sparse_pages_with_ocr(
                 slides,
                 file_path=file_path,
-                document_id=document_id,
-                asset_dir=asset_dir,
-                slide_dir=slide_dir,
             )
         return SlideDeck(
             document_id=document_id,
@@ -100,9 +97,7 @@ class PDFParser:
         slide_no = logical_slide_no or page_no
         slide_id = f"{document_id}-slide-{slide_no:04d}"
         page = document.pages[page_no]
-        page_image_path = _save_page_image(
-            page, slide_dir / f"slide-{slide_no:04d}.png"
-        )
+        page_image_path = _save_page_image(page, slide_dir / f"slide-{slide_no:04d}.png")
         elements: list[SlideElement] = []
         assets: list[SlideAsset] = []
         title: str | None = None
@@ -149,21 +144,23 @@ class PDFParser:
             page_image_path=page_image_path,
         )
 
-    def _replace_sparse_pages_with_ocr(
+    def _supplement_sparse_pages_with_ocr(
         self,
         slides: list[Slide],
         *,
         file_path: Path,
-        document_id: str,
-        asset_dir: Path,
-        slide_dir: Path,
     ) -> list[Slide]:
+        from docling_core.types.doc import TextItem
+
         from app.rag.chunker import estimate_token_count
 
-        replaced = list(slides)
+        supplemented = list(slides)
         for index, slide in enumerate(slides):
             text = "\n".join(element.text for element in slide.elements)
             if estimate_token_count(text) >= self.ocr_min_text_tokens:
+                continue
+            # 有原生标题和图像的幻灯片本来就可能文字很少，画面不应被 OCR 噪声替代。
+            if slide.title or (slide.assets and text.strip()):
                 continue
             result = self._get_ocr_converter().convert(
                 file_path, page_range=(slide.slide_no, slide.slide_no)
@@ -171,16 +168,33 @@ class PDFParser:
             ocr_document = result.document
             if not ocr_document.pages:
                 continue
-            parsed = self._parse_page(
-                ocr_document,
-                next(iter(ocr_document.pages)),
-                document_id=document_id,
-                asset_dir=asset_dir,
-                slide_dir=slide_dir,
-                logical_slide_no=slide.slide_no,
-            )
-            replaced[index] = parsed
-        return replaced
+            page_no = next(iter(ocr_document.pages))
+            page = ocr_document.pages[page_no]
+            native_texts = {
+                element.text.strip().casefold() for element in slide.elements if element.text
+            }
+            additions: list[SlideElement] = []
+            for item, _ in ocr_document.iterate_items(page_no=page_no):
+                if not isinstance(item, TextItem):
+                    continue
+                value = item.text.strip()
+                normalized = value.casefold()
+                if len(value) < 4 or normalized in native_texts:
+                    continue
+                native_texts.add(normalized)
+                additions.append(
+                    SlideElement(
+                        element_id=f"{slide.slide_id}-ocr-{len(additions) + 1:04d}",
+                        kind=SlideElementKind.TEXT,
+                        text=value,
+                        bbox=_docling_bbox(item, page.size),
+                    )
+                )
+            if estimate_token_count("\n".join(item.text for item in additions)) >= 4:
+                supplemented[index] = slide.model_copy(
+                    update={"elements": [*slide.elements, *additions]}
+                )
+        return supplemented
 
     def _get_native_converter(self) -> Any:
         if self._native_converter is None:
@@ -199,9 +213,7 @@ class PDFParser:
                 images_scale=2.0,
             )
             self._native_converter = DocumentConverter(
-                format_options={
-                    InputFormat.PDF: NativePdfFormatOption(pipeline_options=options)
-                }
+                format_options={InputFormat.PDF: NativePdfFormatOption(pipeline_options=options)}
             )
         return self._native_converter
 
@@ -313,9 +325,7 @@ def _link_slides(slides: list[Slide]) -> list[Slide]:
         slide.model_copy(
             update={
                 "previous_slide_id": slides[index - 1].slide_id if index else None,
-                "next_slide_id": (
-                    slides[index + 1].slide_id if index + 1 < len(slides) else None
-                ),
+                "next_slide_id": (slides[index + 1].slide_id if index + 1 < len(slides) else None),
             }
         )
         for index, slide in enumerate(slides)

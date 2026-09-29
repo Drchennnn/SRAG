@@ -15,8 +15,7 @@ from pptx import Presentation  # noqa: E402
 from pptx.util import Inches  # noqa: E402
 
 _PNG = base64.b64decode(
-    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB"
-    "9Y9Z4QAAAABJRU5ErkJggg=="
+    "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8/x8AAusB9Y9Z4QAAAABJRU5ErkJggg=="
 )
 
 
@@ -57,3 +56,26 @@ def test_pptx_preprocessor_exports_portable_deck_and_chunks(tmp_path: Path) -> N
     assert result.chunks_path.exists()
     payload = json.loads(result.deck_path.read_text(encoding="utf-8"))
     assert payload["slides"][0]["assets"][0]["path"].startswith("assets/")
+
+
+def test_pptx_title_falls_back_to_top_text_box(tmp_path: Path) -> None:
+    path = tmp_path / "without-title-placeholder.pptx"
+    presentation = Presentation()
+    slide = presentation.slides.add_slide(presentation.slide_layouts[6])
+    body = slide.shapes.add_textbox(Inches(1), Inches(2), Inches(5), Inches(2))
+    body.text = "Examples of segmentation and recognition"
+    title = slide.shapes.add_textbox(Inches(0.5), Inches(0.2), Inches(5), Inches(1))
+    title.text = "Computer Vision"
+    presentation.save(path)
+
+    result = SlideDeckPreprocessor(
+        output_root=tmp_path / "output",
+        chunker=SlideChunker(),
+        render_pptx_slides=False,
+    ).preprocess(path)
+
+    assert result.deck.slides[0].title == "Computer Vision"
+    assert any(
+        element.kind is SlideElementKind.TITLE and element.text == "Computer Vision"
+        for element in result.deck.slides[0].elements
+    )
