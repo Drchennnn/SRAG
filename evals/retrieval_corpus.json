@@ -1,0 +1,37 @@
+[
+  {
+    "course_id": "CS5489",
+    "source_path": "CS5489 Machine learning/Lecture1/Lecture1a.ipynb",
+    "sha256": "229377b2eeccb8b4515e901180032d89fab4e7de8efd0af482bb0908428b4d59"
+  },
+  {
+    "course_id": "CS5489",
+    "source_path": "CS5489 Machine learning/Lecture1/Lecture1b.ipynb",
+    "sha256": "fa6310ac60a8c73af4fb978a7c9d8bb5c72afc5eb54d26036cc4061f04f982f6"
+  },
+  {
+    "course_id": "CS5489",
+    "source_path": "CS5489 Machine learning/Lecture2/Lecture2a.ipynb",
+    "sha256": "6a5bdbb38f020c1ba65b5e34d41de563fcf66faadb19b7257ec13c6b985003c0"
+  },
+  {
+    "course_id": "CS5489",
+    "source_path": "CS5489 Machine learning/Lecture2/Lecture2b.ipynb",
+    "sha256": "32132b01adfa64b12615ba751bf1f3ca6824339393d014cd5b38dbc56905ab12"
+  },
+  {
+    "course_id": "CS5489",
+    "source_path": "CS5489 Machine learning/Lecture3/Lecture3a.ipynb",
+    "sha256": "accf966e3d45d901612fbb7569450aa678ff0079c00146b9a17c7047f5a2f84f"
+  },
+  {
+    "course_id": "CS5489",
+    "source_path": "CS5489 Machine learning/Lecture4/Lecture4a.ipynb",
+    "sha256": "262f5528e9d828491e4e6a9740d9f68d71463656f61b7f1e322452d65a482679"
+  },
+  {
+    "course_id": "CS5495",
+    "source_path": "CS5495 X AI/Lecture3/Lecture3a.ipynb",
+    "sha256": "e70d1e5cfd29a84b1b7d8d86337e28ef689f6a0988ad3490204059b142efde50"
+  }
+]

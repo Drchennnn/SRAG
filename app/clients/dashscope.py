@@ -27,6 +27,7 @@ _EMBEDDING_PATH = "/services/embeddings/text-embedding/text-embedding"
 _MULTIMODAL_EMBEDDING_PATH = (
     "/services/embeddings/multimodal-embedding/multimodal-embedding"
 )
+_RERANK_PATH = "/services/rerank/text-rerank/text-rerank"
 _RETRYABLE_STATUS_CODES = {408, 409, 429, 500, 502, 503, 504}
 _SUPPORTED_VISUAL_MEDIA_TYPES = {
     "image/png",
@@ -291,6 +292,58 @@ class DashScopeClient:
         request_id = data.get("request_id")
         return vectors, int(total_tokens), request_id if isinstance(request_id, str) else None
 
+    async def rerank(
+        self,
+        query: str,
+        documents: Sequence[str],
+        *,
+        top_n: int | None = None,
+    ) -> list[tuple[int, float]]:
+        """使用 Qwen rerank API 对候选文档重排序。
+
+        Args:
+            query: 用户查询
+            documents: 候选文档列表
+            top_n: 返回前 N 个结果，None 表示返回全部
+
+        Returns:
+            [(原始索引, 相关性得分)] 列表，按得分降序排列
+        """
+        if not query.strip():
+            raise ValueError("rerank 查询不能为空")
+        if not documents:
+            return []
+        if top_n is not None and top_n < 1:
+            raise ValueError("top_n 必须大于等于 1")
+
+        payload = {
+            "model": self.rerank_model,
+            "input": {
+                "query": query.strip(),
+                "documents": [doc.strip() for doc in documents],
+            },
+        }
+        if top_n is not None:
+            payload["parameters"] = {"top_n": min(top_n, len(documents))}
+
+        headers = {
+            "Authorization": f"Bearer {self.require_api_key()}",
+            "Content-Type": "application/json",
+        }
+
+        async with httpx.AsyncClient(
+            timeout=self.timeout_seconds,
+            transport=self.transport,
+        ) as client:
+            data = await self._post_with_retry(
+                client,
+                headers,
+                payload,
+                endpoint=_RERANK_PATH,
+            )
+
+        return self._parse_rerank_response(data)
+
     def _parse_multimodal_embedding_response(
         self,
         data: dict[str, object],
@@ -325,3 +378,25 @@ class DashScopeClient:
             total_tokens=int(total_tokens),
             request_ids=[request_id] if isinstance(request_id, str) else [],
         )
+
+    @staticmethod
+    def _parse_rerank_response(data: dict[str, object]) -> list[tuple[int, float]]:
+        """解析 rerank API 响应。"""
+        output = data.get("output")
+        if not isinstance(output, dict):
+            raise RuntimeError("DashScope rerank 响应缺少 output")
+        results = output.get("results")
+        if not isinstance(results, list):
+            raise RuntimeError("DashScope rerank 响应缺少 results")
+
+        ranked: list[tuple[int, float]] = []
+        for item in results:
+            if not isinstance(item, dict):
+                raise RuntimeError("DashScope rerank 返回了无效的结果项")
+            index = item.get("index")
+            score = item.get("relevance_score")
+            if not isinstance(index, int) or not isinstance(score, (int, float)):
+                raise RuntimeError("DashScope rerank 结果缺少有效的 index 或 relevance_score")
+            ranked.append((index, float(score)))
+
+        return ranked

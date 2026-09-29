@@ -163,7 +163,89 @@ class QdrantStore:
 
             points.append(
                 models.PointStruct(
-                    id=_point_id(representation.representation_id),
+                    id=_point_id(representation.representation_id, version),
+                    vector=vector,
+                    payload=payload,
+                )
+            )
+
+        for start in range(0, len(points), _UPSERT_BATCH_SIZE):
+            await self.client.upsert(
+                collection_name=self.collection,
+                points=points[start : start + _UPSERT_BATCH_SIZE],
+                wait=True,
+            )
+        return len(points)
+
+    async def upsert_visual_representations(
+        self,
+        prepared: PreparedDocumentIndex,
+        *,
+        course_id: str,
+        version: int = 1,
+        release_at: datetime | None = None,
+    ) -> int:
+        """将一个文档的视觉融合表示写入 Qdrant。"""
+
+        clean_course_id = course_id.strip()
+        if not clean_course_id:
+            raise ValueError("course_id 不能为空")
+        if version < 1:
+            raise ValueError("version 必须大于等于 1")
+
+        await self.ensure_collection()
+        chunks = {chunk.chunk_id: chunk for chunk in prepared.chunks}
+        release_value = _serialize_datetime(release_at) if release_at else None
+        points: list[models.PointStruct] = []
+
+        for embedded in prepared.visual_representations:
+            representation = embedded.representation
+            if len(embedded.dense) != self.visual_dimension:
+                raise ValueError(
+                    f"视觉向量 {representation.representation_id!r} 维度应为 "
+                    f"{self.visual_dimension}，实际为 {len(embedded.dense)}"
+                )
+
+            vector: dict[str, list[float]] = {
+                VISUAL_DENSE_VECTOR: embedded.dense,
+            }
+
+            payload: dict[str, object] = {
+                "schema_version": COLLECTION_SCHEMA_VERSION,
+                "course_id": clean_course_id,
+                "document_id": prepared.document_id,
+                "source_path": prepared.source_path,
+                "title": prepared.title,
+                "version": version,
+                "representation_id": representation.representation_id,
+                "representation_type": representation.representation_type.value,
+                "source_id": representation.source_id,
+                "content": representation.context_text,
+                "image_path": representation.image_path,
+                "media_type": representation.media_type,
+                "embedding_model": prepared.visual_embedding_model,
+            }
+            if release_value:
+                payload["release_at"] = release_value
+
+            # 关联到对应的 chunk
+            chunk = chunks.get(representation.chunk_id)
+            if chunk is not None:
+                payload.update(
+                    {
+                        "chunk_id": chunk.chunk_id,
+                        "section_id": chunk.section_id,
+                        "section_path": chunk.section_path,
+                        "group_ids": chunk.group_ids,
+                        "block_ids": chunk.block_ids,
+                        "cell_ids": chunk.cell_ids,
+                        "chunk_kind": chunk.kind.value,
+                    }
+                )
+
+            points.append(
+                models.PointStruct(
+                    id=_point_id(representation.representation_id, version),
                     vector=vector,
                     payload=payload,
                 )
@@ -184,6 +266,7 @@ class QdrantStore:
         limit: int,
         course_ids: Sequence[str] = (),
         document_ids: Sequence[str] = (),
+        visible_versions: Sequence[tuple[str, int]] | None = None,
     ) -> list[models.ScoredPoint]:
         """在 text_dense 空间召回正文 chunk，不包含 document outline。"""
 
@@ -195,7 +278,7 @@ class QdrantStore:
             raise ValueError("dense 召回数量必须在 1 到 50 之间")
 
         await self.ensure_collection()
-        conditions: list[models.FieldCondition] = [
+        conditions: list[models.Condition] = [
             models.FieldCondition(
                 key="representation_type",
                 match=models.MatchValue(value=RepresentationType.TEXT_CONTENT.value),
@@ -217,6 +300,35 @@ class QdrantStore:
                     match=models.MatchAny(any=clean_document_ids),
                 )
             )
+        if visible_versions is not None:
+            clean_versions = list(
+                dict.fromkeys(
+                    (document_id.strip(), version)
+                    for document_id, version in visible_versions
+                    if document_id.strip() and version >= 1
+                )
+            )
+            if not clean_versions:
+                return []
+            conditions.append(
+                models.Filter(
+                    should=[
+                        models.Filter(
+                            must=[
+                                models.FieldCondition(
+                                    key="document_id",
+                                    match=models.MatchValue(value=document_id),
+                                ),
+                                models.FieldCondition(
+                                    key="version",
+                                    match=models.MatchValue(value=version),
+                                ),
+                            ]
+                        )
+                        for document_id, version in clean_versions
+                    ]
+                )
+            )
 
         response = await self.client.query_points(
             collection_name=self.collection,
@@ -228,6 +340,394 @@ class QdrantStore:
             with_vectors=False,
         )
         return response.points
+
+    async def search_text_sparse(
+        self,
+        query_sparse: models.SparseVector,
+        *,
+        limit: int,
+        course_ids: Sequence[str] = (),
+        document_ids: Sequence[str] = (),
+        visible_versions: Sequence[tuple[str, int]] | None = None,
+    ) -> list[models.ScoredPoint]:
+        """在 text_sparse 空间召回正文 chunk，不包含 document outline。"""
+
+        if not 1 <= limit <= 50:
+            raise ValueError("sparse 召回数量必须在 1 到 50 之间")
+
+        await self.ensure_collection()
+        conditions: list[models.Condition] = [
+            models.FieldCondition(
+                key="representation_type",
+                match=models.MatchValue(value=RepresentationType.TEXT_CONTENT.value),
+            )
+        ]
+        clean_course_ids = _clean_filter_values(course_ids)
+        clean_document_ids = _clean_filter_values(document_ids)
+        if clean_course_ids:
+            conditions.append(
+                models.FieldCondition(
+                    key="course_id",
+                    match=models.MatchAny(any=clean_course_ids),
+                )
+            )
+        if clean_document_ids:
+            conditions.append(
+                models.FieldCondition(
+                    key="document_id",
+                    match=models.MatchAny(any=clean_document_ids),
+                )
+            )
+        if visible_versions is not None:
+            clean_versions = list(
+                dict.fromkeys(
+                    (document_id.strip(), version)
+                    for document_id, version in visible_versions
+                    if document_id.strip() and version >= 1
+                )
+            )
+            if not clean_versions:
+                return []
+            conditions.append(
+                models.Filter(
+                    should=[
+                        models.Filter(
+                            must=[
+                                models.FieldCondition(
+                                    key="document_id",
+                                    match=models.MatchValue(value=document_id),
+                                ),
+                                models.FieldCondition(
+                                    key="version",
+                                    match=models.MatchValue(value=version),
+                                ),
+                            ]
+                        )
+                        for document_id, version in clean_versions
+                    ]
+                )
+            )
+
+        response = await self.client.query_points(
+            collection_name=self.collection,
+            query=query_sparse,
+            using=TEXT_SPARSE_VECTOR,
+            query_filter=models.Filter(must=conditions),
+            limit=limit,
+            with_payload=True,
+            with_vectors=False,
+        )
+        return response.points
+
+    async def search_document_outline(
+        self,
+        query_vector: list[float],
+        *,
+        limit: int,
+        course_ids: Sequence[str] = (),
+        document_ids: Sequence[str] = (),
+        visible_versions: Sequence[tuple[str, int]] | None = None,
+    ) -> list[models.ScoredPoint]:
+        """在 text_dense 空间召回 document outline 表示。"""
+
+        if len(query_vector) != self.text_dimension:
+            raise ValueError(
+                f"查询向量维度应为 {self.text_dimension}，实际为 {len(query_vector)}"
+            )
+        if not 1 <= limit <= 50:
+            raise ValueError("outline 召回数量必须在 1 到 50 之间")
+
+        await self.ensure_collection()
+        conditions: list[models.Condition] = [
+            models.FieldCondition(
+                key="representation_type",
+                match=models.MatchValue(value=RepresentationType.DOCUMENT_OUTLINE.value),
+            )
+        ]
+        clean_course_ids = _clean_filter_values(course_ids)
+        clean_document_ids = _clean_filter_values(document_ids)
+        if clean_course_ids:
+            conditions.append(
+                models.FieldCondition(
+                    key="course_id",
+                    match=models.MatchAny(any=clean_course_ids),
+                )
+            )
+        if clean_document_ids:
+            conditions.append(
+                models.FieldCondition(
+                    key="document_id",
+                    match=models.MatchAny(any=clean_document_ids),
+                )
+            )
+        if visible_versions is not None:
+            clean_versions = list(
+                dict.fromkeys(
+                    (document_id.strip(), version)
+                    for document_id, version in visible_versions
+                    if document_id.strip() and version >= 1
+                )
+            )
+            if not clean_versions:
+                return []
+            conditions.append(
+                models.Filter(
+                    should=[
+                        models.Filter(
+                            must=[
+                                models.FieldCondition(
+                                    key="document_id",
+                                    match=models.MatchValue(value=document_id),
+                                ),
+                                models.FieldCondition(
+                                    key="version",
+                                    match=models.MatchValue(value=version),
+                                ),
+                            ]
+                        )
+                        for document_id, version in clean_versions
+                    ]
+                )
+            )
+
+        response = await self.client.query_points(
+            collection_name=self.collection,
+            query=query_vector,
+            using=TEXT_DENSE_VECTOR,
+            query_filter=models.Filter(must=conditions),
+            limit=limit,
+            with_payload=True,
+            with_vectors=False,
+        )
+        return response.points
+
+    async def search_visual_fusion(
+        self,
+        query_vector: list[float],
+        *,
+        limit: int,
+        course_ids: Sequence[str] = (),
+        document_ids: Sequence[str] = (),
+        visible_versions: Sequence[tuple[str, int]] | None = None,
+    ) -> list[models.ScoredPoint]:
+        """在 visual_dense 空间召回视觉融合表示。"""
+
+        if len(query_vector) != self.visual_dimension:
+            raise ValueError(
+                f"视觉查询向量维度应为 {self.visual_dimension}，实际为 {len(query_vector)}"
+            )
+        if not 1 <= limit <= 50:
+            raise ValueError("visual 召回数量必须在 1 到 50 之间")
+
+        await self.ensure_collection()
+        conditions: list[models.Condition] = [
+            models.FieldCondition(
+                key="representation_type",
+                match=models.MatchValue(value=RepresentationType.VISUAL_FUSION.value),
+            )
+        ]
+        clean_course_ids = _clean_filter_values(course_ids)
+        clean_document_ids = _clean_filter_values(document_ids)
+        if clean_course_ids:
+            conditions.append(
+                models.FieldCondition(
+                    key="course_id",
+                    match=models.MatchAny(any=clean_course_ids),
+                )
+            )
+        if clean_document_ids:
+            conditions.append(
+                models.FieldCondition(
+                    key="document_id",
+                    match=models.MatchAny(any=clean_document_ids),
+                )
+            )
+        if visible_versions is not None:
+            clean_versions = list(
+                dict.fromkeys(
+                    (document_id.strip(), version)
+                    for document_id, version in visible_versions
+                    if document_id.strip() and version >= 1
+                )
+            )
+            if not clean_versions:
+                return []
+            conditions.append(
+                models.Filter(
+                    should=[
+                        models.Filter(
+                            must=[
+                                models.FieldCondition(
+                                    key="document_id",
+                                    match=models.MatchValue(value=document_id),
+                                ),
+                                models.FieldCondition(
+                                    key="version",
+                                    match=models.MatchValue(value=version),
+                                ),
+                            ]
+                        )
+                        for document_id, version in clean_versions
+                    ]
+                )
+            )
+
+        response = await self.client.query_points(
+            collection_name=self.collection,
+            query=query_vector,
+            using=VISUAL_DENSE_VECTOR,
+            query_filter=models.Filter(must=conditions),
+            limit=limit,
+            with_payload=True,
+            with_vectors=False,
+        )
+        return response.points
+
+    async def get_chunks_by_ids(
+        self,
+        chunk_ids: Sequence[str],
+        *,
+        document_id: str,
+        version: int,
+    ) -> list[models.ScoredPoint]:
+        """根据 chunk_id 批量获取 chunk 的完整 payload（用于上下文回取）。"""
+
+        if not chunk_ids:
+            return []
+
+        await self.ensure_collection()
+        conditions: list[models.Condition] = [
+            models.FieldCondition(
+                key="representation_type",
+                match=models.MatchValue(value=RepresentationType.TEXT_CONTENT.value),
+            ),
+            models.FieldCondition(
+                key="document_id",
+                match=models.MatchValue(value=document_id),
+            ),
+            models.FieldCondition(
+                key="version",
+                match=models.MatchValue(value=version),
+            ),
+            models.FieldCondition(
+                key="chunk_id",
+                match=models.MatchAny(any=list(chunk_ids)),
+            ),
+        ]
+
+        records, offset = await self.client.scroll(
+            collection_name=self.collection,
+            scroll_filter=models.Filter(must=conditions),
+            limit=len(chunk_ids),
+            with_payload=True,
+            with_vectors=False,
+        )
+
+        # 转换为 ScoredPoint（scroll 返回的是 Record）
+        return [
+            models.ScoredPoint(
+                id=record.id,
+                version=record.version or 0,
+                score=1.0,  # scroll 没有得分，设置为 1.0
+                payload=record.payload,
+            )
+            for record in records
+        ]
+
+    async def delete_stale_text_points(
+        self,
+        prepared: PreparedDocumentIndex,
+        *,
+        version: int,
+    ) -> int:
+        """删除同一文档版本中已不属于本次索引结果的文本 points。"""
+
+        await self.ensure_collection()
+        desired_ids = {
+            _point_id(item.representation.representation_id, version)
+            for item in prepared.text_representations
+        }
+        records, offset = await self.client.scroll(
+            collection_name=self.collection,
+            scroll_filter=models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="document_id",
+                        match=models.MatchValue(value=prepared.document_id),
+                    ),
+                    models.FieldCondition(
+                        key="version",
+                        match=models.MatchValue(value=version),
+                    ),
+                ]
+            ),
+            limit=256,
+            with_payload=False,
+            with_vectors=False,
+        )
+        while offset is not None:
+            page, offset = await self.client.scroll(
+                collection_name=self.collection,
+                scroll_filter=models.Filter(
+                    must=[
+                        models.FieldCondition(
+                            key="document_id",
+                            match=models.MatchValue(value=prepared.document_id),
+                        ),
+                        models.FieldCondition(
+                            key="version",
+                            match=models.MatchValue(value=version),
+                        ),
+                    ]
+                ),
+                limit=256,
+                offset=offset,
+                with_payload=False,
+                with_vectors=False,
+            )
+            records.extend(page)
+
+        stale_ids = [record.id for record in records if str(record.id) not in desired_ids]
+        if stale_ids:
+            await self.client.delete(
+                collection_name=self.collection,
+                points_selector=models.PointIdsList(points=stale_ids),
+                wait=True,
+            )
+        return len(stale_ids)
+
+    async def delete_document_versions(
+        self,
+        document_id: str,
+        *,
+        keep_version: int | None = None,
+    ) -> None:
+        """删除文档全部 points，或保留指定版本。"""
+
+        await self.ensure_collection()
+        query_filter = models.Filter(
+            must=[
+                models.FieldCondition(
+                    key="document_id",
+                    match=models.MatchValue(value=document_id),
+                )
+            ],
+            must_not=(
+                [
+                    models.FieldCondition(
+                        key="version",
+                        match=models.MatchValue(value=keep_version),
+                    )
+                ]
+                if keep_version is not None
+                else None
+            ),
+        )
+        await self.client.delete(
+            collection_name=self.collection,
+            points_selector=models.FilterSelector(filter=query_filter),
+            wait=True,
+        )
 
     async def close(self) -> None:
         """关闭由存储对象创建的客户端连接。"""
@@ -284,10 +784,10 @@ class QdrantStore:
             )
 
 
-def _point_id(representation_id: str) -> str:
+def _point_id(representation_id: str, version: int) -> str:
     """把项目内部稳定 ID 映射为 Qdrant 支持的稳定 UUID。"""
 
-    return str(uuid5(NAMESPACE_URL, f"srag:{representation_id}"))
+    return str(uuid5(NAMESPACE_URL, f"srag:{representation_id}:v{version}"))
 
 
 def _serialize_datetime(value: datetime) -> str:

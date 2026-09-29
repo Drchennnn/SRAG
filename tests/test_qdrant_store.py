@@ -150,7 +150,9 @@ async def test_upsert_text_representations_is_traceable_and_idempotent() -> None
 
     assert first_count == second_count == 2
     assert len(records) == 2
-    chunk_record = next(record for record in records if record.payload["chunk_id"] == "chunk-1")
+    chunk_record = next(
+        record for record in records if record.payload.get("chunk_id") == "chunk-1"
+    )
     assert chunk_record.payload["course_id"] == "CS0001"
     assert chunk_record.payload["source_path"] == "course/lecture.ipynb"
     assert chunk_record.payload["cell_ids"] == ["cell-1"]
@@ -167,6 +169,36 @@ async def test_upsert_text_representations_is_traceable_and_idempotent() -> None
     assert len(hits) == 1
     assert hits[0].payload["representation_type"] == "text_content"
     assert hits[0].payload["chunk_id"] == "chunk-1"
+    visible_hits = await store.search_text_dense(
+        [1.0, 0.0, 0.0],
+        limit=5,
+        visible_versions=[("doc-1", 1)],
+    )
+    assert len(visible_hits) == 1
+    hidden_hits = await store.search_text_dense(
+        [1.0, 0.0, 0.0],
+        limit=5,
+        visible_versions=[("doc-1", 2)],
+    )
+    assert hidden_hits == []
+
+    await store.upsert_text_representations(
+        prepared,
+        course_id="CS0001",
+        version=2,
+    )
+    first_version_hits = await store.search_text_dense(
+        [1.0, 0.0, 0.0],
+        limit=5,
+        visible_versions=[("doc-1", 1)],
+    )
+    second_version_hits = await store.search_text_dense(
+        [1.0, 0.0, 0.0],
+        limit=5,
+        visible_versions=[("doc-1", 2)],
+    )
+    assert first_version_hits[0].payload["version"] == 1
+    assert second_version_hits[0].payload["version"] == 2
     no_hits = await store.search_text_dense(
         [1.0, 0.0, 0.0],
         limit=5,
@@ -174,4 +206,34 @@ async def test_upsert_text_representations_is_traceable_and_idempotent() -> None
         document_ids=["missing"],
     )
     assert no_hits == []
+
+    reduced = prepared.model_copy(
+        update={
+            "chunks": [],
+            "text_representations": [prepared.text_representations[0]],
+        }
+    )
+    deleted_stale = await store.delete_stale_text_points(reduced, version=1)
+    assert deleted_stale == 1
+    remaining, _ = await client.scroll(
+        collection_name=settings.qdrant_collection,
+        limit=10,
+    )
+    assert len(remaining) == 3
+
+    await store.delete_document_versions("doc-1", keep_version=2)
+    remaining, _ = await client.scroll(
+        collection_name=settings.qdrant_collection,
+        limit=10,
+        with_payload=True,
+    )
+    assert len(remaining) == 2
+    assert {record.payload["version"] for record in remaining} == {2}
+
+    await store.delete_document_versions("doc-1")
+    remaining, _ = await client.scroll(
+        collection_name=settings.qdrant_collection,
+        limit=10,
+    )
+    assert remaining == []
     await client.close()

@@ -24,6 +24,7 @@ class IndexStatus(BaseModel):
     job_id: str
     state: JobState
     indexed_files: int = 0
+    skipped_files: int = 0
     failed_files: int = 0
     errors: dict[str, str] = Field(default_factory=dict)
 

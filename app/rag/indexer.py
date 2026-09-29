@@ -25,6 +25,7 @@ from app.schemas.indexing import (
 )
 from app.schemas.rag import IndexRequest, IndexStatus, JobState
 from app.stores.qdrant import QdrantStore
+from app.stores.sqlite import MetadataStore, VersionPlan
 
 _VISUAL_MEDIA_TYPES = {
     "image/png",
@@ -69,6 +70,29 @@ class TextRepresentationStore(Protocol):
         release_at: datetime | None = None,
     ) -> int: ...
 
+    async def upsert_visual_representations(
+        self,
+        prepared: PreparedDocumentIndex,
+        *,
+        course_id: str,
+        version: int = 1,
+        release_at: datetime | None = None,
+    ) -> int: ...
+
+    async def delete_stale_text_points(
+        self,
+        prepared: PreparedDocumentIndex,
+        *,
+        version: int,
+    ) -> int: ...
+
+    async def delete_document_versions(
+        self,
+        document_id: str,
+        *,
+        keep_version: int | None = None,
+    ) -> None: ...
+
 
 class DocumentIndexer:
     """编排 Notebook 切块、文本表示和图片融合表示。"""
@@ -81,22 +105,27 @@ class DocumentIndexer:
         *,
         parser: DocumentParser | None = None,
         text_store: TextRepresentationStore | None = None,
+        metadata_store: MetadataStore | None = None,
     ) -> None:
         self.chunker = chunker
         self.text_embedding_provider = text_embedding_provider
         self.visual_embedding_provider = visual_embedding_provider
         self.parser = parser
         self.text_store = text_store
+        self.metadata_store = metadata_store
 
     @classmethod
     def from_settings(cls, settings: Settings) -> DocumentIndexer:
         provider = DashScopeClient(settings)
+        metadata_store = MetadataStore(settings)
+        metadata_store.initialize()
         return cls(
             chunker=NotebookChunker.from_settings(settings),
             text_embedding_provider=provider,
             visual_embedding_provider=provider,
             parser=NotebookParser.from_settings(settings),
             text_store=QdrantStore(settings),
+            metadata_store=metadata_store,
         )
 
     async def prepare_document(
@@ -245,11 +274,97 @@ class DocumentIndexer:
         )
 
     async def index(self, request: IndexRequest) -> IndexStatus:
-        """解析选定 Notebook，并将文本表示写入 Qdrant。"""
+        """解析选定 Notebook，完成版本登记、结构持久化与向量切换。"""
 
         if self.parser is None or self.text_store is None:
             raise RuntimeError("DocumentIndexer.index() 尚未配置 parser 或 Qdrant store")
 
+        if self.metadata_store is None:
+            return await self._index_without_metadata(request)
+
+        job_id = f"index_{uuid4().hex}"
+        self.metadata_store.create_job(job_id)
+
+        errors: dict[str, str] = {}
+        indexed_files = 0
+        skipped_files = 0
+        failed_files = 0
+        for path in request.paths:
+            resolved = path.expanduser().resolve()
+            plan: VersionPlan | None = None
+            try:
+                document = self.parser.parse(resolved)
+                plan = self.metadata_store.reserve_version(
+                    document,
+                    course_id=request.course_id,
+                    content_hash=_file_hash(resolved),
+                    release_at=request.release_at,
+                )
+                if not plan.should_index:
+                    skipped_files += 1
+                    continue
+
+                prepared = await self.prepare_document(document, include_visual=True)
+                self.metadata_store.save_structure(
+                    document,
+                    prepared,
+                    version=plan.version,
+                )
+                await self.text_store.upsert_text_representations(
+                    prepared,
+                    course_id=request.course_id,
+                    version=plan.version,
+                    release_at=request.release_at,
+                )
+                # 写入视觉表示（如果有）
+                if prepared.visual_representations:
+                    await self.text_store.upsert_visual_representations(
+                        prepared,
+                        course_id=request.course_id,
+                        version=plan.version,
+                        release_at=request.release_at,
+                    )
+                await self.text_store.delete_stale_text_points(
+                    prepared,
+                    version=plan.version,
+                )
+                self.metadata_store.activate_version(document.document_id, plan.version)
+            except Exception as exc:
+                if plan is not None and plan.should_index:
+                    self.metadata_store.fail_version(plan.document_id, plan.version, str(exc))
+                errors[resolved.as_posix()] = str(exc)
+                failed_files += 1
+                continue
+
+            indexed_files += 1
+            try:
+                await self.text_store.delete_document_versions(
+                    document.document_id,
+                    keep_version=plan.version,
+                )
+                self.metadata_store.prune_superseded_structure(
+                    document.document_id,
+                    keep_version=plan.version,
+                )
+            except Exception as exc:
+                errors[f"{resolved.as_posix()}#cleanup"] = str(exc)
+
+        status = IndexStatus(
+            job_id=job_id,
+            state=JobState.FAILED if errors else JobState.COMPLETED,
+            indexed_files=indexed_files,
+            skipped_files=skipped_files,
+            failed_files=failed_files,
+            errors=errors,
+        )
+        self.metadata_store.finish_job(status)
+        return status
+
+    async def _index_without_metadata(self, request: IndexRequest) -> IndexStatus:
+        """保留用于独立组件测试的最小索引路径。"""
+
+        assert self.parser is not None
+        assert self.text_store is not None
         errors: dict[str, str] = {}
         indexed_files = 0
         for path in request.paths:
@@ -267,7 +382,6 @@ class DocumentIndexer:
                 errors[resolved.as_posix()] = str(exc)
             else:
                 indexed_files += 1
-
         return IndexStatus(
             job_id=f"index_{uuid4().hex}",
             state=JobState.FAILED if errors else JobState.COMPLETED,
@@ -281,3 +395,11 @@ def _stable_id(kind: str, *parts: object) -> str:
     raw = "\x1f".join(str(part) for part in parts)
     digest = hashlib.sha256(raw.encode("utf-8")).hexdigest()[:24]
     return f"{kind}_{digest}"
+
+
+def _file_hash(path: Path) -> str:
+    digest = hashlib.sha256()
+    with path.open("rb") as source:
+        for block in iter(lambda: source.read(1024 * 1024), b""):
+            digest.update(block)
+    return digest.hexdigest()

@@ -1,7 +1,7 @@
 """RAG 索引、文档管理与检索接口契约。"""
 
 from collections.abc import AsyncIterator
-from typing import Annotated, NoReturn
+from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException, status
 
@@ -17,6 +17,7 @@ from app.schemas.rag import (
     SearchResponse,
 )
 from app.stores.qdrant import QdrantStore
+from app.stores.sqlite import MetadataStore
 
 router = APIRouter()
 
@@ -43,11 +44,22 @@ async def get_retriever() -> AsyncIterator[HybridRetriever]:
             await retriever.vector_store.close()
 
 
-def _pending() -> NoReturn:
-    raise HTTPException(
-        status_code=status.HTTP_501_NOT_IMPLEMENTED,
-        detail="RAG 功能正在实现，当前仅提供 HTTP 接口契约。",
-    )
+def get_metadata_store() -> MetadataStore:
+    """创建并初始化当前项目的 SQLite 元数据存储。"""
+
+    store = MetadataStore(get_settings())
+    store.initialize()
+    return store
+
+
+async def get_qdrant_store() -> AsyncIterator[QdrantStore]:
+    """为文档管理接口创建 Qdrant 客户端。"""
+
+    store = QdrantStore(get_settings())
+    try:
+        yield store
+    finally:
+        await store.close()
 
 
 @router.post(
@@ -71,11 +83,16 @@ async def create_index(
     summary="查询索引任务",
     response_description="指定索引任务的当前状态",
 )
-async def get_index_status(job_id: str) -> IndexStatus:
+async def get_index_status(
+    job_id: str,
+    metadata_store: Annotated[MetadataStore, Depends(get_metadata_store)],
+) -> IndexStatus:
     """返回指定索引任务的状态。"""
 
-    del job_id
-    _pending()
+    result = metadata_store.get_job(job_id)
+    if result is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="索引任务不存在")
+    return result
 
 
 @router.get(
@@ -84,10 +101,12 @@ async def get_index_status(job_id: str) -> IndexStatus:
     summary="查询已登记文档",
     response_description="当前可被检索的文档版本",
 )
-async def list_documents() -> list[DocumentSummary]:
+async def list_documents(
+    metadata_store: Annotated[MetadataStore, Depends(get_metadata_store)],
+) -> list[DocumentSummary]:
     """列出已登记且可被检索的文档版本。"""
 
-    _pending()
+    return metadata_store.list_documents()
 
 
 @router.delete(
@@ -96,11 +115,20 @@ async def list_documents() -> list[DocumentSummary]:
     summary="删除文档",
     response_description="文档及派生数据的删除结果",
 )
-async def delete_document(document_id: str) -> DeleteDocumentResponse:
+async def delete_document(
+    document_id: str,
+    metadata_store: Annotated[MetadataStore, Depends(get_metadata_store)],
+    vector_store: Annotated[QdrantStore, Depends(get_qdrant_store)],
+) -> DeleteDocumentResponse:
     """删除指定文档及其派生块和资源。"""
 
-    del document_id
-    _pending()
+    if not metadata_store.has_document(document_id):
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="文档不存在")
+    asset_paths = metadata_store.asset_paths(document_id)
+    await vector_store.delete_document_versions(document_id)
+    deleted = metadata_store.delete_document(document_id)
+    metadata_store.delete_managed_asset_files(asset_paths)
+    return DeleteDocumentResponse(document_id=document_id, deleted=deleted)
 
 
 @router.post(

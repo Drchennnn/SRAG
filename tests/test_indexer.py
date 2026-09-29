@@ -6,6 +6,7 @@ from pathlib import Path
 
 import pytest
 
+from app.config import Settings
 from app.rag.chunker import NotebookChunker
 from app.rag.indexer import DocumentIndexer
 from app.schemas.document import AssetRef, BlockKind, ContentBlock, ParsedDocument
@@ -18,6 +19,7 @@ from app.schemas.embedding import (
 )
 from app.schemas.indexing import PreparedDocumentIndex, RepresentationType
 from app.schemas.rag import IndexRequest, JobState
+from app.stores.sqlite import MetadataStore, VisibleVersion
 
 
 class FakeEmbeddingProvider:
@@ -26,7 +28,11 @@ class FakeEmbeddingProvider:
     visual_embedding_model = "fake-visual-embedding"
     visual_embedding_dimension = 2
 
+    def __init__(self) -> None:
+        self.document_calls = 0
+
     async def embed_documents(self, texts: Sequence[str]) -> EmbeddingBatch:
+        self.document_calls += 1
         return EmbeddingBatch(
             model=self.embedding_model,
             vectors=[
@@ -73,6 +79,8 @@ class FakeParser:
 class FakeTextStore:
     def __init__(self) -> None:
         self.calls: list[tuple[PreparedDocumentIndex, str, int, datetime | None]] = []
+        self.stale_calls: list[tuple[str, int]] = []
+        self.delete_version_calls: list[tuple[str, int | None]] = []
 
     async def upsert_text_representations(
         self,
@@ -84,6 +92,23 @@ class FakeTextStore:
     ) -> int:
         self.calls.append((prepared, course_id, version, release_at))
         return len(prepared.text_representations)
+
+    async def delete_stale_text_points(
+        self,
+        prepared: PreparedDocumentIndex,
+        *,
+        version: int,
+    ) -> int:
+        self.stale_calls.append((prepared.document_id, version))
+        return 0
+
+    async def delete_document_versions(
+        self,
+        document_id: str,
+        *,
+        keep_version: int | None = None,
+    ) -> None:
+        self.delete_version_calls.append((document_id, keep_version))
 
 
 @pytest.mark.asyncio
@@ -191,3 +216,62 @@ async def test_index_runs_notebook_to_text_store_flow(tmp_path: Path) -> None:
     assert prepared.document_id == "doc-flow"
     assert prepared.visual_representations == []
     assert len(prepared.text_representations) == len(prepared.chunks) + 1
+
+
+@pytest.mark.asyncio
+async def test_index_uses_content_hash_and_switches_active_version(tmp_path: Path) -> None:
+    path = tmp_path / "lecture.ipynb"
+    path.write_text("version one", encoding="utf-8")
+    document = ParsedDocument(
+        document_id="doc-lifecycle",
+        source_path=path.as_posix(),
+        title="版本课程",
+        blocks=[
+            ContentBlock(
+                block_id="block-lifecycle",
+                document_id="doc-lifecycle",
+                kind=BlockKind.MARKDOWN,
+                text="# 版本课程\n第一版内容。",
+                section_path=["版本课程"],
+                heading_level=1,
+                cell_id="cell-lifecycle",
+            )
+        ],
+    )
+    parser = FakeParser(document)
+    vector_store = FakeTextStore()
+    provider = FakeEmbeddingProvider()
+    metadata_store = MetadataStore(Settings(sqlite_path=tmp_path / "metadata.sqlite3"))
+    metadata_store.initialize()
+    indexer = DocumentIndexer(
+        NotebookChunker(soft_min_tokens=10, target_tokens=40, max_tokens=80),
+        provider,
+        provider,
+        parser=parser,
+        text_store=vector_store,
+        metadata_store=metadata_store,
+    )
+    request = IndexRequest(course_id="CS0001", paths=[path])
+
+    first = await indexer.index(request)
+    second = await indexer.index(request)
+    path.write_text("version two", encoding="utf-8")
+    third = await indexer.index(request)
+
+    assert first.state is JobState.COMPLETED
+    assert first.indexed_files == 1
+    assert second.state is JobState.COMPLETED
+    assert second.indexed_files == 0
+    assert second.skipped_files == 1
+    assert third.indexed_files == 1
+    assert provider.document_calls == 2
+    assert [call[2] for call in vector_store.calls] == [1, 2]
+    assert vector_store.stale_calls == [("doc-lifecycle", 1), ("doc-lifecycle", 2)]
+    assert vector_store.delete_version_calls == [
+        ("doc-lifecycle", 1),
+        ("doc-lifecycle", 2),
+    ]
+    assert metadata_store.visible_versions() == [
+        VisibleVersion(document_id="doc-lifecycle", version=2)
+    ]
+    assert metadata_store.get_job(second.job_id) == second

@@ -39,12 +39,9 @@ class Settings(BaseSettings):
     deepseek_api_key: str = ""
     deepseek_base_url: str = "https://api.deepseek.com"
     deepseek_query_model: str = "deepseek-flash"
+    deepseek_chat_model: str = "deepseek-flash"
     deepseek_timeout_seconds: float = 60.0
     deepseek_max_retries: int = 3
-
-    openai_api_key: str = ""
-    openai_base_url: str = "https://api.openai.com/v1"
-    openai_chat_model: str = ""
 
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str = ""
@@ -56,6 +53,9 @@ class Settings(BaseSettings):
     notebook_chunk_max_tokens: int = 450
     notebook_chunk_overlap_tokens: int = 40
     retrieval_top_k: int = 8
+    retrieval_enable_visual: bool = False
+    retrieval_context_budget_tokens: int = 8000
+    retrieval_max_neighbor_chunks: int = 2
     notebook_output_max_chars: int = 12000
 
 

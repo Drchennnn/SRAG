@@ -1,6 +1,6 @@
-# 课程资料 RAG：本地存储 + Qwen API 推理的架构草案
+# 课程资料 RAG：本地存储 + 外部 API 推理的架构草案
 
-> 状态：设计草案（2026-09-23）。本文件描述方法和验证路径，不代表系统已经实现或达到某个准确率。
+> 状态：Notebook 最小检索闭环、数据生命周期和 20 题 dense 检索基线已实现；混合检索、多模态召回和正式评估仍在开发。
 
 ## 目标与边界
 
@@ -9,7 +9,7 @@
 - 所有模型推理（embedding、查询改写、重排、OCR、图像理解和最终问答）都调用外部 API，不在本地或自建服务器下载、加载或服务模型权重。本地/云端只承载文件存储、SQLite、Qdrant、无模型解析工具和编排代码。
 - 先在本地电脑上完成解析、检索链路搭建和评估；成熟后再评估是否把 Qdrant 和编排服务迁往云端。当前云服务器为 4 核、4 GB 内存、40 GB SSD，不满足 [Milvus Standalone 的 8 GB 内存要求](https://milvus.io/docs/prerequisite-docker.md)。即便模型均走 API，仍需评估 Qdrant 内存、磁盘、API 延迟、限流、费用和网络稳定性。
 - `COURSE_ROOT` 指向候选资料来源，不代表所有文件都应入库。导入采用明确的文件白名单，排除虚拟环境、缓存、训练数据集和无关图片。
-- 全部模型推理走 API 意味着课件内容会发送给阿里云，后续生成回答时检索证据还可能发送给 OpenAI；这是已知取舍。需要妥善保管 API Key（不在客户端或仓库中明文存储），记录发送范围，并处理限流、重试与 API 不可用时暂停任务的策略。
+- 全部模型推理走 API 意味着课件内容会发送给阿里云，查询理解和后续回答生成还会把问题及检索证据发送给 DeepSeek；这是已知取舍。需要妥善保管 API Key（不在客户端或仓库中明文存储），记录发送范围，并处理限流、重试与 API 不可用时暂停任务的策略。
 
 ## 数据流
 
@@ -38,9 +38,9 @@
 | 7. 向量化（Qwen API）与本地存储 | 文本调用 `qwen3.7-text-embedding` 获取 1,024 维 dense+sparse；图片调用 `qwen3-vl-embedding` 图文融合模式获取独立的 1,024 维视觉向量。不同模型空间使用不同命名向量。按批次调用并记录限流、重试、用量、模型和索引版本。                                                                                                                        | 用课程题集对比 document outline、visual fusion 的增量收益。更换模型、维度或切块配置时新建索引并重算向量；API 数量限制与价格按实际地域和账户验证。                                                                                                                                                            |
 | 8. 查询与召回                   | 先解析用户明确选择的课程/文件范围和当前可见版本；原问题并行走 dense、sparse，使用 RRF 融合候选，查询侧调用 embedding API 时使用 `text_type=query`。保留课程编号、代码符号、公式和否定词。                                                                                                                                                       | 指代补全、英文辅助查询、图片问题理解及其他 query transformation 调用 `deepseek-flash`；始终保留原问题。HyDE、step-back 和多查询默认关闭，仅在分类评测有收益时启用。                                                                                                                                         |
 | 9. 重排与回取                   | 对融合后的有限候选调用 `qwen3.7-text-rerank` API；按来源 chunk 和 asset 去重后，通过 `section_id`、相邻 chunk 与 cell 关系回取必要上下文、原图或原表，并限制总上下文长度。记录每条证据的具体来源。                                                                                                                                                | 关注 API 延迟和网络抖动，据实测调整候选数量、请求预算、超时与重试策略；RRF 融合与语义重排分别评估。                                                                                                                                                                                                       |
-| 10. 回答                        | 后续问答层优先接 GPT（以账户和服务地区实际可用性为前提）；只依据检索证据回答，给出文件名、页码或 cell 引用。资料不足时说明缺口。                                                                                                                                                                                                                | 课程/考试总结走按文件和章节枚举的覆盖流程，再分节汇总；不依赖一次 top-k 查询。                                                                                                                                                                                                                             |
+| 10. 回答                        | 后续问答层使用 `deepseek-flash` API；只依据检索证据回答，给出文件名、页码或 cell 引用。资料不足时说明缺口。                                                                                                                                                                                                                                    | 课程/考试总结走按文件和章节枚举的覆盖流程，再分节汇总；不依赖一次 top-k 查询。                                                                                                                                                                                                                             |
 | 11. 增量更新                    | 新文件生成 SectionRecord、Chunk、多表示和资源后再切换为可见版本；替换或删除文件时同步清理旧表示和失效资源。每次导入记录失败与重试状态。                                                                                                                                                                                                         | Web 上传与自动导入；检索时同时校验 `document_id`、版本和发布日期，避免旧版或未解封内容泄露。                                                                                                                                                                                                               |
-| 12. 评估                        | 人工标注约 60–100 个课程问题及原文件页码/cell，覆盖概念、代码、图表、指定文件、跨章节和无答案题。测 `Recall@k`、`nDCG@k`、引用准确性、回答依据、延迟与资源占用。                                                                                                                                                                                | 固定相同题集及证据预算，对比 text content、document outline、visual fusion、混合检索与重排；总结另测章节覆盖率，增量导入另测旧版本清理。                                                                                                                                                                  |
+| 12. 评估                        | 已建立 20 题 Notebook 小型基线：15 条开发集、5 条保留集，标注参考答案、文件、章节和 cell；测 `Recall@k`、MRR、`nDCG@k`、来源命中率和延迟。后续扩展到 60–100 题，加入图表、指定文件、跨章节和无答案题。                                                                                                                               | 固定相同题集及证据预算，对比 text content、document outline、visual fusion、混合检索与重排；总结另测章节覆盖率，增量导入另测旧版本清理。                                                                                                                                                                  |
 
 ## 关键约束
 
@@ -55,12 +55,22 @@
 
 选取少量具有 Markdown 说明、代码、表格和图片输出的 notebook，完成结构化导入、按文件过滤及 cell 引用；建立人工问题，对比 text content、document outline、visual fusion、混合召回和重排。该基线稳定后，再接入 PDF 和网页问答。
 
+**当前进度**：✅ 已完成并评估。
+- 20 题评估集（15 开发 + 5 保留）覆盖 7 份 Notebook
+- Dense baseline: Recall@8=0.95, MRR=0.875
+- RRF 策略: Recall@8=1.00, MRR=0.893（推荐默认）
+- RRF+Rerank: Recall@1=0.90, MRR=0.950（高精度场景）
+- Document outline 识别融合问题，暂不启用
+
+详见 [消融实验报告](../evals/EVALUATION_REPORT.md)。
+
 ## 参考资料
 
 - [Jupyter Notebook 文件格式](https://nbformat.readthedocs.io/en/latest/format_description.html)
 - [通用文本向量 API（qwen3.7-text-embedding，dense+sparse 混合检索）](https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api)
 - [多模态向量 API（qwen3-vl-embedding，图文融合向量）](https://help.aliyun.com/zh/model-studio/multimodal-embedding-api-reference)
 - [通用文本排序模型 API（qwen3.7-text-rerank）](https://help.aliyun.com/zh/model-studio/text-rerank-api)
+- [DeepSeek Chat Completions API](https://api-docs.deepseek.com/api/create-chat-completion/)
 - [DeepSeek 图像理解 API（deepseek-flash）](https://api-docs.deepseek.com/zh-cn/guides/vision/)
 - [Qwen OCR API](https://help.aliyun.com/en/model-studio/qwen-vl-ocr-api-reference)
 - [阿里云百炼限流说明](https://help.aliyun.com/zh/model-studio/rate-limit)
