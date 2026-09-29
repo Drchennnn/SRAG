@@ -6,29 +6,29 @@
 
 更新时间：2026-09-29
 
-- 阶段：检索增强和多模态上下文已完成，消融实验已完成并识别最优策略。
+- 阶段：检索增强和多模态上下文已完成，消融实验已完成并识别最优策略，Outline 问题已分析并暂时禁用。
 - 已完成：
   - 数据生命周期（版本管理、增量索引、发布日期控制）
   - 20 题评估集（15 开发 + 5 保留，覆盖 7 份 ML/X AI Notebook）
   - Dense baseline（Recall@8=0.95, MRR=0.875）
-  - 检索增强：Sparse/RRF、Outline 融合、Rerank、查询理解
+  - 检索增强：Sparse/RRF、Outline 召回、Rerank、查询理解
   - 多模态与上下文：Visual fusion 索引与召回、上下文回取与预算管理
   - 消融实验：对比 4 种策略，识别 RRF 为最优性价比，Rerank 为最高精度
+  - Outline 问题根因分析：包含关键词但无答案内容，在 RRF 中得分过高
 - 当前目标：
-  - 修复 Outline 融合问题（当前会导致 Recall@1 降至 0.00）
-  - 将 RRF 设为默认策略，暂时禁用 Outline
-  - 优化 Rerank 延迟（考虑缓存、批量调用）
+  - 扩展评估集到 60-100 题（难度分层、多模态查询）
+  - 优化 Rerank 延迟（缓存、批量调用）
+  - 实现查询日志和监控
 - 后续：
-  - 扩展评估集到 60-100 题（难度分层、多模态、跨文档）
+  - 接入 PDF/PPT 解析后，重新评估 Outline 的文档发现价值
+  - 考虑分离 pipeline：Outline 用于文档发现，不参与精确答案排序
   - 实现 LLM-as-Judge 自动评估
-  - 工程化优化（查询日志、监控、限流、缓存）
   - 验证视觉召回效果
-  - 接入 PDF 解析
-- 阻塞：无。所有核心功能已实现，Outline 融合问题已识别，等待修复。
+- 阻塞：无。所有核心功能已实现并评估完成。
 - 评估结论：
   - **推荐默认策略**：RRF（Recall@1=0.85, Recall@8=1.00, 延迟=829ms）
   - **高精度场景**：RRF+Rerank（Recall@1=0.90, MRR=0.950, 延迟=2140ms）
-  - **暂不启用**：Outline 召回（需修复融合逻辑）
+  - **Outline 状态**：已禁用，待 PDF/PPT 接入后重新设计
 
 ## 更新规则
 
@@ -59,3 +59,4 @@
 | 2026-09-29 | 完成检索增强：实现 sparse 召回、RRF 融合、document outline 召回与跨表示融合去重、Qwen rerank、DeepSeek 查询理解；接通消融实验脚本。 |
 | 2026-09-29 | 完成多模态与上下文：实现 visual fusion 表示索引与召回、上下文回取（相邻 chunk、原图原表）、上下文预算管理；视觉召回默认关闭，可通过配置启用。 |
 | 2026-09-29 | 完成消融实验：对比 Dense、RRF、RRF+Outline、RRF+Outline+Rerank 四种策略；RRF 提升 Recall@1 至 0.85 并达到 100% Recall@8；Rerank 进一步提升至 Recall@1=0.90、MRR=0.950；识别 Outline 融合问题导致严重退化（Recall@1 降至 0.00），需修复后再启用。推荐默认采用 RRF 策略。 |
+| 2026-09-29 | 分析 Outline 问题根本原因：Document outline 包含所有章节标题和关键词，在 Dense 和 Sparse 两路召回中都得分高，经 RRF 融合后系统性排在精确 text_content 前面，但 outline 只有标题无具体答案内容，导致用户查询无法匹配到正确 chunk。当前方案：完全禁用 Outline 召回，待 PDF/PPT 接入后再评估是否需要分离 pipeline 实现文档发现功能。 |

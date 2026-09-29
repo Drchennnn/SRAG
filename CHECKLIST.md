@@ -30,8 +30,11 @@
 
 - [x] 实现 sparse 召回与 dense/sparse RRF 融合。
 - [x] 评估 document outline 独立召回，并完成跨表示候选融合与去重。
+- [x] 识别 outline 问题：包含关键词但无答案内容，RRF 融合后得分过高。
+- [x] 暂时禁用 outline 召回，待 PDF/PPT 接入后重新评估文档发现需求。
 - [x] 接入 `qwen3.7-text-rerank` 候选重排。
 - [x] 接入 `deepseek-flash` 查询理解和按需改写；原始 query 始终保留，HyDE、step-back 和多查询仅在评估证明有效后启用。
+- [ ] 重新设计 outline 功能：分离 pipeline，用于文档发现而非精确答案排序。
 
 ### 多模态与上下文
 
@@ -47,7 +50,9 @@
 - [x] 完成 4 种策略消融实验：Dense、RRF、RRF+Outline、RRF+Outline+Rerank。
 - [x] 识别 RRF 为最佳性价比策略，Rerank 为最高精度策略。
 - [x] 发现并记录 Outline 融合问题（Recall@1 降至 0.00）。
-- [ ] 修复 Outline 融合逻辑（降低召回数量或调整融合权重）。
+- [x] 分析 Outline 问题根本原因：包含关键词但无答案，RRF 中得分过高。
+- [x] 暂时禁用 Outline 召回，避免影响检索质量。
+- [ ] 重新设计 Outline 功能：分离 pipeline 或仅用于 PDF/PPT 的文档发现。
 - [ ] 将评估集扩展到 60–100 题，增加难度分层和多模态查询。
 - [ ] 实现 LLM-as-Judge 自动评估 Context Precision 和 Relevance。
 - [ ] 完善超时、限流、重试、部分失败、任务状态、查询日志和可观测性。

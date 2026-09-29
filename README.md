@@ -21,11 +21,13 @@ Notebook 最小检索闭环已经完成：
 
 当前检索链路支持：
 - **Dense + Sparse RRF 融合**：并行召回 dense 和 sparse 向量，使用 Reciprocal Rank Fusion 融合
-- **Document outline 召回**：独立召回文档大纲表示，与正文候选融合去重
+- **Document outline 召回**：已实现但暂时禁用（包含关键词但无答案内容，导致 RRF 融合后挤掉精确 chunks）
 - **Visual fusion 召回**：支持图文融合向量的索引与召回（可选，默认关闭）
 - **上下文回取**：按需回取相邻 chunk、原图和原表，限制总上下文预算
 - **Qwen Rerank**：使用 `qwen3.7-text-rerank` API 对候选重排
 - **DeepSeek 查询理解**：可选查询改写（当前默认关闭，保留原始查询）
+
+**Outline 功能说明**：Document outline 包含文档所有章节标题，设计用于文档发现场景。但在精确问答场景中，outline 在 Dense 和 Sparse 两路都匹配到查询关键词，经 RRF 融合后得分系统性高于精确的 text_content chunks，导致用户查询无法命中正确答案。当前已禁用，待接入 PDF/PPT 后重新评估是否需要分离 pipeline 实现文档发现功能。
 
 PDF 和回答生成仍在开发计划中。
 
@@ -211,7 +213,7 @@ uv run python evals/run_retrieval_ablation.py
 
 **关键发现**：
 1. ✅ **RRF 最优性价比**：提升 6% Recall@1，达到 100% Recall@8，延迟降低 18%
-2. ⚠️ **Outline 召回问题**：导致 Recall@1 降至 0，需修复融合逻辑后再启用
+2. ⚠️ **Outline 召回问题**：Document outline 包含章节标题和关键词，在 Dense/Sparse 两路都得分高，经 RRF 融合后系统性排在精确 text_content 前面，但 outline 只有标题无答案内容，导致 Recall@1 降至 0。根本原因：设计用于文档发现，不适合精确问答。当前已禁用。
 3. ✅ **Rerank 最高精度**：Recall@1 达到 0.90，但延迟翻倍（适合高精度场景）
 
 **推荐配置**：
@@ -329,11 +331,11 @@ agent.md                # 当前进度与重大变更
 
 ### 短期优化（1-2 周）
 
-1. **修复 Outline 融合问题** ⚠️
-   - 降低 outline 召回数量：10 → 2-3
-   - 调整 RRF 融合权重，避免 outline 挤掉精确 chunks
-   - 或分离 pipeline：outline 用于文档发现，不参与最终排序
-   - 目标：RRF+Outline 的 Recall@1 恢复到 ≥0.85
+1. **扩展评估集到 50-60 题**
+   - 增加难度分层（简单/中等/困难）
+   - 包含多模态查询（图表理解题）
+   - 跨文档推理场景
+   - 目标：更准确评估策略效果
 
 2. **优化 Rerank 延迟**
    - 只 rerank top-N 候选（如 top 15→8）
@@ -341,18 +343,18 @@ agent.md                # 当前进度与重大变更
    - 考虑批量 rerank 降低延迟
    - 目标：延迟从 2140ms 降至 <1500ms
 
-3. **应用推荐策略**
-   - 将 RRF 设为默认策略
-   - 添加配置开关支持切换策略
-   - 更新 API 文档说明不同策略的适用场景
+3. **实现查询日志和基础监控**
+   - 记录每次查询的延迟、结果数量、命中情况
+   - 失败查询分析
+   - 定期生成统计报告
 
 ### 中期扩展（1 个月）
 
-1. **扩展评估集到 60-100 题**
-   - 增加难度分层（简单/中等/困难）
-   - 包含多模态查询（图表理解题）
-   - 跨文档推理场景
-   - 无答案场景（"课件中未涉及"）
+1. **接入 PDF/PPT 解析**
+   - 实现 PDF 页面、表格、图表解析
+   - 设计 PDF 专用切块策略
+   - 评估 Outline 在 PDF 场景的文档发现价值
+   - 考虑分离 pipeline：Outline 用于文档发现，text_content 用于精确答案
 
 2. **实现 LLM-as-Judge 评估**
    - Context Precision：检索 chunks 相关性自动评分
