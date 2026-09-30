@@ -691,57 +691,6 @@ class QdrantStore:
         )
         return response.points
 
-    async def get_chunks_by_ids(
-        self,
-        chunk_ids: Sequence[str],
-        *,
-        document_id: str,
-        version: int,
-    ) -> list[models.ScoredPoint]:
-        """根据 chunk_id 批量获取 chunk 的完整 payload（用于上下文回取）。"""
-
-        if not chunk_ids:
-            return []
-
-        await self.ensure_collection()
-        conditions: list[models.Condition] = [
-            models.FieldCondition(
-                key="representation_type",
-                match=models.MatchValue(value=RepresentationType.TEXT_CONTENT.value),
-            ),
-            models.FieldCondition(
-                key="document_id",
-                match=models.MatchValue(value=document_id),
-            ),
-            models.FieldCondition(
-                key="version",
-                match=models.MatchValue(value=version),
-            ),
-            models.FieldCondition(
-                key="chunk_id",
-                match=models.MatchAny(any=list(chunk_ids)),
-            ),
-        ]
-
-        records, offset = await self.client.scroll(
-            collection_name=self.collection,
-            scroll_filter=models.Filter(must=conditions),
-            limit=len(chunk_ids),
-            with_payload=True,
-            with_vectors=False,
-        )
-
-        # 转换为 ScoredPoint（scroll 返回的是 Record）
-        return [
-            models.ScoredPoint(
-                id=record.id,
-                version=record.version or 0,
-                score=1.0,  # scroll 没有得分，设置为 1.0
-                payload=record.payload,
-            )
-            for record in records
-        ]
-
     async def delete_stale_text_points(
         self,
         prepared: PreparedDocumentIndex,

@@ -1,7 +1,8 @@
-"""原始文本 query 的 dense 召回测试。"""
+"""文本混合检索和视觉路由测试。"""
 
 from collections.abc import Sequence
 
+import pytest
 from qdrant_client import models
 
 from app.rag.retriever import HybridRetriever
@@ -40,6 +41,11 @@ class FakeVisualQueryEmbeddingProvider(FakeQueryEmbeddingProvider):
             model="test-visual",
             vectors=[MultimodalEmbeddingVector(index=0, dense=[1.0, 0.0], input_type="text")],
         )
+
+
+class FailingVisualQueryEmbeddingProvider(FakeQueryEmbeddingProvider):
+    async def embed_visual_query(self, text: str) -> MultimodalEmbeddingBatch:
+        raise RuntimeError("visual API unavailable")
 
 
 class FakeDenseVectorStore:
@@ -88,17 +94,6 @@ class FakeDenseVectorStore:
     async def search_text_sparse(
         self,
         query_sparse: models.SparseVector,
-        *,
-        limit: int,
-        course_ids: Sequence[str] = (),
-        document_ids: Sequence[str] = (),
-        visible_versions: Sequence[tuple[str, int]] | None = None,
-    ) -> list[models.ScoredPoint]:
-        return []
-
-    async def search_document_outline(
-        self,
-        query_vector: list[float],
         *,
         limit: int,
         course_ids: Sequence[str] = (),
@@ -254,3 +249,25 @@ async def test_explicit_text_mode_overrides_visual_intent() -> None:
     assert response.mode_used == "text"
     assert store.visual_calls == []
     assert provider.visual_queries == []
+
+
+async def test_auto_visual_failure_returns_text_results() -> None:
+    retriever = HybridRetriever(
+        FailingVisualQueryEmbeddingProvider(), FakeDenseVectorStore(), visual_enabled=True
+    )
+
+    response = await retriever.search(SearchRequest(query="图中展示什么？", top_k=2))
+
+    assert response.mode_used == "text"
+    assert response.hits[0].chunk_id == "chunk-1"
+
+
+async def test_explicit_visual_failure_is_reported() -> None:
+    retriever = HybridRetriever(
+        FailingVisualQueryEmbeddingProvider(), FakeDenseVectorStore(), visual_enabled=True
+    )
+
+    with pytest.raises(RuntimeError, match="visual API unavailable"):
+        await retriever.search(
+            SearchRequest(query="图中展示什么？", retrieval_mode="visual", top_k=2)
+        )

@@ -11,7 +11,6 @@ from pathlib import Path
 from qdrant_client import models
 
 from app.clients.dashscope import DashScopeClient
-from app.clients.deepseek import DeepSeekClient
 from app.config import Settings, get_settings
 from app.evaluation.retrieval import (
     aggregate_metrics,
@@ -64,7 +63,6 @@ async def main() -> None:
 
     # 初始化组件
     dashscope = DashScopeClient(settings)
-    deepseek = DeepSeekClient(settings)
     qdrant = QdrantStore(settings)
     metadata_store = MetadataStore(settings)
     metadata_store.initialize()
@@ -79,7 +77,6 @@ async def main() -> None:
                 cases=cases,
                 top_k=args.top_k,
                 dashscope=dashscope,
-                deepseek=deepseek,
                 qdrant=qdrant,
                 metadata_store=metadata_store,
                 settings=settings,
@@ -98,7 +95,6 @@ async def evaluate_strategy(
     cases: list,
     top_k: int,
     dashscope: DashScopeClient,
-    deepseek: DeepSeekClient,
     qdrant: QdrantStore,
     metadata_store: MetadataStore,
     settings: Settings,
@@ -206,24 +202,21 @@ async def evaluate_strategy(
             text_fused = reciprocal_rank_fusion([dense_points, sparse_points], k=60)
             all_candidates = merge_and_deduplicate(text_fused, outline_points)
 
-            # Rerank
-            if len(all_candidates) > top_k:
+            # 评估失败必须显式报错，不能把未重排的候选标记为 rerank 结果。
+            if all_candidates:
                 documents = [str((p.payload or {}).get("content", "")) for p in all_candidates]
-                try:
-                    ranked_indices = await dashscope.rerank(case.query, documents, top_n=top_k)
-                    points = [
-                        models.ScoredPoint(
-                            id=all_candidates[idx].id,
-                            score=score,
-                            payload=all_candidates[idx].payload,
-                            version=all_candidates[idx].version,
-                        )
-                        for idx, score in ranked_indices
-                    ]
-                except Exception:
-                    points = all_candidates[:top_k]
+                ranked_indices = await dashscope.rerank(case.query, documents, top_n=top_k)
+                points = [
+                    models.ScoredPoint(
+                        id=all_candidates[idx].id,
+                        score=score,
+                        payload=all_candidates[idx].payload,
+                        version=all_candidates[idx].version,
+                    )
+                    for idx, score in ranked_indices
+                ]
             else:
-                points = all_candidates[:top_k]
+                points = []
         else:
             raise ValueError(f"未知策略：{strategy}")
 

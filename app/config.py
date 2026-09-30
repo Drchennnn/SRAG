@@ -31,8 +31,6 @@ class Settings(BaseSettings):
     dashscope_visual_embedding_dimension: int = 1024
     dashscope_visual_max_image_bytes: int = 10 * 1024 * 1024
     dashscope_rerank_model: str = "qwen3.7-text-rerank"
-    dashscope_ocr_model: str = ""
-    dashscope_vision_model: str = ""
     dashscope_timeout_seconds: float = 60.0
     dashscope_max_retries: int = 3
 
@@ -57,10 +55,7 @@ class Settings(BaseSettings):
     slide_pdf_enable_ocr_fallback: bool = False
     slide_pdf_ocr_min_text_tokens: int = 8
     slide_pptx_render_slides: bool = True
-    retrieval_top_k: int = 8
     retrieval_enable_visual: bool = True
-    retrieval_context_budget_tokens: int = 8000
-    retrieval_max_neighbor_chunks: int = 2
     notebook_output_max_chars: int = 12000
 
 

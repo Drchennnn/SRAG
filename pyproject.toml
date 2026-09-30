@@ -1,7 +1,7 @@
 [project]
 name = "srag"
 version = "0.1.0"
-description = "面向课程 Notebook 与 PDF 资料的本地优先 RAG 服务"
+description = "面向课程 Notebook、PDF 与 PPTX 资料的本地优先检索服务"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

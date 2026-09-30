@@ -1,4 +1,4 @@
-"""混合检索入口：支持 dense、sparse、RRF、outline、rerank 和查询理解。"""
+"""混合检索入口：文本 Dense+Sparse RRF 与按需视觉召回。"""
 
 from __future__ import annotations
 
@@ -9,7 +9,6 @@ from typing import Protocol
 from qdrant_client import models
 
 from app.clients.dashscope import DashScopeClient
-from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
 from app.rag.fusion import prefer_visual_pages, reciprocal_rank_fusion, visual_query_intent
 from app.schemas.embedding import EmbeddingVector, MultimodalEmbeddingBatch, SparseValue
@@ -29,25 +28,6 @@ class QueryEmbeddingProvider(Protocol):
     ) -> EmbeddingVector: ...
 
     async def embed_visual_query(self, text: str) -> MultimodalEmbeddingBatch: ...
-
-
-class RerankProvider(Protocol):
-    async def rerank(
-        self,
-        query: str,
-        documents: Sequence[str],
-        *,
-        top_n: int | None = None,
-    ) -> list[tuple[int, float]]: ...
-
-
-class QueryUnderstandingProvider(Protocol):
-    async def understand_query(
-        self,
-        query: str,
-        *,
-        enable_rewrite: bool = False,
-    ) -> dict[str, object]: ...
 
 
 class HybridVectorStore(Protocol):
@@ -71,16 +51,6 @@ class HybridVectorStore(Protocol):
         visible_versions: Sequence[tuple[str, int]] | None = None,
     ) -> list[models.ScoredPoint]: ...
 
-    async def search_document_outline(
-        self,
-        query_vector: list[float],
-        *,
-        limit: int,
-        course_ids: Sequence[str] = (),
-        document_ids: Sequence[str] = (),
-        visible_versions: Sequence[tuple[str, int]] | None = None,
-    ) -> list[models.ScoredPoint]: ...
-
     async def search_visual_fusion(
         self,
         query_vector: list[float],
@@ -89,14 +59,6 @@ class HybridVectorStore(Protocol):
         course_ids: Sequence[str] = (),
         document_ids: Sequence[str] = (),
         visible_versions: Sequence[tuple[str, int]] | None = None,
-    ) -> list[models.ScoredPoint]: ...
-
-    async def get_chunks_by_ids(
-        self,
-        chunk_ids: Sequence[str],
-        *,
-        document_id: str,
-        version: int,
     ) -> list[models.ScoredPoint]: ...
 
 
@@ -110,22 +72,18 @@ class VisibilityStore(Protocol):
 
 
 class HybridRetriever:
-    """混合检索入口：支持 dense+sparse RRF、outline 融合、rerank 和查询理解。"""
+    """混合检索入口：文本 RRF 与视觉页优先路由。"""
 
     def __init__(
         self,
         query_embedding_provider: QueryEmbeddingProvider,
         vector_store: HybridVectorStore,
         metadata_store: VisibilityStore | None = None,
-        rerank_provider: RerankProvider | None = None,
-        query_understanding_provider: QueryUnderstandingProvider | None = None,
         visual_enabled: bool = False,
     ) -> None:
         self.query_embedding_provider = query_embedding_provider
         self.vector_store = vector_store
         self.metadata_store = metadata_store
-        self.rerank_provider = rerank_provider
-        self.query_understanding_provider = query_understanding_provider
         self.visual_enabled = visual_enabled
 
     @classmethod
@@ -133,13 +91,10 @@ class HybridRetriever:
         metadata_store = MetadataStore(settings)
         metadata_store.initialize()
         dashscope_client = DashScopeClient(settings)
-        deepseek_client = DeepSeekClient(settings)
         return cls(
             query_embedding_provider=dashscope_client,
             vector_store=QdrantStore(settings),
             metadata_store=metadata_store,
-            rerank_provider=dashscope_client,
-            query_understanding_provider=deepseek_client,
             visual_enabled=settings.retrieval_enable_visual,
         )
 
@@ -219,41 +174,6 @@ class HybridRetriever:
             hits=[_to_search_hit(point) for point in final_points],
             mode_used=mode_used,
         )
-
-    async def _rerank_candidates(
-        self,
-        query: str,
-        candidates: list[models.ScoredPoint],
-        *,
-        top_n: int,
-    ) -> list[models.ScoredPoint]:
-        """使用 rerank API 重新排序候选。"""
-        if not candidates or not self.rerank_provider:
-            return candidates
-
-        documents = [str((point.payload or {}).get("content", "")) for point in candidates]
-
-        try:
-            ranked_indices = await self.rerank_provider.rerank(
-                query,
-                documents,
-                top_n=top_n,
-            )
-            # 按 rerank 得分重新排列
-            reranked = [
-                models.ScoredPoint(
-                    id=candidates[idx].id,
-                    score=score,
-                    payload=candidates[idx].payload,
-                    version=candidates[idx].version,
-                    vector=candidates[idx].vector,
-                )
-                for idx, score in ranked_indices
-            ]
-            return reranked
-        except Exception:
-            # Rerank 失败时降级到原始排序
-            return candidates[:top_n]
 
 
 def _to_search_hit(point: models.ScoredPoint) -> SearchHit:
