@@ -7,7 +7,7 @@ SRAG 是一个面向课程资料的本地优先 RAG 项目。模型通过外部 
 ## 当前状态
 
 - **Notebook**：已支持 `.ipynb` 只读解析、结构化切块、Qwen Embedding、Qdrant/SQLite 版本索引，以及 `/api/rag/index` 和 `/api/rag/search` 的 Dense+Sparse RRF 检索。20 题基线 Recall@8 为 1.00。
-- **PDF/PPTX**：四份 CS5187 课件共 109 页已入库，108 条文本与 109 条整页视觉向量；纯图示页可以只保留视觉向量。`/api/rag/search` 可自动路由明确描述页面图像的问题，返回页码和截图路径。两套各 28 题的评估均已完成。
+- **PDF/PPTX**：CS5187 四份课件共 109 页、CS5495 四份 PDF 共 91 页已入库；纯图示页可以只保留视觉向量。`/api/rag/search` 可自动路由明确描述页面图像的问题，返回页码和截图路径。两门课程均已完成页码召回评估。
 - **待集成组件**：Qwen Rerank、DeepSeek 查询理解和相邻上下文已有组件或实验结果，尚未进入正式检索入口。Document outline 暂时禁用。
 
 ## 流程
@@ -171,7 +171,7 @@ uv run python tools/pack_course_batch.py /Users/Link/Course
 
 把生成的 `data/ingest/colab_batch.zip` 上传到 Google Drive 的 `MyDrive/Colab Notebooks/SRAG/`，运行批处理 Notebook。Colab 路径前缀为 `/content/drive/MyDrive/Colab Notebooks/SRAG/`。批次包同时携带当前项目解析代码，不依赖 GitHub 上可能较旧的 `main` 分支。处理报告及每份 `.slidedeck.zip` 会写入其 `processed/` 子目录。下载并解压后，先核对页数、截图和切块，再用下一节的命令在**本地**调用 Qwen Embedding API，最后导入 Qdrant。Colab 负责 PDF/PPTX 的计算密集型解析与切块；IPYNB 沿用本地 Notebook 索引入口。后续新文件先加入/重新生成清单，按小批次重复流程；文件上传服务尚未实现。
 
-CS5495 首批四份 PDF 已完成预处理和本地向量化：91 页、133 条文本向量和 91 条整页视觉向量。源文件、预处理包、Chunk 和向量 ID 已核对；本地 `data/ingest/embedding_report.json` 记录每份文件的向量包路径与 Token 用量，尚未导入 Qdrant。
+CS5495 首批四份 PDF 已完成预处理、本地向量化及 Qdrant 导入：91 页、133 条文本向量和 91 条整页视觉向量。源文件、预处理包、Chunk 和向量 ID 已核对；本地 `data/ingest/embedding_report.json` 记录每份文件的向量包路径与 Token 用量。
 
 需要扩大批次时可选课程和数量，例如 `--decision candidate --course-id CS5494 --limit 4`。批次包会重新核对源文件 SHA-256，避免把修改后的资料误用旧清单处理。
 
@@ -244,7 +244,7 @@ uv run python -m app.evaluation.slide_retrieval \
 
 三道仅靠图示辨别的题，视觉召回排第 3、7、1，文本 Top 50 均未命中，等权融合排第 50、52、49。测试集已用于观察失败模式，后续调参需保留另一个未参与设计的最终测试集。指标只衡量来源页码命中，不衡量回答正确性；报告的耗时包含两次 Query Embedding 与三路检索，不是各方法的独立延迟。
 
-**视觉路由复测**：在同一份四文档语料上，开发集的自动路由 Recall@5/8 为 **1.00/1.00**（文本 RRF 为 0.964/0.964）；新课件题集为 **0.964/1.00**（文本 RRF 为 0.893/0.893）。自动路由分别触发 8/28 和 4/28 题。细微图像差异题仍只在 Top 8 命中。逐题数据见 [开发集复测](./evals/results/slide_development_visual_route.json)与[新课件复测](./evals/results/slide_holdout_visual_route.json)。新课件题集已用于设计判断，后续仍需不同课程的最终检验。
+**视觉路由复测**：在同一份四文档语料上，开发集的自动路由 Recall@5/8 为 **1.00/1.00**（文本 RRF 为 0.964/0.964）；新课件题集为 **0.964/1.00**（文本 RRF 为 0.893/0.893）。自动路由分别触发 8/28 和 4/28 题。细微图像差异题仍只在 Top 8 命中。逐题数据见 [开发集复测](./evals/results/slide_development_visual_route.json)与[新课件复测](./evals/results/slide_holdout_visual_route.json)。CS5495 的新课程结果见下节。
 
 **CS5495 新课程验证**：四份 PDF 共 91 页、133 条文本 Chunk 与 91 条视觉表示已入库；另有一份原有 Notebook。固定 [24 题页码题集](./evals/cs5495_slide_cases.jsonl)的结果如下。`正式入口`直接调用 `HybridRetriever.search`，其 Top K 可能包含同页多个 Chunk 或 Notebook 结果；离线页级基线先按页去重，两者指标不可直接等同。
 
