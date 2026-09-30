@@ -1,0 +1,3014 @@
+{
+  "case_count": 28,
+  "case_file_sha256": "0616509d8a54e8853207cf481f24ea7d377cf9800ce7bb41b96c2a875c99999b",
+  "corpus_versions": [
+    [
+      "document_305b428af1300d4eaf385112",
+      2
+    ],
+    [
+      "document_3e2b5136a775c85bae127128",
+      2
+    ]
+  ],
+  "models": {
+    "text": "qwen3.7-text-embedding",
+    "visual": "qwen3-vl-embedding"
+  },
+  "metrics": {
+    "dense": {
+      "recall@1": 0.9285714285714286,
+      "recall@3": 0.9642857142857143,
+      "recall@5": 0.9642857142857143,
+      "recall@8": 0.9642857142857143,
+      "mrr@8": 0.9464285714285714,
+      "by_tag_recall@5": {
+        "text": 1.0,
+        "visual": 1.0,
+        "visual_detail": 0.75
+      },
+      "mean_case_latency_ms": 2630.5
+    },
+    "text_rrf": {
+      "recall@1": 0.8928571428571429,
+      "recall@3": 0.9642857142857143,
+      "recall@5": 0.9642857142857143,
+      "recall@8": 0.9642857142857143,
+      "mrr@8": 0.9285714285714286,
+      "by_tag_recall@5": {
+        "text": 1.0,
+        "visual": 1.0,
+        "visual_detail": 0.75
+      },
+      "mean_case_latency_ms": 2630.5
+    },
+    "visual": {
+      "recall@1": 0.8571428571428571,
+      "recall@3": 1.0,
+      "recall@5": 1.0,
+      "recall@8": 1.0,
+      "mrr@8": 0.9226190476190476,
+      "by_tag_recall@5": {
+        "text": 1.0,
+        "visual": 1.0,
+        "visual_detail": 1.0
+      },
+      "mean_case_latency_ms": 2630.5
+    },
+    "fusion_rrf": {
+      "recall@1": 0.9285714285714286,
+      "recall@3": 0.9642857142857143,
+      "recall@5": 0.9642857142857143,
+      "recall@8": 0.9642857142857143,
+      "mrr@8": 0.9464285714285714,
+      "by_tag_recall@5": {
+        "text": 1.0,
+        "visual": 1.0,
+        "visual_detail": 0.75
+      },
+      "mean_case_latency_ms": 2630.5
+    }
+  },
+  "cases": [
+    {
+      "case_id": "pdf-01",
+      "tag": "text",
+      "query": "计算机视觉怎样从互联网照片重建三维模型和相机位置？",
+      "expected": [
+        8
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          }
+        ]
+      },
+      "latency_ms": 1305
+    },
+    {
+      "case_id": "pdf-02",
+      "tag": "text",
+      "query": "课程里用什么例子说明计算摄影中的图像修补和补全？",
+      "expected": [
+        10
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ]
+      },
+      "latency_ms": 1409
+    },
+    {
+      "case_id": "pdf-03",
+      "tag": "visual",
+      "query": "扫描件上的印刷文字和手写数字识别属于什么视觉应用？",
+      "expected": [
+        12
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ]
+      },
+      "latency_ms": 1509
+    },
+    {
+      "case_id": "pdf-04",
+      "tag": "text",
+      "query": "阿富汗女孩是通过什么生物特征被重新识别的？",
+      "expected": [
+        16
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 2,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 16
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 16
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 16
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 16
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          }
+        ]
+      },
+      "latency_ms": 1587
+    },
+    {
+      "case_id": "pdf-05",
+      "tag": "text",
+      "query": "哪款鸟类识别应用与 Cornell 的技术有关？",
+      "expected": [
+        18
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 17
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 17
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 17
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          }
+        ]
+      },
+      "latency_ms": 943
+    },
+    {
+      "case_id": "pdf-06",
+      "tag": "text",
+      "query": "植物识别和生物多样性相关的 Pl@ntNet 示例在哪页？",
+      "expected": [
+        19
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 17
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 16
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          }
+        ]
+      },
+      "latency_ms": 1464
+    },
+    {
+      "case_id": "pdf-07",
+      "tag": "text",
+      "query": "水下鱼类计数与海洋哺乳动物识别属于哪些应用？",
+      "expected": [
+        20
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 20
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 20
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 11
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 20
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 4
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 20
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ]
+      },
+      "latency_ms": 2050
+    },
+    {
+      "case_id": "pdf-08",
+      "tag": "visual",
+      "query": "胸部 X 光片经多个疾病 CNN、加权全连接网络输出异常概率和热力图的流程图在哪里？",
+      "expected": [
+        22
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          }
+        ]
+      },
+      "latency_ms": 2174
+    },
+    {
+      "case_id": "pdf-09",
+      "tag": "visual",
+      "query": "用菜肴图像对比 Gist、颜色矩和 AlexNet 特征的案例在哪页？",
+      "expected": [
+        23
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 2,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          }
+        ]
+      },
+      "latency_ms": 1062
+    },
+    {
+      "case_id": "pdf-10",
+      "tag": "text",
+      "query": "视觉课件中 6DoF 头部追踪、身体追踪和 3D-360 视频用于什么领域？",
+      "expected": [
+        24
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 2,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          }
+        ]
+      },
+      "latency_ms": 2273
+    },
+    {
+      "case_id": "pdf-11",
+      "tag": "text",
+      "query": "课件提到 LLaVA 和 FERRET 两个视觉大模型的页面是哪页？",
+      "expected": [
+        29
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 23
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 1
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 1
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 1
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ]
+      },
+      "latency_ms": 1593
+    },
+    {
+      "case_id": "pdf-12",
+      "tag": "visual",
+      "query": "生成式 AI 展示真假图像辨别挑战的幻灯片是哪页？",
+      "expected": [
+        30
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 30
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 5
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 30
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 5
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 30
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 29
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 30
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          }
+        ]
+      },
+      "latency_ms": 2008
+    },
+    {
+      "case_id": "ppt-01",
+      "tag": "text",
+      "query": "图像分割怎样把画面划成独立物体，边界检测和聚类是什么角色？",
+      "expected": [
+        4
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ]
+      },
+      "latency_ms": 1382
+    },
+    {
+      "case_id": "ppt-02",
+      "tag": "text",
+      "query": "输入连续视频帧后如何跟踪目标位置，课件给的 Tracker 例子在哪里？",
+      "expected": [
+        6
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 6
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          }
+        ]
+      },
+      "latency_ms": 1648
+    },
+    {
+      "case_id": "ppt-03",
+      "tag": "text",
+      "query": "多视角三维重建需要哪些对应特征，输出相机位姿和标定的页面是哪页？",
+      "expected": [
+        8
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          }
+        ]
+      },
+      "latency_ms": 2770
+    },
+    {
+      "case_id": "ppt-04",
+      "tag": "text",
+      "query": "单台摄像机采集图像序列推断三维场景结构，这一任务叫什么？",
+      "expected": [
+        9
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 3
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          }
+        ]
+      },
+      "latency_ms": 2255
+    },
+    {
+      "case_id": "ppt-05",
+      "tag": "text",
+      "query": "视觉技术如何用于无人机、无人车和水下航行器的控制？",
+      "expected": [
+        10
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          }
+        ]
+      },
+      "latency_ms": 1028
+    },
+    {
+      "case_id": "ppt-06",
+      "tag": "visual",
+      "query": "虚拟场景里实时插入物体的 UCLA Vision Lab 例子在哪一页？",
+      "expected": [
+        14
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 28
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 13
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          }
+        ]
+      },
+      "latency_ms": 1516
+    },
+    {
+      "case_id": "ppt-07",
+      "tag": "visual",
+      "query": "体育直播中用于第一档线和虚拟广告叠加的视觉应用是哪一页？",
+      "expected": [
+        15
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 24
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          }
+        ]
+      },
+      "latency_ms": 1480
+    },
+    {
+      "case_id": "ppt-08",
+      "tag": "visual",
+      "query": "Paul Debevec 的照片展示了哪种基于图像的建模与渲染应用？",
+      "expected": [
+        16
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          }
+        ]
+      },
+      "latency_ms": 3078
+    },
+    {
+      "case_id": "ppt-09",
+      "tag": "visual",
+      "query": "把多张照片对齐并拼接成全景图的幻灯片在哪里？",
+      "expected": [
+        17
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          }
+        ]
+      },
+      "latency_ms": 1315
+    },
+    {
+      "case_id": "ppt-10",
+      "tag": "visual",
+      "query": "哪张幻灯片把一个男人的面孔逐帧变成猫的面孔？",
+      "expected": [
+        18
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          }
+        ]
+      },
+      "latency_ms": 2164
+    },
+    {
+      "case_id": "ppt-11",
+      "tag": "text",
+      "query": "这门视觉课程的成绩组成和各部分百分比在哪里列出？",
+      "expected": [
+        24
+      ],
+      "ranks": {
+        "dense": 2,
+        "text_rrf": 2,
+        "visual": 3,
+        "fusion_rrf": 2
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 32
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 6
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 32
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 23
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 32
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 32
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 24
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 23
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 2
+          }
+        ]
+      },
+      "latency_ms": 13695
+    },
+    {
+      "case_id": "ppt-12",
+      "tag": "text",
+      "query": "课程没有指定教材时推荐使用哪一本免费的计算机视觉书？",
+      "expected": [
+        25
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 11
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 2
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 19
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 25
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 25
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 2
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 10
+          }
+        ]
+      },
+      "latency_ms": 7584
+    },
+    {
+      "case_id": "pdf-13",
+      "tag": "visual_detail",
+      "query": "左边数码相机屏幕上的四个人脸被绿框圈出，右侧男子照片显示年龄与表情属性，这个例子在哪里？",
+      "expected": [
+        14
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 9
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 5
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 31
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 14
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 13
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 22
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          }
+        ]
+      },
+      "latency_ms": 4366
+    },
+    {
+      "case_id": "pdf-14",
+      "tag": "visual_detail",
+      "query": "哪页并排展示浑浊河流、瓶中的红玫瑰和雪山照片？",
+      "expected": [
+        30
+      ],
+      "ranks": {
+        "dense": 38,
+        "text_rrf": 42,
+        "visual": 1,
+        "fusion_rrf": 23
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 4
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 30
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 1
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          }
+        ]
+      },
+      "latency_ms": 6545
+    },
+    {
+      "case_id": "ppt-13",
+      "tag": "visual_detail",
+      "query": "一张报纸上出现了虚拟小人，旁边是黑底绿方块的三维场景，这幅图在哪页？",
+      "expected": [
+        14
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 2,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 15
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 11
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 12
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 15
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          }
+        ]
+      },
+      "latency_ms": 1989
+    },
+    {
+      "case_id": "ppt-14",
+      "tag": "visual_detail",
+      "query": "两张红砖建筑照片被拼成一张更宽的图，下面还有黑白室内画面，在哪一页？",
+      "expected": [
+        17
+      ],
+      "ranks": {
+        "dense": 1,
+        "text_rrf": 1,
+        "visual": 1,
+        "fusion_rrf": 1
+      },
+      "top5": {
+        "dense": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_305b428af1300d4eaf385112",
+            "page": 22
+          }
+        ],
+        "text_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 18
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 9
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          }
+        ],
+        "visual": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 7
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 14
+          }
+        ],
+        "fusion_rrf": [
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 17
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 26
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 16
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 1
+          },
+          {
+            "document_id": "document_3e2b5136a775c85bae127128",
+            "page": 8
+          }
+        ]
+      },
+      "latency_ms": 1461
+    }
+  ]
+}

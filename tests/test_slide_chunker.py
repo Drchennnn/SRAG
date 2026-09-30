@@ -60,4 +60,6 @@ def test_slide_chunker_never_merges_pages_and_links_chunks() -> None:
     assert all(chunk.token_count <= 100 for chunk in result.chunks)
     assert result.chunks[0].next_chunk_id == result.chunks[1].chunk_id
     assert result.chunks[-1].previous_chunk_id == result.chunks[-2].chunk_id
-
+    assert result.chunks[0].embedding_text == "Introduction\n\n[正文]\nShort overview."
+    assert "course/week1.pdf" not in result.chunks[0].embedding_text
+    assert "页码" not in result.chunks[0].embedding_text

@@ -1,0 +1,28 @@
+{"case_id":"pdf-01","query":"计算机视觉怎样从互联网照片重建三维模型和相机位置？","document_id":"document_305b428af1300d4eaf385112","pages":[8],"tag":"text"}
+{"case_id":"pdf-02","query":"课程里用什么例子说明计算摄影中的图像修补和补全？","document_id":"document_305b428af1300d4eaf385112","pages":[10],"tag":"text"}
+{"case_id":"pdf-03","query":"扫描件上的印刷文字和手写数字识别属于什么视觉应用？","document_id":"document_305b428af1300d4eaf385112","pages":[12],"tag":"visual"}
+{"case_id":"pdf-04","query":"阿富汗女孩是通过什么生物特征被重新识别的？","document_id":"document_305b428af1300d4eaf385112","pages":[16],"tag":"text"}
+{"case_id":"pdf-05","query":"哪款鸟类识别应用与 Cornell 的技术有关？","document_id":"document_305b428af1300d4eaf385112","pages":[18],"tag":"text"}
+{"case_id":"pdf-06","query":"植物识别和生物多样性相关的 Pl@ntNet 示例在哪页？","document_id":"document_305b428af1300d4eaf385112","pages":[19],"tag":"text"}
+{"case_id":"pdf-07","query":"水下鱼类计数与海洋哺乳动物识别属于哪些应用？","document_id":"document_305b428af1300d4eaf385112","pages":[20],"tag":"text"}
+{"case_id":"pdf-08","query":"胸部 X 光片经多个疾病 CNN、加权全连接网络输出异常概率和热力图的流程图在哪里？","document_id":"document_305b428af1300d4eaf385112","pages":[22],"tag":"visual"}
+{"case_id":"pdf-09","query":"用菜肴图像对比 Gist、颜色矩和 AlexNet 特征的案例在哪页？","document_id":"document_305b428af1300d4eaf385112","pages":[23],"tag":"visual"}
+{"case_id":"pdf-10","query":"视觉课件中 6DoF 头部追踪、身体追踪和 3D-360 视频用于什么领域？","document_id":"document_305b428af1300d4eaf385112","pages":[24],"tag":"text"}
+{"case_id":"pdf-11","query":"课件提到 LLaVA 和 FERRET 两个视觉大模型的页面是哪页？","document_id":"document_305b428af1300d4eaf385112","pages":[29],"tag":"text"}
+{"case_id":"pdf-12","query":"生成式 AI 展示真假图像辨别挑战的幻灯片是哪页？","document_id":"document_305b428af1300d4eaf385112","pages":[30],"tag":"visual"}
+{"case_id":"ppt-01","query":"图像分割怎样把画面划成独立物体，边界检测和聚类是什么角色？","document_id":"document_3e2b5136a775c85bae127128","pages":[4],"tag":"text"}
+{"case_id":"ppt-02","query":"输入连续视频帧后如何跟踪目标位置，课件给的 Tracker 例子在哪里？","document_id":"document_3e2b5136a775c85bae127128","pages":[6],"tag":"text"}
+{"case_id":"ppt-03","query":"多视角三维重建需要哪些对应特征，输出相机位姿和标定的页面是哪页？","document_id":"document_3e2b5136a775c85bae127128","pages":[8],"tag":"text"}
+{"case_id":"ppt-04","query":"单台摄像机采集图像序列推断三维场景结构，这一任务叫什么？","document_id":"document_3e2b5136a775c85bae127128","pages":[9],"tag":"text"}
+{"case_id":"ppt-05","query":"视觉技术如何用于无人机、无人车和水下航行器的控制？","document_id":"document_3e2b5136a775c85bae127128","pages":[10],"tag":"text"}
+{"case_id":"ppt-06","query":"虚拟场景里实时插入物体的 UCLA Vision Lab 例子在哪一页？","document_id":"document_3e2b5136a775c85bae127128","pages":[14],"tag":"visual"}
+{"case_id":"ppt-07","query":"体育直播中用于第一档线和虚拟广告叠加的视觉应用是哪一页？","document_id":"document_3e2b5136a775c85bae127128","pages":[15],"tag":"visual"}
+{"case_id":"ppt-08","query":"Paul Debevec 的照片展示了哪种基于图像的建模与渲染应用？","document_id":"document_3e2b5136a775c85bae127128","pages":[16],"tag":"visual"}
+{"case_id":"ppt-09","query":"把多张照片对齐并拼接成全景图的幻灯片在哪里？","document_id":"document_3e2b5136a775c85bae127128","pages":[17],"tag":"visual"}
+{"case_id":"ppt-10","query":"哪张幻灯片把一个男人的面孔逐帧变成猫的面孔？","document_id":"document_3e2b5136a775c85bae127128","pages":[18],"tag":"visual"}
+{"case_id":"ppt-11","query":"这门视觉课程的成绩组成和各部分百分比在哪里列出？","document_id":"document_3e2b5136a775c85bae127128","pages":[24],"tag":"text"}
+{"case_id":"ppt-12","query":"课程没有指定教材时推荐使用哪一本免费的计算机视觉书？","document_id":"document_3e2b5136a775c85bae127128","pages":[25],"tag":"text"}
+{"case_id":"pdf-13","query":"左边数码相机屏幕上的四个人脸被绿框圈出，右侧男子照片显示年龄与表情属性，这个例子在哪里？","document_id":"document_305b428af1300d4eaf385112","pages":[14],"tag":"visual_detail"}
+{"case_id":"pdf-14","query":"哪页并排展示浑浊河流、瓶中的红玫瑰和雪山照片？","document_id":"document_305b428af1300d4eaf385112","pages":[30],"tag":"visual_detail"}
+{"case_id":"ppt-13","query":"一张报纸上出现了虚拟小人，旁边是黑底绿方块的三维场景，这幅图在哪页？","document_id":"document_3e2b5136a775c85bae127128","pages":[14],"tag":"visual_detail"}
+{"case_id":"ppt-14","query":"两张红砖建筑照片被拼成一张更宽的图，下面还有黑白室内画面，在哪一页？","document_id":"document_3e2b5136a775c85bae127128","pages":[17],"tag":"visual_detail"}

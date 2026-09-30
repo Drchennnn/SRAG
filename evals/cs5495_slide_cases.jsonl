@@ -1,0 +1,24 @@
+{"case_id":"xai-2a-01","query":"比较不同特征数的线性回归模型时，为什么要看 adjusted R-squared？","document_id":"document_5f9ca97dd3e5d44a3e201cdb","pages":[6],"tag":"concept"}
+{"case_id":"xai-2a-02","query":"回归系数的标准误和 t 统计量如何共同影响特征重要性的判断？","document_id":"document_5f9ca97dd3e5d44a3e201cdb","pages":[11],"tag":"formula"}
+{"case_id":"xai-2a-03","query":"对数值特征做 z-score 后，为什么不同单位的回归权重可以直接比较？","document_id":"document_5f9ca97dd3e5d44a3e201cdb","pages":[17],"tag":"concept"}
+{"case_id":"xai-2a-04","query":"类别变量的 treatment coding 与 effect coding 分别以什么作为比较基准？","document_id":"document_5f9ca97dd3e5d44a3e201cdb","pages":[19],"tag":"near_negative"}
+{"case_id":"xai-2a-05","query":"房价从一万到一千万时固定预测误差会破坏哪项假设，课件建议怎样处理输出？","document_id":"document_5f9ca97dd3e5d44a3e201cdb","pages":[20],"tag":"concept"}
+{"case_id":"xai-2a-06","query":"哪页用蓝色热力图和三维曲面展示同一个双变量线性函数？","document_id":"document_5f9ca97dd3e5d44a3e201cdb","pages":[5],"tag":"visual_detail"}
+{"case_id":"xai-2b-01","query":"二分类线性模型的分界超平面与权重向量在几何上是什么关系？","document_id":"document_bf28bc611cc82129a0de8d08","pages":[2],"tag":"concept"}
+{"case_id":"xai-2b-02","query":"课件从哪页开始用阿德利企鹅的身体测量值预测性别，展示逻辑回归例子？","document_id":"document_bf28bc611cc82129a0de8d08","pages":[6],"tag":"near_negative"}
+{"case_id":"xai-2b-03","query":"逻辑回归特征增加一个单位，对 odds 和 log-odds 的影响分别是什么？","document_id":"document_bf28bc611cc82129a0de8d08","pages":[10],"tag":"formula"}
+{"case_id":"xai-2b-04","query":"哪页上下两幅曲线图分别画出三个线性打分函数和映射后的三类概率？","document_id":"document_bf28bc611cc82129a0de8d08","pages":[14],"tag":"visual_detail"}
+{"case_id":"xai-2b-05","query":"多项逻辑回归删掉一个冗余函数后，如何以第一类为参考解释其他类别的 log-odds？","document_id":"document_bf28bc611cc82129a0de8d08","pages":[15],"tag":"near_negative"}
+{"case_id":"xai-2b-06","query":"企鹅分类里，喙长和鳍长各增加一单位时 Gentoo 的优势比分别乘以多少？","document_id":"document_bf28bc611cc82129a0de8d08","pages":[19],"tag":"formula"}
+{"case_id":"xai-3a-01","query":"四棵树分别从训练集随机抽样后，集成分类器怎样给一个测试样本作最终预测？","document_id":"document_7dea2f628cb9374f5f98774a","pages":[3],"tag":"concept"}
+{"case_id":"xai-3a-02","query":"AdaBoost 训练弱学习器时，怎样让上一轮分错的样本得到更多关注？","document_id":"document_7dea2f628cb9374f5f98774a","pages":[5],"tag":"near_negative"}
+{"case_id":"xai-3a-03","query":"LIME 如何扰动一个实例、查询黑箱预测，再用邻近加权的可解释模型解释该实例？","document_id":"document_7dea2f628cb9374f5f98774a","pages":[11],"tag":"concept"}
+{"case_id":"xai-3a-04","query":"哪张四宫格图含黄色待解释点、黑色采样点、距离权重和白色局部决策边界？","document_id":"document_7dea2f628cb9374f5f98774a","pages":[13],"tag":"visual_detail"}
+{"case_id":"xai-3a-05","query":"LIME 解释文本分类时，为什么随机删除词语，并把每个词编码成二元特征？","document_id":"document_7dea2f628cb9374f5f98774a","pages":[18],"tag":"concept"}
+{"case_id":"xai-3b-01","query":"用合作博弈解释公寓价格时，Shapley 值如何把预测价与平均价的差分给各个特征？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[2],"tag":"concept"}
+{"case_id":"xai-3b-02","query":"如果某个特征在所有联盟中都不改变预测，Shapley 的 dummy 性质要求它的贡献是多少？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[6],"tag":"formula"}
+{"case_id":"xai-3b-03","query":"为什么改变参考数据集会改变 Shapley 解释，正的归因值能否当作局部梯度？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[7],"tag":"near_negative"}
+{"case_id":"xai-3b-04","query":"多类别随机森林运行 TreeSHAP 时，为什么要分别核对每一类概率的归因加和？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[21],"tag":"near_negative"}
+{"case_id":"xai-3b-05","query":"天气类别解释里，低湿度、高湿度和共享单车数量分别怎样支持 GOOD 或 MISTY？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[27],"tag":"concept"}
+{"case_id":"xai-3b-06","query":"评价解释的 sufficiency 与 comprehensiveness 时，两条曲线的 AUC 各希望更高还是更低？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[29],"tag":"formula"}
+{"case_id":"xai-3b-07","query":"哪页用 cnt、windspeed、hum、temp 四幅彩色散点图对比天气类别的特征归因？","document_id":"document_b4d00e523d059bdfa5ccbc43","pages":[28],"tag":"visual_detail"}

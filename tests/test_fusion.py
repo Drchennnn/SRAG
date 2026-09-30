@@ -2,7 +2,13 @@
 
 from qdrant_client import models
 
-from app.rag.fusion import deduplicate_by_chunk, merge_and_deduplicate, reciprocal_rank_fusion
+from app.rag.fusion import (
+    deduplicate_by_chunk,
+    merge_and_deduplicate,
+    prefer_visual_pages,
+    reciprocal_rank_fusion,
+    visual_query_intent,
+)
 
 
 def test_rrf_single_list():
@@ -84,3 +90,27 @@ def test_merge_and_deduplicate():
     assert len(result) == 2
     assert str(result[0].id) == "2"  # c1 保留更高得分
     assert result[0].score == 0.95
+
+
+def test_visual_query_intent_distinguishes_page_image_from_topic() -> None:
+    assert visual_query_intent("哪页照片里有河流、红玫瑰和雪山？")
+    assert visual_query_intent("Find the diagram of camera projection")
+    assert not visual_query_intent("图像梯度的方向如何计算？")
+
+
+def test_visual_first_keeps_image_only_page_and_deduplicates_text() -> None:
+    visual = [
+        models.ScoredPoint(
+            id=1, version=1, score=0.9, payload={"document_id": "doc", "page": 8, "chunk_id": "c8"}
+        ),
+    ]
+    text = [
+        models.ScoredPoint(
+            id=2, version=1, score=0.8, payload={"document_id": "doc", "page": 8, "chunk_id": "c8"}
+        ),
+        models.ScoredPoint(
+            id=3, version=1, score=0.7, payload={"document_id": "doc", "page": 9, "chunk_id": "c9"}
+        ),
+    ]
+    result = prefer_visual_pages(visual, text, top_k=2)
+    assert [point.id for point in result] == [1, 3]

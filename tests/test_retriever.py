@@ -5,7 +5,11 @@ from collections.abc import Sequence
 from qdrant_client import models
 
 from app.rag.retriever import HybridRetriever
-from app.schemas.embedding import EmbeddingVector
+from app.schemas.embedding import (
+    EmbeddingVector,
+    MultimodalEmbeddingBatch,
+    MultimodalEmbeddingVector,
+)
 from app.schemas.rag import SearchRequest, SearchScope
 from app.stores.sqlite import VisibleVersion
 
@@ -23,6 +27,19 @@ class FakeQueryEmbeddingProvider:
         assert instruct is None
         self.queries.append(text)
         return EmbeddingVector(index=0, dense=[0.8, 0.2, 0.0])
+
+
+class FakeVisualQueryEmbeddingProvider(FakeQueryEmbeddingProvider):
+    def __init__(self) -> None:
+        super().__init__()
+        self.visual_queries: list[str] = []
+
+    async def embed_visual_query(self, text: str) -> MultimodalEmbeddingBatch:
+        self.visual_queries.append(text)
+        return MultimodalEmbeddingBatch(
+            model="test-visual",
+            vectors=[MultimodalEmbeddingVector(index=0, dense=[1.0, 0.0], input_type="text")],
+        )
 
 
 class FakeDenseVectorStore:
@@ -91,6 +108,35 @@ class FakeDenseVectorStore:
         return []
 
 
+class FakeVisualVectorStore(FakeDenseVectorStore):
+    def __init__(self) -> None:
+        super().__init__()
+        self.visual_calls: list[tuple[int, list[tuple[str, int]] | None]] = []
+
+    async def search_visual_fusion(
+        self, query_vector, *, limit, course_ids=(), document_ids=(), visible_versions=None
+    ):
+        self.visual_calls.append((limit, list(visible_versions) if visible_versions else None))
+        return [
+            models.ScoredPoint(
+                id=2,
+                version=1,
+                score=0.92,
+                payload={
+                    "chunk_id": "slide-8",
+                    "section_id": "section-slide",
+                    "representation_type": "visual_fusion",
+                    "content": "Cameras",
+                    "course_id": "CS5187",
+                    "document_id": "slide-doc",
+                    "source_path": "/course/cameras.pdf",
+                    "page": 8,
+                    "image_path": "/assets/slide-0008.png",
+                },
+            )
+        ]
+
+
 class FakeVisibilityStore:
     def __init__(self, versions: list[VisibleVersion]) -> None:
         self.versions = versions
@@ -137,9 +183,7 @@ async def test_search_passes_course_and_document_scope() -> None:
     )
 
     # 混合检索使用 recall_limit = min(top_k * 3, 50) = 15
-    assert store.calls == [
-        ([0.8, 0.2, 0.0], 15, ["CS0001", "CS0002"], ["doc-1"], None)
-    ]
+    assert store.calls == [([0.8, 0.2, 0.0], 15, ["CS0001", "CS0002"], ["doc-1"], None)]
 
 
 async def test_search_filters_to_metadata_visible_versions() -> None:
@@ -158,9 +202,7 @@ async def test_search_filters_to_metadata_visible_versions() -> None:
 
     assert visibility.calls == [(["CS0001"], ["doc-1"])]
     # 混合检索使用 recall_limit = min(top_k * 3, 50) = 9
-    assert store.calls == [
-        ([0.8, 0.2, 0.0], 9, ["CS0001"], ["doc-1"], [("doc-1", 2)])
-    ]
+    assert store.calls == [([0.8, 0.2, 0.0], 9, ["CS0001"], ["doc-1"], [("doc-1", 2)])]
 
 
 async def test_search_skips_embedding_when_scope_has_no_visible_version() -> None:
@@ -173,3 +215,42 @@ async def test_search_skips_embedding_when_scope_has_no_visible_version() -> Non
     assert response.hits == []
     assert provider.queries == []
     assert store.calls == []
+
+
+async def test_auto_visual_route_returns_image_only_page_and_source() -> None:
+    provider = FakeVisualQueryEmbeddingProvider()
+    store = FakeVisualVectorStore()
+    visible = FakeVisibilityStore([VisibleVersion(document_id="slide-doc", version=1)])
+    retriever = HybridRetriever(provider, store, visible, visual_enabled=True)
+
+    response = await retriever.search(
+        SearchRequest(
+            query="哪张图展示相机中心和成像平面？",
+            top_k=2,
+            scope=SearchScope(document_ids=["slide-doc"]),
+        )
+    )
+
+    assert response.mode_used == "visual"
+    assert response.hits[0].source.page == 8
+    assert response.hits[0].source.image_path == "/assets/slide-0008.png"
+    assert store.visual_calls == [(6, [("slide-doc", 1)])]
+    assert provider.visual_queries == ["哪张图展示相机中心和成像平面？"]
+
+
+async def test_explicit_text_mode_overrides_visual_intent() -> None:
+    provider = FakeVisualQueryEmbeddingProvider()
+    store = FakeVisualVectorStore()
+    retriever = HybridRetriever(provider, store, visual_enabled=True)
+
+    response = await retriever.search(
+        SearchRequest(
+            query="照片里的相机",
+            retrieval_mode="text",
+            top_k=2,
+        )
+    )
+
+    assert response.mode_used == "text"
+    assert store.visual_calls == []
+    assert provider.visual_queries == []

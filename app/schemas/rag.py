@@ -3,6 +3,7 @@
 from datetime import datetime
 from enum import StrEnum
 from pathlib import Path
+from typing import Literal
 
 from pydantic import BaseModel, Field
 
@@ -18,6 +19,17 @@ class IndexRequest(BaseModel):
     course_id: str
     paths: list[Path] = Field(min_length=1)
     release_at: datetime | None = None
+
+
+class SlideIndexRequest(BaseModel):
+    """导入已在 Colab 预处理并向量化的 PDF/PPTX。"""
+
+    course_id: str
+    source_path: Path
+    bundle_dir: Path
+    embeddings_path: Path
+    release_at: datetime | None = None
+    force: bool = False
 
 
 class IndexStatus(BaseModel):
@@ -38,6 +50,7 @@ class SearchRequest(BaseModel):
     query: str = Field(min_length=1)
     scope: SearchScope = Field(default_factory=SearchScope)
     top_k: int = Field(default=8, ge=1, le=50)
+    retrieval_mode: Literal["auto", "text", "visual"] = "auto"
 
 
 class SourceReference(BaseModel):
@@ -49,6 +62,7 @@ class SourceReference(BaseModel):
     cell_id: str | None = None
     cell_index: int | None = None
     page: int | None = None
+    image_path: str | None = None
 
 
 class SearchHit(BaseModel):
@@ -63,6 +77,7 @@ class SearchHit(BaseModel):
 class SearchResponse(BaseModel):
     query: str
     hits: list[SearchHit]
+    mode_used: Literal["text", "visual"] = "text"
 
 
 class DocumentSummary(BaseModel):

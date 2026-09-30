@@ -136,3 +136,36 @@ async def test_visual_embedding_uses_image_text_fusion(tmp_path: Path) -> None:
     assert result.vectors[0].input_type == "fusion"
     assert result.vectors[0].dense == [0.1, 0.2, 0.3]
     assert result.total_tokens == 12
+
+
+@pytest.mark.asyncio
+async def test_visual_query_uses_same_model_without_image_fusion() -> None:
+    captured: dict[str, object] = {}
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        captured.update(json.loads(request.content))
+        return httpx.Response(
+            200,
+            json={
+                "request_id": "visual-query",
+                "output": {
+                    "embeddings": [{"index": 0, "embedding": [0.1, 0.2], "type": "text"}]
+                },
+                "usage": {"total_tokens": 6},
+            },
+        )
+
+    client = DashScopeClient(
+        Settings(
+            dashscope_api_key="test-key",
+            dashscope_visual_embedding_dimension=2,
+            dashscope_max_retries=0,
+        ),
+        transport=httpx.MockTransport(handler),
+    )
+    result = await client.embed_visual_query("  医学影像流程图  ")
+
+    assert captured["input"] == {"contents": [{"text": "医学影像流程图"}]}
+    assert captured["parameters"] == {"dimension": 2, "output_type": "dense"}
+    assert result.vectors[0].input_type == "text"
+    assert result.vectors[0].dense == [0.1, 0.2]

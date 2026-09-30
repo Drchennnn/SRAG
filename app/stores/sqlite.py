@@ -12,7 +12,7 @@ from pathlib import Path
 from typing import Any
 
 from app.config import Settings
-from app.schemas.document import ParsedDocument
+from app.schemas.document import ParsedDocument, SlideChunkingResult, SlideDeck
 from app.schemas.indexing import PreparedDocumentIndex
 from app.schemas.rag import DocumentSummary, IndexStatus, JobState
 
@@ -230,6 +230,8 @@ class MetadataStore:
         course_id: str,
         content_hash: str,
         release_at: datetime | None,
+        document_type: str = "notebook",
+        force: bool = False,
     ) -> VersionPlan:
         """登记文档并决定跳过或创建 building 版本。"""
 
@@ -255,11 +257,12 @@ class MetadataStore:
                 INSERT INTO documents(
                     document_id, course_id, source_path, title, document_type,
                     created_at, updated_at, deleted_at
-                ) VALUES (?, ?, ?, ?, 'notebook', ?, ?, NULL)
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, NULL)
                 ON CONFLICT(document_id) DO UPDATE SET
                     course_id = excluded.course_id,
                     source_path = excluded.source_path,
                     title = excluded.title,
+                    document_type = excluded.document_type,
                     updated_at = excluded.updated_at,
                     deleted_at = NULL
                 """,
@@ -268,6 +271,7 @@ class MetadataStore:
                     clean_course_id,
                     document.source_path,
                     document.title,
+                    document_type,
                     now,
                     now,
                 ),
@@ -287,6 +291,7 @@ class MetadataStore:
                 active is not None
                 and active["content_hash"] == content_hash
                 and not course_changed
+                and not force
             ):
                 connection.execute(
                     """
@@ -339,6 +344,88 @@ class MetadataStore:
                 version=next_version,
                 should_index=True,
                 previous_active_version=active["version"] if active is not None else None,
+            )
+
+    def save_slide_structure(
+        self,
+        deck: SlideDeck,
+        chunking: SlideChunkingResult,
+        *,
+        version: int,
+        asset_paths: dict[str, str],
+    ) -> None:
+        """保存页、章节、chunk 与已复制到受管目录的资源路径。"""
+
+        with self._connect() as connection:
+            row = connection.execute(
+                "SELECT state FROM document_versions WHERE document_id = ? AND version = ?",
+                (deck.document_id, version),
+            ).fetchone()
+            if row is None or row["state"] != "building":
+                raise ValueError("只能为 building 版本保存幻灯片结构")
+            for slide in deck.slides:
+                connection.execute(
+                    """INSERT INTO content_blocks(document_id, version, block_id, kind,
+                       cell_id, cell_index, page, payload_json)
+                       VALUES (?, ?, ?, 'slide', NULL, NULL, ?, ?)""",
+                    (deck.document_id, version, slide.slide_id, slide.slide_no, _model_json(slide)),
+                )
+                for asset in slide.assets:
+                    connection.execute(
+                        """INSERT INTO assets(document_id, version, asset_id, block_id,
+                           media_type, path, caption) VALUES (?, ?, ?, ?, ?, ?, ?)""",
+                        (
+                            deck.document_id,
+                            version,
+                            asset.asset_id,
+                            slide.slide_id,
+                            asset.media_type,
+                            asset_paths[asset.path],
+                            asset.caption,
+                        ),
+                    )
+                if slide.page_image_path:
+                    connection.execute(
+                        """INSERT INTO assets(document_id, version, asset_id, block_id,
+                           media_type, path, caption) VALUES (?, ?, ?, ?, 'image/png', ?, NULL)""",
+                        (
+                            deck.document_id,
+                            version,
+                            f"{slide.slide_id}:page",
+                            slide.slide_id,
+                            asset_paths[slide.page_image_path],
+                        ),
+                    )
+            connection.executemany(
+                """INSERT INTO sections(document_id, version, section_id, heading, payload_json)
+                   VALUES (?, ?, ?, ?, ?)""",
+                [
+                    (
+                        deck.document_id,
+                        version,
+                        section.section_id,
+                        section.title,
+                        _model_json(section),
+                    )
+                    for section in chunking.sections
+                ],
+            )
+            connection.executemany(
+                """INSERT INTO chunks(document_id, version, chunk_id, section_id, kind,
+                   previous_chunk_id, next_chunk_id, payload_json)
+                   VALUES (?, ?, ?, ?, 'slide', ?, ?, ?)""",
+                [
+                    (
+                        deck.document_id,
+                        version,
+                        chunk.chunk_id,
+                        chunk.section_id,
+                        chunk.previous_chunk_id,
+                        chunk.next_chunk_id,
+                        _model_json(chunk),
+                    )
+                    for chunk in chunking.chunks
+                ],
             )
 
     def save_structure(
@@ -537,14 +624,13 @@ class MetadataStore:
             SELECT d.document_id, v.version
             FROM documents d
             JOIN document_versions v ON v.document_id = d.document_id
-            WHERE {' AND '.join(conditions)}
+            WHERE {" AND ".join(conditions)}
             ORDER BY d.document_id
         """
         with self._connect() as connection:
             rows = connection.execute(query, parameters).fetchall()
         return [
-            VisibleVersion(document_id=row["document_id"], version=row["version"])
-            for row in rows
+            VisibleVersion(document_id=row["document_id"], version=row["version"]) for row in rows
         ]
 
     def list_documents(self, *, at: datetime | None = None) -> list[DocumentSummary]:

@@ -9,6 +9,8 @@ from uuid import NAMESPACE_URL, uuid5
 from qdrant_client import AsyncQdrantClient, models
 
 from app.config import Settings
+from app.schemas.document import SlideChunkingResult, SlideDeck
+from app.schemas.embedding import SlideEmbeddingResult
 from app.schemas.indexing import PreparedDocumentIndex, RepresentationType
 
 TEXT_DENSE_VECTOR = "text_dense"
@@ -259,6 +261,116 @@ class QdrantStore:
             )
         return len(points)
 
+    async def upsert_slide_embeddings(
+        self,
+        deck: SlideDeck,
+        chunking: SlideChunkingResult,
+        embeddings: SlideEmbeddingResult,
+        *,
+        course_id: str,
+        source_path: str,
+        asset_paths: dict[str, str],
+        version: int,
+        release_at: datetime | None = None,
+    ) -> int:
+        """将每页文本与整页视觉表示写入现有命名向量空间。"""
+
+        await self.ensure_collection()
+        if (
+            embeddings.text_dimension != self.text_dimension
+            or embeddings.text_model != self.text_embedding_model
+        ):
+            raise ValueError("文本向量模型或维度与 Qdrant collection 不符")
+        if embeddings.visual_representations and (
+            embeddings.visual_dimension != self.visual_dimension
+            or embeddings.visual_model != self.visual_embedding_model
+        ):
+            raise ValueError("视觉向量模型或维度与 Qdrant collection 不符")
+        chunks = {chunk.chunk_id: chunk for chunk in chunking.chunks}
+        slides = {slide.slide_id: slide for slide in deck.slides}
+        sections = {section.section_id: section for section in chunking.sections}
+        release_value = _serialize_datetime(release_at) if release_at else None
+        common = {
+            "schema_version": COLLECTION_SCHEMA_VERSION,
+            "course_id": course_id.strip(),
+            "document_id": deck.document_id,
+            "source_path": source_path,
+            "title": deck.title,
+            "document_type": deck.source_format.value,
+            "version": version,
+        }
+        if not common["course_id"] or version < 1:
+            raise ValueError("course_id 或 version 无效")
+        if release_value:
+            common["release_at"] = release_value
+        points: list[models.PointStruct] = []
+        for embedded in embeddings.text_representations:
+            chunk = chunks[embedded.chunk_id]
+            if len(embedded.dense) != self.text_dimension or embedded.slide_id != chunk.slide_id:
+                raise ValueError(f"文本向量来源或维度无效：{embedded.chunk_id}")
+            section = sections[chunk.section_id]
+            vector: dict[str, list[float] | models.SparseVector] = {
+                TEXT_DENSE_VECTOR: embedded.dense,
+            }
+            if embedded.sparse:
+                sparse = sorted(embedded.sparse, key=lambda item: item.index)
+                vector[TEXT_SPARSE_VECTOR] = models.SparseVector(
+                    indices=[item.index for item in sparse],
+                    values=[item.value for item in sparse],
+                )
+            points.append(
+                models.PointStruct(
+                    id=_point_id(f"{deck.document_id}:slide:text:{chunk.chunk_id}", version),
+                    vector=vector,
+                    payload={
+                        **common,
+                        "representation_type": RepresentationType.TEXT_CONTENT.value,
+                        "representation_id": f"slide:text:{chunk.chunk_id}",
+                        "chunk_id": chunk.chunk_id,
+                        "section_id": chunk.section_id,
+                        "section_path": [section.title],
+                        "slide_id": chunk.slide_id,
+                        "page": chunk.slide_no,
+                        "content": chunk.display_text.strip() or embedded.text,
+                        "embedding_model": embeddings.text_model,
+                        "previous_chunk_id": chunk.previous_chunk_id,
+                        "next_chunk_id": chunk.next_chunk_id,
+                    },
+                )
+            )
+        for embedded in embeddings.visual_representations:
+            slide = slides[embedded.slide_id]
+            if len(embedded.dense) != self.visual_dimension or embedded.slide_no != slide.slide_no:
+                raise ValueError(f"视觉向量来源或维度无效：{embedded.slide_id}")
+            chunk = chunks[embedded.chunk_ids[0]]
+            section = sections[chunk.section_id]
+            points.append(
+                models.PointStruct(
+                    id=_point_id(f"{deck.document_id}:slide:visual:{slide.slide_id}", version),
+                    vector={VISUAL_DENSE_VECTOR: embedded.dense},
+                    payload={
+                        **common,
+                        "representation_type": RepresentationType.VISUAL_FUSION.value,
+                        "representation_id": f"slide:visual:{slide.slide_id}",
+                        "chunk_id": chunk.chunk_id,
+                        "section_id": chunk.section_id,
+                        "section_path": [section.title],
+                        "slide_id": slide.slide_id,
+                        "page": slide.slide_no,
+                        "content": embedded.context_text,
+                        "image_path": asset_paths[embedded.image_path],
+                        "embedding_model": embeddings.visual_model,
+                    },
+                )
+            )
+        for start in range(0, len(points), _UPSERT_BATCH_SIZE):
+            await self.client.upsert(
+                collection_name=self.collection,
+                points=points[start : start + _UPSERT_BATCH_SIZE],
+                wait=True,
+            )
+        return len(points)
+
     async def search_text_dense(
         self,
         query_vector: list[float],
@@ -271,9 +383,7 @@ class QdrantStore:
         """在 text_dense 空间召回正文 chunk，不包含 document outline。"""
 
         if len(query_vector) != self.text_dimension:
-            raise ValueError(
-                f"查询向量维度应为 {self.text_dimension}，实际为 {len(query_vector)}"
-            )
+            raise ValueError(f"查询向量维度应为 {self.text_dimension}，实际为 {len(query_vector)}")
         if not 1 <= limit <= 50:
             raise ValueError("dense 召回数量必须在 1 到 50 之间")
 
@@ -431,9 +541,7 @@ class QdrantStore:
         """在 text_dense 空间召回 document outline 表示。"""
 
         if len(query_vector) != self.text_dimension:
-            raise ValueError(
-                f"查询向量维度应为 {self.text_dimension}，实际为 {len(query_vector)}"
-            )
+            raise ValueError(f"查询向量维度应为 {self.text_dimension}，实际为 {len(query_vector)}")
         if not 1 <= limit <= 50:
             raise ValueError("outline 召回数量必须在 1 到 50 之间")
 

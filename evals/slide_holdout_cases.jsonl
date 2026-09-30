@@ -1,0 +1,28 @@
+{"case_id":"edge-h01","query":"深度、表面颜色、光照和表面法线的变化为什么会产生图像边界？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[3],"tag":"concept"}
+{"case_id":"edge-h02","query":"沿水平扫描线看图像亮度时，边缘为什么对应一阶导数的极值？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[9],"tag":"formula"}
+{"case_id":"edge-h03","query":"数字图像求导有连续重建和有限差分两种方案，后者如何用线性滤波器实现？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[10],"tag":"formula"}
+{"case_id":"edge-h04","query":"图像梯度的方向与边缘强度分别由什么量表示？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[11],"tag":"formula"}
+{"case_id":"edge-h05","query":"有噪声的图像找边缘时，为什么要先平滑再寻找导数峰值？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[14],"tag":"near_negative"}
+{"case_id":"edge-h06","query":"哪页画了蓝色单峰高斯曲线、红色一阶导数曲线和绿色二阶导数曲线？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[16],"tag":"visual_detail"}
+{"case_id":"edge-h07","query":"Sobel 横向和纵向的 3×3 卷积核系数是什么，为什么省略 1/8 不影响边缘位置？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[18],"tag":"formula"}
+{"case_id":"edge-h08","query":"课件哪页并排展示了原图的 x 梯度、y 梯度及梯度幅值的结果图？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[19],"tag":"visual_detail"}
+{"case_id":"edge-h09","query":"好的边缘检测器要怎样兼顾真实边缘检出、抗噪声、定位和每条边只返回一次？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[21],"tag":"concept"}
+{"case_id":"edge-h10","query":"根据 gx 和 gy 为每个像素计算方向时，课件采用哪个 atan2 表达式？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[26],"tag":"formula"}
+{"case_id":"edge-h11","query":"沿梯度正反两个方向比较边缘强度，只留下局部最大值的具体做法在哪一页？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[27],"tag":"near_negative"}
+{"case_id":"edge-h12","query":"戴帽子的女性照片经过处理后，黑底上的面部和帽檐呈现较粗的亮边，在哪一页？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[28],"tag":"visual_detail"}
+{"case_id":"edge-h13","query":"戴帽子的女性照片中，黑底的边缘被压细变暗，帽檐线条更单一的结果在哪一页？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[29],"tag":"visual_detail"}
+{"case_id":"edge-h14","query":"Canny 边缘检测从高斯导数滤波到梯度、非极大值抑制、连接与阈值的完整步骤在哪页？","document_id":"document_4aac6fee95a5faeebdc5f4ec","pages":[32],"tag":"near_negative"}
+{"case_id":"camera-h01","query":"直接在物体前方放胶片为什么无法得到清晰图像，课件如何引出设计相机？","document_id":"document_f2c506b33faed33deea51112","pages":[3],"tag":"concept"}
+{"case_id":"camera-h02","query":"小孔前加遮挡板为什么减少模糊，却让成像上下倒置？","document_id":"document_f2c506b33faed33deea51112","pages":[4],"tag":"concept"}
+{"case_id":"camera-h03","query":"哪张图用光线穿过相机中心、交于成像平面的示意说明世界坐标和图像坐标的关系，标出了 optical axis 和 image centre？","document_id":"document_f2c506b33faed33deea51112","pages":[8],"tag":"visual_detail"}
+{"case_id":"camera-h04","query":"针孔模型里三维点 (x,y,z) 投影到二维图像时，为什么坐标包含 fx/z 与 fy/z？","document_id":"document_f2c506b33faed33deea51112","pages":[9],"tag":"formula"}
+{"case_id":"camera-h05","query":"建模相机几何时需要区分世界坐标系和相机坐标系，哪页画出两套坐标？","document_id":"document_f2c506b33faed33deea51112","pages":[10],"tag":"near_negative"}
+{"case_id":"camera-h06","query":"世界坐标点投到图像前，需要知道相机在世界中的位置和方向，之后还需要什么内在信息？","document_id":"document_f2c506b33faed33deea51112","pages":[11],"tag":"near_negative"}
+{"case_id":"camera-h07","query":"主点为什么是光轴与成像平面的交点，投影坐标怎样加入主点偏移？","document_id":"document_f2c506b33faed33deea51112","pages":[12],"tag":"formula"}
+{"case_id":"camera-h08","query":"把物理成像平面的长度换成像素时，k 和 l 分别控制什么，什么情况下像素是正方形？","document_id":"document_f2c506b33faed33deea51112","pages":[13],"tag":"formula"}
+{"case_id":"camera-h09","query":"课件在哪页用齐次坐标把场景坐标映射到图像坐标？","document_id":"document_f2c506b33faed33deea51112","pages":[14],"tag":"formula"}
+{"case_id":"camera-h10","query":"相机标定矩阵 K 的 3×3 形式由 α、β 和主点坐标如何组成？","document_id":"document_f2c506b33faed33deea51112","pages":[15],"tag":"formula"}
+{"case_id":"camera-h11","query":"外参里的旋转 R 和平移 T 如何把世界参考系中的三维点转换到相机参考系？","document_id":"document_f2c506b33faed33deea51112","pages":[16],"tag":"near_negative"}
+{"case_id":"camera-h12","query":"内参 K 与外参 R、T 合起来得到投影矩阵的那张公式页是哪页？","document_id":"document_f2c506b33faed33deea51112","pages":[17],"tag":"near_negative"}
+{"case_id":"camera-h13","query":"不知道任意相机的内参和外参时，估计它们的过程叫什么？","document_id":"document_f2c506b33faed33deea51112","pages":[18],"tag":"concept"}
+{"case_id":"camera-h14","query":"焦距 5mm、像素 0.02mm、主点 (500,500) 的相机矩阵练习在哪一页？","document_id":"document_f2c506b33faed33deea51112","pages":[19],"tag":"formula"}

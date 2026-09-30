@@ -85,8 +85,7 @@ class SlideChunker:
         self, deck: SlideDeck, slide: Slide, section_id: str
     ) -> list[SlideChunk]:
         body = _render_slide(slide)
-        prefix = _embedding_prefix(deck, slide)
-        content_limit = max(1, self.max_tokens - estimate_token_count(prefix))
+        content_limit = max(1, self.max_tokens - estimate_token_count(slide.title or ""))
         parts = split_text_by_tokens(
             body,
             content_limit,
@@ -100,7 +99,7 @@ class SlideChunker:
         ]
         chunks: list[SlideChunk] = []
         for index, part in enumerate(parts):
-            embedding_text = f"{prefix}\n\n{part}".strip()
+            embedding_text = slide_embedding_text(slide.title, part)
             chunks.append(
                 SlideChunk(
                     chunk_id=_stable_id(
@@ -160,16 +159,10 @@ def _group_sections(
     return groups
 
 
-def _embedding_prefix(deck: SlideDeck, slide: Slide) -> str:
-    parts = [
-        f"文件：{Path(deck.source_path).name}",
-        f"主题：{deck.title}",
-        f"类型：{deck.source_format.value.upper()}",
-        f"页码：{slide.slide_no}",
-    ]
-    if slide.title:
-        parts.append(f"本页标题：{slide.title}")
-    return "\n".join(parts)
+def slide_embedding_text(title: str | None, body: str) -> str:
+    """只把可检索的页标题和正文送入文本向量模型。"""
+
+    return "\n\n".join(part for part in ((title or "").strip(), body.strip()) if part)
 
 
 def _build_outline(deck: SlideDeck, sections: list[SlideSection]) -> str:

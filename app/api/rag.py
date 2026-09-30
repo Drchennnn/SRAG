@@ -8,6 +8,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from app.config import get_settings
 from app.rag.indexer import DocumentIndexer
 from app.rag.retriever import HybridRetriever
+from app.rag.slide_indexer import SlideIndexer
 from app.schemas.rag import (
     DeleteDocumentResponse,
     DocumentSummary,
@@ -15,6 +16,7 @@ from app.schemas.rag import (
     IndexStatus,
     SearchRequest,
     SearchResponse,
+    SlideIndexRequest,
 )
 from app.stores.qdrant import QdrantStore
 from app.stores.sqlite import MetadataStore
@@ -75,6 +77,22 @@ async def create_index(
     """提交明确选择的本地文件进行增量索引。"""
 
     return await indexer.index(request)
+
+
+@router.post(
+    "/slides/index",
+    response_model=IndexStatus,
+    summary="导入幻灯片向量包",
+    response_description="PDF/PPTX 幻灯片索引任务状态",
+)
+async def create_slide_index(request: SlideIndexRequest) -> IndexStatus:
+    """将已预处理和向量化的 PDF/PPTX 增量导入。"""
+
+    indexer = SlideIndexer.from_settings(get_settings())
+    try:
+        return await indexer.index(request)
+    finally:
+        await indexer.vectors.close()
 
 
 @router.get(

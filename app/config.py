@@ -58,7 +58,7 @@ class Settings(BaseSettings):
     slide_pdf_ocr_min_text_tokens: int = 8
     slide_pptx_render_slides: bool = True
     retrieval_top_k: int = 8
-    retrieval_enable_visual: bool = False
+    retrieval_enable_visual: bool = True
     retrieval_context_budget_tokens: int = 8000
     retrieval_max_neighbor_chunks: int = 2
     notebook_output_max_chars: int = 12000

@@ -114,6 +114,27 @@ class DashScopeClient:
                 "output_type": "dense",
             },
         }
+        return await self._request_multimodal_embedding(payload)
+
+    async def embed_visual_query(self, text: str) -> MultimodalEmbeddingBatch:
+        """用视觉模型为文本问题生成同空间向量，供后续整页视觉召回。"""
+
+        clean_text = text.strip()
+        if not clean_text:
+            raise ValueError("视觉检索问题不能为空")
+        payload = {
+            "model": self.visual_embedding_model,
+            "input": {"contents": [{"text": clean_text}]},
+            "parameters": {
+                "dimension": self.visual_embedding_dimension,
+                "output_type": "dense",
+            },
+        }
+        return await self._request_multimodal_embedding(payload)
+
+    async def _request_multimodal_embedding(
+        self, payload: dict[str, object]
+    ) -> MultimodalEmbeddingBatch:
         headers = {
             "Authorization": f"Bearer {self.require_api_key()}",
             "Content-Type": "application/json",

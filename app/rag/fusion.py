@@ -2,10 +2,53 @@
 
 from __future__ import annotations
 
+import re
 from collections import defaultdict
 from typing import Protocol
 
 from qdrant_client import models
+
+_VISUAL_QUERY_PATTERN = re.compile(
+    r"照片|图片|图示|示意图?|流程图|曲线|图表|画面|截图|哪张图|哪幅图|"
+    r"图中|图里|图上|diagram|figure|photo|picture|screenshot|plot|chart",
+    re.IGNORECASE,
+)
+
+
+def visual_query_intent(query: str) -> bool:
+    """识别明确询问页面视觉内容的原始问题，不调用额外模型。"""
+
+    return bool(_VISUAL_QUERY_PATTERN.search(query))
+
+
+def prefer_visual_pages(
+    visual: list[models.ScoredPoint],
+    text: list[models.ScoredPoint],
+    *,
+    top_k: int,
+) -> list[models.ScoredPoint]:
+    """视觉页优先，缺少视觉候选时由文本补齐；同页仅返回一次。"""
+
+    selected: list[models.ScoredPoint] = []
+    seen: set[tuple[str, str, object]] = set()
+    for point in [*visual, *text]:
+        payload = point.payload or {}
+        document_id = payload.get("document_id")
+        page = payload.get("page")
+        chunk_id = payload.get("chunk_id")
+        if isinstance(document_id, str) and isinstance(page, int):
+            key = ("page", document_id, page)
+        elif isinstance(document_id, str) and isinstance(chunk_id, str):
+            key = ("chunk", document_id, chunk_id)
+        else:
+            key = ("point", "", str(point.id))
+        if key in seen:
+            continue
+        seen.add(key)
+        selected.append(point)
+        if len(selected) == top_k:
+            break
+    return selected
 
 
 class ScoredCandidate(Protocol):

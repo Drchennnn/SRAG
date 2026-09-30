@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import logging
 from collections.abc import Sequence
 from typing import Protocol
 
@@ -10,11 +11,13 @@ from qdrant_client import models
 from app.clients.dashscope import DashScopeClient
 from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
-from app.rag.fusion import reciprocal_rank_fusion
-from app.schemas.embedding import EmbeddingVector, SparseValue
+from app.rag.fusion import prefer_visual_pages, reciprocal_rank_fusion, visual_query_intent
+from app.schemas.embedding import EmbeddingVector, MultimodalEmbeddingBatch, SparseValue
 from app.schemas.rag import SearchHit, SearchRequest, SearchResponse, SourceReference
 from app.stores.qdrant import QdrantStore
 from app.stores.sqlite import MetadataStore, VisibleVersion
+
+logger = logging.getLogger(__name__)
 
 
 class QueryEmbeddingProvider(Protocol):
@@ -24,6 +27,8 @@ class QueryEmbeddingProvider(Protocol):
         *,
         instruct: str | None = None,
     ) -> EmbeddingVector: ...
+
+    async def embed_visual_query(self, text: str) -> MultimodalEmbeddingBatch: ...
 
 
 class RerankProvider(Protocol):
@@ -114,12 +119,14 @@ class HybridRetriever:
         metadata_store: VisibilityStore | None = None,
         rerank_provider: RerankProvider | None = None,
         query_understanding_provider: QueryUnderstandingProvider | None = None,
+        visual_enabled: bool = False,
     ) -> None:
         self.query_embedding_provider = query_embedding_provider
         self.vector_store = vector_store
         self.metadata_store = metadata_store
         self.rerank_provider = rerank_provider
         self.query_understanding_provider = query_understanding_provider
+        self.visual_enabled = visual_enabled
 
     @classmethod
     def from_settings(cls, settings: Settings) -> HybridRetriever:
@@ -133,10 +140,11 @@ class HybridRetriever:
             metadata_store=metadata_store,
             rerank_provider=dashscope_client,
             query_understanding_provider=deepseek_client,
+            visual_enabled=settings.retrieval_enable_visual,
         )
 
     async def search(self, request: SearchRequest) -> SearchResponse:
-        """执行混合检索：dense+sparse RRF、outline 融合、rerank。"""
+        """文本问题用 Dense+Sparse；显式视觉问题优先返回视觉页。"""
 
         visible_versions: list[tuple[str, int]] | None = None
         if self.metadata_store is not None:
@@ -177,28 +185,39 @@ class HybridRetriever:
         # 3. RRF 融合 dense 和 sparse
         text_fused = reciprocal_rank_fusion([dense_points, sparse_points], k=60)
 
-        # 4. Outline 召回：完全分离 pipeline，仅在 text 召回不足时补充
-        # 暂时禁用 outline 召回，避免影响精确匹配
-        # outline_points = await self.vector_store.search_document_outline(...)
-        # 未来可考虑：只在 Recall < 阈值时才启用 outline 作为兜底
-
-        all_candidates = text_fused[:request.top_k]  # 直接使用 RRF 结果，不融合 outline
-
-        # 5. Rerank（可选）
-        if self.rerank_provider and len(all_candidates) > request.top_k:
-            reranked = await self._rerank_candidates(
-                request.query,
-                all_candidates,
-                top_n=request.top_k,
-            )
-            final_points = reranked
-        else:
-            # 不 rerank 时直接截断
-            final_points = all_candidates[: request.top_k]
+        final_points = text_fused[: request.top_k]
+        mode_used = "text"
+        use_visual = request.retrieval_mode == "visual" or (
+            request.retrieval_mode == "auto"
+            and self.visual_enabled
+            and visual_query_intent(request.query)
+        )
+        if use_visual:
+            try:
+                visual_query = await self.query_embedding_provider.embed_visual_query(request.query)
+                if len(visual_query.vectors) != 1:
+                    raise RuntimeError("视觉查询向量数量不为 1")
+                visual_points = await self.vector_store.search_visual_fusion(
+                    visual_query.vectors[0].dense,
+                    limit=recall_limit,
+                    course_ids=request.scope.course_ids,
+                    document_ids=request.scope.document_ids,
+                    visible_versions=visible_versions,
+                )
+                if visual_points:
+                    final_points = prefer_visual_pages(
+                        visual_points, text_fused, top_k=request.top_k
+                    )
+                    mode_used = "visual"
+            except Exception:
+                if request.retrieval_mode == "visual":
+                    raise
+                logger.exception("自动视觉召回失败，回退文本结果")
 
         return SearchResponse(
             query=request.query,
             hits=[_to_search_hit(point) for point in final_points],
+            mode_used=mode_used,
         )
 
     async def _rerank_candidates(
@@ -212,10 +231,7 @@ class HybridRetriever:
         if not candidates or not self.rerank_provider:
             return candidates
 
-        documents = [
-            str((point.payload or {}).get("content", ""))
-            for point in candidates
-        ]
+        documents = [str((point.payload or {}).get("content", "")) for point in candidates]
 
         try:
             ranked_indices = await self.rerank_provider.rerank(
@@ -273,6 +289,10 @@ def _to_search_hit(point: models.ScoredPoint) -> SearchHit:
             section_path=section_path,
             cell_ids=cell_ids,
             cell_id=cell_ids[0] if cell_ids else None,
+            page=payload.get("page") if isinstance(payload.get("page"), int) else None,
+            image_path=payload.get("image_path")
+            if isinstance(payload.get("image_path"), str)
+            else None,
         ),
     )
 

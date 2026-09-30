@@ -1,0 +1,885 @@
+{
+  "course_id": "CS5495",
+  "case_count": 24,
+  "case_file_sha256": "8187d715c3761dd969553c6e6c94b4d49c81db71ca89e2b7ee0662236fc93ab2",
+  "metric": {
+    "recall@1": 0.6666666666666666,
+    "recall@3": 0.7916666666666666,
+    "recall@5": 0.875,
+    "recall@8": 0.875,
+    "mrr@8": 0.7479166666666667,
+    "mean_case_latency_ms": 972.6,
+    "by_tag_recall@5": {
+      "concept": 1.0,
+      "formula": 1.0,
+      "near_negative": 1.0,
+      "visual_detail": 0.25
+    }
+  },
+  "cases": [
+    {
+      "case_id": "xai-2a-01",
+      "tag": "concept",
+      "query": "比较不同特征数的线性回归模型时，为什么要看 adjusted R-squared？",
+      "expected_document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+      "expected_pages": [
+        6
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 6
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 12
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 20
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 10
+        }
+      ],
+      "latency_ms": 1099
+    },
+    {
+      "case_id": "xai-2a-02",
+      "tag": "formula",
+      "query": "回归系数的标准误和 t 统计量如何共同影响特征重要性的判断？",
+      "expected_document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+      "expected_pages": [
+        11
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 11
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 12
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 17
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 10
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 10
+        }
+      ],
+      "latency_ms": 474
+    },
+    {
+      "case_id": "xai-2a-03",
+      "tag": "concept",
+      "query": "对数值特征做 z-score 后，为什么不同单位的回归权重可以直接比较？",
+      "expected_document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+      "expected_pages": [
+        17
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 17
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 16
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 8
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 8
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 11
+        }
+      ],
+      "latency_ms": 1063
+    },
+    {
+      "case_id": "xai-2a-04",
+      "tag": "near_negative",
+      "query": "类别变量的 treatment coding 与 effect coding 分别以什么作为比较基准？",
+      "expected_document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+      "expected_pages": [
+        19
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 19
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 20
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 19
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 12
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 8
+        }
+      ],
+      "latency_ms": 555
+    },
+    {
+      "case_id": "xai-2a-05",
+      "tag": "concept",
+      "query": "房价从一万到一千万时固定预测误差会破坏哪项假设，课件建议怎样处理输出？",
+      "expected_document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+      "expected_pages": [
+        20
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 20
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 5
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 10
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 3
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 1
+        }
+      ],
+      "latency_ms": 608
+    },
+    {
+      "case_id": "xai-2a-06",
+      "tag": "visual_detail",
+      "query": "哪页用蓝色热力图和三维曲面展示同一个双变量线性函数？",
+      "expected_document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+      "expected_pages": [
+        5
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": null
+      },
+      "top5": [
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 4
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 9
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 4
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 8
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 14
+        }
+      ],
+      "latency_ms": 1733
+    },
+    {
+      "case_id": "xai-2b-01",
+      "tag": "concept",
+      "query": "二分类线性模型的分界超平面与权重向量在几何上是什么关系？",
+      "expected_document_id": "document_bf28bc611cc82129a0de8d08",
+      "expected_pages": [
+        2
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 2
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 3
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 4
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 4
+        }
+      ],
+      "latency_ms": 1475
+    },
+    {
+      "case_id": "xai-2b-02",
+      "tag": "near_negative",
+      "query": "课件从哪页开始用阿德利企鹅的身体测量值预测性别，展示逻辑回归例子？",
+      "expected_document_id": "document_bf28bc611cc82129a0de8d08",
+      "expected_pages": [
+        6
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 6
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 15
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 13
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 15
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 7
+        }
+      ],
+      "latency_ms": 2157
+    },
+    {
+      "case_id": "xai-2b-03",
+      "tag": "formula",
+      "query": "逻辑回归特征增加一个单位，对 odds 和 log-odds 的影响分别是什么？",
+      "expected_document_id": "document_bf28bc611cc82129a0de8d08",
+      "expected_pages": [
+        10
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 10
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 10
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 9
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 21
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 12
+        }
+      ],
+      "latency_ms": 504
+    },
+    {
+      "case_id": "xai-2b-04",
+      "tag": "visual_detail",
+      "query": "哪页上下两幅曲线图分别画出三个线性打分函数和映射后的三类概率？",
+      "expected_document_id": "document_bf28bc611cc82129a0de8d08",
+      "expected_pages": [
+        14
+      ],
+      "mode_used": "visual",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 14
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 2
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 4
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 15
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 15
+        }
+      ],
+      "latency_ms": 1368
+    },
+    {
+      "case_id": "xai-2b-05",
+      "tag": "near_negative",
+      "query": "多项逻辑回归删掉一个冗余函数后，如何以第一类为参考解释其他类别的 log-odds？",
+      "expected_document_id": "document_bf28bc611cc82129a0de8d08",
+      "expected_pages": [
+        15
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 15
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 10
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 12
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 19
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 21
+        }
+      ],
+      "latency_ms": 1241
+    },
+    {
+      "case_id": "xai-2b-06",
+      "tag": "formula",
+      "query": "企鹅分类里，喙长和鳍长各增加一单位时 Gentoo 的优势比分别乘以多少？",
+      "expected_document_id": "document_bf28bc611cc82129a0de8d08",
+      "expected_pages": [
+        19
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 5
+      },
+      "top5": [
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 18
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 18
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 15
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 17
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 19
+        }
+      ],
+      "latency_ms": 851
+    },
+    {
+      "case_id": "xai-3a-01",
+      "tag": "concept",
+      "query": "四棵树分别从训练集随机抽样后，集成分类器怎样给一个测试样本作最终预测？",
+      "expected_document_id": "document_7dea2f628cb9374f5f98774a",
+      "expected_pages": [
+        3
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 3
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 2
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 4
+        }
+      ],
+      "latency_ms": 628
+    },
+    {
+      "case_id": "xai-3a-02",
+      "tag": "near_negative",
+      "query": "AdaBoost 训练弱学习器时，怎样让上一轮分错的样本得到更多关注？",
+      "expected_document_id": "document_7dea2f628cb9374f5f98774a",
+      "expected_pages": [
+        5
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 2
+      },
+      "top5": [
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 5
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 4
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        }
+      ],
+      "latency_ms": 988
+    },
+    {
+      "case_id": "xai-3a-03",
+      "tag": "concept",
+      "query": "LIME 如何扰动一个实例、查询黑箱预测，再用邻近加权的可解释模型解释该实例？",
+      "expected_document_id": "document_7dea2f628cb9374f5f98774a",
+      "expected_pages": [
+        11
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 11
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        }
+      ],
+      "latency_ms": 540
+    },
+    {
+      "case_id": "xai-3a-04",
+      "tag": "visual_detail",
+      "query": "哪张四宫格图含黄色待解释点、黑色采样点、距离权重和白色局部决策边界？",
+      "expected_document_id": "document_7dea2f628cb9374f5f98774a",
+      "expected_pages": [
+        13
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": null
+      },
+      "top5": [
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        }
+      ],
+      "latency_ms": 552
+    },
+    {
+      "case_id": "xai-3a-05",
+      "tag": "concept",
+      "query": "LIME 解释文本分类时，为什么随机删除词语，并把每个词编码成二元特征？",
+      "expected_document_id": "document_7dea2f628cb9374f5f98774a",
+      "expected_pages": [
+        18
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 2
+      },
+      "top5": [
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 18
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 14
+        },
+        {
+          "document_id": "document_236607ef1bb984bc2f77ab24",
+          "page": null
+        }
+      ],
+      "latency_ms": 688
+    },
+    {
+      "case_id": "xai-3b-01",
+      "tag": "concept",
+      "query": "用合作博弈解释公寓价格时，Shapley 值如何把预测价与平均价的差分给各个特征？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        2
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 2
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 3
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 5
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 6
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 8
+        }
+      ],
+      "latency_ms": 633
+    },
+    {
+      "case_id": "xai-3b-02",
+      "tag": "formula",
+      "query": "如果某个特征在所有联盟中都不改变预测，Shapley 的 dummy 性质要求它的贡献是多少？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        6
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 6
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 3
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 2
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 5
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 8
+        }
+      ],
+      "latency_ms": 650
+    },
+    {
+      "case_id": "xai-3b-03",
+      "tag": "near_negative",
+      "query": "为什么改变参考数据集会改变 Shapley 解释，正的归因值能否当作局部梯度？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        7
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 2
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 31
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 7
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 2
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 1
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 4
+        }
+      ],
+      "latency_ms": 1271
+    },
+    {
+      "case_id": "xai-3b-04",
+      "tag": "near_negative",
+      "query": "多类别随机森林运行 TreeSHAP 时，为什么要分别核对每一类概率的归因加和？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        21
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 21
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 3
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 6
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 13
+        },
+        {
+          "document_id": "document_7dea2f628cb9374f5f98774a",
+          "page": 16
+        }
+      ],
+      "latency_ms": 822
+    },
+    {
+      "case_id": "xai-3b-05",
+      "tag": "concept",
+      "query": "天气类别解释里，低湿度、高湿度和共享单车数量分别怎样支持 GOOD 或 MISTY？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        27
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": 1
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 27
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 7
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 18
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 2
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 2
+        }
+      ],
+      "latency_ms": 1467
+    },
+    {
+      "case_id": "xai-3b-06",
+      "tag": "formula",
+      "query": "评价解释的 sufficiency 与 comprehensiveness 时，两条曲线的 AUC 各希望更高还是更低？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        29
+      ],
+      "mode_used": "visual",
+      "ranks": {
+        "formal": 4
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 30
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 28
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 31
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 29
+        },
+        {
+          "document_id": "document_bf28bc611cc82129a0de8d08",
+          "page": 21
+        }
+      ],
+      "latency_ms": 884
+    },
+    {
+      "case_id": "xai-3b-07",
+      "tag": "visual_detail",
+      "query": "哪页用 cnt、windspeed、hum、temp 四幅彩色散点图对比天气类别的特征归因？",
+      "expected_document_id": "document_b4d00e523d059bdfa5ccbc43",
+      "expected_pages": [
+        28
+      ],
+      "mode_used": "text",
+      "ranks": {
+        "formal": null
+      },
+      "top5": [
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 27
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 25
+        },
+        {
+          "document_id": "document_b4d00e523d059bdfa5ccbc43",
+          "page": 20
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 2
+        },
+        {
+          "document_id": "document_5f9ca97dd3e5d44a3e201cdb",
+          "page": 18
+        }
+      ],
+      "latency_ms": 1092
+    }
+  ]
+}
