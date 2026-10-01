@@ -1,5 +1,7 @@
 """测试 DeepSeek 客户端基本功能。"""
 
+from unittest.mock import AsyncMock
+
 import pytest
 
 from app.clients.deepseek import DeepSeekClient
@@ -34,3 +36,65 @@ async def test_understand_query_disabled(settings: Settings):
     assert result["original_query"] == "test query"
     assert result["intent"] is None
     assert result["rewritten_queries"] == []
+
+
+async def test_classify_context_need_parses_strict_boolean(settings: Settings, monkeypatch) -> None:
+    client = DeepSeekClient(settings)
+    completion = AsyncMock(
+        return_value={
+            "content": '{"needs_context": true, "reason": "缺少主题"}',
+            "usage": {"total_tokens": 40},
+        }
+    )
+    monkeypatch.setattr(client, "_chat_completion", completion)
+
+    result = await client.classify_context_need("什么是 LIME？", "这个机制在哪段？")
+
+    assert result["needs_context"] is True
+    assert result["reason"] == "缺少主题"
+    assert result["attempts"] == 1
+    assert completion.await_args.kwargs["response_format"] == {"type": "json_object"}
+
+
+async def test_classify_context_need_retries_empty_content(settings: Settings, monkeypatch) -> None:
+    client = DeepSeekClient(settings)
+    completion = AsyncMock(
+        side_effect=[
+            {"content": "", "finish_reason": "length", "usage": {"total_tokens": 1024}},
+            {"content": '{"needs_context": false}', "usage": {"total_tokens": 30}},
+        ]
+    )
+    monkeypatch.setattr(client, "_chat_completion", completion)
+
+    result = await client.classify_context_need("什么是 LIME？", "SHAP 是什么？")
+
+    assert result["needs_context"] is False
+    assert result["attempts"] == 2
+    assert result["usage"]["total_tokens"] == 1054
+    assert completion.await_args.kwargs["max_tokens"] == 2048
+
+
+async def test_classify_context_need_rejects_two_empty_responses(
+    settings: Settings, monkeypatch
+) -> None:
+    client = DeepSeekClient(settings)
+    completion = AsyncMock(
+        return_value={"content": "", "finish_reason": "length", "usage": {"total_tokens": 1024}}
+    )
+    monkeypatch.setattr(client, "_chat_completion", completion)
+
+    with pytest.raises(RuntimeError, match="连续返回空内容"):
+        await client.classify_context_need("问题一", "这个在哪段？")
+    assert completion.await_count == 2
+
+
+async def test_classify_context_need_rejects_non_boolean(settings: Settings, monkeypatch) -> None:
+    client = DeepSeekClient(settings)
+    monkeypatch.setattr(
+        client,
+        "_chat_completion",
+        AsyncMock(return_value={"content": '{"needs_context": "true"}'}),
+    )
+
+    with pytest.raises(RuntimeError, match="布尔 needs_context"):
+        await client.classify_context_need("问题一", "这个在哪段？")

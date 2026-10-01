@@ -1,0 +1,280 @@
+{
+  "generated_at": "2026-10-01T07:01:31.864671+00:00",
+  "case_file_sha256": "132b9a71c7ed2d21d5d2f5ac84ff0a9928b799acf426140952575edec2b9a8ce",
+  "baseline_report": "evals/results/query_notebook_dialogue_current_rule.json",
+  "corpus_versions": {
+    "document_0ef6d92eb5b0318ca0759fe3": 2,
+    "document_4c52ef4a7d674b2922d52ea9": 1,
+    "document_a8ab2817931fced4175e83b9": 1,
+    "document_aa54fd1fb13ef49f1ea2b2dd": 1,
+    "document_fbbd660f2a245de5534cf257": 1,
+    "document_ff648dd3aec02f5dc9458da2": 1,
+    "document_236607ef1bb984bc2f77ab24": 1,
+    "document_5f9ca97dd3e5d44a3e201cdb": 1,
+    "document_7dea2f628cb9374f5f98774a": 1,
+    "document_b4d00e523d059bdfa5ccbc43": 1,
+    "document_bf28bc611cc82129a0de8d08": 1
+  },
+  "deepseek_model": "deepseek-flash",
+  "text_embedding_model": "qwen3.7-text-embedding",
+  "top_k": 8,
+  "metrics": {
+    "followup_count": 8,
+    "independent_count": 8,
+    "rule_missed_followup": 1,
+    "model_missed_followup": 0,
+    "rule_false_expansion": 0,
+    "model_false_expansion": 0,
+    "rule_followup_recall@5": 1.0,
+    "model_followup_recall@5": 1.0,
+    "rule_independent_recall@5": 0.75,
+    "model_independent_recall@5": 0.75,
+    "model_independent_harmed@5": 0,
+    "decision_changes": 1,
+    "deepseek_total_tokens": 7195,
+    "deepseek_retries": 0,
+    "mean_deepseek_latency_ms": 2090
+  },
+  "cases": [
+    {
+      "case_id": "notebook-followup-01",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题用“它”指代上一问主题，缺少明确知识点",
+      "usage": {
+        "total_tokens": 360
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 2296
+    },
+    {
+      "case_id": "notebook-followup-02",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题用“这个规则”指代上一问的广播维度匹配规则，缺少明确主题",
+      "usage": {
+        "total_tokens": 294
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1434
+    },
+    {
+      "case_id": "notebook-followup-03",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": 8,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题用“这个区别”泛称指代上一问内容，缺少明确主题",
+      "usage": {
+        "total_tokens": 334
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1159
+    },
+    {
+      "case_id": "notebook-followup-04",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“它”指代上一问的MLE估计公式，缺少明确主题",
+      "usage": {
+        "total_tokens": 308
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1590
+    },
+    {
+      "case_id": "notebook-followup-05",
+      "kind": "followup",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "缺少明确主题，需依赖上一问定位决策规则",
+      "usage": {
+        "total_tokens": 336
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1305
+    },
+    {
+      "case_id": "notebook-followup-06",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题中的“这个方法”指代上一问，缺少明确主题。",
+      "usage": {
+        "total_tokens": 394
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1797
+    },
+    {
+      "case_id": "notebook-followup-07",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 3,
+      "model_rank": 3,
+      "reason": "“这个参数”指代上一问中的参数，缺少明确对象",
+      "usage": {
+        "total_tokens": 353
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1595
+    },
+    {
+      "case_id": "notebook-followup-08",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“这个指标”指代上一问的 local fidelity，缺少明确主题",
+      "usage": {
+        "total_tokens": 336
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1409
+    },
+    {
+      "case_id": "notebook-independent-01",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确提到 pandas DataFrame 示例，检索主题不依赖上一问",
+      "usage": {
+        "total_tokens": 918
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 3974
+    },
+    {
+      "case_id": "notebook-independent-02",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 3,
+      "rule_rank": 3,
+      "model_rank": 3,
+      "reason": "已明确命名Gaussian Naive Bayes独立性假设",
+      "usage": {
+        "total_tokens": 390
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1456
+    },
+    {
+      "case_id": "notebook-independent-03",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 2,
+      "rule_rank": 2,
+      "model_rank": 2,
+      "reason": "当前问题已明确指定“词袋步骤”作为检索主题，无需依赖上一问。",
+      "usage": {
+        "total_tokens": 560
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 2404
+    },
+    {
+      "case_id": "notebook-independent-04",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": null,
+      "rule_rank": null,
+      "model_rank": null,
+      "reason": "当前问题明确提及 π_j,y 这一符号对象，可直接作为检索主题",
+      "usage": {
+        "total_tokens": 999
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 4866
+    },
+    {
+      "case_id": "notebook-independent-05",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 7,
+      "rule_rank": 7,
+      "model_rank": 7,
+      "reason": "当前问题已明确命名“logistic loss 推导”，无需依赖上一问定位主题。",
+      "usage": {
+        "total_tokens": 371
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1707
+    },
+    {
+      "case_id": "notebook-independent-06",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题明确命名了“K 折交叉验证”，无需依赖上一问确定主题",
+      "usage": {
+        "total_tokens": 359
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1943
+    },
+    {
+      "case_id": "notebook-independent-07",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 3,
+      "rule_rank": 3,
+      "model_rank": 3,
+      "reason": "当前问题已明确提到 Ridge alpha 项，无需依赖上一问定位主题。",
+      "usage": {
+        "total_tokens": 460
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 2907
+    },
+    {
+      "case_id": "notebook-independent-08",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确命名“LIME 文本扰动样本”，无需依赖上一问确定主题",
+      "usage": {
+        "total_tokens": 423
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1596
+    }
+  ]
+}

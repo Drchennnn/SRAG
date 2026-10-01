@@ -46,11 +46,18 @@ class SearchScope(BaseModel):
     document_ids: list[str] = Field(default_factory=list)
 
 
+class ConversationTurn(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=2000, pattern=r"\S")
+
+
 class SearchRequest(BaseModel):
-    query: str = Field(min_length=1)
+    query: str = Field(min_length=1, pattern=r"\S")
     scope: SearchScope = Field(default_factory=SearchScope)
     top_k: int = Field(default=8, ge=1, le=50)
     retrieval_mode: Literal["auto", "text", "visual"] = "auto"
+    query_construction: Literal["raw", "contextual"] = "raw"
+    history: list[ConversationTurn] = Field(default_factory=list, max_length=6)
 
 
 class SourceReference(BaseModel):
@@ -78,6 +85,8 @@ class SearchResponse(BaseModel):
     query: str
     hits: list[SearchHit]
     mode_used: Literal["text", "visual"] = "text"
+    retrieval_query: str | None = None
+    query_method: Literal["raw", "history_expanded"] = "raw"
 
 
 class DocumentSummary(BaseModel):

@@ -154,6 +154,8 @@ async def test_search_endpoint_calls_retriever_with_scope() -> None:
                 "query": "如何读取 CSV？",
                 "scope": {"course_ids": ["CS5489"], "document_ids": ["doc-1"]},
                 "top_k": 5,
+                "query_construction": "contextual",
+                "history": [{"role": "user", "content": "pandas 在哪里介绍？"}],
             },
         )
 
@@ -165,6 +167,8 @@ async def test_search_endpoint_calls_retriever_with_scope() -> None:
     assert len(retriever.requests) == 1
     assert retriever.requests[0].top_k == 5
     assert retriever.requests[0].scope.document_ids == ["doc-1"]
+    assert retriever.requests[0].query_construction == "contextual"
+    assert retriever.requests[0].history[0].content == "pandas 在哪里介绍？"
 
 
 async def test_document_and_job_management_endpoints() -> None:

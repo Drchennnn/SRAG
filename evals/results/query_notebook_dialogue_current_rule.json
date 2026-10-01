@@ -1,0 +1,2095 @@
+{
+  "generated_at": "2026-10-01T06:34:33.164148+00:00",
+  "case_file_sha256": "132b9a71c7ed2d21d5d2f5ac84ff0a9928b799acf426140952575edec2b9a8ce",
+  "corpus_versions": {
+    "document_236607ef1bb984bc2f77ab24": 1,
+    "document_5f9ca97dd3e5d44a3e201cdb": 1,
+    "document_7dea2f628cb9374f5f98774a": 1,
+    "document_b4d00e523d059bdfa5ccbc43": 1,
+    "document_bf28bc611cc82129a0de8d08": 1,
+    "document_0ef6d92eb5b0318ca0759fe3": 2,
+    "document_4c52ef4a7d674b2922d52ea9": 1,
+    "document_a8ab2817931fced4175e83b9": 1,
+    "document_aa54fd1fb13ef49f1ea2b2dd": 1,
+    "document_fbbd660f2a245de5534cf257": 1,
+    "document_ff648dd3aec02f5dc9458da2": 1
+  },
+  "text_embedding_model": "qwen3.7-text-embedding",
+  "retrieval_mode": "text",
+  "top_k": 8,
+  "metrics": {
+    "followup_count": 8,
+    "followup_expansion_rate": 0.875,
+    "followup_raw_recall@5": 0.125,
+    "followup_contextual_recall@5": 1.0,
+    "followup_gained@5": 7,
+    "followup_lost@5": 0,
+    "independent_count": 8,
+    "false_expansion_rate": 0.0,
+    "independent_raw_recall@5": 0.75,
+    "independent_contextual_recall@5": 0.75,
+    "independent_harmed@5": 0
+  },
+  "cases": [
+    {
+      "case_id": "notebook-followup-01",
+      "kind": "followup",
+      "query": "它在哪段讲？",
+      "history": [
+        {
+          "role": "user",
+          "content": "Python 列表可以怎么创建？"
+        },
+        {
+          "role": "assistant",
+          "content": "可以用循环或列表推导式。"
+        },
+        {
+          "role": "user",
+          "content": "列表推导式如何在 for 后加入 if 筛选？"
+        },
+        {
+          "role": "assistant",
+          "content": "课件给了具体例子。"
+        }
+      ],
+      "expected_document_id": "document_a8ab2817931fced4175e83b9",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-119",
+        "cell-120",
+        "cell-121",
+        "cell-122"
+      ],
+      "raw_rank": null,
+      "contextual_rank": 1,
+      "query_method": "history_expanded",
+      "retrieval_query": "列表推导式如何在 for 后加入 if 筛选？\n追问：它在哪段讲？",
+      "raw_top5": [
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-0"
+        ],
+        [
+          "cell-0"
+        ],
+        [
+          "cell-94"
+        ],
+        [
+          "cell-153"
+        ],
+        [
+          "cell-123"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-119",
+          "cell-120",
+          "cell-121",
+          "cell-122"
+        ],
+        [
+          "cell-95",
+          "cell-96",
+          "cell-97",
+          "cell-98",
+          "cell-99",
+          "cell-100",
+          "cell-101",
+          "cell-102",
+          "cell-103"
+        ],
+        [
+          "cell-94"
+        ],
+        [
+          "cell-28",
+          "cell-29",
+          "cell-30",
+          "cell-31",
+          "cell-32",
+          "cell-33",
+          "cell-34",
+          "cell-35"
+        ],
+        [
+          "cell-104",
+          "cell-105",
+          "cell-106",
+          "cell-107",
+          "cell-108",
+          "cell-109",
+          "cell-110",
+          "cell-111"
+        ]
+      ],
+      "raw_latency_ms": 1640,
+      "contextual_latency_ms": 530
+    },
+    {
+      "case_id": "notebook-followup-02",
+      "kind": "followup",
+      "query": "这个规则在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "NumPy 数组维度不同时还能相加吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "有时可用广播。"
+        },
+        {
+          "role": "user",
+          "content": "NumPy broadcasting 如何从右边匹配维度？"
+        },
+        {
+          "role": "assistant",
+          "content": "课件介绍了匹配规则。"
+        }
+      ],
+      "expected_document_id": "document_fbbd660f2a245de5534cf257",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-71",
+        "cell-72",
+        "cell-73",
+        "cell-74",
+        "cell-75",
+        "cell-76",
+        "cell-77",
+        "cell-78",
+        "cell-79",
+        "cell-80",
+        "cell-81",
+        "cell-82"
+      ],
+      "raw_rank": null,
+      "contextual_rank": 1,
+      "query_method": "history_expanded",
+      "retrieval_query": "NumPy broadcasting 如何从右边匹配维度？\n追问：这个规则在哪段？",
+      "raw_top5": [
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-80"
+        ],
+        [
+          "cell-0"
+        ],
+        [
+          "cell-63"
+        ],
+        [
+          "cell-0"
+        ],
+        [
+          "cell-47"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-71",
+          "cell-72",
+          "cell-73",
+          "cell-74",
+          "cell-75",
+          "cell-76"
+        ],
+        [
+          "cell-77",
+          "cell-78",
+          "cell-79",
+          "cell-80",
+          "cell-81",
+          "cell-82"
+        ],
+        [
+          "cell-97"
+        ],
+        [
+          "cell-2",
+          "cell-3",
+          "cell-4",
+          "cell-5",
+          "cell-6",
+          "cell-7",
+          "cell-8"
+        ],
+        [
+          "cell-33",
+          "cell-34",
+          "cell-35",
+          "cell-36",
+          "cell-37",
+          "cell-38",
+          "cell-39",
+          "cell-40"
+        ]
+      ],
+      "raw_latency_ms": 953,
+      "contextual_latency_ms": 1088
+    },
+    {
+      "case_id": "notebook-followup-03",
+      "kind": "followup",
+      "query": "这个区别在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "NumPy array 赋值后会共享数据吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "普通赋值会共享引用。"
+        },
+        {
+          "role": "user",
+          "content": "view 与 deep copy 对底层数据的影响有什么不同？"
+        },
+        {
+          "role": "assistant",
+          "content": "一个共享数据，一个复制数据。"
+        }
+      ],
+      "expected_document_id": "document_fbbd660f2a245de5534cf257",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-109",
+        "cell-110",
+        "cell-111",
+        "cell-112",
+        "cell-113",
+        "cell-114",
+        "cell-115",
+        "cell-116",
+        "cell-117",
+        "cell-118",
+        "cell-119"
+      ],
+      "raw_rank": 8,
+      "contextual_rank": 1,
+      "query_method": "history_expanded",
+      "retrieval_query": "view 与 deep copy 对底层数据的影响有什么不同？\n追问：这个区别在哪段？",
+      "raw_top5": [
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-64",
+          "cell-65",
+          "cell-66"
+        ],
+        [
+          "cell-75",
+          "cell-76",
+          "cell-77",
+          "cell-78",
+          "cell-79",
+          "cell-80",
+          "cell-81",
+          "cell-82"
+        ],
+        [
+          "cell-88",
+          "cell-89",
+          "cell-90",
+          "cell-91",
+          "cell-92",
+          "cell-93"
+        ],
+        [
+          "cell-30"
+        ],
+        [
+          "cell-83",
+          "cell-84",
+          "cell-85",
+          "cell-86",
+          "cell-87"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-109",
+          "cell-110",
+          "cell-111",
+          "cell-112",
+          "cell-113",
+          "cell-114",
+          "cell-115"
+        ],
+        [
+          "cell-116",
+          "cell-117",
+          "cell-118",
+          "cell-119"
+        ],
+        [
+          "cell-83",
+          "cell-84",
+          "cell-85",
+          "cell-86",
+          "cell-87"
+        ],
+        [
+          "cell-143",
+          "cell-144"
+        ],
+        [
+          "cell-75",
+          "cell-76",
+          "cell-77",
+          "cell-78",
+          "cell-79",
+          "cell-80",
+          "cell-81",
+          "cell-82"
+        ]
+      ],
+      "raw_latency_ms": 1209,
+      "contextual_latency_ms": 1966
+    },
+    {
+      "case_id": "notebook-followup-04",
+      "kind": "followup",
+      "query": "它的公式在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "贝叶斯分类器怎样学习参数？"
+        },
+        {
+          "role": "assistant",
+          "content": "可以使用最大似然估计。"
+        },
+        {
+          "role": "user",
+          "content": "一维高斯分布的均值与方差怎么用 MLE 估计？"
+        },
+        {
+          "role": "assistant",
+          "content": "课件推导了目标函数。"
+        }
+      ],
+      "expected_document_id": "document_aa54fd1fb13ef49f1ea2b2dd",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-26",
+        "cell-27",
+        "cell-28",
+        "cell-29"
+      ],
+      "raw_rank": null,
+      "contextual_rank": 1,
+      "query_method": "history_expanded",
+      "retrieval_query": "一维高斯分布的均值与方差怎么用 MLE 估计？\n追问：它的公式在哪段？",
+      "raw_top5": [
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-20"
+        ],
+        [
+          "cell-89",
+          "cell-90",
+          "cell-91",
+          "cell-92",
+          "cell-93",
+          "cell-94"
+        ],
+        [
+          "cell-136",
+          "cell-137",
+          "cell-138"
+        ],
+        [
+          "cell-47"
+        ],
+        [
+          "cell-126"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-26",
+          "cell-27"
+        ],
+        [
+          "cell-28",
+          "cell-29"
+        ],
+        [
+          "cell-23"
+        ],
+        [
+          "cell-37",
+          "cell-38",
+          "cell-39"
+        ],
+        [
+          "cell-13",
+          "cell-14"
+        ]
+      ],
+      "raw_latency_ms": 988,
+      "contextual_latency_ms": 476
+    },
+    {
+      "case_id": "notebook-followup-05",
+      "kind": "followup",
+      "query": "这个决策规则在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "高斯模型怎样预测类别？"
+        },
+        {
+          "role": "assistant",
+          "content": "可比较各类别概率。"
+        },
+        {
+          "role": "user",
+          "content": "贝叶斯决策规则怎样选择预测类别？"
+        },
+        {
+          "role": "assistant",
+          "content": "课件给了相应定义。"
+        }
+      ],
+      "expected_document_id": "document_aa54fd1fb13ef49f1ea2b2dd",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-32",
+        "cell-33",
+        "cell-34"
+      ],
+      "raw_rank": 1,
+      "contextual_rank": 1,
+      "query_method": "raw",
+      "retrieval_query": "这个决策规则在哪段？",
+      "raw_top5": [
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-32",
+          "cell-33"
+        ],
+        [
+          "cell-37",
+          "cell-38",
+          "cell-39",
+          "cell-40"
+        ],
+        [
+          "cell-9",
+          "cell-10"
+        ],
+        [
+          "cell-1",
+          "cell-2"
+        ],
+        [
+          "cell-41",
+          "cell-42"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-32",
+          "cell-33"
+        ],
+        [
+          "cell-37",
+          "cell-38",
+          "cell-39",
+          "cell-40"
+        ],
+        [
+          "cell-9",
+          "cell-10"
+        ],
+        [
+          "cell-1",
+          "cell-2"
+        ],
+        [
+          "cell-41",
+          "cell-42"
+        ]
+      ],
+      "raw_latency_ms": 1090,
+      "contextual_latency_ms": 536
+    },
+    {
+      "case_id": "notebook-followup-06",
+      "kind": "followup",
+      "query": "这个方法在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "词袋特征如何用于朴素贝叶斯？"
+        },
+        {
+          "role": "assistant",
+          "content": "需要估计词的条件概率。"
+        },
+        {
+          "role": "user",
+          "content": "某个词从未在一个类别中出现时，Laplace smoothing 如何处理？"
+        },
+        {
+          "role": "assistant",
+          "content": "平滑能避免零概率。"
+        }
+      ],
+      "expected_document_id": "document_ff648dd3aec02f5dc9458da2",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-79",
+        "cell-80",
+        "cell-81",
+        "cell-82"
+      ],
+      "raw_rank": null,
+      "contextual_rank": 1,
+      "query_method": "history_expanded",
+      "retrieval_query": "某个词从未在一个类别中出现时，Laplace smoothing 如何处理？\n追问：这个方法在哪段？",
+      "raw_top5": [
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-57",
+          "cell-58",
+          "cell-59",
+          "cell-60",
+          "cell-61",
+          "cell-62"
+        ],
+        [
+          "cell-0"
+        ],
+        [
+          "cell-0"
+        ],
+        [
+          "cell-0"
+        ],
+        [
+          "cell-0"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-79",
+          "cell-80",
+          "cell-81"
+        ],
+        [
+          "cell-82",
+          "cell-83",
+          "cell-84",
+          "cell-85"
+        ],
+        [
+          "cell-73",
+          "cell-74"
+        ],
+        [
+          "cell-61"
+        ],
+        [
+          "cell-71",
+          "cell-72"
+        ]
+      ],
+      "raw_latency_ms": 526,
+      "contextual_latency_ms": 853
+    },
+    {
+      "case_id": "notebook-followup-07",
+      "kind": "followup",
+      "query": "这个参数在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "逻辑回归会过拟合吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "可以用正则化控制。"
+        },
+        {
+          "role": "user",
+          "content": "Logistic regression 中 C 的大小如何影响 L2 正则化？"
+        },
+        {
+          "role": "assistant",
+          "content": "C 控制权重的收缩程度。"
+        }
+      ],
+      "expected_document_id": "document_4c52ef4a7d674b2922d52ea9",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-48",
+        "cell-49",
+        "cell-50"
+      ],
+      "raw_rank": null,
+      "contextual_rank": 3,
+      "query_method": "history_expanded",
+      "retrieval_query": "Logistic regression 中 C 的大小如何影响 L2 正则化？\n追问：这个参数在哪段？",
+      "raw_top5": [
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-37",
+          "cell-38",
+          "cell-39"
+        ],
+        [
+          "cell-30"
+        ],
+        [
+          "cell-71",
+          "cell-72"
+        ],
+        [
+          "cell-40"
+        ],
+        [
+          "cell-30",
+          "cell-31",
+          "cell-32",
+          "cell-33"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-64",
+          "cell-65",
+          "cell-66"
+        ],
+        [
+          "cell-71",
+          "cell-72"
+        ],
+        [
+          "cell-50"
+        ],
+        [
+          "cell-97"
+        ],
+        [
+          "cell-67",
+          "cell-68",
+          "cell-69",
+          "cell-70"
+        ]
+      ],
+      "raw_latency_ms": 1565,
+      "contextual_latency_ms": 1265
+    },
+    {
+      "case_id": "notebook-followup-08",
+      "kind": "followup",
+      "query": "这个指标在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "黑盒模型能用简单模型解释吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "可以构造局部代理。"
+        },
+        {
+          "role": "user",
+          "content": "局部代理模型的 local fidelity 表示什么？"
+        },
+        {
+          "role": "assistant",
+          "content": "它衡量局部近似质量。"
+        }
+      ],
+      "expected_document_id": "document_236607ef1bb984bc2f77ab24",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-41",
+        "cell-42",
+        "cell-43",
+        "cell-44"
+      ],
+      "raw_rank": null,
+      "contextual_rank": 1,
+      "query_method": "history_expanded",
+      "retrieval_query": "局部代理模型的 local fidelity 表示什么？\n追问：这个指标在哪段？",
+      "raw_top5": [
+        [
+          "document_b4d00e523d059bdfa5ccbc43",
+          30
+        ],
+        [
+          "document_b4d00e523d059bdfa5ccbc43",
+          30
+        ],
+        [
+          "document_b4d00e523d059bdfa5ccbc43",
+          28
+        ],
+        [
+          "document_b4d00e523d059bdfa5ccbc43",
+          29
+        ],
+        [
+          "document_5f9ca97dd3e5d44a3e201cdb",
+          10
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ],
+        [
+          "document_7dea2f628cb9374f5f98774a",
+          10
+        ],
+        [
+          "document_b4d00e523d059bdfa5ccbc43",
+          31
+        ],
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ],
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [],
+        [],
+        [],
+        [],
+        []
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-41",
+          "cell-42"
+        ],
+        [],
+        [],
+        [
+          "cell-71",
+          "cell-72"
+        ],
+        [
+          "cell-44"
+        ]
+      ],
+      "raw_latency_ms": 481,
+      "contextual_latency_ms": 640
+    },
+    {
+      "case_id": "notebook-independent-01",
+      "kind": "independent",
+      "query": "这个 pandas DataFrame 示例在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "列表推导式如何写？"
+        },
+        {
+          "role": "assistant",
+          "content": "用方括号和 for。"
+        },
+        {
+          "role": "user",
+          "content": "广播如何匹配维度？"
+        },
+        {
+          "role": "assistant",
+          "content": "从右侧对齐。"
+        }
+      ],
+      "expected_document_id": "document_a8ab2817931fced4175e83b9",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-170",
+        "cell-171",
+        "cell-172",
+        "cell-173",
+        "cell-174",
+        "cell-175",
+        "cell-176",
+        "cell-177",
+        "cell-178"
+      ],
+      "raw_rank": 1,
+      "contextual_rank": 1,
+      "query_method": "raw",
+      "retrieval_query": "这个 pandas DataFrame 示例在哪段？",
+      "raw_top5": [
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_a8ab2817931fced4175e83b9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-170",
+          "cell-171",
+          "cell-172",
+          "cell-173",
+          "cell-174",
+          "cell-175",
+          "cell-176",
+          "cell-177",
+          "cell-178"
+        ],
+        [
+          "cell-6"
+        ],
+        [
+          "cell-6"
+        ],
+        [
+          "cell-7",
+          "cell-8",
+          "cell-9"
+        ],
+        [
+          "cell-52",
+          "cell-53",
+          "cell-54"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-170",
+          "cell-171",
+          "cell-172",
+          "cell-173",
+          "cell-174",
+          "cell-175",
+          "cell-176",
+          "cell-177",
+          "cell-178"
+        ],
+        [
+          "cell-6"
+        ],
+        [
+          "cell-52",
+          "cell-53",
+          "cell-54"
+        ],
+        [
+          "cell-6"
+        ],
+        [
+          "cell-7",
+          "cell-8",
+          "cell-9"
+        ]
+      ],
+      "raw_latency_ms": 1087,
+      "contextual_latency_ms": 1076
+    },
+    {
+      "case_id": "notebook-independent-02",
+      "kind": "independent",
+      "query": "这个 Gaussian Naive Bayes 独立性假设在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "什么是高斯分布的 MLE？"
+        },
+        {
+          "role": "assistant",
+          "content": "它最大化样本似然。"
+        },
+        {
+          "role": "user",
+          "content": "贝叶斯决策规则是什么？"
+        },
+        {
+          "role": "assistant",
+          "content": "比较后验概率。"
+        }
+      ],
+      "expected_document_id": "document_ff648dd3aec02f5dc9458da2",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-32",
+        "cell-33",
+        "cell-34"
+      ],
+      "raw_rank": 3,
+      "contextual_rank": 3,
+      "query_method": "raw",
+      "retrieval_query": "这个 Gaussian Naive Bayes 独立性假设在哪段？",
+      "raw_top5": [
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-2"
+        ],
+        [
+          "cell-13",
+          "cell-14"
+        ],
+        [
+          "cell-32",
+          "cell-33"
+        ],
+        [
+          "cell-7"
+        ],
+        [
+          "cell-37",
+          "cell-38",
+          "cell-39"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-2"
+        ],
+        [
+          "cell-13",
+          "cell-14"
+        ],
+        [
+          "cell-32",
+          "cell-33"
+        ],
+        [
+          "cell-7"
+        ],
+        [
+          "cell-37",
+          "cell-38",
+          "cell-39"
+        ]
+      ],
+      "raw_latency_ms": 492,
+      "contextual_latency_ms": 685
+    },
+    {
+      "case_id": "notebook-independent-03",
+      "kind": "independent",
+      "query": "这个词袋步骤在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "Laplace smoothing 为什么需要？"
+        },
+        {
+          "role": "assistant",
+          "content": "避免零概率。"
+        },
+        {
+          "role": "user",
+          "content": "逻辑回归怎样训练？"
+        },
+        {
+          "role": "assistant",
+          "content": "可以最小化 logistic loss。"
+        }
+      ],
+      "expected_document_id": "document_ff648dd3aec02f5dc9458da2",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-57",
+        "cell-58",
+        "cell-59"
+      ],
+      "raw_rank": 2,
+      "contextual_rank": 2,
+      "query_method": "raw",
+      "retrieval_query": "这个词袋步骤在哪段？",
+      "raw_top5": [
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-55",
+          "cell-56"
+        ],
+        [
+          "cell-57",
+          "cell-58",
+          "cell-59"
+        ],
+        [
+          "cell-61"
+        ],
+        [
+          "cell-63"
+        ],
+        [
+          "cell-61"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-55",
+          "cell-56"
+        ],
+        [
+          "cell-57",
+          "cell-58",
+          "cell-59"
+        ],
+        [
+          "cell-61"
+        ],
+        [
+          "cell-63"
+        ],
+        [
+          "cell-61"
+        ]
+      ],
+      "raw_latency_ms": 1222,
+      "contextual_latency_ms": 619
+    },
+    {
+      "case_id": "notebook-independent-04",
+      "kind": "independent",
+      "query": "这个 π_j,y 在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "NumPy broadcasting 规则是什么？"
+        },
+        {
+          "role": "assistant",
+          "content": "从右边对齐维度。"
+        },
+        {
+          "role": "user",
+          "content": "高斯分布的均值怎样估计？"
+        },
+        {
+          "role": "assistant",
+          "content": "可以求样本平均。"
+        }
+      ],
+      "expected_document_id": "document_ff648dd3aec02f5dc9458da2",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-92",
+        "cell-93",
+        "cell-94"
+      ],
+      "raw_rank": null,
+      "contextual_rank": null,
+      "query_method": "raw",
+      "retrieval_query": "这个 π_j,y 在哪段？",
+      "raw_top5": [
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_aa54fd1fb13ef49f1ea2b2dd",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ],
+        [
+          "document_fbbd660f2a245de5534cf257",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-133"
+        ],
+        [
+          "cell-15",
+          "cell-16",
+          "cell-17"
+        ],
+        [
+          "cell-134"
+        ],
+        [
+          "cell-136",
+          "cell-137",
+          "cell-138"
+        ],
+        [
+          "cell-135"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-133"
+        ],
+        [
+          "cell-15",
+          "cell-16",
+          "cell-17"
+        ],
+        [
+          "cell-134"
+        ],
+        [
+          "cell-136",
+          "cell-137",
+          "cell-138"
+        ],
+        [
+          "cell-135"
+        ]
+      ],
+      "raw_latency_ms": 618,
+      "contextual_latency_ms": 1123
+    },
+    {
+      "case_id": "notebook-independent-05",
+      "kind": "independent",
+      "query": "这个 logistic loss 推导在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "词袋模型怎样建立？"
+        },
+        {
+          "role": "assistant",
+          "content": "先建词表。"
+        },
+        {
+          "role": "user",
+          "content": "L2 正则化有什么作用？"
+        },
+        {
+          "role": "assistant",
+          "content": "防止过拟合。"
+        }
+      ],
+      "expected_document_id": "document_4c52ef4a7d674b2922d52ea9",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-37",
+        "cell-38",
+        "cell-39"
+      ],
+      "raw_rank": 7,
+      "contextual_rank": 7,
+      "query_method": "raw",
+      "retrieval_query": "这个 logistic loss 推导在哪段？",
+      "raw_top5": [
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-46",
+          "cell-47"
+        ],
+        [
+          "cell-97"
+        ],
+        [
+          "cell-41",
+          "cell-42",
+          "cell-43",
+          "cell-44"
+        ],
+        [
+          "cell-89"
+        ],
+        [
+          "cell-45"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-46",
+          "cell-47"
+        ],
+        [
+          "cell-97"
+        ],
+        [
+          "cell-41",
+          "cell-42",
+          "cell-43",
+          "cell-44"
+        ],
+        [
+          "cell-89"
+        ],
+        [
+          "cell-45"
+        ]
+      ],
+      "raw_latency_ms": 1330,
+      "contextual_latency_ms": 1081
+    },
+    {
+      "case_id": "notebook-independent-06",
+      "kind": "independent",
+      "query": "这个 K 折交叉验证在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "高斯朴素贝叶斯有什么假设？"
+        },
+        {
+          "role": "assistant",
+          "content": "假设特征独立。"
+        },
+        {
+          "role": "user",
+          "content": "Ridge 回归如何惩罚系数？"
+        },
+        {
+          "role": "assistant",
+          "content": "加入 L2 惩罚。"
+        }
+      ],
+      "expected_document_id": "document_4c52ef4a7d674b2922d52ea9",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-67",
+        "cell-68",
+        "cell-69"
+      ],
+      "raw_rank": 1,
+      "contextual_rank": 1,
+      "query_method": "raw",
+      "retrieval_query": "这个 K 折交叉验证在哪段？",
+      "raw_top5": [
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_4c52ef4a7d674b2922d52ea9",
+          null
+        ],
+        [
+          "document_ff648dd3aec02f5dc9458da2",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-67",
+          "cell-68",
+          "cell-69",
+          "cell-70"
+        ],
+        [
+          "cell-56",
+          "cell-57"
+        ],
+        [
+          "cell-76",
+          "cell-77"
+        ],
+        [
+          "cell-71",
+          "cell-72"
+        ],
+        [
+          "cell-10",
+          "cell-11",
+          "cell-12"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-67",
+          "cell-68",
+          "cell-69",
+          "cell-70"
+        ],
+        [
+          "cell-56",
+          "cell-57"
+        ],
+        [
+          "cell-76",
+          "cell-77"
+        ],
+        [
+          "cell-71",
+          "cell-72"
+        ],
+        [
+          "cell-10",
+          "cell-11",
+          "cell-12"
+        ]
+      ],
+      "raw_latency_ms": 465,
+      "contextual_latency_ms": 2158
+    },
+    {
+      "case_id": "notebook-independent-07",
+      "kind": "independent",
+      "query": "这个 Ridge alpha 项在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "OLS 有解析解吗？"
+        },
+        {
+          "role": "assistant",
+          "content": "有闭式解。"
+        },
+        {
+          "role": "user",
+          "content": "贝叶斯分类器怎样工作？"
+        },
+        {
+          "role": "assistant",
+          "content": "估计后验概率。"
+        }
+      ],
+      "expected_document_id": "document_0ef6d92eb5b0318ca0759fe3",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-42",
+        "cell-43",
+        "cell-44"
+      ],
+      "raw_rank": 3,
+      "contextual_rank": 3,
+      "query_method": "raw",
+      "retrieval_query": "这个 Ridge alpha 项在哪段？",
+      "raw_top5": [
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ],
+        [
+          "document_0ef6d92eb5b0318ca0759fe3",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-56",
+          "cell-57"
+        ],
+        [
+          "cell-53",
+          "cell-54",
+          "cell-55"
+        ],
+        [
+          "cell-42",
+          "cell-43"
+        ],
+        [
+          "cell-49",
+          "cell-50",
+          "cell-51",
+          "cell-52"
+        ],
+        [
+          "cell-45",
+          "cell-46"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-56",
+          "cell-57"
+        ],
+        [
+          "cell-53",
+          "cell-54",
+          "cell-55"
+        ],
+        [
+          "cell-42",
+          "cell-43"
+        ],
+        [
+          "cell-49",
+          "cell-50",
+          "cell-51",
+          "cell-52"
+        ],
+        [
+          "cell-45",
+          "cell-46"
+        ]
+      ],
+      "raw_latency_ms": 1492,
+      "contextual_latency_ms": 2684
+    },
+    {
+      "case_id": "notebook-independent-08",
+      "kind": "independent",
+      "query": "这个 LIME 文本扰动样本在哪段？",
+      "history": [
+        {
+          "role": "user",
+          "content": "LIME 如何解释图片？"
+        },
+        {
+          "role": "assistant",
+          "content": "它可遮挡图像区域。"
+        },
+        {
+          "role": "user",
+          "content": "SHAP 值如何计算？"
+        },
+        {
+          "role": "assistant",
+          "content": "要考虑特征组合。"
+        }
+      ],
+      "expected_document_id": "document_236607ef1bb984bc2f77ab24",
+      "expected_pages": [],
+      "expected_cell_ids": [
+        "cell-65",
+        "cell-66",
+        "cell-67"
+      ],
+      "raw_rank": 1,
+      "contextual_rank": 1,
+      "query_method": "raw",
+      "retrieval_query": "这个 LIME 文本扰动样本在哪段？",
+      "raw_top5": [
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ],
+        [
+          "document_7dea2f628cb9374f5f98774a",
+          17
+        ],
+        [
+          "document_7dea2f628cb9374f5f98774a",
+          18
+        ],
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ],
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ]
+      ],
+      "contextual_top5": [
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ],
+        [
+          "document_7dea2f628cb9374f5f98774a",
+          17
+        ],
+        [
+          "document_7dea2f628cb9374f5f98774a",
+          18
+        ],
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ],
+        [
+          "document_236607ef1bb984bc2f77ab24",
+          null
+        ]
+      ],
+      "raw_top5_cells": [
+        [
+          "cell-65"
+        ],
+        [],
+        [],
+        [
+          "cell-66",
+          "cell-67",
+          "cell-68"
+        ],
+        [
+          "cell-45",
+          "cell-46"
+        ]
+      ],
+      "contextual_top5_cells": [
+        [
+          "cell-65"
+        ],
+        [],
+        [],
+        [
+          "cell-66",
+          "cell-67",
+          "cell-68"
+        ],
+        [
+          "cell-45",
+          "cell-46"
+        ]
+      ],
+      "raw_latency_ms": 1295,
+      "contextual_latency_ms": 440
+    }
+  ]
+}

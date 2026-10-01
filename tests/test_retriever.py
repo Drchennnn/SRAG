@@ -11,7 +11,7 @@ from app.schemas.embedding import (
     MultimodalEmbeddingBatch,
     MultimodalEmbeddingVector,
 )
-from app.schemas.rag import SearchRequest, SearchScope
+from app.schemas.rag import ConversationTurn, SearchRequest, SearchScope
 from app.stores.sqlite import VisibleVersion
 
 
@@ -208,6 +208,8 @@ async def test_search_skips_embedding_when_scope_has_no_visible_version() -> Non
     response = await retriever.search(SearchRequest(query="尚未发布的内容", top_k=3))
 
     assert response.hits == []
+    assert response.retrieval_query == "尚未发布的内容"
+    assert response.query_method == "raw"
     assert provider.queries == []
     assert store.calls == []
 
@@ -271,3 +273,28 @@ async def test_explicit_visual_failure_is_reported() -> None:
         await retriever.search(
             SearchRequest(query="图中展示什么？", retrieval_mode="visual", top_k=2)
         )
+
+
+async def test_contextual_followup_uses_constructed_query_and_preserves_scope() -> None:
+    provider = FakeVisualQueryEmbeddingProvider()
+    store = FakeVisualVectorStore()
+    retriever = HybridRetriever(provider, store, visual_enabled=True)
+
+    response = await retriever.search(
+        SearchRequest(
+            query="它在哪页？",
+            query_construction="contextual",
+            history=[ConversationTurn(role="user", content="相机成像示意图是什么？")],
+            scope=SearchScope(document_ids=["slide-doc"]),
+            top_k=2,
+        )
+    )
+
+    expected = "相机成像示意图是什么？\n追问：它在哪页？"
+    assert provider.queries == [expected]
+    assert provider.visual_queries == [expected]
+    assert store.calls[0][3] == ["slide-doc"]
+    assert response.query == "它在哪页？"
+    assert response.retrieval_query == expected
+    assert response.query_method == "history_expanded"
+    assert response.mode_used == "visual"

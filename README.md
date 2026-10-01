@@ -16,7 +16,9 @@ SRAG 为课程 Notebook、PDF 和 PPTX 建立可增量更新的本地检索库�
 
 正式检索入口接受课程或文件范围，先过滤可见版本，再用文本 Dense+Sparse RRF 召回。明确询问图像内容时，auto 模式优先检索整页视觉向量，并用文本候选补足。返回来源文件、Notebook cell 或幻灯片页码及可用截图路径。查询理解、Rerank、相邻上下文与回答生成尚未接入正式入口。
 
-当前已有 20 题 Notebook 检索基线，以及 CS5187/CS5495 的页码召回题集和逐题报告，见 [evals](./evals/)。Notebook 的 RRF Recall@8 为 1.00；CS5495 跨课程正式入口的 24 题 Recall@5 为 0.875，图表细节仅命中 1/4。这些指标只衡量来源召回，不代表回答质量；题集已用于开发分析，后续调整需用新资料验收。
+当前已有 20 题 Notebook 检索基线，以及 CS5187/CS5495 的页码召回题集和逐题报告，见 [评估资产](./evals/README.md)。Notebook 的 RRF Recall@8 为 1.00；CS5495 跨课程正式入口的 24 题 Recall@5 为 0.875，图表细节仅命中 1/4。这些指标只衡量来源召回，不代表回答质量；题集已用于开发分析，后续调整需用新资料验收。
+
+追问构造先在幻灯片题集上验证，再用 PDF 和 Notebook 模拟多轮题检查。现行规则在新留出的 4 道 Notebook 追问中仅命中 2 道；独立 DeepSeek 意图分类实验使其命中 4 道，但在 PDF 诊断题中误扩展 3/8 道独立问题，1 道因此掉出 Top 5。故分类器暂不接入正式入口；逐题结果与实验命令见 [评估资产](./evals/README.md)。这些题目均为人工构造，不能代表真实对话流量。
 
 ## 本地运行
 
@@ -74,14 +76,17 @@ curl -X POST http://127.0.0.1:8000/api/rag/search \
   -d '{"query":"贝叶斯公式是什么？","scope":{"course_ids":["CS5489"],"document_ids":[]},"top_k":5}'
 ~~~
 
-retrieval_mode 可选 auto（默认）、text、visual；响应的 mode_used 指出实际模式。得分只适合同次检索排序，不是正确率。API 还提供索引任务查询、文档列表及删除；具体请求结构见 [app/schemas/rag.py](./app/schemas/rag.py) 和 [app/api/rag.py](./app/api/rag.py)。
+retrieval_mode 可选 auto（默认）、text、visual；响应的 mode_used 指出实际模式。query_construction 默认为 raw，保持原问题检索；显式设为 contextual 并传入最多 6 条 history 后，含指代词且缺少具体主题的追问会补入最近一条用户问题。响应的 retrieval_query 和 query_method 可用于核对实际查询，原始 query 保持不变。历史中的助手回答和文件范围不会被用于推断检索权限。此阶段不调用 DeepSeek 改写，长对话摘要也未实现。得分只适合同次检索排序，不是正确率。API 还提供索引任务查询、文档列表及删除；具体请求结构见 [app/schemas/rag.py](./app/schemas/rag.py) 和 [app/api/rag.py](./app/api/rag.py)。
 
 ## 评估与测试
 
-固定题集、运行脚本和历史逐题结果保存在 [evals](./evals/)。例如：
+固定题集、运行脚本和当前逐题结果保存在 [评估资产](./evals/README.md)。例如：
 
 ~~~bash
 uv run python -m app.evaluation.slide_retrieval
+uv run python -m evals.run_query_followup
+uv run python -m evals.run_query_followup --cases evals/query_notebook_holdout_cases.jsonl --output evals/results/query_notebook_holdout_current_rule.json --oracle-missed
+uv run python -m evals.run_query_intent
 uv run pytest -q
 uv run ruff check app evals tools tests
 ~~~

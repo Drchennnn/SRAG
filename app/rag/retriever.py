@@ -11,6 +11,7 @@ from qdrant_client import models
 from app.clients.dashscope import DashScopeClient
 from app.config import Settings
 from app.rag.fusion import prefer_visual_pages, reciprocal_rank_fusion, visual_query_intent
+from app.rag.query import construct_query
 from app.schemas.embedding import EmbeddingVector, MultimodalEmbeddingBatch, SparseValue
 from app.schemas.rag import SearchHit, SearchRequest, SearchResponse, SourceReference
 from app.stores.qdrant import QdrantStore
@@ -101,6 +102,7 @@ class HybridRetriever:
     async def search(self, request: SearchRequest) -> SearchResponse:
         """文本问题用 Dense+Sparse；显式视觉问题优先返回视觉页。"""
 
+        constructed = construct_query(request)
         visible_versions: list[tuple[str, int]] | None = None
         if self.metadata_store is not None:
             visible = self.metadata_store.visible_versions(
@@ -109,10 +111,15 @@ class HybridRetriever:
             )
             visible_versions = [(item.document_id, item.version) for item in visible]
             if not visible_versions:
-                return SearchResponse(query=request.query, hits=[])
+                return SearchResponse(
+                    query=request.query,
+                    hits=[],
+                    retrieval_query=constructed.text,
+                    query_method=constructed.method,
+                )
 
         # 1. Query embedding（dense + sparse）
-        query_vector = await self.query_embedding_provider.embed_query(request.query)
+        query_vector = await self.query_embedding_provider.embed_query(constructed.text)
 
         # 2. 并行召回：dense、sparse
         # 每路召回更多候选以便融合后有足够多样性
@@ -145,11 +152,13 @@ class HybridRetriever:
         use_visual = request.retrieval_mode == "visual" or (
             request.retrieval_mode == "auto"
             and self.visual_enabled
-            and visual_query_intent(request.query)
+            and visual_query_intent(constructed.text)
         )
         if use_visual:
             try:
-                visual_query = await self.query_embedding_provider.embed_visual_query(request.query)
+                visual_query = await self.query_embedding_provider.embed_visual_query(
+                    constructed.text
+                )
                 if len(visual_query.vectors) != 1:
                     raise RuntimeError("视觉查询向量数量不为 1")
                 visual_points = await self.vector_store.search_visual_fusion(
@@ -173,6 +182,8 @@ class HybridRetriever:
             query=request.query,
             hits=[_to_search_hit(point) for point in final_points],
             mode_used=mode_used,
+            retrieval_query=constructed.text,
+            query_method=constructed.method,
         )
 
 

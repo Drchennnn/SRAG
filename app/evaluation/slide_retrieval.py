@@ -188,7 +188,7 @@ def main() -> None:
     parser.add_argument("--course-id", default="CS5187", help="限定评估的课程")
     parser.add_argument("--cases", type=Path, default=Path("evals/slide_cases.jsonl"))
     parser.add_argument(
-        "--output", type=Path, default=Path("evals/results/slide_retrieval_baseline.json")
+        "--output", type=Path, default=Path("evals/results/slide_development_visual_route.json")
     )
     args = parser.parse_args()
     report = asyncio.run(evaluate(args.cases, args.output, course_id=args.course_id))

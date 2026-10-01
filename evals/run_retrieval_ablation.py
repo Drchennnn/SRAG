@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import asyncio
 import time
+from collections import defaultdict
 from datetime import UTC, datetime
 from pathlib import Path
 
@@ -13,13 +14,16 @@ from qdrant_client import models
 from app.clients.dashscope import DashScopeClient
 from app.config import Settings, get_settings
 from app.evaluation.retrieval import (
+    RetrievalCase,
     aggregate_metrics,
     dump_json,
     evaluate_case,
     load_cases,
 )
 from app.rag.fusion import merge_and_deduplicate, reciprocal_rank_fusion
+from app.rag.indexer import DocumentIndexer
 from app.schemas.embedding import SparseValue
+from app.schemas.rag import IndexRequest
 from app.stores.qdrant import QdrantStore
 from app.stores.sqlite import MetadataStore
 
@@ -43,7 +47,7 @@ def parse_args() -> argparse.Namespace:
         "--strategies",
         nargs="+",
         choices=["dense", "sparse", "rrf", "rrf+outline", "rrf+outline+rerank"],
-        default=["dense", "rrf", "rrf+outline", "rrf+outline+rerank"],
+        default=["dense", "rrf"],
         help="要评估的检索策略",
     )
     return parser.parse_args()
@@ -254,11 +258,30 @@ async def evaluate_strategy(
     }
 
 
-async def index_corpus(settings: Settings, cases: list) -> None:
-    """索引评估语料。"""
-    from evals.run_retrieval import index_corpus as _index
+async def index_corpus(settings: Settings, cases: list[RetrievalCase]) -> None:
+    """按课程聚合评估 Notebook，并复用正式索引生命周期。"""
 
-    await _index(settings, cases)
+    course_paths: dict[str, set[Path]] = defaultdict(set)
+    course_root = settings.course_root.expanduser().resolve()
+    for case in cases:
+        for expected in case.expected_sources:
+            path = (course_root / expected.source_path).resolve()
+            if not path.is_relative_to(course_root):
+                raise ValueError(f"评估语料路径越出 COURSE_ROOT：{expected.source_path}")
+            if path.suffix.lower() != ".ipynb" or not path.is_file():
+                raise FileNotFoundError(f"评估 Notebook 不存在：{path}")
+            course_paths[case.course_id].add(path)
+
+    indexer = DocumentIndexer.from_settings(settings)
+    try:
+        for course_id, paths in sorted(course_paths.items()):
+            status = await indexer.index(IndexRequest(course_id=course_id, paths=sorted(paths)))
+            if status.failed_files or status.errors:
+                raise RuntimeError(f"课程 {course_id} 的评估语料索引失败：{status.errors}")
+            print(f"{course_id}: indexed={status.indexed_files}, skipped={status.skipped_files}")
+    finally:
+        if isinstance(indexer.text_store, QdrantStore):
+            await indexer.text_store.close()
 
 
 def print_metrics(metrics: dict) -> None:

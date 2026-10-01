@@ -153,12 +153,12 @@ async def delete_document(
     "/search",
     response_model=SearchResponse,
     summary="检索课程资料",
-    response_description="经过 dense 召回的课程证据",
+    response_description="包含实际检索文本和来源的课程证据",
 )
 async def search(
     request: SearchRequest,
     retriever: Annotated[HybridRetriever, Depends(get_retriever)],
 ) -> SearchResponse:
-    """通过统一检索入口返回 dense baseline 证据。"""
+    """通过统一检索入口返回课程证据。"""
 
     return await retriever.search(request)

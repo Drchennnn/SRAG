@@ -8,7 +8,7 @@ from qdrant_client import models
 from app.config import Settings
 from app.evaluation.retrieval import ExpectedSource, RetrievalCase
 from app.schemas.embedding import EmbeddingVector
-from evals.run_retrieval_ablation import evaluate_strategy
+from evals.run_retrieval_ablation import evaluate_strategy, index_corpus
 
 
 async def test_rerank_failure_does_not_become_a_labeled_result() -> None:
@@ -53,3 +53,41 @@ async def test_rerank_failure_does_not_become_a_labeled_result() -> None:
             metadata_store=metadata,
             settings=Settings(_env_file=None),
         )
+
+
+async def test_index_corpus_groups_paths_and_rejects_course_root_escape(
+    tmp_path, monkeypatch
+) -> None:
+    notebook = tmp_path / "lesson.ipynb"
+    notebook.write_text("{}", encoding="utf-8")
+    indexed = []
+
+    class FakeIndexer:
+        text_store = object()
+
+        async def index(self, request):
+            indexed.append(request)
+            return SimpleNamespace(failed_files=0, errors={}, indexed_files=1, skipped_files=0)
+
+    monkeypatch.setattr(
+        "app.rag.indexer.DocumentIndexer.from_settings", lambda settings: FakeIndexer()
+    )
+    case = SimpleNamespace(
+        course_id="CS5489",
+        expected_sources=[
+            SimpleNamespace(source_path="lesson.ipynb"),
+            SimpleNamespace(source_path="lesson.ipynb"),
+        ],
+    )
+
+    await index_corpus(Settings(_env_file=None, course_root=tmp_path), [case])
+
+    assert len(indexed) == 1
+    assert indexed[0].course_id == "CS5489"
+    assert indexed[0].paths == [notebook]
+
+    escape = SimpleNamespace(
+        course_id="CS5489", expected_sources=[SimpleNamespace(source_path="../outside.ipynb")]
+    )
+    with pytest.raises(ValueError, match="越出 COURSE_ROOT"):
+        await index_corpus(Settings(_env_file=None, course_root=tmp_path), [escape])

@@ -1,0 +1,232 @@
+{
+  "generated_at": "2026-10-01T06:57:14.541493+00:00",
+  "case_file_sha256": "1ef46b669f7874de40856f80d132d89e756eab0753eca41177ca7a9e4c436940",
+  "baseline_report": "evals/results/query_notebook_holdout_current_rule.json",
+  "corpus_versions": {
+    "document_236607ef1bb984bc2f77ab24": 1,
+    "document_5f9ca97dd3e5d44a3e201cdb": 1,
+    "document_7dea2f628cb9374f5f98774a": 1,
+    "document_b4d00e523d059bdfa5ccbc43": 1,
+    "document_bf28bc611cc82129a0de8d08": 1,
+    "document_0ef6d92eb5b0318ca0759fe3": 2,
+    "document_4c52ef4a7d674b2922d52ea9": 1,
+    "document_a8ab2817931fced4175e83b9": 1,
+    "document_aa54fd1fb13ef49f1ea2b2dd": 1,
+    "document_fbbd660f2a245de5534cf257": 1,
+    "document_ff648dd3aec02f5dc9458da2": 1
+  },
+  "deepseek_model": "deepseek-flash",
+  "text_embedding_model": "qwen3.7-text-embedding",
+  "top_k": 8,
+  "metrics": {
+    "followup_count": 4,
+    "independent_count": 4,
+    "rule_missed_followup": 3,
+    "model_missed_followup": 0,
+    "rule_false_expansion": 0,
+    "model_false_expansion": 0,
+    "rule_followup_recall@5": 0.5,
+    "model_followup_recall@5": 1.0,
+    "rule_independent_recall@5": 1.0,
+    "model_independent_recall@5": 1.0,
+    "model_independent_harmed@5": 0,
+    "decision_changes": 3,
+    "deepseek_total_tokens": 3609,
+    "deepseek_retries": 0,
+    "mean_deepseek_latency_ms": 1848
+  },
+  "cases": [
+    {
+      "case_id": "notebook-holdout-followup-01",
+      "kind": "followup",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": null,
+      "model_rank": 1,
+      "reason": "“这个机制”是泛称，需结合上一问的父类方法复用机制才能确定检索主题",
+      "usage": {
+        "prompt_tokens": 209,
+        "completion_tokens": 96,
+        "total_tokens": 305,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 63
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 209
+      },
+      "deepseek_latency_ms": 1256
+    },
+    {
+      "case_id": "notebook-holdout-followup-02",
+      "kind": "followup",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": null,
+      "model_rank": 1,
+      "reason": "“这个总结”指代上一问内容，缺少明确主题",
+      "usage": {
+        "prompt_tokens": 213,
+        "completion_tokens": 136,
+        "total_tokens": 349,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 112
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 213
+      },
+      "deepseek_latency_ms": 1500
+    },
+    {
+      "case_id": "notebook-holdout-followup-03",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题用“它”指代，缺少明确主题",
+      "usage": {
+        "prompt_tokens": 210,
+        "completion_tokens": 149,
+        "total_tokens": 359,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 126
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 210
+      },
+      "deepseek_latency_ms": 1759
+    },
+    {
+      "case_id": "notebook-holdout-followup-04",
+      "kind": "followup",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题仅用“这个流程”指代上一问，缺少明确主题，需要上下文",
+      "usage": {
+        "prompt_tokens": 211,
+        "completion_tokens": 128,
+        "total_tokens": 339,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 98
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 211
+      },
+      "deepseek_latency_ms": 1296
+    },
+    {
+      "case_id": "notebook-holdout-independent-01",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确提到“内积”，检索主题可独立确定。",
+      "usage": {
+        "prompt_tokens": 207,
+        "completion_tokens": 476,
+        "total_tokens": 683,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 450
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 207
+      },
+      "deepseek_latency_ms": 2928
+    },
+    {
+      "case_id": "notebook-holdout-independent-02",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确指代“Pickle 保存示例”这一对象，无需依赖上一问确定检索主题",
+      "usage": {
+        "prompt_tokens": 211,
+        "completion_tokens": 370,
+        "total_tokens": 581,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 336
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 211
+      },
+      "deepseek_latency_ms": 2318
+    },
+    {
+      "case_id": "notebook-holdout-independent-03",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 2,
+      "rule_rank": 2,
+      "model_rank": 2,
+      "reason": "当前问题已明确提及 LASSO 特征选择",
+      "usage": {
+        "prompt_tokens": 211,
+        "completion_tokens": 328,
+        "total_tokens": 539,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 307
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 211
+      },
+      "deepseek_latency_ms": 2055
+    },
+    {
+      "case_id": "notebook-holdout-independent-04",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确命名 AdaBoost 弱学习器，无需依赖上一问",
+      "usage": {
+        "prompt_tokens": 213,
+        "completion_tokens": 241,
+        "total_tokens": 454,
+        "prompt_tokens_details": {
+          "cached_tokens": 0
+        },
+        "completion_tokens_details": {
+          "reasoning_tokens": 214
+        },
+        "prompt_cache_hit_tokens": 0,
+        "prompt_cache_miss_tokens": 213
+      },
+      "deepseek_latency_ms": 1676
+    }
+  ]
+}

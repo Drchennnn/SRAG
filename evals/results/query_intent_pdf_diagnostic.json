@@ -1,0 +1,273 @@
+{
+  "generated_at": "2026-10-01T07:00:48.422784+00:00",
+  "case_file_sha256": "17338fe4d2aa8d0072a0fd98acfdb2ac5c9e670980c2b2cf7f9ffc942c14a022",
+  "baseline_report": "evals/results/query_dialogue_file_current_rule.json",
+  "corpus_versions": {
+    "document_305b428af1300d4eaf385112": 2,
+    "document_3e2b5136a775c85bae127128": 2,
+    "document_4aac6fee95a5faeebdc5f4ec": 1,
+    "document_f2c506b33faed33deea51112": 1
+  },
+  "deepseek_model": "deepseek-flash",
+  "text_embedding_model": "qwen3.7-text-embedding",
+  "top_k": 8,
+  "metrics": {
+    "followup_count": 8,
+    "independent_count": 8,
+    "rule_missed_followup": 1,
+    "model_missed_followup": 0,
+    "rule_false_expansion": 0,
+    "model_false_expansion": 3,
+    "rule_followup_recall@5": 1.0,
+    "model_followup_recall@5": 1.0,
+    "rule_independent_recall@5": 1.0,
+    "model_independent_recall@5": 0.875,
+    "model_independent_harmed@5": 1,
+    "decision_changes": 4,
+    "deepseek_total_tokens": 7282,
+    "deepseek_retries": 0,
+    "mean_deepseek_latency_ms": 1967
+  },
+  "cases": [
+    {
+      "case_id": "file-followup-01",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“这个原因”仅泛称指代上一问，无法独立确定检索主题",
+      "usage": {
+        "total_tokens": 296
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1208
+    },
+    {
+      "case_id": "file-followup-02",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“它们”指代上一问中的焦距和光心，需结合上一条问题才能确定检索主题",
+      "usage": {
+        "total_tokens": 330
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1290
+    },
+    {
+      "case_id": "file-followup-03",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“该公式”指代上一问中的投影公式，缺少明确对象",
+      "usage": {
+        "total_tokens": 326
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1260
+    },
+    {
+      "case_id": "file-followup-04",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“这个条件”指代上一问中 k 和 l 相等的条件，缺少明确主题",
+      "usage": {
+        "total_tokens": 327
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1553
+    },
+    {
+      "case_id": "file-followup-05",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 2,
+      "model_rank": 2,
+      "reason": "“这个变换”指代上一问的世界坐标到相机坐标变换，缺少明确主题",
+      "usage": {
+        "total_tokens": 291
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1164
+    },
+    {
+      "case_id": "file-followup-06",
+      "kind": "followup",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "“这个投影矩阵”指代上一问的完整投影矩阵，需结合上文确定对象",
+      "usage": {
+        "total_tokens": 375
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1483
+    },
+    {
+      "case_id": "file-followup-07",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前用“这个问题”指代上一问，缺少明确检索主题",
+      "usage": {
+        "total_tokens": 343
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1453
+    },
+    {
+      "case_id": "file-followup-08",
+      "kind": "followup",
+      "rule_method": "history_expanded",
+      "model_method": "history_expanded",
+      "raw_rank": null,
+      "rule_rank": 2,
+      "model_rank": 2,
+      "reason": "当前问题用“这个练习”指代上一问，缺少明确主题",
+      "usage": {
+        "total_tokens": 317
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1337
+    },
+    {
+      "case_id": "file-independent-01",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 4,
+      "reason": "“这个 image formation 例子”需依赖上文确定具体例子",
+      "usage": {
+        "total_tokens": 792
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 3581
+    },
+    {
+      "case_id": "file-independent-02",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 2,
+      "rule_rank": 2,
+      "model_rank": 2,
+      "reason": "当前问题已明确命名检索对象为 pinhole and perspective projection 示意图",
+      "usage": {
+        "total_tokens": 485
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 2014
+    },
+    {
+      "case_id": "file-independent-03",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确命名世界坐标系和相机坐标系，可独立确定检索主题",
+      "usage": {
+        "total_tokens": 408
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1846
+    },
+    {
+      "case_id": "file-independent-04",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": null,
+      "reason": "“这个主点”指代不明，需结合上一问定位具体对象",
+      "usage": {
+        "total_tokens": 401
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1940
+    },
+    {
+      "case_id": "file-independent-05",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确命名“齐次坐标”这一主题，可独立确定检索内容。",
+      "usage": {
+        "total_tokens": 354
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 1634
+    },
+    {
+      "case_id": "file-independent-06",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "当前问题已明确命名“K 矩阵”这一对象",
+      "usage": {
+        "total_tokens": 795
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 3542
+    },
+    {
+      "case_id": "file-independent-07",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "history_expanded",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 2,
+      "reason": "“这个 medical imaging 应用”指代不明确，需结合上一问确定具体主题",
+      "usage": {
+        "total_tokens": 921
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 3893
+    },
+    {
+      "case_id": "file-independent-08",
+      "kind": "independent",
+      "rule_method": "raw",
+      "model_method": "raw",
+      "raw_rank": 1,
+      "rule_rank": 1,
+      "model_rank": 1,
+      "reason": "已明确命名视觉大模型话题",
+      "usage": {
+        "total_tokens": 521
+      },
+      "attempts": 1,
+      "deepseek_latency_ms": 2267
+    }
+  ]
+}
