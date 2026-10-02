@@ -120,7 +120,7 @@ uv run python -m tools.visual_text --course CS5187 --file Lecture2-1.pdf --pages
 
 视觉识别标记为“未经人工核对”；失败时显示提示并使用原文字。回答区分课件与通用补充，当前无联网搜索。DeepSeek 回答关闭思考模式，空输出/截断仅重试一次，仍失败则报错。逐轮日志位于忽略的 `data/chat_sessions/`。
 
-目前“文件讲了什么”、中文页码与连续讨论对象定位仍不稳定。下一步优先完善通用 query 定位，再固定跨文件题集验证；暂不全量扩库、重切或更换 Embedding。任务见 [CHECKLIST.md](./CHECKLIST.md)，最新实测见 [PROGRESS_HISTORY.md](./PROGRESS_HISTORY.md)。
+已知缺口是自然总结问法、中文页码与连续讨论对象定位。下一步为通用 query 定位 → 固定跨文件验收 → 按漏检证据优化召回或小批扩库；保留现有切块/Embedding。任务与最新实测分别见 [CHECKLIST.md](./CHECKLIST.md)、[PROGRESS_HISTORY.md](./PROGRESS_HISTORY.md)。
 
 ## 评估与测试
 
