@@ -213,9 +213,12 @@ def _to_search_hit(point: models.ScoredPoint) -> SearchHit:
         representation_type=representation_type,
         score=float(point.score),
         content=content,
+        evidence_origin=payload.get("evidence_origin", "course_text"),
+        origin_chunk_id=payload.get("origin_chunk_id"),
         source=SourceReference(
             course_id=course_id,
             document_id=document_id,
+            version=payload.get("version") if isinstance(payload.get("version"), int) else None,
             file=source_path,
             section_path=section_path,
             cell_ids=cell_ids,

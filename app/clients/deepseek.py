@@ -39,6 +39,30 @@ class DeepSeekClient:
             raise RuntimeError("尚未在 .env 中配置 DEEPSEEK_API_KEY")
         return self.api_key
 
+    async def generate_answer(self, messages: list[dict[str, str]]) -> dict[str, Any]:
+        """用配置的对话模型生成文字回答；空输出或截断最多重试一次。"""
+
+        total_tokens = 0
+        for max_tokens in (4096, 8192):
+            response = await self._chat_completion(
+                messages=messages,
+                model=self.chat_model,
+                temperature=0.2,
+                max_tokens=max_tokens,
+                thinking={"type": "disabled"},
+            )
+            usage = response.get("usage")
+            if isinstance(usage, dict):
+                total_tokens += usage.get("total_tokens", 0)
+            content = response.get("content")
+            if (
+                isinstance(content, str)
+                and content.strip()
+                and response.get("finish_reason") != "length"
+            ):
+                return {"content": content.strip(), "usage": {"total_tokens": total_tokens}}
+        raise RuntimeError("DeepSeek 回答连续为空或被截断，请缩小问题范围后重试")
+
     async def classify_context_need(self, previous_user: str, current_query: str) -> dict[str, Any]:
         """仅判断当前问题是否需要上一条用户问题来确定检索主题。"""
 
@@ -172,6 +196,7 @@ class DeepSeekClient:
         temperature: float = 0.7,
         max_tokens: int | None = None,
         response_format: dict[str, str] | None = None,
+        thinking: dict[str, str] | None = None,
     ) -> dict[str, Any]:
         """调用 DeepSeek Chat Completions API。"""
 
@@ -184,6 +209,8 @@ class DeepSeekClient:
             payload["max_tokens"] = max_tokens
         if response_format is not None:
             payload["response_format"] = response_format
+        if thinking is not None:
+            payload["thinking"] = thinking
 
         headers = {
             "Authorization": f"Bearer {self.require_api_key()}",

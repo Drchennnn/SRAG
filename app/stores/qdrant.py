@@ -10,8 +10,9 @@ from qdrant_client import AsyncQdrantClient, models
 
 from app.config import Settings
 from app.schemas.document import SlideChunkingResult, SlideDeck
-from app.schemas.embedding import SlideEmbeddingResult
+from app.schemas.embedding import EmbeddingVector, SlideEmbeddingResult
 from app.schemas.indexing import PreparedDocumentIndex, RepresentationType
+from app.schemas.rag import DocumentSummary, SearchHit
 
 TEXT_DENSE_VECTOR = "text_dense"
 TEXT_SPARSE_VECTOR = "text_sparse"
@@ -34,6 +35,92 @@ class QdrantSchemaError(RuntimeError):
 
 class QdrantStore:
     """管理 SRAG 使用的 Qdrant collection；初始化过程不会删除已有数据。"""
+
+    async def upsert_visual_text(
+        self,
+        document: DocumentSummary,
+        hit: SearchHit,
+        vector: EmbeddingVector,
+        *,
+        cache_key: str,
+        embedding_model: str,
+    ) -> None:
+        """追加可追溯的视觉文字点；原文字/视觉点不覆盖。"""
+        if len(vector.dense) != self.text_dimension:
+            raise ValueError("视觉文字向量维度不匹配")
+        if hit.source.document_id != document.document_id:
+            raise ValueError("视觉文字来源与文档不符")
+        await self.ensure_collection()
+        vectors = {TEXT_DENSE_VECTOR: vector.dense}
+        if vector.sparse:
+            sparse = sorted(vector.sparse, key=lambda item: item.index)
+            vectors[TEXT_SPARSE_VECTOR] = models.SparseVector(
+                indices=[item.index for item in sparse],
+                values=[item.value for item in sparse],
+            )
+        origin_chunk_id = hit.origin_chunk_id or hit.chunk_id
+        representation_id = f"visual-text:{document.document_id}:{origin_chunk_id}"
+        payload = {
+            "schema_version": COLLECTION_SCHEMA_VERSION,
+            "course_id": document.course_id,
+            "document_id": document.document_id,
+            "version": document.version,
+            "source_path": document.source_path,
+            "representation_id": representation_id,
+            "representation_type": "text_content",
+            "chunk_id": representation_id,
+            "origin_chunk_id": origin_chunk_id,
+            "extraction_cache_key": cache_key,
+            "section_id": hit.section_id,
+            "content": hit.content,
+            "page": hit.source.page,
+            "cell_ids": hit.source.cell_ids,
+            "section_path": hit.source.section_path,
+            "image_path": hit.source.image_path,
+            "evidence_origin": "visual_extract",
+            "embedding_model": embedding_model,
+        }
+        if document.release_at:
+            payload["release_at"] = _serialize_datetime(document.release_at)
+        await self.client.upsert(
+            collection_name=self.collection,
+            points=[
+                models.PointStruct(
+                    id=_point_id(representation_id, document.version),
+                    vector=vectors,
+                    payload=payload,
+                )
+            ],
+            wait=True,
+        )
+        # 模型/提示词/图片变化替换同来源的派生表示，不留下旧转写参与召回。
+        await self.client.delete(
+            collection_name=self.collection,
+            points_selector=models.FilterSelector(
+                filter=models.Filter(
+                    must=[
+                        models.FieldCondition(
+                            key="document_id", match=models.MatchValue(value=document.document_id)
+                        ),
+                        models.FieldCondition(
+                            key="version", match=models.MatchValue(value=document.version)
+                        ),
+                        models.FieldCondition(
+                            key="origin_chunk_id", match=models.MatchValue(value=origin_chunk_id)
+                        ),
+                        models.FieldCondition(
+                            key="evidence_origin", match=models.MatchValue(value="visual_extract")
+                        ),
+                    ],
+                    must_not=[
+                        models.HasIdCondition(
+                            has_id=[_point_id(representation_id, document.version)]
+                        )
+                    ],
+                )
+            ),
+            wait=True,
+        )
 
     def __init__(
         self,

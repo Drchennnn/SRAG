@@ -70,6 +70,7 @@ class SourceReference(BaseModel):
     cell_index: int | None = None
     page: int | None = None
     image_path: str | None = None
+    version: int | None = None
 
 
 class SearchHit(BaseModel):
@@ -79,6 +80,8 @@ class SearchHit(BaseModel):
     score: float
     content: str
     source: SourceReference
+    evidence_origin: Literal["course_text", "visual_extract"] = "course_text"
+    origin_chunk_id: str | None = None
 
 
 class SearchResponse(BaseModel):
@@ -96,6 +99,17 @@ class DocumentSummary(BaseModel):
     version: int
     release_at: datetime | None = None
     indexed_at: datetime
+
+
+class DocumentContent(BaseModel):
+    """当前可见文档的完整文字结构；已读页面不等于已理解图片。"""
+
+    document: DocumentSummary
+    title: str
+    outline: list[str]
+    hits: list[SearchHit]
+    pages: list[int] = Field(default_factory=list)
+    image_only_pages: list[int] = Field(default_factory=list)
 
 
 class DeleteDocumentResponse(BaseModel):

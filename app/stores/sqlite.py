@@ -14,7 +14,14 @@ from typing import Any
 from app.config import Settings
 from app.schemas.document import ParsedDocument, SlideChunkingResult, SlideDeck
 from app.schemas.indexing import PreparedDocumentIndex
-from app.schemas.rag import DocumentSummary, IndexStatus, JobState
+from app.schemas.rag import (
+    DocumentContent,
+    DocumentSummary,
+    IndexStatus,
+    JobState,
+    SearchHit,
+    SourceReference,
+)
 
 _SCHEMA_VERSION = 1
 
@@ -662,6 +669,141 @@ class MetadataStore:
             )
             for row in rows
         ]
+
+    def read_document(
+        self, document_id: str, version: int, *, course_ids: list[str], document_ids: list[str]
+    ) -> DocumentContent:
+        """在同一读事务中核对范围/发布日期/版本，按页或 cell 顺序读取全部 chunk。"""
+
+        with self._connect() as connection:
+            connection.execute("BEGIN")
+            row = connection.execute(
+                """SELECT d.*, v.version, v.release_at, v.indexed_at
+                   FROM documents d JOIN document_versions v ON v.document_id=d.document_id
+                   WHERE d.document_id=? AND v.version=? AND d.deleted_at IS NULL
+                     AND v.state='active' AND (v.release_at IS NULL OR v.release_at<=?)""",
+                (document_id, version, _utc_now()),
+            ).fetchone()
+            if (
+                row is None
+                or (course_ids and row["course_id"] not in course_ids)
+                or (document_ids and document_id not in document_ids)
+            ):
+                raise ValueError("文档不在当前范围、不可见或版本已变化；请重新选择")
+            parameters = (document_id, version)
+            blocks = connection.execute(
+                "SELECT * FROM content_blocks WHERE document_id=? AND version=?",
+                parameters,
+            ).fetchall()
+            assets = connection.execute(
+                "SELECT * FROM assets WHERE document_id=? AND version=? ORDER BY asset_id",
+                parameters,
+            ).fetchall()
+            chunks = [
+                json.loads(item["payload_json"])
+                for item in connection.execute(
+                    "SELECT payload_json FROM chunks WHERE document_id=? AND version=?",
+                    parameters,
+                ).fetchall()
+            ]
+            headings = {
+                item["section_id"]: item["heading"] or ""
+                for item in connection.execute(
+                    "SELECT section_id, heading FROM sections WHERE document_id=? AND version=?",
+                    parameters,
+                ).fetchall()
+            }
+        cell_order = {
+            item["cell_id"]: item["cell_index"] or 0 for item in blocks if item["cell_id"]
+        }
+        asset_paths = {item["asset_id"]: item["path"] for item in assets}
+        slide_images = {
+            item["block_id"]: item["path"] for item in assets if item["asset_id"].endswith(":page")
+        }
+        chunks.sort(
+            key=lambda chunk: (
+                chunk.get(
+                    "slide_no",
+                    min((cell_order.get(cell, 0) for cell in chunk.get("cell_ids", [])), default=0),
+                ),
+                chunk.get("split_index", 0),
+                chunk["chunk_id"],
+            )
+        )
+        if chunks and "slide_no" not in chunks[0]:
+            # Notebook 同一 cell 可以拆出多块，哈希 ID 不表示正文顺序。
+            by_id = {chunk["chunk_id"]: chunk for chunk in chunks}
+            ordered, visited = [], set()
+            roots = [chunk for chunk in chunks if chunk.get("previous_chunk_id") not in by_id]
+            for root in roots:
+                chunk = root
+                while chunk and chunk["chunk_id"] not in visited:
+                    visited.add(chunk["chunk_id"])
+                    ordered.append(chunk)
+                    chunk = by_id.get(chunk.get("next_chunk_id"))
+            if len(ordered) != len(chunks):
+                raise ValueError("Notebook chunk 顺序链不完整或成环，不能生成完整总结")
+            chunks = ordered
+        hits = []
+        empty_pages = set()
+        text_pages = set()
+        for chunk in chunks:
+            heading = chunk.get("title") or headings.get(chunk["section_id"], "")
+            body = chunk["display_text"].strip()
+            page = chunk.get("slide_no")
+            if page is not None and not body:
+                empty_pages.add(page)
+            elif page is not None:
+                text_pages.add(page)
+            image_path = slide_images.get(chunk.get("slide_id"))
+            if image_path is None:
+                image_path = next(
+                    (asset_paths[key] for key in chunk.get("asset_ids", []) if key in asset_paths),
+                    None,
+                )
+            hits.append(
+                SearchHit(
+                    chunk_id=chunk["chunk_id"],
+                    section_id=chunk["section_id"],
+                    representation_type="text_content",
+                    score=0.0,
+                    content="\n".join(part for part in (heading, body) if part)
+                    or "（本页未提取到文字）",
+                    source=SourceReference(
+                        course_id=row["course_id"],
+                        document_id=document_id,
+                        file=row["source_path"],
+                        section_path=chunk.get("section_path") or ([heading] if heading else []),
+                        cell_ids=chunk.get("cell_ids", []),
+                        page=page,
+                        image_path=image_path,
+                        version=version,
+                    ),
+                )
+            )
+        pages = sorted({item["page"] for item in blocks if item["page"] is not None})
+        chunk_pages = {hit.source.page for hit in hits}
+        if not hits or (pages and not set(pages) <= chunk_pages):
+            raise ValueError("文档结构缺少 chunk 或页码覆盖不完整，不能生成完整总结")
+        return DocumentContent(
+            document=DocumentSummary(
+                document_id=document_id,
+                course_id=row["course_id"],
+                source_path=row["source_path"],
+                version=version,
+                release_at=_parse_datetime(row["release_at"]),
+                indexed_at=_parse_datetime(row["indexed_at"]) or datetime.now(UTC),
+            ),
+            title=row["title"],
+            outline=list(
+                dict.fromkeys(
+                    heading for hit in hits for heading in hit.source.section_path if heading
+                )
+            ),
+            hits=hits,
+            pages=pages,
+            image_only_pages=sorted(empty_pages - text_pages),
+        )
 
     def has_document(self, document_id: str) -> bool:
         with self._connect() as connection:

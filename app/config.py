@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     dashscope_visual_embedding_model: str = "qwen3-vl-embedding"
     dashscope_visual_embedding_dimension: int = 1024
     dashscope_visual_max_image_bytes: int = 10 * 1024 * 1024
+    dashscope_vision_model: str = "qwen3-vl-plus"
     dashscope_rerank_model: str = "qwen3.7-text-rerank"
     dashscope_timeout_seconds: float = 60.0
     dashscope_max_retries: int = 3

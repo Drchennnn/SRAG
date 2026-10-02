@@ -98,3 +98,45 @@ async def test_classify_context_need_rejects_non_boolean(settings: Settings, mon
 
     with pytest.raises(RuntimeError, match="布尔 needs_context"):
         await client.classify_context_need("问题一", "这个在哪段？")
+
+
+async def test_generate_answer_uses_chat_model_and_retries_empty(
+    settings: Settings, monkeypatch
+) -> None:
+    client = DeepSeekClient(settings)
+    completion = AsyncMock(
+        side_effect=[
+            {"content": "", "usage": {"total_tokens": 4096}},
+            {"content": "  根据课件……[1]  ", "usage": {"total_tokens": 80}},
+        ]
+    )
+    monkeypatch.setattr(client, "_chat_completion", completion)
+
+    result = await client.generate_answer([{"role": "user", "content": "问题"}])
+
+    assert result == {"content": "根据课件……[1]", "usage": {"total_tokens": 4176}}
+    assert completion.await_args.kwargs["model"] == settings.deepseek_chat_model
+    assert completion.await_args.kwargs["thinking"] == {"type": "disabled"}
+    assert completion.await_args.kwargs["max_tokens"] == 8192
+
+
+async def test_generate_answer_does_not_accept_truncated_nonempty_answer(settings, monkeypatch):
+    client = DeepSeekClient(settings)
+    completion = AsyncMock(
+        side_effect=[
+            {"content": "半截公式 G(x)=", "finish_reason": "length"},
+            {"content": "完整定义。[1]", "finish_reason": "stop"},
+        ]
+    )
+    monkeypatch.setattr(client, "_chat_completion", completion)
+    result = await client.generate_answer([{"role": "user", "content": "公式"}])
+    assert result["content"] == "完整定义。[1]"
+    assert completion.await_count == 2
+
+
+async def test_generate_answer_rejects_repeated_truncation(settings, monkeypatch):
+    client = DeepSeekClient(settings)
+    completion = AsyncMock(return_value={"content": "半截总结", "finish_reason": "length"})
+    monkeypatch.setattr(client, "_chat_completion", completion)
+    with pytest.raises(RuntimeError, match="被截断"):
+        await client.generate_answer([{"role": "user", "content": "总结"}])
