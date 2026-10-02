@@ -140,3 +140,22 @@ async def test_generate_answer_rejects_repeated_truncation(settings, monkeypatch
     monkeypatch.setattr(client, "_chat_completion", completion)
     with pytest.raises(RuntimeError, match="被截断"):
         await client.generate_answer([{"role": "user", "content": "总结"}])
+
+
+async def test_review_client_enables_thinking_and_retries_with_bounded_budget(
+    settings, monkeypatch
+):
+    client = DeepSeekClient(settings, answer_thinking=True)
+    completion = AsyncMock(
+        side_effect=[
+            {"content": "", "finish_reason": "length", "usage": {"total_tokens": 8192}},
+            {"content": "已校对。[1]", "usage": {"total_tokens": 80}},
+        ]
+    )
+    monkeypatch.setattr(client, "_chat_completion", completion)
+    result = await client.generate_answer([{"role": "user", "content": "校对公式"}])
+    assert result["usage"]["total_tokens"] == 8272
+    assert completion.await_args.kwargs["thinking"] == {"type": "enabled"}
+    assert completion.await_args.kwargs["reasoning_effort"] == "low"
+    assert completion.await_args.kwargs["max_tokens"] == 16384
+    assert completion.await_args.kwargs["model"] == settings.deepseek_chat_model

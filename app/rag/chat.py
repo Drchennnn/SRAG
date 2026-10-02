@@ -13,10 +13,12 @@ from app.rag.dialogue import (
     DialogueContext,
     answer_entities,
     construct_dialogue_query,
+    extract_page_numbers,
     history_answer,
+    references_current_document,
     route_question,
 )
-from app.rag.summary import DocumentSummarizer, has_document_target, resolve_document
+from app.rag.summary import DocumentSummarizer, has_document_target, resolve_document, review_answer
 from app.rag.vision import VisualTextReader
 from app.schemas.rag import (
     DocumentContent,
@@ -28,11 +30,12 @@ from app.schemas.rag import (
 )
 
 _MAX_EVIDENCE_HITS = 6
-_MAX_EVIDENCE_CHARS = 2200
+_MAX_EVIDENCE_CHARS = 3500
 _MAX_HISTORY_PAIRS = 2
 _MAX_CATALOG_FILES = 50
-_CITATION_PATTERN = re.compile(r"\[(\d+)\]")
-_PAGE_PATTERN = re.compile(r"(?:第\s*)?(\d{1,4})\s*页")
+_CITATION_PATTERN = re.compile(r"(?<![A-Za-z0-9_.])\[(\d+)(?:\s*[-–]\s*(\d+))?\]")
+_DISCUSSION_OBJECT = re.compile(r"图|例子|示例|\b(?:plot|chart|diagram|example)\b", re.I)
+_TOPIC_SWITCH = re.compile(r"换(?:个|一个)?(?:主题|话题)|另(?:外|一个问题)|再问(?:一个|个)?问题")
 
 _SYSTEM_PROMPT = (
     "你是课程复习助手。默认用 200–350 字直接解释，先定义，再给必要公式和步骤；"
@@ -49,6 +52,13 @@ _SYSTEM_PROMPT = (
     "不得为这部分伪造课件引用，也不要用常识填写成绩、考试范围或课件原始公式。"
     "说明公式成立条件（坐标系、量纲、齐次坐标归一化等）；课件若省略条件，"
     "在补充解释中提醒。不要把课件的条件性描述改成无条件保证。"
+    "区分计算公式存在的条件与统计推断假设，不把后者写成计算的必要条件。"
+    "解读图表时分别说明横纵轴、单位、观测点、预测背景/曲线和颜色图例；"
+    "看不清或证据未提及时明确缺失，不猜测。不同文件中的同名例子分别说明，不能混用。"
+    "不根据 MSE 等误差指标的绝对数值独自判断模型好坏，需考虑目标尺度或比较基线。"
+    "核对矩阵公式的维度。涉及齐次坐标时区分欧氏点与齐次表示，明确乘积尚未归一化，"
+    "给出归一化步骤和非零分母条件。主要公式直接使用完整、可计算的表示；"
+    "课件简写省略条件或尺度时说明省略，不先给错误等式再在补充解释中修正。"
     "当前没有联网能力，不声称搜索过互联网，不伪造链接。"
     "回答显示在纯文本终端：公式使用可直接阅读的文本写法，如 G(x) = ...、sqrt(...)、"
     "sigma 或 σ；矩阵用缩进的逐行数字表示。不要输出 LaTeX 数学定界符、"
@@ -104,6 +114,7 @@ class ChatSession:
         query_construction: Literal["raw", "contextual"] = "contextual",
         summarizer: DocumentSummarizer | None = None,
         visual_reader: VisualTextReader | None = None,
+        answer_reviewer: AnswerProvider | None = None,
     ) -> None:
         self.retriever = retriever
         self.answer_provider = answer_provider
@@ -115,6 +126,7 @@ class ChatSession:
         self.turns: list[tuple[str, str]] = []
         self.context: DialogueContext | None = None
         self.summarizer, self.visual_reader = summarizer, visual_reader
+        self.answer_reviewer = answer_reviewer
 
     def set_scope(self, scope: SearchScope) -> None:
         self.scope = scope
@@ -131,10 +143,14 @@ class ChatSession:
         if route == "history":
             return self._direct_result(question, history_answer(question, self.turns), route)
         if route == "catalog":
+            courses = self._mentioned_courses(question)
+            documents = [
+                item for item in self._scope_documents() if not courses or item.course_id in courses
+            ]
             return self._direct_result(
                 question,
-                f"当前范围共 {len(self._scope_documents())} 份可见课件"
-                "（PDF/PPTX 分别计数，不按讲次合并）：\n" + self._catalog_text(),
+                f"当前范围共 {len(documents)} 份可见课件"
+                "（PDF/PPTX 分别计数，不按讲次合并）：\n" + self._catalog_text(documents),
                 route,
             )
         if route == "greeting":
@@ -161,7 +177,32 @@ class ChatSession:
         documents = self._scope_documents()
         target = None
         effective_scope = self.scope
-        pages = list(dict.fromkeys(int(page) for page in _PAGE_PATTERN.findall(question)))
+        mentioned_courses = self._mentioned_courses(question)
+        if mentioned_courses:
+            courses = [
+                course
+                for course in mentioned_courses
+                if (not self.scope.course_ids or course in self.scope.course_ids)
+            ]
+            documents = [item for item in documents if item.course_id in courses]
+            if not documents:
+                self.context = None
+                return self._direct_result(
+                    question, "指定课程不在当前可见范围内，请先切换范围。", route
+                )
+            effective_scope = self.scope.model_copy(update={"course_ids": courses})
+        pages = extract_page_numbers(question)
+        # 指名图表/例子仍可属于同一文件，但不是泛称追问。只作来源偏好，绝不改权限范围。
+        object_context = (
+            self.context
+            if self.query_construction == "contextual"
+            and self.context
+            and self.context.focus_document_id
+            and _DISCUSSION_OBJECT.search(question)
+            and not _TOPIC_SWITCH.search(question)
+            and not has_document_target(question)
+            else None
+        )
         if has_document_target(question):
             matches = resolve_document(question, documents)
             if len(matches) != 1:
@@ -208,6 +249,10 @@ class ChatSession:
                 return self._direct_result(
                     question, "之前指定的文件已更新或不可见，请重新选择。", route
                 )
+        elif references_current_document(question) and len(documents) != 1:
+            return self._direct_result(
+                question, "尚未确认你指的是哪份课件，请写文件名或用 /file 选择。", route
+            )
         if target is not None:
             effective_scope = self.scope.model_copy(update={"document_ids": [target.document_id]})
         retrieval_performed = not pages
@@ -243,6 +288,23 @@ class ChatSession:
                 "query_method": constructed.method,
             }
         )
+        if object_context and not pages and query_context is None:
+            # 仅当当前召回确实提及命名对象时优先原文件；不拿无关的旧证据补回答。
+            terms = [
+                word.lower()
+                for word in re.findall(r"[A-Za-z][A-Za-z0-9_-]{2,}", question)
+                if word.lower() not in {"plot", "chart", "diagram", "example", "the", "this"}
+            ]
+            preferred = [
+                hit
+                for hit in search.hits
+                if hit.source.document_id == object_context.focus_document_id
+                and hit.source.version in {None, object_context.focus_version}
+                and any(re.search(rf"\b{re.escape(term)}\b", hit.content, re.I) for term in terms)
+            ]
+            if preferred:
+                search = search.model_copy(update={"hits": preferred})
+                query_context = object_context
         evidence = [
             hit
             for hit in search.hits
@@ -274,6 +336,18 @@ class ChatSession:
             )
             answer = response["content"]
             model_tokens = response.get("usage", {}).get("total_tokens", 0)
+            if self.answer_reviewer and re.search(
+                r"公式|矩阵|\b(?:formula|matrix)\b", question, re.I
+            ):
+                answer, used = await review_answer(
+                    self.answer_reviewer,
+                    answer,
+                    evidence="\n\n".join(
+                        f"[{i}] {_evidence_text(hit)}" for i, hit in enumerate(evidence, 1)
+                    ),
+                    task=question,
+                )
+                model_tokens += used
 
         current_versions = {item.document_id: item.version for item in self._scope_documents()}
         if any(
@@ -283,7 +357,7 @@ class ChatSession:
         ):
             raise ValueError("回答期间文档已更新或不可见，请重新提问")
 
-        cited_numbers = sorted({int(value) for value in _CITATION_PATTERN.findall(answer)})
+        cited_numbers = citation_numbers(answer)
         invalid = [number for number in cited_numbers if number < 1 or number > len(evidence)]
         if invalid:
             citation_warning = f"回答含不存在的证据编号：{invalid}"
@@ -295,9 +369,21 @@ class ChatSession:
         documents = {item.document_id: item for item in self._scope_documents()}
         self.context = (
             DialogueContext(
-                topic_query=query_context.topic_query if query_context else constructed.text,
-                focus_document_id=target.document_id if target else None,
-                focus_version=target.version if target else None,
+                topic_query=(
+                    query_context.topic_query
+                    if query_context and constructed.method == "history_expanded"
+                    else constructed.text
+                ),
+                focus_document_id=(
+                    target.document_id
+                    if target
+                    else (query_context.focus_document_id if query_context else None)
+                ),
+                focus_version=(
+                    target.version
+                    if target
+                    else (query_context.focus_version if query_context else None)
+                ),
                 entities=answer_entities(answer),
                 sources=tuple(
                     ContextSource(
@@ -330,7 +416,26 @@ class ChatSession:
         )
 
     async def _summarize(self, question: str) -> ChatResult:
-        documents = resolve_document(question, self._scope_documents())
+        documents = self._scope_documents()
+        courses = self._mentioned_courses(question)
+        if courses:
+            documents = [item for item in documents if item.course_id in courses]
+        if has_document_target(question):
+            documents = resolve_document(question, documents)
+        elif (
+            self.query_construction == "contextual"
+            and self.context
+            and self.context.focus_document_id
+            and re.search(r"这份|该|当前|本章|本节|这一讲|本讲", question)
+        ):
+            documents = [
+                item
+                for item in documents
+                if (
+                    item.document_id == self.context.focus_document_id
+                    and item.version == self.context.focus_version
+                )
+            ]
         if len(documents) != 1:
             self.context = None
             return self._direct_result(
@@ -350,7 +455,7 @@ class ChatSession:
             )
             content = await self.visual_reader.cached_document(content, self.scope)
         result = await self.summarizer.summarize(document, self.scope, content=content)
-        cited = sorted({int(value) for value in _CITATION_PATTERN.findall(result.answer)})
+        cited = citation_numbers(result.answer)
         invalid = [n for n in cited if not 1 <= n <= len(result.evidence)]
         warning = (
             f"回答含不存在的证据编号：{invalid}"
@@ -380,6 +485,7 @@ class ChatSession:
             retrieval_performed=False,
             coverage=result.coverage,
             model_called=True,
+            effective_scope=self.scope.model_copy(update={"document_ids": [document.document_id]}),
         )
 
     def _direct_result(self, question: str, answer: str, route: ChatRoute) -> ChatResult:
@@ -406,11 +512,15 @@ class ChatSession:
             )
             or "（无）"
         )
-        catalog = self._catalog_text()
+        evidence_documents = {hit.source.document_id for hit in evidence}
+        catalog = self._catalog_text(
+            [item for item in self._scope_documents() if item.document_id in evidence_documents],
+            for_model=True,
+        )
         items = "\n\n".join(
-            f"[{number}] 文件：{hit.source.file}；课程：{hit.source.course_id}；"
+            f"[{number}] 文件：{Path(hit.source.file).name}；课程：{hit.source.course_id}；"
             f"位置：{_source_location(hit)}；来源类型：{hit.evidence_origin}"
-            f"\n内容：{hit.content[:_MAX_EVIDENCE_CHARS]}"
+            f"\n内容：{_evidence_text(hit)}"
             for number, hit in enumerate(evidence, start=1)
         )
         return [
@@ -421,16 +531,22 @@ class ChatSession:
                     f"当前问题：{question}\n"
                     f"本轮实际检索文本：{search.retrieval_query or question}\n"
                     f"最近两轮对话（只用于理解指代）：\n{prior}\n\n"
-                    f"当前范围内的可见文件清单（只用于目录和范围判断）：\n{catalog}\n\n"
+                    f"本轮证据涉及的文件（非完整课件目录）：\n{catalog}\n\n"
                     f"本轮检索证据：\n{items}"
+                    "\n\n回答前核对：课件公式可能使用简写，主要结果必须使用自洽符号与可计算公式，"
+                    "不能把省略条件的简写当严格等式。涉及齐次表示时，用不同符号区分欧氏点、"
+                    "未归一化输出和归一化结果；每条等式都需核对维度与尺度，不能仅在结尾提醒。"
                 ),
             },
         ]
 
-    def _catalog_text(self) -> str:
+    def _catalog_text(
+        self, documents: list[DocumentSummary] | None = None, *, for_model: bool = False
+    ) -> str:
         paths = [
-            f"{item.course_id}: {Path(item.source_path).name} v{item.version} ({item.source_path})"
-            for item in self._scope_documents()
+            f"{item.course_id}: {Path(item.source_path).name} v{item.version}"
+            + (f" ({item.document_id})" if for_model else f" ({item.source_path})")
+            for item in (self._scope_documents() if documents is None else documents)
         ]
         if len(paths) > _MAX_CATALOG_FILES:
             paths = paths[:_MAX_CATALOG_FILES] + ["文件清单已截断，不能据此声称覆盖全部文件。"]
@@ -443,6 +559,18 @@ class ChatSession:
             if (not self.scope.course_ids or item.course_id in self.scope.course_ids)
             and (not self.scope.document_ids or item.document_id in self.scope.document_ids)
         ]
+
+    def _mentioned_courses(self, question: str) -> list[str]:
+        """只识别已注册课程 ID；自然课程别名不猜测映射。"""
+        return sorted(
+            {
+                item.course_id
+                for item in self.catalog.list_documents()
+                if re.search(
+                    rf"(?<![A-Za-z0-9_]){re.escape(item.course_id)}(?![A-Za-z0-9_])", question, re.I
+                )
+            }
+        )
 
 
 def _source_location(hit: SearchHit) -> str:
@@ -459,3 +587,24 @@ def _shorten(text: str, limit: int) -> str:
     if len(text) <= limit:
         return text
     return text[:limit] + "\n[此前回答已截断]"
+
+
+def _evidence_text(hit: SearchHit) -> str:
+    """视觉转写优先进入回答预算，避免长原生绘图代码挤掉公式/图例。"""
+    marker = "视觉理解提取（未经人工核对）："
+    native, separator, extraction = hit.content.partition(marker)
+    if separator:
+        return _shorten(marker + extraction + "\n原生文字：\n" + native, _MAX_EVIDENCE_CHARS)
+    return _shorten(hit.content, _MAX_EVIDENCE_CHARS)
+
+
+def citation_numbers(answer: str) -> list[int]:
+    """支持单编号和紧凑范围，不把代码下标当引用；异常大范围不展开。"""
+    numbers: set[int] = set()
+    for first, last in _CITATION_PATTERN.findall(answer):
+        start, end = int(first), int(last or first)
+        if start <= end and end - start <= 1000:
+            numbers.update(range(start, end + 1))
+        else:
+            numbers.update((0, start, end))  # 倒序/过大范围进入既有无效引用警告。
+    return sorted(numbers)

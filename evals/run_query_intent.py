@@ -18,8 +18,8 @@ from app.stores.sqlite import MetadataStore
 from evals.run_query_followup import TOP_K, load_cases, source_rank
 
 DEFAULT_CASES = Path("evals/query_notebook_holdout_cases.jsonl")
-DEFAULT_BASELINE = Path("evals/results/query_notebook_holdout_current_rule.json")
-DEFAULT_OUTPUT = Path("evals/results/query_intent_holdout.json")
+DEFAULT_BASELINE = Path("data/evals/query_notebook_holdout_current_rule.json")
+DEFAULT_OUTPUT = Path("data/evals/query_intent_holdout.json")
 
 
 def summarize(rows: list[dict]) -> dict:

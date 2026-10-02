@@ -91,7 +91,8 @@ async def test_chat_uses_current_evidence_and_recent_history() -> None:
     prompt = answer.generate_answer.await_args.args[0][1]["content"]
     assert "Sobel 用于估计梯度。[1]" in prompt
     assert "第 12 页" in prompt
-    assert "/courses/CS5187/Lecture2-1.pdf" in prompt
+    assert "Lecture2-1.pdf" in prompt
+    assert "/courses/CS5187/" not in prompt
 
 
 @pytest.mark.asyncio
@@ -487,3 +488,303 @@ async def test_scope_switch_prevents_followup_from_using_previous_course() -> No
     request = retriever.search.await_args.args[0]
     assert "Sobel" not in request.query
     assert request.scope.course_ids == ["CS5489"]
+
+
+def test_global_cli_selection_and_scope_commands() -> None:
+    documents = [
+        _document(),
+        _document().model_copy(
+            update={
+                "course_id": "CS5489",
+                "document_id": "other",
+                "source_path": "/ML/Lecture1a.ipynb",
+            }
+        ),
+    ]
+    catalog = Mock(list_documents=Mock(return_value=documents))
+    assert _resolve_document(catalog, None, "2").document_id == "other"
+    session = ChatSession(Mock(), Mock(), catalog, scope=SearchScope())
+    _handle_command("/files", session, catalog)
+    _handle_command("/file 2", session, catalog)
+    assert session.scope.document_ids == ["other"] and session.scope.course_ids == ["CS5489"]
+    _handle_command("/all", session, catalog)
+    assert session.scope == SearchScope(course_ids=["CS5489"])
+    _handle_command("/course CS5187", session, catalog)
+    _handle_command("/global", session, catalog)
+    assert session.scope == SearchScope()
+
+
+@pytest.mark.asyncio
+async def test_chinese_page_and_contextual_summary_keep_confirmed_document() -> None:
+    document = _document()
+    other = _document("Lecture3-1.pdf").model_copy(update={"document_id": "other"})
+    page = _hit().model_copy(update={"source": _hit().source.model_copy(update={"page": 9})})
+    content = DocumentContent(document=document, title="Notes", outline=[], hits=[page], pages=[9])
+    catalog = Mock(
+        list_documents=Mock(return_value=[document, other]),
+        read_document=Mock(return_value=content),
+    )
+    model = Mock(generate_answer=AsyncMock(return_value={"content": "解释。[1]"}))
+    retriever = Mock(search=AsyncMock())
+    session = ChatSession(
+        retriever,
+        model,
+        catalog,
+        scope=SearchScope(),
+        summarizer=DocumentSummarizer(catalog, model),
+    )
+    result = await session.ask("Lecture2-1.pdf 第九页的图是什么意思？")
+    assert result.route == "document_page" and not result.retrieval_performed
+    assert result.evidence == [page]
+    summary = await session.ask("这份课件主要讲了什么？")
+    assert summary.route == "document_summary" and summary.coverage["read_chunks"] == 1
+    assert summary.effective_scope.document_ids == [document.document_id]
+    retriever.search.assert_not_awaited()
+
+
+@pytest.mark.asyncio
+async def test_named_plot_prefers_current_example_without_changing_search_scope() -> None:
+    document = _document()
+    other = _document("Lecture3-1.pdf").model_copy(update={"document_id": "other"})
+    current = _hit().model_copy(update={"content": "Weight plot in the current example."})
+    unrelated = current.model_copy(
+        update={
+            "chunk_id": "other-chunk",
+            "source": current.source.model_copy(
+                update={"document_id": "other", "file": other.source_path}
+            ),
+        }
+    )
+    retriever = Mock(
+        search=AsyncMock(
+            side_effect=[
+                SearchResponse(query="Q", hits=[current]),
+                SearchResponse(query="Q", hits=[unrelated, current]),
+                SearchResponse(query="Q", hits=[unrelated]),
+            ]
+        )
+    )
+    model = Mock(generate_answer=AsyncMock(return_value={"content": "解释。[1]"}))
+    catalog = Mock(list_documents=Mock(return_value=[document, other]))
+    session = ChatSession(retriever, model, catalog, scope=SearchScope())
+    await session.ask("Lecture2-1.pdf 的例子是什么？")
+    result = await session.ask("weight plot 如何看？")
+    assert result.evidence == [current]
+    assert retriever.search.await_args.args[0].scope == SearchScope()
+    assert session.context.topic_query == "weight plot 如何看？"
+    switched = await session.ask("Decision tree 是什么？")
+    assert switched.evidence == [unrelated]
+    assert session.context.focus_document_id is None
+
+
+@pytest.mark.asyncio
+async def test_unmatched_new_example_keeps_global_results_instead_of_old_file() -> None:
+    document = _document()
+    other = _document("Lecture3-1.pdf").model_copy(update={"document_id": "other"})
+    old = _hit().model_copy(update={"content": "Weight plot"})
+    new = old.model_copy(
+        update={
+            "chunk_id": "new",
+            "content": "ROC curve classification",
+            "source": old.source.model_copy(update={"document_id": "other"}),
+        }
+    )
+    retriever = Mock(
+        search=AsyncMock(
+            side_effect=[
+                SearchResponse(query="Q", hits=[old]),
+                SearchResponse(query="Q", hits=[new, old]),
+            ]
+        )
+    )
+    session = ChatSession(
+        retriever,
+        Mock(generate_answer=AsyncMock(return_value={"content": "解释。[1]"})),
+        Mock(list_documents=Mock(return_value=[document, other])),
+        scope=SearchScope(),
+    )
+    await session.ask("Lecture2-1.pdf 的例子是什么？")
+    result = await session.ask("ROC 图如何看？")
+    assert result.evidence == [new, old]
+    assert session.context.focus_document_id is None
+
+
+@pytest.mark.asyncio
+async def test_explicit_course_in_global_query_is_temporary_and_never_widens_scope() -> None:
+    first = _document()
+    other = first.model_copy(update={"document_id": "other", "course_id": "CS5489"})
+    catalog = Mock(list_documents=Mock(return_value=[first, other]))
+    retriever = Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[_hit()])))
+    session = ChatSession(
+        retriever,
+        Mock(generate_answer=AsyncMock(return_value={"content": "解释。[1]"})),
+        catalog,
+        scope=SearchScope(),
+    )
+    result = await session.ask("CS5187 的 Sobel 是什么？")
+    assert result.effective_scope.course_ids == ["CS5187"]
+    assert session.scope == SearchScope()
+    session.set_scope(SearchScope(course_ids=["CS5187"]))
+    blocked = await session.ask("CS5489 的 Sobel 是什么？")
+    assert "不在当前可见范围" in blocked.answer
+    assert retriever.search.await_count == 1
+
+
+@pytest.mark.asyncio
+async def test_long_native_code_does_not_hide_visual_formula_in_answer_prompt() -> None:
+    hit = _hit().model_copy(
+        update={
+            "content": "长代码" * 2000
+            + "\n视觉理解提取（未经人工核对）：\n公式： K=[fx,0,cx;0,fy,cy;0,0,1]",
+            "evidence_origin": "visual_extract",
+        }
+    )
+    model = Mock(generate_answer=AsyncMock(return_value={"content": "公式。[1]"}))
+    session = ChatSession(
+        Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[hit]))),
+        model,
+        Mock(list_documents=Mock(return_value=[_document()])),
+        scope=SearchScope(),
+    )
+    await session.ask("矩阵公式是什么？")
+    assert "K=[fx,0,cx;0,fy,cy;0,0,1]" in model.generate_answer.await_args.args[0][1]["content"]
+
+
+@pytest.mark.asyncio
+async def test_document_reference_retains_file_focus_and_ambiguous_reference_clarifies() -> None:
+    document = _document()
+    other = _document("Lecture3-1.pdf").model_copy(update={"document_id": "other"})
+    catalog = Mock(list_documents=Mock(return_value=[document, other]))
+    retriever = Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[_hit()])))
+    session = ChatSession(
+        retriever,
+        Mock(generate_answer=AsyncMock(return_value={"content": "解释。[1]"})),
+        catalog,
+        scope=SearchScope(),
+    )
+    ambiguous = await session.ask("这份课件里成绩怎么分？")
+    assert "哪份课件" in ambiguous.answer
+    retriever.search.assert_not_awaited()
+    await session.ask("Lecture2-1.pdf 的成绩怎么分？")
+    followup = await session.ask("这份课件还有什么要求？")
+    assert followup.route == "follow_up"
+    assert followup.effective_scope.document_ids == [document.document_id]
+    assert session.context.focus_document_id == document.document_id
+
+
+@pytest.mark.asyncio
+async def test_chinese_adjacent_course_id_is_a_hard_turn_constraint() -> None:
+    document = _document()
+    catalog = Mock(list_documents=Mock(return_value=[document]))
+    session = ChatSession(
+        Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[_hit()]))),
+        Mock(generate_answer=AsyncMock(return_value={"content": "事实。[1]"})),
+        catalog,
+        scope=SearchScope(),
+    )
+    result = await session.ask("请看CS5187的Sobel是什么？")
+    assert result.effective_scope.course_ids == ["CS5187"]
+    assert session._mentioned_courses("XCS5187A") == []
+
+
+@pytest.mark.asyncio
+async def test_explicit_topic_switch_does_not_prefer_old_matching_plot() -> None:
+    from app.rag.dialogue import DialogueContext
+
+    document = _document()
+    old = _hit().model_copy(update={"content": "ROC plot in the old example"})
+    new = old.model_copy(
+        update={
+            "chunk_id": "new",
+            "source": old.source.model_copy(update={"document_id": "other", "file": "new.pdf"}),
+        }
+    )
+    catalog = Mock(
+        list_documents=Mock(
+            return_value=[
+                document,
+                document.model_copy(update={"document_id": "other", "source_path": "new.pdf"}),
+            ]
+        )
+    )
+    session = ChatSession(
+        Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[new, old]))),
+        Mock(generate_answer=AsyncMock(return_value={"content": "事实。[1]"})),
+        catalog,
+        scope=SearchScope(),
+    )
+    session.context = DialogueContext(
+        "旧话题", focus_document_id=document.document_id, focus_version=document.version
+    )
+    result = await session.ask("换个主题，ROC plot 是什么？")
+    assert result.evidence == [new, old]
+    assert session.context.focus_document_id is None
+
+
+@pytest.mark.asyncio
+async def test_code_subscripts_are_not_mistaken_for_citations() -> None:
+    session = ChatSession(
+        Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[_hit()]))),
+        Mock(
+            generate_answer=AsyncMock(return_value={"content": "读取 X_test.iloc[0] 和 w[3]。[1]"})
+        ),
+        Mock(list_documents=Mock(return_value=[_document()])),
+        scope=SearchScope(),
+    )
+    result = await session.ask("这个样本怎么读取？")
+    assert result.cited_numbers == [1] and result.citation_warning is None
+
+
+def test_citation_ranges_are_expanded_and_invalid_ranges_are_bounded() -> None:
+    from app.rag.chat import citation_numbers
+
+    assert citation_numbers("主题[1-3]，证据[5]，代码w[0]。") == [1, 2, 3, 5]
+    assert citation_numbers("[5-2]")[0] == 0
+    assert len(citation_numbers("[1-999999999999]")) == 3
+
+
+@pytest.mark.asyncio
+async def test_formula_review_uses_current_evidence_and_counts_usage() -> None:
+    hit = _hit()
+    reviewer = Mock(
+        generate_answer=AsyncMock(
+            return_value={"content": "校对后的公式。[1]", "usage": {"total_tokens": 12}}
+        )
+    )
+    session = ChatSession(
+        Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[hit]))),
+        Mock(
+            generate_answer=AsyncMock(
+                return_value={"content": "公式草稿。[1]", "usage": {"total_tokens": 8}}
+            )
+        ),
+        Mock(list_documents=Mock(return_value=[_document()])),
+        scope=SearchScope(),
+        answer_reviewer=reviewer,
+    )
+    result = await session.ask("公式是什么？")
+    assert result.answer == "校对后的公式。[1]" and result.model_tokens == 20
+    prompt = reviewer.generate_answer.await_args.args[0][1]["content"]
+    assert hit.content in prompt and "公式草稿。[1]" in prompt
+    assert result.cited_numbers == [1]
+
+
+@pytest.mark.asyncio
+async def test_formula_review_cannot_return_evidence_deleted_during_review() -> None:
+    hit = _hit().model_copy(update={"source": _hit().source.model_copy(update={"version": 1})})
+    catalog = Mock(list_documents=Mock(return_value=[_document()]))
+
+    async def remove_document(messages):
+        catalog.list_documents.return_value = []
+        return {"content": "公式。[1]"}
+
+    session = ChatSession(
+        Mock(search=AsyncMock(return_value=SearchResponse(query="Q", hits=[hit]))),
+        Mock(generate_answer=AsyncMock(return_value={"content": "公式草稿。[1]"})),
+        catalog,
+        scope=SearchScope(),
+        answer_reviewer=Mock(generate_answer=AsyncMock(side_effect=remove_document)),
+    )
+    with pytest.raises(ValueError, match="不可见"):
+        await session.ask("公式是什么？")
+    assert session.turns == []

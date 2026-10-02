@@ -1,45 +1,106 @@
-# 评估资产
+# 评估工具与验收
 
-只保留可重跑的题集、评估脚本和仍用于判断当前方案的逐题报告。历史消融的汇总指标记在本页；数值只衡量来源召回，不代表回答质量。仓库内固定题集均为人工构造，已参与开发分析。
+本页负责工具、启动命令、指标、验收标准和重要历史结果。架构见 [RAG](../RAG.md)，服务启动见 [项目 README](../README.md)。`tests/` 验证代码行为，效果评估使用下列题集。
 
-| 任务 | 题集与入口 | 保留的逐题结果 |
+历次简短评价见 [runs/记录目录](./runs/README.md)；目前补记已有原始报告，未重新运行评估。
+
+## 工具
+
+| 入口 | 输入 | 方法/适用范围 |
 | --- | --- | --- |
-| Notebook 检索 | `retrieval_cases.jsonl`、`retrieval_corpus.json`（7 份原文件哈希）；`run_retrieval_ablation.py` | [RRF 基线](./results/rrf_baseline.json) |
-| 幻灯片检索 | `slide_cases.jsonl`、`slide_holdout_cases.jsonl`、`cs5495_slide_cases.jsonl`；`app.evaluation.slide_retrieval` 和 `run_formal_slide_eval.py` | [CS5187 开发集](./results/slide_development_visual_route.json)、[CS5187 保留集](./results/slide_holdout_visual_route.json)、[CS5495 课程范围](./results/cs5495_formal_retrieval.json)、[CS5495 全库范围](./results/cs5495_global_retrieval.json) |
-| 追问构造 | `query_*cases.jsonl`；`run_query_followup.py` 支持页码或 Notebook cell | [PDF 模拟对话](./results/query_dialogue_file_current_rule.json)、[Notebook 模拟对话](./results/query_notebook_dialogue_current_rule.json)、[Notebook 新 cell 题](./results/query_notebook_holdout_current_rule.json) |
-| 追问意图分类 | 同上三组题集；`run_query_intent.py` 比较规则与 DeepSeek 决策，并对新增补全重新检索 | [Notebook 新 cell 题](./results/query_intent_holdout.json)、[PDF 诊断题](./results/query_intent_pdf_diagnostic.json)、[Notebook 诊断题](./results/query_intent_notebook_diagnostic.json) |
+| [run_chat_acceptance.py](./run_chat_acceptance.py) | `chat_acceptance_cases.json` 17轮；`chat_fresh_probe_cases.json` 6轮 | 当前ChatSession端到端；任务、范围、证据、引用、总结、延迟和指纹，默认Top6文本检索 |
+| [run_retrieval_ablation.py](./run_retrieval_ablation.py) | `retrieval_cases.jsonl` 20题；`retrieval_corpus.json` 7份文件哈希 | Notebook Dense/Sparse/RRF/Outline/Rerank消融 |
+| [slide_retrieval.py](../app/evaluation/slide_retrieval.py) | `slide_cases.jsonl`、`slide_holdout_cases.jsonl`各28题；`cs5495_slide_cases.jsonl`24题 | 页级文本/视觉/融合/路由离线消融 |
+| [run_formal_slide_eval.py](./run_formal_slide_eval.py) | 上述幻灯片题集 | 正式HybridRetriever课程/全库检索，非HTTP传输测试 |
+| [run_query_followup.py](./run_query_followup.py) | `query_dialogue_file_cases.jsonl`、`query_notebook_dialogue_cases.jsonl`各16题；`query_notebook_holdout_cases.jsonl`8题 | 检索API的raw/contextual对照，不含完整对话逻辑 |
+| [run_query_intent.py](./run_query_intent.py) | 同query题集及对应规则基线 | 规则/DeepSeek分类的收益与伤害，离线实验 |
+| [run_real_dialogues.py](./run_real_dialogues.py) | 本地匿名`real_dialogues.jsonl` | 底层追问分类诊断，不测回答质量；助手回答只统计是否存在 |
 
-## 自然提问与真实交互采集
+## 启动方法
 
-真实用户对话不提交仓库。不要从课件反向编题冒充真实样本。只记录连续用户问题时，能检查相邻问题的检索主题判断，不能推断用户看过 AI 回答后会不会追问。回答链路可用后，应记录 `用户问题 → 实际 AI 回答 → 下一条用户问题`；把实际回答填在该轮的 `assistant_reply` 中，再标注下一问是否依赖这个回答。首轮不标注 `kind`，后续轮次可选 `followup`、`independent` 或 `unclear`，并加 `short_topic`、`topic_switch` 等标签。个人信息先匿名化；原始对话与逐题报告默认放在 Git 忽略的 `data/evals/`。
+在项目根目录执行。API评估需要`.env`、Qdrant及对应可见资料，会产生模型费用；报告默认写入忽略的`data/evals/`。
 
-一行 JSON 对应一段对话，以下仅演示格式，不计入评估：
+```bash
+# 对话：先校验版本，再运行；迁移集用 --cases/--output 指定
+uv run python -m evals.run_chat_acceptance --validate-only
+uv run python -m evals.run_chat_acceptance
+uv run python -m evals.run_chat_acceptance --cases evals/chat_fresh_probe_cases.json --output data/evals/chat_fresh_probe_report.json
+# 来源检索
+uv run python -m evals.run_retrieval_ablation --strategies dense rrf
+uv run python -m app.evaluation.slide_retrieval
+uv run python -m evals.run_formal_slide_eval --cases evals/cs5495_slide_cases.jsonl --output data/evals/cs5495_global_retrieval.json
+# 默认Notebook8题：先生成同题集基线，再调用分类模型
+uv run python -m evals.run_query_followup --oracle-missed
+uv run python -m evals.run_query_intent
+# 代码验证，不调用付费模型
+uv run pytest -q
+uv run ruff check app evals tools tests
+```
 
-~~~json
-{"session_id":"example-01","turns":[{"query":"什么是 LIME？","assistant_reply":"LIME 用局部模型解释预测。"},{"query":"这个机制在哪段讲？","kind":"followup"},{"query":"SHAP 有什么用途？","kind":"independent","tags":["topic_switch"]}]}
-~~~
+query其他题集传`--cases/--output`，分类还需同题集`--baseline`；哈希/版本不匹配报错。`--oracle-missed`只诊断强制补全的潜在收益；Notebook消融`--index`会写索引，冻结评估时不用。文档依赖缺失可能跳过PDF/PPTX测试，应查看pytest摘要。
 
-把实际样本逐行保存为 `data/evals/real_dialogues.jsonl` 后运行：
+真实样本按一行JSON一段对话保存`data/evals/real_dialogues.jsonl`，首轮无`kind`，后续标`followup/independent/unclear`；运行`uv run python -m evals.run_real_dialogues`，可加`--compare-model`：
 
-~~~bash
-uv run python -m evals.run_real_dialogues
-uv run python -m evals.run_real_dialogues --compare-model
-~~~
+```json
+{"session_id":"example","turns":[{"query":"什么是LIME？","assistant_reply":"实际回答"},{"query":"这个机制在哪段？","kind":"followup"}]}
+```
 
-首条命令只运行当前规则，不调用模型；第二条额外调用 DeepSeek API，保留模型决策、延迟和用量。报告中的 `answer_observed_count` 指有实际上一轮 AI 回答的相邻问题数；当前规则与分类器仍只使用上一条用户问题，未使用该回答。输出是追问判断的漏扩展、误扩展及标签分组计数，**不等于检索来源命中率**。若需评估具体页/cell 是否掉出 Top 5，再补目标来源并复用 `run_query_followup.py`。少量样本只用于发现错误类型，不能据此估计真实流量误判率或确定上线阈值。
+## 指标
 
-2026-10-01 首批自然提问只有用户问题，没有 AI 回答：3 段、10 个有效问题、7 次相邻提问，涉及 CS5187 Week02、Week08 PDF 与 Week1 PPTX。用户澄清复习安排应面向之后继续入库的资料，而非依赖上一轮回答；据此 7 次均标为检索主题独立。当前规则误扩展 0/7，DeepSeek 误扩展 4/7：两道文件/章节总结、全课程目录和复习安排。显式课程/文件范围已确定“本章／本节／本课”，模型却把它们接到上一问。前三题的原文与补全后 Top 8 候选页不同，但没有标准页码，不能计算来源召回；全课程目录题的两种 Top 8 均漏掉已入库 Week02，说明目录应按文档清单枚举。复习安排也应基于可更新的资料清单，而非上一轮检索 Top K。原始问题与逐题报告保留在本地 `data/evals/`；模型决策未重新调用 API，仅按澄清后的标签重算指标。此批只能诊断主题切换，不能衡量真实回答后的追问频率或漏扩展。
+| 指标 | 定义 |
+| --- | --- |
+| Recall@k | Notebook逐题计算相关来源召回比例再平均；幻灯片/query按Top k是否命中可接受页/cell计题命中率 |
+| MRR@k / nDCG@k | 首个相关排名倒数的题均值 / 按标注相关程度归一化的排序增益；nDCG目前用于Notebook |
+| 追问误扩展/伤害 | 错补历史的独立题占比 / 原文Top5命中、补全后漏检的独立题数 |
+| 来源组召回率 | 已完成机械评估轮中命中组数/标注组数，每组any_of命中一处即可；异常/未尝试轮不进分母 |
+| 完成率/机械通过率 | 完成轮数/题集总轮数；全部检查通过轮数/尝试轮数，异常计未通过 |
+| 分项通过率 | 已机械评估且适用该检查的轮次中，通过数/适用数 |
+| 引用/读取覆盖 | 编号合法及必要引用存在；总结已读文字块/总块数。均不等于事实或主题覆盖正确率 |
+| 延迟/tokens | nearest-rank p50/p95；对话用量含回答、摘要、校对及reasoning，不含Embedding/视觉API |
 
-Notebook 的 20 题早期消融：dense Recall@8=0.95、RRF=1.00、RRF+outline=0.85（Recall@5=0.15）、RRF+outline+rerank=1.00。Outline 单独合并会压过正文，故未进入正式入口；rerank 结果只属于实验路径。
+无适用分母记null。来源组/分项率须结合完成率阅读。比较时固定题集、原文件、可见版本、模型/提示词、范围、Top K及视觉缓存/派生点；不能只看文档版本。
 
-CS5187 的 28 题开发集：早期文本 Dense、等权融合 Recall@5 均为 0.964，视觉为 1.000；当前视觉路由为 1.000。另一份 28 题页码集：文本 RRF、等权融合均为 0.893，视觉为 0.929，当前路由为 0.964。CS5495 的 24 题离线视觉路由 Recall@5=0.917；正式入口按课程及全库检索均为 0.875，图表细节题仅 1/4 命中。
+## 对话验收标准
 
-追问规则的历史诊断：首批 8 道独立问题误扩展 4 道、伤害 2 道；另一份 8 道独立问题在旧规则下误扩展 7 道、伤害 2 道，加入具体主题判断后均降为 0。两份 PDF 的模拟对话题从误扩展 2/8、伤害 1/8 降为 0；Notebook 诊断题修正“在哪段”后，追问 Top 5 命中从 1/8 升为 8/8。新留出的 Notebook cell 题中，追问目标命中 2/4，两道漏检强制补全后都排第 1。后两项保留逐题报告。
+**自动门**：无异常、任务/query/调用符合预期、范围不越界、必要引用存在且编号合法、总结读取全部文字块。来源组一般目标≥90%；现有回归集要求逐题全部标注组命中。`overall_passed`表示逐轮机械通过，`frozen_environment_passed`要求原文件/SQLite/Qdrant/缓存未变，二者同时满足才是`stage_automatic_passed`。
 
-DeepSeek 意图分类仅用上一条用户问题和当前问题判断是否补全，不生成改写，不决定文件范围。与当前规则比较：新 Notebook cell 题的追问目标 Top 5 从 2/4 升至 4/4，独立题误扩展 0/4；PDF 诊断题追问仍为 8/8，但独立题误扩展 3/8，其中 1 道掉出 Top 5；Notebook 诊断题追问仍为 8/8，独立题 Top 5 仍为 6/8。三组共 40 题，模型追问命中 20/20、独立题误扩展 3/20，1 题受伤害；规则追问命中 18/20、独立题误扩展 0/20。PDF 的“这个主点”虽有具体主题，模型仍要求上文，导致其原本第 1 的目标页漏检。40 次分类累计 18086 tokens，平均单次约 1.9–2.1 秒。分类提示词参考过新 cell 题的漏检现象，另外两组也曾用于规则开发，因此三组都是诊断集，并非对分类器的盲测；此结果不支持默认接入，仍需真实对话与全新题集检验。报告记录题集哈希、可见索引版本、模型与逐题排名。
+评测禁用视觉派生点发布；首次生成缓存仍会改变指纹，需要确认缓存后重跑。延迟和成本单列，当前无统一性能通过阈值。
 
-复跑分类实验需先有相应基线报告和本地索引，再配置 DeepSeek 与 Qwen API；脚本按题集哈希及索引可见版本拒绝不匹配的基线，调用付费 API。默认运行新 Notebook cell 题；其余两组分别传入 `--cases`、`--baseline`、`--output`。分类 JSON 空输出时仅重试一次，并在报告中记录重试次数和 token 用量。
+**质量核对**：对照原文字/截图，按以下五项逐轮标0（错误/缺失）、1（部分）、2（充分），无适用项N/A：
 
-`run_retrieval_ablation.py --index` 可按题集文件幂等索引 Notebook；默认评估不写入索引。运行评估会调用模型 API，重跑前应固定题集、索引版本和模型。部分报告记录 `case_file_sha256` 与 `corpus_versions`，可用来核对可比性；缺少版本字段的旧报告还需另核对入库快照。
+| 维度 | 核对重点 |
+| --- | --- |
+| 事实/公式 | 定义、符号、维度、归一化、单位和统计含义 |
+| 引用支持 | 页/cell支持对应结论，图表对象正确 |
+| 答题覆盖 | 所需定义/公式/步骤；总结覆盖预标主题 |
+| 对话一致性 | 正确承接指代、换题和指定范围 |
+| 可学习性 | 解释清楚，补充与课件区分，未知不猜 |
 
-2026-10-02 文件总结/视觉转写验收记录在 [PROGRESS_HISTORY](../PROGRESS_HISTORY.md)，逐轮脚本日志位于忽略的 `data/chat_sessions/`，不作为正式盲测。当前新增 8 个视觉文字派生点；文档版本不变不代表向量表示完全相同。之后正式比较需同时固定视觉缓存/派生点快照，不能直接把旧报告当作新索引的当前指标。
+质量评分尚未自动化，也未将旧23轮补打上述分数。记录`turn_id/分值/支持来源/错误类型/理由`；关键事实与引用项不得为0，其他缺项记录处理结论。模型校对不是评分器，不合成“总准确率”。错误按定位、召回、视觉转写、生成、引用、性能分类。
+
+## 重要验收与实验结果
+
+均为历史快照与回归/诊断结果；`holdout/fresh`题集已参与修复，不再是盲测。
+
+| 日期/实验 | 结果与决策 |
+| --- | --- |
+| 09-29 Notebook20题 | Dense Recall@8=.95；RRF @1=.85、@8=1、MRR=.893、nDCG=.919；Outline融合@8=.85、@5=.15；再加Rerank @8=1、MRR=.950。保留RRF，其他仅实验。 |
+| 09-30 CS5187两组各28题 | 开发集文本/等权融合Recall@5=.964、视觉/路由=1；后建集文本/融合=.893、视觉=.929、路由=.964。采用视觉意图路由。 |
+| 09-30 CS5495正式24题 | 课程/全库Recall@5均.875，MRR=.748/.696，均延迟973/1161ms，图表1/4；离线路由Recall@5=.917。路径与范围分开比较。 |
+| 10-01 规则诊断 | 早期两组独立题误扩展4/8、7/8，各伤害2题；具体主题判断后后一组均0。后续PDF/Notebook各16题追问Top5均1/8→8/8，误扩展/伤害0；Notebook独立题6/8。 |
+| 10-01 分类对照40题 | Notebook新cell8题规则追问2/4，强制补全救回两题；合计规则/模型追问18/20、20/20，独立题误扩展0/20、3/20，模型伤害1题。18086tokens、均1.9–2.1s；不默认接分类器。 |
+| 10-01 自然提问3段10问 | 7次相邻提问均经用户标为独立主题，规则/模型误扩展0/7、4/7；无实际AI回答和目标页，不用于答案/召回评分。 |
+| 10-02 对话23轮 | 三课程、三格式：机械23/23，来源组22/22，合法引用23/23；五次总结读取19/19、26/26、54/54、29/29、37/37块，环境未变。达到终端试用标准。 |
+| 10-03 清理验证 | 189测试、Ruff/编译/链接/题集版本校验通过；原23轮离线重聚合通过，未重调API。 |
+
+对话来源抽检覆盖相机投影维度/归一化、高斯MLE的N与无偏N−1、Logistic的C、NB平滑、Canny及权重表/绘图代码；课程成绩30%/20%/50%只作为原课件事实。普通问答1.7–4.7s、公式19–31s、总结15–80s，共228712个对话模型tokens。迁移集首跑5/6，修复代码下标误认引用后6/6；不是答案准确率100%。
+
+完整输出及实现/题集哈希留在`data/evals/chat_acceptance_report.json`、`chat_fresh_probe_report.json`；离线聚合在`chat_metrics_reaggregated.json`。旧11报告/2早期题集归档`data/evals/archive_20261002/`，阶段记录见 [PROGRESS_HISTORY](../PROGRESS_HISTORY.md)。
+
+## 维护约定
+
+- 每次效果评估（含失败/中断）在 [runs/](./runs/README.md) 新增简短结果评价，按模板记录指标、对比、局限和下一步；原始报告使用唯一文件名。
+
+- 只维护工具入口、运行条件、指标分母、验收规则和影响决策的历史结果；架构和开发任务用链接引用。
+- 新结果写明题集/版本、规模、方法和局限；修复样例算回归，无新实测不更新旧分数。
+- 原始回答、哈希和逐题报告留`data/evals/`；本页不贴长日志，不重复每轮细节；废弃工具同步清理命令与引用。

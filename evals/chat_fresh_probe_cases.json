@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "suite_id": "chat-fresh-probe-v1",
+  "frozen_at": "2026-10-02",
+  "purpose": "主验收修复后新增的迁移检查；先冻结再运行，不把它与开发回归合并成总体准确率。",
+  "sessions": [
+    {
+      "session_id": "new-notebook-gaussian",
+      "initial_scope": {
+        "course_ids": [
+          "CS5489"
+        ]
+      },
+      "turns": [
+        {
+          "turn_id": "new-nb-summary",
+          "query": "Lecture2a.ipynb 主要讲什么？",
+          "tags": [
+            "fresh_probe"
+          ],
+          "expected": {
+            "routes": [
+              "document_summary"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "new-nb-summary",
+                "any_of": [
+                  {
+                    "document_id": "document_aa54fd1fb13ef49f1ea2b2dd",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "new-gaussian-mle",
+          "query": "Gaussian 的 MLE 均值和方差怎么算，公式在哪段？",
+          "tags": [
+            "fresh_probe"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "new-gaussian-mle",
+                "any_of": [
+                  {
+                    "document_id": "document_aa54fd1fb13ef49f1ea2b2dd",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-26",
+                      "cell-27",
+                      "cell-28",
+                      "cell-29"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "new-variance-denominator",
+          "query": "这个方差估计为什么除以 N 而不是 N-1？",
+          "tags": [
+            "fresh_probe"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "new-variance-denominator",
+                "any_of": [
+                  {
+                    "document_id": "document_aa54fd1fb13ef49f1ea2b2dd",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-28",
+                      "cell-29"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "new-pdf-odds",
+      "initial_scope": {},
+      "turns": [
+        {
+          "turn_id": "new-log-odds",
+          "query": "CS5495 Lecture2b.pdf 的 logistic regression 为什么说线性的是 log-odds 而不是概率？",
+          "tags": [
+            "fresh_probe"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "new-log-odds",
+                "any_of": [
+                  {
+                    "document_id": "document_bf28bc611cc82129a0de8d08",
+                    "version": 1,
+                    "pages": [
+                      9,
+                      10
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "new-weight-chart",
+          "query": "第十一页 weight plot 怎么看？请区分置信区间和显著性。",
+          "tags": [
+            "fresh_probe"
+          ],
+          "expected": {
+            "routes": [
+              "document_page"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "new-weight-chart",
+                "any_of": [
+                  {
+                    "document_id": "document_bf28bc611cc82129a0de8d08",
+                    "version": 1,
+                    "pages": [
+                      11
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "new-context-summary",
+          "query": "这份课件主要讲了什么？",
+          "tags": [
+            "fresh_probe"
+          ],
+          "expected": {
+            "routes": [
+              "document_summary"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "new-context-summary",
+                "any_of": [
+                  {
+                    "document_id": "document_bf28bc611cc82129a0de8d08",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

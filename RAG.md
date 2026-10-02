@@ -1,59 +1,79 @@
-# SRAG：方法与设计决策
+# SRAG 架构与方法
 
-运行方式与接口见 [README.md](./README.md)；未完成任务见 [CHECKLIST.md](./CHECKLIST.md)。本文件只记录当前链路和对后续开发仍有效的取舍。
+运行方式见 [README](./README.md)，评估见 [evals/README](./evals/README.md)，开发任务见 [CHECKLIST](./CHECKLIST.md)。
 
-## 边界
+## 架构
 
-- 本地运行 FastAPI、Qdrant、SQLite；课程文件和资源保留本地。Qwen 负责 Embedding 和按需视觉转写，DeepSeek 用于终端问答/总结及查询理解实验；模型均通过 API 调用。
-- PDF/PPTX 可在 Colab GPU 临时预处理；Colab 输出便携包，不直接连接本地 Qdrant。
-- 仅索引明确选定的课程文件。SQLite 管理文档版本、发布日期、可见性和删除；未发布资料不进入正式检索。
-- 调用外部模型会发送课件文本或图片；API Key 保存在本地 .env，不能进入前端或版本库。
+```text
+课程文件 → 解析/切块 → Qwen Embedding → Qdrant
+                       文档/版本/正文 → SQLite
+用户问题 → 任务与范围定位 → 召回或全文读取 → 视觉文字补充 → DeepSeek → 答案/来源
+```
 
-## 资料表示
+FastAPI、Qdrant、SQLite 本地运行；PDF/PPTX 可在 Colab GPU 预处理。模型均走 API，Colab 不直接写本地向量库。
 
-| 资料 | 切块与来源 | 向量 |
+| 目录/模块 | 职责 |
+| --- | --- |
+| `app/api/`、`app/schemas/` | HTTP 入口和数据契约；当前仅索引/检索，无对话 API |
+| `app/rag/parsers/`、`chunker.py` | Notebook 解析与 Cell Group 切块 |
+| `slide_preprocessor.py`、`slide_chunker.py`、`slide_assets.py` | PDF/PPTX 页级预处理、切块和资源分类 |
+| `indexer.py`、`slide_embedder.py`、`slide_indexer.py` | 向量生成、便携向量包与入库 |
+| `query.py`、`retriever.py`、`fusion.py` | 检索 API query 构造、文本/视觉召回与融合 |
+| `dialogue.py`、`chat.py`、`summary.py`、`vision.py` | 终端任务定位、会话、全文总结和视觉转写 |
+| `app/clients/`、`app/stores/` | 模型 API、Qdrant 与 SQLite 访问 |
+| `tools/`、`notebooks/` | 命令行工具与交互实验 |
+| `app/evaluation/`、`evals/`、`tests/` | 指标实现、效果评估和代码回归测试 |
+
+表中未带目录的文件均位于 `app/rag/`。
+
+## 资料与存储
+
+| 输入 | 切块策略 | 表示 |
 | --- | --- | --- |
-| IPYNB | 只读解析 Markdown、代码、输出、附件；标题形成章节，连续 cell 形成 Cell Group。章节内按约 120/280/450 token 的软下限/目标/硬上限装箱，超长 cell 拆分时 overlap 40 token。 | Qwen 文本 dense+sparse；必要的视觉表示。Section/Cell Group 保留结构关系，不重复生成父块正文向量。 |
-| PDF/PPTX | 两者均视为 SlideDeck，一页/一张为基础 Chunk；超长页才继续拆分。PDF 原生文字优先，稀疏页 OCR 只补充；保留页码、整页截图和资源关系。 | 文本向量只使用标题和正文；全部整页截图建立视觉基线。装饰图片用规则过滤，但不按候选标记删掉整页向量。 |
+| IPYNB | 标题划章节，连续 cell 形成 Cell Group，代码关联输出；约120/280/450 token软下限/目标/硬上限，超长cell重叠40 token | 文本dense+sparse，必要的视觉表示；不重复嵌入父块正文 |
+| PDF/PPTX | 一页/一张为基础，超长页再拆；原生文字优先，稀疏页OCR补充；保留页码、整页截图和资源 | 标题/正文文本向量 + 全部整页视觉向量；装饰资源过滤不删除整页表示 |
 
-文本使用 qwen3.7-text-embedding 的 dense+sparse 表示；整页图像使用 qwen3-vl-embedding，放在独立的 Qdrant 命名向量空间。换模型、维度或切块策略时需要重算对应向量并建立新索引版本。原始图片与文件不塞入向量 payload；payload 保留回溯来源所需的 ID、路径、页码和版本。
+- 文本：`qwen3.7-text-embedding`；视觉：`qwen3-vl-embedding`，使用独立命名向量。
+- SQLite 保存正文、资源、内容哈希和文档版本；检索只读取当前可见、已发布且未删除的版本。
+- Qdrant payload 保存来源标识，原文件/图片留本地；同内容导入跳过，更新时切换版本并清理旧向量。
+- 换切块策略、模型或维度需重算对应表示，不混用旧向量。
 
-## 当前检索
+## 检索与对话边界
 
-1. 根据课程/文件范围和 SQLite 可见版本过滤。
-2. 默认保留原始问题；显式 contextual 模式仅在含指代词、且当前问题缺少具体主题时补入最近一条用户问题。历史最多 6 条，助手回答不参与，课程/文件范围仍只来自本次请求。构造后的文本生成 Qwen query 向量，分别召回 Dense 与 Sparse 候选，以 RRF 合并。
-3. auto 模式对明确询问照片、图表、示意图等视觉内容的问题生成 Qwen 视觉查询向量，优先返回整页视觉命中，文本候选补足；可显式选 text 或 visual。
-4. 正式 HTTP 检索返回原始问题、实际检索文本与方法，以及命中内容、来源文件、章节/cell 或页码、可用截图路径；终端试验入口另外生成自然语言答案。
+| 环节 | 当前方法 |
+| --- | --- |
+| HTTP query | 默认raw；显式contextual只用最多6条历史中的最近用户问题补全缺主题指代，助手回答不参与 |
+| 文本检索 | 课程/文件和可见版本过滤 → Dense+Sparse候选 → RRF |
+| 视觉检索 | auto对明确视觉问题优先视觉候选、文本补足；失败记录警告后降级文本，显式visual失败报错 |
+| 终端定位 | 默认全库；课程ID/文件名形成本轮硬范围，中文/数字页码直读，歧义澄清；不扩大用户范围 |
+| 追问 | 保留近期知识主题、回答短术语与确认文件；显式换题解除旧偏好，每轮重新读取证据 |
+| 生成上下文 | 最多6条本轮证据、最近两轮问答；历史不是事实证据，范围切换清空历史，无长期记忆/历史压缩 |
+| 特殊任务 | 历史/目录直读；单文件总结读取全部文字块，约14000字符分批归纳，保留来源编号和覆盖统计 |
 
-视觉查询失败时，auto 模式记录异常并返回文本结果；显式 visual 模式抛出错误。这是已测试的降级边界。曾尝试将文本与视觉结果等权 RRF：纯图示页可能被文本候选埋没，因此正式入口使用可解释的视觉意图路由。CS5495 的图表细节题仍是主要短板。
+正式路径不默认使用 Outline、Rerank、生成式改写、HyDE、step-back或多查询；取舍依据保存在评估文档。
 
-Qwen Rerank 和 document outline 已在独立实验中评估，未接入正式检索；DeepSeek 查询改写客户端已有初版，仍需建立评估后再接入。Outline 仅含标题时会压过正文，当前禁用；HyDE、step-back、多查询也不作为默认路径。相邻 cell/页上下文回取要等来源版本与预算契约明确后实现，不能把占位工具当作已完成能力。
+## 视觉文字与回答
 
-历史规则/模型对比见 [评估资产](./evals/README.md)。模型分类在部分 Notebook 追问上有收益，但会误扩展 PDF 独立问题，暂只保留离线实验；不据此默认接入生成式改写。
+Embedding 不生成文字。`VisualTextReader` 用 `qwen3-vl-plus` 读取注册截图，转写公式、符号、图表及不确定项；普通问答最多两页，总结只复用已有缓存。
 
-## 回答与评估方向
+缓存键包含文档版本、图片哈希、模型和提示词版本（v3）。转写另做dense+sparse派生点，新转写替换同来源旧派生点，原表示保留。回答预算优先视觉转写，失败显示警告并使用原生文字。
 
-目标面向零基础课程复习：以知识点解释、公式/定义/过程步骤和课件位置为主。课件决定课程主题范围，外部资料可补充例子和讲解，但需标注来源；课件学习优先级不等于已确认的考试重点。具体问答需要足够的相关证据，总结则需要章节覆盖，不追求逐字复述，也不能放宽公式正确性和来源真实性。课程图片作为可选辅助，外部配图后续评估。
+DeepSeek只接收文字，区分课件与通用补充；普通回答关闭思考，公式/矩阵问题及最终摘要增加一次low思考校对。校对证据/草稿上限14000/10000字符，预算8192 token，空输出/截断最多重试至16384；不展示推理。摘要校对只看分批笔记，校对不保证正确。引用编号/范围校验不等于事实核验，终端不渲染LaTeX。
 
-终端试验入口将本轮最多 6 条文字证据交给 DeepSeek，附编号来源与可见文件清单。正式 HTTP 的 raw/contextual 契约保持不变；终端默认启用对话规则，记录最近知识主题、回答术语/短数学符号及旧来源 ID/版本线索，支持明确泛称追问与短符号指代。明确命名的新主题保留原问题；检索查询构造一次后交给正式检索器，每轮使用新召回的可见证据，不将历史答案或旧命中直接作事实依据，也不从历史扩大课程/文件范围。DeepSeek 只收到最近两轮问答；范围切换清空历史和主题，没有长期记忆或摘要压缩。编号校验不能证明事实被该页支持。
+尚不支持课程别名、相对页码、章节子范围、全课程复习规划、联网和网页上传；当前目标以课件范围内的知识讲解和来源定位为主。
 
-历史/目录/数量问题直接读取会话或 SQLite，不调用模型/向量检索。单文件总结先在范围内解析文件名/路径，歧义时要求指定；SQLite 在同一事务核对 active 版本、发布日期和删除状态，再按页或 Notebook chunk 链读取全部正文。14000 字符分批归纳，必要时压缩中间笔记后合并；原证据编号保持不变。Outline 仅组织结构，覆盖统计不代表所有图像被理解；全课程规划和章节子范围解析仍未实现。
+## 资料快照
 
-多模态 Embedding 不生成文字。`VisualTextReader` 从 SQLite 注册资源选择图片，用 `qwen3-vl-plus` 转写正文、公式、符号、图示和不确定项；缓存键包含文档版本、图片哈希、视觉/文本模型与提示词版本。普通公式/图表问答最多按需读取两页，总结只复用已有缓存。派生文字单独生成 dense+sparse 点，标记 `visual_extract`，关联原 chunk 和来源页；同来源的新缓存替换旧派生表示，原文字/视觉表示保留。回答与发布前复核版本；派生文字与原块不作为重复证据。失败回退时记录读取警告。缓存与模型输出均不视为人工核验。
+2026-10-01已入库15份文件，三门课的目录相对于`COURSE_ROOT`。这是历史清单，当前状态以目录接口为准。
 
-DeepSeek 只看到文字证据，回答默认简短并区分课件与通用知识补充；当前无联网资料入口。公式保留原转写，不自动修正为教科书形式。提示关注适用条件，纯文本终端不渲染 LaTeX。普通回答/总结显式关闭思考模式；空输出或 `finish_reason=length` 有限重试，持续失败报错，不展示截断答案。[DeepSeek 官方参数](https://api-docs.deepseek.com/api/create-chat-completion/) 与 [Qwen 视觉理解](https://help.aliyun.com/zh/model-studio/vision)。
+| 课程目录 | 文件与版本 |
+| --- | --- |
+| `CS5187 Vison and Image/` | `CS5187_Vision_and_Image/Week01/Lecture1-1.pdf` v2；Week02 `Lecture2-1.pdf`、Week08 `Lecture8-2.pdf` v1；`Lecture/Week1/Lecture1-1.pptx` v2 |
+| `CS5489 Machine learning/` | `Lecture1/Lecture1a.ipynb`、`Lecture1b.ipynb`；Lecture2 `Lecture2a.ipynb`、`Lecture2b.ipynb`；Lecture3 `Lecture3a.ipynb`均v1；Lecture4 `Lecture4a.ipynb` v2 |
+| `CS5495 X AI/` | Lecture2 `Lecture2a.pdf`、`Lecture2b.pdf`；Lecture3 `Lecture3a.ipynb`、`Lecture3a.pdf`、`Lecture3b.pdf`均v1 |
 
-终端知识问题中的明确文件名也作为本轮文件过滤条件；不是仅把文件名拼入向量查询。明确页码直接读取该页，文件缺省时只允许当前单文件范围，或最近用户明确指定、仍在当前可见范围内的文件焦点；找不到唯一文件则澄清。焦点不由混合命中推断，不扩大用户范围；独立换题清除焦点，切换范围清空全部状态。实际范围写入 `effective_scope`。这属于对话层定位，正式检索 API 契约未修改。
+## 维护约定
 
-当前自然表达解析仍依赖规则，文件总结问法、中文页码和同名图表的讨论对象定位尚有缺口。下一阶段先处理任务/文件/页码/讲解对象，冻结跨文件题集后分别检查定位、证据召回和回答事实，再决定排序或邻页补充；不针对单文件堆规则。具体任务和诊断见 [CHECKLIST.md](./CHECKLIST.md) 与 [PROGRESS_HISTORY.md](./PROGRESS_HISTORY.md)。
-
-保留文本 RRF、Notebook Cell Group、幻灯片页级切块和 Qwen Embedding 基线，暂不全量扩库、重切或换模型。真实追问评估需保留“用户问题 → 实际回答 → 下一问”；只有用户问题的样本不能衡量回答后的追问行为。模型摘要/知识点标签可辅助复习，但不能替代原证据或按重要性删除资料。
-
-现有 Notebook 20 题、CS5187 两套各 28 题、CS5495 24 题检索集及逐题报告见 [评估资产](./evals/README.md)。它们用于比较来源 Recall@k、MRR、视觉细节命中与延迟，尚未评估生成答案的事实性、引用准确率或章节覆盖率。CS5187/CS5495 题集已参与分析；路线调整后用新资料做独立验收。
-
-## 参考
-
-- [Notebook 格式](https://nbformat.readthedocs.io/en/latest/format_description.html)
-- [Qwen 文本向量 API](https://help.aliyun.com/zh/model-studio/text-embedding-synchronous-api)
-- [Qwen 多模态向量 API](https://help.aliyun.com/zh/model-studio/multimodal-embedding-api-reference)
-- [Qdrant 文档](https://qdrant.tech/documentation/)
+- 只记录当前架构、模块边界、方法/参数及取舍；已实现与实验能力明确区分。
+- 实现变化更新对应章节，移除失效设计；运行命令、评估分数和任务状态引用对应文档。
+- 资料清单注明快照日期，不冒充实时索引；接口和模块名与代码保持一致。

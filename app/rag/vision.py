@@ -17,9 +17,10 @@ from app.schemas.vision import VisualExtraction
 from app.stores.qdrant import QdrantStore
 from app.stores.sqlite import MetadataStore
 
-_PROMPT_VERSION = 2
+_PROMPT_VERSION = 3
 _VISUAL_QUESTION = re.compile(
-    r"公式|高斯|核|矩阵|图表|图像|图片|图中|曲线|(?:页|的|这张|那张)\s*图|formula|matrix", re.I
+    r"公式|高斯|核|矩阵|图表|图像|图片|图中|曲线|图.*(?:意思|解释|怎么|如何|看)|"
+    r"(?:页|的|这张|那张)\s*图|formula|matrix|\b(?:plot|chart|graph|diagram)\b", re.I
 )
 
 
@@ -147,6 +148,7 @@ class VisualTextReader:
             key = (hit.source.document_id, hit.source.page)
             if (
                 not _VISUAL_QUESTION.search(query)
+                or not hit.source.image_path
                 or len(pages) >= 2
                 or key in pages
                 or hit.evidence_origin == "visual_extract"

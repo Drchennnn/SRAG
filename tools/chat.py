@@ -22,11 +22,15 @@ from app.stores.qdrant import QdrantStore
 from app.stores.sqlite import MetadataStore
 
 
-def _course_documents(catalog: MetadataStore, course_id: str) -> list[DocumentSummary]:
-    return [item for item in catalog.list_documents() if item.course_id == course_id]
+def _course_documents(catalog: MetadataStore, course_id: str | None) -> list[DocumentSummary]:
+    return [
+        item for item in catalog.list_documents() if not course_id or item.course_id == course_id
+    ]
 
 
-def _resolve_document(catalog: MetadataStore, course_id: str, selector: str) -> DocumentSummary:
+def _resolve_document(
+    catalog: MetadataStore, course_id: str | None, selector: str
+) -> DocumentSummary:
     documents = _course_documents(catalog, course_id)
     if selector.isdecimal():
         number = int(selector)
@@ -44,7 +48,7 @@ def _resolve_document(catalog: MetadataStore, course_id: str, selector: str) -> 
     return matches[0]
 
 
-def _print_files(catalog: MetadataStore, course_id: str) -> None:
+def _print_files(catalog: MetadataStore, course_id: str | None) -> None:
     for index, item in enumerate(_course_documents(catalog, course_id), start=1):
         print(f"{index}. {item.source_path} (v{item.version})")
 
@@ -115,7 +119,7 @@ def _print_result(result: ChatResult) -> None:
 def _handle_command(line: str, session: ChatSession, catalog: MetadataStore) -> bool:
     command, _, argument = line.partition(" ")
     argument = argument.strip()
-    course_id = session.scope.course_ids[0]
+    course_id = session.scope.course_ids[0] if session.scope.course_ids else None
     if command == "/files":
         _print_files(catalog, course_id)
     elif command == "/scope":
@@ -129,11 +133,18 @@ def _handle_command(line: str, session: ChatSession, catalog: MetadataStore) -> 
         print(f"已切换到课程 {argument}；短期对话上下文已清空")
     elif command == "/file":
         document = _resolve_document(catalog, course_id, argument)
-        session.set_scope(SearchScope(course_ids=[course_id], document_ids=[document.document_id]))
+        session.set_scope(
+            SearchScope(
+                course_ids=[document.course_id], document_ids=[document.document_id]
+            )
+        )
         print(f"已限定文件 {document.source_path}；短期对话上下文已清空")
     elif command == "/all":
-        session.set_scope(SearchScope(course_ids=[course_id]))
-        print(f"已使用课程 {course_id} 的全部可见文件；短期对话上下文已清空")
+        session.set_scope(SearchScope(course_ids=[course_id] if course_id else []))
+        print("已使用当前课程范围的全部可见文件；短期对话上下文已清空")
+    elif command == "/global":
+        session.set_scope(SearchScope())
+        print("已使用全部可见课程；短期对话上下文已清空")
     elif command == "/context":
         if argument not in {"on", "off"}:
             raise ValueError("用法：/context on 或 /context off")
@@ -146,6 +157,7 @@ def _handle_command(line: str, session: ChatSession, catalog: MetadataStore) -> 
         print(f"检索模式：{argument}")
     elif command == "/help":
         print("/files 列文件；/file 编号或路径 限定文件；/all 使用整门课；/course 课程号 切课")
+        print("/global 搜索全部可见课程")
         print(
             "/context on|off 追问补全；/mode text|auto|visual 检索模式；/scope 看范围；/quit 退出"
         )
@@ -161,12 +173,13 @@ async def run(args: argparse.Namespace) -> None:
     if not settings.dashscope_api_key:
         raise RuntimeError("尚未在 .env 中配置 DASHSCOPE_API_KEY")
     answer_provider = DeepSeekClient(settings)
+    answer_reviewer = DeepSeekClient(settings, answer_thinking=True)
     answer_provider.require_api_key()
     catalog = MetadataStore(settings)
     catalog.initialize()
     if not _course_documents(catalog, args.course):
         raise ValueError(f"课程 {args.course} 没有可见的入库文件")
-    scope = SearchScope(course_ids=[args.course])
+    scope = SearchScope(course_ids=[args.course] if args.course else [])
     if args.file:
         document = _resolve_document(catalog, args.course, args.file)
         scope.document_ids = [document.document_id]
@@ -180,7 +193,8 @@ async def run(args: argparse.Namespace) -> None:
         top_k=args.top_k,
         retrieval_mode=args.mode,
         query_construction="contextual" if args.contextual else "raw",
-        summarizer=DocumentSummarizer(catalog, answer_provider),
+        summarizer=DocumentSummarizer(catalog, answer_provider, reviewer=answer_reviewer),
+        answer_reviewer=answer_reviewer,
         visual_reader=VisualTextReader(
             catalog, DashScopeClient(settings), visual_store, settings.data_dir / "visual_text"
         ),
@@ -218,7 +232,7 @@ async def run(args: argparse.Namespace) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--course", required=True, help="已入库课程 ID，例如 CS5187")
+    parser.add_argument("--course", help="可选课程 ID，例如 CS5187；省略时搜索全部可见课程")
     parser.add_argument("--file", help="可见文件的编号、document_id、文件名或完整路径")
     parser.add_argument("--top-k", type=int, default=6)
     parser.add_argument("--mode", choices=["text", "auto", "visual"], default="text")

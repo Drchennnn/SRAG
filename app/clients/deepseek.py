@@ -23,6 +23,7 @@ class DeepSeekClient:
         settings: Settings,
         *,
         transport: httpx.AsyncBaseTransport | None = None,
+        answer_thinking: bool = False,
     ) -> None:
         self.api_key = settings.deepseek_api_key
         self.base_url = (settings.deepseek_base_url or _DEFAULT_BASE_URL).rstrip("/")
@@ -31,6 +32,7 @@ class DeepSeekClient:
         self.timeout_seconds = settings.deepseek_timeout_seconds
         self.max_retries = settings.deepseek_max_retries
         self.transport = transport
+        self.answer_thinking = answer_thinking
 
     def require_api_key(self) -> str:
         """仅在实际调用 DeepSeek 时检查 API Key。"""
@@ -43,13 +45,14 @@ class DeepSeekClient:
         """用配置的对话模型生成文字回答；空输出或截断最多重试一次。"""
 
         total_tokens = 0
-        for max_tokens in (4096, 8192):
+        for max_tokens in ((8192, 16384) if self.answer_thinking else (4096, 8192)):
             response = await self._chat_completion(
                 messages=messages,
                 model=self.chat_model,
                 temperature=0.2,
                 max_tokens=max_tokens,
-                thinking={"type": "disabled"},
+                thinking={"type": "enabled" if self.answer_thinking else "disabled"},
+                reasoning_effort="low" if self.answer_thinking else None,
             )
             usage = response.get("usage")
             if isinstance(usage, dict):
@@ -197,6 +200,7 @@ class DeepSeekClient:
         max_tokens: int | None = None,
         response_format: dict[str, str] | None = None,
         thinking: dict[str, str] | None = None,
+        reasoning_effort: str | None = None,
     ) -> dict[str, Any]:
         """调用 DeepSeek Chat Completions API。"""
 
@@ -211,6 +215,8 @@ class DeepSeekClient:
             payload["response_format"] = response_format
         if thinking is not None:
             payload["thinking"] = thinking
+        if reasoning_effort is not None:
+            payload["reasoning_effort"] = reasoning_effort
 
         headers = {
             "Authorization": f"Bearer {self.require_api_key()}",

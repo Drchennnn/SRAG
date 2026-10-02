@@ -18,8 +18,8 @@ from app.rag.retriever import HybridRetriever
 from app.schemas.rag import ConversationTurn, SearchHit, SearchRequest, SearchScope
 from app.stores.sqlite import MetadataStore
 
-DEFAULT_CASES = Path("evals/query_followup_cases.jsonl")
-DEFAULT_OUTPUT = Path("evals/results/query_followup_current_rule.json")
+DEFAULT_CASES = Path("evals/query_notebook_holdout_cases.jsonl")
+DEFAULT_OUTPUT = Path("data/evals/query_notebook_holdout_current_rule.json")
 TOP_K = 8
 
 

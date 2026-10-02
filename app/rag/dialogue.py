@@ -29,13 +29,33 @@ _DOCUMENT = re.compile(
     r"这份课件|章节|本章|本节|这一讲|本讲|整门课|这门课|lecture|lectrue|\.(?:pdf|pptx|ipynb)\b",
     re.IGNORECASE,
 )
+_DOCUMENT_REFERENCE = re.compile(
+    r"(?:这|那|该|本|当前|整份|整个)(?:一)?(?:份)?(?:课件|文件)|"
+    r"(?:本|这|该)(?:章|节|讲)|"
+    r"lect(?:ure|rue)\s*[-_]?\s*\d+(?:\s*[-_]?\s*[a-z0-9]+)?|"
+    r"[^\s，,。；;！!？?]+\.(?:pdf|pptx|ipynb)\b",
+    re.IGNORECASE,
+)
+_OVERVIEW_REQUEST = re.compile(
+    r"讲(?:了|的)?(?:些)?什么|主要(?:讲|内容)(?:了|是|有)?什么|"
+    r"内容(?:是|有|包括)?什么|重点(?:是|有|包括)?什么|"
+    r"有哪些(?:主要)?(?:内容|知识点|重点)|(?:内容|知识点|重点)(?:有|是|包括)?哪些|"
+    r"介绍(?:了)?什么",
+    re.IGNORECASE,
+)
+_PAGE_TOKEN = re.compile(
+    r"(?<![零〇一二两三四五六七八九十百千哪每任上下前后一某])(?:第\s*)?"
+    r"(\d{1,4}|[零〇一二两三四五六七八九十百千]{1,12})\s*页"
+)
 _GREETING = re.compile(r"(?:你好|您好|嗨|hello|hi|谢谢|再见)[！!。.\s]*", re.IGNORECASE)
 _GENERIC_FOLLOW_UP = re.compile(
     r"^(?:(?:这|那)(?:两|几|\d+)?(?:个|些|种)?"
-    r"(?:方向的核|卷积核|核|机制|流程|过程|总结|公式|定义|步骤|结果|方法|图|例子|参数|部分)|它们?)"
+    r"(?:方向的核|卷积核|核|机制|流程|过程|总结|公式|定义|步骤|结果|方法|图|例子|超参数|参数|部分)|它们?)"
     r"(?:的)?(?:有什么用|有什么作用|有什么区别|有什么关系|是怎么来的|怎么理解|怎么用|为什么|"
-    r"能解释|能举例|能再|可以解释|可以举例|可以再|在哪里|在哪|是什么|什么意思|如何|讲一下|解释一下)"
+    r"能解释|能举例|能再|可以解释|可以举例|可以再|在哪里|在哪|是什么|什么意思|如何|讲一下|解释一下|"
+    r"应该怎么(?:选|设置)|怎么选|怎么设置)"
 )
+_CURRENT_DOCUMENT = re.compile(r"(?:这|那|该|当前|本)(?:一)?份?\s*(?:课件|文件)")
 _EXPLICIT_CONTINUATION = re.compile(r"^(?:继续|再讲讲|再解释一下|举个例子)[。！!？?\s]*$")
 _DETAIL_FOLLOW_UP = re.compile(
     r"^(?:它们?|这个|该)(?:的)?(?:矩阵公式|计算公式|公式|矩阵|表达式|物理含义|推导过程)"
@@ -65,6 +85,52 @@ class DialogueContext:
     focus_version: int | None = None
 
 
+def _chinese_number(token: str) -> int | None:
+    """解析页码中常见的中文整数；仅处理零到九千九百九十九。"""
+
+    digits = {
+        "零": 0,
+        "〇": 0,
+        "一": 1,
+        "二": 2,
+        "两": 2,
+        "三": 3,
+        "四": 4,
+        "五": 5,
+        "六": 6,
+        "七": 7,
+        "八": 8,
+        "九": 9,
+    }
+    units = {"十": 10, "百": 100, "千": 1000}
+    if all(character in digits for character in token):
+        # “二〇二”一类逐位写法。
+        return int("".join(str(digits[character]) for character in token))
+    total = current = 0
+    for character in token:
+        if character in digits:
+            current = digits[character]
+        elif character in units:
+            unit = units[character]
+            total += (current or 1) * unit
+            current = 0
+        else:
+            return None
+    return total + current
+
+
+def extract_page_numbers(question: str) -> tuple[int, ...]:
+    """提取明确写出的页码，保留顺序并去重；不把“第几页”当作指定页。"""
+
+    pages: list[int] = []
+    for match in _PAGE_TOKEN.finditer(question):
+        token = match.group(1)
+        page = int(token) if token.isdecimal() else _chinese_number(token)
+        if page is not None and 1 <= page <= 9999 and page not in pages:
+            pages.append(page)
+    return tuple(pages)
+
+
 def route_question(question: str) -> ChatRoute:
     """只路由高确定性表达；其他问题继续走知识检索。"""
 
@@ -74,7 +140,11 @@ def route_question(question: str) -> ChatRoute:
         r"对吗|正确|为什么|如何|怎么|公式.*(?:用|推导)", question
     ):
         return "history"
+    if extract_page_numbers(question):
+        return "document_page"
     if _SUMMARY.search(question) and _DOCUMENT.search(question):
+        return "document_summary"
+    if _DOCUMENT_REFERENCE.search(question) and _OVERVIEW_REQUEST.search(question):
         return "document_summary"
     if _CATALOG.search(question) and not re.search(r"(?:讲|关于|涉及|包含).*\S", question):
         return "catalog"
@@ -91,6 +161,8 @@ def construct_dialogue_query(
     current = _SUPPLEMENT.sub("", question).strip() or question
     if context is None:
         return ConstructedQuery(current, "raw")
+    if context.focus_document_id and references_current_document(current):
+        return ConstructedQuery(f"{context.topic_query}\n追问：{current}", "history_expanded")
     constructed = construct_query(
         SearchRequest(
             query=current,
@@ -120,6 +192,13 @@ def construct_dialogue_query(
         ):
             return ConstructedQuery(f"{context.topic_query}\n追问：{current}", "history_expanded")
     return constructed
+
+
+def references_current_document(question: str) -> bool:
+    """文件指代需由已确认文件解消；不把明确新文件当成旧文件追问。"""
+    return bool(_CURRENT_DOCUMENT.search(question)) and not re.search(
+        r"lect(?:ure|rue)\s*\d|\.(?:pdf|pptx|ipynb)\b", question, re.I
+    )
 
 
 def answer_entities(answer: str) -> tuple[str, ...]:

@@ -1,0 +1,618 @@
+{
+  "schema_version": 1,
+  "suite_id": "chat-cross-file-acceptance-v1",
+  "frozen_at": "2026-10-02",
+  "purpose": "冻结跨 PDF、PPTX、IPYNB 的真实问答链路验收题；只自动检查路由、范围、来源召回和引用编号等可机械验证行为，回答事实与公式仍需人工核对原课件。",
+  "excluded_development_cases": [
+    "CS5495 Lecture2a.pdf 及其最近真实用户对话"
+  ],
+  "sessions": [
+    {
+      "session_id": "pdf-camera-parameters",
+      "initial_scope": {
+        "course_ids": [
+          "CS5187"
+        ],
+        "document_ids": []
+      },
+      "turns": [
+        {
+          "turn_id": "pdf-summary",
+          "query": "请总结 Lecture8-2.pdf，覆盖相机成像、内参、外参和投影矩阵。",
+          "tags": [
+            "pdf",
+            "summary"
+          ],
+          "expected": {
+            "routes": [
+              "document_summary"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "Lecture8-2 PDF",
+                "any_of": [
+                  {
+                    "document_id": "document_f2c506b33faed33deea51112",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "pdf-intrinsic-definition",
+          "query": "Intrinsic Parameters 是什么？请结合公式解释。",
+          "tags": [
+            "pdf",
+            "formula",
+            "topic"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "内参定义或矩阵",
+                "any_of": [
+                  {
+                    "document_id": "document_f2c506b33faed33deea51112",
+                    "version": 1,
+                    "pages": [
+                      12,
+                      13,
+                      15
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "pdf-intrinsic-followup",
+          "query": "它的矩阵公式怎么写？每个量代表什么？",
+          "tags": [
+            "pdf",
+            "formula",
+            "follow_up"
+          ],
+          "expected": {
+            "routes": [
+              "follow_up"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "history_expanded"
+            ],
+            "source_groups": [
+              {
+                "label": "相机内参矩阵",
+                "any_of": [
+                  {
+                    "document_id": "document_f2c506b33faed33deea51112",
+                    "version": 1,
+                    "pages": [
+                      15
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "pdf-extrinsic-switch",
+          "query": "Extrinsic Parameters 又是什么？它和内参如何组成投影矩阵？",
+          "tags": [
+            "pdf",
+            "formula",
+            "topic_switch"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "raw"
+            ],
+            "source_groups": [
+              {
+                "label": "外参或组合投影矩阵",
+                "any_of": [
+                  {
+                    "document_id": "document_f2c506b33faed33deea51112",
+                    "version": 1,
+                    "pages": [
+                      16,
+                      17
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "pptx-syllabus-table",
+      "initial_scope": {
+        "course_ids": [
+          "CS5187"
+        ],
+        "document_ids": []
+      },
+      "turns": [
+        {
+          "turn_id": "pptx-summary",
+          "query": "概括一下 Lecture/Week1/Lecture1-1.pptx 的主要内容。",
+          "tags": [
+            "pptx",
+            "summary"
+          ],
+          "expected": {
+            "routes": [
+              "document_summary"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "Lecture1-1 PPTX",
+                "any_of": [
+                  {
+                    "document_id": "document_3e2b5136a775c85bae127128",
+                    "version": 2
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "pptx-grading-followup",
+          "query": "这份课件里的分数占比是什么？",
+          "tags": [
+            "pptx",
+            "table",
+            "document_follow_up"
+          ],
+          "expected": {
+            "routes": [
+              "follow_up"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "history_expanded"
+            ],
+            "source_groups": [
+              {
+                "label": "PPTX 成绩表",
+                "any_of": [
+                  {
+                    "document_id": "document_3e2b5136a775c85bae127128",
+                    "version": 2,
+                    "pages": [
+                      24
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "pptx-chinese-page",
+          "query": "第二十四页的表格列了什么？",
+          "tags": [
+            "pptx",
+            "table",
+            "page",
+            "chinese_numeral"
+          ],
+          "expected": {
+            "routes": [
+              "document_page"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "PPTX 第 24 页成绩表",
+                "any_of": [
+                  {
+                    "document_id": "document_3e2b5136a775c85bae127128",
+                    "version": 2,
+                    "pages": [
+                      24
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "notebook-classifiers",
+      "initial_scope": {
+        "course_ids": [
+          "CS5489"
+        ],
+        "document_ids": []
+      },
+      "turns": [
+        {
+          "turn_id": "ipynb-summary",
+          "query": "请总结 CS5489 的 Lecture3a.ipynb，说明主要分类方法和训练流程。",
+          "tags": [
+            "ipynb",
+            "summary"
+          ],
+          "expected": {
+            "routes": [
+              "document_summary"
+            ],
+            "retrieval_performed": false,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "CS5489 Lecture3a Notebook",
+                "any_of": [
+                  {
+                    "document_id": "document_4c52ef4a7d674b2922d52ea9",
+                    "version": 1
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "ipynb-sigmoid-formula",
+          "query": "sigmoid 是什么？给出 logistic regression 中的公式。",
+          "tags": [
+            "ipynb",
+            "formula",
+            "topic"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "sigmoid 公式",
+                "any_of": [
+                  {
+                    "document_id": "document_4c52ef4a7d674b2922d52ea9",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-31",
+                      "cell-97"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "ipynb-regularization-c",
+          "query": "logistic regression 里 C 变大时，正则化强度和过拟合风险如何变化？",
+          "tags": [
+            "ipynb",
+            "formula",
+            "topic_switch"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "raw"
+            ],
+            "source_groups": [
+              {
+                "label": "C 与正则化",
+                "any_of": [
+                  {
+                    "document_id": "document_4c52ef4a7d674b2922d52ea9",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-48",
+                      "cell-49",
+                      "cell-50",
+                      "cell-64",
+                      "cell-65",
+                      "cell-66"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "ipynb-c-followup",
+          "query": "这个超参数应该怎么选？",
+          "tags": [
+            "ipynb",
+            "follow_up",
+            "procedure"
+          ],
+          "expected": {
+            "routes": [
+              "follow_up"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "history_expanded"
+            ],
+            "source_groups": [
+              {
+                "label": "交叉验证选择 C",
+                "any_of": [
+                  {
+                    "document_id": "document_4c52ef4a7d674b2922d52ea9",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-64",
+                      "cell-65",
+                      "cell-66",
+                      "cell-67",
+                      "cell-68",
+                      "cell-69",
+                      "cell-70"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "ipynb-naive-bayes-switch",
+          "query": "换个主题：Naive Bayes 的平滑为什么必要，公式是什么？",
+          "tags": [
+            "ipynb",
+            "topic_switch",
+            "cross_file"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "raw"
+            ],
+            "source_groups": [
+              {
+                "label": "Naive Bayes Laplace smoothing",
+                "any_of": [
+                  {
+                    "document_id": "document_ff648dd3aec02f5dc9458da2",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-79",
+                      "cell-80",
+                      "cell-81",
+                      "cell-82",
+                      "cell-83",
+                      "cell-84",
+                      "cell-85"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "session_id": "global-search-and-history",
+      "initial_scope": {
+        "course_ids": [],
+        "document_ids": []
+      },
+      "turns": [
+        {
+          "turn_id": "global-cross-validation",
+          "query": "哪些已入库课件讲了 cross-validation？分别用它选择什么超参数？",
+          "tags": [
+            "global",
+            "cross_file",
+            "ipynb"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "source_groups": [
+              {
+                "label": "交叉验证选择 logistic C",
+                "any_of": [
+                  {
+                    "document_id": "document_4c52ef4a7d674b2922d52ea9",
+                    "version": 1,
+                    "cell_ids": [
+                      "cell-64",
+                      "cell-65",
+                      "cell-66",
+                      "cell-67",
+                      "cell-68",
+                      "cell-69",
+                      "cell-70"
+                    ]
+                  }
+                ]
+              },
+              {
+                "label": "交叉验证选择 Ridge/LASSO alpha",
+                "any_of": [
+                  {
+                    "document_id": "document_0ef6d92eb5b0318ca0759fe3",
+                    "version": 2,
+                    "cell_ids": [
+                      "cell-56",
+                      "cell-57",
+                      "cell-76",
+                      "cell-77"
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "global-canny-switch",
+          "query": "Canny edge detector 的主要步骤是什么，课件在哪里？",
+          "tags": [
+            "global",
+            "pdf",
+            "topic_switch"
+          ],
+          "expected": {
+            "routes": [
+              "knowledge"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "raw"
+            ],
+            "source_groups": [
+              {
+                "label": "Canny 步骤",
+                "any_of": [
+                  {
+                    "document_id": "document_4aac6fee95a5faeebdc5f4ec",
+                    "version": 1,
+                    "pages": [
+                      22,
+                      26,
+                      27,
+                      32
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "global-canny-followup",
+          "query": "它为什么要做非极大值抑制？",
+          "tags": [
+            "global",
+            "pdf",
+            "follow_up"
+          ],
+          "expected": {
+            "routes": [
+              "follow_up"
+            ],
+            "retrieval_performed": true,
+            "model_called": true,
+            "require_citations": true,
+            "query_methods": [
+              "history_expanded"
+            ],
+            "source_groups": [
+              {
+                "label": "非极大值抑制",
+                "any_of": [
+                  {
+                    "document_id": "document_4aac6fee95a5faeebdc5f4ec",
+                    "version": 1,
+                    "pages": [
+                      27,
+                      31,
+                      32
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "turn_id": "global-history",
+          "query": "我第一个问题是什么？",
+          "tags": [
+            "history"
+          ],
+          "expected": {
+            "routes": [
+              "history"
+            ],
+            "retrieval_performed": false,
+            "model_called": false,
+            "require_citations": false,
+            "answer_contains": [
+              "cross-validation"
+            ],
+            "source_groups": []
+          }
+        },
+        {
+          "turn_id": "global-ambiguous-file",
+          "query": "总结一下 Lecture1-1。",
+          "tags": [
+            "global",
+            "ambiguity",
+            "summary"
+          ],
+          "expected": {
+            "routes": [
+              "document_summary"
+            ],
+            "retrieval_performed": false,
+            "model_called": false,
+            "require_citations": false,
+            "answer_contains": [
+              "无法唯一定位"
+            ],
+            "source_groups": []
+          }
+        }
+      ]
+    }
+  ]
+}
