@@ -1,0 +1,1231 @@
+{
+  "g09": {
+    "pdf-right-formal": {
+      "browser": {
+        "answer": [],
+        "citations": [],
+        "clarification": [],
+        "images": [],
+        "message_id": "f1a86fc0639142dcb8efe5c3f65c3ef4",
+        "notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ],
+        "text": "课程助手找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+      },
+      "openings": {},
+      "roundtrips": []
+    },
+    "pdf-right-warm": {
+      "browser": {
+        "answer": [],
+        "citations": [],
+        "clarification": [],
+        "images": [],
+        "message_id": "e3c33f8adba64cba8eba8b5a23ca5070",
+        "notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ],
+        "text": "课程助手找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+      },
+      "openings": {},
+      "roundtrips": []
+    },
+    "pdf-left-colloquial": {
+      "browser": {
+        "answer": [
+          "Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plots\nAzimuth workshop: acceptance plots\nPosition convention: compare the two measurement panels below.\nBoth sensors report azimuth. Their panel scales are intentionally different."
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Azimuth-Workshop.pdf · v1 · 第 1 页"
+          }
+        ],
+        "clarification": [],
+        "images": [
+          {
+            "height": 1080,
+            "id": "28fd5dd85ae044f389dd37d99ac49580",
+            "label": "正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plotsAzimuth-Workshop.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+            "url": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/media/28fd5dd85ae044f389dd37d99ac49580?view=inline",
+            "width": 1630
+          }
+        ],
+        "message_id": "e9701b67dafc4894a894a048e195483d",
+        "notices": [],
+        "text": "课程助手Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plots\nAzimuth workshop: acceptance plots\nPosition convention: compare the two measurement panels below.\nBoth sensors report azimuth. Their panel scales are intentionally different.依据 · Azimuth-Workshop.pdf · v1 · 第 1 页正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plotsAzimuth-Workshop.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "openings": {
+        "pdf-left-colloquial-citation-1": {
+          "body": "Azimuth workshop: acceptance plots\nPosition convention: compare the two measurement panels below.\nBoth sensors report azimuth. Their panel scales are intentionally different.",
+          "location": "当前版本",
+          "rect": null,
+          "title": "Azimuth-Workshop.pdf · v1 · 第 1 页"
+        },
+        "pdf-left-colloquial-image-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/media/28fd5dd85ae044f389dd37d99ac49580?view=inline",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": null,
+          "title": "Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plots",
+          "width": 1630
+        },
+        "pdf-left-colloquial-page-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/media/28fd5dd85ae044f389dd37d99ac49580?view=page",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": null,
+          "title": "Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plots",
+          "width": 1630
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/media/28fd5dd85ae044f389dd37d99ac49580",
+          "query": {
+            "view": [
+              "inline"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "131ff754c7435e7549375ed36fc2fcb8aa0c220deec897335340ad7f94ae2fa0",
+            "bytes": 94311,
+            "dimensions": [
+              1630,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 15264,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 29.442
+        },
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/media/28fd5dd85ae044f389dd37d99ac49580",
+          "query": {
+            "view": [
+              "page"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "131ff754c7435e7549375ed36fc2fcb8aa0c220deec897335340ad7f94ae2fa0",
+            "bytes": 94311,
+            "dimensions": [
+              1630,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 15264,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 41.209
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+              "version": 1,
+              "source_id": "page:1"
+            },
+            "file_name": "Azimuth-Workshop.pdf",
+            "locator": {
+              "page": 1
+            },
+            "text": "Azimuth workshop: acceptance plots\nPosition convention: compare the two measurement panels below.\nBoth sensors report azimuth. Their panel scales are intentionally different.",
+            "is_current": true
+          },
+          "elapsed_ms": 4.249
+        }
+      ]
+    },
+    "pdf-contrast-negation": {
+      "browser": {
+        "answer": [],
+        "citations": [],
+        "clarification": [],
+        "images": [],
+        "message_id": "c34e27f33fff4eb69e818748391712f2",
+        "notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ],
+        "text": "课程助手找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+      },
+      "openings": {},
+      "roundtrips": []
+    },
+    "pdf-ambiguous": {
+      "browser": {
+        "answer": [],
+        "citations": [],
+        "clarification": [],
+        "images": [],
+        "message_id": "5fc1c44d4886456b9ad761a0bf834b92",
+        "notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ],
+        "text": "课程助手找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+      },
+      "openings": {},
+      "roundtrips": []
+    },
+    "native-table": {
+      "browser": {
+        "answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Beacon-Inspection.pptx · v1 · 第 1 页"
+          }
+        ],
+        "clarification": [],
+        "images": [],
+        "message_id": "76b0b4b24a1249eb9fcf59abcfd057ee",
+        "notices": [],
+        "text": "课程助手Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |依据 · Beacon-Inspection.pptx · v1 · 第 1 页"
+      },
+      "openings": {
+        "native-table-citation-1": {
+          "body": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+          "location": "当前版本",
+          "rect": null,
+          "title": "Beacon-Inspection.pptx · v1 · 第 1 页"
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/7f7f953782cd42b5a7af8a45c4ee5503/messages/76b0b4b24a1249eb9fcf59abcfd057ee/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "page": 1,
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ]
+            },
+            "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+            "is_current": true
+          },
+          "elapsed_ms": 4.085
+        }
+      ]
+    },
+    "not-in-table": {
+      "browser": {
+        "answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Beacon-Inspection.pptx · v1 · 第 1 页"
+          }
+        ],
+        "clarification": [],
+        "images": [],
+        "message_id": "4c6c733c64d74be3b0e9a961b96aab6b",
+        "notices": [],
+        "text": "课程助手Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |依据 · Beacon-Inspection.pptx · v1 · 第 1 页"
+      },
+      "openings": {
+        "not-in-table-citation-1": {
+          "body": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+          "location": "当前版本",
+          "rect": null,
+          "title": "Beacon-Inspection.pptx · v1 · 第 1 页"
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/f20d3f2b6b4d45b2a3f00e894ecf1c57/messages/4c6c733c64d74be3b0e9a961b96aab6b/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "page": 1,
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ]
+            },
+            "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+            "is_current": true
+          },
+          "elapsed_ms": 4.162
+        }
+      ]
+    },
+    "notebook-original": {
+      "browser": {
+        "answer": [
+          "BenchRetest.ipynb · v1 · Cell 1 · Code cell 1\n# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+          "BenchRetest.ipynb · v1 · 输出 0\nBench retest settling clock: 83 ms. Initial deployment."
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "BenchRetest.ipynb · v1 · Cell 1"
+          },
+          {
+            "id": "ev-2",
+            "label": "BenchRetest.ipynb · v1 · Cell 1"
+          }
+        ],
+        "clarification": [],
+        "images": [],
+        "message_id": "08b06b8d8bce48ff86a477137cf7c177",
+        "notices": [],
+        "text": "课程助手BenchRetest.ipynb · v1 · Cell 1 · Code cell 1\n# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")依据 · BenchRetest.ipynb · v1 · Cell 1BenchRetest.ipynb · v1 · 输出 0\nBench retest settling clock: 83 ms. Initial deployment.依据 · BenchRetest.ipynb · v1 · Cell 1"
+      },
+      "openings": {
+        "notebook-original-citation-1": {
+          "body": "# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+          "location": "当前版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v1 · Cell 1"
+        },
+        "notebook-original-citation-2": {
+          "body": "Bench retest settling clock: 83 ms. Initial deployment.",
+          "location": "当前版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v1 · Cell 1"
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/c16edcffaff149b59bc2a5441c140e11/messages/08b06b8d8bce48ff86a477137cf7c177/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "section_path": []
+            },
+            "text": "# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+            "is_current": true
+          },
+          "elapsed_ms": 4.033
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/c16edcffaff149b59bc2a5441c140e11/messages/08b06b8d8bce48ff86a477137cf7c177/evidence/ev-2",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": []
+            },
+            "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+            "is_current": true
+          },
+          "elapsed_ms": 4.185
+        }
+      ]
+    },
+    "notebook-both": {
+      "browser": {
+        "answer": [
+          "旧版 v1\nBench retest settling clock: 83 ms. Initial deployment.",
+          "当前版 v2\nBench retest settling clock: 47 ms. After mounting adjustment."
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "BenchRetest.ipynb · v1 · Cell 1"
+          },
+          {
+            "id": "ev-2",
+            "label": "BenchRetest.ipynb · v2 · Cell 1"
+          }
+        ],
+        "clarification": [],
+        "images": [],
+        "message_id": "939b6968365f438eabc833c870d1806e",
+        "notices": [],
+        "text": "课程助手旧版 v1\nBench retest settling clock: 83 ms. Initial deployment.依据 · BenchRetest.ipynb · v1 · Cell 1当前版 v2\nBench retest settling clock: 47 ms. After mounting adjustment.依据 · BenchRetest.ipynb · v2 · Cell 1"
+      },
+      "openings": {
+        "notebook-both-citation-1": {
+          "body": "Bench retest settling clock: 83 ms. Initial deployment.",
+          "location": "历史版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v1 · Cell 1"
+        },
+        "notebook-both-citation-2": {
+          "body": "Bench retest settling clock: 47 ms. After mounting adjustment.",
+          "location": "当前版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v2 · Cell 1"
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/c16edcffaff149b59bc2a5441c140e11/messages/939b6968365f438eabc833c870d1806e/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": []
+            },
+            "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+            "is_current": false
+          },
+          "elapsed_ms": 4.012
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/c16edcffaff149b59bc2a5441c140e11/messages/939b6968365f438eabc833c870d1806e/evidence/ev-2",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": []
+            },
+            "text": "Bench retest settling clock: 47 ms. After mounting adjustment.",
+            "is_current": true
+          },
+          "elapsed_ms": 4.814
+        }
+      ]
+    }
+  },
+  "g12": {
+    "pdf-right-formal": {
+      "browser": {
+        "answer": [
+          "mrad"
+        ],
+        "citations": [],
+        "clarification": [],
+        "images": [
+          {
+            "height": 386,
+            "id": "cde6cca4268a4881bef0021174bda1d7",
+            "label": "正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 已读取问这张图查看图片回原件",
+            "url": "/api/workspace/sessions/2d6e18b5050646e2a4be93b9d3077855/messages/2cb676d247344544801e76b6389020dc/media/cde6cca4268a4881bef0021174bda1d7?view=inline",
+            "width": 712
+          }
+        ],
+        "message_id": "2cb676d247344544801e76b6389020dc",
+        "notices": [],
+        "text": "课程助手正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 已读取问这张图查看图片回原件mrad依据 · Azimuth-Workshop.pdf · v1 · 第 1 页"
+      },
+      "openings": {
+        "pdf-right-formal-image-1": {
+          "body": "放大正在加载原件…",
+          "height": 386,
+          "image": "/api/workspace/sessions/2d6e18b5050646e2a4be93b9d3077855/messages/2cb676d247344544801e76b6389020dc/media/cde6cca4268a4881bef0021174bda1d7?view=inline",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": null,
+          "title": "Azimuth-Workshop.pdf · v1 · 图片",
+          "width": 712
+        },
+        "pdf-right-formal-page-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/2d6e18b5050646e2a4be93b9d3077855/messages/2cb676d247344544801e76b6389020dc/media/cde6cca4268a4881bef0021174bda1d7?view=page",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": [
+            "51.7423%",
+            "30.963%",
+            "43.6319%",
+            "35.6666%"
+          ],
+          "title": "Azimuth-Workshop.pdf · v1 · 图片",
+          "width": 1630
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/2d6e18b5050646e2a4be93b9d3077855/messages/2cb676d247344544801e76b6389020dc/media/cde6cca4268a4881bef0021174bda1d7",
+          "query": {
+            "view": [
+              "inline"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+            "bytes": 23712,
+            "dimensions": [
+              712,
+              386
+            ],
+            "panel_pixels": {
+              "left": 0,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 9.085
+        },
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/2d6e18b5050646e2a4be93b9d3077855/messages/2cb676d247344544801e76b6389020dc/media/cde6cca4268a4881bef0021174bda1d7",
+          "query": {
+            "view": [
+              "page"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "131ff754c7435e7549375ed36fc2fcb8aa0c220deec897335340ad7f94ae2fa0",
+            "bytes": 94311,
+            "dimensions": [
+              1630,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 15264,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 59.383
+        }
+      ]
+    },
+    "pdf-right-warm": {
+      "browser": {
+        "answer": [
+          "mrad"
+        ],
+        "citations": [],
+        "clarification": [],
+        "images": [
+          {
+            "height": 386,
+            "id": "5f5bc66d71084620a3682a68427021c6",
+            "label": "正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 已读取问这张图查看图片回原件",
+            "url": "/api/workspace/sessions/28c4d400331d44fe8a6b6aedfc59a3b2/messages/4dd9ca7fd9494a638d6827aaebc81dc8/media/5f5bc66d71084620a3682a68427021c6?view=inline",
+            "width": 712
+          }
+        ],
+        "message_id": "4dd9ca7fd9494a638d6827aaebc81dc8",
+        "notices": [],
+        "text": "课程助手正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 已读取问这张图查看图片回原件mrad依据 · Azimuth-Workshop.pdf · v1 · 第 1 页"
+      },
+      "openings": {
+        "pdf-right-warm-image-1": {
+          "body": "放大正在加载原件…",
+          "height": 386,
+          "image": "/api/workspace/sessions/28c4d400331d44fe8a6b6aedfc59a3b2/messages/4dd9ca7fd9494a638d6827aaebc81dc8/media/5f5bc66d71084620a3682a68427021c6?view=inline",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": null,
+          "title": "Azimuth-Workshop.pdf · v1 · 图片",
+          "width": 712
+        },
+        "pdf-right-warm-page-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/28c4d400331d44fe8a6b6aedfc59a3b2/messages/4dd9ca7fd9494a638d6827aaebc81dc8/media/5f5bc66d71084620a3682a68427021c6?view=page",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": [
+            "51.7423%",
+            "30.963%",
+            "43.6319%",
+            "35.6666%"
+          ],
+          "title": "Azimuth-Workshop.pdf · v1 · 图片",
+          "width": 1630
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/28c4d400331d44fe8a6b6aedfc59a3b2/messages/4dd9ca7fd9494a638d6827aaebc81dc8/media/5f5bc66d71084620a3682a68427021c6",
+          "query": {
+            "view": [
+              "inline"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+            "bytes": 23712,
+            "dimensions": [
+              712,
+              386
+            ],
+            "panel_pixels": {
+              "left": 0,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 8.676
+        },
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/28c4d400331d44fe8a6b6aedfc59a3b2/messages/4dd9ca7fd9494a638d6827aaebc81dc8/media/5f5bc66d71084620a3682a68427021c6",
+          "query": {
+            "view": [
+              "page"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "131ff754c7435e7549375ed36fc2fcb8aa0c220deec897335340ad7f94ae2fa0",
+            "bytes": 94311,
+            "dimensions": [
+              1630,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 15264,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 41.486
+        }
+      ]
+    },
+    "pdf-left-colloquial": {
+      "browser": {
+        "answer": [
+          "deg"
+        ],
+        "citations": [],
+        "clarification": [],
+        "images": [
+          {
+            "height": 386,
+            "id": "fa0ef52b51a641cbbe5ed3f40be68c21",
+            "label": "正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 已读取问这张图查看图片回原件",
+            "url": "/api/workspace/sessions/50a8c12d458442ad9bffea25a5ad1834/messages/66023f6083bd4a5eafca3fa46f4c3ad6/media/fa0ef52b51a641cbbe5ed3f40be68c21?view=inline",
+            "width": 712
+          }
+        ],
+        "message_id": "66023f6083bd4a5eafca3fa46f4c3ad6",
+        "notices": [],
+        "text": "课程助手正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 已读取问这张图查看图片回原件deg依据 · Azimuth-Workshop.pdf · v1 · 第 1 页"
+      },
+      "openings": {
+        "pdf-left-colloquial-image-1": {
+          "body": "放大正在加载原件…",
+          "height": 386,
+          "image": "/api/workspace/sessions/50a8c12d458442ad9bffea25a5ad1834/messages/66023f6083bd4a5eafca3fa46f4c3ad6/media/fa0ef52b51a641cbbe5ed3f40be68c21?view=inline",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": null,
+          "title": "Azimuth-Workshop.pdf · v1 · 图片",
+          "width": 712
+        },
+        "pdf-left-colloquial-page-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/50a8c12d458442ad9bffea25a5ad1834/messages/66023f6083bd4a5eafca3fa46f4c3ad6/media/fa0ef52b51a641cbbe5ed3f40be68c21?view=page",
+          "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+          "rect": [
+            "3.8896%",
+            "30.963%",
+            "43.6319%",
+            "35.6666%"
+          ],
+          "title": "Azimuth-Workshop.pdf · v1 · 图片",
+          "width": 1630
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/50a8c12d458442ad9bffea25a5ad1834/messages/66023f6083bd4a5eafca3fa46f4c3ad6/media/fa0ef52b51a641cbbe5ed3f40be68c21",
+          "query": {
+            "view": [
+              "inline"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "fe3d546340a4b00b93572f6ce6cfd58b68fe60447bb25727680c133aba058e13",
+            "bytes": 23405,
+            "dimensions": [
+              712,
+              386
+            ],
+            "panel_pixels": {
+              "left": 15264,
+              "right": 0
+            }
+          },
+          "elapsed_ms": 13.14
+        },
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/50a8c12d458442ad9bffea25a5ad1834/messages/66023f6083bd4a5eafca3fa46f4c3ad6/media/fa0ef52b51a641cbbe5ed3f40be68c21",
+          "query": {
+            "view": [
+              "page"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "131ff754c7435e7549375ed36fc2fcb8aa0c220deec897335340ad7f94ae2fa0",
+            "bytes": 94311,
+            "dimensions": [
+              1630,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 15264,
+              "right": 15234
+            }
+          },
+          "elapsed_ms": 54.913
+        }
+      ]
+    },
+    "pdf-contrast-negation": {
+      "browser": {
+        "answer": [],
+        "citations": [],
+        "clarification": [],
+        "images": [],
+        "message_id": "a880569fb8aa4d2ea887c1cf76e613b1",
+        "notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ],
+        "text": "课程助手找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+      },
+      "openings": {},
+      "roundtrips": []
+    },
+    "pdf-ambiguous": {
+      "browser": {
+        "answer": [],
+        "citations": [],
+        "clarification": [],
+        "images": [],
+        "message_id": "31809020cc76453a9e5b2d0219d20340",
+        "notices": [
+          "有多个可能的对象，请指定原件位置或图序。"
+        ],
+        "text": "课程助手有多个可能的对象，请指定原件位置或图序。"
+      },
+      "openings": {},
+      "roundtrips": []
+    },
+    "native-table": {
+      "browser": {
+        "answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Beacon-Inspection.pptx · v1 · 第 1 页"
+          }
+        ],
+        "clarification": [],
+        "images": [
+          {
+            "height": 401,
+            "id": "85faf614510444d88f595f894e989c04",
+            "label": "正在加载图片…图 1 · Beacon-Inspection.pptx · v1 · 表格Beacon-Inspection.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+            "url": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/media/85faf614510444d88f595f894e989c04?view=inline",
+            "width": 1561
+          }
+        ],
+        "message_id": "0a2cb0289a1148c5846f76db67f16829",
+        "notices": [],
+        "text": "课程助手Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |依据 · Beacon-Inspection.pptx · v1 · 第 1 页正在加载图片…图 1 · Beacon-Inspection.pptx · v1 · 表格Beacon-Inspection.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "openings": {
+        "native-table-citation-1": {
+          "body": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+          "location": "当前版本",
+          "rect": null,
+          "title": "Beacon-Inspection.pptx · v1 · 第 1 页"
+        },
+        "native-table-image-1": {
+          "body": "放大正在加载原件…",
+          "height": 401,
+          "image": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/media/85faf614510444d88f595f894e989c04?view=inline",
+          "location": "Beacon-Inspection.pptx · v1 · 第 1 页",
+          "rect": null,
+          "title": "Beacon-Inspection.pptx · v1 · 表格",
+          "width": 1561
+        },
+        "native-table-page-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/media/85faf614510444d88f595f894e989c04?view=page",
+          "location": "Beacon-Inspection.pptx · v1 · 第 1 页",
+          "rect": [
+            "9.2503%",
+            "30%",
+            "81.2519%",
+            "37.0667%"
+          ],
+          "title": "Beacon-Inspection.pptx · v1 · 表格",
+          "width": 1920
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/media/85faf614510444d88f595f894e989c04",
+          "query": {
+            "view": [
+              "inline"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "1f8e3df32247d485171b3b288103eb4cdbe7187b83ac12e51af4d1d8ac99c6ed",
+            "bytes": 36600,
+            "dimensions": [
+              1561,
+              401
+            ],
+            "panel_pixels": {
+              "left": 0,
+              "right": 0
+            }
+          },
+          "elapsed_ms": 13.06
+        },
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/media/85faf614510444d88f595f894e989c04",
+          "query": {
+            "view": [
+              "page"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "69d054fdc93d9e8232356112dad4fc253d8b68552020581e658cd80ae3128cce",
+            "bytes": 85014,
+            "dimensions": [
+              1920,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 0,
+              "right": 0
+            }
+          },
+          "elapsed_ms": 1920.514
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "page": 1,
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ]
+            },
+            "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+            "is_current": true
+          },
+          "elapsed_ms": 4.779
+        }
+      ]
+    },
+    "not-in-table": {
+      "browser": {
+        "answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Beacon-Inspection.pptx · v1 · 第 1 页"
+          }
+        ],
+        "clarification": [],
+        "images": [
+          {
+            "height": 401,
+            "id": "ac62af71543f477894a4b7e23624c254",
+            "label": "正在加载图片…图 1 · Beacon-Inspection.pptx · v1 · 表格Beacon-Inspection.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+            "url": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/media/ac62af71543f477894a4b7e23624c254?view=inline",
+            "width": 1561
+          }
+        ],
+        "message_id": "88e32620c7f5441d912193d8ee2b479e",
+        "notices": [],
+        "text": "课程助手Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |依据 · Beacon-Inspection.pptx · v1 · 第 1 页正在加载图片…图 1 · Beacon-Inspection.pptx · v1 · 表格Beacon-Inspection.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "openings": {
+        "not-in-table-citation-1": {
+          "body": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+          "location": "当前版本",
+          "rect": null,
+          "title": "Beacon-Inspection.pptx · v1 · 第 1 页"
+        },
+        "not-in-table-image-1": {
+          "body": "放大正在加载原件…",
+          "height": 401,
+          "image": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/media/ac62af71543f477894a4b7e23624c254?view=inline",
+          "location": "Beacon-Inspection.pptx · v1 · 第 1 页",
+          "rect": null,
+          "title": "Beacon-Inspection.pptx · v1 · 表格",
+          "width": 1561
+        },
+        "not-in-table-page-1": {
+          "body": "放大正在加载原件…",
+          "height": 1080,
+          "image": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/media/ac62af71543f477894a4b7e23624c254?view=page",
+          "location": "Beacon-Inspection.pptx · v1 · 第 1 页",
+          "rect": [
+            "9.2503%",
+            "30%",
+            "81.2519%",
+            "37.0667%"
+          ],
+          "title": "Beacon-Inspection.pptx · v1 · 表格",
+          "width": 1920
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/media/ac62af71543f477894a4b7e23624c254",
+          "query": {
+            "view": [
+              "inline"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "1f8e3df32247d485171b3b288103eb4cdbe7187b83ac12e51af4d1d8ac99c6ed",
+            "bytes": 36600,
+            "dimensions": [
+              1561,
+              401
+            ],
+            "panel_pixels": {
+              "left": 0,
+              "right": 0
+            }
+          },
+          "elapsed_ms": 13.23
+        },
+        {
+          "category": "media",
+          "status": 200,
+          "path": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/media/ac62af71543f477894a4b7e23624c254",
+          "query": {
+            "view": [
+              "page"
+            ]
+          },
+          "request": null,
+          "response": {
+            "sha256": "69d054fdc93d9e8232356112dad4fc253d8b68552020581e658cd80ae3128cce",
+            "bytes": 85014,
+            "dimensions": [
+              1920,
+              1080
+            ],
+            "panel_pixels": {
+              "left": 0,
+              "right": 0
+            }
+          },
+          "elapsed_ms": 302.622
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "page": 1,
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ]
+            },
+            "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+            "is_current": true
+          },
+          "elapsed_ms": 5.266
+        }
+      ]
+    },
+    "notebook-original": {
+      "browser": {
+        "answer": [
+          "BenchRetest.ipynb · v1 · Cell 1 · Code cell 1\n# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+          "BenchRetest.ipynb · v1 · 输出 0\nBench retest settling clock: 83 ms. Initial deployment."
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "BenchRetest.ipynb · v1 · Cell 1"
+          },
+          {
+            "id": "ev-2",
+            "label": "BenchRetest.ipynb · v1 · Cell 1"
+          }
+        ],
+        "clarification": [],
+        "images": [],
+        "message_id": "26f4e9f8fed74de989b58e97ec1fc787",
+        "notices": [],
+        "text": "课程助手BenchRetest.ipynb · v1 · Cell 1 · Code cell 1\n# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")依据 · BenchRetest.ipynb · v1 · Cell 1BenchRetest.ipynb · v1 · 输出 0\nBench retest settling clock: 83 ms. Initial deployment.依据 · BenchRetest.ipynb · v1 · Cell 1"
+      },
+      "openings": {
+        "notebook-original-citation-1": {
+          "body": "# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+          "location": "当前版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v1 · Cell 1"
+        },
+        "notebook-original-citation-2": {
+          "body": "Bench retest settling clock: 83 ms. Initial deployment.",
+          "location": "当前版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v1 · Cell 1"
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/1aa77397117e441f90ebee3923634df5/messages/26f4e9f8fed74de989b58e97ec1fc787/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "section_path": []
+            },
+            "text": "# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+            "is_current": true
+          },
+          "elapsed_ms": 4.138
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/1aa77397117e441f90ebee3923634df5/messages/26f4e9f8fed74de989b58e97ec1fc787/evidence/ev-2",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": []
+            },
+            "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+            "is_current": true
+          },
+          "elapsed_ms": 6.187
+        }
+      ]
+    },
+    "notebook-both": {
+      "browser": {
+        "answer": [
+          "旧版 v1\nBench retest settling clock: 83 ms. Initial deployment.",
+          "当前版 v2\nBench retest settling clock: 47 ms. After mounting adjustment."
+        ],
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "BenchRetest.ipynb · v1 · Cell 1"
+          },
+          {
+            "id": "ev-2",
+            "label": "BenchRetest.ipynb · v2 · Cell 1"
+          }
+        ],
+        "clarification": [],
+        "images": [],
+        "message_id": "4e08c442abe844bfa2360bae4b183062",
+        "notices": [],
+        "text": "课程助手旧版 v1\nBench retest settling clock: 83 ms. Initial deployment.依据 · BenchRetest.ipynb · v1 · Cell 1当前版 v2\nBench retest settling clock: 47 ms. After mounting adjustment.依据 · BenchRetest.ipynb · v2 · Cell 1"
+      },
+      "openings": {
+        "notebook-both-citation-1": {
+          "body": "Bench retest settling clock: 83 ms. Initial deployment.",
+          "location": "历史版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v1 · Cell 1"
+        },
+        "notebook-both-citation-2": {
+          "body": "Bench retest settling clock: 47 ms. After mounting adjustment.",
+          "location": "当前版本",
+          "rect": null,
+          "title": "BenchRetest.ipynb · v2 · Cell 1"
+        }
+      },
+      "roundtrips": [
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/1aa77397117e441f90ebee3923634df5/messages/4e08c442abe844bfa2360bae4b183062/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": []
+            },
+            "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+            "is_current": false
+          },
+          "elapsed_ms": 4.538
+        },
+        {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/1aa77397117e441f90ebee3923634df5/messages/4e08c442abe844bfa2360bae4b183062/evidence/ev-2",
+          "query": {},
+          "request": null,
+          "response": {
+            "source": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": []
+            },
+            "text": "Bench retest settling clock: 47 ms. After mounting adjustment.",
+            "is_current": true
+          },
+          "elapsed_ms": 4.567
+        }
+      ]
+    }
+  }
+}

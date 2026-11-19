@@ -1,0 +1,17 @@
+{
+  "basis": "e921fa87f48a4e67c58010181a187c6e0e12b833",
+  "cases": 9,
+  "files": {
+    "README.md": "b840a1bbb4ff4408e511dc955c4b329152305c31a8597f3cef9eb4763bbe3f35",
+    "browser.sh": "a0abfe361fd436d391cb274b2283d260cabcf0c4574ba5069464f9e0c43ace39",
+    "fixtures.py": "5af224145335c26ec2cda0aa94ff36a789afc5f850be04be414ecff6f8005706",
+    "materials/Azimuth-Workshop.pdf": "a38fce6994b4232a0e92107cdd2b1a6ed0b40b514fc4b74b169321dfc9fb3b97",
+    "materials/Beacon-Inspection.pptx": "c0de45bcd296be8e44ef47484ac0a0c1f8d769991cc3409df13e441b22298c11",
+    "materials/v1/BenchRetest.ipynb": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+    "materials/v2/BenchRetest.ipynb": "7025f34e3be71302921267b7148be746112daf1b57f3ae9396675f1feaa94309",
+    "probe.py": "e83658ba152e458294ded723cfce0dda7345d40a0ee4dd8077e91c073f3b29c0",
+    "protocol.json": "8fc1144ee3eeafb4fc85acab25237b3183b8ef8c26190c4a31d2245f93782632",
+    "score.py": "8de05aca13aa887b43fb8608a0b23ccc8b78409e9956c58a04ac45c32bdff211"
+  },
+  "schema": "g13-withheld-seal-v1"
+}

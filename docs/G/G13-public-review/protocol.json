@@ -1,0 +1,112 @@
+{
+  "schema": "g13-withheld-public-v1",
+  "courses": [
+    "azimuth-workshop",
+    "beacon-inspection",
+    "bench-retest"
+  ],
+  "cases": [
+    {
+      "id": "pdf-right-formal",
+      "kind": "pdf",
+      "expected_side": "right",
+      "expected_unit": "mrad",
+      "text": "请核对 Azimuth-Workshop.pdf 第 1 页右侧子图的横轴计量单位。"
+    },
+    {
+      "id": "pdf-right-warm",
+      "kind": "pdf",
+      "expected_side": "right",
+      "expected_unit": "mrad",
+      "text": "请核对 Azimuth-Workshop.pdf 第 1 页右侧子图的横轴计量单位。",
+      "warm_repeat": true
+    },
+    {
+      "id": "pdf-left-colloquial",
+      "kind": "pdf",
+      "expected_side": "left",
+      "expected_unit": "deg",
+      "text": "Azimuth-Workshop.pdf 第 1 页左边图，横轴标的是啥单位呀？"
+    },
+    {
+      "id": "pdf-contrast-negation",
+      "kind": "pdf",
+      "expected_side": "right",
+      "expected_unit": "mrad",
+      "text": "Azimuth-Workshop.pdf 第 1 页右边的图用什么横轴单位？我说的是右侧子图，别读左侧图。"
+    },
+    {
+      "id": "pdf-ambiguous",
+      "kind": "ambiguity",
+      "text": "Azimuth-Workshop.pdf 第 1 页那个图里的横轴单位是啥？"
+    },
+    {
+      "id": "native-table",
+      "kind": "table",
+      "text": "请打开 Beacon-Inspection.pptx 第 1 页的原表，核对表格的 Settle time 列，North beacon 对应多少，列的单位是什么？"
+    },
+    {
+      "id": "not-in-table",
+      "kind": "missing",
+      "text": "Beacon-Inspection.pptx 第 1 页的表格能告诉我 North beacon 的功耗是多少毫瓦吗？如果没那一列就说没法确认。"
+    },
+    {
+      "id": "notebook-original",
+      "kind": "history_setup",
+      "text": "BenchRetest.ipynb Cell 1 保存输出的 Bench retest settling clock 是多少？"
+    },
+    {
+      "id": "notebook-both",
+      "kind": "history",
+      "text": "BenchRetest.ipynb 里比较 Cell 1 保存输出，上次看到的上一版和当前版各是多少？"
+    }
+  ],
+  "figure_truth": {
+    "left": {
+      "rect": [
+        0.058895706,
+        0.32962963,
+        0.455214724,
+        0.646296296
+      ],
+      "rgb": [
+        97,
+        61,
+        131
+      ]
+    },
+    "right": {
+      "rect": [
+        0.537423313,
+        0.32962963,
+        0.933742331,
+        0.646296296
+      ],
+      "rgb": [
+        19,
+        88,
+        84
+      ]
+    }
+  },
+  "table_truth": {
+    "rect": [
+      0.112502813,
+      0.32,
+      0.885022126,
+      0.650666666
+    ],
+    "column_headers": [
+      "Beacon",
+      "Lateral drift (mm)",
+      "Settle time (ms)"
+    ],
+    "target_row": "North beacon",
+    "target": "54",
+    "unit": "ms"
+  },
+  "history_truth": {
+    "1": "83 ms",
+    "2": "47 ms"
+  }
+}

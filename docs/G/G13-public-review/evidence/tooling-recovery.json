@@ -1,0 +1,144 @@
+{
+  "initial": {
+    "baseline_browser_completed": true,
+    "candidate_browser_completed": false,
+    "candidate_browser_exit_code": 1,
+    "candidate_turn_returns": [
+      {
+        "status": 500,
+        "elapsed_ms": 100.288
+      }
+    ],
+    "guard_events": [
+      {
+        "case": "pdf-right-formal",
+        "path_kind": "vision",
+        "is_external": false,
+        "image_sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+        "event": "blocked_before_egress",
+        "failure": "AssertionError",
+        "reason": "expected_crop_absent",
+        "headers_elapsed_ms": 4.898
+      }
+    ],
+    "external_calls": 0,
+    "sampled_target_pixels": 32,
+    "sampled_neighbor_pixels": 0,
+    "minimum_expected_pixels": 75,
+    "failure": "guard sampled an externally blocked candidate crop after downscaling; assertion interrupted normal first response"
+  },
+  "candidate_offline_diagnosis": {
+    "browser": {
+      "answer": [],
+      "citations": [],
+      "clarification": [],
+      "images": [
+        {
+          "height": 386,
+          "id": "eecaec2755ba46bab3a6d6472dfa2dfd",
+          "label": "正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+          "url": "/api/workspace/sessions/787ca115adb2429f9eeb9ed06ce1cbd1/messages/e62299f6f0bc41b1a85b36768e55a989/media/eecaec2755ba46bab3a6d6472dfa2dfd?view=inline",
+          "width": 712
+        }
+      ],
+      "message_id": "e62299f6f0bc41b1a85b36768e55a989",
+      "notices": [
+        "本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。"
+      ],
+      "text": "课程助手正在加载图片…图 1 · Azimuth-Workshop.pdf · v1 · 图片Azimuth-Workshop.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。"
+    },
+    "openings": {
+      "image": {
+        "body": "放大正在加载原件…",
+        "height": 386,
+        "image": "/api/workspace/sessions/787ca115adb2429f9eeb9ed06ce1cbd1/messages/e62299f6f0bc41b1a85b36768e55a989/media/eecaec2755ba46bab3a6d6472dfa2dfd?view=inline",
+        "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+        "rect": null,
+        "title": "Azimuth-Workshop.pdf · v1 · 图片",
+        "width": 712
+      },
+      "page": {
+        "body": "放大正在加载原件…",
+        "height": 1080,
+        "image": "/api/workspace/sessions/787ca115adb2429f9eeb9ed06ce1cbd1/messages/e62299f6f0bc41b1a85b36768e55a989/media/eecaec2755ba46bab3a6d6472dfa2dfd?view=page",
+        "location": "Azimuth-Workshop.pdf · v1 · 第 1 页",
+        "rect": [
+          "51.7423%",
+          "30.963%",
+          "43.6319%",
+          "35.6666%"
+        ],
+        "title": "Azimuth-Workshop.pdf · v1 · 图片",
+        "width": 1630
+      }
+    },
+    "trace": {
+      "display": {
+        "byte_sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+        "fallback_reason": null,
+        "rect": [
+          0.517423,
+          0.30962999999999996,
+          0.953742,
+          0.666296
+        ],
+        "source": {
+          "document_id": "local_36de74896ff046fcacea5cebd9ad0f4f",
+          "source_id": "page:1:image:2",
+          "version": 1
+        }
+      },
+      "effective_scope": {
+        "course_ids": [
+          "azimuth-workshop"
+        ],
+        "document_ids": [
+          "local_36de74896ff046fcacea5cebd9ad0f4f"
+        ]
+      },
+      "external_call_count": 0,
+      "object_candidates": [
+        {
+          "document_id": "local_36de74896ff046fcacea5cebd9ad0f4f",
+          "source_id": "page:1:image:2",
+          "version": 1
+        }
+      ],
+      "read_status": "not_attempted",
+      "route": "target_object",
+      "selected_source": {
+        "document_id": "local_36de74896ff046fcacea5cebd9ad0f4f",
+        "source_id": "page:1:image:2",
+        "version": 1
+      },
+      "vision": {
+        "capability_reason": "provider_disabled",
+        "elapsed_ms": 5.682207993231714,
+        "reads": [],
+        "status": "not_attempted"
+      }
+    }
+  },
+  "full_resolution": {
+    "candidate_first_crop_exact_rgb_count": 13067,
+    "candidate_first_crop_tolerance_target_pixels": 15234,
+    "candidate_first_crop_tolerance_neighbor_pixels": 0,
+    "both_panels_full_page_remains_blocked": true,
+    "same_bytes_as_initial_blocked_crop": true
+  },
+  "adapter_changes": {
+    "probe": "Sample every original PNG pixel using unchanged per-channel tolerance and per-image thresholds",
+    "browser": "Resolve Git root from the actual install directory",
+    "score": "Recover native object_type from read-only SQLite keyed by message document_id/version/source_id and require equal browser bbox/page"
+  },
+  "real_recheck": {
+    "both_browser_exit_codes": 0,
+    "external_calls_g09": 0,
+    "external_calls_g12": 2,
+    "cache_hits_g12": 1,
+    "guard_rejections_g09": 0,
+    "guard_rejections_g12": 0,
+    "provider_failures_g09": 0,
+    "provider_failures_g12": 0
+  }
+}

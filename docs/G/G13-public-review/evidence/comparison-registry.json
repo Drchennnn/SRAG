@@ -1,0 +1,2300 @@
+{
+  "baseline": {
+    "runtime": {
+      "vision_enabled": true,
+      "vision_model": "qwen3-vl-plus",
+      "revision": "e921fa87f48a4e67c58010181a187c6e0e12b833",
+      "soffice": true
+    },
+    "browser": {
+      "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+      "origin": "http://127.0.0.1:19139"
+    },
+    "cases": [
+      {
+        "case": "pdf-right-formal",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "fail",
+          "display": "fail",
+          "read": "fail",
+          "version": "fail",
+          "citation": "fail",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "object",
+        "serious_errors": [],
+        "message_id": "f1a86fc0639142dcb8efe5c3f65c3ef4",
+        "elapsed_ms": 43.065,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [],
+        "selected_source": null,
+        "sources": [],
+        "displays": [],
+        "browser_answer": [],
+        "object_registry": [],
+        "browser_notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ]
+      },
+      {
+        "case": "pdf-right-warm",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "fail",
+          "display": "fail",
+          "read": "fail",
+          "version": "fail",
+          "citation": "fail",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "object",
+        "serious_errors": [],
+        "message_id": "e3c33f8adba64cba8eba8b5a23ca5070",
+        "elapsed_ms": 7.883,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [],
+        "selected_source": null,
+        "sources": [],
+        "displays": [],
+        "browser_answer": [],
+        "object_registry": [],
+        "browser_notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ]
+      },
+      {
+        "case": "pdf-left-colloquial",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "fail",
+          "display": "fail",
+          "read": "fail",
+          "version": "fail",
+          "citation": "fail",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "object",
+        "serious_errors": [],
+        "message_id": "e9701b67dafc4894a894a048e195483d",
+        "elapsed_ms": 44.12,
+        "external_call_count": null,
+        "vision_trace": null,
+        "candidate_sources": null,
+        "selected_source": null,
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Azimuth-Workshop.pdf",
+            "locator": {
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Azimuth workshop: acceptance plots\nPosition convention: compare the two measurement panels below.\nBoth sensors report azimuth. Their panel scales are intentionally different.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "a38fce6994b4232a0e92107cdd2b1a6ed0b40b514fc4b74b169321dfc9fb3b97",
+              "course_id": "azimuth-workshop",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+                "source_id": "page:1",
+                "version": 1
+              }
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "file_name": "Azimuth-Workshop.pdf",
+            "locator": {
+              "page": 1
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "a38fce6994b4232a0e92107cdd2b1a6ed0b40b514fc4b74b169321dfc9fb3b97",
+              "course_id": "azimuth-workshop",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+                "source_id": "page:1",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [
+          {
+            "caption": "Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plots",
+            "display_id": "28fd5dd85ae044f389dd37d99ac49580",
+            "display_source": {
+              "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "evidence_id": "ev-2",
+            "fallback_reason": null,
+            "height": 1080,
+            "media_url": "/api/workspace/sessions/4a2ae6b02b6a48d78f0defefcbf73308/messages/e9701b67dafc4894a894a048e195483d/media/28fd5dd85ae044f389dd37d99ac49580?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "original_page",
+            "type": "source_image",
+            "width": 1630
+          }
+        ],
+        "browser_answer": [
+          "Azimuth-Workshop.pdf · v1 · 第 1 页 · Azimuth workshop: acceptance plots\nAzimuth workshop: acceptance plots\nPosition convention: compare the two measurement panels below.\nBoth sensors report azimuth. Their panel scales are intentionally different."
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+              "version": 1,
+              "source_id": "page:1"
+            },
+            "parent_id": null,
+            "kind": "page",
+            "locator": {
+              "format": "pdf",
+              "page": 1,
+              "native_text": true,
+              "rotation_degrees_clockwise": 0,
+              "visible_page_bbox_pdf_units": [
+                0.0,
+                0.0,
+                815.0,
+                540.0
+              ],
+              "render_status": "not_attempted",
+              "ocr_status": "not_attempted"
+            }
+          },
+          {
+            "key": {
+              "document_id": "local_76ac9a6be0d84e078545e02fee38d886",
+              "version": 1,
+              "source_id": "page:1"
+            },
+            "parent_id": null,
+            "kind": "page",
+            "locator": {
+              "format": "pdf",
+              "page": 1,
+              "native_text": true,
+              "rotation_degrees_clockwise": 0,
+              "visible_page_bbox_pdf_units": [
+                0.0,
+                0.0,
+                815.0,
+                540.0
+              ],
+              "render_status": "not_attempted",
+              "ocr_status": "not_attempted"
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "pdf-contrast-negation",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "fail",
+          "display": "fail",
+          "read": "fail",
+          "version": "fail",
+          "citation": "fail",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "object",
+        "serious_errors": [],
+        "message_id": "c34e27f33fff4eb69e818748391712f2",
+        "elapsed_ms": 8.755,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [],
+        "selected_source": null,
+        "sources": [],
+        "displays": [],
+        "browser_answer": [],
+        "object_registry": [],
+        "browser_notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ]
+      },
+      {
+        "case": "pdf-ambiguous",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "pass",
+          "read": "pass",
+          "version": "not_applicable",
+          "citation": "not_applicable",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "5fc1c44d4886456b9ad761a0bf834b92",
+        "elapsed_ms": 8.257,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [],
+        "selected_source": null,
+        "sources": [],
+        "displays": [],
+        "browser_answer": [],
+        "object_registry": [],
+        "browser_notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ]
+      },
+      {
+        "case": "native-table",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "fail",
+          "read": "pass",
+          "version": "pass",
+          "citation": "fail",
+          "answer": "pass"
+        },
+        "overall": "fail",
+        "first_failure": "display",
+        "serious_errors": [],
+        "message_id": "76b0b4b24a1249eb9fcf59abcfd057ee",
+        "elapsed_ms": 10.82,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [
+          {
+            "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+            "source_id": "page:1:shape:4",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+          "source_id": "page:1:shape:4",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+                  "source_id": "page:1:shape:4",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "c0de45bcd296be8e44ef47484ac0a0c1f8d769991cc3409df13e441b22298c11",
+              "course_id": "beacon-inspection",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+                "source_id": "page:1:shape:4",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [],
+        "browser_answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pptx",
+              "page": 1,
+              "shape_id_path": [
+                4
+              ],
+              "object_type": "table",
+              "native_coordinate_frame": "pptx_slide_emu_v1",
+              "position_basis": "native_shape_extents_v1",
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_bbox": [
+                1371600,
+                2194560,
+                10789920,
+                4462272
+              ],
+              "native_to_visible_transform": {
+                "version": "pptx_slide_emu_to_visible_norm_v1",
+                "slide_size_emu": [
+                  12191695,
+                  6858000
+                ],
+                "matrix": [
+                  8.202304929708297e-08,
+                  0.0,
+                  0.0,
+                  1.458151064450277e-07,
+                  0.0,
+                  0.0
+                ]
+              },
+              "columns": [
+                "Beacon",
+                "Lateral drift (mm)",
+                "Settle time (ms)"
+              ],
+              "rows": [
+                [
+                  "Beacon",
+                  "Lateral drift (mm)",
+                  "Settle time (ms)"
+                ],
+                [
+                  "South beacon",
+                  "3.8",
+                  "72"
+                ],
+                [
+                  "North beacon",
+                  "1.6",
+                  "54"
+                ]
+              ]
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "not-in-table",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "not_applicable",
+          "read": "pass",
+          "version": "not_applicable",
+          "citation": "not_applicable",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "answer",
+        "serious_errors": [],
+        "message_id": "4c6c733c64d74be3b0e9a961b96aab6b",
+        "elapsed_ms": 10.324,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [
+          {
+            "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+            "source_id": "page:1:shape:4",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+          "source_id": "page:1:shape:4",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+                  "source_id": "page:1:shape:4",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "c0de45bcd296be8e44ef47484ac0a0c1f8d769991cc3409df13e441b22298c11",
+              "course_id": "beacon-inspection",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+                "source_id": "page:1:shape:4",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [],
+        "browser_answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_ea3582db59814e5c9179e4ef2cbd0679",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pptx",
+              "page": 1,
+              "shape_id_path": [
+                4
+              ],
+              "object_type": "table",
+              "native_coordinate_frame": "pptx_slide_emu_v1",
+              "position_basis": "native_shape_extents_v1",
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_bbox": [
+                1371600,
+                2194560,
+                10789920,
+                4462272
+              ],
+              "native_to_visible_transform": {
+                "version": "pptx_slide_emu_to_visible_norm_v1",
+                "slide_size_emu": [
+                  12191695,
+                  6858000
+                ],
+                "matrix": [
+                  8.202304929708297e-08,
+                  0.0,
+                  0.0,
+                  1.458151064450277e-07,
+                  0.0,
+                  0.0
+                ]
+              },
+              "columns": [
+                "Beacon",
+                "Lateral drift (mm)",
+                "Settle time (ms)"
+              ],
+              "rows": [
+                [
+                  "Beacon",
+                  "Lateral drift (mm)",
+                  "Settle time (ms)"
+                ],
+                [
+                  "South beacon",
+                  "3.8",
+                  "72"
+                ],
+                [
+                  "North beacon",
+                  "1.6",
+                  "54"
+                ]
+              ]
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "notebook-original",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "not_applicable",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "08b06b8d8bce48ff86a477137cf7c177",
+        "elapsed_ms": 13.073,
+        "external_call_count": null,
+        "vision_trace": null,
+        "candidate_sources": null,
+        "selected_source": null,
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+              "course_id": "bench-retest",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+              "course_id": "bench-retest",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [],
+        "browser_answer": [
+          "BenchRetest.ipynb · v1 · Cell 1 · Code cell 1\n# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+          "BenchRetest.ipynb · v1 · 输出 0\nBench retest settling clock: 83 ms. Initial deployment."
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "parent_id": null,
+            "kind": "cell",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "cell_type": "code",
+              "section_path": [],
+              "content_state": "available",
+              "outputs_state": "available",
+              "json_pointer": "/cells/0"
+            }
+          },
+          {
+            "key": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "parent_id": "cell:0",
+            "kind": "notebook_output",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": [],
+              "json_pointer": "/cells/0/outputs/0",
+              "representations": [],
+              "output_type": "stream",
+              "stream_name": "stdout"
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "notebook-both",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "not_applicable",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "939b6968365f438eabc833c870d1806e",
+        "elapsed_ms": 12.928,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": null,
+        "selected_source": null,
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+              "course_id": "bench-retest",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Bench retest settling clock: 47 ms. After mounting adjustment.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7025f34e3be71302921267b7148be746112daf1b57f3ae9396675f1feaa94309",
+              "course_id": "bench-retest",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          }
+        ],
+        "displays": [],
+        "browser_answer": [
+          "旧版 v1\nBench retest settling clock: 83 ms. Initial deployment.",
+          "当前版 v2\nBench retest settling clock: 47 ms. After mounting adjustment."
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "parent_id": "cell:0",
+            "kind": "notebook_output",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": [],
+              "json_pointer": "/cells/0/outputs/0",
+              "representations": [],
+              "output_type": "stream",
+              "stream_name": "stdout"
+            }
+          },
+          {
+            "key": {
+              "document_id": "local_50e8648d966745e4b1ab900a92f27b97",
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "parent_id": "cell:0",
+            "kind": "notebook_output",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": [],
+              "json_pointer": "/cells/0/outputs/0",
+              "representations": [],
+              "output_type": "stream",
+              "stream_name": "stdout"
+            }
+          }
+        ],
+        "browser_notices": []
+      }
+    ],
+    "provider_events": [],
+    "guard_blocked_attempts": 0,
+    "total_provider_calls": 0
+  },
+  "candidate": {
+    "runtime": {
+      "vision_enabled": true,
+      "vision_model": "qwen3-vl-plus",
+      "revision": "733da32ac9f5440eac59a6505bf6e561d88b7c35",
+      "soffice": true
+    },
+    "browser": {
+      "agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+      "origin": "http://127.0.0.1:19140"
+    },
+    "cases": [
+      {
+        "case": "pdf-right-formal",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "pass",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "2cb676d247344544801e76b6389020dc",
+        "elapsed_ms": 2006.08,
+        "external_call_count": 1,
+        "vision_trace": {
+          "capability_reason": null,
+          "elapsed_ms": 1961.1424580216408,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 266,
+                "input_tokens": 366,
+                "output_tokens": 17,
+                "total_tokens": 383
+              }
+            }
+          ],
+          "status": "succeeded"
+        },
+        "candidate_sources": [
+          {
+            "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+            "source_id": "page:1:image:2",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+          "source_id": "page:1:image:2",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Azimuth-Workshop.pdf",
+            "locator": {
+              "bbox": [
+                0.537423,
+                0.32963,
+                0.933742,
+                0.646296
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": [
+                  0.517423,
+                  0.30962999999999996,
+                  0.953742,
+                  0.666296
+                ],
+                "actual_input_sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+                "actual_source": {
+                  "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+                  "source_id": "page:1:image:2",
+                  "version": 1
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "88982406997c2e986576420b7f2e68fbced8fe25b1c2cf673f469a875a08b20c",
+                "status": "succeeded",
+                "text": "mrad",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "a38fce6994b4232a0e92107cdd2b1a6ed0b40b514fc4b74b169321dfc9fb3b97",
+              "course_id": "azimuth-workshop",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+                "source_id": "page:1:image:2",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [
+          {
+            "caption": "Azimuth-Workshop.pdf · v1 · 图片",
+            "display_id": "cde6cca4268a4881bef0021174bda1d7",
+            "display_source": {
+              "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+              "source_id": "page:1:image:2",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 386,
+            "media_url": "/api/workspace/sessions/2d6e18b5050646e2a4be93b9d3077855/messages/2cb676d247344544801e76b6389020dc/media/cde6cca4268a4881bef0021174bda1d7?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": [
+              0.517423,
+              0.30962999999999996,
+              0.953742,
+              0.666296
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 712
+          }
+        ],
+        "browser_answer": [
+          "mrad"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+              "version": 1,
+              "source_id": "page:1:image:2"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pdf",
+              "page": 1,
+              "object_type": "image",
+              "image_index": 2,
+              "bbox": [
+                0.537423,
+                0.32963,
+                0.933742,
+                0.646296
+              ],
+              "native_bbox": [
+                438.0,
+                191.0,
+                761.0,
+                362.0
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_coordinate_frame": "pdf_page_units_bottom_left_v1",
+              "position_basis": "pdfium_native_image_extents_v1",
+              "native_to_visible_transform": {
+                "version": "pdf_cropbox_bottom_left_to_visible_norm_v1",
+                "page_bbox": [
+                  0.0,
+                  0.0,
+                  815.0,
+                  540.0
+                ],
+                "rotation_degrees_clockwise": 0,
+                "matrix": [
+                  0.001226993865030675,
+                  0.0,
+                  0.0,
+                  -0.001851851851851852,
+                  -0.0,
+                  1.0
+                ]
+              }
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "pdf-right-warm",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "pass",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "4dd9ca7fd9494a638d6827aaebc81dc8",
+        "elapsed_ms": 22.762,
+        "external_call_count": 0,
+        "vision_trace": {
+          "capability_reason": null,
+          "elapsed_ms": 8.581250091083348,
+          "reads": [
+            {
+              "cache_hit": true,
+              "execution": "cache_reuse",
+              "external_call": false,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {}
+            }
+          ],
+          "status": "succeeded"
+        },
+        "candidate_sources": [
+          {
+            "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+            "source_id": "page:1:image:2",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+          "source_id": "page:1:image:2",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Azimuth-Workshop.pdf",
+            "locator": {
+              "bbox": [
+                0.537423,
+                0.32963,
+                0.933742,
+                0.646296
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": [
+                  0.517423,
+                  0.30962999999999996,
+                  0.953742,
+                  0.666296
+                ],
+                "actual_input_sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+                "actual_source": {
+                  "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+                  "source_id": "page:1:image:2",
+                  "version": 1
+                },
+                "execution": "cache_reuse",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "88982406997c2e986576420b7f2e68fbced8fe25b1c2cf673f469a875a08b20c",
+                "status": "succeeded",
+                "text": "mrad",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "a38fce6994b4232a0e92107cdd2b1a6ed0b40b514fc4b74b169321dfc9fb3b97",
+              "course_id": "azimuth-workshop",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+                "source_id": "page:1:image:2",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [
+          {
+            "caption": "Azimuth-Workshop.pdf · v1 · 图片",
+            "display_id": "5f5bc66d71084620a3682a68427021c6",
+            "display_source": {
+              "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+              "source_id": "page:1:image:2",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 386,
+            "media_url": "/api/workspace/sessions/28c4d400331d44fe8a6b6aedfc59a3b2/messages/4dd9ca7fd9494a638d6827aaebc81dc8/media/5f5bc66d71084620a3682a68427021c6?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": [
+              0.517423,
+              0.30962999999999996,
+              0.953742,
+              0.666296
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 712
+          }
+        ],
+        "browser_answer": [
+          "mrad"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+              "version": 1,
+              "source_id": "page:1:image:2"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pdf",
+              "page": 1,
+              "object_type": "image",
+              "image_index": 2,
+              "bbox": [
+                0.537423,
+                0.32963,
+                0.933742,
+                0.646296
+              ],
+              "native_bbox": [
+                438.0,
+                191.0,
+                761.0,
+                362.0
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_coordinate_frame": "pdf_page_units_bottom_left_v1",
+              "position_basis": "pdfium_native_image_extents_v1",
+              "native_to_visible_transform": {
+                "version": "pdf_cropbox_bottom_left_to_visible_norm_v1",
+                "page_bbox": [
+                  0.0,
+                  0.0,
+                  815.0,
+                  540.0
+                ],
+                "rotation_degrees_clockwise": 0,
+                "matrix": [
+                  0.001226993865030675,
+                  0.0,
+                  0.0,
+                  -0.001851851851851852,
+                  -0.0,
+                  1.0
+                ]
+              }
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "pdf-left-colloquial",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "pass",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "66023f6083bd4a5eafca3fa46f4c3ad6",
+        "elapsed_ms": 1991.883,
+        "external_call_count": 1,
+        "vision_trace": {
+          "capability_reason": null,
+          "elapsed_ms": 1962.9035840043798,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 266,
+                "input_tokens": 364,
+                "output_tokens": 16,
+                "total_tokens": 380
+              }
+            }
+          ],
+          "status": "succeeded"
+        },
+        "candidate_sources": [
+          {
+            "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+            "source_id": "page:1:image:1",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+          "source_id": "page:1:image:1",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Azimuth-Workshop.pdf",
+            "locator": {
+              "bbox": [
+                0.058896,
+                0.32963,
+                0.455215,
+                0.646296
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": [
+                  0.038896,
+                  0.30962999999999996,
+                  0.475215,
+                  0.666296
+                ],
+                "actual_input_sha256": "fe3d546340a4b00b93572f6ce6cfd58b68fe60447bb25727680c133aba058e13",
+                "actual_source": {
+                  "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+                  "source_id": "page:1:image:1",
+                  "version": 1
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "98d9a5138340146f48f0d55813e82d45754e9e03ef57804eeeddf1ce7cf4dca0",
+                "status": "succeeded",
+                "text": "deg",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "a38fce6994b4232a0e92107cdd2b1a6ed0b40b514fc4b74b169321dfc9fb3b97",
+              "course_id": "azimuth-workshop",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+                "source_id": "page:1:image:1",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [
+          {
+            "caption": "Azimuth-Workshop.pdf · v1 · 图片",
+            "display_id": "fa0ef52b51a641cbbe5ed3f40be68c21",
+            "display_source": {
+              "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+              "source_id": "page:1:image:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 386,
+            "media_url": "/api/workspace/sessions/50a8c12d458442ad9bffea25a5ad1834/messages/66023f6083bd4a5eafca3fa46f4c3ad6/media/fa0ef52b51a641cbbe5ed3f40be68c21?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": [
+              0.038896,
+              0.30962999999999996,
+              0.475215,
+              0.666296
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 712
+          }
+        ],
+        "browser_answer": [
+          "deg"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+              "version": 1,
+              "source_id": "page:1:image:1"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pdf",
+              "page": 1,
+              "object_type": "image",
+              "image_index": 1,
+              "bbox": [
+                0.058896,
+                0.32963,
+                0.455215,
+                0.646296
+              ],
+              "native_bbox": [
+                48.0,
+                191.0,
+                371.0,
+                362.0
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_coordinate_frame": "pdf_page_units_bottom_left_v1",
+              "position_basis": "pdfium_native_image_extents_v1",
+              "native_to_visible_transform": {
+                "version": "pdf_cropbox_bottom_left_to_visible_norm_v1",
+                "page_bbox": [
+                  0.0,
+                  0.0,
+                  815.0,
+                  540.0
+                ],
+                "rotation_degrees_clockwise": 0,
+                "matrix": [
+                  0.001226993865030675,
+                  0.0,
+                  0.0,
+                  -0.001851851851851852,
+                  -0.0,
+                  1.0
+                ]
+              }
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "pdf-contrast-negation",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "fail",
+          "display": "fail",
+          "read": "fail",
+          "version": "fail",
+          "citation": "fail",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "object",
+        "serious_errors": [],
+        "message_id": "a880569fb8aa4d2ea887c1cf76e613b1",
+        "elapsed_ms": 9.133,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [],
+        "selected_source": null,
+        "sources": [],
+        "displays": [],
+        "browser_answer": [],
+        "object_registry": [],
+        "browser_notices": [
+          "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+        ]
+      },
+      {
+        "case": "pdf-ambiguous",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "pass",
+          "read": "pass",
+          "version": "not_applicable",
+          "citation": "not_applicable",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "31809020cc76453a9e5b2d0219d20340",
+        "elapsed_ms": 8.79,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [
+          {
+            "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+            "source_id": "page:1:image:1",
+            "version": 1
+          },
+          {
+            "document_id": "local_705b24d6fdd74855b83a7332adb11f1e",
+            "source_id": "page:1:image:2",
+            "version": 1
+          }
+        ],
+        "selected_source": null,
+        "sources": [],
+        "displays": [],
+        "browser_answer": [],
+        "object_registry": [],
+        "browser_notices": [
+          "有多个可能的对象，请指定原件位置或图序。"
+        ]
+      },
+      {
+        "case": "native-table",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "pass",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "0a2cb0289a1148c5846f76db67f16829",
+        "elapsed_ms": 2947.986,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [
+          {
+            "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+            "source_id": "page:1:shape:4",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+          "source_id": "page:1:shape:4",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+                  "source_id": "page:1:shape:4",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "c0de45bcd296be8e44ef47484ac0a0c1f8d769991cc3409df13e441b22298c11",
+              "course_id": "beacon-inspection",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+                "source_id": "page:1:shape:4",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [
+          {
+            "caption": "Beacon-Inspection.pptx · v1 · 表格",
+            "display_id": "85faf614510444d88f595f894e989c04",
+            "display_source": {
+              "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+              "source_id": "page:1:shape:4",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 401,
+            "media_url": "/api/workspace/sessions/3b97f6fc26a7497a94e2c49cb5bae418/messages/0a2cb0289a1148c5846f76db67f16829/media/85faf614510444d88f595f894e989c04?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.092503,
+              0.3,
+              0.905022,
+              0.670667
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 1561
+          }
+        ],
+        "browser_answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pptx",
+              "page": 1,
+              "shape_id_path": [
+                4
+              ],
+              "object_type": "table",
+              "native_coordinate_frame": "pptx_slide_emu_v1",
+              "position_basis": "native_shape_extents_v1",
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_bbox": [
+                1371600,
+                2194560,
+                10789920,
+                4462272
+              ],
+              "native_to_visible_transform": {
+                "version": "pptx_slide_emu_to_visible_norm_v1",
+                "slide_size_emu": [
+                  12191695,
+                  6858000
+                ],
+                "matrix": [
+                  8.202304929708297e-08,
+                  0.0,
+                  0.0,
+                  1.458151064450277e-07,
+                  0.0,
+                  0.0
+                ]
+              },
+              "columns": [
+                "Beacon",
+                "Lateral drift (mm)",
+                "Settle time (ms)"
+              ],
+              "rows": [
+                [
+                  "Beacon",
+                  "Lateral drift (mm)",
+                  "Settle time (ms)"
+                ],
+                [
+                  "South beacon",
+                  "3.8",
+                  "72"
+                ],
+                [
+                  "North beacon",
+                  "1.6",
+                  "54"
+                ]
+              ]
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "not-in-table",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "not_applicable",
+          "read": "pass",
+          "version": "not_applicable",
+          "citation": "not_applicable",
+          "answer": "fail"
+        },
+        "overall": "fail",
+        "first_failure": "answer",
+        "serious_errors": [],
+        "message_id": "88e32620c7f5441d912193d8ee2b479e",
+        "elapsed_ms": 296.494,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": [
+          {
+            "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+            "source_id": "page:1:shape:4",
+            "version": 1
+          }
+        ],
+        "selected_source": {
+          "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+          "source_id": "page:1:shape:4",
+          "version": 1
+        },
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "Beacon-Inspection.pptx",
+            "locator": {
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+                  "source_id": "page:1:shape:4",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "c0de45bcd296be8e44ef47484ac0a0c1f8d769991cc3409df13e441b22298c11",
+              "course_id": "beacon-inspection",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+                "source_id": "page:1:shape:4",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [
+          {
+            "caption": "Beacon-Inspection.pptx · v1 · 表格",
+            "display_id": "ac62af71543f477894a4b7e23624c254",
+            "display_source": {
+              "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+              "source_id": "page:1:shape:4",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 401,
+            "media_url": "/api/workspace/sessions/6bf3dfc2c0fe452a825a8e84d1b2b7d6/messages/88e32620c7f5441d912193d8ee2b479e/media/ac62af71543f477894a4b7e23624c254?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.092503,
+              0.3,
+              0.905022,
+              0.670667
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 1561
+          }
+        ],
+        "browser_answer": [
+          "Beacon-Inspection.pptx · v1 · 表格\n| Beacon | Lateral drift (mm) | Settle time (ms) |\n| --- | --- | --- |\n| South beacon | 3.8 | 72 |\n| North beacon | 1.6 | 54 |"
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_83b169bba4ef44b0bb25ea44ef6b46c9",
+              "version": 1,
+              "source_id": "page:1:shape:4"
+            },
+            "parent_id": "page:1",
+            "kind": "page_object",
+            "locator": {
+              "format": "pptx",
+              "page": 1,
+              "shape_id_path": [
+                4
+              ],
+              "object_type": "table",
+              "native_coordinate_frame": "pptx_slide_emu_v1",
+              "position_basis": "native_shape_extents_v1",
+              "bbox": [
+                0.112503,
+                0.32,
+                0.885022,
+                0.650667
+              ],
+              "coordinate_frame": "visible_page_norm_v1",
+              "native_bbox": [
+                1371600,
+                2194560,
+                10789920,
+                4462272
+              ],
+              "native_to_visible_transform": {
+                "version": "pptx_slide_emu_to_visible_norm_v1",
+                "slide_size_emu": [
+                  12191695,
+                  6858000
+                ],
+                "matrix": [
+                  8.202304929708297e-08,
+                  0.0,
+                  0.0,
+                  1.458151064450277e-07,
+                  0.0,
+                  0.0
+                ]
+              },
+              "columns": [
+                "Beacon",
+                "Lateral drift (mm)",
+                "Settle time (ms)"
+              ],
+              "rows": [
+                [
+                  "Beacon",
+                  "Lateral drift (mm)",
+                  "Settle time (ms)"
+                ],
+                [
+                  "South beacon",
+                  "3.8",
+                  "72"
+                ],
+                [
+                  "North beacon",
+                  "1.6",
+                  "54"
+                ]
+              ]
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "notebook-original",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "not_applicable",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "26f4e9f8fed74de989b58e97ec1fc787",
+        "elapsed_ms": 11.916,
+        "external_call_count": null,
+        "vision_trace": null,
+        "candidate_sources": null,
+        "selected_source": null,
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+              "course_id": "bench-retest",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+              "course_id": "bench-retest",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          }
+        ],
+        "displays": [],
+        "browser_answer": [
+          "BenchRetest.ipynb · v1 · Cell 1 · Code cell 1\n# Bench retest settling clock\nprint(\"Saved instrument settling measurement\")",
+          "BenchRetest.ipynb · v1 · 输出 0\nBench retest settling clock: 83 ms. Initial deployment."
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "parent_id": null,
+            "kind": "cell",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "cell_type": "code",
+              "section_path": [],
+              "content_state": "available",
+              "outputs_state": "available",
+              "json_pointer": "/cells/0"
+            }
+          },
+          {
+            "key": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "parent_id": "cell:0",
+            "kind": "notebook_output",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": [],
+              "json_pointer": "/cells/0/outputs/0",
+              "representations": [],
+              "output_type": "stream",
+              "stream_name": "stdout"
+            }
+          }
+        ],
+        "browser_notices": []
+      },
+      {
+        "case": "notebook-both",
+        "axes": {
+          "normal_entry": "pass",
+          "object": "pass",
+          "display": "not_applicable",
+          "read": "pass",
+          "version": "pass",
+          "citation": "pass",
+          "answer": "pass"
+        },
+        "overall": "pass",
+        "first_failure": null,
+        "serious_errors": [],
+        "message_id": "4e08c442abe844bfa2360bae4b183062",
+        "elapsed_ms": 14.216,
+        "external_call_count": 0,
+        "vision_trace": null,
+        "candidate_sources": null,
+        "selected_source": null,
+        "sources": [
+          {
+            "evidence_id": "ev-1",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Bench retest settling clock: 83 ms. Initial deployment.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7173e056937669ea4587fe1c259f453412c6663095496e951a3a3c6f84833946",
+              "course_id": "bench-retest",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "file_name": "BenchRetest.ipynb",
+            "locator": {
+              "cell_id": "settle-retest",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Bench retest settling clock: 47 ms. After mounting adjustment.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "7025f34e3be71302921267b7148be746112daf1b57f3ae9396675f1feaa94309",
+              "course_id": "bench-retest",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          }
+        ],
+        "displays": [],
+        "browser_answer": [
+          "旧版 v1\nBench retest settling clock: 83 ms. Initial deployment.",
+          "当前版 v2\nBench retest settling clock: 47 ms. After mounting adjustment."
+        ],
+        "object_registry": [
+          {
+            "key": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "parent_id": "cell:0",
+            "kind": "notebook_output",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": [],
+              "json_pointer": "/cells/0/outputs/0",
+              "representations": [],
+              "output_type": "stream",
+              "stream_name": "stdout"
+            }
+          },
+          {
+            "key": {
+              "document_id": "local_bb0c77932ddc4d818a6dadaf9df78f73",
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "parent_id": "cell:0",
+            "kind": "notebook_output",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "settle-retest",
+              "output_index": 0,
+              "section_path": [],
+              "json_pointer": "/cells/0/outputs/0",
+              "representations": [],
+              "output_type": "stream",
+              "stream_name": "stdout"
+            }
+          }
+        ],
+        "browser_notices": []
+      }
+    ],
+    "provider_events": [
+      {
+        "case": "pdf-right-formal",
+        "path_kind": "vision",
+        "is_external": true,
+        "image_sha256": "bb43acef3b64ec2658adb921a04eff05e3b2e59eaacf4d75febc5978d5f7ac6a",
+        "event": "real_vision_attempt",
+        "model": "qwen3-vl-plus",
+        "http_status": 200,
+        "headers_elapsed_ms": 1870.047
+      },
+      {
+        "case": "pdf-left-colloquial",
+        "path_kind": "vision",
+        "is_external": true,
+        "image_sha256": "fe3d546340a4b00b93572f6ce6cfd58b68fe60447bb25727680c133aba058e13",
+        "event": "real_vision_attempt",
+        "model": "qwen3-vl-plus",
+        "http_status": 200,
+        "headers_elapsed_ms": 1934.217
+      }
+    ],
+    "guard_blocked_attempts": 0,
+    "total_provider_calls": 2
+  },
+  "gate": {
+    "comparable_settings": true,
+    "all_normal_entries_captured": true,
+    "baseline_passes": 3,
+    "candidate_passes": 7,
+    "gains": [
+      [
+        "pdf-right-formal",
+        "object"
+      ],
+      [
+        "pdf-right-formal",
+        "display"
+      ],
+      [
+        "pdf-right-formal",
+        "read"
+      ],
+      [
+        "pdf-right-formal",
+        "version"
+      ],
+      [
+        "pdf-right-formal",
+        "citation"
+      ],
+      [
+        "pdf-right-formal",
+        "answer"
+      ],
+      [
+        "pdf-right-warm",
+        "object"
+      ],
+      [
+        "pdf-right-warm",
+        "display"
+      ],
+      [
+        "pdf-right-warm",
+        "read"
+      ],
+      [
+        "pdf-right-warm",
+        "version"
+      ],
+      [
+        "pdf-right-warm",
+        "citation"
+      ],
+      [
+        "pdf-right-warm",
+        "answer"
+      ],
+      [
+        "pdf-left-colloquial",
+        "object"
+      ],
+      [
+        "pdf-left-colloquial",
+        "display"
+      ],
+      [
+        "pdf-left-colloquial",
+        "read"
+      ],
+      [
+        "pdf-left-colloquial",
+        "version"
+      ],
+      [
+        "pdf-left-colloquial",
+        "citation"
+      ],
+      [
+        "pdf-left-colloquial",
+        "answer"
+      ],
+      [
+        "native-table",
+        "display"
+      ],
+      [
+        "native-table",
+        "citation"
+      ]
+    ],
+    "regressions": [],
+    "new_serious_errors": [],
+    "unresolved": [
+      "pdf-contrast-negation",
+      "not-in-table"
+    ],
+    "second_suite_gate_pass": true
+  }
+}

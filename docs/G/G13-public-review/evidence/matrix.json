@@ -1,0 +1,540 @@
+{
+  "frozen_scorer": {
+    "gate": {
+      "comparable_settings": true,
+      "all_normal_entries_captured": true,
+      "baseline_passes": 3,
+      "candidate_passes": 3,
+      "gains": [
+        [
+          "pdf-right-formal",
+          "display"
+        ],
+        [
+          "pdf-right-formal",
+          "read"
+        ],
+        [
+          "pdf-right-formal",
+          "version"
+        ],
+        [
+          "pdf-right-formal",
+          "citation"
+        ],
+        [
+          "pdf-right-formal",
+          "answer"
+        ],
+        [
+          "pdf-right-warm",
+          "display"
+        ],
+        [
+          "pdf-right-warm",
+          "read"
+        ],
+        [
+          "pdf-right-warm",
+          "version"
+        ],
+        [
+          "pdf-right-warm",
+          "citation"
+        ],
+        [
+          "pdf-right-warm",
+          "answer"
+        ],
+        [
+          "pdf-left-colloquial",
+          "display"
+        ],
+        [
+          "pdf-left-colloquial",
+          "read"
+        ],
+        [
+          "pdf-left-colloquial",
+          "version"
+        ],
+        [
+          "pdf-left-colloquial",
+          "citation"
+        ],
+        [
+          "pdf-left-colloquial",
+          "answer"
+        ],
+        [
+          "native-table",
+          "display"
+        ],
+        [
+          "native-table",
+          "citation"
+        ]
+      ],
+      "regressions": [],
+      "new_serious_errors": [],
+      "unresolved": [
+        "pdf-right-formal",
+        "pdf-right-warm",
+        "pdf-left-colloquial",
+        "pdf-contrast-negation",
+        "native-table",
+        "not-in-table"
+      ],
+      "second_suite_gate_pass": true
+    },
+    "both": {
+      "baseline": {
+        "overall": {
+          "matched": 3,
+          "total": 9
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 9,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 3,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 1,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 5,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 3,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 2,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 4,
+            "applicable": 9,
+            "not_measured": 0
+          }
+        }
+      },
+      "candidate": {
+        "overall": {
+          "matched": 3,
+          "total": 9
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 9,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 3,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 5,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 8,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 6,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 6,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 7,
+            "applicable": 9,
+            "not_measured": 0
+          }
+        }
+      }
+    },
+    "canonical_only": {
+      "baseline": {
+        "overall": {
+          "matched": 3,
+          "total": 8
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 8,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 3,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 1,
+            "applicable": 5,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 5,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 3,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 2,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 4,
+            "applicable": 8,
+            "not_measured": 0
+          }
+        }
+      },
+      "candidate": {
+        "overall": {
+          "matched": 3,
+          "total": 8
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 8,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 3,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 4,
+            "applicable": 5,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 7,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 5,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 5,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 6,
+            "applicable": 8,
+            "not_measured": 0
+          }
+        }
+      }
+    }
+  },
+  "registry_scoring": {
+    "gate": {
+      "comparable_settings": true,
+      "all_normal_entries_captured": true,
+      "baseline_passes": 3,
+      "candidate_passes": 7,
+      "gains": [
+        [
+          "pdf-right-formal",
+          "object"
+        ],
+        [
+          "pdf-right-formal",
+          "display"
+        ],
+        [
+          "pdf-right-formal",
+          "read"
+        ],
+        [
+          "pdf-right-formal",
+          "version"
+        ],
+        [
+          "pdf-right-formal",
+          "citation"
+        ],
+        [
+          "pdf-right-formal",
+          "answer"
+        ],
+        [
+          "pdf-right-warm",
+          "object"
+        ],
+        [
+          "pdf-right-warm",
+          "display"
+        ],
+        [
+          "pdf-right-warm",
+          "read"
+        ],
+        [
+          "pdf-right-warm",
+          "version"
+        ],
+        [
+          "pdf-right-warm",
+          "citation"
+        ],
+        [
+          "pdf-right-warm",
+          "answer"
+        ],
+        [
+          "pdf-left-colloquial",
+          "object"
+        ],
+        [
+          "pdf-left-colloquial",
+          "display"
+        ],
+        [
+          "pdf-left-colloquial",
+          "read"
+        ],
+        [
+          "pdf-left-colloquial",
+          "version"
+        ],
+        [
+          "pdf-left-colloquial",
+          "citation"
+        ],
+        [
+          "pdf-left-colloquial",
+          "answer"
+        ],
+        [
+          "native-table",
+          "display"
+        ],
+        [
+          "native-table",
+          "citation"
+        ]
+      ],
+      "regressions": [],
+      "new_serious_errors": [],
+      "unresolved": [
+        "pdf-contrast-negation",
+        "not-in-table"
+      ],
+      "second_suite_gate_pass": true
+    },
+    "both": {
+      "baseline": {
+        "overall": {
+          "matched": 3,
+          "total": 9
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 9,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 5,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 1,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 5,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 3,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 2,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 4,
+            "applicable": 9,
+            "not_measured": 0
+          }
+        }
+      },
+      "candidate": {
+        "overall": {
+          "matched": 7,
+          "total": 9
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 9,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 8,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 5,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 8,
+            "applicable": 9,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 6,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 6,
+            "applicable": 7,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 7,
+            "applicable": 9,
+            "not_measured": 0
+          }
+        }
+      }
+    },
+    "canonical_only": {
+      "baseline": {
+        "overall": {
+          "matched": 3,
+          "total": 8
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 8,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 5,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 1,
+            "applicable": 5,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 5,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 3,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 2,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 4,
+            "applicable": 8,
+            "not_measured": 0
+          }
+        }
+      },
+      "candidate": {
+        "overall": {
+          "matched": 6,
+          "total": 8
+        },
+        "axes": {
+          "normal_entry": {
+            "matched": 8,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "object": {
+            "matched": 7,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "display": {
+            "matched": 4,
+            "applicable": 5,
+            "not_measured": 0
+          },
+          "read": {
+            "matched": 7,
+            "applicable": 8,
+            "not_measured": 0
+          },
+          "version": {
+            "matched": 5,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "citation": {
+            "matched": 5,
+            "applicable": 6,
+            "not_measured": 0
+          },
+          "answer": {
+            "matched": 6,
+            "applicable": 8,
+            "not_measured": 0
+          }
+        }
+      }
+    }
+  }
+}
