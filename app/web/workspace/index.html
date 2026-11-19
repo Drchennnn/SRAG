@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>SRAG · 课程工作区</title>
+  <link rel="stylesheet" href="/workspace/workspace.css">
+  <script src="/workspace/workspace.js" defer></script>
+</head>
+<body>
+  <header class="site-head">
+    <div class="brand"><span class="brand-mark" aria-hidden="true">S</span><span>SRAG <small>课程工作区</small></span></div>
+    <div class="session-controls">
+      <label class="screen-reader" for="sessions">当前会话</label>
+      <select id="sessions" disabled><option value="">请选择会话</option></select>
+      <button id="new-session" type="button" class="quiet">新建会话</button>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside aria-labelledby="library-title" class="library">
+      <div class="library-head">
+        <h1 id="library-title">资料库</h1>
+        <details id="import-panel">
+          <summary>导入资料</summary>
+          <form id="import-form" class="import-form">
+            <label for="import-course">课程</label>
+            <select id="import-course" required></select>
+            <label for="import-files">PDF、PPTX 或 Notebook</label>
+            <input id="import-files" type="file" accept=".pdf,.pptx,.ipynb" required multiple>
+            <label class="check-line" id="replace-label" hidden>
+              <input id="replace-document" type="checkbox"> 更新当前资料的版本
+            </label>
+            <button id="import-button" type="submit" class="primary" disabled>开始导入</button>
+          </form>
+        </details>
+        <ul id="import-results" class="import-results" aria-live="polite"></ul>
+      </div>
+
+      <nav aria-label="资料目录" id="catalog" aria-busy="true">
+        <p class="library-status">正在加载资料库…</p>
+      </nav>
+    </aside>
+
+    <main class="main" aria-labelledby="workspace-title">
+      <div class="main-inner">
+        <p id="workspace-status" class="alert" role="status" hidden></p>
+        <header class="discussion-head">
+          <div>
+            <h2 id="workspace-title">课程复习</h2>
+            <p id="scope-summary" class="scope-summary">加载范围中…</p>
+          </div>
+          <button id="clear-file" class="quiet" type="button" hidden>查看所选课程</button>
+        </header>
+
+        <section id="location" class="location" aria-labelledby="location-title" hidden>
+          <div class="location-main">
+            <div><p id="location-kind" class="location-kind"></p><h3 id="location-title"></h3></div>
+            <button id="preview-location" class="quiet" type="button" hidden>打开原件</button>
+          </div>
+          <div class="location-nav" aria-label="目录位置导航">
+            <button id="parent-location" class="quiet" type="button">返回上级</button>
+            <button id="previous-location" class="quiet" type="button">上一项</button>
+            <button id="next-location" class="quiet" type="button">下一项</button>
+          </div>
+        </section>
+
+        <section class="conversation" aria-label="会话记录">
+          <div id="messages"></div>
+          <div id="turn-status" aria-live="polite"></div>
+        </section>
+
+        <form id="composer" class="composer">
+          <fieldset class="mode-picker" aria-label="操作类型">
+            <label><input type="radio" name="kind" value="ask" checked><span>问答</span></label>
+            <label><input type="radio" name="kind" value="search"><span>搜索</span></label>
+            <label><input type="radio" name="kind" value="summary"><span>单文件总结</span></label>
+          </fieldset>
+          <div id="anchor-bar" class="anchor-bar" hidden>
+            <span id="anchor-label"></span>
+            <button id="clear-anchor" class="quiet" type="button">取消引用</button>
+          </div>
+          <label class="screen-reader" for="question">输入问题</label>
+          <textarea id="question" rows="2" maxlength="4000" placeholder="输入问题，或追问刚才第二张图"></textarea>
+          <div class="composer-foot">
+            <p id="composer-status" role="status"></p>
+            <div id="turn-actions" class="turn-actions"></div>
+            <button id="send" class="primary" type="submit" disabled>发送</button>
+          </div>
+        </form>
+      </div>
+    </main>
+  </div>
+
+  <dialog id="reader" aria-labelledby="reader-title">
+    <header class="reader-head">
+      <div><h2 id="reader-title">原件阅读</h2><p id="reader-location"></p></div>
+      <button id="close-reader" class="quiet" type="button">关闭原件</button>
+    </header>
+    <div id="reader-body" class="reader-body"></div>
+  </dialog>
+</body>
+</html>

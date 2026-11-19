@@ -2,8 +2,10 @@
 
 from collections.abc import AsyncIterator
 from contextlib import asynccontextmanager
+from pathlib import Path
 
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 from app import __version__
 from app.api.health import router as health_router
@@ -38,6 +40,8 @@ def create_app() -> FastAPI:
     app.include_router(source_evidence_router, prefix="/api/rag/local/evidence", tags=["原件"])
     app.include_router(structure_search_router, prefix="/api/rag/structure", tags=["结构检索"])
     app.include_router(local_library_router, prefix="/api/rag/local", tags=["本地资料"])
+    workspace_assets = Path(__file__).with_name("web") / "workspace"
+    app.mount("/workspace", StaticFiles(directory=workspace_assets, html=True), name="workspace")
     return app
 
 
