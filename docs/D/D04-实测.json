@@ -1,0 +1,1270 @@
+{
+  "artifact_paths": {
+    "artifact_root": "docs/D/D04-evidence",
+    "reference_base": "repository_root"
+  },
+  "checks": {
+    "fallback_actual_is_parent": true,
+    "historical_v1_available": true,
+    "late_write_rejected": true,
+    "mock_cache_reused": true,
+    "race_redacted": true,
+    "real_generic_fts_origin": true,
+    "region_change_invalidated_input": true
+  },
+  "counts": {
+    "authorized_real_provider_limit": 4,
+    "display_only_unread": 5,
+    "local_loopback_connection_attempts": 1,
+    "mock_transport_handler_calls": 4,
+    "real_supplier_external_calls": 4,
+    "real_supplier_failed": 0,
+    "real_supplier_success_or_partial": 4
+  },
+  "enhancement_before_delete": {
+    "body": "Filter\tWindow [samples]\tPeak delay [samples]\nMedian\t3\t1\nMedian\t5\t2\nDescriptions: A table with three columns: 'Filter', 'Window [samples]', and 'Peak delay [samples]'.; Two rows, both labeled 'Median' under 'Filter'.; First row: Window = 3 samples, Peak delay = 1 sample.; Second row: Window = 5 samples, Peak delay = 2 samples.",
+    "origin": "enhancement"
+  },
+  "highlight": {
+    "artifact": "docs/D/D04-evidence/pdf-page2-right-highlight.png",
+    "rect_visible_norm": [
+      0.51,
+      0.18000000000000002,
+      0.9400000000000001,
+      0.556
+    ],
+    "sha256": "505384ce7e1f6e84c23397189096a8d5034355470ede609a6c17349a8d004ab6"
+  },
+  "late_write_after_delete": false,
+  "originals": {
+    "notebook": {
+      "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+      "publication_epoch": 1,
+      "repo_path": "docs/A/样例/Signal-lab.ipynb",
+      "version": 1
+    },
+    "pdf": {
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+      "publication_epoch": 1,
+      "repo_path": "docs/A/样例/Signal-reference.pdf",
+      "version": 1
+    },
+    "pptx": {
+      "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+      "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+      "publication_epoch": 1,
+      "repo_path": "docs/A/样例/Signal-slides.pptx",
+      "version": 1
+    }
+  },
+  "provenance_note": "Only provenance values prefixed real_provider_public_* may contact the configured supplier. mock_transport, local_loopback, display_only and internal grant scenarios are not supplier model reads.",
+  "runtime": {
+    "credential_configured": true,
+    "provider_model": "qwen3-vl-plus",
+    "real_mode": true,
+    "soffice_configured": true,
+    "timeout_seconds": 15.0
+  },
+  "scenarios": [
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-page2-full.png",
+        "byte_length": 99075,
+        "byte_sha256": "6519c139d6962ecba340977510500f8211fe579072b4da0542b7eb4b88f85073",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 1584,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "original_page",
+        "width": 1224
+      },
+      "elapsed_seconds": 0.1049,
+      "external_call_count": 0,
+      "name": "pdf-page2-full",
+      "provenance": "display_only",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": null,
+        "rendition": "original_page",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-left-crop.png",
+        "byte_length": 21464,
+        "byte_sha256": "2899c731599048865c0f001495f58d9acb5dca59e40b420f07283d540de95b2d",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 596,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.06,
+          0.18000000000000002,
+          0.49,
+          0.556
+        ],
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 527
+      },
+      "elapsed_seconds": 0.0139,
+      "external_call_count": 0,
+      "name": "pdf-left-crop",
+      "provenance": "display_only",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": "pdf-left",
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+      "display": {
+        "actual_source": {
+          "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+          "source_id": "page:1",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pptx-page1-full.png",
+        "byte_length": 37818,
+        "byte_sha256": "ffaca578a5ab9a7ebf2969eeb45c8b42f4053ae822051f70548f5a4203d05565",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+          "source_id": "page:1",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 720,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "libreoffice+pypdfium2",
+        "renderer_version": "LibreOffice 26.8.3.1 861effc5289d539f15c4c18d1ba8579ffd78728b|pypdfium2-5.13.0",
+        "rendition_kind": "original_page",
+        "width": 1440
+      },
+      "elapsed_seconds": 2.2069,
+      "external_call_count": 0,
+      "name": "pptx-page1-full",
+      "provenance": "display_only",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": null,
+        "rendition": "original_page",
+        "source": {
+          "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+          "source_id": "page:1",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "display": {
+        "actual_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:1",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/notebook-v1-output1-unread.png",
+        "byte_length": 3153,
+        "byte_sha256": "d47a281676c3223a7bf57397362fdf9c6b51f72510a47b8829488dc773c3c5ec",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:1",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 260,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "notebook-original",
+        "renderer_version": "v1",
+        "rendition_kind": "notebook_output",
+        "width": 440
+      },
+      "elapsed_seconds": 0.0039,
+      "external_call_count": 0,
+      "name": "notebook-v1-output1-unread",
+      "provenance": "display_only",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": null,
+        "rendition": "notebook_output",
+        "source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:1",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "display": {
+        "actual_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/notebook-v1-output2-unread.png",
+        "byte_length": 4228,
+        "byte_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 260,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "notebook-original",
+        "renderer_version": "v1",
+        "rendition_kind": "notebook_output",
+        "width": 440
+      },
+      "elapsed_seconds": 0.0031,
+      "external_call_count": 0,
+      "name": "notebook-v1-output2-unread",
+      "provenance": "display_only",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": null,
+        "rendition": "notebook_output",
+        "source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "mock_only",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-right-mock.png",
+        "byte_length": 17107,
+        "byte_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 596,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.51,
+          0.18000000000000002,
+          0.9400000000000001,
+          0.556
+        ],
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 527
+      },
+      "elapsed_seconds": 0.0172,
+      "external_call_count": 0,
+      "name": "pdf-right-mock",
+      "provenance": "mock_transport",
+      "read_status": "not_attempted",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.51,
+            0.18000000000000002,
+            0.9400000000000001,
+            0.556
+          ],
+          "actual_input_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+          "actual_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "mock_protocol",
+          "external_call": false,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "mock_protocol",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "9e64788939cd96e2fb1c90e8dec7c447d424cfa975e8703c209854a53e8e7a9b",
+          "request_id": "mock-d04",
+          "requested_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "mock protocol only",
+          "usage": {
+            "input_tokens": 1,
+            "output_tokens": 1
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "Which panel is shown, what are both axis labels, and what does its caption state?",
+        "read_intent": "directed_question",
+        "registered_region_id": "pdf-right",
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "mock_only",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-right-mock-cache.png",
+        "byte_length": 17107,
+        "byte_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+        "cache_hit": true,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 596,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.51,
+          0.18000000000000002,
+          0.9400000000000001,
+          0.556
+        ],
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 527
+      },
+      "elapsed_seconds": 0.0075,
+      "external_call_count": 0,
+      "name": "pdf-right-mock-cache",
+      "provenance": "mock_transport",
+      "read_status": "not_attempted",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.51,
+            0.18000000000000002,
+            0.9400000000000001,
+            0.556
+          ],
+          "actual_input_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+          "actual_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "cache_hit": true,
+          "execution": "cache_reuse",
+          "external_call": false,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "mock_protocol",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "9e64788939cd96e2fb1c90e8dec7c447d424cfa975e8703c209854a53e8e7a9b",
+          "request_id": "mock-d04",
+          "requested_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "mock protocol only",
+          "usage": {
+            "input_tokens": 1,
+            "output_tokens": 1
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "Which panel is shown, what are both axis labels, and what does its caption state?",
+        "read_intent": "directed_question",
+        "registered_region_id": "pdf-right",
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "mock_only",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-right-region-rev2.png",
+        "byte_length": 17112,
+        "byte_sha256": "a9e74a026d75d5ddb8e15b0aec0995fc21d13c2f14ffb9532eea96a76815d87f",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 596,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.52,
+          0.18000000000000002,
+          0.9400000000000001,
+          0.556
+        ],
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 515
+      },
+      "elapsed_seconds": 0.0167,
+      "external_call_count": 0,
+      "name": "pdf-right-region-rev2",
+      "provenance": "mock_transport_region_change",
+      "read_status": "not_attempted",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.52,
+            0.18000000000000002,
+            0.9400000000000001,
+            0.556
+          ],
+          "actual_input_sha256": "a9e74a026d75d5ddb8e15b0aec0995fc21d13c2f14ffb9532eea96a76815d87f",
+          "actual_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "mock_protocol",
+          "external_call": false,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "mock_protocol",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "9e64788939cd96e2fb1c90e8dec7c447d424cfa975e8703c209854a53e8e7a9b",
+          "request_id": "mock-d04",
+          "requested_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "mock protocol only",
+          "usage": {
+            "input_tokens": 1,
+            "output_tokens": 1
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "Which panel is shown, what are both axis labels, and what does its caption state?",
+        "read_intent": "directed_question",
+        "registered_region_id": "pdf-right",
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "mock_only",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_14e50c1444e34e268062995cd8d3c79b",
+          "source_id": "page:1",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-unreliable-parent-fallback.png",
+        "byte_length": 167863,
+        "byte_sha256": "749c18cf9310c973a0fdb2b4ef933babaac4a68e4ebc0df92673122bfd73ecb6",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_14e50c1444e34e268062995cd8d3c79b",
+          "source_id": "page:1",
+          "version": 1
+        },
+        "fallback_reason": "unreliable_bbox",
+        "height": 1584,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "parent_page_fallback",
+        "width": 1224
+      },
+      "elapsed_seconds": 0.0341,
+      "external_call_count": 0,
+      "name": "pdf-unreliable-parent-fallback",
+      "provenance": "mock_transport_fault_fixture",
+      "read_status": "not_attempted",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": null,
+          "actual_input_sha256": "749c18cf9310c973a0fdb2b4ef933babaac4a68e4ebc0df92673122bfd73ecb6",
+          "actual_source": {
+            "document_id": "local_14e50c1444e34e268062995cd8d3c79b",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "mock_protocol",
+          "external_call": false,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "mock_protocol",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "91c4c4c83e0f3ae98abe91dde00027a33176be6baa937db25d1fa69ed88115b8",
+          "request_id": "mock-d04",
+          "requested_source": {
+            "document_id": "local_14e50c1444e34e268062995cd8d3c79b",
+            "source_id": "page:1:object:unreliable",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "mock protocol only",
+          "usage": {
+            "input_tokens": 1,
+            "output_tokens": 1
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "What is visible on the fallback page?",
+        "read_intent": "directed_question",
+        "registered_region_id": null,
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_14e50c1444e34e268062995cd8d3c79b",
+          "source_id": "page:1:object:unreliable",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": null,
+      "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+      "display": {
+        "actual_source": {
+          "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+          "source_id": "page:1:shape:3",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pptx-table-real-generic.png",
+        "byte_length": 24837,
+        "byte_sha256": "7bb8f83d4da5a903f6d53b7d2898c9416e1a1b92116213a08b507746f21c266e",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+          "source_id": "page:1:shape:3",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 462,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.08,
+          0.27999999999999997,
+          0.92,
+          0.92
+        ],
+        "renderer": "libreoffice+pypdfium2",
+        "renderer_version": "LibreOffice 26.8.3.1 861effc5289d539f15c4c18d1ba8579ffd78728b|pypdfium2-5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 1210
+      },
+      "elapsed_seconds": 6.6802,
+      "external_call_count": 1,
+      "name": "pptx-table-real-generic",
+      "provenance": "real_provider_public_pptx",
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.08,
+            0.27999999999999997,
+            0.92,
+            0.92
+          ],
+          "actual_input_sha256": "7bb8f83d4da5a903f6d53b7d2898c9416e1a1b92116213a08b507746f21c266e",
+          "actual_source": {
+            "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+            "source_id": "page:1:shape:3",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "real_provider",
+          "external_call": true,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-generic-v1",
+          "provider": "dashscope-native",
+          "purpose": "generic_transcription",
+          "question_sha256": null,
+          "request_id": "fab535b0-03a6-96a3-b993-7fd0b0a79470",
+          "requested_source": {
+            "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+            "source_id": "page:1:shape:3",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "Filter\tWindow [samples]\tPeak delay [samples]\nMedian\t3\t1\nMedian\t5\t2\nDescriptions: A table with three columns: 'Filter', 'Window [samples]', and 'Peak delay [samples]'.; Two rows, both labeled 'Median' under 'Filter'.; First row: Window = 3 samples, Peak delay = 1 sample.; Second row: Window = 5 samples, Peak delay = 2 samples.",
+          "usage": {
+            "image_tokens": 534,
+            "input_tokens": 623,
+            "output_tokens": 134,
+            "total_tokens": 757
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "generic_transcription",
+        "registered_region_id": null,
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_930d000b9e984fe288e9d7c8e53f8a94",
+          "source_id": "page:1:shape:3",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": null,
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/pdf-right-real-directed.png",
+        "byte_length": 17107,
+        "byte_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+        "cache_hit": true,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 596,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.51,
+          0.18000000000000002,
+          0.9400000000000001,
+          0.556
+        ],
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 527
+      },
+      "elapsed_seconds": 2.4364,
+      "external_call_count": 1,
+      "name": "pdf-right-real-directed",
+      "provenance": "real_provider_public_pdf",
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.51,
+            0.18000000000000002,
+            0.9400000000000001,
+            0.556
+          ],
+          "actual_input_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+          "actual_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "real_provider",
+          "external_call": true,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "9e64788939cd96e2fb1c90e8dec7c447d424cfa975e8703c209854a53e8e7a9b",
+          "request_id": "e55b5b0e-ae5d-93ef-8078-f519262f5d78",
+          "requested_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "Panel (b); x-axis: 'Time [ms]', y-axis: 'Amplitude [a.u.]'; caption: 'The isolated spike is suppressed.'",
+          "usage": {
+            "image_tokens": 306,
+            "input_tokens": 399,
+            "output_tokens": 47,
+            "total_tokens": 446
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "Which panel is shown, what are both axis labels, and what does its caption state?",
+        "read_intent": "directed_question",
+        "registered_region_id": "pdf-right",
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": null,
+      "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "display": {
+        "actual_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:1",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/notebook-v1-output1-real-directed.png",
+        "byte_length": 3153,
+        "byte_sha256": "d47a281676c3223a7bf57397362fdf9c6b51f72510a47b8829488dc773c3c5ec",
+        "cache_hit": true,
+        "display_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:1",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 260,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "notebook-original",
+        "renderer_version": "v1",
+        "rendition_kind": "notebook_output",
+        "width": 440
+      },
+      "elapsed_seconds": 1.0232,
+      "external_call_count": 1,
+      "name": "notebook-v1-output1-real-directed",
+      "provenance": "real_provider_public_notebook",
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": null,
+          "actual_input_sha256": "d47a281676c3223a7bf57397362fdf9c6b51f72510a47b8829488dc773c3c5ec",
+          "actual_source": {
+            "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "real_provider",
+          "external_call": true,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "0bc31f3c3adb93a2e1b3c5aa2cae618cb884d3cbda8d9a94721e6db9f4e8a399",
+          "request_id": "8a88c64b-8226-931c-bf57-1dea7247dda0",
+          "requested_source": {
+            "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "status": "succeeded",
+          "text": "Time [ms]",
+          "usage": {
+            "image_tokens": 114,
+            "input_tokens": 199,
+            "output_tokens": 18,
+            "total_tokens": 217
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "What exact x-axis label and unit are visible?",
+        "read_intent": "directed_question",
+        "registered_region_id": null,
+        "rendition": "notebook_output",
+        "source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:1",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": null,
+      "content_sha256": "ec7470dfd0ef0e1231cb88bb218e8d4f90dc5e5cf11917074af8314168dc3b12",
+      "display": {
+        "actual_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 2
+        },
+        "artifact": "docs/D/D04-evidence/notebook-v2-output2-real-directed.png",
+        "byte_length": 4480,
+        "byte_sha256": "7ec65dab6628a30590421e4c1a150c52a6ec22933d67efce47eda279097fbd68",
+        "cache_hit": false,
+        "display_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 2
+        },
+        "fallback_reason": null,
+        "height": 260,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "notebook-original",
+        "renderer_version": "v1",
+        "rendition_kind": "notebook_output",
+        "width": 440
+      },
+      "elapsed_seconds": 1.2163,
+      "external_call_count": 1,
+      "name": "notebook-v2-output2-real-directed",
+      "provenance": "real_provider_public_notebook",
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": null,
+          "actual_input_sha256": "7ec65dab6628a30590421e4c1a150c52a6ec22933d67efce47eda279097fbd68",
+          "actual_source": {
+            "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+            "source_id": "cell:1:output:2",
+            "version": 2
+          },
+          "cache_hit": false,
+          "execution": "real_provider",
+          "external_call": true,
+          "method": "vision",
+          "missing_or_error": [],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "0bc31f3c3adb93a2e1b3c5aa2cae618cb884d3cbda8d9a94721e6db9f4e8a399",
+          "request_id": "d38f77d0-b813-962c-92e6-d2da3bb95c1f",
+          "requested_source": {
+            "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+            "source_id": "cell:1:output:2",
+            "version": 2
+          },
+          "status": "succeeded",
+          "text": "Frequency [kHz]",
+          "usage": {
+            "image_tokens": 114,
+            "input_tokens": 199,
+            "output_tokens": 15,
+            "total_tokens": 214
+          }
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "ec7470dfd0ef0e1231cb88bb218e8d4f90dc5e5cf11917074af8314168dc3b12",
+        "expected_publication_epoch": 2,
+        "preferred_mime": null,
+        "question": "What exact x-axis label and unit are visible?",
+        "read_intent": "directed_question",
+        "registered_region_id": null,
+        "rendition": "notebook_output",
+        "source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 2
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": null,
+      "display": null,
+      "elapsed_seconds": 0.0024,
+      "external_call_count": 0,
+      "name": "notebook-v1-current-after-v2",
+      "provenance": "current_version_guard",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": null,
+        "rendition": "notebook_output",
+        "source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        }
+      },
+      "status": "stale_reference",
+      "warnings": []
+    },
+    {
+      "capability_reason": "not_requested",
+      "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "display": {
+        "actual_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/notebook-v1-internal-history.png",
+        "byte_length": 4228,
+        "byte_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+        "cache_hit": true,
+        "display_source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 260,
+        "media_type": "image/png",
+        "rect_visible_norm": null,
+        "renderer": "notebook-original",
+        "renderer_version": "v1",
+        "rendition_kind": "notebook_output",
+        "width": 440
+      },
+      "elapsed_seconds": 0.0,
+      "external_call_count": 0,
+      "name": "notebook-v1-internal-history",
+      "provenance": "trusted_internal_historical_grant",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+        "expected_publication_epoch": null,
+        "preferred_mime": null,
+        "question": null,
+        "read_intent": "display_only",
+        "registered_region_id": null,
+        "rendition": "notebook_output",
+        "source": {
+          "document_id": "local_2f743c5994de4ae98d7a16cc44444fa0",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    },
+    {
+      "capability_reason": "input_unsupported",
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": null,
+      "elapsed_seconds": 0.0428,
+      "external_call_count": 0,
+      "name": "pdf-version-race-redaction",
+      "provenance": "mock_transport_version_race",
+      "read_status": "not_attempted",
+      "reads": [],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "What is the title?",
+        "read_intent": "directed_question",
+        "registered_region_id": null,
+        "rendition": "original_page",
+        "source": {
+          "document_id": "local_df021dca6e0f4e5a8c3b13fe9804c4a1",
+          "source_id": "page:1",
+          "version": 1
+        }
+      },
+      "status": "stale_reference",
+      "warnings": [
+        "source_changed_during_read"
+      ]
+    },
+    {
+      "capability_reason": null,
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "display": {
+        "actual_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "artifact": "docs/D/D04-evidence/local-loopback-real-transport-failure.png",
+        "byte_length": 17107,
+        "byte_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+        "cache_hit": true,
+        "display_source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "fallback_reason": null,
+        "height": 596,
+        "media_type": "image/png",
+        "rect_visible_norm": [
+          0.51,
+          0.18000000000000002,
+          0.9400000000000001,
+          0.556
+        ],
+        "renderer": "pypdfium2",
+        "renderer_version": "5.13.0",
+        "rendition_kind": "object_crop",
+        "width": 527
+      },
+      "elapsed_seconds": 0.224,
+      "external_call_count": 1,
+      "name": "local-loopback-real-transport-failure",
+      "provenance": "local_loopback_no_supplier",
+      "read_status": "failed",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.51,
+            0.18000000000000002,
+            0.9400000000000001,
+            0.556
+          ],
+          "actual_input_sha256": "36277583fe7d4d236a119364b0d14bc97c6c414099cccb428a13f4126cab10a6",
+          "actual_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "cache_hit": false,
+          "execution": "real_provider",
+          "external_call": true,
+          "method": "vision",
+          "missing_or_error": [
+            "provider_timeout"
+          ],
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "provider": "dashscope-native",
+          "purpose": "directed_question",
+          "question_sha256": "9e64788939cd96e2fb1c90e8dec7c447d424cfa975e8703c209854a53e8e7a9b",
+          "request_id": null,
+          "requested_source": {
+            "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "status": "failed",
+          "text": "",
+          "usage": {}
+        }
+      ],
+      "request": {
+        "expected_content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+        "expected_publication_epoch": 1,
+        "preferred_mime": null,
+        "question": "Which panel is shown, what are both axis labels, and what does its caption state?",
+        "read_intent": "directed_question",
+        "registered_region_id": "pdf-right",
+        "rendition": "object_crop",
+        "source": {
+          "document_id": "local_b40b7a6e5f7f48808a1b6072e8d8fd04",
+          "source_id": "page:2",
+          "version": 1
+        }
+      },
+      "status": "available",
+      "warnings": []
+    }
+  ],
+  "schema": "srag-d04-public-v1",
+  "workspace": {
+    "d03_base": "12264dab2d85db195eea44f7591e4df524494ae7",
+    "d_code_diff_from_base": [],
+    "hashes": {
+      "app/api/source_evidence.py": "f50fd3518a72e78789835af5ea86148920f93652ec59c9a89ec07ab6aea41fdc",
+      "app/config.py": "ed881dc06c1968d3a4050cace4b92e7bc5edd7156baab04b3aee6743fbe9a176",
+      "app/main.py": "310aa76c29fcbd0411cd89f4a7b83cd81f8f714ef19b696102d00f092306eac3",
+      "app/rag/source_evidence.py": "18ebdcb5886aec5304e78dcbbdbb20a2ed47624fe82f549525bea8625b0e691c",
+      "app/rag/source_vision.py": "a1b8c03c275ca0bf59b6c78de4f8fa7f2cd660bb86059c39d252572efd8b8312",
+      "app/stores/local_library.py": "42acdcbbb107cfb23228041f1ddd6c629aac381253f2d917bae257825c2460bb"
+    },
+    "head": "0739f1ed6ffc7f210c91a031d8ad97924d28cc5c"
+  }
+}
