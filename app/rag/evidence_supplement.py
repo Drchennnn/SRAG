@@ -654,7 +654,9 @@ def _requirements(query: str) -> list[Requirement]:
 
 def asks_for_definition_and_experiment(query: str) -> bool:
     omitted = re.search(
-        r"(?:不要|不必|无需|不用|不需要|别)[^，。！？；,.;!?\n]{0,14}(?:定义|实验|验证)"
+        r"(?:不要|不必|无需|不用|不需要|(?<!\w)(?:请)?别"
+        r"|(?:也|但|并|可|千万|切记|务必|先|还|定义|实验|验证)别)"
+        r"[^，。！？；,.;!?\n]{0,14}(?:定义|实验|验证)"
         r"|\b(?:do not|don['’]t|without|omit|exclude|skip|no)\b"
         r"[^,.!?;\n]{0,30}\b(?:definition|experiments?|validation)\b",
         query,

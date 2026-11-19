@@ -1,0 +1,1115 @@
+{
+  "schema": "g04-independent-review-v1",
+  "reviewer": "g04_gate",
+  "browser_replays": [
+    {
+      "phase": "initial",
+      "subject_kind": "git_commit",
+      "subject": "c13ee7a9ae106e290ba68a95826c9040d2c73a37",
+      "verifier_exit_code": 0,
+      "original_report_sha256": "1d023f22dc5fe9b47c6670de451c75c0c0556885266f9ea5d379206e01700aab",
+      "source_and_runner_sha256": {
+        "app/rag/workspace.py": "f2d5d41b7883eff4dc6838777e98f30687969ac8545ad6d95ca92370420abcc5",
+        "app/rag/evidence_supplement.py": "03091c08109a7b2a4d3930d81098f38dd45b5a595b4853db4308643c67210e0d",
+        "app/rag/evidence_answer.py": "082eeb397eaa33f9a94fb1c78a9d8288a87ec819f6e45b5b8d1675426d73026b",
+        "app/stores/workspace.py": "c8563eaf559f7e581e9fa329a5cfaa75a161eda28a7bd680317788eb3ba1f6c8",
+        "app/api/workspace.py": "94b72ba9efe93e6cea3cac42143098634619e09f2bda9f13d0767e18481dd622",
+        "app/web/workspace/workspace.js": "d383630a5543ea4e48355f6458a992925afae99c6a08432d15580e55735cc09e",
+        "docs/G/G02-server.py": "d817a4eec95c368a1c1d6735e046c56630cb4264a9cf7cc9976a2ca41d2c072a",
+        "docs/G/G02-browser.sh": "709a0a053e702c06f123147d0fe24454cc3677512ac660022eedff2b07e030d8",
+        "docs/G/G02-verify.py": "1359d26ef365e5a2b8b50bac2bec5e24fdc3d8934e86dfc4ef673e20b05a70ff"
+      },
+      "port": 18838,
+      "chromium_via_agent_browser": "agent-browser 0.43.0",
+      "traffic_counts": {
+        "import": 12,
+        "turn": 13,
+        "media": 6,
+        "citation": 4
+      },
+      "real_external_calls": 0,
+      "cache_hits": 0,
+      "service_failures": 0,
+      "positive": {
+        "request": {
+          "kind": "ask",
+          "question": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+          "anchor_supplied": false
+        },
+        "initial_supported": [
+          "definition"
+        ],
+        "initial_missing": [
+          "experiment"
+        ],
+        "term_from_read_text": {
+          "course_id": "signal-demo",
+          "end": 118,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "2b41898e190bffee7de25607b91f1e9394b2486fc79df48f3e820fe075317ee1",
+          "source": {
+            "document_id": "local_0b209b053729442ead70883a893a9ef1",
+            "source_id": "cell:0",
+            "version": 1
+          },
+          "start": 105,
+          "word": "SignalTrialA7"
+        },
+        "second_search": {
+          "query": "SignalTrialA7",
+          "scope": {
+            "course_ids": [
+              "signal-demo"
+            ],
+            "document_ids": [
+              "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+              "local_0b209b053729442ead70883a893a9ef1",
+              "local_9d00a77d9c7f4a0485e0654358dd24c3"
+            ]
+          }
+        },
+        "final_evidence_budget": 2,
+        "supplement_searches": 1,
+        "answer_status": "complete",
+        "still_missing": [],
+        "visible_answer": [
+          "A median filter replaces each interior sample by the median of an odd window.",
+          "实验 SignalTrialA7，切分 held-out，样本数 4。MAE（amplitude）基线为 0.24，试验为 0.18。"
+        ],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_0b209b053729442ead70883a893a9ef1",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_0b209b053729442ead70883a893a9ef1",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          },
+          {
+            "file": "A7-observations.ipynb",
+            "source": {
+              "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 73.6,
+        "external_calls": 0
+      },
+      "after_experiment_version_change": {
+        "request": {
+          "kind": "ask",
+          "question": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+          "anchor_supplied": false
+        },
+        "initial_supported": [
+          "definition"
+        ],
+        "initial_missing": [
+          "experiment"
+        ],
+        "term_from_read_text": {
+          "course_id": "signal-demo",
+          "end": 118,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "2b41898e190bffee7de25607b91f1e9394b2486fc79df48f3e820fe075317ee1",
+          "source": {
+            "document_id": "local_0b209b053729442ead70883a893a9ef1",
+            "source_id": "cell:0",
+            "version": 1
+          },
+          "start": 105,
+          "word": "SignalTrialA7"
+        },
+        "second_search": {
+          "query": "SignalTrialA7",
+          "scope": {
+            "course_ids": [
+              "signal-demo"
+            ],
+            "document_ids": [
+              "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+              "local_0b209b053729442ead70883a893a9ef1",
+              "local_9d00a77d9c7f4a0485e0654358dd24c3"
+            ]
+          }
+        },
+        "final_evidence_budget": 2,
+        "supplement_searches": 1,
+        "answer_status": "complete",
+        "still_missing": [],
+        "visible_answer": [
+          "A median filter replaces each interior sample by the median of an odd window.",
+          "实验 SignalTrialA7，切分 held-out，样本数 4。MAE（amplitude）基线为 0.24，试验为 0.16。"
+        ],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_0b209b053729442ead70883a893a9ef1",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_0b209b053729442ead70883a893a9ef1",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          },
+          {
+            "file": "A7-observations.ipynb",
+            "source": {
+              "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+              "source_id": "cell:0",
+              "version": 2
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 61.8,
+        "external_calls": 0
+      },
+      "insufficient_evidence": {
+        "request": {
+          "kind": "ask",
+          "question": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+          "anchor_supplied": false
+        },
+        "initial_supported": [
+          "definition"
+        ],
+        "initial_missing": [
+          "experiment"
+        ],
+        "term_from_read_text": {
+          "course_id": "signal-incomplete",
+          "end": 118,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "2b41898e190bffee7de25607b91f1e9394b2486fc79df48f3e820fe075317ee1",
+          "source": {
+            "document_id": "local_87e99b09ab8c4ad28650129b094d3610",
+            "source_id": "cell:0",
+            "version": 1
+          },
+          "start": 105,
+          "word": "SignalTrialA7"
+        },
+        "second_search": {
+          "query": "SignalTrialA7",
+          "scope": {
+            "course_ids": [
+              "signal-incomplete"
+            ],
+            "document_ids": [
+              "local_3e664841efc74fe9b038581b355dd777",
+              "local_87e99b09ab8c4ad28650129b094d3610",
+              "local_b68ebb6dcaf442579bf3add943457c03"
+            ]
+          }
+        },
+        "final_evidence_budget": 2,
+        "supplement_searches": 1,
+        "answer_status": "partial",
+        "still_missing": [
+          "experiment"
+        ],
+        "visible_answer": [
+          "A median filter replaces each interior sample by the median of an odd window.",
+          "本轮可核对的原文不足以确认与该定义相符的实测比较。"
+        ],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_87e99b09ab8c4ad28650129b094d3610",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_87e99b09ab8c4ad28650129b094d3610",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 51.9,
+        "external_calls": 0,
+        "visible_reference_buttons": [
+          "Median-lecture.ipynb · v1 · Cell 1"
+        ]
+      },
+      "citation_readers": [
+        {
+          "operation": "definition-citation",
+          "title_seen": "Median-lecture.ipynb · v1 · Cell 1",
+          "version_marker": "当前版本",
+          "source": {
+            "document_id": "local_0b209b053729442ead70883a893a9ef1",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        },
+        {
+          "operation": "experiment-citation",
+          "title_seen": "A7-observations.ipynb · v1 · Cell 1",
+          "version_marker": "当前版本",
+          "source": {
+            "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        },
+        {
+          "operation": "current-experiment",
+          "title_seen": "A7-observations.ipynb · v2 · Cell 1",
+          "version_marker": "当前版本",
+          "source": {
+            "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+            "version": 2,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        },
+        {
+          "operation": "historical-experiment",
+          "title_seen": "A7-observations.ipynb · v1 · Cell 1",
+          "version_marker": "历史版本",
+          "source": {
+            "document_id": "local_062b5ba39c504c8e9f9c4cd1cc349f4f",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        }
+      ],
+      "historical_image": {
+        "question": "刚才第二张图",
+        "anchor_supplied": false,
+        "resolution_method": "visible_ordinal",
+        "source": {
+          "document_id": "local_3de62364a3244fda9d7982d0b506e5c3",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "read_status": "not_attempted",
+        "historical_image_title": "Signal-lab.ipynb · v1 · 输出 2",
+        "matched_original_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5"
+      }
+    },
+    {
+      "phase": "first_repair",
+      "subject_kind": "git_tree",
+      "subject": "995f249cf086749330459874a53e6d5a9b504a42",
+      "verifier_exit_code": 0,
+      "original_report_sha256": "b6d281a92cb07511b3d108fb63c6d7c4f83a50faf626a845d30ea5d64749082b",
+      "port": 18839,
+      "chromium_via_agent_browser": "agent-browser 0.43.0",
+      "traffic_counts": {
+        "import": 12,
+        "turn": 13,
+        "media": 6,
+        "citation": 4
+      },
+      "real_external_calls": 0,
+      "cache_hits": 0,
+      "service_failures": 0,
+      "positive": {
+        "initial_missing": [
+          "experiment"
+        ],
+        "supplement_searches": 1,
+        "answer_status": "complete",
+        "still_missing": [],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_1258102ea0ff42629877417b774739ad",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_1258102ea0ff42629877417b774739ad",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          },
+          {
+            "file": "A7-observations.ipynb",
+            "source": {
+              "document_id": "local_8ac63f3159c341cda6ff522897fbf92a",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_8ac63f3159c341cda6ff522897fbf92a",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 53.7
+      },
+      "after_experiment_version_change": {
+        "initial_missing": [
+          "experiment"
+        ],
+        "supplement_searches": 1,
+        "answer_status": "complete",
+        "still_missing": [],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_1258102ea0ff42629877417b774739ad",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_1258102ea0ff42629877417b774739ad",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          },
+          {
+            "file": "A7-observations.ipynb",
+            "source": {
+              "document_id": "local_8ac63f3159c341cda6ff522897fbf92a",
+              "source_id": "cell:0",
+              "version": 2
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_8ac63f3159c341cda6ff522897fbf92a",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 66
+      },
+      "insufficient_evidence": {
+        "initial_missing": [
+          "experiment"
+        ],
+        "supplement_searches": 1,
+        "answer_status": "partial",
+        "still_missing": [
+          "experiment"
+        ],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_cf9b8c71cab14d7c8145918a8523b7ab",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_cf9b8c71cab14d7c8145918a8523b7ab",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 58.8
+      },
+      "citation_readers": [
+        {
+          "operation": "current-experiment",
+          "title_seen": "A7-observations.ipynb · v2 · Cell 1",
+          "version_marker": "当前版本",
+          "source": {
+            "document_id": "local_8ac63f3159c341cda6ff522897fbf92a",
+            "version": 2,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        },
+        {
+          "operation": "historical-experiment",
+          "title_seen": "A7-observations.ipynb · v1 · Cell 1",
+          "version_marker": "历史版本",
+          "source": {
+            "document_id": "local_8ac63f3159c341cda6ff522897fbf92a",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        }
+      ],
+      "historical_image": {
+        "question": "刚才第二张图",
+        "anchor_supplied": false,
+        "resolution_method": "visible_ordinal",
+        "source": {
+          "document_id": "local_75415b08acf34d988c9c4b443ac4b40a",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "read_status": "not_attempted",
+        "historical_image_title": "Signal-lab.ipynb · v1 · 输出 2",
+        "matched_original_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5"
+      }
+    },
+    {
+      "phase": "second_repair",
+      "subject_kind": "git_tree",
+      "subject": "fa3c9d59c73e253c4d7e465581c7bf63bde0bc68",
+      "verifier_exit_code": 0,
+      "original_report_sha256": "9c90837437009c8beb7ced3ec0c3dfd592383bc3ae0c8596af36816fbc4d906f",
+      "port": 18840,
+      "chromium_via_agent_browser": "agent-browser 0.43.0",
+      "traffic_counts": {
+        "import": 12,
+        "turn": 13,
+        "media": 6,
+        "citation": 4
+      },
+      "real_external_calls": 0,
+      "cache_hits": 0,
+      "service_failures": 0,
+      "positive": {
+        "initial_missing": [
+          "experiment"
+        ],
+        "supplement_searches": 1,
+        "answer_status": "complete",
+        "still_missing": [],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_1d450f8fb6574ccf82f3ab12785d7522",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_1d450f8fb6574ccf82f3ab12785d7522",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          },
+          {
+            "file": "A7-observations.ipynb",
+            "source": {
+              "document_id": "local_5364d2584dc14c17aef9a63480168244",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_5364d2584dc14c17aef9a63480168244",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 51.3
+      },
+      "after_experiment_version_change": {
+        "initial_missing": [
+          "experiment"
+        ],
+        "supplement_searches": 1,
+        "answer_status": "complete",
+        "still_missing": [],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_1d450f8fb6574ccf82f3ab12785d7522",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_1d450f8fb6574ccf82f3ab12785d7522",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          },
+          {
+            "file": "A7-observations.ipynb",
+            "source": {
+              "document_id": "local_5364d2584dc14c17aef9a63480168244",
+              "source_id": "cell:0",
+              "version": 2
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_5364d2584dc14c17aef9a63480168244",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 53.7
+      },
+      "insufficient_evidence": {
+        "initial_missing": [
+          "experiment"
+        ],
+        "supplement_searches": 1,
+        "answer_status": "partial",
+        "still_missing": [
+          "experiment"
+        ],
+        "citation_sources": [
+          {
+            "file": "Median-lecture.ipynb",
+            "source": {
+              "document_id": "local_b28c8ede5f2f4b9a9fdc3052ea7f8175",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "actual_reads": [
+              {
+                "document_id": "local_b28c8ede5f2f4b9a9fdc3052ea7f8175",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            ]
+          }
+        ],
+        "browser_visible_ms": 51.4
+      },
+      "citation_readers": [
+        {
+          "operation": "current-experiment",
+          "title_seen": "A7-observations.ipynb · v2 · Cell 1",
+          "version_marker": "当前版本",
+          "source": {
+            "document_id": "local_5364d2584dc14c17aef9a63480168244",
+            "version": 2,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        },
+        {
+          "operation": "historical-experiment",
+          "title_seen": "A7-observations.ipynb · v1 · Cell 1",
+          "version_marker": "历史版本",
+          "source": {
+            "document_id": "local_5364d2584dc14c17aef9a63480168244",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "original_locator": {
+            "cell_index": 0,
+            "cell_id": "evidence",
+            "section_path": []
+          },
+          "http_status": 200
+        }
+      ],
+      "historical_image": {
+        "question": "刚才第二张图",
+        "anchor_supplied": false,
+        "resolution_method": "visible_ordinal",
+        "source": {
+          "document_id": "local_04ef3ef2aa7e49bb8f031ba361bdc457",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "read_status": "not_attempted",
+        "historical_image_title": "Signal-lab.ipynb · v1 · 输出 2",
+        "matched_original_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5"
+      }
+    }
+  ],
+  "public_route_regression": {
+    "cases_in_order": [
+      {
+        "case": "distributive",
+        "question": "请分别给出中值滤波的定义和留出集实验验证。",
+        "expected_supplement_route": true
+      },
+      {
+        "case": "positive_control",
+        "question": "请给出中值滤波的定义和留出集实验验证。",
+        "expected_supplement_route": true
+      },
+      {
+        "case": "standalone_negation",
+        "question": "请给出中值滤波的定义。别解释实验。",
+        "expected_supplement_route": false
+      },
+      {
+        "case": "conjoined_negation",
+        "question": "请给出中值滤波的定义并别解释实验。",
+        "expected_supplement_route": false
+      },
+      {
+        "case": "emphatic_negation",
+        "question": "请给出中值滤波的定义，可别提实验。",
+        "expected_supplement_route": false
+      },
+      {
+        "case": "negation_without_punctuation",
+        "question": "只要中值滤波的定义别查实验。",
+        "expected_supplement_route": false
+      },
+      {
+        "case": "polite_negation",
+        "question": "请给出中值滤波的定义，请别解释实验。",
+        "expected_supplement_route": false
+      },
+      {
+        "case": "emphatic_positive",
+        "question": "请特别说明中值滤波的定义和留出集实验验证。",
+        "expected_supplement_route": true
+      }
+    ],
+    "final_http_and_service_regression": {
+      "subject_kind": "git_tree",
+      "subject": "97fbfb07c17994a0327c290111cfd968c6c4d078",
+      "targeted_pytest_passed": 98,
+      "pytest_files": [
+        "tests/test_workspace.py",
+        "tests/test_evidence_answer.py",
+        "tests/test_evidence_supplement.py"
+      ],
+      "no_external_api_configuration": true
+    },
+    "actual_route_by_phase": [
+      {
+        "phase": "initial",
+        "subject": "c13ee7a9ae106e290ba68a95826c9040d2c73a37",
+        "actual": [
+          false,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ]
+      },
+      {
+        "phase": "first_repair",
+        "subject": "995f249cf086749330459874a53e6d5a9b504a42",
+        "actual": [
+          true,
+          true,
+          false,
+          true,
+          true,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "phase": "second_repair",
+        "subject": "fa3c9d59c73e253c4d7e465581c7bf63bde0bc68",
+        "actual": [
+          true,
+          true,
+          false,
+          false,
+          false,
+          true,
+          false,
+          true
+        ]
+      },
+      {
+        "phase": "final_repair",
+        "subject": "97fbfb07c17994a0327c290111cfd968c6c4d078",
+        "actual": [
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          true
+        ]
+      }
+    ]
+  },
+  "a03_first": {
+    "subject": "bc6ee4084375f5e3da871ea9870ec5d03175299d",
+    "first_recorded_cases": 10,
+    "first_recorded_turns": 11,
+    "sealed_member_count_verified": 18,
+    "sealed_before_scoring_verified": true,
+    "partition_case_pass": {
+      "routine": [
+        2,
+        6
+      ],
+      "holdout": [
+        1,
+        4
+      ]
+    },
+    "case_status_counts": {
+      "partial": 6,
+      "full": 3,
+      "blank": 1
+    },
+    "gates": {
+      "completion": {
+        "actual": 9,
+        "denominator": 10,
+        "minimum": 10,
+        "result": "unmet"
+      },
+      "source_object_selection": {
+        "actual": 3,
+        "denominator": 9,
+        "minimum": 9,
+        "result": "unmet"
+      },
+      "fact_formula_support": {
+        "actual": 5,
+        "denominator": 9,
+        "minimum": 8,
+        "result": "unmet"
+      },
+      "citation_support": {
+        "actual": 5,
+        "denominator": 9,
+        "minimum": 8,
+        "result": "unmet"
+      },
+      "visual_object_selection": {
+        "actual": 0,
+        "denominator": 3,
+        "minimum": 3,
+        "result": "unmet"
+      },
+      "dialogue_consistency": {
+        "actual": 0,
+        "denominator": 2,
+        "minimum": 2,
+        "result": "unmet"
+      },
+      "boundary_behavior": {
+        "actual": 1,
+        "denominator": 3,
+        "minimum": 3,
+        "result": "unmet"
+      },
+      "case_pass": {
+        "actual": 3,
+        "denominator": 10,
+        "minimum": 9,
+        "result": "unmet"
+      },
+      "critical_case_pass": {
+        "actual": 1,
+        "denominator": 5,
+        "minimum": 5,
+        "result": "unmet"
+      },
+      "evidence_coverage": {
+        "actual": 3,
+        "denominator": 13,
+        "minimum": 12,
+        "result": "unmet"
+      },
+      "severe_errors": {
+        "actual": 0,
+        "maximum": 0,
+        "result": "passed"
+      }
+    },
+    "result": "M2_unmet",
+    "actual_provider_attempts": 1,
+    "actual_provider_tokens": 223,
+    "cache_hits": 0,
+    "service_failures": 0,
+    "service_latency_ms": {
+      "samples": 11,
+      "method": "ASGI response wall-clock; nearest rank",
+      "p50": 39.882,
+      "p95": 2942.502
+    }
+  },
+  "unmeasured": [
+    "旧 23 在当前版本等条件逐题重新生成及其质量、耗时、新增严重错误",
+    "外部 API 金额",
+    "完整版本 K 的质量门槛"
+  ],
+  "a03_final_retest": {
+    "subject_kind": "git_tree",
+    "subject": "97fbfb07c17994a0327c290111cfd968c6c4d078",
+    "recorded_cases": 10,
+    "recorded_turns": 11,
+    "sealed_member_count_verified": 17,
+    "sealed_before_scoring_verified": true,
+    "first_run_still_verified": true,
+    "all_gate_counts_equal_to_first_run": true,
+    "partition_case_pass": {
+      "routine": [
+        2,
+        6
+      ],
+      "holdout": [
+        1,
+        4
+      ]
+    },
+    "case_status_counts": {
+      "partial": 6,
+      "full": 3,
+      "blank": 1
+    },
+    "gates": {
+      "completion": {
+        "actual": 9,
+        "denominator": 10,
+        "minimum": 10,
+        "result": "unmet"
+      },
+      "source_object_selection": {
+        "actual": 3,
+        "denominator": 9,
+        "minimum": 9,
+        "result": "unmet"
+      },
+      "fact_formula_support": {
+        "actual": 5,
+        "denominator": 9,
+        "minimum": 8,
+        "result": "unmet"
+      },
+      "citation_support": {
+        "actual": 5,
+        "denominator": 9,
+        "minimum": 8,
+        "result": "unmet"
+      },
+      "visual_object_selection": {
+        "actual": 0,
+        "denominator": 3,
+        "minimum": 3,
+        "result": "unmet"
+      },
+      "dialogue_consistency": {
+        "actual": 0,
+        "denominator": 2,
+        "minimum": 2,
+        "result": "unmet"
+      },
+      "boundary_behavior": {
+        "actual": 1,
+        "denominator": 3,
+        "minimum": 3,
+        "result": "unmet"
+      },
+      "case_pass": {
+        "actual": 3,
+        "denominator": 10,
+        "minimum": 9,
+        "result": "unmet"
+      },
+      "critical_case_pass": {
+        "actual": 1,
+        "denominator": 5,
+        "minimum": 5,
+        "result": "unmet"
+      },
+      "evidence_coverage": {
+        "actual": 3,
+        "denominator": 13,
+        "minimum": 12,
+        "result": "unmet"
+      },
+      "severe_errors": {
+        "actual": 0,
+        "maximum": 0,
+        "result": "passed"
+      }
+    },
+    "result": "M2_unmet",
+    "actual_provider_attempts": 1,
+    "actual_provider_http_200": 1,
+    "actual_provider_tokens": 223,
+    "cache_hits": 0,
+    "service_failures": 0,
+    "service_latency_ms": {
+      "samples": 11,
+      "method": "ASGI response wall-clock; nearest rank",
+      "p50": 40.029,
+      "p95": 2191.932
+    }
+  },
+  "review_disposition": {
+    "independent_review": "completed",
+    "public_route_repair": "passed",
+    "M2": "unmet",
+    "downstream_release": "architecture_owner_pending"
+  }
+}

@@ -742,7 +742,20 @@ def test_explicit_no_experiment_does_not_trigger_web_supplement(system, tmp_path
     monkeypatch.setattr(service.answerer, "answer", unexpected)
     for query in (
         "中值滤波 median filter 的定义是什么？不要查实验。",
+        "请给出中值滤波的定义。别解释实验。",
+        "请给出中值滤波的定义并别解释实验。",
+        "请给出中值滤波的定义，可别提实验。",
+        "只要中值滤波的定义别查实验。",
         "What is the definition of median filter? Do not include any experiment.",
     ):
         result = _ask(client, session, query)
         assert result["turn"]["status"] == "completed"
+
+
+def test_combined_web_question_allows_explicit_request_for_each_part(system, tmp_path):
+    _, _, _, client = system
+    session = _create(client)
+    _publish_supplement_case(client, session, tmp_path)
+    result = _ask(client, session, "请分别给出中值滤波的定义和留出集实验验证。")
+    trace = result["turn"]["trace"]
+    assert trace["route"] == "evidence_answer"
