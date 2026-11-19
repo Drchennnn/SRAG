@@ -1,0 +1,530 @@
+{
+  "public_questions_sha256": "99fbb191754fba409558bb554a08b650a451b2f4517ada4fa78ce0d28710ec9e",
+  "fixed_subjects": {
+    "g09": "e921fa87f48a4e67c58010181a187c6e0e12b833",
+    "g11": "267a61e5f180744a0c4ffccc4c224f3058cc29a1"
+  },
+  "product_entry": "ordinary Chromium questions, no browser anchors",
+  "provider_calls": 0,
+  "provider_failures": 0,
+  "provider_cache_hits": 0,
+  "comparison": {
+    "g09": {
+      "normal": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": null,
+        "notices": [
+          "object_not_found"
+        ],
+        "crops": [],
+        "reads": []
+      },
+      "informal": {
+        "route": null,
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_1d95876a7cf04878a58cef29bafe0451",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "rendition_kind": "original_page",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "evidence_id": "ev-2"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_1d95876a7cf04878a58cef29bafe0451",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "rotated": {
+        "route": null,
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_6d399f949ce84df29ddb7ffc9ab6e4cd",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "rendition_kind": "original_page",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "evidence_id": "ev-2"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_6d399f949ce84df29ddb7ffc9ab6e4cd",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "table": {
+        "route": null,
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "rendition_kind": "original_page",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "evidence_id": "ev-3"
+          },
+          {
+            "display_source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.08,
+              0.246667,
+              0.92,
+              0.553333
+            ],
+            "evidence_id": "ev-4"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "status": "succeeded"
+          },
+          {
+            "method": "native_table",
+            "source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "table_informal": {
+        "route": null,
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "rendition_kind": "original_page",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "evidence_id": "ev-3"
+          },
+          {
+            "display_source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.08,
+              0.246667,
+              0.92,
+              0.553333
+            ],
+            "evidence_id": "ev-4"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "status": "succeeded"
+          },
+          {
+            "method": "native_table",
+            "source": {
+              "document_id": "local_1a3801fec861495c9ec72c1ba5fc2d76",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "missing": {
+        "route": null,
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_1d95876a7cf04878a58cef29bafe0451",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "rendition_kind": "original_page",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "evidence_id": "ev-2"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_1d95876a7cf04878a58cef29bafe0451",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "ambiguous": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": null,
+        "notices": [
+          "object_not_found"
+        ],
+        "crops": [],
+        "reads": []
+      },
+      "compare": {
+        "route": "version_comparison",
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_4dc11157889c45e7b5fb6dc9a9c6aabc",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            "status": "succeeded"
+          },
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_4dc11157889c45e7b5fb6dc9a9c6aabc",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            },
+            "status": "succeeded"
+          }
+        ],
+        "browser_opened_versions": [
+          {
+            "http": 200,
+            "source": {
+              "document_id": "local_4dc11157889c45e7b5fb6dc9a9c6aabc",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "is_current": false
+          },
+          {
+            "http": 200,
+            "source": {
+              "document_id": "local_4dc11157889c45e7b5fb6dc9a9c6aabc",
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "is_current": true
+          }
+        ],
+        "native_values_verified": {
+          "1": "11.25 kHz",
+          "2": "19.75 kHz"
+        }
+      }
+    },
+    "g11": {
+      "normal": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": {
+          "document_id": "local_7309ce5601e04663ba2adad60bc123d0",
+          "source_id": "page:1:image:2",
+          "version": 1
+        },
+        "notices": [
+          "object_unreadable"
+        ],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_7309ce5601e04663ba2adad60bc123d0",
+              "source_id": "page:1:image:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.546667,
+              0.3225,
+              0.92,
+              0.7625000000000001
+            ],
+            "evidence_id": "ev-1"
+          }
+        ],
+        "reads": []
+      },
+      "informal": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": {
+          "document_id": "local_7309ce5601e04663ba2adad60bc123d0",
+          "source_id": "page:1:image:2",
+          "version": 1
+        },
+        "notices": [
+          "object_unreadable"
+        ],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_7309ce5601e04663ba2adad60bc123d0",
+              "source_id": "page:1:image:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.546667,
+              0.3225,
+              0.92,
+              0.7625000000000001
+            ],
+            "evidence_id": "ev-1"
+          }
+        ],
+        "reads": []
+      },
+      "rotated": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": {
+          "document_id": "local_7aaf6b7abb004dbc8be37b5408ff5c1c",
+          "source_id": "page:1:image:2",
+          "version": 1
+        },
+        "notices": [
+          "object_unreadable"
+        ],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_7aaf6b7abb004dbc8be37b5408ff5c1c",
+              "source_id": "page:1:image:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.508889,
+              0.18885000000000002,
+              0.8822220000000001,
+              0.582832
+            ],
+            "evidence_id": "ev-1"
+          }
+        ],
+        "reads": []
+      },
+      "table": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": {
+          "document_id": "local_dc3ba017cd004baa9dd1dfef33ab0c92",
+          "source_id": "page:1:shape:2",
+          "version": 1
+        },
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_dc3ba017cd004baa9dd1dfef33ab0c92",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.08,
+              0.246667,
+              0.92,
+              0.553333
+            ],
+            "evidence_id": "ev-1"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_table",
+            "source": {
+              "document_id": "local_dc3ba017cd004baa9dd1dfef33ab0c92",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "table_informal": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": {
+          "document_id": "local_dc3ba017cd004baa9dd1dfef33ab0c92",
+          "source_id": "page:1:shape:2",
+          "version": 1
+        },
+        "notices": [],
+        "crops": [
+          {
+            "display_source": {
+              "document_id": "local_dc3ba017cd004baa9dd1dfef33ab0c92",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "rendition_kind": "object_crop",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.08,
+              0.246667,
+              0.92,
+              0.553333
+            ],
+            "evidence_id": "ev-1"
+          }
+        ],
+        "reads": [
+          {
+            "method": "native_table",
+            "source": {
+              "document_id": "local_dc3ba017cd004baa9dd1dfef33ab0c92",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "status": "succeeded"
+          }
+        ]
+      },
+      "missing": {
+        "route": null,
+        "status": "completed",
+        "selected_source": null,
+        "notices": [
+          "scope_not_found"
+        ],
+        "crops": [],
+        "reads": []
+      },
+      "ambiguous": {
+        "route": "target_object",
+        "status": "completed",
+        "selected_source": null,
+        "notices": [
+          "object_ambiguous"
+        ],
+        "crops": [],
+        "reads": []
+      },
+      "compare": {
+        "route": "version_comparison",
+        "status": "completed",
+        "selected_source": null,
+        "notices": [],
+        "crops": [],
+        "reads": [
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_e8db560f38e14e0e85fda55aa0f7c35c",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            "status": "succeeded"
+          },
+          {
+            "method": "native_text",
+            "source": {
+              "document_id": "local_e8db560f38e14e0e85fda55aa0f7c35c",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            },
+            "status": "succeeded"
+          }
+        ],
+        "browser_opened_versions": [
+          {
+            "http": 200,
+            "source": {
+              "document_id": "local_e8db560f38e14e0e85fda55aa0f7c35c",
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "is_current": false
+          },
+          {
+            "http": 200,
+            "source": {
+              "document_id": "local_e8db560f38e14e0e85fda55aa0f7c35c",
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "is_current": true
+          }
+        ],
+        "native_values_verified": {
+          "1": "11.25 kHz",
+          "2": "19.75 kHz"
+        }
+      }
+    }
+  }
+}

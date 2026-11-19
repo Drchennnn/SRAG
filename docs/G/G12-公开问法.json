@@ -1,0 +1,13 @@
+{
+  "questions": {
+    "normal": "请核对 Drum-Lab.pdf 第 1 页右侧子图的横轴计量单位。",
+    "informal": "Drum-Lab.pdf 右边那幅图，横轴到底用啥单位？",
+    "rotated": "Drum-Rotated.pdf 第 1 页右侧图的横轴是什么单位？",
+    "table": "核对 Drum-Readings.pptx 第 1 页原表的 Frequency 列，Cedar 那行是多少，单位是什么？",
+    "table_informal": "Drum-Readings.pptx 第 1 页，第 2 列的单位是什么？",
+    "missing": "请不要读取 Drum-Lab.pdf。右边那幅图的横轴是什么单位？",
+    "ambiguous": "Drum-Lab.pdf 里是两张图。我忘了位置，你知道那张子图的横轴单位吗？",
+    "one_figure": "Drum-Trend.ipynb 的输出图片横轴单位是什么？",
+    "compare": "对比 Drum-Trend.ipynb 上次的旧版和当前版 Cell 1 保存输出。上次看到什么，当前原件是什么？"
+  }
+}
