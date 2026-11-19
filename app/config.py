@@ -2,6 +2,7 @@
 
 from functools import lru_cache
 from pathlib import Path
+from typing import Literal
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -57,6 +58,7 @@ class Settings(BaseSettings):
     slide_pdf_ocr_min_text_tokens: int = 8
     slide_pptx_render_slides: bool = True
     retrieval_enable_visual: bool = True
+    rag_search_backend: Literal["legacy", "local"] = "legacy"
     notebook_output_max_chars: int = 12000
 
 

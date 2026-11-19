@@ -8,3 +8,10 @@ __pycache__/
 .ruff_cache/
 .ipynb_checkpoints/
 data/
+
+# Local-only held-out evaluation materials
+/docs/A/A03-answer-key.json
+/docs/A/A03-question-lock.json
+/docs/A/A03-样例与判定.md
+/docs/A/A03-独立审核.md
+/docs/A/A03-verify-lock.py

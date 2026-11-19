@@ -22,6 +22,7 @@ from app.schemas.rag import (
     SearchHit,
     SourceReference,
 )
+from app.stores.local_visibility import legacy_visibility_sql, revoke_legacy_document
 
 _SCHEMA_VERSION = 1
 
@@ -627,14 +628,15 @@ class MetadataStore:
             conditions.append(f"d.document_id IN ({placeholders})")
             parameters.extend(clean_document_ids)
 
-        query = f"""
-            SELECT d.document_id, v.version
-            FROM documents d
-            JOIN document_versions v ON v.document_id = d.document_id
-            WHERE {" AND ".join(conditions)}
-            ORDER BY d.document_id
-        """
         with self._connect() as connection:
+            conditions.append(legacy_visibility_sql(connection, datetime.now(UTC).timestamp()))
+            query = f"""
+                SELECT d.document_id, v.version
+                FROM documents d
+                JOIN document_versions v ON v.document_id = d.document_id
+                WHERE {" AND ".join(conditions)}
+                ORDER BY d.document_id
+            """
             rows = connection.execute(query, parameters).fetchall()
         return [
             VisibleVersion(document_id=row["document_id"], version=row["version"]) for row in rows
@@ -645,8 +647,9 @@ class MetadataStore:
 
         cutoff = _serialize_datetime(at or datetime.now(UTC))
         with self._connect() as connection:
+            local_visibility = legacy_visibility_sql(connection, datetime.now(UTC).timestamp())
             rows = connection.execute(
-                """
+                f"""
                 SELECT d.document_id, d.course_id, d.source_path,
                        v.version, v.release_at, v.indexed_at
                 FROM documents d
@@ -654,6 +657,7 @@ class MetadataStore:
                 WHERE d.deleted_at IS NULL
                   AND v.state = 'active'
                   AND (v.release_at IS NULL OR v.release_at <= ?)
+                  AND {local_visibility}
                 ORDER BY d.course_id, d.source_path
                 """,
                 (cutoff,),
@@ -676,12 +680,15 @@ class MetadataStore:
         """在同一读事务中核对范围/发布日期/版本，按页或 cell 顺序读取全部 chunk。"""
 
         with self._connect() as connection:
-            connection.execute("BEGIN")
+            local_visibility = legacy_visibility_sql(connection, datetime.now(UTC).timestamp())
+            if not connection.in_transaction:
+                connection.execute("BEGIN")
             row = connection.execute(
-                """SELECT d.*, v.version, v.release_at, v.indexed_at
+                f"""SELECT d.*, v.version, v.release_at, v.indexed_at
                    FROM documents d JOIN document_versions v ON v.document_id=d.document_id
                    WHERE d.document_id=? AND v.version=? AND d.deleted_at IS NULL
-                     AND v.state='active' AND (v.release_at IS NULL OR v.release_at<=?)""",
+                     AND v.state='active' AND (v.release_at IS NULL OR v.release_at<=?)
+                     AND {local_visibility}""",
                 (document_id, version, _utc_now()),
             ).fetchone()
             if (
@@ -885,6 +892,8 @@ class MetadataStore:
                 "DELETE FROM documents WHERE document_id = ?",
                 (document_id,),
             )
+            if cursor.rowcount:
+                revoke_legacy_document(connection, document_id)
         return cursor.rowcount == 1
 
     @contextmanager

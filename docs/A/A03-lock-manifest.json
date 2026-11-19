@@ -1,0 +1,50 @@
+{
+  "schema_version": "a03-lock-manifest-v1",
+  "locked_at": "2026-11-19T14:20:00+08:00",
+  "git_head": "33fad8ea339222574780d56ab401d0ed779369a8",
+  "attempt_state": "not_started",
+  "counts": {
+    "source_files": 4,
+    "cases": 10,
+    "turns": 11,
+    "routine_cases": 6,
+    "holdout_cases": 4,
+    "evidence_units": 13,
+    "real_model_attempts": 0,
+    "simulated_attempts": 0
+  },
+  "files": [
+    {
+      "path": "A03-question-lock.json",
+      "sha256": "756d5a76824ee5d15eac05bc247631197bcdc7a12b27bee220a2254deb149077"
+    },
+    {
+      "path": "A03-answer-key.json",
+      "sha256": "8b2f0684f2b88821a0a7d3754a7e8f8ae09bbc6603f26a8c722dcd5fba70cae5"
+    },
+    {
+      "path": "A03-generate-sample.py",
+      "sha256": "b250b06fed41e9c221ff681afeb714fef2c8ab9c5383cc5275b3bfce00c636ef"
+    },
+    {
+      "path": "A03-verify-lock.py",
+      "sha256": "5deabb6c8bbf830dea062fb6962aa9f1a068a289279c73d0bce7f73d2c770491"
+    },
+    {
+      "path": "样例/Signal-reference.pdf",
+      "sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3"
+    },
+    {
+      "path": "样例/Signal-slides.pptx",
+      "sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb"
+    },
+    {
+      "path": "样例/Signal-lab.ipynb",
+      "sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6"
+    },
+    {
+      "path": "样例/revisions/v2/Signal-lab.ipynb",
+      "sha256": "ec7470dfd0ef0e1231cb88bb218e8d4f90dc5e5cf11917074af8314168dc3b12"
+    }
+  ]
+}

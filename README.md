@@ -4,11 +4,12 @@
 
 ## 已实现
 
+- PDF、PPTX、IPYNB 可在本地发布版本、保留来源结构并通过 SQLite FTS5 查找原生文字；这条路径可以独立启动。
 - 结构化切块、文本/视觉向量化、Qdrant 检索与 SQLite 文档版本管理。
 - 终端全库或指定课程/文件问答、连续追问、页码定位和单文件总结。
 - 按需识别图内公式/图表，输出文字解释与来源引用。
 
-终端已完成跨格式回归验收，结果见 [评估说明](./evals/README.md)。当前 HTTP 只提供检索与索引，网页对话尚未实现。
+终端已完成跨格式回归测试；10 月 17 日的候选版本未达到答案质量验收门槛，待人工复核。当前通过终端对话，HTTP 提供检索与索引。11 月 19 日更新的[目标架构](./RAG.md)优先设计本地导入即搜、按需读图和回答正文中的原件预览；范围及验收见[设计清单](./CHECKLIST.md)。
 
 ## 启动
 
@@ -16,7 +17,7 @@
 
 ```bash
 uv sync --extra dev
-cp .env.example .env  # 首次配置；已有 .env 时不要覆盖
+test -f .env || cp .env.example .env  # 已有配置时保留
 ```
 
 在 `.env` 填入 `COURSE_ROOT`、`DASHSCOPE_API_KEY` 和 `DEEPSEEK_API_KEY`；其他配置见 [.env.example](./.env.example)。
@@ -37,7 +38,30 @@ uv run uvicorn app.main:app --reload
 
 接口文档：http://127.0.0.1:8000/docs；向量库界面：http://localhost:6333/dashboard。
 
-## 导入资料
+## 本地导入与文字检索
+
+使用 Python 3.11+ 和带 FTS5 的 SQLite。PDF/PPTX 解析沿用 `documents` 可选依赖。
+
+```bash
+uv sync --extra documents
+COURSE_ROOT="$PWD/docs/A/样例" DATA_DIR="$PWD/data/local-demo" \
+  SQLITE_PATH="$PWD/data/local-demo/library.sqlite3" uv run uvicorn app.main:app
+```
+
+```bash
+curl -sS http://127.0.0.1:8000/api/rag/local/import \
+  -H 'Content-Type: application/json' \
+  -d '{"course_id":"signal-demo","paths":["Signal-reference.pdf","Signal-slides.pptx","Signal-lab.ipynb"]}'
+curl -sS http://127.0.0.1:8000/api/rag/local/search \
+  -H 'Content-Type: application/json' \
+  -d '{"query":"lookahead","scope":{"course_ids":["signal-demo"]}}'
+```
+
+`paths` 接受 `COURSE_ROOT` 内的文件或目录。结果逐文件记录版号、发布代次、结构及可搜行数。扫描页保留页号并标待识别。相同内容重导复用既有版号和原件；换路径关联旧资料时传单个文件和 `document_id`。新路径使用本机 SQLite 与解析器，Qdrant 和模型凭据只供旧向量/问答路径使用。
+
+在接口文档可用 `POST /api/rag/local/migrate` 显式回填旧库的当前版；`POST /api/rag/local/migrate/bundle` 接受旧 deck/chunks 包、课程、原路径和已核对的完整原件 SHA-256。 `RAG_SEARCH_BACKEND=local` 可让旧 `/api/rag/search` 的文本请求查本地索引，设置为 `legacy` 即切回。缺等价当前版的旧向量会被 SQLite 隐藏。[发布设计与回退](./docs/B/B01-发布设计.md)
+
+## 旧向量导入
 
 - **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。
 - **PDF/PPTX**：用 [单文件](./notebooks/cloud_document_preprocess.ipynb) 或 [批量 Colab Notebook](./notebooks/cloud_batch_preprocess.ipynb) 预处理，下载输出包后运行：
@@ -54,9 +78,11 @@ uv run python -m app.rag.slide_embedder /path/to/slidedeck-bundle
 
 | 文档 | 内容 |
 | --- | --- |
-| [RAG.md](./RAG.md) | 架构、模块边界、处理方法与关键参数 |
+| [当前执行交接](./docs/执行交接.md) | 当前可领取任务、接手工作区、基线命令与最近审核证据 |
+| [产品目标与交付路线](./docs/产品目标与交付路线.md) | 最终使用体验、必交功能、阶段交付物与验收条件 |
+| [RAG.md](./RAG.md) | 11 月 19 日目标架构、行内证据契约及现有实现 |
 | [evals/README.md](./evals/README.md) | 评估工具、命令、指标、标准和历史结果 |
-| [CHECKLIST.md](./CHECKLIST.md) | 当前与后续任务 |
+| [任务与审核清单](./CHECKLIST.md) | 分部依赖、承接角色、小任务交付物、审核条件与状态 |
 | [agent.md](./agent.md) | 开发状态和文档维护规则 |
 | [PROGRESS_HISTORY.md](./PROGRESS_HISTORY.md) | 完整开发过程与决策记录 |
 

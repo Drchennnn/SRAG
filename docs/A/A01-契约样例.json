@@ -1,0 +1,279 @@
+{
+  "documents": [
+    {
+      "document_id": "signal-slides",
+      "version": 1,
+      "course_id": "signal-demo",
+      "fixture_path": "样例/Signal-slides.pptx",
+      "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 1,
+      "course_id": "signal-demo",
+      "fixture_path": "样例/Signal-lab.ipynb",
+      "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 2,
+      "course_id": "signal-demo",
+      "fixture_path": "样例/revisions/v2/Signal-lab.ipynb",
+      "content_sha256": "ec7470dfd0ef0e1231cb88bb218e8d4f90dc5e5cf11917074af8314168dc3b12"
+    }
+  ],
+  "sources": [
+    {
+      "document_id": "signal-slides",
+      "version": 1,
+      "source_id": "slide-1",
+      "kind": "page",
+      "page": 1
+    },
+    {
+      "document_id": "signal-slides",
+      "version": 1,
+      "source_id": "slide-1-table",
+      "kind": "page_object",
+      "parent_id": "slide-1",
+      "page": 1,
+      "locator": {
+        "shape_id_path": [
+          3
+        ]
+      },
+      "bbox": [
+        0.1,
+        0.3,
+        0.9,
+        0.9
+      ],
+      "coordinate_frame": "visible_page_norm_v1",
+      "native_to_visible": {
+        "scale_by_page_size": [
+          9144000,
+          4572000
+        ],
+        "rotation_degrees": 0
+      },
+      "expected_rows": [
+        [
+          "Filter",
+          "Window [samples]",
+          "Peak delay [samples]"
+        ],
+        [
+          "Median",
+          "3",
+          "1"
+        ],
+        [
+          "Median",
+          "5",
+          "2"
+        ]
+      ]
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 1,
+      "source_id": "signal-plots",
+      "kind": "cell",
+      "cell_index": 1,
+      "cell_id": "signal-plots"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 1,
+      "source_id": "signal-plots-output-0",
+      "kind": "notebook_output",
+      "parent_id": "signal-plots",
+      "output_index": 0
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 1,
+      "source_id": "signal-plots-output-1",
+      "kind": "notebook_output",
+      "parent_id": "signal-plots",
+      "output_index": 1,
+      "mime_type": "image/png",
+      "asset_sha256": "d47a281676c3223a7bf57397362fdf9c6b51f72510a47b8829488dc773c3c5ec",
+      "expected_label": "Time [ms]"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 1,
+      "source_id": "signal-plots-output-2",
+      "kind": "notebook_output",
+      "parent_id": "signal-plots",
+      "output_index": 2,
+      "mime_type": "image/png",
+      "asset_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+      "expected_label": "Frequency [Hz]"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 2,
+      "source_id": "signal-plots",
+      "kind": "cell",
+      "cell_index": 1,
+      "cell_id": "signal-plots"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 2,
+      "source_id": "signal-plots-output-0",
+      "kind": "notebook_output",
+      "parent_id": "signal-plots",
+      "output_index": 0
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 2,
+      "source_id": "signal-plots-output-1",
+      "kind": "notebook_output",
+      "parent_id": "signal-plots",
+      "output_index": 1,
+      "mime_type": "image/png",
+      "asset_sha256": "d47a281676c3223a7bf57397362fdf9c6b51f72510a47b8829488dc773c3c5ec",
+      "expected_label": "Time [ms]"
+    },
+    {
+      "document_id": "signal-lab",
+      "version": 2,
+      "source_id": "signal-plots-output-2",
+      "kind": "notebook_output",
+      "parent_id": "signal-plots",
+      "output_index": 2,
+      "mime_type": "image/png",
+      "asset_sha256": "7ec65dab6628a30590421e4c1a150c52a6ec22933d67efce47eda279097fbd68",
+      "expected_label": "Frequency [kHz]"
+    }
+  ],
+  "message": {
+    "message_id": "m-demo-1",
+    "sources": {
+      "table": {
+        "source": {
+          "document_id": "signal-slides",
+          "version": 1,
+          "source_id": "slide-1-table"
+        },
+        "read_status": "not_attempted",
+        "reads": []
+      },
+      "first": {
+        "source": {
+          "document_id": "signal-lab",
+          "version": 1,
+          "source_id": "signal-plots-output-1"
+        },
+        "read_status": "not_attempted",
+        "reads": []
+      },
+      "second": {
+        "source": {
+          "document_id": "signal-lab",
+          "version": 1,
+          "source_id": "signal-plots-output-2"
+        },
+        "read_status": "not_attempted",
+        "reads": []
+      }
+    },
+    "blocks": [
+      {
+        "type": "source_image",
+        "display_id": "img-1",
+        "evidence_id": "first",
+        "display_source": {
+          "document_id": "signal-lab",
+          "version": 1,
+          "source_id": "signal-plots-output-1"
+        },
+        "rendition_kind": "original_output",
+        "caption": "Median filter lab · saved view 1"
+      },
+      {
+        "type": "text",
+        "text": "Compare the saved views.",
+        "citations": []
+      },
+      {
+        "type": "source_image",
+        "display_id": "img-2",
+        "evidence_id": "second",
+        "display_source": {
+          "document_id": "signal-lab",
+          "version": 1,
+          "source_id": "signal-plots-output-2"
+        },
+        "rendition_kind": "original_output",
+        "caption": "Median filter lab · saved view 2"
+      },
+      {
+        "type": "source_image",
+        "display_id": "img-3",
+        "evidence_id": "second",
+        "display_source": {
+          "document_id": "signal-lab",
+          "version": 1,
+          "source_id": "signal-plots-output-2"
+        },
+        "rendition_kind": "original_output",
+        "caption": "Median filter lab · saved view 2"
+      }
+    ]
+  },
+  "expected": {
+    "second_display_id": "img-2",
+    "second_display_source": {
+      "document_id": "signal-lab",
+      "version": 1,
+      "source_id": "signal-plots-output-2"
+    },
+    "second_display_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+    "third_display_id": "img-3",
+    "third_display_source": {
+      "document_id": "signal-lab",
+      "version": 1,
+      "source_id": "signal-plots-output-2"
+    },
+    "current_lab_after_republish": 2
+  },
+  "negative_vectors": [
+    {
+      "case": "historical_source_removed",
+      "source": {
+        "document_id": "signal-lab",
+        "version": 1,
+        "source_id": "signal-plots-output-2"
+      },
+      "status": "original_unavailable"
+    },
+    {
+      "case": "unreliable_table_bbox",
+      "source": {
+        "document_id": "signal-slides",
+        "version": 1,
+        "source_id": "slide-1-table"
+      },
+      "display_source": {
+        "document_id": "signal-slides",
+        "version": 1,
+        "source_id": "slide-1"
+      },
+      "reason": "unreliable_bbox"
+    },
+    {
+      "case": "same_cell_output_has_no_image",
+      "source": {
+        "document_id": "signal-lab",
+        "version": 1,
+        "source_id": "signal-plots-output-0"
+      },
+      "status": "image_unavailable"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 """RAG 索引、文档管理与检索接口契约。"""
 
+import asyncio
 from collections.abc import AsyncIterator
 from typing import Annotated
 
@@ -7,16 +8,21 @@ from fastapi import APIRouter, Depends, HTTPException, status
 
 from app.config import get_settings
 from app.rag.indexer import DocumentIndexer
+from app.rag.local_library import LocalLibrary
+from app.rag.query import construct_query
 from app.rag.retriever import HybridRetriever
 from app.rag.slide_indexer import SlideIndexer
+from app.schemas.local import LocalHit
 from app.schemas.rag import (
     DeleteDocumentResponse,
     DocumentSummary,
     IndexRequest,
     IndexStatus,
+    SearchHit,
     SearchRequest,
     SearchResponse,
     SlideIndexRequest,
+    SourceReference,
 )
 from app.stores.qdrant import QdrantStore
 from app.stores.sqlite import MetadataStore
@@ -35,15 +41,77 @@ async def get_document_indexer() -> AsyncIterator[DocumentIndexer]:
             await indexer.text_store.close()
 
 
-async def get_retriever() -> AsyncIterator[HybridRetriever]:
-    """按请求创建检索器，并在请求结束后关闭 Qdrant 连接。"""
+async def get_retriever(request: SearchRequest) -> AsyncIterator[object]:
+    """按配置和显式视觉请求选择检索器，保留既有依赖覆盖入口。"""
 
-    retriever = HybridRetriever.from_settings(get_settings())
+    settings = get_settings()
+    if settings.rag_search_backend == "local" and request.retrieval_mode != "visual":
+        yield LocalRetrieverAdapter(LocalLibrary(settings))
+        return
+    retriever = HybridRetriever.from_settings(settings)
     try:
         yield retriever
     finally:
         if isinstance(retriever.vector_store, QdrantStore):
             await retriever.vector_store.close()
+
+
+class LocalRetrieverAdapter:
+    """将本地 FTS 命中适配到旧 `/search` 响应，不触发模型或向量服务。"""
+
+    def __init__(self, library: LocalLibrary) -> None:
+        self.library = library
+
+    async def search(self, request: SearchRequest) -> SearchResponse:
+        constructed = construct_query(request)
+        local_request = request.model_copy(update={"query": constructed.text})
+        local_hits = await asyncio.to_thread(self.library.search, local_request)
+        return SearchResponse(
+            query=request.query,
+            hits=[_local_hit_to_legacy(hit) for hit in local_hits],
+            retrieval_query=constructed.text,
+            query_method=constructed.method,
+        )
+
+
+def _local_hit_to_legacy(hit: LocalHit) -> SearchHit:
+    locator = hit.locator
+    source_id = hit.source_id
+    raw_cell_id = locator.get("cell_id")
+    cell_id = raw_cell_id if isinstance(raw_cell_id, str) and raw_cell_id else None
+    raw_cell_index = locator.get("cell_index")
+    cell_index = (
+        raw_cell_index
+        if isinstance(raw_cell_index, int) and not isinstance(raw_cell_index, bool)
+        else None
+    )
+    raw_section_path = locator.get("section_path")
+    section_path = (
+        [item.strip() for item in raw_section_path if isinstance(item, str) and item.strip()]
+        if isinstance(raw_section_path, list)
+        else []
+    )
+    page = locator.get("page")
+    if not section_path and isinstance(page, int) and hit.title.strip():
+        section_path = [hit.title.strip()]
+    return SearchHit(
+        chunk_id=f"local:{hit.document_id}:{hit.version}:{source_id}",
+        section_id=f"local:{hit.document_id}:{hit.version}",
+        representation_type=f"local_{hit.origin}",
+        score=hit.score,
+        content=hit.text,
+        source=SourceReference(
+            course_id=hit.course_id,
+            document_id=hit.document_id,
+            file=hit.source_path,
+            section_path=section_path,
+            cell_ids=[cell_id] if cell_id else [],
+            cell_id=cell_id,
+            cell_index=cell_index,
+            page=page if isinstance(page, int) else None,
+            version=hit.version,
+        ),
+    )
 
 
 def get_metadata_store() -> MetadataStore:
@@ -157,7 +225,7 @@ async def delete_document(
 )
 async def search(
     request: SearchRequest,
-    retriever: Annotated[HybridRetriever, Depends(get_retriever)],
+    retriever: Annotated[object, Depends(get_retriever)],
 ) -> SearchResponse:
     """通过统一检索入口返回课程证据。"""
 

@@ -1,0 +1,240 @@
+{
+  "verdict": "PASS",
+  "started_at": "2026-11-19T07:38:44.761075+00:00",
+  "finished_at": "2026-11-19T07:38:49.876252+00:00",
+  "environment": {
+    "python": "3.14.7 (main, Aug 25 2026, 13:50:14) [Clang 22.1.3 ]",
+    "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "sqlite": "3.53.1",
+    "packages": {
+      "fastapi": "0.141.1",
+      "httpx": "0.28.1",
+      "pydantic": "2.13.5",
+      "pypdfium2": "5.13.0",
+      "python-pptx": "1.0.2",
+      "nbformat": "5.11.1"
+    },
+    "timing_clock": "time.perf_counter_ns monotonic",
+    "cold_definition": "fresh interpreter and empty per-format SQLite; OS page cache not flushed",
+    "warm_definition": "same process and SQLite, same bytes at a distinct path/document",
+    "timing_start": "immediately before POST /api/rag/local/import",
+    "timing_stop": "after POST /api/rag/local/search returns the expected exact version/source"
+  },
+  "source_version": {
+    "manifest_sha256": "985033c43c08dca5761df7e34d623c531b708a55714f9c1bcb9ca963543e2d5d",
+    "listed_files": 21,
+    "mismatches": [],
+    "manifest_head": "33fad8ea339222574780d56ab401d0ed779369a8",
+    "actual_head": "33fad8ea339222574780d56ab401d0ed779369a8"
+  },
+  "benchmarks": [
+    {
+      "format": "pdf",
+      "file": "Signal-reference.pdf",
+      "bytes": 3883,
+      "sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "query": "lookahead",
+      "expected_source": "page:1",
+      "runs": [
+        {
+          "temperature": "cold",
+          "path": "cold-Signal-reference.pdf",
+          "status": "published",
+          "document_id": "local_fc1954184bcf444d89c66e25f80fd577",
+          "version": 1,
+          "publication_epoch": 1,
+          "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+          "source_id": "page:1",
+          "source_count": 2,
+          "searchable_count": 2,
+          "import_ms": 50.204,
+          "first_hit_ms": 53.097,
+          "hit_text": "Median Filter Reference\nSIGNAL PROCESSING - SHAREABLE COURSE FIXTURE\nDefinition\nA one-dimensional median filter replaces the center sample with the median\nof an"
+        },
+        {
+          "temperature": "warm",
+          "path": "warm-Signal-reference.pdf",
+          "status": "published",
+          "document_id": "local_57d772e4e54849a2a1fc7e49efd26b1b",
+          "version": 1,
+          "publication_epoch": 1,
+          "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+          "source_id": "page:1",
+          "source_count": 2,
+          "searchable_count": 2,
+          "import_ms": 5.75,
+          "first_hit_ms": 8.052,
+          "hit_text": "Median Filter Reference\nSIGNAL PROCESSING - SHAREABLE COURSE FIXTURE\nDefinition\nA one-dimensional median filter replaces the center sample with the median\nof an"
+        }
+      ],
+      "external_constructor_attempts": {
+        "dashscope": 0,
+        "deepseek": 0,
+        "qdrant": 0
+      },
+      "outbound_socket_attempts": [],
+      "credentials": {
+        "dashscope": "empty",
+        "deepseek": "empty"
+      },
+      "qdrant_url": "http://127.0.0.1:1"
+    },
+    {
+      "format": "pptx",
+      "file": "Signal-slides.pptx",
+      "bytes": 29484,
+      "sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+      "query": "Peak",
+      "expected_source": "page:1:shape:3",
+      "runs": [
+        {
+          "temperature": "cold",
+          "path": "cold-Signal-slides.pptx",
+          "status": "published",
+          "document_id": "local_02a29f3e47eb46e3955a41743d1eaf8c",
+          "version": 1,
+          "publication_epoch": 1,
+          "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+          "source_id": "page:1:shape:3",
+          "source_count": 5,
+          "searchable_count": 5,
+          "import_ms": 66.163,
+          "first_hit_ms": 69.147,
+          "hit_text": "| Filter | Window [samples] | Peak delay [samples] |\n| --- | --- | --- |\n| Median | 3 | 1 |\n| Median | 5 | 2 |"
+        },
+        {
+          "temperature": "warm",
+          "path": "warm-Signal-slides.pptx",
+          "status": "published",
+          "document_id": "local_9828847fb55a4b05a1e950377070d81e",
+          "version": 1,
+          "publication_epoch": 1,
+          "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+          "source_id": "page:1:shape:3",
+          "source_count": 5,
+          "searchable_count": 5,
+          "import_ms": 8.05,
+          "first_hit_ms": 10.671,
+          "hit_text": "| Filter | Window [samples] | Peak delay [samples] |\n| --- | --- | --- |\n| Median | 3 | 1 |\n| Median | 5 | 2 |"
+        }
+      ],
+      "external_constructor_attempts": {
+        "dashscope": 0,
+        "deepseek": 0,
+        "qdrant": 0
+      },
+      "outbound_socket_attempts": [],
+      "credentials": {
+        "dashscope": "empty",
+        "deepseek": "empty"
+      },
+      "qdrant_url": "http://127.0.0.1:1"
+    },
+    {
+      "format": "ipynb",
+      "file": "Signal-lab.ipynb",
+      "bytes": 11484,
+      "sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "query": "NotebookImage",
+      "expected_source": "cell:1",
+      "runs": [
+        {
+          "temperature": "cold",
+          "path": "cold-Signal-lab.ipynb",
+          "status": "published",
+          "document_id": "local_7560a010ab3b43d1906c630fced1a6e5",
+          "version": 1,
+          "publication_epoch": 1,
+          "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+          "source_id": "cell:1",
+          "source_count": 5,
+          "searchable_count": 3,
+          "import_ms": 20.574,
+          "first_hit_ms": 23.33,
+          "hit_text": "from io import BytesIO\nfrom IPython.display import Image as NotebookImage, display\nfrom PIL import Image, ImageDraw\n\ndef plot(label):\n    image = Image.new(\"RGB"
+        },
+        {
+          "temperature": "warm",
+          "path": "warm-Signal-lab.ipynb",
+          "status": "published",
+          "document_id": "local_18873712049a499a8228ad1740656a12",
+          "version": 1,
+          "publication_epoch": 1,
+          "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+          "source_id": "cell:1",
+          "source_count": 5,
+          "searchable_count": 3,
+          "import_ms": 4.425,
+          "first_hit_ms": 6.936,
+          "hit_text": "from io import BytesIO\nfrom IPython.display import Image as NotebookImage, display\nfrom PIL import Image, ImageDraw\n\ndef plot(label):\n    image = Image.new(\"RGB"
+        }
+      ],
+      "external_constructor_attempts": {
+        "dashscope": 0,
+        "deepseek": 0,
+        "qdrant": 0
+      },
+      "outbound_socket_attempts": [],
+      "credentials": {
+        "dashscope": "empty",
+        "deepseek": "empty"
+      },
+      "qdrant_url": "http://127.0.0.1:1"
+    }
+  ],
+  "fault_replays": {
+    "publish_interruption": {
+      "child_exit": 73,
+      "inside_transaction": {
+        "inside_transaction_current_version": 2,
+        "inside_transaction_new_fts": true,
+        "activate_result": "published"
+      },
+      "persisted_after_crash": {
+        "versions": 1,
+        "sources": 1,
+        "fts": 1
+      },
+      "old_search_after_crash": true,
+      "new_search_after_crash": false,
+      "v1_history_after_crash": "available",
+      "v2_history_after_crash": "not_accessible",
+      "retry": {
+        "status": "published",
+        "version": 2
+      }
+    },
+    "stale_enhancement": {
+      "positive_control": true,
+      "history_after_delete": "not_accessible",
+      "rejected_after_delete": true,
+      "reimport_version": 1,
+      "reimport_epoch_increased": true,
+      "rejected_after_reimport": true,
+      "current_native_search": true,
+      "history_after_reimport": "available"
+    }
+  },
+  "legacy_replays": {
+    "legacy_sqlite": {
+      "document_id": "document_d85b610540ab05227b83b6d1",
+      "migrated_version": 1,
+      "new_version": 2,
+      "local_new_search": true,
+      "legacy_hidden_while_new_current": true,
+      "cutback_version": 1,
+      "legacy_visible_after_cutback": true,
+      "historical_original": "available"
+    },
+    "legacy_bundle": {
+      "document_id": "document_3d6adae71debca0a67e738d5",
+      "missing_original_search_origin": "legacy_text",
+      "missing_original_source": "page:1",
+      "missing_original_history": "original_unavailable",
+      "hydrated_version": 1,
+      "remigrate_status": "backfilled",
+      "refined_source": "page:1:shape:3",
+      "refined_history": "available"
+    }
+  }
+}

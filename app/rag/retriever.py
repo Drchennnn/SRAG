@@ -178,9 +178,22 @@ class HybridRetriever:
                     raise
                 logger.exception("自动视觉召回失败，回退文本结果")
 
+        hits = [_to_search_hit(point) for point in final_points]
+        if isinstance(self.metadata_store, MetadataStore):
+            # A publication can change while vector calls are in flight.
+            still_visible = {
+                (item.document_id, item.version)
+                for item in self.metadata_store.visible_versions(
+                    course_ids=request.scope.course_ids,
+                    document_ids=request.scope.document_ids,
+                )
+            }
+            hits = [
+                hit for hit in hits if (hit.source.document_id, hit.source.version) in still_visible
+            ]
         return SearchResponse(
             query=request.query,
-            hits=[_to_search_hit(point) for point in final_points],
+            hits=hits,
             mode_used=mode_used,
             retrieval_query=constructed.text,
             query_method=constructed.method,

@@ -1,0 +1,26 @@
+{
+  "head": "33fad8ea339222574780d56ab401d0ed779369a8",
+  "files": {
+    "RAG.md": "a37ecb7973d20df4b2d0048aad49bd3ae1277aacbd2a9d55138244448715ecba",
+    "README.md": "1d2eb0a3dfb45bbb87286da7576f803d999210f2c30af82577d5efae107129c7",
+    "app/api/local_library.py": "0e700f0af30d685dcb2cb88ec0458a4e9a93ad1b595f0e8b0162110154e9d300",
+    "app/api/rag.py": "3794ee59666307e13ff024274e745fbbf7553b5903bd1b999891c47e6bd665d1",
+    "app/config.py": "1990ddf3f23c8e7b3df54a8f965524761eac572c0ae0c22237243616e9152622",
+    "app/main.py": "dfe870c7cbe2a6287ee98486103e1814c7a5d3767662720a7f468c9c4b95cc24",
+    "app/rag/local_library.py": "70c80db0fe4dc5f9d4fdd029463dbf47e88944e63cad1f00def29bf25be65124",
+    "app/rag/local_migration.py": "699d151e9e096e45094f9e1d3aaa19efa1987f3dbb25a3eec25ffba47830fffc",
+    "app/rag/parsers/local_notebook.py": "07f58d1372840a1850cb1d6cf5fc6bc4f2e4fb4e7888612a3d0bfe3461d1df41",
+    "app/rag/parsers/local_slides.py": "a32ed9d65137d2ecae34e7169c888859c2df7bac3a4fe5ea7e455ea8fe55c0a7",
+    "app/rag/retriever.py": "3fedaedff180c4d3650409666a669b745c2866f88aebd41144ccf6171c60c616",
+    "app/schemas/local.py": "f26b48058f99f75ddc304831c278596a1b77376e7fc91938560237a9fd01689a",
+    "app/stores/local_library.py": "b78078778f19056801219e4fdd66df5ca146b05b14703f7904aaab32d756e485",
+    "app/stores/local_visibility.py": "33334bcb8ea7ee6ae354992e78f4669b91a35a17b29a05a0b57e7294f5af024a",
+    "app/stores/sqlite.py": "0035ba12a20de83989f470d84973ca83114af75f7b42513524334834176fcc15",
+    "docs/B/B04-发布与回退.md": "5bee6844d6c42ec5844ca7425ea522d73064e5c983b4a2c86e775061005fb75f",
+    "tests/test_local_api.py": "46ce2cf5445966f81d369e622cfafad306fae838146d61ff86c9f88f06396b30",
+    "tests/test_local_library.py": "8a2be4646dc9ce3b9bf13f4becaa27fb0e088b85d1840e3f74fd8aafd9aa6d1f",
+    "tests/test_local_migration.py": "d430c6fc5c98ea50d2cf94c6d34293bb42c732cf55c45595b635c9c000557256",
+    "tests/test_local_notebook.py": "b761a1eab84d8b8c63b91f82ba86ab8cc3934b6218155e1b2c28281300137661",
+    "tests/test_local_slides.py": "2673bc84c69dea6232879778fcb1a31f528c07755eed5b39ddeb4b6a1520fe3e"
+  }
+}

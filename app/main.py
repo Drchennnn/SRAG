@@ -7,6 +7,7 @@ from fastapi import FastAPI
 
 from app import __version__
 from app.api.health import router as health_router
+from app.api.local_library import router as local_library_router
 from app.api.rag import router as rag_router
 from app.config import get_settings
 
@@ -32,6 +33,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(health_router, prefix="/api", tags=["健康检查"])
     app.include_router(rag_router, prefix="/api/rag", tags=["知识检索"])
+    app.include_router(local_library_router, prefix="/api/rag/local", tags=["本地资料"])
     return app
 
 
