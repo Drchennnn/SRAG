@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     srag_soffice: Path | None = None
     source_evidence_max_inline_bytes: int = 8 * 1024 * 1024
     source_vision_enabled: bool = False
+    workspace_course_ids: str = ""
+    workspace_max_upload_bytes: int = 50 * 1024 * 1024
 
     dashscope_api_key: str = ""
     dashscope_base_url: str = ""

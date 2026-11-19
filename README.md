@@ -79,6 +79,17 @@ curl -sS http://127.0.0.1:8000/api/rag/structure/search \
 
 请求同一入口时可用 `read_intent=directed_question` 并提供 `question`，或用 `read_intent=generic_transcription` 转写眼前的图。实际模型读取需服务端同时配置 `SOURCE_VISION_ENABLED=true` 和 DashScope 凭据。响应分别记录 `display`、`reads` 和 `external_call_count`。通用转写经版本校验可写入 FTS，定向读图保存在对应问句的缓存。[模型、缓存和复现](./docs/D/D03-定向读图与回写.md)
 
+## 浏览器课程工作区
+
+```sh
+WORKSPACE_COURSE_IDS=signals .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1
+```
+
+在本机打开 `http://127.0.0.1:8000/workspace`，选择已授权的课程，导入 PDF、PPTX 或 Notebook。
+资料库可展开到页、Cell 和对象。会话在刷新后恢复，卡片动作“问这张图”和文字“刚才第二张图”均在所属消息内解析。
+设置 `WORKSPACE_COURSE_IDS` 可用逗号分隔多个课程。模型关闭时仍可搜索原文和查看原件，图片会标明读取状态。
+`python -m tools.workspace_chat --help` 提供使用同一会话服务的终端入口。[会话及原件权限](./docs/E/E02-会话服务.md)
+
 ## 旧向量导入
 
 - **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。
