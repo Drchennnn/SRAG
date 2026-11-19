@@ -1,0 +1,317 @@
+{
+  "schema": "g09-independent-public-v1",
+  "scope": [
+    "public_synthetic_fixtures",
+    "clean_suite",
+    "old_entry_compatibility"
+  ],
+  "tested_git_commit": "34f789ef66cca9b3ee858ab05e3800fa515d6f32",
+  "origin_main_at_intake": "34f789ef66cca9b3ee858ab05e3800fa515d6f32",
+  "setup": [
+    "git archive \"$G09_SHA\" | tar -x -C \"$G09_ARCHIVE\"",
+    "在精确归档根目录执行，用 SRAG_PYTHON 指向项目虚拟环境中的 Python",
+    "浏览器脚本使用各自唯一会话、端口和新建数据目录，默认关闭视觉模型"
+  ],
+  "environment": {
+    "python": "3.14.7",
+    "agent_browser": "agent-browser 0.43.0",
+    "chrome_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "libreoffice": "26.8.3.1",
+    "pytest_and_compatibility_flags": "DASHSCOPE_API_KEY= DEEPSEEK_API_KEY= QDRANT_URL=http://127.0.0.1:1 SOURCE_VISION_ENABLED=false PYTHONDONTWRITEBYTECODE=1"
+  },
+  "browser_runs": {
+    "G06": {
+      "entry": "docs/G/G06-browser.sh",
+      "command": "G06_SUBJECT_BASE=\"$G09_SHA\" G06_PORT=18873 G06_BROWSER_PREFIX=g09-public-independent-g06 bash docs/G/G06-browser.sh",
+      "exit": 0,
+      "initial_state": "empty_workspace",
+      "external_calls": 0,
+      "source_files_sha256": {
+        "app/rag/workspace.py": "6a8310fe965fce7b247ef4bda6e2e77f75c445c29d004e42aeacd35833143d9b",
+        "app/rag/workspace_objects.py": "8352ce5e8893befc01dfe689011465ed5c2663cb34adf49931632c01ae1f0f57",
+        "app/rag/source_vision.py": "8f9d16bff5ee11d26ec9cc13fcc38c634fe89899eeb618609f5836d1fd1483d2",
+        "docs/G/G05-probe.py": "efd47e1c5993b0e22a9b5a2fc9cfcc72d36e8cafd892745776a8b06bb8af2b10",
+        "docs/G/G06-probe.py": "682c48118601decc8ce640e5a37f474af84214352ac43e1891413ee200078542",
+        "docs/G/G06-browser.sh": "db2a00ef5203d4ac888775272de30140b7e815ff82e6833b3ee6fc584233b03f"
+      },
+      "capture_sha256": "8dff2a62be3b5fb06a25c646701e89ebe4e48f697557c96f9a747cadbc537161",
+      "result": {
+        "image_request": {
+          "http_status": 200,
+          "selected": {
+            "version": 1,
+            "source_id": "cell:1:output:1"
+          },
+          "display_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+          "read_status": "not_attempted",
+          "capability_reason": "provider_disabled",
+          "model_attempts": 0
+        },
+        "table_request": {
+          "http_status": 200,
+          "selected": {
+            "version": 1,
+            "source_id": "page:1:shape:2"
+          },
+          "observed_value": "17.5 mA",
+          "external_calls": 0
+        }
+      }
+    },
+    "G07": {
+      "entry": "docs/G/G07-browser.sh",
+      "command": "G07_SUBJECT_BASE=\"$G09_SHA\" G07_PORT=18872 G07_BROWSER_PREFIX=g09-public-independent-g07 bash docs/G/G07-browser.sh",
+      "exit": 0,
+      "initial_state": "empty_workspace",
+      "external_calls": 0,
+      "source_files_sha256": {
+        "app/rag/workspace.py": "6a8310fe965fce7b247ef4bda6e2e77f75c445c29d004e42aeacd35833143d9b",
+        "app/rag/workspace_versions.py": "aed86fb52d79965e791a85d4c26e29bdc6e081e08096e0fbbb4e20bceb6ce407",
+        "app/rag/workspace_initial_focus.py": "a01143e0b72936ddcec11f8322242addb15b181278dc832ed9ac82e36f7de54e",
+        "app/web/workspace/workspace.js": "d383630a5543ea4e48355f6458a992925afae99c6a08432d15580e55735cc09e",
+        "docs/G/G05-probe.py": "efd47e1c5993b0e22a9b5a2fc9cfcc72d36e8cafd892745776a8b06bb8af2b10",
+        "docs/G/G07-probe.py": "b7325c3bd3fb6a098b15621938a3a1de5e58033ccc68271f9b8ecc419e817056",
+        "docs/G/G07-browser.sh": "b0944bee51ea18a529d82af235dd7c3175ab601f1fa3dd766d17d92c9c75d284"
+      },
+      "capture_sha256": "2da59efaa35db5ae38eb8b8306fccefca6787cb712f52c2ebf06d6760232e1ad",
+      "result": {
+        "turn_statuses": {
+          "history-empty": "clarification",
+          "current": "completed",
+          "ambiguous": "clarification",
+          "choice": "completed",
+          "version-history": "completed",
+          "compare": "completed"
+        },
+        "ordinal_selection": {
+          "current": {
+            "version": 1,
+            "source_id": "cell:1:output:1",
+            "method": "current_focus",
+            "display_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+          },
+          "choice": {
+            "version": 1,
+            "source_id": "cell:1:output:1",
+            "method": "current_choice",
+            "display_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+          }
+        },
+        "clarification_choices_persisted": 2,
+        "comparison_trace": {
+          "current_read_status": "succeeded",
+          "current_source": {
+            "version": 2,
+            "source_id": "cell:0:output:0"
+          },
+          "historical_read_status": "succeeded",
+          "historical_source": {
+            "version": 1,
+            "source_id": "cell:0:output:0"
+          },
+          "route": "version_comparison"
+        },
+        "version_citation_roundtrip": [
+          {
+            "http_status": 200,
+            "source": {
+              "version": 1,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "VersionDeck.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "stability",
+              "output_index": 0,
+              "section_path": []
+            },
+            "is_current": false,
+            "reader_location": "历史版本",
+            "text": "Pilot amplitude frequency: 2.5 kHz"
+          },
+          {
+            "http_status": 200,
+            "source": {
+              "version": 2,
+              "source_id": "cell:0:output:0"
+            },
+            "file_name": "VersionDeck.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "stability",
+              "output_index": 0,
+              "section_path": []
+            },
+            "is_current": true,
+            "reader_location": "当前版本",
+            "text": "Pilot amplitude frequency: 4.5 kHz"
+          }
+        ]
+      }
+    },
+    "G08": {
+      "entry": "docs/G/G08-browser.sh",
+      "command": "G08_SUBJECT=\"$G09_SHA\" G08_PORT=18871 G08_BROWSER_PREFIX=g09-public-independent-g08 bash docs/G/G08-browser.sh",
+      "exit": 0,
+      "initial_state": "empty_workspace",
+      "external_calls": 0,
+      "source_files_sha256": {
+        "app/rag/workspace.py": "6a8310fe965fce7b247ef4bda6e2e77f75c445c29d004e42aeacd35833143d9b",
+        "app/rag/workspace_composition.py": "4a640a51ba9111956a0279c261a8bf2d8ef1b323bf4c9011056bdc1f4830a55a"
+      },
+      "capture_sha256": "b69f7227ab0a11a51a054ae15eef423aba5039c0307c35a72372676b83d1be6b",
+      "result": {
+        "missing_table": {
+          "http_status": 200,
+          "route": "evidence_composition",
+          "answer_status": "partial",
+          "comparison": "missing_evidence",
+          "missing": [
+            "table"
+          ],
+          "supported_roles": [
+            "principle",
+            "saved_output"
+          ],
+          "supplement_count": 1,
+          "hops": [
+            "first",
+            "literal_supplement"
+          ],
+          "visible_answer_blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "讲义原文：A pulse gate passes only pulses above its operating threshold.",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "保存的实测输出：Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+              "type": "text"
+            },
+            {
+              "code": "composition_missing_table",
+              "text": "本轮缺少可核对的原生表格。",
+              "type": "notice"
+            }
+          ]
+        },
+        "three_sources_present": {
+          "http_status": 200,
+          "route": "evidence_composition",
+          "answer_status": "supported",
+          "comparison": "verified",
+          "missing": [],
+          "supported_roles": [
+            "principle",
+            "saved_output",
+            "table"
+          ],
+          "supplement_count": 0,
+          "hops": [
+            "first"
+          ],
+          "visible_answer_blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "讲义原文：A pulse gate passes only pulses above its operating threshold.",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-4"
+              ],
+              "text": "原生表格第 2 行：Series = Pulse gate / MAE maximum (amplitude) = 0.30 / Dataset = held-out",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "保存的实测输出：Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-4",
+                "ev-2"
+              ],
+              "text": "在 held-out 条件下，实测 MAE 0.29 amplitude 不高于同条件表格上限 0.30 amplitude。",
+              "type": "text"
+            }
+          ]
+        },
+        "table_citation_roundtrip": {
+          "http_status": 200,
+          "source": {
+            "version": 1,
+            "source_id": "page:1:shape:2"
+          },
+          "file_name": "PulseGate-limits.pptx",
+          "locator": {
+            "page": 1,
+            "bbox": [
+              0.065,
+              0.16,
+              0.865,
+              0.32
+            ]
+          },
+          "is_current": true,
+          "visible_reader": {
+            "text": "| Series | MAE maximum (amplitude) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 0.30 | held-out |",
+            "title": "PulseGate-limits.pptx · v1 · 第 1 页"
+          }
+        }
+      }
+    }
+  },
+  "full_clean_suite": {
+    "command": "DASHSCOPE_API_KEY= DEEPSEEK_API_KEY= QDRANT_URL=http://127.0.0.1:1 SOURCE_VISION_ENABLED=false PYTHONDONTWRITEBYTECODE=1 SRAG_SOFFICE=\"$G09_SOFFICE\" \"$SRAG_PYTHON\" -m pytest -q -p no:cacheprovider tests",
+    "passed": 470,
+    "warnings": 1,
+    "elapsed_s": 22.97,
+    "warning_source": "Starlette TestClient httpx deprecation",
+    "exit": 0,
+    "covered_old_entry_examples": [
+      "tests/test_local_api.py::test_old_search_uses_local_adapter_offline_and_visual_stays_legacy",
+      "tests/test_local_api.py::test_old_search_defaults_and_cuts_back_to_legacy",
+      "tests/test_local_migration.py::test_load_legacy_sqlite_reads_visible_active_snapshot_and_maps_notebook",
+      "tests/test_local_library.py::test_legacy_sqlite_backfill_and_current_visibility_cutback"
+    ]
+  },
+  "old_entry_compatibility": {
+    "cli_help": [
+      {
+        "module": "tools.chat",
+        "command": "\"$SRAG_PYTHON\" -m tools.chat --help",
+        "exit": 0
+      },
+      {
+        "module": "tools.workspace_chat",
+        "command": "\"$SRAG_PYTHON\" -m tools.workspace_chat --help",
+        "exit": 0
+      },
+      {
+        "module": "tools.evidence_answer",
+        "command": "\"$SRAG_PYTHON\" -m tools.evidence_answer --help",
+        "exit": 0
+      }
+    ],
+    "frozen_old23_validation": {
+      "command": "DASHSCOPE_API_KEY= DEEPSEEK_API_KEY= QDRANT_URL=http://127.0.0.1:1 SOURCE_VISION_ENABLED=false PYTHONDONTWRITEBYTECODE=1 SQLITE_PATH=\"$G09_OLD_DB_COPY\" \"$SRAG_PYTHON\" -m evals.run_chat_acceptance --validate-only --cases \"$G09_OLD_CASES_COPY\"",
+      "inputs": "本机冻结只读基线的临时副本",
+      "validated_turns": 23,
+      "validated_sessions": 6,
+      "visible_documents": 15,
+      "exit": 0,
+      "historical_answer_generation": "not_tested"
+    }
+  }
+}
