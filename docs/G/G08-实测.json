@@ -1,0 +1,663 @@
+{
+  "subject_base_or_exact": "762bbf00f9098b4feeab5632b985d26da7a4c6d4",
+  "product_sha256": {
+    "app/rag/workspace.py": "08ae31dc222ff61e734c911f21e6102b2e6d8a95b530b69355d764fd829120c0",
+    "app/rag/workspace_composition.py": "4a640a51ba9111956a0279c261a8bf2d8ef1b323bf4c9011056bdc1f4830a55a"
+  },
+  "turns": [
+    {
+      "category": "turn",
+      "status": 200,
+      "path": "/api/workspace/sessions/a0240b1241f8464faf2d00ca3bd0980e/turns",
+      "query": {},
+      "request": {
+        "client_turn_id": "964b4a74-f772-4786-963c-151d3a4169f4",
+        "kind": "ask",
+        "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+        "scope_revision": 2
+      },
+      "response": {
+        "turn": {
+          "turn_id": "36865bf114f44a4c84e3c4f5b2da4ce9",
+          "client_turn_id": "964b4a74-f772-4786-963c-151d3a4169f4",
+          "kind": "ask",
+          "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "answer_status": "partial",
+            "comparison": "missing_evidence",
+            "conflicts": [],
+            "effective_scope": {
+              "course_ids": [
+                "pulse-evidence"
+              ],
+              "document_ids": [
+                "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                "local_ec31da4ed4ff4b95b0e920442a5399ae"
+              ],
+              "file_names": []
+            },
+            "external_call_count": 0,
+            "final_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "first_missing": [
+              "table"
+            ],
+            "hops": [
+              {
+                "candidates": [
+                  {
+                    "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                    "source_id": "cell:0",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                ],
+                "elapsed_ms": 2.5548749836161733,
+                "kind": "first",
+                "query": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.\na pulse gate",
+                "scope": {
+                  "course_ids": [
+                    "pulse-evidence"
+                  ],
+                  "document_ids": [
+                    "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "local_ec31da4ed4ff4b95b0e920442a5399ae"
+                  ],
+                  "file_names": []
+                }
+              },
+              {
+                "candidates": [
+                  {
+                    "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                    "source_id": "cell:0",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                ],
+                "elapsed_ms": 1.5534579288214445,
+                "kind": "literal_supplement",
+                "query": "TidalRunQ9",
+                "scope": {
+                  "course_ids": [
+                    "pulse-evidence"
+                  ],
+                  "document_ids": [
+                    "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "local_ec31da4ed4ff4b95b0e920442a5399ae"
+                  ],
+                  "file_names": []
+                }
+              }
+            ],
+            "missing": [
+              "table"
+            ],
+            "requirements": [
+              "principle",
+              "table",
+              "saved_output"
+            ],
+            "role_checks": [
+              {
+                "evidence_id": "ev-1",
+                "read_status": "succeeded",
+                "role": "principle",
+                "source": {
+                  "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "evidence_id": "ev-2",
+                "read_status": "succeeded",
+                "role": "saved_output",
+                "source": {
+                  "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              }
+            ],
+            "route": "evidence_composition",
+            "supplement_count": 1,
+            "supports": {
+              "principle": {
+                "evidence_id": "ev-1",
+                "quote": "A pulse gate passes only pulses above its operating threshold.",
+                "span": [
+                  12,
+                  74
+                ]
+              },
+              "saved_output": {
+                "evidence_id": "ev-2",
+                "quote": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+                "span": [
+                  0,
+                  114
+                ]
+              }
+            },
+            "term": {
+              "course_id": "pulse-evidence",
+              "end": 100,
+              "evidence_id": "ev-1",
+              "excerpt_sha256": "07848cd6c7afddbd9213154bf8772da07f458be43669ecc94a8c284c4cb01264",
+              "source": {
+                "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "start": 90,
+              "word": "TidalRunQ9"
+            }
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "讲义原文：A pulse gate passes only pulses above its operating threshold.",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "保存的实测输出：Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+              "type": "text"
+            },
+            {
+              "code": "composition_missing_table",
+              "text": "本轮缺少可核对的原生表格。",
+              "type": "notice"
+            }
+          ],
+          "message_id": "c970d25c600b40f69f8fe35254912036",
+          "ordinal": 2,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "PulseGate-lecture.ipynb",
+              "locator": {
+                "cell_id": "definition",
+                "cell_index": 0
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                    "source_id": "cell:0",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Definition: A pulse gate passes only pulses above its operating threshold.\nExperiment-ID: TidalRunQ9.",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "PulseGate-run.ipynb",
+              "locator": {
+                "cell_id": "run",
+                "cell_index": 0,
+                "output_index": 0
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "36865bf114f44a4c84e3c4f5b2da4ce9",
+          "visible_display_ids": []
+        },
+        "options": []
+      }
+    },
+    {
+      "category": "turn",
+      "status": 200,
+      "path": "/api/workspace/sessions/a0240b1241f8464faf2d00ca3bd0980e/turns",
+      "query": {},
+      "request": {
+        "client_turn_id": "f5d47f73-ef60-4feb-86d3-15851456f2e8",
+        "kind": "ask",
+        "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+        "scope_revision": 2
+      },
+      "response": {
+        "turn": {
+          "turn_id": "39a29645741442ba8e87e5f481e9d511",
+          "client_turn_id": "f5d47f73-ef60-4feb-86d3-15851456f2e8",
+          "kind": "ask",
+          "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "answer_status": "supported",
+            "comparison": "verified",
+            "conflicts": [],
+            "effective_scope": {
+              "course_ids": [
+                "pulse-evidence"
+              ],
+              "document_ids": [
+                "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                "local_ec31da4ed4ff4b95b0e920442a5399ae"
+              ],
+              "file_names": []
+            },
+            "external_call_count": 0,
+            "final_evidence_ids": [
+              "ev-1",
+              "ev-4",
+              "ev-2"
+            ],
+            "first_missing": [],
+            "hops": [
+              {
+                "candidates": [
+                  {
+                    "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                    "source_id": "cell:0",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                    "source_id": "page:1:shape:2",
+                    "version": 1
+                  },
+                  {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                ],
+                "elapsed_ms": 2.660667058080435,
+                "kind": "first",
+                "query": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.\na pulse gate",
+                "scope": {
+                  "course_ids": [
+                    "pulse-evidence"
+                  ],
+                  "document_ids": [
+                    "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                    "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "local_ec31da4ed4ff4b95b0e920442a5399ae"
+                  ],
+                  "file_names": []
+                }
+              }
+            ],
+            "missing": [],
+            "requirements": [
+              "principle",
+              "table",
+              "saved_output"
+            ],
+            "role_checks": [
+              {
+                "evidence_id": "ev-1",
+                "read_status": "succeeded",
+                "role": "principle",
+                "source": {
+                  "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "evidence_id": "ev-2",
+                "read_status": "succeeded",
+                "role": "saved_output",
+                "source": {
+                  "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              },
+              {
+                "evidence_id": "ev-3",
+                "read_status": "succeeded",
+                "role": "principle",
+                "source": {
+                  "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "evidence_id": "ev-4",
+                "read_status": "succeeded",
+                "role": "table",
+                "source": {
+                  "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                }
+              }
+            ],
+            "route": "evidence_composition",
+            "supplement_count": 0,
+            "supports": {
+              "principle": {
+                "evidence_id": "ev-1",
+                "quote": "A pulse gate passes only pulses above its operating threshold.",
+                "span": [
+                  12,
+                  74
+                ]
+              },
+              "saved_output": {
+                "evidence_id": "ev-2",
+                "quote": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+                "span": [
+                  0,
+                  114
+                ]
+              },
+              "table": {
+                "cells": {
+                  "Dataset": "held-out",
+                  "MAE maximum (amplitude)": "0.30",
+                  "Series": "Pulse gate"
+                },
+                "evidence_id": "ev-4",
+                "row_index": 1
+              }
+            }
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "讲义原文：A pulse gate passes only pulses above its operating threshold.",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-4"
+              ],
+              "text": "原生表格第 2 行：Series = Pulse gate / MAE maximum (amplitude) = 0.30 / Dataset = held-out",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "保存的实测输出：Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-4",
+                "ev-2"
+              ],
+              "text": "在 held-out 条件下，实测 MAE 0.29 amplitude 不高于同条件表格上限 0.30 amplitude。",
+              "type": "text"
+            }
+          ],
+          "message_id": "58d786ce591d46b9a7b5aa2cb0e2d3ea",
+          "ordinal": 4,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "PulseGate-lecture.ipynb",
+              "locator": {
+                "cell_id": "definition",
+                "cell_index": 0
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                    "source_id": "cell:0",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Definition: A pulse gate passes only pulses above its operating threshold.\nExperiment-ID: TidalRunQ9.",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ec31da4ed4ff4b95b0e920442a5399ae",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "PulseGate-run.ipynb",
+              "locator": {
+                "cell_id": "run",
+                "cell_index": 0,
+                "output_index": 0
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_c2842618c9fb4a5ab20bedbe7b7d8296",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              }
+            },
+            "ev-4": {
+              "evidence_id": "ev-4",
+              "file_name": "PulseGate-limits.pptx",
+              "locator": {
+                "bbox": [
+                  0.065,
+                  0.16,
+                  0.865,
+                  0.32
+                ],
+                "page": 1,
+                "shape_id_path": [
+                  2
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                    "source_id": "page:1:shape:2",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_table",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "| Series | MAE maximum (amplitude) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 0.30 | held-out |",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "64ff254bc0738dda99e48a6da74c35c5a66b6f8efafc9f1720b1be80824fdbd2",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "39a29645741442ba8e87e5f481e9d511",
+          "visible_display_ids": []
+        },
+        "options": []
+      }
+    }
+  ],
+  "opened_table": {
+    "category": "citation",
+    "status": 200,
+    "path": "/api/workspace/sessions/a0240b1241f8464faf2d00ca3bd0980e/messages/58d786ce591d46b9a7b5aa2cb0e2d3ea/evidence/ev-4",
+    "query": {},
+    "request": null,
+    "response": {
+      "source": {
+        "document_id": "local_a1bd864cacfb4e66a34b1c54bb9240f4",
+        "version": 1,
+        "source_id": "page:1:shape:2"
+      },
+      "file_name": "PulseGate-limits.pptx",
+      "locator": {
+        "page": 1,
+        "bbox": [
+          0.065,
+          0.16,
+          0.865,
+          0.32
+        ]
+      },
+      "text": "| Series | MAE maximum (amplitude) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 0.30 | held-out |",
+      "is_current": true
+    }
+  },
+  "visible_reader": {
+    "text": "| Series | MAE maximum (amplitude) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 0.30 | held-out |",
+    "title": "PulseGate-limits.pptx · v1 · 第 1 页"
+  }
+}

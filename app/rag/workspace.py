@@ -32,6 +32,7 @@ from app.rag.structure_search import (
     StructureSearcher,
     StructureSearchRequest,
 )
+from app.rag.workspace_composition import asks_for_composition, compose_evidence
 from app.rag.workspace_objects import ObjectIntent, object_choices, object_intent
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
@@ -49,6 +50,7 @@ from app.stores.structure_snapshot import (
     SnapshotDocument,
     SnapshotRequest,
     SnapshotSource,
+    StructureSnapshot,
     StructureSnapshotStore,
 )
 from app.stores.workspace import Attachment, Session, Turn, WorkspaceStore, json_text
@@ -58,6 +60,7 @@ _IMAGE_REFERENCE = re.compile(r"(?:刚才|上一条|上面|那|这|哪)\s*(?:的
 _HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条")
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
 _PAGE = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:页|张幻灯片)")
+_PAGE_PREFIX = re.compile(r"\b(?:page|slide)\s+#?([1-9][0-9]{0,3})\b", re.IGNORECASE)
 _CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*cell", re.IGNORECASE)
 _CELL_PREFIX = re.compile(r"\bcell\s+([1-9][0-9]{0,3})\b", re.IGNORECASE)
 _FILE_MENTION = re.compile(r"\.(?:pdf|pptx|ipynb)(?=$|[^a-z0-9_])", re.IGNORECASE)
@@ -737,6 +740,8 @@ class WorkspaceService:
             for doc in documents.values()
             if doc.file_name.casefold() in text.casefold()
         ]
+        if mode == "ask" and asks_for_composition(text):
+            return self._answer_composition(turn, session, text, snapshot)
         if mode == "ask" and location is None and asks_for_definition_and_experiment(text):
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
@@ -823,6 +828,55 @@ class WorkspaceService:
         if not draft.sources:
             draft.notice("no_readable_evidence", "在所选范围内没有读到支持本题的原文或图片。")
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _answer_composition(
+        self, turn: Turn, session: Session, text: str, snapshot: StructureSnapshot
+    ) -> Turn:
+        draft = Draft(session.session_id)
+        refs = {doc.document_id: _doc_ref(doc) for doc in snapshot.documents}
+        if _location(text, None) is not None or _PAGE_PREFIX.search(text):
+            return self._clarify(
+                turn,
+                "三类证据需要分别核对。请先选择要使用的文件，或单独检查指定页和 Cell。",
+                [],
+                list(refs.values()),
+            )
+        names = _object_file_names(text, snapshot.documents)
+        if names is None:
+            draft.notice("scope_not_found", "无法确认指定文件，请明确可使用的资料名称。")
+            return self._complete(turn, draft, refs=list(refs.values()))
+        if names:
+            snapshot = self.snapshots.read(
+                SnapshotRequest(tuple(session.course_ids), tuple(refs), tuple(names))
+            )
+            if any(_doc_ref(doc) != refs.get(doc.document_id) for doc in snapshot.documents):
+                raise WorkspaceError("stale_reference")
+            narrowed = {doc.document_id: doc for doc in snapshot.documents}
+            if snapshot.resolution_status == "ambiguous_scope":
+                return self._clarify(
+                    turn,
+                    "有多份资料符合范围，请选择一份。",
+                    self._document_choices(session.session_id, narrowed),
+                    [_doc_ref(doc) for doc in narrowed.values()],
+                )
+            if snapshot.resolution_status != "resolved":
+                draft.notice("scope_not_found", "在所选范围内找不到指定的文件。")
+                return self._complete(turn, draft, refs=list(refs.values()))
+            refs = {key: _doc_ref(doc) for key, doc in narrowed.items()}
+        run = compose_evidence(
+            text,
+            snapshot,
+            self.searcher,
+            self.library.store,
+            allowed_courses=self.allowed_courses,
+            active=lambda: self.store.active(turn),
+        )
+        draft.sources.update(run.evidence)
+        for statement in run.statements:
+            draft.text(statement.text, *statement.citations)
+        for code, note in run.notices:
+            draft.notice(code, note)
+        return self._complete(turn, draft, refs=list(refs.values()), trace=run.trace)
 
     def _answer_object(
         self,

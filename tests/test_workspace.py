@@ -867,3 +867,54 @@ def test_first_image_question_does_not_substitute_another_named_file(system, pub
         result = _ask(client, session, question)
         assert result["message"]["blocks"][0]["code"] == "scope_not_found"
         assert not result["message"]["sources"]
+
+
+@pytest.mark.parametrize("with_table", [True, False])
+def test_normal_three_material_question_uses_exact_roles(system, public_object_files, with_table):
+    _, _, _, client = system
+    originals, public = public_object_files
+    session = _create(client)
+    for name in ("PulseGate-lecture.ipynb", "PulseGate-run.ipynb"):
+        _upload(client, session, originals / name)
+    if with_table:
+        _upload(client, session, originals / "PulseGate-limits.pptx")
+    result = _ask(client, session, public["questions"]["three"], client_id="three-materials")
+    assert result["turn"]["status"] == "completed"
+    trace = result["turn"]["trace"]
+    assert trace["route"] == "evidence_composition"
+    assert trace["supplement_count"] <= 1
+    assert trace["external_call_count"] == 0
+    message = result["message"]
+    sources = message["sources"]
+    assert len(sources) == (3 if with_table else 2)
+    assert {item["revision"]["source"]["source_id"] for item in sources.values()} == (
+        {"cell:0", "cell:0:output:0", "page:1:shape:2"}
+        if with_table
+        else {"cell:0", "cell:0:output:0"}
+    )
+    for ref in sources:
+        endpoint = session + f"/messages/{message['message_id']}/evidence/{ref}"
+        opened = client.get(endpoint)
+        assert opened.status_code == 200
+        assert opened.json()["source"] == sources[ref]["revision"]["source"]
+    if with_table:
+        assert trace["comparison"] == "unverified_alignment"
+    else:
+        assert all("17.5" not in block["text"] for block in message["blocks"])
+
+
+def test_composition_does_not_replace_explicit_page_by_another_page(system, public_object_files):
+    _, _, _, client = system
+    originals, public = public_object_files
+    session = _create(client)
+    for name in ("PulseGate-lecture.ipynb", "PulseGate-run.ipynb", "PulseGate-limits.pptx"):
+        _upload(client, session, originals / name)
+    for page in ("page 99", "第 99 页"):
+        result = _ask(
+            client,
+            session,
+            f"{public['questions']['three']} Only use {page} of PulseGate-limits.pptx.",
+            client_id=f"restricted-{page}",
+        )
+        assert result["turn"]["status"] == "clarification"
+        assert not result["message"]["sources"]
