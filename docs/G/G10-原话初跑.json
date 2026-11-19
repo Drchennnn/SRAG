@@ -1,0 +1,801 @@
+{
+  "subject": "e921fa87f48a4e67c58010181a187c6e0e12b833",
+  "first_browser_run": true,
+  "fixture_sha256": {
+    "Drum-Lab.pdf": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+    "Drum-Readings.pptx": "3c017bb7001e1b76f6e507b3cf8eae847ce22e086a0082dcfdf49978a2cfea34",
+    "Drum-Rotated.pdf": "49ccca177b06c8ac52170b68f98d655c41c1d09c0fd251389795951e485708ae",
+    "Drum-Scan.pdf": "fc6b03933456d0dd6bb903c119d3e181d159c51eac69fb6515e0a1084e77ad3c",
+    "v1/Drum-Trend.ipynb": "7708e88b1fd59dd9091c51869eea7f832a945de744dc71c8cd435e4812f14e12",
+    "v2/Drum-Trend.ipynb": "77b9c1e202976a8108e6b4079cafcb1eabafbc12f92365723190a395ff93bfcb"
+  },
+  "cases": [
+    {
+      "case": "normal",
+      "browser": {
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Drum-Lab.pdf · v1 · 第 1 页"
+          }
+        ],
+        "focus": null,
+        "images": [
+          {
+            "height": 800,
+            "url": "/api/workspace/sessions/c0e9c02bfaf0465c9491209d4366debe/messages/32e2c291b6c348c686ba0ba44b668dfb/media/72e0d8865165404398f533ba41702e80?view=inline",
+            "width": 1200
+          }
+        ],
+        "message_id": "32e2c291b6c348c686ba0ba44b668dfb",
+        "text": "课程助手Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation lab\nDrum modulation lab依据 · Drum-Lab.pdf · v1 · 第 1 页正在加载图片…图 1 · Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation labDrum-Lab.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "event": {
+        "category": "turn",
+        "status": 200,
+        "path": "/api/workspace/sessions/c0e9c02bfaf0465c9491209d4366debe/turns",
+        "query": {},
+        "request": {
+          "client_turn_id": "4dbc2736-37fb-4547-8d9b-4c90296555da",
+          "kind": "ask",
+          "text": "Drum-Lab.pdf 的右侧图，横轴的单位是什么？",
+          "scope_revision": 1
+        },
+        "response": {
+          "turn": {
+            "turn_id": "4efc460632ef487c9d752ee3f7200878",
+            "client_turn_id": "4dbc2736-37fb-4547-8d9b-4c90296555da",
+            "kind": "ask",
+            "text": "Drum-Lab.pdf 的右侧图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": null,
+            "trace": {
+              "candidates": [
+                {
+                  "file_name": "Drum-Lab.pdf",
+                  "locator": {
+                    "page": 1
+                  },
+                  "match_kind": "token_component",
+                  "reasons": [
+                    {
+                      "code": "fts_native",
+                      "seed": {
+                        "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                        "source_id": "page:1",
+                        "version": 1
+                      }
+                    }
+                  ],
+                  "source": {
+                    "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "coverage": {
+                "checked_adjacency_edges": 0,
+                "checked_positions": [
+                  "page:1"
+                ],
+                "enumerated_source_count": 1,
+                "evidence_inspected_count": 1,
+                "fts_candidate_cap": 36,
+                "fts_scan_truncated": false,
+                "fts_seed_count": 1,
+                "full_file_read": false,
+                "reserved_adjacency_slots": 0,
+                "returned_count": 1,
+                "searchable_source_count": 1,
+                "snapshot_document_count": 1,
+                "truncated": false,
+                "truncated_by_reason": {}
+              },
+              "display_attempts": {
+                "attempt_limit": 12,
+                "attempted": 1,
+                "display_limit": 3,
+                "displayed": 1,
+                "eligible": 1,
+                "failed": 0,
+                "unattempted": 0
+              },
+              "effective_scope": {
+                "course_ids": [
+                  "drum-lab"
+                ],
+                "document_ids": [
+                  "local_f0f2b6f607ab42588f8682c01ebbc23b"
+                ]
+              },
+              "search_status": "ok"
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation lab\nDrum modulation lab",
+                "type": "text"
+              },
+              {
+                "caption": "Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation lab",
+                "display_id": "72e0d8865165404398f533ba41702e80",
+                "display_source": {
+                  "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                "evidence_id": "ev-2",
+                "fallback_reason": null,
+                "height": 800,
+                "media_url": "/api/workspace/sessions/c0e9c02bfaf0465c9491209d4366debe/messages/32e2c291b6c348c686ba0ba44b668dfb/media/72e0d8865165404398f533ba41702e80?view=inline",
+                "read_status": "not_attempted",
+                "rect_visible_norm": null,
+                "rendition_kind": "original_page",
+                "type": "source_image",
+                "width": 1200
+              }
+            ],
+            "message_id": "32e2c291b6c348c686ba0ba44b668dfb",
+            "ordinal": 2,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Drum-Lab.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": null,
+                    "actual_input_rect": null,
+                    "actual_input_sha256": null,
+                    "actual_source": {
+                      "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                      "source_id": "page:1",
+                      "version": 1
+                    },
+                    "execution": null,
+                    "method": "native_text",
+                    "model": null,
+                    "origin_execution": null,
+                    "prompt_version": null,
+                    "question_sha256": null,
+                    "status": "succeeded",
+                    "text": "Drum modulation lab",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              },
+              "ev-2": {
+                "evidence_id": "ev-2",
+                "file_name": "Drum-Lab.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "read_status": "not_attempted",
+                "reads": [],
+                "revision": {
+                  "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              }
+            },
+            "turn_id": "4efc460632ef487c9d752ee3f7200878",
+            "visible_display_ids": [
+              "72e0d8865165404398f533ba41702e80"
+            ]
+          },
+          "options": []
+        }
+      }
+    },
+    {
+      "case": "page",
+      "browser": {
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Drum-Lab.pdf · v1 · 第 1 页"
+          }
+        ],
+        "focus": "第 1 页 · Drum modulation lab",
+        "images": [
+          {
+            "height": 800,
+            "url": "/api/workspace/sessions/b4ca5f0c747c4a2a9d68404bb0b9d7ef/messages/1f81060d00814674ae9f945a2d1ee6b0/media/7cff8509e888403eb05e60063c673b4b?view=inline",
+            "width": 1200
+          }
+        ],
+        "message_id": "1f81060d00814674ae9f945a2d1ee6b0",
+        "text": "课程助手Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation lab\nDrum modulation lab依据 · Drum-Lab.pdf · v1 · 第 1 页正在加载图片…图 1 · Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation labDrum-Lab.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "event": {
+        "category": "turn",
+        "status": 200,
+        "path": "/api/workspace/sessions/b4ca5f0c747c4a2a9d68404bb0b9d7ef/turns",
+        "query": {},
+        "request": {
+          "client_turn_id": "93861e6f-e080-4cd4-91f5-19eac25818eb",
+          "kind": "ask",
+          "text": "Drum-Lab.pdf 的右侧图，横轴的单位是什么？",
+          "scope_revision": 4
+        },
+        "response": {
+          "turn": {
+            "turn_id": "30614c2dc859430dbb63e5748c6fe266",
+            "client_turn_id": "93861e6f-e080-4cd4-91f5-19eac25818eb",
+            "kind": "ask",
+            "text": "Drum-Lab.pdf 的右侧图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": null,
+            "trace": {
+              "candidates": [
+                {
+                  "file_name": "Drum-Lab.pdf",
+                  "locator": {
+                    "page": 1
+                  },
+                  "match_kind": "direct",
+                  "reasons": [
+                    {
+                      "code": "direct_location",
+                      "seed": {
+                        "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                        "source_id": "page:1",
+                        "version": 1
+                      }
+                    }
+                  ],
+                  "source": {
+                    "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "coverage": {
+                "checked_adjacency_edges": 0,
+                "checked_positions": [
+                  "page:1"
+                ],
+                "enumerated_source_count": 1,
+                "evidence_inspected_count": 1,
+                "fts_candidate_cap": 36,
+                "fts_scan_truncated": false,
+                "fts_seed_count": 0,
+                "full_file_read": true,
+                "reserved_adjacency_slots": 0,
+                "returned_count": 1,
+                "searchable_source_count": 1,
+                "snapshot_document_count": 1,
+                "truncated": false,
+                "truncated_by_reason": {}
+              },
+              "display_attempts": {
+                "attempt_limit": 12,
+                "attempted": 1,
+                "display_limit": 3,
+                "displayed": 1,
+                "eligible": 1,
+                "failed": 0,
+                "unattempted": 0
+              },
+              "effective_scope": {
+                "course_ids": [
+                  "drum-lab"
+                ],
+                "document_ids": [
+                  "local_f0f2b6f607ab42588f8682c01ebbc23b"
+                ]
+              },
+              "search_status": "ok"
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation lab\nDrum modulation lab",
+                "type": "text"
+              },
+              {
+                "caption": "Drum-Lab.pdf · v1 · 第 1 页 · Drum modulation lab",
+                "display_id": "7cff8509e888403eb05e60063c673b4b",
+                "display_source": {
+                  "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                "evidence_id": "ev-2",
+                "fallback_reason": null,
+                "height": 800,
+                "media_url": "/api/workspace/sessions/b4ca5f0c747c4a2a9d68404bb0b9d7ef/messages/1f81060d00814674ae9f945a2d1ee6b0/media/7cff8509e888403eb05e60063c673b4b?view=inline",
+                "read_status": "not_attempted",
+                "rect_visible_norm": null,
+                "rendition_kind": "original_page",
+                "type": "source_image",
+                "width": 1200
+              }
+            ],
+            "message_id": "1f81060d00814674ae9f945a2d1ee6b0",
+            "ordinal": 2,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Drum-Lab.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": null,
+                    "actual_input_rect": null,
+                    "actual_input_sha256": null,
+                    "actual_source": {
+                      "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                      "source_id": "page:1",
+                      "version": 1
+                    },
+                    "execution": null,
+                    "method": "native_text",
+                    "model": null,
+                    "origin_execution": null,
+                    "prompt_version": null,
+                    "question_sha256": null,
+                    "status": "succeeded",
+                    "text": "Drum modulation lab",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              },
+              "ev-2": {
+                "evidence_id": "ev-2",
+                "file_name": "Drum-Lab.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "read_status": "not_attempted",
+                "reads": [],
+                "revision": {
+                  "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_f0f2b6f607ab42588f8682c01ebbc23b",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              }
+            },
+            "turn_id": "30614c2dc859430dbb63e5748c6fe266",
+            "visible_display_ids": [
+              "7cff8509e888403eb05e60063c673b4b"
+            ]
+          },
+          "options": []
+        }
+      }
+    },
+    {
+      "case": "table",
+      "browser": {
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "Drum-Readings.pptx · v1 · 第 1 页"
+          },
+          {
+            "id": "ev-2",
+            "label": "Drum-Readings.pptx · v1 · 第 1 页"
+          }
+        ],
+        "focus": null,
+        "images": [
+          {
+            "height": 1080,
+            "url": "/api/workspace/sessions/d3dc67d48b0a4ee2876139ba82a30394/messages/405c1747b0f946528fde45ee41f7d2fd/media/1a40bf0d3d004a6c939e2db4bf3a0b80?view=inline",
+            "width": 1440
+          },
+          {
+            "height": 332,
+            "url": "/api/workspace/sessions/d3dc67d48b0a4ee2876139ba82a30394/messages/405c1747b0f946528fde45ee41f7d2fd/media/5158c04b3e1b494ea59d6435c58aea2b?view=inline",
+            "width": 1210
+          }
+        ],
+        "message_id": "405c1747b0f946528fde45ee41f7d2fd",
+        "text": "课程助手Drum-Readings.pptx · v1 · 第 1 页\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |依据 · Drum-Readings.pptx · v1 · 第 1 页Drum-Readings.pptx · v1 · 表格\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |依据 · Drum-Readings.pptx · v1 · 第 1 页正在加载图片…图 1 · Drum-Readings.pptx · v1 · 第 1 页Drum-Readings.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件正在加载图片…图 2 · Drum-Readings.pptx · v1 · 表格Drum-Readings.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "event": {
+        "category": "turn",
+        "status": 200,
+        "path": "/api/workspace/sessions/d3dc67d48b0a4ee2876139ba82a30394/turns",
+        "query": {},
+        "request": {
+          "client_turn_id": "09672b77-6bac-414a-a1ce-720fcf2ed7de",
+          "kind": "ask",
+          "text": "请核对 Drum-Readings.pptx 的原表，Frequency 这一列的单位是什么？Cedar 对应多少？",
+          "scope_revision": 1
+        },
+        "response": {
+          "turn": {
+            "turn_id": "e29193c42d6d46fcb54c9a2bcfa42535",
+            "client_turn_id": "09672b77-6bac-414a-a1ce-720fcf2ed7de",
+            "kind": "ask",
+            "text": "请核对 Drum-Readings.pptx 的原表，Frequency 这一列的单位是什么？Cedar 对应多少？",
+            "status": "completed",
+            "resolution": null,
+            "trace": {
+              "candidates": [
+                {
+                  "file_name": "Drum-Readings.pptx",
+                  "locator": {
+                    "page": 1
+                  },
+                  "match_kind": "token_component",
+                  "reasons": [
+                    {
+                      "code": "fts_native",
+                      "seed": {
+                        "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                        "source_id": "page:1",
+                        "version": 1
+                      }
+                    },
+                    {
+                      "code": "parent_context",
+                      "seed": {
+                        "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                        "source_id": "page:1:shape:2",
+                        "version": 1
+                      }
+                    },
+                    {
+                      "code": "same_position_object",
+                      "seed": {
+                        "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                        "source_id": "page:1:shape:2",
+                        "version": 1
+                      }
+                    }
+                  ],
+                  "source": {
+                    "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "file_name": "Drum-Readings.pptx",
+                  "locator": {
+                    "bbox": [
+                      0.1,
+                      0.266667,
+                      0.9,
+                      0.533333
+                    ],
+                    "page": 1
+                  },
+                  "match_kind": "token_component",
+                  "reasons": [
+                    {
+                      "code": "fts_native",
+                      "seed": {
+                        "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                        "source_id": "page:1:shape:2",
+                        "version": 1
+                      }
+                    },
+                    {
+                      "code": "child_object",
+                      "seed": {
+                        "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                        "source_id": "page:1",
+                        "version": 1
+                      }
+                    },
+                    {
+                      "code": "same_position_object",
+                      "seed": {
+                        "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                        "source_id": "page:1",
+                        "version": 1
+                      }
+                    }
+                  ],
+                  "source": {
+                    "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                    "source_id": "page:1:shape:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "coverage": {
+                "checked_adjacency_edges": 4,
+                "checked_positions": [
+                  "page:1"
+                ],
+                "enumerated_source_count": 2,
+                "evidence_inspected_count": 2,
+                "fts_candidate_cap": 36,
+                "fts_scan_truncated": false,
+                "fts_seed_count": 2,
+                "full_file_read": false,
+                "reserved_adjacency_slots": 4,
+                "returned_count": 2,
+                "searchable_source_count": 2,
+                "snapshot_document_count": 1,
+                "truncated": false,
+                "truncated_by_reason": {}
+              },
+              "display_attempts": {
+                "attempt_limit": 12,
+                "attempted": 2,
+                "display_limit": 3,
+                "displayed": 2,
+                "eligible": 2,
+                "failed": 0,
+                "unattempted": 0
+              },
+              "effective_scope": {
+                "course_ids": [
+                  "drum-lab"
+                ],
+                "document_ids": [
+                  "local_c0676a2fa6a44b548404637f65b00d8d",
+                  "local_e953efe73783436aa64bea44c07fe541",
+                  "local_f0f2b6f607ab42588f8682c01ebbc23b"
+                ]
+              },
+              "search_status": "ok"
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "Drum-Readings.pptx · v1 · 第 1 页\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+                "type": "text"
+              },
+              {
+                "citations": [
+                  "ev-2"
+                ],
+                "text": "Drum-Readings.pptx · v1 · 表格\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+                "type": "text"
+              },
+              {
+                "caption": "Drum-Readings.pptx · v1 · 第 1 页",
+                "display_id": "1a40bf0d3d004a6c939e2db4bf3a0b80",
+                "display_source": {
+                  "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                "evidence_id": "ev-3",
+                "fallback_reason": null,
+                "height": 1080,
+                "media_url": "/api/workspace/sessions/d3dc67d48b0a4ee2876139ba82a30394/messages/405c1747b0f946528fde45ee41f7d2fd/media/1a40bf0d3d004a6c939e2db4bf3a0b80?view=inline",
+                "read_status": "not_attempted",
+                "rect_visible_norm": null,
+                "rendition_kind": "original_page",
+                "type": "source_image",
+                "width": 1440
+              },
+              {
+                "caption": "Drum-Readings.pptx · v1 · 表格",
+                "display_id": "5158c04b3e1b494ea59d6435c58aea2b",
+                "display_source": {
+                  "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                },
+                "evidence_id": "ev-4",
+                "fallback_reason": null,
+                "height": 332,
+                "media_url": "/api/workspace/sessions/d3dc67d48b0a4ee2876139ba82a30394/messages/405c1747b0f946528fde45ee41f7d2fd/media/5158c04b3e1b494ea59d6435c58aea2b?view=inline",
+                "read_status": "not_attempted",
+                "rect_visible_norm": [
+                  0.08,
+                  0.246667,
+                  0.92,
+                  0.553333
+                ],
+                "rendition_kind": "object_crop",
+                "type": "source_image",
+                "width": 1210
+              }
+            ],
+            "message_id": "405c1747b0f946528fde45ee41f7d2fd",
+            "ordinal": 4,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Drum-Readings.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": null,
+                    "actual_input_rect": null,
+                    "actual_input_sha256": null,
+                    "actual_source": {
+                      "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                      "source_id": "page:1",
+                      "version": 1
+                    },
+                    "execution": null,
+                    "method": "native_text",
+                    "model": null,
+                    "origin_execution": null,
+                    "prompt_version": null,
+                    "question_sha256": null,
+                    "status": "succeeded",
+                    "text": "| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "3c017bb7001e1b76f6e507b3cf8eae847ce22e086a0082dcfdf49978a2cfea34",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              },
+              "ev-2": {
+                "evidence_id": "ev-2",
+                "file_name": "Drum-Readings.pptx",
+                "locator": {
+                  "bbox": [
+                    0.1,
+                    0.266667,
+                    0.9,
+                    0.533333
+                  ],
+                  "page": 1
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": null,
+                    "actual_input_rect": null,
+                    "actual_input_sha256": null,
+                    "actual_source": {
+                      "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                      "source_id": "page:1:shape:2",
+                      "version": 1
+                    },
+                    "execution": null,
+                    "method": "native_table",
+                    "model": null,
+                    "origin_execution": null,
+                    "prompt_version": null,
+                    "question_sha256": null,
+                    "status": "succeeded",
+                    "text": "| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "3c017bb7001e1b76f6e507b3cf8eae847ce22e086a0082dcfdf49978a2cfea34",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                    "source_id": "page:1:shape:2",
+                    "version": 1
+                  }
+                }
+              },
+              "ev-3": {
+                "evidence_id": "ev-3",
+                "file_name": "Drum-Readings.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "read_status": "not_attempted",
+                "reads": [],
+                "revision": {
+                  "content_sha256": "3c017bb7001e1b76f6e507b3cf8eae847ce22e086a0082dcfdf49978a2cfea34",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              },
+              "ev-4": {
+                "evidence_id": "ev-4",
+                "file_name": "Drum-Readings.pptx",
+                "locator": {
+                  "bbox": [
+                    0.1,
+                    0.266667,
+                    0.9,
+                    0.533333
+                  ],
+                  "page": 1
+                },
+                "read_status": "not_attempted",
+                "reads": [],
+                "revision": {
+                  "content_sha256": "3c017bb7001e1b76f6e507b3cf8eae847ce22e086a0082dcfdf49978a2cfea34",
+                  "course_id": "drum-lab",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_e953efe73783436aa64bea44c07fe541",
+                    "source_id": "page:1:shape:2",
+                    "version": 1
+                  }
+                }
+              }
+            },
+            "turn_id": "e29193c42d6d46fcb54c9a2bcfa42535",
+            "visible_display_ids": [
+              "1a40bf0d3d004a6c939e2db4bf3a0b80",
+              "5158c04b3e1b494ea59d6435c58aea2b"
+            ]
+          },
+          "options": []
+        }
+      }
+    }
+  ]
+}
