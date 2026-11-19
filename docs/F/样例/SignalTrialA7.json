@@ -1,0 +1,21 @@
+{
+  "course_id": "signal-demo",
+  "question": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+  "documents": [
+    {
+      "role": "lecture",
+      "file_name": "Median-lecture.ipynb",
+      "text": "Definition: A median filter replaces each interior sample by the median of an odd window.\nExperiment-ID: SignalTrialA7."
+    },
+    {
+      "role": "notes",
+      "file_name": "Median-drills.ipynb",
+      "text": "Median filter worksheet: practice selecting odd windows without reporting an outcome."
+    },
+    {
+      "role": "lab",
+      "file_name": "A7-observations.ipynb",
+      "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.18. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.16, 0.20, 0.18, 0.18)."
+    }
+  ]
+}
