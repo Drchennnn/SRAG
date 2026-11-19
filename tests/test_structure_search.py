@@ -16,7 +16,7 @@ from app.api import structure_search as structure_api
 from app.config import Settings
 from app.rag.local_library import LocalLibrary
 from app.rag.structure_search import StructureSearcher, StructureSearchRequest
-from app.schemas.local import ParsedSource, SourceDraft
+from app.schemas.local import ParsedSource, SourceDraft, SourceKey
 from app.stores.structure_snapshot import SnapshotRequest, StructureSnapshotStore
 
 PUBLIC_SAMPLES = Path(__file__).resolve().parents[1] / "docs" / "A" / "样例"
@@ -106,6 +106,7 @@ def _request(query: str, courses: list[str], **scope) -> StructureSearchRequest:
         query=query,
         scope={"course_ids": courses, **scope},
         include_adjacency=False,
+        include_page_fallback=False,
     )
 
 
@@ -293,6 +294,7 @@ def test_direct_page_and_cell_locations_are_typed_and_budgeted(
             scope={"course_ids": ["demo"], "document_ids": [page_result.document_id]},
             location={"page": 1},
             top_k=1,
+            include_adjacency=False,
         ),
         allowed_course_ids=frozenset({"demo"}),
     )
@@ -301,6 +303,7 @@ def test_direct_page_and_cell_locations_are_typed_and_budgeted(
             query="",
             scope={"course_ids": ["demo"], "document_ids": [cell_result.document_id]},
             location={"cell_id": "plot-cell"},
+            include_adjacency=False,
         ),
         allowed_course_ids=frozenset({"demo"}),
     )
@@ -342,6 +345,7 @@ def test_invalid_location_and_missing_location_are_explicit(
     )
     assert response.status == "location_not_found"
     assert response.candidates == []
+    assert response.coverage.checked_positions == []
     assert "available_pages=[1, 1]" in response.misses[0]
 
 
@@ -412,6 +416,8 @@ def test_public_three_format_probes_keep_exact_source_keys(
             "version": 1,
             "source_id": source_id,
         }
+        assert response.candidates[0].fts_origins == ["native_text"]
+        assert response.candidates[0].reasons[0].code == "fts_native"
 
 
 @pytest.mark.parametrize(
@@ -432,3 +438,414 @@ def test_negation_trace_preserves_related_evidence(
     )
     assert result.query_trace.negation_detected is detected
     assert result.candidates[0].source.source_id == "cell:0"
+
+
+def test_adjacency_reserves_a_slot_when_fts_already_fills_k(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    result = _publish(
+        library,
+        course_id="demo",
+        relative_path="budget.pdf",
+        sources=[
+            _page(1, "", ordinal=0),
+            SourceDraft(
+                source_id="page:1:shape:1",
+                kind="page_object",
+                ordinal=1,
+                parent_id="page:1",
+                text="budgetword",
+                locator={"format": "pdf", "page": 1, "object_type": "text"},
+            ),
+            _page(2, "budgetword", ordinal=2),
+            _page(3, "budgetword", ordinal=3),
+            _page(4, "budgetword", ordinal=4),
+        ],
+    )
+    searcher = _searcher(settings)
+    lexical = searcher.search(
+        StructureSearchRequest(
+            query="budgetword",
+            scope={"course_ids": ["demo"], "document_ids": [result.document_id]},
+            top_k=3,
+            include_adjacency=False,
+            include_page_fallback=False,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    structured = searcher.search(
+        StructureSearchRequest(
+            query="budgetword",
+            scope={"course_ids": ["demo"], "document_ids": [result.document_id]},
+            top_k=3,
+            include_adjacency=True,
+            include_page_fallback=False,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    lexical_ids = [candidate.source.source_id for candidate in lexical.candidates]
+    structured_ids = [candidate.source.source_id for candidate in structured.candidates]
+    assert lexical_ids == ["page:1:shape:1", "page:2", "page:3"]
+    assert structured_ids == ["page:1:shape:1", "page:2", "page:1"]
+    assert lexical.coverage.fts_candidate_cap == structured.coverage.fts_candidate_cap == 9
+    assert len(lexical_ids) == len(structured_ids) == 3
+    assert structured.coverage.reserved_adjacency_slots == 1
+    assert structured.coverage.checked_adjacency_edges > 0
+    parent = structured.candidates[-1]
+    assert parent.reasons[0].code == "parent_context"
+    assert parent.reasons[0].seed.source_id == "page:1:shape:1"
+    assert structured.coverage.full_file_read is False
+
+
+def test_registered_caption_target_and_unregistered_same_page_are_distinct(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    registered = _publish(
+        library,
+        course_id="demo",
+        relative_path="caption.pdf",
+        sources=[
+            _page(1, "captiontoken", ordinal=0),
+            SourceDraft(
+                source_id="page:1:caption:1",
+                kind="page_object",
+                ordinal=1,
+                parent_id="page:1",
+                text="captiontoken",
+                locator={
+                    "format": "pdf",
+                    "page": 1,
+                    "object_type": "caption",
+                    "caption_target_source_id": "page:1:image:1",
+                },
+            ),
+            SourceDraft(
+                source_id="page:1:image:1",
+                kind="page_object",
+                ordinal=2,
+                parent_id="page:1",
+                text="",
+                locator={"format": "pdf", "page": 1, "object_type": "image"},
+            ),
+        ],
+    )
+    unregistered = _publish(
+        library,
+        course_id="demo",
+        relative_path="unregistered.pdf",
+        sources=[
+            _page(1, "plaincaption", ordinal=0),
+            SourceDraft(
+                source_id="page:1:caption:1",
+                kind="page_object",
+                ordinal=1,
+                parent_id="page:1",
+                text="plaincaption",
+                locator={
+                    "format": "pdf",
+                    "page": 1,
+                    "object_type": "caption",
+                    "caption_target_source_id": "page:1",
+                },
+            ),
+            SourceDraft(
+                source_id="page:1:image:1",
+                kind="page_object",
+                ordinal=2,
+                parent_id="page:1",
+                text="",
+                locator={"format": "pdf", "page": 1, "object_type": "image"},
+            ),
+        ],
+    )
+    searcher = _searcher(settings)
+    strong = searcher.search(
+        StructureSearchRequest(
+            query="captiontoken",
+            scope={"course_ids": ["demo"], "document_ids": [registered.document_id]},
+            top_k=3,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    weak = searcher.search(
+        StructureSearchRequest(
+            query="plaincaption",
+            scope={"course_ids": ["demo"], "document_ids": [unregistered.document_id]},
+            top_k=3,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    strong_image = next(c for c in strong.candidates if c.source.source_id == "page:1:image:1")
+    weak_image = next(c for c in weak.candidates if c.source.source_id == "page:1:image:1")
+    assert "caption_target" in {reason.code for reason in strong_image.reasons}
+    assert "caption_target" not in {reason.code for reason in weak_image.reasons}
+    assert "same_position_object" in {reason.code for reason in weak_image.reasons}
+
+
+def test_parent_child_same_position_and_neighbor_reasons_are_preserved(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    result = _publish(
+        library,
+        course_id="demo",
+        relative_path="relations.pdf",
+        sources=[
+            _page(1, "", ordinal=0),
+            _page(2, "relationword", ordinal=1),
+            SourceDraft(
+                source_id="page:2:table:1",
+                kind="page_object",
+                ordinal=2,
+                parent_id="page:2",
+                text="relationword",
+                locator={"format": "pdf", "page": 2, "object_type": "table"},
+            ),
+            _page(3, "", ordinal=3),
+        ],
+    )
+    response = _searcher(settings).search(
+        StructureSearchRequest(
+            query="relationword",
+            scope={"course_ids": ["demo"], "document_ids": [result.document_id]},
+            top_k=8,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    top_one = _searcher(settings).search(
+        StructureSearchRequest(
+            query="relationword",
+            scope={"course_ids": ["demo"], "document_ids": [result.document_id]},
+            top_k=1,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    reasons = {
+        candidate.source.source_id: {reason.code for reason in candidate.reasons}
+        for candidate in response.candidates
+    }
+    assert "parent_context" in reasons["page:2"]
+    assert "child_object" in reasons["page:2:table:1"]
+    assert "same_position_object" in reasons["page:2:table:1"]
+    assert "previous_position" in reasons["page:1"]
+    assert "next_position" in reasons["page:3"]
+    assert all(
+        reason.seed.version == 1
+        for candidate in response.candidates
+        for reason in candidate.reasons
+    )
+    assert top_one.candidates[0].source.source_id == "page:2:table:1"
+    assert "child_object" in {reason.code for reason in top_one.candidates[0].reasons}
+
+
+def test_explicit_cell_returns_saved_outputs_in_real_order_and_full_coverage(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    result = _publish(
+        library,
+        course_id="demo",
+        relative_path="outputs.ipynb",
+        sources=[
+            _cell(0, "plot code", cell_id="plot"),
+            SourceDraft(
+                source_id="cell:0:output:0",
+                kind="notebook_output",
+                ordinal=1,
+                parent_id="cell:0",
+                text="first saved image",
+                locator={"format": "ipynb", "cell_index": 0, "cell_id": "plot", "output_index": 0},
+            ),
+            SourceDraft(
+                source_id="cell:0:output:2",
+                kind="notebook_output",
+                ordinal=2,
+                parent_id="cell:0",
+                text="second saved image",
+                locator={"format": "ipynb", "cell_index": 0, "cell_id": "plot", "output_index": 2},
+            ),
+        ],
+    )
+    response = _searcher(settings).search(
+        StructureSearchRequest(
+            query="",
+            scope={"course_ids": ["demo"], "document_ids": [result.document_id]},
+            location={"cell_id": "plot"},
+            top_k=8,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    assert [candidate.source.source_id for candidate in response.candidates] == [
+        "cell:0",
+        "cell:0:output:0",
+        "cell:0:output:2",
+    ]
+    output_reasons = [
+        {reason.code for reason in candidate.reasons} for candidate in response.candidates[1:]
+    ]
+    assert all("child_object" in reasons for reasons in output_reasons)
+    assert response.coverage.full_file_read is True
+    assert response.coverage.checked_positions == ["cell:0"]
+
+
+def test_no_text_anchor_browses_one_file_without_claiming_visual_read(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    first = _publish(
+        library,
+        course_id="demo",
+        relative_path="scan.pdf",
+        sources=[
+            _page(1, "", ordinal=0).model_copy(update={"state": "needs_ocr"}),
+            _page(2, "", ordinal=1).model_copy(update={"state": "needs_ocr"}),
+        ],
+    )
+    second = _publish(
+        library,
+        course_id="demo",
+        relative_path="other.pdf",
+        sources=[_page(1, "", ordinal=0).model_copy(update={"state": "needs_ocr"})],
+    )
+    searcher = _searcher(settings)
+    single = searcher.search(
+        StructureSearchRequest(
+            query="unseenword",
+            scope={"course_ids": ["demo"], "document_ids": [first.document_id]},
+            top_k=1,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    multiple = searcher.search(
+        StructureSearchRequest(
+            query="unseenword",
+            scope={
+                "course_ids": ["demo"],
+                "document_ids": [first.document_id, second.document_id],
+            },
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    pure_fts = searcher.search(
+        StructureSearchRequest(
+            query="unseenword",
+            scope={"course_ids": ["demo"], "document_ids": [first.document_id]},
+            include_adjacency=False,
+        ),
+        allowed_course_ids=frozenset({"demo"}),
+    )
+    assert single.status == "no_text_anchor"
+    assert [candidate.source.source_id for candidate in single.candidates] == ["page:1"]
+    assert single.candidates[0].match_kind == "browse"
+    assert single.candidates[0].reasons[0].code == "page_browse_fallback"
+    assert single.coverage.truncated_by_reason == {"page_browse_fallback": 1}
+    assert single.coverage.full_file_read is False
+    assert single.misses == ["no_text_anchor", "visual_not_read"]
+    assert multiple.status == "empty" and multiple.candidates == []
+    assert pure_fts.status == "empty" and pure_fts.candidates == []
+
+
+def test_partial_page_and_cell_ranges_return_found_positions_and_report_gaps_via_api(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    pdf = _publish(
+        library,
+        course_id="demo",
+        relative_path="partial.pdf",
+        sources=[_page(1, "one", ordinal=0), _page(2, "two", ordinal=1)],
+    )
+    notebook = _publish(
+        library,
+        course_id="demo",
+        relative_path="partial.ipynb",
+        sources=[_cell(0, "zero"), _cell(1, "one")],
+    )
+    app = _app(_searcher(settings))
+    app.dependency_overrides[structure_api.get_structure_course_allowlist] = lambda: frozenset(
+        {"demo"}
+    )
+    with TestClient(app) as client:
+        page_response = client.post(
+            "/api/rag/structure/search",
+            json={
+                "query": "",
+                "scope": {"course_ids": ["demo"], "document_ids": [pdf.document_id]},
+                "location": {"page_range": [1, 3]},
+            },
+        )
+        cell_response = client.post(
+            "/api/rag/structure/search",
+            json={
+                "query": "",
+                "scope": {
+                    "course_ids": ["demo"],
+                    "document_ids": [notebook.document_id],
+                },
+                "location": {"cell_range": [0, 2]},
+            },
+        )
+    assert page_response.status_code == cell_response.status_code == 200
+    page_payload = page_response.json()
+    cell_payload = cell_response.json()
+    assert [item["source"]["source_id"] for item in page_payload["candidates"]] == [
+        "page:1",
+        "page:2",
+    ]
+    assert page_payload["coverage"]["checked_positions"] == ["page:1", "page:2"]
+    assert page_payload["misses"] == ["location_missing:page:3"]
+    assert page_payload["coverage"]["full_file_read"] is True
+    assert [item["source"]["source_id"] for item in cell_payload["candidates"]] == [
+        "cell:0",
+        "cell:1",
+    ]
+    assert cell_payload["coverage"]["checked_positions"] == ["cell:0", "cell:1"]
+    assert cell_payload["misses"] == ["location_missing:cell:2"]
+    assert cell_payload["coverage"]["full_file_read"] is True
+
+
+def test_fts_origin_values_map_to_signed_public_reason_codes(
+    library: LocalLibrary, settings: Settings
+) -> None:
+    legacy = _publish(
+        library,
+        course_id="demo",
+        relative_path="legacy.pdf",
+        sources=[
+            _page(1, "legacyword", ordinal=0).model_copy(
+                update={
+                    "locator": {
+                        "format": "pdf",
+                        "page": 1,
+                        "text_origin": "legacy_text",
+                    }
+                }
+            )
+        ],
+    )
+    enhanced = _publish(
+        library,
+        course_id="demo",
+        relative_path="enhanced.pdf",
+        sources=[_page(1, "baseword", ordinal=0)],
+    )
+    assert library.store.write_enhancement(
+        SourceKey(
+            document_id=enhanced.document_id,
+            version=enhanced.version,
+            source_id="page:1",
+        ),
+        course_ids=["demo"],
+        content_sha256=enhanced.content_sha256,
+        publication_epoch=enhanced.publication_epoch,
+        text="enhancedword",
+    )
+    searcher = _searcher(settings)
+    legacy_hit = searcher.search(
+        _request("legacyword", ["demo"], document_ids=[legacy.document_id]),
+        allowed_course_ids=frozenset({"demo"}),
+    ).candidates[0]
+    enhanced_hit = searcher.search(
+        _request("enhancedword", ["demo"], document_ids=[enhanced.document_id]),
+        allowed_course_ids=frozenset({"demo"}),
+    ).candidates[0]
+    assert legacy_hit.fts_origins == ["legacy_text"]
+    assert legacy_hit.reasons[0].code == "fts_legacy"
+    assert enhanced_hit.fts_origins == ["enhancement"]
+    assert enhanced_hit.reasons[0].code == "fts_enhancement"
