@@ -11,6 +11,7 @@ from fastapi import APIRouter, Depends
 from app.config import get_settings
 from app.rag.local_library import LocalLibrary
 from app.rag.source_evidence import EvidenceRequest, EvidenceResult, SourceEvidenceService
+from app.rag.source_vision import SourceVisionService
 
 router = APIRouter()
 
@@ -30,6 +31,23 @@ def get_source_evidence_service() -> SourceEvidenceService:
     )
 
 
+def get_source_vision_service(
+    evidence: Annotated[SourceEvidenceService, Depends(get_source_evidence_service)],
+) -> SourceVisionService:
+    settings = get_settings()
+    return SourceVisionService(
+        evidence,
+        evidence.store,
+        cache_dir=settings.data_dir / "source_vision_cache",
+        enabled=settings.source_vision_enabled,
+        api_key=settings.dashscope_api_key,
+        base_url=settings.dashscope_base_url,
+        model=settings.dashscope_vision_model,
+        timeout_seconds=settings.dashscope_timeout_seconds,
+        max_image_bytes=settings.dashscope_visual_max_image_bytes,
+    )
+
+
 @router.post(
     "/current",
     response_model=EvidenceResult,
@@ -37,8 +55,8 @@ def get_source_evidence_service() -> SourceEvidenceService:
 )
 async def render_current_source(
     request: EvidenceRequest,
-    service: Annotated[SourceEvidenceService, Depends(get_source_evidence_service)],
+    service: Annotated[SourceVisionService, Depends(get_source_vision_service)],
 ) -> EvidenceResult:
     """The request cannot supply a course scope, filesystem path, or arbitrary rectangle."""
 
-    return await asyncio.to_thread(service.render_current, request)
+    return await asyncio.to_thread(service.process_current, request)

@@ -77,6 +77,8 @@ curl -sS http://127.0.0.1:8000/api/rag/structure/search \
 
 服务端设置 `SOURCE_EVIDENCE_COURSE_IDS` 为获准预览的课程 ID（逗号分隔）。`POST /api/rag/local/evidence/current` 接收来源三元组、原件 SHA-256、发布代次和展示规格。可预览 PDF/PPTX 整页、可靠对象裁区和 Notebook 的指定已保存输出。未配置课程时入口关闭。PPTX 整页依赖 LibreOffice，可用 `SRAG_SOFFICE` 指定可执行文件。没有转换器时返回原生定位和可用正文。[原件预览与复现](./docs/D/D02-版本化原件与裁图.md)
 
+请求同一入口时可用 `read_intent=directed_question` 并提供 `question`，或用 `read_intent=generic_transcription` 转写眼前的图。实际模型读取需服务端同时配置 `SOURCE_VISION_ENABLED=true` 和 DashScope 凭据。响应分别记录 `display`、`reads` 和 `external_call_count`。通用转写经版本校验可写入 FTS，定向读图保存在对应问句的缓存。[模型、缓存和复现](./docs/D/D03-定向读图与回写.md)
+
 ## 旧向量导入
 
 - **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。

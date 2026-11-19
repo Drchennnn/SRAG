@@ -66,6 +66,10 @@ class EvidenceRequest(BaseModel):
     rendition: RenditionKind
     preferred_mime: str | None = None
     registered_region_id: str | None = Field(default=None, min_length=1, max_length=160)
+    read_intent: Literal["display_only", "generic_transcription", "directed_question"] = (
+        "display_only"
+    )
+    question: str | None = Field(default=None, max_length=4000)
 
     @field_validator("source", mode="before")
     @classmethod
@@ -73,6 +77,16 @@ class EvidenceRequest(BaseModel):
         if isinstance(value, Mapping) and set(value) != {"document_id", "version", "source_id"}:
             raise ValueError("source only accepts document_id, version, and source_id")
         return value
+
+    @model_validator(mode="after")
+    def directed_question_requires_question(self) -> EvidenceRequest:
+        if self.read_intent == "directed_question":
+            if not self.question or not self.question.strip():
+                raise ValueError("directed_question requires a non-empty question")
+            self.question = self.question.strip()
+        elif self.question is not None:
+            raise ValueError("question is only accepted for directed_question")
+        return self
 
 
 class RegionComponent(BaseModel):
@@ -155,13 +169,47 @@ class NativeFallback(BaseModel):
     state: str
 
 
+class ReadRecord(BaseModel):
+    requested_source: SourceKey
+    actual_source: SourceKey
+    actual_input_sha256: str = Field(pattern=_HASH_PATTERN)
+    actual_input_media_type: str
+    actual_input_rect: tuple[float, float, float, float] | None = None
+    method: Literal["vision"] = "vision"
+    purpose: Literal["generic_transcription", "directed_question"]
+    execution: Literal["real_provider", "cache_reuse", "mock_protocol"]
+    origin_execution: Literal["real_provider", "mock_protocol"]
+    provider: str
+    model: str
+    prompt_version: str
+    question_sha256: str | None = None
+    status: Literal["succeeded", "partial", "failed"]
+    text: str = ""
+    missing_or_error: list[str] = Field(default_factory=list)
+    cache_hit: bool = False
+    external_call: bool = False
+    request_id: str | None = None
+    usage: dict[str, int] = Field(default_factory=dict)
+
+
 class EvidenceResult(BaseModel):
     status: EvidenceStatus
     requested_source: SourceKey
     content_sha256: str | None = None
     display: DisplayRecord | None = None
-    read_status: Literal["not_attempted"] = "not_attempted"
-    capability_reason: Literal["not_requested"] = "not_requested"
+    read_status: Literal["not_attempted", "succeeded", "partial", "failed"] = "not_attempted"
+    capability_reason: (
+        Literal[
+            "not_requested",
+            "provider_disabled",
+            "provider_not_configured",
+            "input_unsupported",
+            "mock_only",
+        ]
+        | None
+    ) = "not_requested"
+    reads: list[ReadRecord] = Field(default_factory=list)
+    external_call_count: int = Field(default=0, ge=0)
     native_fallback: NativeFallback | None = None
     warnings: list[str] = Field(default_factory=list)
 
@@ -244,6 +292,24 @@ class SourceEvidenceService:
             request,
             _Access(self.current_course_ids, True, request.expected_publication_epoch),
         )
+
+    def is_current_authorized(
+        self,
+        key: SourceKey,
+        *,
+        content_sha256: str,
+        publication_epoch: int,
+    ) -> bool:
+        request = EvidenceRequest(
+            source=key,
+            expected_content_sha256=content_sha256,
+            expected_publication_epoch=publication_epoch,
+            rendition="original_page",
+        )
+        snapshot, failure = self._authorized_snapshot(
+            request, _Access(self.current_course_ids, True, publication_epoch)
+        )
+        return snapshot is not None and failure is None
 
     def render_historical(
         self, request: EvidenceRequest, grant: HistoricalSourceGrant
