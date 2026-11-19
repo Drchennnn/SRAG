@@ -1,0 +1,204 @@
+{
+  "runtime": "真实 Chromium 双会话，真实 localhost FastAPI，视觉服务关闭",
+  "owners": 2,
+  "request_counts": {
+    "turns_200": 11,
+    "other_actions_200": 6
+  },
+  "visible_order_v1": {
+    "session": "e015477e05fa47a6979458607b3a6a07",
+    "message": "d34a3ffddfb34c5988fac33cefea0ea4",
+    "displays": [
+      {
+        "display": "b693753ccb6f410681492e8769379019",
+        "ordinal": 1,
+        "path": "/api/workspace/sessions/e015477e05fa47a6979458607b3a6a07/messages/d34a3ffddfb34c5988fac33cefea0ea4/media/b693753ccb6f410681492e8769379019?view=inline"
+      },
+      {
+        "display": "7033a4b57d674a479d3e35a82adeca2f",
+        "ordinal": 2,
+        "path": "/api/workspace/sessions/e015477e05fa47a6979458607b3a6a07/messages/d34a3ffddfb34c5988fac33cefea0ea4/media/7033a4b57d674a479d3e35a82adeca2f?view=inline"
+      }
+    ]
+  },
+  "visible_order_v2": {
+    "session": "e015477e05fa47a6979458607b3a6a07",
+    "message": "6a95a5d0dca7433a99609c48af0a1d93",
+    "displays": [
+      {
+        "display": "a5a1f7ca0b5a4a46857cba7261a1a7a6",
+        "ordinal": 1,
+        "path": "/api/workspace/sessions/e015477e05fa47a6979458607b3a6a07/messages/6a95a5d0dca7433a99609c48af0a1d93/media/a5a1f7ca0b5a4a46857cba7261a1a7a6?view=inline"
+      },
+      {
+        "display": "232e1fab38ac4327b758e9bfed63564f",
+        "ordinal": 2,
+        "path": "/api/workspace/sessions/e015477e05fa47a6979458607b3a6a07/messages/6a95a5d0dca7433a99609c48af0a1d93/media/232e1fab38ac4327b758e9bfed63564f?view=inline"
+      }
+    ]
+  },
+  "plain": {
+    "request": {
+      "client_turn_id": "b48a5ed3-c392-4c44-9ef5-573f49557911",
+      "kind": "ask",
+      "text": "刚才第二张图",
+      "scope_revision": 5
+    },
+    "resolution": {
+      "actual_source": {
+        "document_id": "local_c62e435331a24ef7a0e4e526614d1982",
+        "source_id": "cell:1:output:2",
+        "version": 1
+      },
+      "display_id": "7033a4b57d674a479d3e35a82adeca2f",
+      "message_id": "d34a3ffddfb34c5988fac33cefea0ea4",
+      "method": "visible_ordinal",
+      "ordinal": 2,
+      "resolution": "visible_ordinal"
+    },
+    "external_call_count": 0,
+    "read_status": "not_attempted"
+  },
+  "card": {
+    "request": {
+      "client_turn_id": "e1ac9f99-aa84-47f7-87b4-661cf0491bd6",
+      "kind": "ask",
+      "text": "请问这个图的横轴单位",
+      "scope_revision": 5,
+      "anchor": {
+        "type": "display",
+        "message_id": "d34a3ffddfb34c5988fac33cefea0ea4",
+        "display_id": "7033a4b57d674a479d3e35a82adeca2f"
+      }
+    },
+    "resolution": {
+      "actual_source": {
+        "document_id": "local_c62e435331a24ef7a0e4e526614d1982",
+        "source_id": "cell:1:output:2",
+        "version": 1
+      },
+      "display_id": "7033a4b57d674a479d3e35a82adeca2f",
+      "message_id": "d34a3ffddfb34c5988fac33cefea0ea4",
+      "method": "display_anchor",
+      "ordinal": 2,
+      "resolution": "display_anchor"
+    },
+    "external_call_count": 0,
+    "read_status": "not_attempted"
+  },
+  "clarification": {
+    "options_after_refresh": 2,
+    "request": {
+      "client_turn_id": "2a4b024a-5e72-46cc-b6e1-47427c607320",
+      "kind": "ask",
+      "text": "那张图",
+      "scope_revision": 5,
+      "anchor": {
+        "type": "clarification",
+        "turn_id": "e4ab6df316d547da98e93bed687d9b9d",
+        "option_id": "771c4ae37e724e49aad12696a8575017"
+      }
+    },
+    "resolution": {
+      "actual_source": {
+        "document_id": "local_c62e435331a24ef7a0e4e526614d1982",
+        "source_id": "cell:1:output:2",
+        "version": 1
+      },
+      "display_id": "7033a4b57d674a479d3e35a82adeca2f",
+      "message_id": "d34a3ffddfb34c5988fac33cefea0ea4",
+      "method": "clarification_choice",
+      "ordinal": 2,
+      "resolution": "clarification_choice"
+    },
+    "external_call_count": 0,
+    "read_status": "not_attempted"
+  },
+  "owner_a": {
+    "access": {
+      "own": 200,
+      "current": 200,
+      "foreign": 404,
+      "foreign_media": 404,
+      "old": 200,
+      "current_sha256": "7ec65dab6628a30590421e4c1a150c52a6ec22933d67efce47eda279097fbd68",
+      "old_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5"
+    },
+    "restored_scope": {
+      "course_ids": [
+        "signals"
+      ],
+      "document_ids": [
+        "local_c62e435331a24ef7a0e4e526614d1982"
+      ]
+    }
+  },
+  "owner_b": {
+    "access": {
+      "own": 200,
+      "current": 200,
+      "foreign": 404,
+      "foreign_media": 404,
+      "old": 200,
+      "current_sha256": "749c18cf9310c973a0fdb2b4ef933babaac4a68e4ebc0df92673122bfd73ecb6",
+      "old_sha256": "749c18cf9310c973a0fdb2b4ef933babaac4a68e4ebc0df92673122bfd73ecb6"
+    },
+    "restored_scope": {
+      "course_ids": [
+        "isolation"
+      ],
+      "document_ids": [
+        "local_f8c4d517a113400e94b73b4e14864663"
+      ]
+    },
+    "turns": 2
+  },
+  "summary_scope": {
+    "course_ids": [
+      "signals"
+    ],
+    "document_ids": [
+      "local_33ae5c9a580948f5b184b64dca440a1e"
+    ]
+  },
+  "version_switch": {
+    "document_id": "local_c62e435331a24ef7a0e4e526614d1982",
+    "versions": [
+      1,
+      2
+    ],
+    "history_preserved": true
+  },
+  "controlled_faults": {
+    "first_attempt": {
+      "turn_id": "d7cd88664219437ca70cbe34db0bfca2",
+      "client_turn_id": "63bd1c64-010a-4c42-b7b7-8ec72f87c5b0",
+      "kind": "ask",
+      "text": "E05 暂时故障后复查 median filter",
+      "status": "failed",
+      "resolution": null,
+      "trace": null,
+      "error": "temporarily_unavailable",
+      "retryable": true,
+      "options": []
+    },
+    "retry": "completed",
+    "same_ids": true,
+    "retry_user_messages": 1,
+    "cancellation": "cancelled",
+    "cancelled_assistant_messages": 0,
+    "owner_b_completed_during_owner_a_inflight": true
+  },
+  "terminal": {
+    "status": "completed",
+    "scope": {
+      "course_ids": [
+        "isolation"
+      ],
+      "document_ids": [
+        "local_f8c4d517a113400e94b73b4e14864663"
+      ]
+    },
+    "legacy_help": true
+  }
+}
