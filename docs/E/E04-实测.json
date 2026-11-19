@@ -1,0 +1,391 @@
+{
+  "baseline": "7b622dde70549c2a4eb11d0bbf2774ca764f4818",
+  "route": "真实 create_app /workspace 和 /api/workspace",
+  "viewport": [
+    1320,
+    860
+  ],
+  "turns": [
+    {
+      "request": {
+        "client_turn_id": "ed961831-f4e2-400b-92a0-a0d42a88666a",
+        "kind": "ask",
+        "text": "展示这个 Cell 保存的两张图",
+        "scope_revision": 8
+      },
+      "status": "completed",
+      "resolution": null,
+      "message_id": "afe7bafb11dc4b038d078a8d0b4615d1",
+      "visible_display_ids": [
+        "2bdf8d0febb64f5db857ea8641cb0381",
+        "59f313cf52a34a22afe7de3d01cfc7d2"
+      ],
+      "image_blocks": [
+        {
+          "display_id": "2bdf8d0febb64f5db857ea8641cb0381",
+          "display_source": {
+            "document_id": "local_97ea9230800f415aa56dabef6ce5f1f6",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "caption": "Signal-lab.ipynb · v1 · 输出 1",
+          "rendition_kind": "notebook_output",
+          "rect_visible_norm": null,
+          "width": 440,
+          "height": 260,
+          "read_status": "not_attempted"
+        },
+        {
+          "display_id": "59f313cf52a34a22afe7de3d01cfc7d2",
+          "display_source": {
+            "document_id": "local_97ea9230800f415aa56dabef6ce5f1f6",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          },
+          "caption": "Signal-lab.ipynb · v1 · 输出 2",
+          "rendition_kind": "notebook_output",
+          "rect_visible_norm": null,
+          "width": 440,
+          "height": 260,
+          "read_status": "not_attempted"
+        }
+      ],
+      "read_records": [],
+      "external_call_count": 0,
+      "effective_scope": {
+        "course_ids": [
+          "signals"
+        ],
+        "document_ids": [
+          "local_97ea9230800f415aa56dabef6ce5f1f6"
+        ]
+      },
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "a1321f19-7af3-401a-9269-3913380efb84",
+        "kind": "ask",
+        "text": "横轴单位是什么？",
+        "scope_revision": 8,
+        "anchor": {
+          "type": "display",
+          "message_id": "afe7bafb11dc4b038d078a8d0b4615d1",
+          "display_id": "59f313cf52a34a22afe7de3d01cfc7d2"
+        }
+      },
+      "status": "completed",
+      "resolution": {
+        "actual_source": {
+          "document_id": "local_97ea9230800f415aa56dabef6ce5f1f6",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "display_id": "59f313cf52a34a22afe7de3d01cfc7d2",
+        "message_id": "afe7bafb11dc4b038d078a8d0b4615d1",
+        "method": "display_anchor",
+        "ordinal": 2,
+        "resolution": "display_anchor"
+      },
+      "message_id": "ce5cde54c2c34027bbaf2dd44bbc006b",
+      "visible_display_ids": [],
+      "image_blocks": [],
+      "read_records": [
+        {
+          "read_status": "succeeded",
+          "actual_source": {
+            "document_id": "local_97ea9230800f415aa56dabef6ce5f1f6",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          },
+          "actual_input_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+          "execution": "real_provider",
+          "model": "qwen3-vl-plus",
+          "text": "Frequency [Hz]",
+          "warnings": []
+        }
+      ],
+      "external_call_count": 1,
+      "effective_scope": null,
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "7327817b-7df6-4a0e-8408-af33c844734a",
+        "kind": "ask",
+        "text": "刚才第二张图",
+        "scope_revision": 8
+      },
+      "status": "completed",
+      "resolution": {
+        "actual_source": {
+          "document_id": "local_97ea9230800f415aa56dabef6ce5f1f6",
+          "source_id": "cell:1:output:2",
+          "version": 1
+        },
+        "display_id": "59f313cf52a34a22afe7de3d01cfc7d2",
+        "message_id": "afe7bafb11dc4b038d078a8d0b4615d1",
+        "method": "visible_ordinal",
+        "ordinal": 2,
+        "resolution": "visible_ordinal"
+      },
+      "message_id": "de30d366776a4dea913a03fb73bd9cdf",
+      "visible_display_ids": [],
+      "image_blocks": [],
+      "read_records": [
+        {
+          "read_status": "partial",
+          "actual_source": {
+            "document_id": "local_97ea9230800f415aa56dabef6ce5f1f6",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          },
+          "actual_input_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+          "execution": "real_provider",
+          "model": "qwen3-vl-plus",
+          "text": "The image shows a line graph with an orange stepped line that generally increases, then slightly decreases, then increases again, and finally decreases. The horizontal axis is labeled 'Frequency [Hz]'. The vertical axis has no visible label or unit. The graph includes only the axes (horizontal and vertical lines) and the plotted line; no gridlines, data points, legend, or other annotations are visible.",
+          "warnings": [
+            "vertical axis label",
+            "vertical axis unit",
+            "meaning of the plotted line",
+            "scale or numerical values on either axis"
+          ]
+        }
+      ],
+      "external_call_count": 1,
+      "effective_scope": null,
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "22778483-9b14-4dac-bbd1-2b996ad20037",
+        "kind": "ask",
+        "text": "那张图",
+        "scope_revision": 8
+      },
+      "status": "clarification",
+      "resolution": null,
+      "message_id": "e77d9c5a482d48a8a52975fe974d6187",
+      "visible_display_ids": [],
+      "image_blocks": [],
+      "read_records": [],
+      "external_call_count": 0,
+      "effective_scope": null,
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "6ee83491-bc11-4f76-abc7-c029404c1a78",
+        "kind": "ask",
+        "text": "展示课件第 1 页原件",
+        "scope_revision": 11
+      },
+      "status": "completed",
+      "resolution": null,
+      "message_id": "3af12f43b6dd452a96f8c59c64af68fe",
+      "visible_display_ids": [
+        "d255f4aafc264629b4d52ed15a623ef6",
+        "a97cd7427d414acd8a97521eb82d8f47",
+        "d4c45b3b5fa644ab989d831a3c1f0519"
+      ],
+      "image_blocks": [
+        {
+          "display_id": "d255f4aafc264629b4d52ed15a623ef6",
+          "display_source": {
+            "document_id": "local_2d7f19a9d62b4b28a3ff1a83fcd847c3",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "caption": "Signal-slides.pptx · v1 · 第 1 页 · Median filter experiment",
+          "rendition_kind": "original_page",
+          "rect_visible_norm": null,
+          "width": 1440,
+          "height": 720,
+          "read_status": "not_attempted"
+        },
+        {
+          "display_id": "a97cd7427d414acd8a97521eb82d8f47",
+          "display_source": {
+            "document_id": "local_2d7f19a9d62b4b28a3ff1a83fcd847c3",
+            "source_id": "page:1:shape:2",
+            "version": 1
+          },
+          "caption": "Signal-slides.pptx · v1 · 文本框",
+          "rendition_kind": "object_crop",
+          "rect_visible_norm": [
+            0.08,
+            0.06,
+            0.92,
+            0.25
+          ],
+          "width": 1210,
+          "height": 137,
+          "read_status": "not_attempted"
+        },
+        {
+          "display_id": "d4c45b3b5fa644ab989d831a3c1f0519",
+          "display_source": {
+            "document_id": "local_2d7f19a9d62b4b28a3ff1a83fcd847c3",
+            "source_id": "page:1:shape:3",
+            "version": 1
+          },
+          "caption": "Signal-slides.pptx · v1 · 表格",
+          "rendition_kind": "object_crop",
+          "rect_visible_norm": [
+            0.08,
+            0.27999999999999997,
+            0.92,
+            0.92
+          ],
+          "width": 1210,
+          "height": 462,
+          "read_status": "not_attempted"
+        }
+      ],
+      "read_records": [],
+      "external_call_count": 0,
+      "effective_scope": {
+        "course_ids": [
+          "signals"
+        ],
+        "document_ids": [
+          "local_2d7f19a9d62b4b28a3ff1a83fcd847c3"
+        ]
+      },
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "96e4cfaa-c39a-41ad-aaa4-6bef952be552",
+        "kind": "ask",
+        "text": "展示这张表格",
+        "scope_revision": 12
+      },
+      "status": "completed",
+      "resolution": null,
+      "message_id": "54ccff243b534390a414d6ccea04de35",
+      "visible_display_ids": [
+        "f8ae775ef5784fc983b8b1a2c915c028"
+      ],
+      "image_blocks": [
+        {
+          "display_id": "f8ae775ef5784fc983b8b1a2c915c028",
+          "display_source": {
+            "document_id": "local_2d7f19a9d62b4b28a3ff1a83fcd847c3",
+            "source_id": "page:1:shape:3",
+            "version": 1
+          },
+          "caption": "Signal-slides.pptx · v1 · 表格",
+          "rendition_kind": "object_crop",
+          "rect_visible_norm": [
+            0.08,
+            0.27999999999999997,
+            0.92,
+            0.92
+          ],
+          "width": 1210,
+          "height": 462,
+          "read_status": "not_attempted"
+        }
+      ],
+      "read_records": [],
+      "external_call_count": 0,
+      "effective_scope": {
+        "course_ids": [
+          "signals"
+        ],
+        "document_ids": [
+          "local_2d7f19a9d62b4b28a3ff1a83fcd847c3"
+        ]
+      },
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "92a09119-2977-4847-9881-2e788c50b3a1",
+        "kind": "ask",
+        "text": "展示论文右侧图",
+        "scope_revision": 15
+      },
+      "status": "completed",
+      "resolution": null,
+      "message_id": "5479c9ab585f4dd6b99311bf8c53acb2",
+      "visible_display_ids": [
+        "1ff1733db6ba4630a9ec7f6fa7e2f682"
+      ],
+      "image_blocks": [
+        {
+          "display_id": "1ff1733db6ba4630a9ec7f6fa7e2f682",
+          "display_source": {
+            "document_id": "local_4ee36459a7494311abef55fee4a1da56",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "caption": "Signal-reference.pdf · v1 · 第 2 页 · Impulse-spike illustration",
+          "rendition_kind": "object_crop",
+          "rect_visible_norm": [
+            0.51,
+            0.18000000000000002,
+            0.9400000000000001,
+            0.556
+          ],
+          "width": 527,
+          "height": 596,
+          "read_status": "not_attempted"
+        }
+      ],
+      "read_records": [],
+      "external_call_count": 0,
+      "effective_scope": {
+        "course_ids": [
+          "signals"
+        ],
+        "document_ids": [
+          "local_4ee36459a7494311abef55fee4a1da56"
+        ]
+      },
+      "full_text_scope": null
+    },
+    {
+      "request": {
+        "client_turn_id": "02058993-cc2b-4510-87df-8194e06db845",
+        "kind": "summary",
+        "text": "总结当前资料",
+        "scope_revision": 15
+      },
+      "status": "completed",
+      "resolution": null,
+      "message_id": "7839cbad3d9542df81df1775c1c7d777",
+      "visible_display_ids": [],
+      "image_blocks": [],
+      "read_records": [],
+      "external_call_count": 0,
+      "effective_scope": {
+        "course_ids": [
+          "signals"
+        ],
+        "document_ids": [
+          "local_4ee36459a7494311abef55fee4a1da56"
+        ]
+      },
+      "full_text_scope": true
+    }
+  ],
+  "artifacts": {
+    "m1.mp4": {
+      "sha256": "54d5f90464401b4c91c948c45a2ac257855c2f629e761c741d9764c3ee5c9a0b",
+      "bytes": 264452,
+      "duration_s": 5.333333
+    },
+    "followups.mp4": {
+      "sha256": "3d7de670f852535d5001f9fe5596c97b070a1a0e40736a2287b74b6f2c9fa0cb",
+      "bytes": 278566,
+      "duration_s": 9.533333
+    },
+    "pdf-highlight.png": {
+      "sha256": "f7e701c49cbebd6417df091d194ff02cb53c6c88467dbd38521561f7fd1ccdca",
+      "bytes": 85832
+    }
+  },
+  "notebook_original_view": "inline_media_440x260_verified"
+}

@@ -90,6 +90,8 @@ WORKSPACE_COURSE_IDS=signals .venv/bin/python -m uvicorn app.main:app --host 127
 设置 `WORKSPACE_COURSE_IDS` 可用逗号分隔多个课程。模型关闭时仍可搜索原文和查看原件，图片会标明读取状态。
 `python -m tools.workspace_chat --help` 提供使用同一会话服务的终端入口。[会话及原件权限](./docs/E/E02-会话服务.md)
 
+从空库导入到消息里显示原件的浏览器演示可复跑。[M1 与两种网页追问](./docs/E/E04-M1.md)
+
 ## 旧向量导入
 
 - **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。

@@ -1208,6 +1208,18 @@ def _label(source: SnapshotSource) -> str:
         return f"Cell {source.locator.get('cell_index', 0) + 1}" + (f" · {label}" if label else "")
     if source.kind == "page":
         return f"第 {source.locator.get('page', '?')} 页" + (f" · {label}" if label else "")
+    if source.kind == "page_object":
+        object_type = source.locator.get("object_type")
+        if isinstance(object_type, str):
+            kind = {
+                "table": "表格",
+                "chart": "图表",
+                "picture": "图片",
+                "image": "图片",
+                "text": "文本框",
+            }.get(object_type, "页内对象")
+            return f"{kind} · {label}" if label else kind
+        return label or "页内对象"
     return label or source.kind
 
 

@@ -485,7 +485,7 @@ function sourceLocation(block, evidence) {
   const key = block.display_source ?? evidence?.revision?.source;
   const locator = evidence?.locator ?? block.locator;
   const where = locator?.page != null ? `第 ${locator.page} 页` :
-    locator?.cell_index != null ? `Cell ${locator.cell_index}` : key?.source_id;
+    Number.isInteger(locator?.cell_index) ? `Cell ${locator.cell_index + 1}` : key?.source_id;
   return [evidence?.file_name, key?.version != null ? `v${key.version}` : null, where]
     .filter(Boolean).join(" · ");
 }
@@ -508,16 +508,20 @@ function renderSourceCard(block, message, position) {
   const actions = node("div", "source-actions");
   const sessionId = state.session.session_id;
   const inline = mediaURL(block.media_url, sessionId);
-  const page = mediaURL(block.media_url, sessionId, "page");
+  const isNotebookOutput = block.rendition_kind === "notebook_output";
   const ask = button("问这张图", () => useAnchor({
     type: "display", message_id: message.message_id, display_id: block.display_id,
   }, `引用图 ${position} · ${title}`));
-  const viewImage = button("查看图片", () => openReader({url: inline, title, details}));
-  const viewPage = button("回原件", () => openReader({
-    url: page, title, details, rect: block.rect_visible_norm,
-  }));
-  for (const control of [ask, viewImage, viewPage]) control.disabled = true;
-  actions.append(ask, viewImage, viewPage);
+  const controls = [ask, button(isNotebookOutput ? "查看原件" : "查看图片",
+    () => openReader({url: inline, title, details}))];
+  if (!isNotebookOutput) {
+    const page = mediaURL(block.media_url, sessionId, "page");
+    controls.push(button("回原件", () => openReader({
+      url: page, title, details, rect: block.rect_visible_norm,
+    })));
+  }
+  for (const control of controls) control.disabled = true;
+  actions.append(...controls);
   caption.append(actions);
   if (inline) {
     const image = node("img");
@@ -526,14 +530,14 @@ function renderSourceCard(block, message, position) {
     image.addEventListener("load", () => {
       notice.hidden = true;
       image.hidden = false;
-      for (const control of [ask, viewImage, viewPage]) control.disabled = false;
+      for (const control of controls) control.disabled = false;
     });
     image.addEventListener("error", () => {
       picture.dataset.state = "failed";
       notice.textContent = "图片加载失败，原件可能已不可用。";
       notice.hidden = false;
       image.hidden = true;
-      for (const control of [ask, viewImage, viewPage]) control.disabled = true;
+      for (const control of controls) control.disabled = true;
     });
     picture.append(image);
     image.src = inline;
