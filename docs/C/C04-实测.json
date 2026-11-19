@@ -1,0 +1,5613 @@
+{
+  "cases": [
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_8296b4a9c5f049448ed96389db814db3@v1:page:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_8296b4a9c5f049448ed96389db814db3@v1:page:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_8296b4a9c5f049448ed96389db814db3@v1:page:2"
+        ],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-reference.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_8296b4a9c5f049448ed96389db814db3@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_8296b4a9c5f049448ed96389db814db3@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.203,
+        "elapsed_samples_ms": [
+          17.799,
+          3.203,
+          3.082
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "lookahead",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "lookahead"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_8296b4a9c5f049448ed96389db814db3"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+              "course_id": "public",
+              "document_format": "pdf",
+              "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+              "file_name": "Signal-reference.pdf",
+              "publication_epoch": 1,
+              "title": "Signal-reference",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+            "course_id": "public",
+            "document_format": "pdf",
+            "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+            "file_name": "Signal-reference.pdf",
+            "publication_epoch": 1,
+            "title": "Signal-reference",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "real_pdf_lookahead",
+      "name_zh": "真实 PDF 英文原词",
+      "request": {
+        "query": "lookahead",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_8296b4a9c5f049448ed96389db814db3"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-reference.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_8296b4a9c5f049448ed96389db814db3@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_8296b4a9c5f049448ed96389db814db3@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-reference.pdf",
+            "fts_origins": [],
+            "key": "local_8296b4a9c5f049448ed96389db814db3@v1:page:2",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "next_position",
+                "seed": "local_8296b4a9c5f049448ed96389db814db3@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 1,
+          "checked_positions": [
+            "page:1",
+            "page:2"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 2,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.084,
+        "elapsed_samples_ms": [
+          3.57,
+          2.992,
+          3.084
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "lookahead",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "lookahead"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_8296b4a9c5f049448ed96389db814db3"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+              "course_id": "public",
+              "document_format": "pdf",
+              "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+              "file_name": "Signal-reference.pdf",
+              "publication_epoch": 1,
+              "title": "Signal-reference",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+            "course_id": "public",
+            "document_format": "pdf",
+            "document_id": "local_8296b4a9c5f049448ed96389db814db3",
+            "file_name": "Signal-reference.pdf",
+            "publication_epoch": 1,
+            "title": "Signal-reference",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+            ],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+            ],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:2"
+        ],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "table",
+              "page": 1,
+              "shape_id_path": [
+                3
+              ]
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1:shape:3",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 2,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 2,
+          "searchable_source_count": 5,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.211,
+        "elapsed_samples_ms": [
+          3.937,
+          2.966,
+          3.211
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "Peak",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "Peak"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_9205c670e60a43218a5bd837e4e5a644"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+              "course_id": "public",
+              "document_format": "pptx",
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "file_name": "Signal-slides.pptx",
+              "publication_epoch": 1,
+              "title": "Signal-slides",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+            "course_id": "public",
+            "document_format": "pptx",
+            "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+            "file_name": "Signal-slides.pptx",
+            "publication_epoch": 1,
+            "title": "Signal-slides",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "real_ppt_peak",
+      "name_zh": "真实 PPTX 表格词",
+      "request": {
+        "query": "Peak",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_9205c670e60a43218a5bd837e4e5a644"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "table",
+              "page": 1,
+              "shape_id_path": [
+                3
+              ]
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+              },
+              {
+                "code": "child_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1:shape:3",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              },
+              {
+                "code": "parent_context",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:2",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "text",
+              "page": 1,
+              "shape_id_path": [
+                2
+              ]
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 9,
+          "checked_positions": [
+            "page:1",
+            "page:2"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 2,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 3,
+          "searchable_source_count": 5,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "next_position": 2
+          }
+        },
+        "elapsed_ms": 3.345,
+        "elapsed_samples_ms": [
+          3.345,
+          3.699,
+          3.139
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "Peak",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "Peak"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_9205c670e60a43218a5bd837e4e5a644"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+              "course_id": "public",
+              "document_format": "pptx",
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "file_name": "Signal-slides.pptx",
+              "publication_epoch": 1,
+              "title": "Signal-slides",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+            "course_id": "public",
+            "document_format": "pptx",
+            "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+            "file_name": "Signal-slides.pptx",
+            "publication_epoch": 1,
+            "title": "Signal-slides",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:1",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:2"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0"
+            ],
+            "context_misses": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:1",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:2"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0"
+        ],
+        "structure_context_gain": 1,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:1"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 12,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 3,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.928,
+        "elapsed_samples_ms": [
+          2.874,
+          2.928,
+          3.076
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "NotebookImage",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "NotebookImage"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_d6ff9415faf5416cbe3c2f90302279fb"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+              "course_id": "public",
+              "document_format": "ipynb",
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "file_name": "Signal-lab.ipynb",
+              "publication_epoch": 1,
+              "title": "Median filter lab",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+            "course_id": "public",
+            "document_format": "ipynb",
+            "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+            "file_name": "Signal-lab.ipynb",
+            "publication_epoch": 1,
+            "title": "Median filter lab",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "real_notebook_identifier",
+      "name_zh": "真实 Notebook 代码标识",
+      "request": {
+        "query": "NotebookImage",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_d6ff9415faf5416cbe3c2f90302279fb"
+          ]
+        },
+        "top_k": 4
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0",
+            "kind": "notebook_output",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1,
+              "output_index": 0
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 7,
+          "checked_positions": [
+            "cell:1",
+            "cell:0"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 5,
+          "fts_candidate_cap": 12,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 2,
+          "searchable_source_count": 3,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "child_object": 2,
+            "previous_position": 1,
+            "same_position_object": 2
+          }
+        },
+        "elapsed_ms": 3.031,
+        "elapsed_samples_ms": [
+          3.002,
+          3.031,
+          3.145
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "NotebookImage",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "NotebookImage"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_d6ff9415faf5416cbe3c2f90302279fb"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+              "course_id": "public",
+              "document_format": "ipynb",
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "file_name": "Signal-lab.ipynb",
+              "publication_epoch": 1,
+              "title": "Median filter lab",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+            "course_id": "public",
+            "document_format": "ipynb",
+            "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+            "file_name": "Signal-lab.ipynb",
+            "publication_epoch": 1,
+            "title": "Median filter lab",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d3e32ccb819546abb90f6b543b93c235@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d3e32ccb819546abb90f6b543b93c235@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "english.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d3e32ccb819546abb90f6b543b93c235@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d3e32ccb819546abb90f6b543b93c235@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d3e32ccb819546abb90f6b543b93c235",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.999,
+        "elapsed_samples_ms": [
+          3.141,
+          2.999,
+          2.952
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "岭回归",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "岭回归"
+            },
+            {
+              "reason": "glossary",
+              "text": "ridge regression"
+            },
+            {
+              "reason": "glossary",
+              "text": "ridge"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d3e32ccb819546abb90f6b543b93c235"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "80ad4af431b9bb6ecbb366f03af0a81fde3e4ccb9f4239ddef0d15ca81e1dac7",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d3e32ccb819546abb90f6b543b93c235",
+              "file_name": "english.ipynb",
+              "publication_epoch": 1,
+              "title": "english",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "80ad4af431b9bb6ecbb366f03af0a81fde3e4ccb9f4239ddef0d15ca81e1dac7",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d3e32ccb819546abb90f6b543b93c235",
+            "file_name": "english.ipynb",
+            "publication_epoch": 1,
+            "title": "english",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "bilingual_zh_to_en",
+      "name_zh": "中文查询英文单语资料",
+      "request": {
+        "query": "岭回归",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_d3e32ccb819546abb90f6b543b93c235"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "english.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d3e32ccb819546abb90f6b543b93c235@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d3e32ccb819546abb90f6b543b93c235@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d3e32ccb819546abb90f6b543b93c235",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.851,
+        "elapsed_samples_ms": [
+          3.004,
+          2.838,
+          2.851
+        ],
+        "misses": [
+          "no_structural_neighbor"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "岭回归",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "岭回归"
+            },
+            {
+              "reason": "glossary",
+              "text": "ridge regression"
+            },
+            {
+              "reason": "glossary",
+              "text": "ridge"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d3e32ccb819546abb90f6b543b93c235"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "80ad4af431b9bb6ecbb366f03af0a81fde3e4ccb9f4239ddef0d15ca81e1dac7",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d3e32ccb819546abb90f6b543b93c235",
+              "file_name": "english.ipynb",
+              "publication_epoch": 1,
+              "title": "english",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "80ad4af431b9bb6ecbb366f03af0a81fde3e4ccb9f4239ddef0d15ca81e1dac7",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d3e32ccb819546abb90f6b543b93c235",
+            "file_name": "english.ipynb",
+            "publication_epoch": 1,
+            "title": "english",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_a54adc77b0ae441aa1ae107345dfb79e@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_a54adc77b0ae441aa1ae107345dfb79e@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "chinese.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_a54adc77b0ae441aa1ae107345dfb79e@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_a54adc77b0ae441aa1ae107345dfb79e@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_a54adc77b0ae441aa1ae107345dfb79e",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.153,
+        "elapsed_samples_ms": [
+          3.153,
+          3.225,
+          2.988
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "ridge regression",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "ridge regression"
+            },
+            {
+              "reason": "glossary",
+              "text": "岭回归"
+            },
+            {
+              "reason": "glossary",
+              "text": "ridge"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_a54adc77b0ae441aa1ae107345dfb79e"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "5ff5bc1a155ee2d37941d4ff208ef6173cda8428478498df9738faa4bb4b049a",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_a54adc77b0ae441aa1ae107345dfb79e",
+              "file_name": "chinese.ipynb",
+              "publication_epoch": 1,
+              "title": "chinese",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "5ff5bc1a155ee2d37941d4ff208ef6173cda8428478498df9738faa4bb4b049a",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_a54adc77b0ae441aa1ae107345dfb79e",
+            "file_name": "chinese.ipynb",
+            "publication_epoch": 1,
+            "title": "chinese",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "bilingual_en_to_zh",
+      "name_zh": "英文查询中文单语资料",
+      "request": {
+        "query": "ridge regression",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_a54adc77b0ae441aa1ae107345dfb79e"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "chinese.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_a54adc77b0ae441aa1ae107345dfb79e@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_a54adc77b0ae441aa1ae107345dfb79e@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_a54adc77b0ae441aa1ae107345dfb79e",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.957,
+        "elapsed_samples_ms": [
+          2.957,
+          3.153,
+          2.818
+        ],
+        "misses": [
+          "no_structural_neighbor"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "ridge regression",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "ridge regression"
+            },
+            {
+              "reason": "glossary",
+              "text": "岭回归"
+            },
+            {
+              "reason": "glossary",
+              "text": "ridge"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_a54adc77b0ae441aa1ae107345dfb79e"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "5ff5bc1a155ee2d37941d4ff208ef6173cda8428478498df9738faa4bb4b049a",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_a54adc77b0ae441aa1ae107345dfb79e",
+              "file_name": "chinese.ipynb",
+              "publication_epoch": 1,
+              "title": "chinese",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "5ff5bc1a155ee2d37941d4ff208ef6173cda8428478498df9738faa4bb4b049a",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_a54adc77b0ae441aa1ae107345dfb79e",
+            "file_name": "chinese.ipynb",
+            "publication_epoch": 1,
+            "title": "chinese",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+        ],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.881,
+        "elapsed_samples_ms": [
+          3.063,
+          2.881,
+          2.874
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "FFT",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "FFT"
+            },
+            {
+              "reason": "glossary",
+              "text": "快速傅里叶变换"
+            },
+            {
+              "reason": "glossary",
+              "text": "fast fourier transform"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "abbreviation_fft",
+      "name_zh": "缩写查询英文全称",
+      "request": {
+        "query": "FFT",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "next_position",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 1,
+          "checked_positions": [
+            "cell:0",
+            "cell:1"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 2,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.111,
+        "elapsed_samples_ms": [
+          3.111,
+          2.97,
+          3.203
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "FFT",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "FFT"
+            },
+            {
+              "reason": "glossary",
+              "text": "快速傅里叶变换"
+            },
+            {
+              "reason": "glossary",
+              "text": "fast fourier transform"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 1
+            },
+            "match_kind": "token_component",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "exact_literal",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:1",
+            "cell:0"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 2,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 2,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.946,
+        "elapsed_samples_ms": [
+          2.96,
+          2.946,
+          2.772
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "np.linalg.solve",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "np.linalg.solve"
+            },
+            {
+              "reason": "code_component",
+              "text": "np"
+            },
+            {
+              "reason": "code_component",
+              "text": "linalg"
+            },
+            {
+              "reason": "code_component",
+              "text": "solve"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "dotted_code_exact",
+      "name_zh": "点号代码精确复核",
+      "request": {
+        "query": "np.linalg.solve",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 1
+            },
+            "match_kind": "token_component",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+              },
+              {
+                "code": "next_position",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "exact_literal",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              },
+              {
+                "code": "previous_position",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 2,
+          "checked_positions": [
+            "cell:1",
+            "cell:0"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 2,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 2,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.335,
+        "elapsed_samples_ms": [
+          3.526,
+          3.335,
+          3.067
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "np.linalg.solve",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "np.linalg.solve"
+            },
+            {
+              "reason": "code_component",
+              "text": "np"
+            },
+            {
+              "reason": "code_component",
+              "text": "linalg"
+            },
+            {
+              "reason": "code_component",
+              "text": "solve"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 1
+            },
+            "match_kind": "token_component",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:1",
+            "cell:0"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 3,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 2,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "fts_native": 1
+          }
+        },
+        "elapsed_ms": 2.97,
+        "elapsed_samples_ms": [
+          3.18,
+          2.967,
+          2.97
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "np.linalg.solve",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "np.linalg.solve"
+            },
+            {
+              "reason": "code_component",
+              "text": "np"
+            },
+            {
+              "reason": "code_component",
+              "text": "linalg"
+            },
+            {
+              "reason": "code_component",
+              "text": "solve"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "dotted_code_k1_limit",
+      "name_zh": "点号代码 K=1 小预算漏检观察",
+      "request": {
+        "query": "np.linalg.solve",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ]
+        },
+        "top_k": 1
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 1
+            },
+            "match_kind": "token_component",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+              },
+              {
+                "code": "next_position",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 2,
+          "checked_positions": [
+            "cell:1",
+            "cell:0"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 3,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 2,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "fts_native": 1,
+            "previous_position": 1
+          }
+        },
+        "elapsed_ms": 4.033,
+        "elapsed_samples_ms": [
+          58.226,
+          4.033,
+          3.02
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "np.linalg.solve",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "np.linalg.solve"
+            },
+            {
+              "reason": "code_component",
+              "text": "np"
+            },
+            {
+              "reason": "code_component",
+              "text": "linalg"
+            },
+            {
+              "reason": "code_component",
+              "text": "solve"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1"
+        ],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.486,
+        "elapsed_samples_ms": [
+          3.14,
+          3.486,
+          3.639
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": true,
+          "raw_query": "哪一页不是在讲 FFT",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "哪一页不是在讲 FFT"
+            },
+            {
+              "reason": "glossary",
+              "text": "快速傅里叶变换"
+            },
+            {
+              "reason": "glossary",
+              "text": "fast fourier transform"
+            },
+            {
+              "reason": "glossary",
+              "text": "fft"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "negated_fft",
+      "name_zh": "中文否定问句保留相关证据",
+      "request": {
+        "query": "哪一页不是在讲 FFT",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "code.ipynb",
+            "fts_origins": [],
+            "key": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "next_position",
+                "seed": "local_d91f9d4128fc46e5b2909742b34e1ddc@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 1,
+          "checked_positions": [
+            "cell:0",
+            "cell:1"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 2,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.161,
+        "elapsed_samples_ms": [
+          3.161,
+          3.069,
+          3.741
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": true,
+          "raw_query": "哪一页不是在讲 FFT",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "哪一页不是在讲 FFT"
+            },
+            {
+              "reason": "glossary",
+              "text": "快速傅里叶变换"
+            },
+            {
+              "reason": "glossary",
+              "text": "fast fourier transform"
+            },
+            {
+              "reason": "glossary",
+              "text": "fft"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_d91f9d4128fc46e5b2909742b34e1ddc"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+              "course_id": "synthetic",
+              "document_format": "ipynb",
+              "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+              "file_name": "code.ipynb",
+              "publication_epoch": 1,
+              "title": "code",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "84fea725b7cbbfb93b98a0e5691fffbcdc751dc6f8614fbdb721e0af743de6f6",
+            "course_id": "synthetic",
+            "document_format": "ipynb",
+            "document_id": "local_d91f9d4128fc46e5b2909742b34e1ddc",
+            "file_name": "code.ipynb",
+            "publication_epoch": 1,
+            "title": "code",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+            ],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:2",
+          "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3"
+        ],
+        "structure_context_gain": 1,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 30,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 5,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.428,
+        "elapsed_samples_ms": [
+          3.323,
+          4.14,
+          3.428
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "",
+          "variants": []
+        },
+        "scope_trace": {
+          "checked_location": {
+            "page": 1
+          },
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_9205c670e60a43218a5bd837e4e5a644"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+              "course_id": "public",
+              "document_format": "pptx",
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "file_name": "Signal-slides.pptx",
+              "publication_epoch": 1,
+              "title": "Signal-slides",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+            "course_id": "public",
+            "document_format": "pptx",
+            "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+            "file_name": "Signal-slides.pptx",
+            "publication_epoch": 1,
+            "title": "Signal-slides",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "explicit_ppt_page",
+      "name_zh": "显式 PPT 页与页内对象",
+      "request": {
+        "location": {
+          "page": 1
+        },
+        "query": "",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_9205c670e60a43218a5bd837e4e5a644"
+          ]
+        },
+        "top_k": 10
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:2",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "text",
+              "page": 1,
+              "shape_id_path": [
+                2
+              ]
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-slides.pptx",
+            "fts_origins": [],
+            "key": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1:shape:3",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "table",
+              "page": 1,
+              "shape_id_path": [
+                3
+              ]
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_9205c670e60a43218a5bd837e4e5a644@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "source_id": "page:1:shape:3",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 4,
+          "checked_positions": [
+            "page:1"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 3,
+          "fts_candidate_cap": 30,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 3,
+          "searchable_source_count": 5,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.432,
+        "elapsed_samples_ms": [
+          3.571,
+          3.432,
+          3.353
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "",
+          "variants": []
+        },
+        "scope_trace": {
+          "checked_location": {
+            "page": 1
+          },
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_9205c670e60a43218a5bd837e4e5a644"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+              "course_id": "public",
+              "document_format": "pptx",
+              "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+              "file_name": "Signal-slides.pptx",
+              "publication_epoch": 1,
+              "title": "Signal-slides",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+            "course_id": "public",
+            "document_format": "pptx",
+            "document_id": "local_9205c670e60a43218a5bd837e4e5a644",
+            "file_name": "Signal-slides.pptx",
+            "publication_epoch": 1,
+            "title": "Signal-slides",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:1",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:2"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:1",
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:2"
+            ],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0",
+          "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:1",
+          "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:2"
+        ],
+        "structure_context_gain": 3,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:1"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 30,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 3,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.258,
+        "elapsed_samples_ms": [
+          4.235,
+          3.258,
+          2.771
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "",
+          "variants": []
+        },
+        "scope_trace": {
+          "checked_location": {
+            "cell_id": "signal-plots"
+          },
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_d6ff9415faf5416cbe3c2f90302279fb"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+              "course_id": "public",
+              "document_format": "ipynb",
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "file_name": "Signal-lab.ipynb",
+              "publication_epoch": 1,
+              "title": "Median filter lab",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+            "course_id": "public",
+            "document_format": "ipynb",
+            "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+            "file_name": "Signal-lab.ipynb",
+            "publication_epoch": 1,
+            "title": "Median filter lab",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "explicit_notebook_cell",
+      "name_zh": "显式 Cell 与同 Cell 多输出",
+      "request": {
+        "location": {
+          "cell_id": "signal-plots"
+        },
+        "query": "",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_d6ff9415faf5416cbe3c2f90302279fb"
+          ]
+        },
+        "top_k": 10
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:0",
+            "kind": "notebook_output",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1,
+              "output_index": 0
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:1",
+            "kind": "notebook_output",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1,
+              "output_index": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": false
+          },
+          {
+            "course_id": "public",
+            "file_name": "Signal-lab.ipynb",
+            "fts_origins": [],
+            "key": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1:output:2",
+            "kind": "notebook_output",
+            "location_text_matched": null,
+            "locator": {
+              "cell_id": "signal-plots",
+              "cell_index": 1,
+              "output_index": 2
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_d6ff9415faf5416cbe3c2f90302279fb@v1:cell:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": false
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 6,
+          "checked_positions": [
+            "cell:1"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 30,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 4,
+          "searchable_source_count": 3,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.778,
+        "elapsed_samples_ms": [
+          3.778,
+          3.827,
+          3.099
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "",
+          "variants": []
+        },
+        "scope_trace": {
+          "checked_location": {
+            "cell_id": "signal-plots"
+          },
+          "effective_course_ids": [
+            "public"
+          ],
+          "requested_course_ids": [
+            "public"
+          ],
+          "requested_document_ids": [
+            "local_d6ff9415faf5416cbe3c2f90302279fb"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+              "course_id": "public",
+              "document_format": "ipynb",
+              "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+              "file_name": "Signal-lab.ipynb",
+              "publication_epoch": 1,
+              "title": "Median filter lab",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+            "course_id": "public",
+            "document_format": "ipynb",
+            "document_id": "local_d6ff9415faf5416cbe3c2f90302279fb",
+            "file_name": "Signal-lab.ipynb",
+            "publication_epoch": 1,
+            "title": "Median filter lab",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ambiguous_scope",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ambiguous_scope",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 0,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 0,
+          "snapshot_document_count": 2,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.716,
+        "elapsed_samples_ms": [
+          2.716,
+          2.671,
+          2.904
+        ],
+        "misses": [],
+        "options": [
+          {
+            "course_id": "course-a",
+            "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+            "file_name": "common.ipynb",
+            "version": 1
+          },
+          {
+            "course_id": "course-b",
+            "document_id": "local_9ba997d012b8492383ee36c3c9005969",
+            "file_name": "common.ipynb",
+            "version": 1
+          }
+        ],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "sharedword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "sharedword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "course-a",
+            "course-b"
+          ],
+          "requested_course_ids": [
+            "course-a",
+            "course-b"
+          ],
+          "requested_document_ids": [],
+          "requested_file_names": [
+            "common.ipynb"
+          ],
+          "resolved_documents": [
+            {
+              "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+              "course_id": "course-a",
+              "document_format": "ipynb",
+              "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+              "file_name": "common.ipynb",
+              "publication_epoch": 1,
+              "title": "common",
+              "version": 1
+            },
+            {
+              "content_sha256": "d8b2e0d9a77f439b1ddbc453efcbbae5375630ff642f48d41f9a94d62e63589d",
+              "course_id": "course-b",
+              "document_format": "ipynb",
+              "document_id": "local_9ba997d012b8492383ee36c3c9005969",
+              "file_name": "common.ipynb",
+              "publication_epoch": 1,
+              "title": "common",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+            "course_id": "course-a",
+            "document_format": "ipynb",
+            "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+            "file_name": "common.ipynb",
+            "publication_epoch": 1,
+            "title": "common",
+            "version": 1
+          },
+          {
+            "content_sha256": "d8b2e0d9a77f439b1ddbc453efcbbae5375630ff642f48d41f9a94d62e63589d",
+            "course_id": "course-b",
+            "document_format": "ipynb",
+            "document_id": "local_9ba997d012b8492383ee36c3c9005969",
+            "file_name": "common.ipynb",
+            "publication_epoch": 1,
+            "title": "common",
+            "version": 1
+          }
+        ],
+        "status": "ambiguous_scope"
+      },
+      "id": "cross_course_ambiguous_name",
+      "name_zh": "跨课程同名歧义",
+      "request": {
+        "query": "sharedword",
+        "scope": {
+          "course_ids": [
+            "course-a",
+            "course-b"
+          ],
+          "file_names": [
+            "common.ipynb"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 0,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 0,
+          "snapshot_document_count": 2,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.756,
+        "elapsed_samples_ms": [
+          2.563,
+          2.829,
+          2.756
+        ],
+        "misses": [],
+        "options": [
+          {
+            "course_id": "course-a",
+            "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+            "file_name": "common.ipynb",
+            "version": 1
+          },
+          {
+            "course_id": "course-b",
+            "document_id": "local_9ba997d012b8492383ee36c3c9005969",
+            "file_name": "common.ipynb",
+            "version": 1
+          }
+        ],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "sharedword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "sharedword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "course-a",
+            "course-b"
+          ],
+          "requested_course_ids": [
+            "course-a",
+            "course-b"
+          ],
+          "requested_document_ids": [],
+          "requested_file_names": [
+            "common.ipynb"
+          ],
+          "resolved_documents": [
+            {
+              "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+              "course_id": "course-a",
+              "document_format": "ipynb",
+              "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+              "file_name": "common.ipynb",
+              "publication_epoch": 1,
+              "title": "common",
+              "version": 1
+            },
+            {
+              "content_sha256": "d8b2e0d9a77f439b1ddbc453efcbbae5375630ff642f48d41f9a94d62e63589d",
+              "course_id": "course-b",
+              "document_format": "ipynb",
+              "document_id": "local_9ba997d012b8492383ee36c3c9005969",
+              "file_name": "common.ipynb",
+              "publication_epoch": 1,
+              "title": "common",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+            "course_id": "course-a",
+            "document_format": "ipynb",
+            "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+            "file_name": "common.ipynb",
+            "publication_epoch": 1,
+            "title": "common",
+            "version": 1
+          },
+          {
+            "content_sha256": "d8b2e0d9a77f439b1ddbc453efcbbae5375630ff642f48d41f9a94d62e63589d",
+            "course_id": "course-b",
+            "document_format": "ipynb",
+            "document_id": "local_9ba997d012b8492383ee36c3c9005969",
+            "file_name": "common.ipynb",
+            "publication_epoch": 1,
+            "title": "common",
+            "version": 1
+          }
+        ],
+        "status": "ambiguous_scope"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_891601fea3f64ee3b8fd800e882fb73f@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_891601fea3f64ee3b8fd800e882fb73f@v1:cell:0"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "course-a",
+            "file_name": "common.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_891601fea3f64ee3b8fd800e882fb73f@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_891601fea3f64ee3b8fd800e882fb73f@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.823,
+        "elapsed_samples_ms": [
+          2.924,
+          2.823,
+          2.806
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "sharedword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "sharedword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "course-a"
+          ],
+          "requested_course_ids": [
+            "course-a"
+          ],
+          "requested_document_ids": [],
+          "requested_file_names": [
+            "common.ipynb"
+          ],
+          "resolved_documents": [
+            {
+              "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+              "course_id": "course-a",
+              "document_format": "ipynb",
+              "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+              "file_name": "common.ipynb",
+              "publication_epoch": 1,
+              "title": "common",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+            "course_id": "course-a",
+            "document_format": "ipynb",
+            "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+            "file_name": "common.ipynb",
+            "publication_epoch": 1,
+            "title": "common",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "cross_course_isolated",
+      "name_zh": "指定课程后的同名隔离",
+      "request": {
+        "query": "sharedword",
+        "scope": {
+          "course_ids": [
+            "course-a"
+          ],
+          "file_names": [
+            "common.ipynb"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "course-a",
+            "file_name": "common.ipynb",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_891601fea3f64ee3b8fd800e882fb73f@v1:cell:0",
+            "kind": "cell",
+            "location_text_matched": null,
+            "locator": {
+              "cell_index": 0
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_891601fea3f64ee3b8fd800e882fb73f@v1:cell:0"
+              }
+            ],
+            "source": {
+              "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.824,
+        "elapsed_samples_ms": [
+          2.793,
+          3.076,
+          2.824
+        ],
+        "misses": [
+          "no_structural_neighbor"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "sharedword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "sharedword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "course-a"
+          ],
+          "requested_course_ids": [
+            "course-a"
+          ],
+          "requested_document_ids": [],
+          "requested_file_names": [
+            "common.ipynb"
+          ],
+          "resolved_documents": [
+            {
+              "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+              "course_id": "course-a",
+              "document_format": "ipynb",
+              "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+              "file_name": "common.ipynb",
+              "publication_epoch": 1,
+              "title": "common",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "0834a0588728fcb86cb1389a919e80fc50c137893f09c13591c10cc8e1dd0e2c",
+            "course_id": "course-a",
+            "document_format": "ipynb",
+            "document_id": "local_891601fea3f64ee3b8fd800e882fb73f",
+            "file_name": "common.ipynb",
+            "publication_epoch": 1,
+            "title": "common",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [
+              "local_149b2754f10840f5affa5fcff62c278e@v1:page:1",
+              "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:image:1"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [
+              "local_149b2754f10840f5affa5fcff62c278e@v1:page:1",
+              "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:image:1"
+            ],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_149b2754f10840f5affa5fcff62c278e@v1:page:1",
+          "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:image:1"
+        ],
+        "structure_context_gain": 2,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "caption.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "caption",
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+              "source_id": "page:1:caption:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1"
+          ],
+          "enumerated_source_count": 3,
+          "evidence_inspected_count": 1,
+          "fts_candidate_cap": 18,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 1,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.223,
+        "elapsed_samples_ms": [
+          2.813,
+          3.307,
+          3.223
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "diagramtoken",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "diagramtoken"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_149b2754f10840f5affa5fcff62c278e"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "d54fb9bcfeeb9c01707e5cc2323858e956c3a350f87169af4487c125137ebb30",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+              "file_name": "caption.pdf",
+              "publication_epoch": 1,
+              "title": "caption",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "d54fb9bcfeeb9c01707e5cc2323858e956c3a350f87169af4487c125137ebb30",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+            "file_name": "caption.pdf",
+            "publication_epoch": 1,
+            "title": "caption",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "registered_caption_target",
+      "name_zh": "登记图注引入无文字图像",
+      "request": {
+        "query": "diagramtoken",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_149b2754f10840f5affa5fcff62c278e"
+          ]
+        },
+        "top_k": 6
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "caption.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "caption",
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+              "source_id": "page:1:caption:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "caption.pdf",
+            "fts_origins": [],
+            "key": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "parent_context",
+                "seed": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": false
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "caption.pdf",
+            "fts_origins": [],
+            "key": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:image:1",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "image",
+              "page": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "caption_target",
+                "seed": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_149b2754f10840f5affa5fcff62c278e@v1:page:1:caption:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+              "source_id": "page:1:image:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": false
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 4,
+          "checked_positions": [
+            "page:1"
+          ],
+          "enumerated_source_count": 3,
+          "evidence_inspected_count": 3,
+          "fts_candidate_cap": 18,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 2,
+          "returned_count": 3,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 3.013,
+        "elapsed_samples_ms": [
+          3.089,
+          2.893,
+          3.013
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "diagramtoken",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "diagramtoken"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_149b2754f10840f5affa5fcff62c278e"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "d54fb9bcfeeb9c01707e5cc2323858e956c3a350f87169af4487c125137ebb30",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+              "file_name": "caption.pdf",
+              "publication_epoch": 1,
+              "title": "caption",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "d54fb9bcfeeb9c01707e5cc2323858e956c3a350f87169af4487c125137ebb30",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_149b2754f10840f5affa5fcff62c278e",
+            "file_name": "caption.pdf",
+            "publication_epoch": 1,
+            "title": "caption",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [
+              "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1"
+            ],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [
+              "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1"
+            ],
+            "context_misses": [],
+            "expected_status": "ok",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1"
+        ],
+        "structure_context_gain": 1,
+        "structure_removed": [
+          "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:3"
+        ],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "budget.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "text",
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "source_id": "page:1:shape:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "budget.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:2",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:2"
+              }
+            ],
+            "source": {
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "budget.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:3",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 3
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:3"
+              }
+            ],
+            "source": {
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1",
+            "page:2",
+            "page:3",
+            "page:4"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 4,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 3,
+          "searchable_source_count": 4,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "fts_native": 1
+          }
+        },
+        "elapsed_ms": 2.993,
+        "elapsed_samples_ms": [
+          2.993,
+          3.171,
+          2.993
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "budgetword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "budgetword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_811fb3bc88a946d598726c99aaeac2ad"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "d1fef0b2dadaf8f124e6f30d2140ad2cc3457b218fa3ee03fd9b239cf906d224",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "file_name": "budget.pdf",
+              "publication_epoch": 1,
+              "title": "budget",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "d1fef0b2dadaf8f124e6f30d2140ad2cc3457b218fa3ee03fd9b239cf906d224",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+            "file_name": "budget.pdf",
+            "publication_epoch": 1,
+            "title": "budget",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      },
+      "id": "full_k_tradeoff",
+      "name_zh": "满 K 结构增益与种子取舍",
+      "request": {
+        "query": "budgetword",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_811fb3bc88a946d598726c99aaeac2ad"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "budget.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1",
+            "kind": "page_object",
+            "location_text_matched": null,
+            "locator": {
+              "object_type": "text",
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "source_id": "page:1:shape:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "budget.pdf",
+            "fts_origins": [
+              "native_text"
+            ],
+            "key": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:2",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:2"
+              },
+              {
+                "code": "previous_position",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:3"
+              },
+              {
+                "code": "next_position",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": true
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "budget.pdf",
+            "fts_origins": [],
+            "key": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "parent_context",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+              },
+              {
+                "code": "same_position_object",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:1:shape:1"
+              },
+              {
+                "code": "previous_position",
+                "seed": "local_811fb3bc88a946d598726c99aaeac2ad@v1:page:2"
+              }
+            ],
+            "source": {
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "available",
+            "text_available": false
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 8,
+          "checked_positions": [
+            "page:1",
+            "page:2",
+            "page:3",
+            "page:4"
+          ],
+          "enumerated_source_count": 5,
+          "evidence_inspected_count": 5,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 4,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 1,
+          "returned_count": 3,
+          "searchable_source_count": 4,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "fts_native": 2,
+            "next_position": 2,
+            "previous_position": 1
+          }
+        },
+        "elapsed_ms": 3.143,
+        "elapsed_samples_ms": [
+          3.168,
+          3.143,
+          3.102
+        ],
+        "misses": [],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "budgetword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "budgetword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_811fb3bc88a946d598726c99aaeac2ad"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "d1fef0b2dadaf8f124e6f30d2140ad2cc3457b218fa3ee03fd9b239cf906d224",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+              "file_name": "budget.pdf",
+              "publication_epoch": 1,
+              "title": "budget",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "d1fef0b2dadaf8f124e6f30d2140ad2cc3457b218fa3ee03fd9b239cf906d224",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_811fb3bc88a946d598726c99aaeac2ad",
+            "file_name": "budget.pdf",
+            "publication_epoch": 1,
+            "title": "budget",
+            "version": 1
+          }
+        ],
+        "status": "ok"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "empty",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "no_text_anchor",
+            "forbidden_hits": [],
+            "required_hits": [
+              "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:1",
+              "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:2"
+            ],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [
+          "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:1",
+          "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:2"
+        ],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 6,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 0,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.733,
+        "elapsed_samples_ms": [
+          3.014,
+          2.733,
+          2.693
+        ],
+        "misses": [
+          "no_fts_match"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "unseenword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "unseenword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_26cbbc8564dc49289b9bc2a02afe7cbd"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+              "file_name": "scan.pdf",
+              "publication_epoch": 1,
+              "title": "scan",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "file_name": "scan.pdf",
+            "publication_epoch": 1,
+            "title": "scan",
+            "version": 1
+          }
+        ],
+        "status": "empty"
+      },
+      "id": "pure_image_browse",
+      "name_zh": "纯图页无文字锚点",
+      "request": {
+        "query": "unseenword",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_26cbbc8564dc49289b9bc2a02afe7cbd"
+          ]
+        },
+        "top_k": 2
+      },
+      "structure": {
+        "candidates": [
+          {
+            "course_id": "synthetic",
+            "file_name": "scan.pdf",
+            "fts_origins": [],
+            "key": "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:1",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:1"
+              }
+            ],
+            "source": {
+              "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "state": "needs_ocr",
+            "text_available": false
+          },
+          {
+            "course_id": "synthetic",
+            "file_name": "scan.pdf",
+            "fts_origins": [],
+            "key": "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:2",
+            "kind": "page",
+            "location_text_matched": null,
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": "local_26cbbc8564dc49289b9bc2a02afe7cbd@v1:page:2"
+              }
+            ],
+            "source": {
+              "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "state": "needs_ocr",
+            "text_available": false
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1",
+            "page:2"
+          ],
+          "enumerated_source_count": 2,
+          "evidence_inspected_count": 2,
+          "fts_candidate_cap": 6,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 2,
+          "searchable_source_count": 0,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.736,
+        "elapsed_samples_ms": [
+          2.82,
+          2.685,
+          2.736
+        ],
+        "misses": [
+          "no_text_anchor",
+          "visual_not_read"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "unseenword",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "unseenword"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_26cbbc8564dc49289b9bc2a02afe7cbd"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+              "file_name": "scan.pdf",
+              "publication_epoch": 1,
+              "title": "scan",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "file_name": "scan.pdf",
+            "publication_epoch": 1,
+            "title": "scan",
+            "version": 1
+          }
+        ],
+        "status": "no_text_anchor"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "empty",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "empty",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.706,
+        "elapsed_samples_ms": [
+          2.754,
+          2.661,
+          2.706
+        ],
+        "misses": [
+          "no_fts_match"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "never-present-token",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "never-present-token"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_811cd7f260d0489e8950c91abc33259c"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+              "file_name": "empty.pdf",
+              "publication_epoch": 1,
+              "title": "empty",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+            "file_name": "empty.pdf",
+            "publication_epoch": 1,
+            "title": "empty",
+            "version": 1
+          }
+        ],
+        "status": "empty"
+      },
+      "id": "single_file_empty_no_fallback",
+      "name_zh": "单文件关闭浏览后的空结果",
+      "request": {
+        "include_page_fallback": false,
+        "query": "never-present-token",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_811cd7f260d0489e8950c91abc33259c"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 1,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.855,
+        "elapsed_samples_ms": [
+          2.844,
+          2.855,
+          3.006
+        ],
+        "misses": [
+          "no_fts_match"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "never-present-token",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "never-present-token"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_811cd7f260d0489e8950c91abc33259c"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+              "file_name": "empty.pdf",
+              "publication_epoch": 1,
+              "title": "empty",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+            "file_name": "empty.pdf",
+            "publication_epoch": 1,
+            "title": "empty",
+            "version": 1
+          }
+        ],
+        "status": "empty"
+      }
+    },
+    {
+      "evaluation": {
+        "same_fts_cap": true,
+        "same_fts_seed_count": true,
+        "scope_equal": true,
+        "snapshot_equal": true,
+        "strategies": {
+          "fts": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "empty",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          },
+          "structure": {
+            "context_hits": [],
+            "context_misses": [],
+            "expected_status": "empty",
+            "forbidden_hits": [],
+            "required_hits": [],
+            "required_misses": [],
+            "status_ok": true
+          }
+        },
+        "structure_added": [],
+        "structure_context_gain": 0,
+        "structure_removed": [],
+        "within_budget": {
+          "fts": true,
+          "structure": true
+        }
+      },
+      "fts": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 3,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 2,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.924,
+        "elapsed_samples_ms": [
+          2.924,
+          3.004,
+          2.704
+        ],
+        "misses": [
+          "no_fts_match"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "never-present-token",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "never-present-token"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "local_811cd7f260d0489e8950c91abc33259c"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+              "file_name": "scan.pdf",
+              "publication_epoch": 1,
+              "title": "scan",
+              "version": 1
+            },
+            {
+              "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+              "file_name": "empty.pdf",
+              "publication_epoch": 1,
+              "title": "empty",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "file_name": "scan.pdf",
+            "publication_epoch": 1,
+            "title": "scan",
+            "version": 1
+          },
+          {
+            "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+            "file_name": "empty.pdf",
+            "publication_epoch": 1,
+            "title": "empty",
+            "version": 1
+          }
+        ],
+        "status": "empty"
+      },
+      "id": "multi_file_empty",
+      "name_zh": "多文件空结果不填首页",
+      "request": {
+        "query": "never-present-token",
+        "scope": {
+          "course_ids": [
+            "synthetic"
+          ],
+          "document_ids": [
+            "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "local_811cd7f260d0489e8950c91abc33259c"
+          ]
+        },
+        "top_k": 3
+      },
+      "structure": {
+        "candidates": [],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [],
+          "enumerated_source_count": 3,
+          "evidence_inspected_count": 0,
+          "fts_candidate_cap": 9,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 0,
+          "searchable_source_count": 1,
+          "snapshot_document_count": 2,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "elapsed_ms": 2.873,
+        "elapsed_samples_ms": [
+          2.72,
+          2.873,
+          3.04
+        ],
+        "misses": [
+          "no_fts_match"
+        ],
+        "options": [],
+        "query_trace": {
+          "glossary_version": "c02-public-v1",
+          "negation_detected": false,
+          "raw_query": "never-present-token",
+          "variants": [
+            {
+              "reason": "raw",
+              "text": "never-present-token"
+            }
+          ]
+        },
+        "scope_trace": {
+          "checked_location": null,
+          "effective_course_ids": [
+            "synthetic"
+          ],
+          "requested_course_ids": [
+            "synthetic"
+          ],
+          "requested_document_ids": [
+            "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "local_811cd7f260d0489e8950c91abc33259c"
+          ],
+          "requested_file_names": [],
+          "resolved_documents": [
+            {
+              "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+              "file_name": "scan.pdf",
+              "publication_epoch": 1,
+              "title": "scan",
+              "version": 1
+            },
+            {
+              "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+              "course_id": "synthetic",
+              "document_format": "pdf",
+              "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+              "file_name": "empty.pdf",
+              "publication_epoch": 1,
+              "title": "empty",
+              "version": 1
+            }
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "3346f3002f6ec6b3e77f83bedaba5ba888c0c63f1a0470641a34fc9a9d39f83c",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_26cbbc8564dc49289b9bc2a02afe7cbd",
+            "file_name": "scan.pdf",
+            "publication_epoch": 1,
+            "title": "scan",
+            "version": 1
+          },
+          {
+            "content_sha256": "9450eaa5004295fd22ae98810a5166c50bfb400f79c884ded2827feea114ac30",
+            "course_id": "synthetic",
+            "document_format": "pdf",
+            "document_id": "local_811cd7f260d0489e8950c91abc33259c",
+            "file_name": "empty.pdf",
+            "publication_epoch": 1,
+            "title": "empty",
+            "version": 1
+          }
+        ],
+        "status": "empty"
+      }
+    }
+  ],
+  "code_hashes": {
+    "app/api/structure_search.py": "c9324a440e73cbce27eaea7205db00fd768bbefc8e72c3283007b60bc9ff19a4",
+    "app/main.py": "310aa76c29fcbd0411cd89f4a7b83cd81f8f714ef19b696102d00f092306eac3",
+    "app/rag/structure_search.py": "2a23752195f25605eff484556519d8dce7b14bb0270cda6a373998904d9153c8",
+    "app/stores/structure_snapshot.py": "0662a65cf7ddd9939cea74246a0b9ce2acad43399b45cf96fb9dedfde992d965"
+  },
+  "generated_at": "2026-11-19T08:33:57.930711+00:00",
+  "isolation": {
+    "a03_material_read": false,
+    "credentials_configured": false,
+    "external_socket_attempts": [],
+    "search_surface": "create_app POST /api/rag/structure/search",
+    "temporary_course_root": true,
+    "temporary_database": true
+  },
+  "public_samples": {
+    "Signal-lab.ipynb": {
+      "sha256": "8c4808a38493583f6637b80cd0b30ab0d1a4dba933bb9b4306da7e5933f0f2d6",
+      "size_bytes": 11484
+    },
+    "Signal-reference.pdf": {
+      "sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "size_bytes": 3883
+    },
+    "Signal-slides.pptx": {
+      "sha256": "3d6adae71debca0a67e738d509369e1f916be615a6c44696cbb526140a8debfb",
+      "size_bytes": 29484
+    }
+  },
+  "revision": "ccb890e7f0b459e782e5d51491f2074cbf0653bf",
+  "runtime": {
+    "fastapi": "0.141.1",
+    "httpx": "0.28.1",
+    "platform": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7",
+    "sqlite": "3.53.1"
+  },
+  "schema": "srag-c04-public-trace-v1",
+  "summary": {
+    "all_contract_assertions_passed": true,
+    "case_count": 18,
+    "cases_with_seed_tradeoff": [
+      "full_k_tradeoff"
+    ],
+    "cases_with_structure_context_gain": [
+      "real_notebook_identifier",
+      "explicit_ppt_page",
+      "explicit_notebook_cell",
+      "registered_caption_target",
+      "full_k_tradeoff"
+    ],
+    "strategies": {
+      "fts": {
+        "median_case_elapsed_ms": 2.982,
+        "sum_case_median_elapsed_ms": 54.581,
+        "total_adjacency_edges_checked": 0,
+        "total_candidates_returned": 18,
+        "total_evidence_inspected": 20
+      },
+      "structure": {
+        "median_case_elapsed_ms": 3.058,
+        "sum_case_median_elapsed_ms": 56.318,
+        "total_adjacency_edges_checked": 45,
+        "total_candidates_returned": 32,
+        "total_evidence_inspected": 39
+      }
+    }
+  },
+  "tree": "454c2f24cdea427f297822233feb83abda055ee1"
+}
