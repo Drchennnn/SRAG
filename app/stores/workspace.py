@@ -415,6 +415,24 @@ class WorkspaceStore(MetadataStore):
             ).fetchone()
             return json.loads(row["payload"]) if row else None
 
+    def completed_answer(
+        self, owner: str, session_id: str, message_id: str
+    ) -> tuple[Turn, dict[str, Any]] | None:
+        with self._connect() as db:
+            _session(db, session_id, owner_digest(owner))
+            row = db.execute(
+                """
+                SELECT t.*, a.payload AS message_payload FROM workspace_messages a
+                JOIN workspace_turns t ON t.turn_id=a.turn_id
+                WHERE a.session_id=? AND a.message_id=? AND a.role='assistant'
+                    AND t.status='completed'
+                """,
+                (session_id, message_id),
+            ).fetchone()
+            if row is None:
+                return None
+            return Turn.from_row(row), json.loads(row["message_payload"])
+
     def attachment(self, session_id: str, message_id: str, display_id: str) -> Attachment | None:
         with self._connect() as db:
             row = db.execute(

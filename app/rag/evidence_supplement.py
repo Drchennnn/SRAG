@@ -217,6 +217,8 @@ class SupplementReport(BaseModel):
     reads: list[TurnEvidence] = Field(default_factory=list)
     final_evidence: list[TurnEvidence] = Field(default_factory=list)
     requirements: list[Requirement] = Field(default_factory=list)
+    first_supported: list[Requirement] = Field(default_factory=list)
+    first_missing: list[Requirement] = Field(default_factory=list)
     supports: list[EvidenceSupport] = Field(default_factory=list)
     missing: list[Requirement] = Field(default_factory=list)
     term: TermAnchor | None = None
@@ -346,6 +348,16 @@ class _Turn:
         variants = [variant.text for variant in first.query_trace.variants]
         definition = self._definition()
         experiments = self._initial_experiments(definition)
+        self.report.first_supported = [
+            requirement
+            for requirement in self.report.requirements
+            if (definition if requirement == "definition" else experiments)
+        ]
+        self.report.first_missing = [
+            requirement
+            for requirement in self.report.requirements
+            if requirement not in self.report.first_supported
+        ]
         stop = self._next_step(definition, experiments, variants)
         if stop is None:
             assert definition is not None and definition.term is not None
@@ -638,6 +650,17 @@ def _requirements(query: str) -> list[Requirement]:
     if re.search(r"实验|验证|\bexperiment\b|\bvalidat(?:e|ion)\b", query, re.IGNORECASE):
         result.append("experiment")
     return result
+
+
+def asks_for_definition_and_experiment(query: str) -> bool:
+    omitted = re.search(
+        r"(?:不要|不必|无需|不用|不需要|别)[^，。！？；,.;!?\n]{0,14}(?:定义|实验|验证)"
+        r"|\b(?:do not|don['’]t|without|omit|exclude|skip|no)\b"
+        r"[^,.!?;\n]{0,30}\b(?:definition|experiments?|validation)\b",
+        query,
+        re.IGNORECASE,
+    )
+    return not omitted and len(_requirements(query)) == 2
 
 
 def _definition_in(evidence: TurnEvidence, question: str) -> _Definition | None:

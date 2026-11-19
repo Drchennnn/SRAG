@@ -1,0 +1,1694 @@
+{
+  "schema": "g02-browser-evidence-v1",
+  "runtime": {
+    "git_checkout_parent_or_exact_archive": "66e7e51cc3885ffd4044b63bfae3a79b44d63dca",
+    "product_and_runner_sha256": {
+      "app/rag/workspace.py": "f2d5d41b7883eff4dc6838777e98f30687969ac8545ad6d95ca92370420abcc5",
+      "app/rag/evidence_supplement.py": "03091c08109a7b2a4d3930d81098f38dd45b5a595b4853db4308643c67210e0d",
+      "app/rag/evidence_answer.py": "082eeb397eaa33f9a94fb1c78a9d8288a87ec819f6e45b5b8d1675426d73026b",
+      "app/stores/workspace.py": "c8563eaf559f7e581e9fa329a5cfaa75a161eda28a7bd680317788eb3ba1f6c8",
+      "app/api/workspace.py": "94b72ba9efe93e6cea3cac42143098634619e09f2bda9f13d0767e18481dd622",
+      "app/web/workspace/workspace.js": "d383630a5543ea4e48355f6458a992925afae99c6a08432d15580e55735cc09e",
+      "docs/G/G02-server.py": "d817a4eec95c368a1c1d6735e046c56630cb4264a9cf7cc9976a2ca41d2c072a",
+      "docs/G/G02-browser.sh": "709a0a053e702c06f123147d0fe24454cc3677512ac660022eedff2b07e030d8",
+      "docs/G/G02-verify.py": "1359d26ef365e5a2b8b50bac2bec5e24fdc3d8934e86dfc4ef673e20b05a70ff"
+    },
+    "system": "macOS-27.2-arm64-arm-64bit-Mach-O",
+    "python": "3.14.7",
+    "agent_browser": "agent-browser 0.43.0",
+    "browser_user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "settings": {
+      "vision_enabled": true,
+      "vision_credential_present": true,
+      "vision_model": "qwen3-vl-plus",
+      "vision_timeout_seconds": 20.0,
+      "course_ids": [
+        "signals",
+        "signal-demo",
+        "signal-incomplete"
+      ],
+      "data_and_cache_initially_empty": true,
+      "process_restarted_between_probes": false,
+      "os_page_cache_controlled": false
+    }
+  },
+  "measurements": {
+    "http_ms": "服务收到 HTTP 到最后一个响应块",
+    "browser_visible_ms": "当前轮浏览器提交到首条助手消息进 DOM",
+    "browser_import_submit_to_first_visible_hit_ms": "含浏览器切换文件和提交首查",
+    "provider_response_headers_ms": "实际出站到模型 HTTP 响应头",
+    "cold_warm_samples_per_format": 1,
+    "token_amounts": "服务商返回的 usage；货币价格无实测账单"
+  },
+  "first_text_hits": [
+    {
+      "file": "Signal-reference.pdf",
+      "file_bytes": 3883,
+      "source_type": "带原生文字的 PDF 页",
+      "source": {
+        "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+        "source_id": "page:1",
+        "version": 1
+      },
+      "locator": {
+        "page": 1
+      },
+      "import_http_ms": 49.162,
+      "browser_import_submit_to_first_visible_hit_ms": 358.1,
+      "cold_query": {
+        "http_ms": 15.234,
+        "browser_visible_ms": 25.4,
+        "request": {
+          "client_turn_id": "443d1941-9386-41ad-87fd-6940fa578bbd",
+          "kind": "search",
+          "text": "lookahead",
+          "scope_revision": 3
+        },
+        "status": "completed",
+        "external_call_count": 0
+      },
+      "warm_query": {
+        "http_ms": 14.314,
+        "browser_visible_ms": 26.8,
+        "request": {
+          "client_turn_id": "1d26c5dd-fb56-408c-8437-27e2da08b0b7",
+          "kind": "search",
+          "text": "lookahead",
+          "scope_revision": 3
+        },
+        "status": "completed",
+        "external_call_count": 0
+      }
+    },
+    {
+      "file": "Signal-slides.pptx",
+      "file_bytes": 29484,
+      "source_type": "带原生文字的幻灯片",
+      "source": {
+        "document_id": "local_3c50a83c382b4c3d8db1bcf961b6bd48",
+        "source_id": "page:1",
+        "version": 1
+      },
+      "locator": {
+        "page": 1
+      },
+      "import_http_ms": 138.379,
+      "browser_import_submit_to_first_visible_hit_ms": 425.9,
+      "cold_query": {
+        "http_ms": 13.278,
+        "browser_visible_ms": 26.4,
+        "request": {
+          "client_turn_id": "4c38329d-0b68-4569-a6fd-d253e19a710d",
+          "kind": "search",
+          "text": "Median filter experiment",
+          "scope_revision": 5
+        },
+        "status": "completed",
+        "external_call_count": 0
+      },
+      "warm_query": {
+        "http_ms": 12.864,
+        "browser_visible_ms": 28.2,
+        "request": {
+          "client_turn_id": "a1a7e1e1-b11e-42a4-b7cc-bdd42eca7b97",
+          "kind": "search",
+          "text": "Median filter experiment",
+          "scope_revision": 5
+        },
+        "status": "completed",
+        "external_call_count": 0
+      }
+    },
+    {
+      "file": "Signal-lab.ipynb",
+      "file_bytes": 11484,
+      "source_type": "Notebook Markdown Cell",
+      "source": {
+        "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+        "source_id": "cell:0",
+        "version": 1
+      },
+      "locator": {
+        "cell_id": "lab-intro",
+        "cell_index": 0,
+        "section_path": [
+          "Median filter lab"
+        ]
+      },
+      "import_http_ms": 8.538,
+      "browser_import_submit_to_first_visible_hit_ms": 813.2,
+      "cold_query": {
+        "http_ms": 13.714,
+        "browser_visible_ms": 30.6,
+        "request": {
+          "client_turn_id": "fb66eec2-53a1-4b9e-8e09-0e42586153ba",
+          "kind": "search",
+          "text": "Median filter",
+          "scope_revision": 9
+        },
+        "status": "completed",
+        "external_call_count": 0
+      },
+      "warm_query": {
+        "http_ms": 17.239,
+        "browser_visible_ms": 35.2,
+        "request": {
+          "client_turn_id": "05020aa9-f8f3-40f6-b251-84e124282c9b",
+          "kind": "search",
+          "text": "Median filter",
+          "scope_revision": 9
+        },
+        "status": "completed",
+        "external_call_count": 0
+      }
+    }
+  ],
+  "repeat_same_content": {
+    "published_identity": {
+      "file_name": "Signal-reference.pdf",
+      "status": "skipped",
+      "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+      "version": 1,
+      "publication_epoch": 2,
+      "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+      "source_count": 2,
+      "searchable_count": 2
+    },
+    "http_ms": 15.367
+  },
+  "definition_before_image": {
+    "http_ms": 72.135,
+    "browser_visible_ms": 92.9,
+    "request": {
+      "client_turn_id": "01d48e26-7d52-49b8-a00a-15784302be08",
+      "kind": "ask",
+      "text": "中值滤波 median filter 的定义是什么？",
+      "scope_revision": 11
+    },
+    "status": "completed",
+    "external_call_count": 0,
+    "sources": {
+      "ev-1": {
+        "evidence_id": "ev-1",
+        "file_name": "Signal-reference.pdf",
+        "locator": {
+          "page": 1
+        },
+        "read_status": "succeeded",
+        "reads": [
+          {
+            "actual_input_media_type": null,
+            "actual_input_rect": null,
+            "actual_input_sha256": null,
+            "actual_source": {
+              "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "execution": null,
+            "method": "native_text",
+            "model": null,
+            "origin_execution": null,
+            "prompt_version": null,
+            "question_sha256": null,
+            "status": "succeeded",
+            "text": "Median Filter Reference\nSIGNAL PROCESSING - SHAREABLE COURSE FIXTURE\nDefinition\nA one-dimensional median filter replaces the center sample with the median\nof an odd-length local window. It is robust to isolated impulse spikes.\nCentered-window lookahead\nfuture samples = (W - 1) / 2\nConditions and limits\n1. W is a positive odd integer.\n2. The formula is lookahead relative to the centered sample.\n3. At the boundaries, padding or a restricted valid region is required.\n4. This handout gives no numeric noise-reduction percentage.\nWorked value\nFor W = 5, an offline centered window requires 2 future samples.\nThis is not a universal group delay or peak-delay claim for a nonlinear filter.\nSee Figure 1 on page 2 for a qualitative impulse-spike illustration.\nA03 fixture - page 1 of 2",
+            "warnings": []
+          }
+        ],
+        "revision": {
+          "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+          "course_id": "signals",
+          "publication_epoch": 1,
+          "source": {
+            "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+            "source_id": "page:1",
+            "version": 1
+          }
+        }
+      },
+      "ev-2": {
+        "evidence_id": "ev-2",
+        "file_name": "Signal-reference.pdf",
+        "locator": {
+          "page": 2
+        },
+        "read_status": "succeeded",
+        "reads": [
+          {
+            "actual_input_media_type": null,
+            "actual_input_rect": null,
+            "actual_input_sha256": null,
+            "actual_source": {
+              "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "execution": null,
+            "method": "native_text",
+            "model": null,
+            "origin_execution": null,
+            "prompt_version": null,
+            "question_sha256": null,
+            "status": "succeeded",
+            "text": "Impulse-spike illustration\nQualitative schematic; axes and units are part of the source evidence.\n(a) Raw signal\nTime [ms]\nAmplitude [a.u.]\nOne isolated high spike is visible.\n(b) Median, W = 5\nTime [ms]\nAmplitude [a.u.]\nThe isolated spike is suppressed.\nFigure 1. Median filtering suppresses the isolated impulse spike in this schematic.\nThe figure supports the qualitative observation only. It does not report a measured\nerror reduction, frequency response, or causal explanation for another experiment.\nA03 fixture - page 2 of 2",
+            "warnings": []
+          }
+        ],
+        "revision": {
+          "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+          "course_id": "signals",
+          "publication_epoch": 1,
+          "source": {
+            "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+            "source_id": "page:2",
+            "version": 1
+          }
+        }
+      },
+      "ev-3": {
+        "evidence_id": "ev-3",
+        "file_name": "Signal-reference.pdf",
+        "locator": {
+          "page": 1
+        },
+        "read_status": "not_attempted",
+        "reads": [],
+        "revision": {
+          "content_sha256": "c8f123efffba2ce032c10243996fa3139a368bc68a38bced6c5e1a81e51e0cf3",
+          "course_id": "signals",
+          "publication_epoch": 1,
+          "source": {
+            "document_id": "local_b72a1ce3c66a4a22b0d6622bd4352e0d",
+            "source_id": "page:1",
+            "version": 1
+          }
+        }
+      }
+    }
+  },
+  "image_roundtrip": {
+    "notebook": {
+      "displays": [
+        {
+          "display_id": "0966e4c61d1941098766657168ce7802",
+          "img_width": 440,
+          "ordinal": 1,
+          "url": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/719ed85c6dee4ab89b7a0b8cf36fd4ca/media/0966e4c61d1941098766657168ce7802?view=inline",
+          "sha256": "d47a281676c3223a7bf57397362fdf9c6b51f72510a47b8829488dc773c3c5ec",
+          "source": {
+            "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        },
+        {
+          "display_id": "d185899f1a8941648aa925a2af371a1e",
+          "img_width": 440,
+          "ordinal": 2,
+          "url": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/719ed85c6dee4ab89b7a0b8cf36fd4ca/media/d185899f1a8941648aa925a2af371a1e?view=inline",
+          "sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+          "source": {
+            "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          }
+        }
+      ],
+      "message_id": "719ed85c6dee4ab89b7a0b8cf36fd4ca"
+    },
+    "browser_open_at_v1": {
+      "height": 260,
+      "location": "Signal-lab.ipynb · v1 · Cell 2",
+      "media": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/719ed85c6dee4ab89b7a0b8cf36fd4ca/media/d185899f1a8941648aa925a2af371a1e?view=inline",
+      "title": "Signal-lab.ipynb · v1 · 输出 2",
+      "width": 440
+    },
+    "browser_open_after_publish_and_reload": {
+      "height": 260,
+      "location": "Signal-lab.ipynb · v1 · Cell 2",
+      "media": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/719ed85c6dee4ab89b7a0b8cf36fd4ca/media/d185899f1a8941648aa925a2af371a1e?view=inline",
+      "title": "Signal-lab.ipynb · v1 · 输出 2",
+      "width": 440
+    },
+    "v2_publish": {
+      "file_name": "Signal-lab.ipynb",
+      "status": "published",
+      "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+      "version": 2,
+      "publication_epoch": 2,
+      "content_sha256": "ec7470dfd0ef0e1231cb88bb218e8d4f90dc5e5cf11917074af8314168dc3b12",
+      "source_count": 5,
+      "searchable_count": 3
+    },
+    "v2_second_image_original_sha256": "7ec65dab6628a30590421e4c1a150c52a6ec22933d67efce47eda279097fbd68",
+    "turns": [
+      {
+        "http_ms": 4237.109,
+        "browser_visible_ms": 4255.7,
+        "request": {
+          "client_turn_id": "a8207ef2-74aa-45f4-8725-e53ae443b523",
+          "kind": "ask",
+          "text": "刚才第二张图",
+          "scope_revision": 15
+        },
+        "status": "completed",
+        "external_call_count": 1,
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          },
+          "display_id": "d185899f1a8941648aa925a2af371a1e",
+          "message_id": "719ed85c6dee4ab89b7a0b8cf36fd4ca",
+          "method": "visible_ordinal",
+          "ordinal": 2,
+          "resolution": "visible_ordinal"
+        },
+        "read_status": "partial",
+        "state": {
+          "capability_reason": null,
+          "elapsed_ms": 4221.594917005859,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [
+                "vertical axis label",
+                "vertical axis unit",
+                "exact values or scale of either axis",
+                "meaning or context of the plotted data"
+              ],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 114,
+                "input_tokens": 208,
+                "output_tokens": 132,
+                "total_tokens": 340
+              }
+            }
+          ],
+          "status": "partial"
+        },
+        "actual_reads": [
+          {
+            "actual_input_media_type": "image/png",
+            "actual_input_rect": null,
+            "actual_input_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+            "actual_source": {
+              "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "execution": "real_provider",
+            "method": "vision",
+            "model": "qwen3-vl-plus",
+            "origin_execution": "real_provider",
+            "prompt_version": "source-directed-v1",
+            "question_sha256": "26160a2064234084ddda2f96d85a69ac83f80c9c983fa79b8ae795453cd41bf7",
+            "status": "partial",
+            "warnings": [
+              "vertical axis label",
+              "vertical axis unit",
+              "exact values or scale of either axis",
+              "meaning or context of the plotted data"
+            ]
+          }
+        ],
+        "response_text": "The image shows a line graph with an orange stepped line that generally increases, then slightly decreases, then increases again, and finally decreases. The horizontal axis is labeled 'Frequency [Hz]'. The vertical axis has no visible label or unit. The axes are drawn in dark blue/black lines; the origin is at the bottom-left corner. No gridlines, data points, or numerical tick marks are visible on either axis."
+      },
+      {
+        "http_ms": 25.178,
+        "browser_visible_ms": 45,
+        "request": {
+          "client_turn_id": "904abc04-fb99-4e61-8ec8-0068097f55e4",
+          "kind": "ask",
+          "text": "刚才第二张图",
+          "scope_revision": 15
+        },
+        "status": "completed",
+        "external_call_count": 0,
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          },
+          "display_id": "d185899f1a8941648aa925a2af371a1e",
+          "message_id": "719ed85c6dee4ab89b7a0b8cf36fd4ca",
+          "method": "visible_ordinal",
+          "ordinal": 2,
+          "resolution": "visible_ordinal"
+        },
+        "read_status": "partial",
+        "state": {
+          "capability_reason": null,
+          "elapsed_ms": 6.112708011642098,
+          "reads": [
+            {
+              "cache_hit": true,
+              "execution": "cache_reuse",
+              "external_call": false,
+              "missing_or_error": [
+                "vertical axis label",
+                "vertical axis unit",
+                "exact values or scale of either axis",
+                "meaning or context of the plotted data"
+              ],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {}
+            }
+          ],
+          "status": "partial"
+        },
+        "actual_reads": [
+          {
+            "actual_input_media_type": "image/png",
+            "actual_input_rect": null,
+            "actual_input_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+            "actual_source": {
+              "document_id": "local_cfbef56300b9470b85eea046f9dfe858",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "execution": "cache_reuse",
+            "method": "vision",
+            "model": "qwen3-vl-plus",
+            "origin_execution": "real_provider",
+            "prompt_version": "source-directed-v1",
+            "question_sha256": "26160a2064234084ddda2f96d85a69ac83f80c9c983fa79b8ae795453cd41bf7",
+            "status": "partial",
+            "warnings": [
+              "vertical axis label",
+              "vertical axis unit",
+              "exact values or scale of either axis",
+              "meaning or context of the plotted data"
+            ]
+          }
+        ],
+        "response_text": "The image shows a line graph with an orange stepped line that generally increases, then slightly decreases, then increases again, and finally decreases. The horizontal axis is labeled 'Frequency [Hz]'. The vertical axis has no visible label or unit. The axes are drawn in dark blue/black lines; the origin is at the bottom-left corner. No gridlines, data points, or numerical tick marks are visible on either axis."
+      }
+    ],
+    "actual_provider_attempts": [
+      {
+        "event": "real_vision_attempt",
+        "image_count": 1,
+        "image_sha256": "ce741007281a939680e7a21020fc80c34abfcb10d6d76d13e7984bc9d5743aa5",
+        "message_count": 1,
+        "normalized_question_sha256": "26160a2064234084ddda2f96d85a69ac83f80c9c983fa79b8ae795453cd41bf7",
+        "model": "qwen3-vl-plus",
+        "http_status": 200,
+        "response_headers_ms": 4153.698
+      }
+    ],
+    "read_failures": 0,
+    "cache_hits": 1
+  },
+  "cross_file_roundtrip": {
+    "turns": [
+      {
+        "http_ms": 47.05,
+        "browser_visible_ms": 66.9,
+        "request": {
+          "client_turn_id": "a7deb9f7-ea5c-4c68-8bba-6b40c42e6b15",
+          "kind": "ask",
+          "text": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+          "scope_revision": 16
+        },
+        "status": "completed",
+        "external_call_count": 0,
+        "message_id": "37ae6179edc3446f9232c668c8dfd392",
+        "turn_trace": {
+          "answer_sections": {
+            "definition": "supported",
+            "experiment": "supported"
+          },
+          "answer_status": "complete",
+          "budget": 2,
+          "cited_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "effective_scope": {
+            "course_ids": [
+              "signal-demo"
+            ],
+            "document_ids": [
+              "local_24bd915ad0024777b29038dc3fd5e690",
+              "local_72925d3b403a438cb8148c7ec0c4157d",
+              "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+            ]
+          },
+          "elapsed_ms": 29.850332997739315,
+          "external_call_count": 0,
+          "final_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "first_missing": [
+            "experiment"
+          ],
+          "first_search_status": "ok",
+          "first_supported": [
+            "definition"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "read",
+                  "evidence_id": "ev-1",
+                  "file_name": "Median-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.77373812116151e-06,
+                  "source": {
+                    "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "read",
+                  "evidence_id": "ev-2",
+                  "file_name": "Median-drills.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.6762075134168155e-06,
+                  "source": {
+                    "document_id": "local_24bd915ad0024777b29038dc3fd5e690",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 1.759542035870254,
+              "kind": "first",
+              "query": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+              "scope": {
+                "course_ids": [
+                  "signal-demo"
+                ],
+                "document_ids": [
+                  "local_24bd915ad0024777b29038dc3fd5e690",
+                  "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+                ]
+              }
+            },
+            {
+              "candidates": [
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "duplicate",
+                  "evidence_id": null,
+                  "file_name": "Median-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "not_attempted",
+                  "reason": null,
+                  "score": -1.848566987877404,
+                  "source": {
+                    "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "accepted",
+                  "evidence_id": "ev-3",
+                  "file_name": "A7-observations.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": -1.4244461725822406,
+                  "source": {
+                    "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 1.1599169811233878,
+              "kind": "literal_supplement",
+              "query": "SignalTrialA7",
+              "scope": {
+                "course_ids": [
+                  "signal-demo"
+                ],
+                "document_ids": [
+                  "local_24bd915ad0024777b29038dc3fd5e690",
+                  "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+                ]
+              }
+            }
+          ],
+          "misses": [
+            "no_structural_neighbor"
+          ],
+          "missing": [],
+          "replacements": [
+            {
+              "added": {
+                "content_sha256": "d3e8ad04df398d060e2d337358977f2f7c01c70e55ce9d5aa357f8d702c94743",
+                "course_id": "signal-demo",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              "original_role": "auxiliary",
+              "reason": "required_experiment_priority",
+              "removed": {
+                "content_sha256": "a7afcb982d85290b82ba321504b66e50725e47665ee0e0aee98428001c8f0148",
+                "course_id": "signal-demo",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_24bd915ad0024777b29038dc3fd5e690",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              "removed_locator": {
+                "cell_id": "evidence",
+                "cell_index": 0,
+                "json_pointer": "/cells/0"
+              }
+            }
+          ],
+          "requirements": [
+            "definition",
+            "experiment"
+          ],
+          "route": "evidence_answer",
+          "scope": {
+            "course_ids": [
+              "signal-demo"
+            ],
+            "document_ids": [
+              "local_24bd915ad0024777b29038dc3fd5e690",
+              "local_72925d3b403a438cb8148c7ec0c4157d",
+              "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+            ]
+          },
+          "snapshot": [
+            {
+              "content_sha256": "a7afcb982d85290b82ba321504b66e50725e47665ee0e0aee98428001c8f0148",
+              "course_id": "signal-demo",
+              "document_id": "local_24bd915ad0024777b29038dc3fd5e690",
+              "file_name": "Median-drills.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "d3e8ad04df398d060e2d337358977f2f7c01c70e55ce9d5aa357f8d702c94743",
+              "course_id": "signal-demo",
+              "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+              "file_name": "A7-observations.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "5e4960f28bd6f90a2887bb9d15812d31cae22181004353c402c54b995a319c39",
+              "course_id": "signal-demo",
+              "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+              "file_name": "Median-lecture.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "snapshot_recheck_count": 7,
+          "source_read_count": 3,
+          "status": "complete",
+          "stop_reason": "supplemented",
+          "strategy": "supplement",
+          "supplement_count": 1,
+          "term": {
+            "course_id": "signal-demo",
+            "end": 118,
+            "evidence_id": "ev-1",
+            "excerpt_sha256": "2b41898e190bffee7de25607b91f1e9394b2486fc79df48f3e820fe075317ee1",
+            "source": {
+              "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "start": 105,
+            "word": "SignalTrialA7"
+          }
+        },
+        "visible_answer_blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A median filter replaces each interior sample by the median of an odd window.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SignalTrialA7，切分 held-out，样本数 4。MAE（amplitude）基线为 0.24，试验为 0.18。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Median-lecture.ipynb",
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Definition: A median filter replaces each interior sample by the median of an odd window.\nExperiment-ID: SignalTrialA7.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "5e4960f28bd6f90a2887bb9d15812d31cae22181004353c402c54b995a319c39",
+              "course_id": "signal-demo",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "A7-observations.ipynb",
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.18. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.16, 0.20, 0.18, 0.18).",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "d3e8ad04df398d060e2d337358977f2f7c01c70e55ce9d5aa357f8d702c94743",
+              "course_id": "signal-demo",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          }
+        }
+      },
+      {
+        "http_ms": 47.812,
+        "browser_visible_ms": 69.4,
+        "request": {
+          "client_turn_id": "92a40c3c-2bb4-4616-9075-02908ddb8dbd",
+          "kind": "ask",
+          "text": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+          "scope_revision": 19
+        },
+        "status": "completed",
+        "external_call_count": 0,
+        "message_id": "f041f7d1f02b470ab99de04a7e0bb8bf",
+        "turn_trace": {
+          "answer_sections": {
+            "definition": "supported",
+            "experiment": "supported"
+          },
+          "answer_status": "complete",
+          "budget": 2,
+          "cited_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "effective_scope": {
+            "course_ids": [
+              "signal-demo"
+            ],
+            "document_ids": [
+              "local_24bd915ad0024777b29038dc3fd5e690",
+              "local_72925d3b403a438cb8148c7ec0c4157d",
+              "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+            ]
+          },
+          "elapsed_ms": 29.15816695895046,
+          "external_call_count": 0,
+          "final_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "first_missing": [
+            "experiment"
+          ],
+          "first_search_status": "ok",
+          "first_supported": [
+            "definition"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "read",
+                  "evidence_id": "ev-1",
+                  "file_name": "Median-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.781519010346463e-06,
+                  "source": {
+                    "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "read",
+                  "evidence_id": "ev-2",
+                  "file_name": "Median-drills.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.6831159675713786e-06,
+                  "source": {
+                    "document_id": "local_24bd915ad0024777b29038dc3fd5e690",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 1.7448329599574208,
+              "kind": "first",
+              "query": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+              "scope": {
+                "course_ids": [
+                  "signal-demo"
+                ],
+                "document_ids": [
+                  "local_24bd915ad0024777b29038dc3fd5e690",
+                  "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+                ]
+              }
+            },
+            {
+              "candidates": [
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "duplicate",
+                  "evidence_id": null,
+                  "file_name": "Median-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "not_attempted",
+                  "reason": null,
+                  "score": -1.4460418264202564,
+                  "source": {
+                    "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "signal-demo",
+                  "disposition": "accepted",
+                  "evidence_id": "ev-3",
+                  "file_name": "A7-observations.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": -1.116536857835221,
+                  "source": {
+                    "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "elapsed_ms": 1.1804999085143209,
+              "kind": "literal_supplement",
+              "query": "SignalTrialA7",
+              "scope": {
+                "course_ids": [
+                  "signal-demo"
+                ],
+                "document_ids": [
+                  "local_24bd915ad0024777b29038dc3fd5e690",
+                  "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+                ]
+              }
+            }
+          ],
+          "misses": [
+            "no_structural_neighbor"
+          ],
+          "missing": [],
+          "replacements": [
+            {
+              "added": {
+                "content_sha256": "5a7fd9248c2a425305ae365d1b0695bca421fbf78fff9976fc02116bb9521e0d",
+                "course_id": "signal-demo",
+                "publication_epoch": 2,
+                "source": {
+                  "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              },
+              "original_role": "auxiliary",
+              "reason": "required_experiment_priority",
+              "removed": {
+                "content_sha256": "a7afcb982d85290b82ba321504b66e50725e47665ee0e0aee98428001c8f0148",
+                "course_id": "signal-demo",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_24bd915ad0024777b29038dc3fd5e690",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              "removed_locator": {
+                "cell_id": "evidence",
+                "cell_index": 0,
+                "json_pointer": "/cells/0"
+              }
+            }
+          ],
+          "requirements": [
+            "definition",
+            "experiment"
+          ],
+          "route": "evidence_answer",
+          "scope": {
+            "course_ids": [
+              "signal-demo"
+            ],
+            "document_ids": [
+              "local_24bd915ad0024777b29038dc3fd5e690",
+              "local_72925d3b403a438cb8148c7ec0c4157d",
+              "local_a0c15a81c4064b1f88f3a17ce52fb0e8"
+            ]
+          },
+          "snapshot": [
+            {
+              "content_sha256": "a7afcb982d85290b82ba321504b66e50725e47665ee0e0aee98428001c8f0148",
+              "course_id": "signal-demo",
+              "document_id": "local_24bd915ad0024777b29038dc3fd5e690",
+              "file_name": "Median-drills.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "5a7fd9248c2a425305ae365d1b0695bca421fbf78fff9976fc02116bb9521e0d",
+              "course_id": "signal-demo",
+              "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+              "file_name": "A7-observations.ipynb",
+              "publication_epoch": 2,
+              "version": 2
+            },
+            {
+              "content_sha256": "5e4960f28bd6f90a2887bb9d15812d31cae22181004353c402c54b995a319c39",
+              "course_id": "signal-demo",
+              "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+              "file_name": "Median-lecture.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "snapshot_recheck_count": 7,
+          "source_read_count": 3,
+          "status": "complete",
+          "stop_reason": "supplemented",
+          "strategy": "supplement",
+          "supplement_count": 1,
+          "term": {
+            "course_id": "signal-demo",
+            "end": 118,
+            "evidence_id": "ev-1",
+            "excerpt_sha256": "2b41898e190bffee7de25607b91f1e9394b2486fc79df48f3e820fe075317ee1",
+            "source": {
+              "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "start": 105,
+            "word": "SignalTrialA7"
+          }
+        },
+        "visible_answer_blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A median filter replaces each interior sample by the median of an odd window.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SignalTrialA7，切分 held-out，样本数 4。MAE（amplitude）基线为 0.24，试验为 0.16。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Median-lecture.ipynb",
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Definition: A median filter replaces each interior sample by the median of an odd window.\nExperiment-ID: SignalTrialA7.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "5e4960f28bd6f90a2887bb9d15812d31cae22181004353c402c54b995a319c39",
+              "course_id": "signal-demo",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "A7-observations.ipynb",
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.16. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.14, 0.18, 0.16, 0.16).",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "5a7fd9248c2a425305ae365d1b0695bca421fbf78fff9976fc02116bb9521e0d",
+              "course_id": "signal-demo",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            }
+          }
+        }
+      },
+      {
+        "http_ms": 61.911,
+        "browser_visible_ms": 83.7,
+        "request": {
+          "client_turn_id": "5987531b-5240-4b49-b20f-631339c8598d",
+          "kind": "ask",
+          "text": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+          "scope_revision": 23
+        },
+        "status": "completed",
+        "external_call_count": 0,
+        "message_id": "de8d199f44e847f7bdf80ac4b6ffbf9d",
+        "turn_trace": {
+          "answer_sections": {
+            "definition": "supported",
+            "experiment": "missing"
+          },
+          "answer_status": "partial",
+          "budget": 2,
+          "cited_evidence_ids": [
+            "ev-1"
+          ],
+          "effective_scope": {
+            "course_ids": [
+              "signal-incomplete"
+            ],
+            "document_ids": [
+              "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+              "local_9831c4dbfca3476c8ca706eb98093791",
+              "local_ac94b1fa5bfb47bfa3ebc28b59e4e7d2"
+            ]
+          },
+          "elapsed_ms": 41.32362501695752,
+          "external_call_count": 0,
+          "final_evidence_ids": [
+            "ev-1",
+            "ev-2"
+          ],
+          "first_missing": [
+            "experiment"
+          ],
+          "first_search_status": "ok",
+          "first_supported": [
+            "definition"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "course_id": "signal-incomplete",
+                  "disposition": "read",
+                  "evidence_id": "ev-1",
+                  "file_name": "Median-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.7430997333884936e-06,
+                  "source": {
+                    "document_id": "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "signal-incomplete",
+                  "disposition": "read",
+                  "evidence_id": "ev-2",
+                  "file_name": "Median-drills.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.648956356736243e-06,
+                  "source": {
+                    "document_id": "local_9831c4dbfca3476c8ca706eb98093791",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 1.906750025227666,
+              "kind": "first",
+              "query": "中值滤波 median filter 的定义是什么？课件所对应的留出集实验如何验证？",
+              "scope": {
+                "course_ids": [
+                  "signal-incomplete"
+                ],
+                "document_ids": [
+                  "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+                  "local_9831c4dbfca3476c8ca706eb98093791",
+                  "local_ac94b1fa5bfb47bfa3ebc28b59e4e7d2"
+                ]
+              }
+            },
+            {
+              "candidates": [
+                {
+                  "course_id": "signal-incomplete",
+                  "disposition": "still_missing",
+                  "evidence_id": "ev-3",
+                  "file_name": "A7-observations.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "succeeded",
+                  "reason": "experiment_fields_missing",
+                  "score": -1.2920438284052405,
+                  "source": {
+                    "document_id": "local_ac94b1fa5bfb47bfa3ebc28b59e4e7d2",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "signal-incomplete",
+                  "disposition": "duplicate",
+                  "evidence_id": null,
+                  "file_name": "Median-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "evidence",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "not_attempted",
+                  "reason": null,
+                  "score": -1.237764719385571,
+                  "source": {
+                    "document_id": "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 2.2739170817658305,
+              "kind": "literal_supplement",
+              "query": "SignalTrialA7",
+              "scope": {
+                "course_ids": [
+                  "signal-incomplete"
+                ],
+                "document_ids": [
+                  "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+                  "local_9831c4dbfca3476c8ca706eb98093791",
+                  "local_ac94b1fa5bfb47bfa3ebc28b59e4e7d2"
+                ]
+              }
+            }
+          ],
+          "misses": [
+            "no_structural_neighbor"
+          ],
+          "missing": [
+            "experiment"
+          ],
+          "replacements": [],
+          "requirements": [
+            "definition",
+            "experiment"
+          ],
+          "route": "evidence_answer",
+          "scope": {
+            "course_ids": [
+              "signal-incomplete"
+            ],
+            "document_ids": [
+              "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+              "local_9831c4dbfca3476c8ca706eb98093791",
+              "local_ac94b1fa5bfb47bfa3ebc28b59e4e7d2"
+            ]
+          },
+          "snapshot": [
+            {
+              "content_sha256": "5e4960f28bd6f90a2887bb9d15812d31cae22181004353c402c54b995a319c39",
+              "course_id": "signal-incomplete",
+              "document_id": "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+              "file_name": "Median-lecture.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "a7afcb982d85290b82ba321504b66e50725e47665ee0e0aee98428001c8f0148",
+              "course_id": "signal-incomplete",
+              "document_id": "local_9831c4dbfca3476c8ca706eb98093791",
+              "file_name": "Median-drills.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "60659ebf2fa7d23022f118ea76aebd6bd3898b6203a567c4b792be9c71748fff",
+              "course_id": "signal-incomplete",
+              "document_id": "local_ac94b1fa5bfb47bfa3ebc28b59e4e7d2",
+              "file_name": "A7-observations.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "snapshot_recheck_count": 7,
+          "source_read_count": 3,
+          "status": "partial",
+          "stop_reason": "still_missing",
+          "strategy": "supplement",
+          "supplement_count": 1,
+          "term": {
+            "course_id": "signal-incomplete",
+            "end": 118,
+            "evidence_id": "ev-1",
+            "excerpt_sha256": "2b41898e190bffee7de25607b91f1e9394b2486fc79df48f3e820fe075317ee1",
+            "source": {
+              "document_id": "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "start": 105,
+            "word": "SignalTrialA7"
+          }
+        },
+        "visible_answer_blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A median filter replaces each interior sample by the median of an odd window.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Median-lecture.ipynb",
+            "locator": {
+              "cell_id": "evidence",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Definition: A median filter replaces each interior sample by the median of an odd window.\nExperiment-ID: SignalTrialA7.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "5e4960f28bd6f90a2887bb9d15812d31cae22181004353c402c54b995a319c39",
+              "course_id": "signal-incomplete",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_77d9dc7fcdec4cbeabc32e9afbb84e4e",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          }
+        }
+      }
+    ],
+    "citation_readers": [
+      {
+        "operation": "definition-citation",
+        "dom": {
+          "location": "当前版本",
+          "text": "Definition: A median filter replaces each interior sample by the median of an odd window.\nExperiment-ID: SignalTrialA7.",
+          "title": "Median-lecture.ipynb · v1 · Cell 1"
+        },
+        "http": {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/37ae6179edc3446f9232c668c8dfd392/evidence/ev-1",
+          "query": {},
+          "request": null,
+          "request_bytes": 0,
+          "response": {
+            "source": {
+              "document_id": "local_a0c15a81c4064b1f88f3a17ce52fb0e8",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "file_name": "Median-lecture.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "evidence",
+              "section_path": []
+            },
+            "text": "Definition: A median filter replaces each interior sample by the median of an odd window.\nExperiment-ID: SignalTrialA7.",
+            "is_current": true
+          },
+          "http_ms": 5.698
+        }
+      },
+      {
+        "operation": "experiment-citation",
+        "dom": {
+          "location": "当前版本",
+          "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.18. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.16, 0.20, 0.18, 0.18).",
+          "title": "A7-observations.ipynb · v1 · Cell 1"
+        },
+        "http": {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/37ae6179edc3446f9232c668c8dfd392/evidence/ev-3",
+          "query": {},
+          "request": null,
+          "request_bytes": 0,
+          "response": {
+            "source": {
+              "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "file_name": "A7-observations.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "evidence",
+              "section_path": []
+            },
+            "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.18. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.16, 0.20, 0.18, 0.18).",
+            "is_current": true
+          },
+          "http_ms": 5.693
+        }
+      },
+      {
+        "operation": "current-experiment",
+        "dom": {
+          "location": "当前版本",
+          "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.16. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.14, 0.18, 0.16, 0.16).",
+          "title": "A7-observations.ipynb · v2 · Cell 1"
+        },
+        "http": {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/f041f7d1f02b470ab99de04a7e0bb8bf/evidence/ev-3",
+          "query": {},
+          "request": null,
+          "request_bytes": 0,
+          "response": {
+            "source": {
+              "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+              "version": 2,
+              "source_id": "cell:0"
+            },
+            "file_name": "A7-observations.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "evidence",
+              "section_path": []
+            },
+            "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.16. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.14, 0.18, 0.16, 0.16).",
+            "is_current": true
+          },
+          "http_ms": 4.935
+        }
+      },
+      {
+        "operation": "historical-experiment",
+        "dom": {
+          "location": "历史版本",
+          "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.18. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.16, 0.20, 0.18, 0.18).",
+          "title": "A7-observations.ipynb · v1 · Cell 1"
+        },
+        "http": {
+          "category": "citation",
+          "status": 200,
+          "path": "/api/workspace/sessions/4c0c4c730f7e45688e75a3bed06dc75d/messages/37ae6179edc3446f9232c668c8dfd392/evidence/ev-3",
+          "query": {},
+          "request": null,
+          "request_bytes": 0,
+          "response": {
+            "source": {
+              "document_id": "local_72925d3b403a438cb8148c7ec0c4157d",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "file_name": "A7-observations.ipynb",
+            "locator": {
+              "cell_index": 0,
+              "cell_id": "evidence",
+              "section_path": []
+            },
+            "text": "Experiment-ID: SignalTrialA7. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.24. Trial: 0.18. Samples: 4.\nBaseline absolute errors: (0.20, 0.24, 0.28, 0.24).\nTrial absolute errors: (0.16, 0.20, 0.18, 0.18).",
+            "is_current": false
+          },
+          "http_ms": 6.668
+        }
+      }
+    ],
+    "incomplete_ui": {
+      "buttons": [
+        "Median-lecture.ipynb · v1 · Cell 1"
+      ],
+      "text": "课程助手A median filter replaces each interior sample by the median of an odd window.依据 · Median-lecture.ipynb · v1 · Cell 1本轮可核对的原文不足以确认与该定义相符的实测比较。"
+    }
+  }
+}

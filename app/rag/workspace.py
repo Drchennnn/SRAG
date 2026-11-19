@@ -9,10 +9,13 @@ import secrets
 from collections.abc import Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
+from time import perf_counter
 from typing import Any
 from uuid import uuid4
 
 from app.config import Settings
+from app.rag.evidence_answer import EvidenceAnswerer
+from app.rag.evidence_supplement import SupplementRetriever, asks_for_definition_and_experiment
 from app.rag.local_library import LocalLibrary
 from app.rag.source_evidence import (
     EvidenceRequest,
@@ -54,10 +57,21 @@ _IMAGE_REFERENCE = re.compile(r"(?:刚才|上一条|上面|那|这|哪)\s*(?:的
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
 _PAGE = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:页|张幻灯片)")
 _CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*cell", re.IGNORECASE)
+_FILE_ARGUMENT = (
+    r"""\s*["'“‘「『]?([^"'”’」』,，。！？；;!?\n]{1,180}?\.(?:pdf|pptx|ipynb))"""
+    r"""(?=$|[\s"'”’」』,，。！？；;!?.和与、及])["'”’」』]?"""
+)
+_ONLY_FILE = re.compile(
+    r"(?:只(?:在|查(?:看)?|看|用)|仅(?:在|查(?:看)?|看|用)|\bonly\s+(?:in|use|read))"
+    r"\s*[:：]?" + _FILE_ARGUMENT,
+    re.IGNORECASE,
+)
+_NEXT_FILE = re.compile(r"\s*(?:以及|和|与|、|,|\band\b)" + _FILE_ARGUMENT, re.IGNORECASE)
 _POSITION_KEYS = {"page", "cell_index", "cell_id", "output_index", "section_path", "bbox"}
 _TEXT_LIMIT = 900
 _IMAGE_LIMIT = 3
 _IMAGE_ATTEMPT_LIMIT = 12
+_SUPPLEMENT_BUDGET = 2
 _SUMMARY_SOURCE_LIMIT = 6
 _BASE_KINDS = {"page", "cell"}
 
@@ -222,6 +236,7 @@ class WorkspaceService:
         self.library = library
         self.snapshots = snapshots
         self.searcher = StructureSearcher(snapshots)
+        self.answerer = EvidenceAnswerer(SupplementRetriever(library.store, snapshots))
         self.vision = vision
         self.evidence = vision.evidence
         self.allowed_courses = allowed_courses
@@ -354,6 +369,61 @@ class WorkspaceService:
             details["evidence_id"],
         )
         return _image_response(self.evidence.render_historical(request, grant))
+
+    def historical_evidence(
+        self, owner: str, session_id: str, message_id: str, evidence_id: str
+    ) -> dict[str, Any]:
+        stored = self.store.completed_answer(owner, session_id, message_id)
+        if stored is None:
+            raise inaccessible()
+        turn, message = stored
+        if not self._turn_access(turn) or not any(
+            block["type"] == "text" and evidence_id in block.get("citations", [])
+            for block in message["blocks"]
+        ):
+            raise inaccessible()
+        payload = message["sources"].get(evidence_id)
+        if payload is None:
+            raise inaccessible()
+        evidence = TurnEvidence.model_validate(payload)
+        key = evidence.revision.source
+        read = next(
+            (
+                item
+                for item in evidence.reads
+                if item.actual_source == key
+                and item.method in {"native_text", "native_table"}
+                and item.status in {"succeeded", "partial"}
+                and item.text
+            ),
+            None,
+        )
+        if read is None:
+            raise inaccessible()
+        current = self._historical_source(
+            {
+                "course_id": evidence.revision.course_id,
+                "content_sha256": evidence.revision.content_sha256,
+            },
+            key,
+        )
+        source = current.source
+        excerpt = read.text
+        if "excerpt_truncated" in read.warnings:
+            excerpt = excerpt.removesuffix("…")
+        if source is None or not (
+            source.text.startswith(excerpt) or source.text.strip().startswith(excerpt)
+        ):
+            raise WorkspaceError("original_unavailable", 409)
+        if not self._turn_access(turn):
+            raise inaccessible()
+        return {
+            "source": key.model_dump(),
+            "file_name": evidence.file_name,
+            "locator": _positions(source.locator),
+            "text": read.text,
+            "is_current": current.is_current,
+        }
 
     def _run(self, owner: str, turn: Turn) -> Turn:
         session = self.store.session(owner, turn.session_id)
@@ -546,6 +616,7 @@ class WorkspaceService:
         prompt = question.strip()
         if not prompt or _BARE_REFERENCE.fullmatch(prompt):
             prompt = "请描述图中实际可见的内容，尤其是坐标轴名称和单位（如有）。"
+        started = perf_counter()
         response = self.vision.process_current(
             EvidenceRequest.model_validate(
                 {
@@ -555,6 +626,30 @@ class WorkspaceService:
                 }
             )
         )
+        elapsed_ms = (perf_counter() - started) * 1000
+        actual_display = response.display
+        error = response.status
+        if actual_display is not None and (
+            actual_display.actual_source != key or actual_display.byte_sha256 != desc["byte_sha256"]
+        ):
+            error = "stale_reference"
+        if error in {"stale_reference", "not_accessible", "original_unavailable"}:
+            return self.store.finish(
+                turn,
+                "failed",
+                {
+                    "error": error,
+                    "retryable": error == "stale_reference",
+                    "trace": {
+                        "external_call_count": response.external_call_count,
+                        "vision": {"elapsed_ms": elapsed_ms, "status": response.read_status},
+                    },
+                },
+                None,
+                (),
+                (),
+                self.allowed_courses,
+            )
         reads = _visual_reads(response)
         source = stored.source
         assert source is not None
@@ -582,13 +677,6 @@ class WorkspaceService:
             ),
             None,
         )
-        actual_display = response.display
-        if actual_display is not None and (
-            actual_display.actual_source != key or actual_display.byte_sha256 != desc["byte_sha256"]
-        ):
-            raise WorkspaceError("stale_reference")
-        if response.status in {"stale_reference", "not_accessible", "original_unavailable"}:
-            raise WorkspaceError(response.status)
         if readable:
             draft.text(readable, evidence.evidence_id)
         elif response.read_status == "failed":
@@ -603,7 +691,27 @@ class WorkspaceService:
             draft,
             refs=[ref],
             resolution=message,
-            trace={"external_call_count": response.external_call_count},
+            trace={
+                "external_call_count": response.external_call_count,
+                "vision": {
+                    "elapsed_ms": elapsed_ms,
+                    "status": response.read_status,
+                    "capability_reason": response.capability_reason,
+                    "reads": [
+                        {
+                            "execution": record.execution,
+                            "cache_hit": record.cache_hit,
+                            "external_call": record.external_call,
+                            "provider": record.provider,
+                            "model": record.model,
+                            "prompt_version": record.prompt_version,
+                            "usage": record.usage if record.external_call else {},
+                            "missing_or_error": record.missing_or_error,
+                        }
+                        for record in response.reads
+                    ],
+                },
+            },
             failed=response.read_status == "failed",
         )
 
@@ -648,6 +756,9 @@ class WorkspaceService:
             for doc in documents.values()
             if doc.file_name.casefold() in text.casefold()
         ]
+        if mode == "ask" and location is None and asks_for_definition_and_experiment(text):
+            file_names = _explicit_filenames(text) or file_names
+            return self._answer_with_supplement(turn, session, text, documents, file_names)
         if mode == "summary":
             ranked = sorted(
                 (source for source in snapshot.sources if source.text.strip()),
@@ -729,6 +840,84 @@ class WorkspaceService:
         if not draft.sources:
             draft.notice("no_readable_evidence", "在所选范围内没有读到支持本题的原文或图片。")
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _answer_with_supplement(
+        self,
+        turn: Turn,
+        session: Session,
+        text: str,
+        documents: dict[str, SnapshotDocument],
+        file_names: list[str],
+    ) -> Turn:
+        draft = Draft(session.session_id)
+        if file_names:
+            selected = self.snapshots.read(
+                SnapshotRequest(tuple(session.course_ids), tuple(documents), tuple(file_names))
+            )
+            expected = {key: _doc_ref(doc) for key, doc in documents.items()}
+            if any(_doc_ref(doc) != expected.get(doc.document_id) for doc in selected.documents):
+                raise WorkspaceError("stale_reference")
+            narrowed = {doc.document_id: doc for doc in selected.documents}
+            if selected.resolution_status == "ambiguous_scope":
+                return self._clarify(
+                    turn,
+                    "有多份资料符合范围，请选择一份。",
+                    self._document_choices(session.session_id, narrowed),
+                    [_doc_ref(doc) for doc in narrowed.values()],
+                )
+            if selected.resolution_status != "resolved" or not narrowed:
+                draft.notice("scope_not_found", "没有找到符合范围的资料。")
+                return self._complete(turn, draft, refs=list(expected.values()))
+            documents = narrowed
+        if not documents:
+            draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+            return self._complete(turn, draft)
+        effective = _effective(documents)
+        run = self.answerer.answer(
+            StructureSearchRequest(
+                query=text, scope=StructureScope(**effective), top_k=_SUPPLEMENT_BUDGET
+            ),
+            allowed_course_ids=self.allowed_courses,
+            cancelled=lambda: not self.store.active(turn),
+        )
+        report = run.retrieval
+        if report is None:
+            code = {
+                "cancelled": "interrupted",
+                "not_accessible": "not_accessible",
+                "stale_snapshot": "stale_reference",
+            }.get(run.answer.stop_reason, "temporarily_unavailable")
+            if code == "not_accessible":
+                raise inaccessible()
+            raise WorkspaceError(code)
+        pins = {pin.document_id: _doc_ref(pin) for pin in report.snapshot}
+        refs = {key: _doc_ref(doc) for key, doc in documents.items()}
+        if pins != refs:
+            raise WorkspaceError("stale_reference")
+        evidence = {item.evidence_id: item for item in report.final_evidence}
+        for section in run.answer.sections:
+            if section.message:
+                draft.notice(section.requirement, section.message)
+            for statement in section.statements:
+                key = statement.citation.evidence_id
+                draft.sources[key] = evidence[key]
+                draft.text(statement.text, key)
+        trace = report.model_dump(
+            mode="json",
+            exclude={"question", "reads", "final_evidence", "supports", "scope_options"},
+        )
+        trace.update(
+            route="evidence_answer",
+            effective_scope=effective,
+            external_call_count=0,
+            answer_status=run.answer.status,
+            answer_sections={
+                section.requirement: section.status for section in run.answer.sections
+            },
+            final_evidence_ids=list(evidence),
+            cited_evidence_ids=list(draft.sources),
+        )
+        return self._complete(turn, draft, refs=list(refs.values()), trace=trace)
 
     def _read_text(
         self,
@@ -1160,6 +1349,17 @@ def _location(query: str, node: CatalogNode | None) -> StructureLocation | None:
         if isinstance(index := node.source.locator.get("cell_index"), int):
             return StructureLocation(cell_index=index)
     return None
+
+
+def _explicit_filenames(text: str) -> list[str]:
+    files = []
+    for first in _ONLY_FILE.finditer(text):
+        files.append(first[1])
+        offset = first.end()
+        while following := _NEXT_FILE.match(text, offset):
+            files.append(following[1])
+            offset = following.end()
+    return files
 
 
 def _media_candidates(

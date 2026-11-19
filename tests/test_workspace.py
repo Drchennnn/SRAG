@@ -593,3 +593,156 @@ def test_summary_reports_clipped_and_budget_skipped_base_cells(system, tmp_path)
         ("cell:0", "partial", "excerpt_truncated"),
         ("cell:6", "not_attempted", "source_budget"),
     ]
+
+
+def _publish_supplement_case(client, session, tmp_path, *, incomplete=False):
+    import nbformat
+
+    sample = json.loads(Path("docs/F/样例/SignalTrialA7.json").read_text())
+    published = {}
+    for item in sample["documents"]:
+        path = tmp_path / item["file_name"]
+        text = item["text"]
+        if incomplete and item["role"] == "lab":
+            text = text.replace(" Trial: 0.18.", "")
+        cell = nbformat.v4.new_markdown_cell(text, id="evidence")
+        nbformat.write(nbformat.v4.new_notebook(cells=[cell]), path)
+        published[item["role"]] = (path, _upload(client, session, path)["document_id"])
+    return sample["question"], published
+
+
+@pytest.mark.parametrize("incomplete", [False, True])
+def test_normal_web_question_persists_only_grounded_final_citations(system, tmp_path, incomplete):
+    _, _, app, client = system
+    session = _create(client)
+    question, files = _publish_supplement_case(client, session, tmp_path, incomplete=incomplete)
+    result = _ask(client, session, question)
+    assert result["turn"]["status"] == "completed", result
+    trace = result["turn"]["trace"]
+    assert trace["route"] == "evidence_answer"
+    assert trace["external_call_count"] == 0
+    assert trace["first_supported"] == ["definition"]
+    assert trace["first_missing"] == ["experiment"]
+    assert trace["supplement_count"] == 1
+    assert trace["term"]["word"] == "SignalTrialA7"
+    assert len(trace["final_evidence_ids"]) == trace["budget"] == 2
+    assert "reads" not in trace
+    assert trace["missing"] == (["experiment"] if incomplete else [])
+    answer = result["message"]
+    refs = answer["sources"]
+    assert len(refs) == (1 if incomplete else 2)
+    assert set(refs) == set(trace["cited_evidence_ids"])
+    assert set(refs) == {
+        citation for block in answer["blocks"] for citation in block.get("citations", [])
+    }
+    if incomplete:
+        assert any("不足" in block["text"] for block in answer["blocks"])
+    for key, evidence in refs.items():
+        endpoint = session + f"/messages/{answer['message_id']}/evidence/{key}"
+        original = client.get(endpoint)
+        assert original.status_code == 200
+        assert original.headers["cache-control"] == "private, no-store"
+        saved = original.json()
+        assert saved["source"] == evidence["revision"]["source"]
+        assert saved["locator"]["cell_index"] == 0 and saved["is_current"]
+        assert saved["text"] == evidence["reads"][0]["text"]
+        with TestClient(app, base_url=_HOST) as other:
+            _create(other)
+            assert other.get(endpoint).status_code == 404
+        docid = saved["source"]["document_id"]
+        path = next(path for path, published_id in files.values() if published_id == docid)
+        data = json.loads(path.read_text())
+        data["cells"][0]["source"].append("\n新版内容")
+        path.write_text(json.dumps(data, ensure_ascii=False))
+        assert _upload(client, session, path, document_id=docid)["version"] == 2
+        assert client.get(endpoint).json() == {**saved, "is_current": False}
+    unknown = session + f"/messages/{answer['message_id']}/evidence/not-a-citation"
+    assert client.get(unknown).status_code == 404
+    narrowed = _ask(client, session, f"{question} 只查 {files['lecture'][0].name}")
+    assert narrowed["turn"]["trace"]["effective_scope"]["document_ids"] == [files["lecture"][1]]
+    assert narrowed["turn"]["trace"]["missing"] == ["experiment"]
+
+
+def test_supplement_respects_same_name_clarification_and_explicit_location(system, tmp_path):
+    _, _, _, client = system
+    session = _create(client, course_ids=[_COURSE, "other"])
+    question, files = _publish_supplement_case(client, session, tmp_path)
+    lecture, _ = files["lecture"]
+    _upload(client, session, lecture, course="other")
+    ambiguous = _ask(client, session, f"{question} {lecture.name}")
+    assert ambiguous["turn"]["status"] == "clarification"
+    assert len(ambiguous["turn"]["options"]) == 2
+    directed = _ask(client, session, f"{question} {lecture.name} Cell 1", kind="ask")
+    assert directed["turn"]["status"] == "clarification"
+    assert len(directed["turn"]["options"]) == 2
+
+
+def test_supplement_rechecks_snapshot_at_message_commit(system, tmp_path, monkeypatch):
+    settings, service, _, client = system
+    session = _create(client)
+    question, files = _publish_supplement_case(client, session, tmp_path)
+    path, docid = files["lab"]
+    original = service.answerer.answer
+
+    def publish_while_finishing(*args, **kwargs):
+        answer = original(*args, **kwargs)
+        data = json.loads(path.read_text())
+        data["cells"][0]["source"].append("\n新版内容")
+        replacement = settings.course_root / path.name
+        replacement.write_text(json.dumps(data, ensure_ascii=False))
+        assert (
+            service.library.import_paths(_COURSE, [replacement], document_id=docid)[0].version == 2
+        )
+        return answer
+
+    monkeypatch.setattr(service.answerer, "answer", publish_while_finishing)
+    result = _ask(client, session, question)
+    assert result["turn"]["status"] == "failed"
+    assert result["turn"]["error"] == "stale_reference"
+    assert result["message"] is None
+
+
+def test_supplement_does_not_expand_an_unresolved_explicit_file(system, tmp_path):
+    _, _, _, client = system
+    session = _create(client)
+    question, files = _publish_supplement_case(client, session, tmp_path)
+    result = _ask(client, session, f"{question} 只查 Missing.ipynb")
+    assert result["message"]["blocks"][0]["code"] == "scope_not_found"
+    lecture = files["lecture"][0].name
+    lab = files["lab"][0].name
+    result = _ask(
+        client, session, f"虽有 {files['notes'][0].name}，{question} 仅在『{lecture}』与『{lab}』"
+    )
+    assert result["turn"]["trace"]["missing"] == []
+    assert set(result["turn"]["trace"]["effective_scope"]["document_ids"]) == {
+        files["lecture"][1],
+        files["lab"][1],
+    }
+    result = _ask(client, session, f"{question} 只查 {lecture} 和 Missing.ipynb")
+    assert result["message"]["blocks"][0]["code"] == "scope_not_found"
+    scope = client.patch(
+        session + "/scope",
+        json={"course_ids": [_COURSE], "document_ids": [files["lecture"][1]], "scope_revision": 1},
+    ).json()
+    result = _ask(
+        client, session, f"{question} 只查 {files['lab'][0].name}", scope["scope_revision"]
+    )
+    assert result["message"]["blocks"][0]["code"] == "scope_not_found"
+    assert not result["message"]["sources"]
+
+
+def test_explicit_no_experiment_does_not_trigger_web_supplement(system, tmp_path, monkeypatch):
+    _, service, _, client = system
+    session = _create(client)
+    _publish_supplement_case(client, session, tmp_path)
+
+    def unexpected(*args, **kwargs):
+        pytest.fail("the user explicitly omitted the experiment")
+
+    monkeypatch.setattr(service.answerer, "answer", unexpected)
+    for query in (
+        "中值滤波 median filter 的定义是什么？不要查实验。",
+        "What is the definition of median filter? Do not include any experiment.",
+    ):
+        result = _ask(client, session, query)
+        assert result["turn"]["status"] == "completed"

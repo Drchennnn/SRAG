@@ -94,6 +94,8 @@ WORKSPACE_COURSE_IDS=signals .venv/bin/python -m uvicorn app.main:app --host 127
 
 ## 跨文件补证据
 
+在课程工作区选择资料范围，用普通“问答”同时提问定义和对应的实验验证。系统先读取本轮命中原文，缺实验时最多补查一次。点击回答的“依据”可查看当时引用的文件、版本和页或 Cell。资料换版后仍可从历史回答打开原引用。证据不足时，回答会说明哪一项缺少可核对原文。
+
 `python -m tools.evidence_answer` 从本地 SQLite 生成带原文引用的定义与实验比较。单跳与补查使用同一个 `--top-k`，补查从已读定义取字面词，最多查一次。配置 `SRAG_STRUCTURE_COURSES` 后可用 `--course`、`--file` 缩小范围，用 `--trace` 检查每跳、缺项和候选取舍。[公开样例与命令](./docs/F/F03-答案依据与降级.md)
 
 ## 旧向量导入

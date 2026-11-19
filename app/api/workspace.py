@@ -248,3 +248,17 @@ def historical_media(
         owner, session_id, message_id, display_id, view=view
     )
     return Response(image, media_type=mime_type, headers=_MEDIA_HEADERS)
+
+
+@router.get("/sessions/{session_id}/messages/{message_id}/evidence/{evidence_id}")
+def historical_evidence(
+    session_id: str,
+    message_id: str,
+    evidence_id: str,
+    response: Response,
+    owner: Owner,
+    service: Service,
+):
+    payload = service.historical_evidence(owner, session_id, message_id, evidence_id)
+    response.headers.update(_MEDIA_HEADERS)
+    return payload

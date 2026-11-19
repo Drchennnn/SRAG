@@ -29,6 +29,7 @@ const state = {
   turnOptions: new Map(),
   threadKey: "",
   actionKey: "",
+  readerRequest: 0,
   pollTimer: null,
 };
 
@@ -574,11 +575,25 @@ function renderMessages() {
       } else {
         const text = block.text ?? block.message ?? (block.type === "notice" ? "本条内容不可用。" : "");
         content.append(node("p", block.type === "text" ? "text-block" : "notice-block", text));
-        const references = (block.citations ?? []).map((id) => {
-          const evidence = message.sources?.[typeof id === "string" ? id : id.evidence_id];
-          return evidence ? sourceLocation({}, evidence) : "";
+        const references = (block.citations ?? []).map((citation) => {
+          const id = typeof citation === "string" ? citation : citation.evidence_id;
+          const evidence = message.sources?.[id];
+          if (!evidence) return null;
+          const label = sourceLocation({}, evidence);
+          if (!evidence.reads?.some((read) =>
+            ["native_text", "native_table"].includes(read.method) && read.text
+          )) return node("span", "", label);
+          const button = node("button", "secondary", label);
+          button.type = "button";
+          button.dataset.evidenceId = id;
+          button.addEventListener("click", () => showTextEvidence(message, id, label));
+          return button;
         }).filter(Boolean);
-        if (references.length) content.append(node("p", "citations", `依据 · ${references.join(" / ")}`));
+        if (references.length) {
+          const line = node("p", "citations");
+          line.append("依据 · ", ...references);
+          content.append(line);
+        }
       }
     }
     article.append(content);
@@ -812,7 +827,25 @@ function validRect(rect) {
     rect[0] < rect[2] && rect[1] < rect[3];
 }
 
+async function showTextEvidence(message, id, label) {
+  const sessionId = state.session.session_id;
+  const request = ++state.readerRequest;
+  const isCurrent = () => state.session?.session_id === sessionId && request === state.readerRequest;
+  const path = `/api/workspace/sessions/${encodeURIComponent(sessionId)}/messages/${encodeURIComponent(message.message_id)}/evidence/${encodeURIComponent(id)}`;
+  try {
+    const source = await api(path);
+    if (!isCurrent()) return;
+    const details = sourceLocation({}, {file_name: source.file_name, locator: source.locator,
+      revision: {source: source.source}});
+    openReader({title: details, details: source.is_current ? "当前版本" : "历史版本",
+      fallback: source.text});
+  } catch (error) {
+    if (isCurrent()) openReader({title: label, fallback: error.message});
+  }
+}
+
 function openReader({url, title, details, rect, fallback}) {
+  state.readerRequest += 1;
   ui["reader-title"].textContent = title;
   ui["reader-location"].textContent = details ?? "";
   ui["reader-body"].replaceChildren();
@@ -897,6 +930,9 @@ ui.composer.addEventListener("input", () => {
   renderControls();
 });
 ui["close-reader"].addEventListener("click", () => ui.reader.close());
-ui.reader.addEventListener("close", () => ui["reader-body"].replaceChildren());
+ui.reader.addEventListener("close", () => {
+  state.readerRequest += 1;
+  ui["reader-body"].replaceChildren();
+});
 
 void bootstrap();
