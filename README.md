@@ -92,6 +92,10 @@ WORKSPACE_COURSE_IDS=signals .venv/bin/python -m uvicorn app.main:app --host 127
 
 从空库导入到消息里显示原件的浏览器演示可复跑。[M1 与两种网页追问](./docs/E/E04-M1.md)
 
+## 跨文件补证据
+
+`python -m tools.evidence_answer` 从本地 SQLite 生成带原文引用的定义与实验比较。单跳与补查使用同一个 `--top-k`，补查从已读定义取字面词，最多查一次。配置 `SRAG_STRUCTURE_COURSES` 后可用 `--course`、`--file` 缩小范围，用 `--trace` 检查每跳、缺项和候选取舍。[公开样例与命令](./docs/F/F03-答案依据与降级.md)
+
 ## 旧向量导入
 
 - **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。
