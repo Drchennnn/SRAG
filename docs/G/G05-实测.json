@@ -1,0 +1,2019 @@
+{
+  "schema": "g05-diagnosis-v1",
+  "subject": "96113392f9403f505d4e3416cf39956704abd11f",
+  "source_sha256": {
+    "app/rag/workspace.py": "f2d5d41b7883eff4dc6838777e98f30687969ac8545ad6d95ca92370420abcc5",
+    "app/rag/evidence_supplement.py": "75017d8321b5f3092b2d136f660fe896ca7b97cffedeb117423655372b6b6f3f",
+    "app/rag/evidence_answer.py": "082eeb397eaa33f9a94fb1c78a9d8288a87ec819f6e45b5b8d1675426d73026b",
+    "docs/G/G05-probe.py": "efd47e1c5993b0e22a9b5a2fc9cfcc72d36e8cafd892745776a8b06bb8af2b10",
+    "docs/G/G05-browser.sh": "d3548a86f3581dc87195bf8fd98321849702d84b1481836c03e8b158a1cad3e6"
+  },
+  "agent_browser": "agent-browser 0.43.0",
+  "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "fixtures": {
+    "image_sha256": {
+      "1": {
+        "cell:1:output:0": "1753b4f7b3a45a2ba6f4cb87bc397c169e958afcf02ac9ca1d9d2608f21e1236",
+        "cell:1:output:1": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+      },
+      "2": {
+        "cell:1:output:0": "1753b4f7b3a45a2ba6f4cb87bc397c169e958afcf02ac9ca1d9d2608f21e1236",
+        "cell:1:output:1": "f2bc50567d68856c2409d5c5de78cc2e69b5f4001fa6f6f854517e8c03ed0d42"
+      }
+    },
+    "image_units": {
+      "1": "seconds",
+      "2": "minutes"
+    },
+    "definition": "Definition: A pulse gate passes only pulses above its operating threshold.\nExperiment-ID: TidalRunQ9.",
+    "run_output": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+    "table_cells": [
+      [
+        "Series",
+        "Gate setting (mA)",
+        "Dataset"
+      ],
+      [
+        "Pulse gate",
+        "17.5",
+        "held-out"
+      ]
+    ],
+    "questions": {
+      "first": "HarborTrace.ipynb 第 2 个 Cell 右侧琥珀子图的横轴刻度单位是什么？",
+      "follow": "刚才第二张图",
+      "compare": "请同时比较上一版和当前版 HarborTrace.ipynb 的第 2 个 Cell，概述两版琥珀色子图上的刻度单位。",
+      "two": "What is the definition of a pulse gate, and how did the held-out experiment validate it?",
+      "three": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output."
+    },
+    "fixture_sha256": {
+      "PulseGate-lecture.ipynb": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+      "PulseGate-limits.pptx": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+      "PulseGate-run.ipynb": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+      "v1/HarborTrace.ipynb": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+      "v2/HarborTrace.ipynb": "4a9063d48e288bfb7325f33d998badd3c44d95594e016b3a677d1582ed8ffe5b"
+    }
+  },
+  "config": {
+    "vision_enabled": false,
+    "courses": [
+      "harbor-panels",
+      "pulse-evidence"
+    ]
+  },
+  "imports": [
+    {
+      "file_name": "HarborTrace.ipynb",
+      "status": "published",
+      "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+      "source_count": 4,
+      "searchable_count": 2
+    },
+    {
+      "file_name": "HarborTrace.ipynb",
+      "status": "published",
+      "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+      "version": 2,
+      "publication_epoch": 2,
+      "content_sha256": "4a9063d48e288bfb7325f33d998badd3c44d95594e016b3a677d1582ed8ffe5b",
+      "source_count": 4,
+      "searchable_count": 2
+    },
+    {
+      "file_name": "PulseGate-lecture.ipynb",
+      "status": "published",
+      "document_id": "local_530895505d9f43b5b46d06da5418f761",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+      "source_count": 1,
+      "searchable_count": 1
+    },
+    {
+      "file_name": "PulseGate-limits.pptx",
+      "status": "published",
+      "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+      "source_count": 2,
+      "searchable_count": 2
+    },
+    {
+      "file_name": "PulseGate-run.ipynb",
+      "status": "published",
+      "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+      "source_count": 2,
+      "searchable_count": 2
+    }
+  ],
+  "cases": {
+    "first": {
+      "request": {
+        "client_turn_id": "8eff4f14-10fd-46cf-85ef-951d2040c43f",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb 第 2 个 Cell 右侧琥珀子图的横轴刻度单位是什么？",
+        "scope_revision": 2
+      },
+      "http_status": 200,
+      "browser": {
+        "citations": [
+          "HarborTrace.ipynb · v1 · Cell 2"
+        ],
+        "displays": [
+          {
+            "caption": "图 1 · HarborTrace.ipynb · v1 · 输出 0HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件",
+            "display_id": "04e29091fa3e4d6c8c0df94974d276f1",
+            "ordinal": 1,
+            "url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/d757fb156fea47e581feb46c3bfe4536/media/04e29091fa3e4d6c8c0df94974d276f1?view=inline"
+          },
+          {
+            "caption": "图 2 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件",
+            "display_id": "079ee867514c4d08a4ddb4a814b4437d",
+            "ordinal": 2,
+            "url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/d757fb156fea47e581feb46c3bfe4536/media/079ee867514c4d08a4ddb4a814b4437d?view=inline"
+          }
+        ],
+        "message_id": "d757fb156fea47e581feb46c3bfe4536",
+        "text": "课程助手HarborTrace.ipynb · v1 · Cell 2 · Harbor pump study\n# Harbor panels: blue left then amber right\n# Edition 1依据 · HarborTrace.ipynb · v1 · Cell 2正在加载图片…图 1 · HarborTrace.ipynb · v1 · 输出 0HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件正在加载图片…图 2 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件"
+      },
+      "turn": {
+        "turn_id": "9fa85257fc4c4974b91cf308c7e8d6e0",
+        "client_turn_id": "8eff4f14-10fd-46cf-85ef-951d2040c43f",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb 第 2 个 Cell 右侧琥珀子图的横轴刻度单位是什么？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "HarborTrace.ipynb",
+              "locator": {
+                "cell_id": "panels",
+                "cell_index": 1,
+                "section_path": [
+                  "Harbor pump study"
+                ]
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "HarborTrace.ipynb",
+              "locator": {
+                "cell_id": "panels",
+                "cell_index": 1,
+                "output_index": 0,
+                "section_path": [
+                  "Harbor pump study"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "HarborTrace.ipynb",
+              "locator": {
+                "cell_id": "panels",
+                "cell_index": 1,
+                "output_index": 1,
+                "section_path": [
+                  "Harbor pump study"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 4,
+            "checked_positions": [
+              "cell:1"
+            ],
+            "enumerated_source_count": 4,
+            "evidence_inspected_count": 3,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 3,
+            "searchable_source_count": 2,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "display_attempts": {
+            "attempt_limit": 12,
+            "attempted": 2,
+            "display_limit": 3,
+            "displayed": 2,
+            "eligible": 2,
+            "failed": 0,
+            "unattempted": 0
+          },
+          "effective_scope": {
+            "course_ids": [
+              "harbor-panels"
+            ],
+            "document_ids": [
+              "local_a502c786eaf541a6b74ba27a6a277e7b"
+            ]
+          },
+          "search_status": "ok"
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "answer": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborTrace.ipynb · v1 · Cell 2 · Harbor pump study\n# Harbor panels: blue left then amber right\n# Edition 1",
+            "type": "text"
+          },
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 0",
+            "display_id": "04e29091fa3e4d6c8c0df94974d276f1",
+            "display_source": {
+              "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "evidence_id": "ev-2",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/d757fb156fea47e581feb46c3bfe4536/media/04e29091fa3e4d6c8c0df94974d276f1?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 1",
+            "display_id": "079ee867514c4d08a4ddb4a814b4437d",
+            "display_source": {
+              "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/d757fb156fea47e581feb46c3bfe4536/media/079ee867514c4d08a4ddb4a814b4437d?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          }
+        ],
+        "message_id": "d757fb156fea47e581feb46c3bfe4536",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "# Harbor panels: blue left then amber right\n# Edition 1",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "9fa85257fc4c4974b91cf308c7e8d6e0",
+        "visible_display_ids": [
+          "04e29091fa3e4d6c8c0df94974d276f1",
+          "079ee867514c4d08a4ddb4a814b4437d"
+        ]
+      }
+    },
+    "follow": {
+      "request": {
+        "client_turn_id": "80665843-bfa6-495e-a89e-a19c292efdb9",
+        "kind": "ask",
+        "text": "刚才第二张图",
+        "scope_revision": 2
+      },
+      "http_status": 200,
+      "browser": {
+        "citations": [],
+        "displays": [],
+        "message_id": "979e946825db466291c82c1391a71a73",
+        "text": "课程助手已定位到第 2 张图。当前没有可用的读图结果，可打开原图查看。"
+      },
+      "turn": {
+        "turn_id": "28dee54ae2f84644874fe7ea13decead",
+        "client_turn_id": "80665843-bfa6-495e-a89e-a19c292efdb9",
+        "kind": "ask",
+        "text": "刚才第二张图",
+        "status": "completed",
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "display_id": "079ee867514c4d08a4ddb4a814b4437d",
+          "message_id": "d757fb156fea47e581feb46c3bfe4536",
+          "method": "visible_ordinal",
+          "ordinal": 2,
+          "resolution": "visible_ordinal"
+        },
+        "trace": {
+          "external_call_count": 0,
+          "vision": {
+            "capability_reason": "provider_disabled",
+            "elapsed_ms": 3.3389159943908453,
+            "reads": [],
+            "status": "not_attempted"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "answer": {
+        "blocks": [
+          {
+            "code": "provider_disabled",
+            "text": "已定位到第 2 张图。当前没有可用的读图结果，可打开原图查看。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "979e946825db466291c82c1391a71a73",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "28dee54ae2f84644874fe7ea13decead",
+        "visible_display_ids": []
+      }
+    },
+    "compare": {
+      "request": {
+        "client_turn_id": "8524be8e-e407-4c19-8036-f812565ebb2d",
+        "kind": "ask",
+        "text": "请同时比较上一版和当前版 HarborTrace.ipynb 的第 2 个 Cell，概述两版琥珀色子图上的刻度单位。",
+        "scope_revision": 5
+      },
+      "http_status": 200,
+      "browser": {
+        "citations": [
+          "HarborTrace.ipynb · v2 · Cell 2"
+        ],
+        "displays": [
+          {
+            "caption": "图 1 · HarborTrace.ipynb · v2 · 输出 0HarborTrace.ipynb · v2 · Cell 2 · 未读取问这张图查看原件",
+            "display_id": "e43161b17dc7482e99e0e152db49a2d5",
+            "ordinal": 1,
+            "url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/b65beca7a7244cb2a3f4c12592bfcec2/media/e43161b17dc7482e99e0e152db49a2d5?view=inline"
+          },
+          {
+            "caption": "图 2 · HarborTrace.ipynb · v2 · 输出 1HarborTrace.ipynb · v2 · Cell 2 · 未读取问这张图查看原件",
+            "display_id": "372d85962b5345e7b971359b9d334795",
+            "ordinal": 2,
+            "url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/b65beca7a7244cb2a3f4c12592bfcec2/media/372d85962b5345e7b971359b9d334795?view=inline"
+          }
+        ],
+        "message_id": "b65beca7a7244cb2a3f4c12592bfcec2",
+        "text": "课程助手HarborTrace.ipynb · v2 · Cell 2 · Harbor pump study\n# Harbor panels: blue left then amber right\n# Edition 2依据 · HarborTrace.ipynb · v2 · Cell 2正在加载图片…图 1 · HarborTrace.ipynb · v2 · 输出 0HarborTrace.ipynb · v2 · Cell 2 · 未读取问这张图查看原件正在加载图片…图 2 · HarborTrace.ipynb · v2 · 输出 1HarborTrace.ipynb · v2 · Cell 2 · 未读取问这张图查看原件"
+      },
+      "turn": {
+        "turn_id": "907d02ca1a5e42e9abe82c08d412e8cf",
+        "client_turn_id": "8524be8e-e407-4c19-8036-f812565ebb2d",
+        "kind": "ask",
+        "text": "请同时比较上一版和当前版 HarborTrace.ipynb 的第 2 个 Cell，概述两版琥珀色子图上的刻度单位。",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "HarborTrace.ipynb",
+              "locator": {
+                "cell_id": "panels",
+                "cell_index": 1,
+                "section_path": [
+                  "Harbor pump study"
+                ]
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "HarborTrace.ipynb",
+              "locator": {
+                "cell_id": "panels",
+                "cell_index": 1,
+                "output_index": 0,
+                "section_path": [
+                  "Harbor pump study"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "HarborTrace.ipynb",
+              "locator": {
+                "cell_id": "panels",
+                "cell_index": 1,
+                "output_index": 1,
+                "section_path": [
+                  "Harbor pump study"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 4,
+            "checked_positions": [
+              "cell:1"
+            ],
+            "enumerated_source_count": 4,
+            "evidence_inspected_count": 3,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 3,
+            "searchable_source_count": 2,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "display_attempts": {
+            "attempt_limit": 12,
+            "attempted": 2,
+            "display_limit": 3,
+            "displayed": 2,
+            "eligible": 2,
+            "failed": 0,
+            "unattempted": 0
+          },
+          "effective_scope": {
+            "course_ids": [
+              "harbor-panels"
+            ],
+            "document_ids": [
+              "local_a502c786eaf541a6b74ba27a6a277e7b"
+            ]
+          },
+          "search_status": "ok"
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "answer": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborTrace.ipynb · v2 · Cell 2 · Harbor pump study\n# Harbor panels: blue left then amber right\n# Edition 2",
+            "type": "text"
+          },
+          {
+            "caption": "HarborTrace.ipynb · v2 · 输出 0",
+            "display_id": "e43161b17dc7482e99e0e152db49a2d5",
+            "display_source": {
+              "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "evidence_id": "ev-2",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/b65beca7a7244cb2a3f4c12592bfcec2/media/e43161b17dc7482e99e0e152db49a2d5?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "caption": "HarborTrace.ipynb · v2 · 输出 1",
+            "display_id": "372d85962b5345e7b971359b9d334795",
+            "display_source": {
+              "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/b65beca7a7244cb2a3f4c12592bfcec2/media/372d85962b5345e7b971359b9d334795?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          }
+        ],
+        "message_id": "b65beca7a7244cb2a3f4c12592bfcec2",
+        "ordinal": 6,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                  "source_id": "cell:1",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "# Harbor panels: blue left then amber right\n# Edition 2",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "4a9063d48e288bfb7325f33d998badd3c44d95594e016b3a677d1582ed8ffe5b",
+              "course_id": "harbor-panels",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "4a9063d48e288bfb7325f33d998badd3c44d95594e016b3a677d1582ed8ffe5b",
+              "course_id": "harbor-panels",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "4a9063d48e288bfb7325f33d998badd3c44d95594e016b3a677d1582ed8ffe5b",
+              "course_id": "harbor-panels",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "907d02ca1a5e42e9abe82c08d412e8cf",
+        "visible_display_ids": [
+          "e43161b17dc7482e99e0e152db49a2d5",
+          "372d85962b5345e7b971359b9d334795"
+        ]
+      }
+    },
+    "two": {
+      "request": {
+        "client_turn_id": "846a3753-b16b-48ce-8c34-6dd0d50c74bc",
+        "kind": "ask",
+        "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it?",
+        "scope_revision": 6
+      },
+      "http_status": 200,
+      "browser": {
+        "citations": [
+          "PulseGate-lecture.ipynb · v1 · Cell 1",
+          "PulseGate-run.ipynb · v1 · Cell 1"
+        ],
+        "displays": [],
+        "message_id": "4a5336dcdbc34000a77441dbad04f560",
+        "text": "课程助手A pulse gate passes only pulses above its operating threshold.依据 · PulseGate-lecture.ipynb · v1 · Cell 1实验 TidalRunQ9，切分 held-out，样本数 7。MAE（amplitude）基线为 0.42，试验为 0.29。依据 · PulseGate-run.ipynb · v1 · Cell 1"
+      },
+      "turn": {
+        "turn_id": "3f9b97762960413e8c9e0cbb1a8d9167",
+        "client_turn_id": "846a3753-b16b-48ce-8c34-6dd0d50c74bc",
+        "kind": "ask",
+        "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it?",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "answer_sections": {
+            "definition": "supported",
+            "experiment": "supported"
+          },
+          "answer_status": "complete",
+          "budget": 2,
+          "cited_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "effective_scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_530895505d9f43b5b46d06da5418f761",
+              "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "local_d8f36cf4cf89452c84c254c81174238c"
+            ]
+          },
+          "elapsed_ms": 22.272500093095005,
+          "external_call_count": 0,
+          "final_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "first_missing": [
+            "experiment"
+          ],
+          "first_search_status": "ok",
+          "first_supported": [
+            "definition"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "read",
+                  "evidence_id": "ev-1",
+                  "file_name": "PulseGate-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "definition",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 4.843944448320265,
+                  "source": {
+                    "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "read",
+                  "evidence_id": "ev-2",
+                  "file_name": "PulseGate-limits.pptx",
+                  "locator": {
+                    "page": 1
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 2.7476764327187375,
+                  "source": {
+                    "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 1.9641249673441052,
+              "kind": "first",
+              "query": "What is the definition of a pulse gate, and how did the held-out experiment validate it?",
+              "scope": {
+                "course_ids": [
+                  "pulse-evidence"
+                ],
+                "document_ids": [
+                  "local_530895505d9f43b5b46d06da5418f761",
+                  "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "local_d8f36cf4cf89452c84c254c81174238c"
+                ]
+              }
+            },
+            {
+              "candidates": [
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "duplicate",
+                  "evidence_id": null,
+                  "file_name": "PulseGate-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "definition",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "not_attempted",
+                  "reason": null,
+                  "score": -0.9165888976884893,
+                  "source": {
+                    "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "accepted",
+                  "evidence_id": "ev-3",
+                  "file_name": "PulseGate-run.ipynb",
+                  "locator": {
+                    "cell_id": "run",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0/outputs/0",
+                    "output_index": 0
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": -0.7774689088450771,
+                  "source": {
+                    "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 0.966459047049284,
+              "kind": "literal_supplement",
+              "query": "TidalRunQ9",
+              "scope": {
+                "course_ids": [
+                  "pulse-evidence"
+                ],
+                "document_ids": [
+                  "local_530895505d9f43b5b46d06da5418f761",
+                  "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "local_d8f36cf4cf89452c84c254c81174238c"
+                ]
+              }
+            }
+          ],
+          "misses": [],
+          "missing": [],
+          "replacements": [
+            {
+              "added": {
+                "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              },
+              "original_role": "auxiliary",
+              "reason": "required_experiment_priority",
+              "removed": {
+                "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              "removed_locator": {
+                "page": 1
+              }
+            }
+          ],
+          "requirements": [
+            "definition",
+            "experiment"
+          ],
+          "route": "evidence_answer",
+          "scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_530895505d9f43b5b46d06da5418f761",
+              "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "local_d8f36cf4cf89452c84c254c81174238c"
+            ]
+          },
+          "snapshot": [
+            {
+              "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+              "course_id": "pulse-evidence",
+              "document_id": "local_530895505d9f43b5b46d06da5418f761",
+              "file_name": "PulseGate-lecture.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+              "course_id": "pulse-evidence",
+              "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "file_name": "PulseGate-run.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+              "course_id": "pulse-evidence",
+              "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+              "file_name": "PulseGate-limits.pptx",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "snapshot_recheck_count": 7,
+          "source_read_count": 3,
+          "status": "complete",
+          "stop_reason": "supplemented",
+          "strategy": "supplement",
+          "supplement_count": 1,
+          "term": {
+            "course_id": "pulse-evidence",
+            "end": 100,
+            "evidence_id": "ev-1",
+            "excerpt_sha256": "07848cd6c7afddbd9213154bf8772da07f458be43669ecc94a8c284c4cb01264",
+            "source": {
+              "document_id": "local_530895505d9f43b5b46d06da5418f761",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "start": 90,
+            "word": "TidalRunQ9"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "answer": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A pulse gate passes only pulses above its operating threshold.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 TidalRunQ9，切分 held-out，样本数 7。MAE（amplitude）基线为 0.42，试验为 0.29。",
+            "type": "text"
+          }
+        ],
+        "message_id": "4a5336dcdbc34000a77441dbad04f560",
+        "ordinal": 8,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PulseGate-lecture.ipynb",
+            "locator": {
+              "cell_id": "definition",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Definition: A pulse gate passes only pulses above its operating threshold.\nExperiment-ID: TidalRunQ9.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "PulseGate-run.ipynb",
+            "locator": {
+              "cell_id": "run",
+              "cell_index": 0,
+              "json_pointer": "/cells/0/outputs/0",
+              "output_index": 0
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "3f9b97762960413e8c9e0cbb1a8d9167",
+        "visible_display_ids": []
+      }
+    },
+    "three": {
+      "request": {
+        "client_turn_id": "228c4c04-c496-4126-a972-ada76f8a5754",
+        "kind": "ask",
+        "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+        "scope_revision": 6
+      },
+      "http_status": 200,
+      "browser": {
+        "citations": [
+          "PulseGate-lecture.ipynb · v1 · Cell 1",
+          "PulseGate-run.ipynb · v1 · Cell 1"
+        ],
+        "displays": [],
+        "message_id": "eb78607cce9a41bfa2f3d57b6f2bb956",
+        "text": "课程助手A pulse gate passes only pulses above its operating threshold.依据 · PulseGate-lecture.ipynb · v1 · Cell 1实验 TidalRunQ9，切分 held-out，样本数 7。MAE（amplitude）基线为 0.42，试验为 0.29。依据 · PulseGate-run.ipynb · v1 · Cell 1"
+      },
+      "turn": {
+        "turn_id": "09ab7f2eebf0464a8143bb8795402cdb",
+        "client_turn_id": "228c4c04-c496-4126-a972-ada76f8a5754",
+        "kind": "ask",
+        "text": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "answer_sections": {
+            "definition": "supported",
+            "experiment": "supported"
+          },
+          "answer_status": "complete",
+          "budget": 2,
+          "cited_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "effective_scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_530895505d9f43b5b46d06da5418f761",
+              "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "local_d8f36cf4cf89452c84c254c81174238c"
+            ]
+          },
+          "elapsed_ms": 22.18400000128895,
+          "external_call_count": 0,
+          "final_evidence_ids": [
+            "ev-1",
+            "ev-3"
+          ],
+          "first_missing": [
+            "experiment"
+          ],
+          "first_search_status": "ok",
+          "first_supported": [
+            "definition"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "read",
+                  "evidence_id": "ev-1",
+                  "file_name": "PulseGate-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "definition",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": 6.291148421630076,
+                  "source": {
+                    "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "read",
+                  "evidence_id": "ev-2",
+                  "file_name": "PulseGate-run.ipynb",
+                  "locator": {
+                    "cell_id": "run",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": null,
+                  "source": {
+                    "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 1.8414580263197422,
+              "kind": "first",
+              "query": "What is the definition of a pulse gate, and how did the held-out experiment validate it? Use the threshold from the separate limit table and compare it with the saved output.",
+              "scope": {
+                "course_ids": [
+                  "pulse-evidence"
+                ],
+                "document_ids": [
+                  "local_530895505d9f43b5b46d06da5418f761",
+                  "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "local_d8f36cf4cf89452c84c254c81174238c"
+                ]
+              }
+            },
+            {
+              "candidates": [
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "duplicate",
+                  "evidence_id": null,
+                  "file_name": "PulseGate-lecture.ipynb",
+                  "locator": {
+                    "cell_id": "definition",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0"
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 1,
+                  "read_status": "not_attempted",
+                  "reason": null,
+                  "score": -0.9165888976884893,
+                  "source": {
+                    "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "course_id": "pulse-evidence",
+                  "disposition": "accepted",
+                  "evidence_id": "ev-3",
+                  "file_name": "PulseGate-run.ipynb",
+                  "locator": {
+                    "cell_id": "run",
+                    "cell_index": 0,
+                    "json_pointer": "/cells/0/outputs/0",
+                    "output_index": 0
+                  },
+                  "origins": [
+                    "native_text"
+                  ],
+                  "rank": 2,
+                  "read_status": "succeeded",
+                  "reason": null,
+                  "score": -0.7774689088450771,
+                  "source": {
+                    "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "elapsed_ms": 0.9171250276267529,
+              "kind": "literal_supplement",
+              "query": "TidalRunQ9",
+              "scope": {
+                "course_ids": [
+                  "pulse-evidence"
+                ],
+                "document_ids": [
+                  "local_530895505d9f43b5b46d06da5418f761",
+                  "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "local_d8f36cf4cf89452c84c254c81174238c"
+                ]
+              }
+            }
+          ],
+          "misses": [],
+          "missing": [],
+          "replacements": [
+            {
+              "added": {
+                "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              },
+              "original_role": "auxiliary",
+              "reason": "required_experiment_priority",
+              "removed": {
+                "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+                "course_id": "pulse-evidence",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              "removed_locator": {
+                "cell_id": "run",
+                "cell_index": 0,
+                "json_pointer": "/cells/0"
+              }
+            }
+          ],
+          "requirements": [
+            "definition",
+            "experiment"
+          ],
+          "route": "evidence_answer",
+          "scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_530895505d9f43b5b46d06da5418f761",
+              "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "local_d8f36cf4cf89452c84c254c81174238c"
+            ]
+          },
+          "snapshot": [
+            {
+              "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+              "course_id": "pulse-evidence",
+              "document_id": "local_530895505d9f43b5b46d06da5418f761",
+              "file_name": "PulseGate-lecture.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+              "course_id": "pulse-evidence",
+              "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "file_name": "PulseGate-run.ipynb",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+              "course_id": "pulse-evidence",
+              "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+              "file_name": "PulseGate-limits.pptx",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "snapshot_recheck_count": 7,
+          "source_read_count": 3,
+          "status": "complete",
+          "stop_reason": "supplemented",
+          "strategy": "supplement",
+          "supplement_count": 1,
+          "term": {
+            "course_id": "pulse-evidence",
+            "end": 100,
+            "evidence_id": "ev-1",
+            "excerpt_sha256": "07848cd6c7afddbd9213154bf8772da07f458be43669ecc94a8c284c4cb01264",
+            "source": {
+              "document_id": "local_530895505d9f43b5b46d06da5418f761",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "start": 90,
+            "word": "TidalRunQ9"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "answer": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A pulse gate passes only pulses above its operating threshold.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 TidalRunQ9，切分 held-out，样本数 7。MAE（amplitude）基线为 0.42，试验为 0.29。",
+            "type": "text"
+          }
+        ],
+        "message_id": "eb78607cce9a41bfa2f3d57b6f2bb956",
+        "ordinal": 10,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PulseGate-lecture.ipynb",
+            "locator": {
+              "cell_id": "definition",
+              "cell_index": 0,
+              "json_pointer": "/cells/0"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Definition: A pulse gate passes only pulses above its operating threshold.\nExperiment-ID: TidalRunQ9.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "fa48319ea4ff2da15711e1064e5b9b94c5fe46cca703ec2afb6dec09b98f1c51",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_530895505d9f43b5b46d06da5418f761",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "PulseGate-run.ipynb",
+            "locator": {
+              "cell_id": "run",
+              "cell_index": 0,
+              "json_pointer": "/cells/0/outputs/0",
+              "output_index": 0
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Experiment-ID: TidalRunQ9. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.42. Trial: 0.29. Samples: 7.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "81457ecf7ebb62afe29577ce1cceefe26574a28bd6c892d7d9da4aabe8c28a3c",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "09ab7f2eebf0464a8143bb8795402cdb",
+        "visible_display_ids": []
+      }
+    },
+    "table": {
+      "request": {
+        "client_turn_id": "818c18a6-134a-4fff-85a6-a8183408fd1d",
+        "kind": "ask",
+        "text": "PulseGate-limits.pptx 第 1 页表格里的 Pulse gate 设定值是多少？",
+        "scope_revision": 6
+      },
+      "http_status": 200,
+      "browser": {
+        "citations": [
+          "PulseGate-limits.pptx · v1 · 第 1 页",
+          "PulseGate-limits.pptx · v1 · 第 1 页"
+        ],
+        "displays": [
+          {
+            "caption": "图 1 · PulseGate-limits.pptx · v1 · 第 1 页PulseGate-limits.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+            "display_id": "97fd0d5e576b422b83316ca9eaf6cf0a",
+            "ordinal": 1,
+            "url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/ba40ead3b7cb4e109121db8a43f3bdea/media/97fd0d5e576b422b83316ca9eaf6cf0a?view=inline"
+          },
+          {
+            "caption": "图 2 · PulseGate-limits.pptx · v1 · 表格PulseGate-limits.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+            "display_id": "c1a123273d46466d8ea46e69c3345946",
+            "ordinal": 2,
+            "url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/ba40ead3b7cb4e109121db8a43f3bdea/media/c1a123273d46466d8ea46e69c3345946?view=inline"
+          }
+        ],
+        "message_id": "ba40ead3b7cb4e109121db8a43f3bdea",
+        "text": "课程助手PulseGate-limits.pptx · v1 · 第 1 页\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |依据 · PulseGate-limits.pptx · v1 · 第 1 页PulseGate-limits.pptx · v1 · 表格\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |依据 · PulseGate-limits.pptx · v1 · 第 1 页正在加载图片…图 1 · PulseGate-limits.pptx · v1 · 第 1 页PulseGate-limits.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件正在加载图片…图 2 · PulseGate-limits.pptx · v1 · 表格PulseGate-limits.pptx · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "turn": {
+        "turn_id": "b6d77d8ce4f84b80a1c9a0ae12e36600",
+        "client_turn_id": "818c18a6-134a-4fff-85a6-a8183408fd1d",
+        "kind": "ask",
+        "text": "PulseGate-limits.pptx 第 1 页表格里的 Pulse gate 设定值是多少？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "PulseGate-limits.pptx",
+              "locator": {
+                "page": 1
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "PulseGate-limits.pptx",
+              "locator": {
+                "bbox": [
+                  0.065,
+                  0.16,
+                  0.865,
+                  0.32
+                ],
+                "page": 1
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                "source_id": "page:1:shape:2",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 2,
+            "checked_positions": [
+              "page:1"
+            ],
+            "enumerated_source_count": 2,
+            "evidence_inspected_count": 2,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": true,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 2,
+            "searchable_source_count": 2,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "display_attempts": {
+            "attempt_limit": 12,
+            "attempted": 2,
+            "display_limit": 3,
+            "displayed": 2,
+            "eligible": 2,
+            "failed": 0,
+            "unattempted": 0
+          },
+          "effective_scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_530895505d9f43b5b46d06da5418f761",
+              "local_b0a5faf7d9ef4b4789a0864e1d9c43ea",
+              "local_d8f36cf4cf89452c84c254c81174238c"
+            ]
+          },
+          "search_status": "ok"
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "answer": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "PulseGate-limits.pptx · v1 · 第 1 页\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "PulseGate-limits.pptx · v1 · 表格\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+            "type": "text"
+          },
+          {
+            "caption": "PulseGate-limits.pptx · v1 · 第 1 页",
+            "display_id": "97fd0d5e576b422b83316ca9eaf6cf0a",
+            "display_source": {
+              "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 1080,
+            "media_url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/ba40ead3b7cb4e109121db8a43f3bdea/media/97fd0d5e576b422b83316ca9eaf6cf0a?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "original_page",
+            "type": "source_image",
+            "width": 1440
+          },
+          {
+            "caption": "PulseGate-limits.pptx · v1 · 表格",
+            "display_id": "c1a123273d46466d8ea46e69c3345946",
+            "display_source": {
+              "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 217,
+            "media_url": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/ba40ead3b7cb4e109121db8a43f3bdea/media/c1a123273d46466d8ea46e69c3345946?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.045,
+              0.14,
+              0.885,
+              0.34
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 1211
+          }
+        ],
+        "message_id": "ba40ead3b7cb4e109121db8a43f3bdea",
+        "ordinal": 12,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PulseGate-limits.pptx",
+            "locator": {
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                "source_id": "page:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "PulseGate-limits.pptx",
+            "locator": {
+              "bbox": [
+                0.065,
+                0.16,
+                0.865,
+                0.32
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                "source_id": "page:1:shape:2",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "PulseGate-limits.pptx",
+            "locator": {
+              "page": 1
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                "source_id": "page:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "PulseGate-limits.pptx",
+            "locator": {
+              "bbox": [
+                0.065,
+                0.16,
+                0.865,
+                0.32
+              ],
+              "page": 1
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "9972261efc630f77dce793728d0c66af81e242ab68a7507d7cab6ee43f173cfa",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_d8f36cf4cf89452c84c254c81174238c",
+                "source_id": "page:1:shape:2",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "b6d77d8ce4f84b80a1c9a0ae12e36600",
+        "visible_display_ids": [
+          "97fd0d5e576b422b83316ca9eaf6cf0a",
+          "c1a123273d46466d8ea46e69c3345946"
+        ]
+      }
+    }
+  },
+  "historical_control": {
+    "open-old": {
+      "browser": {
+        "height": 350,
+        "location": "HarborTrace.ipynb · v1 · Cell 2",
+        "media": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/d757fb156fea47e581feb46c3bfe4536/media/079ee867514c4d08a4ddb4a814b4437d?view=inline",
+        "title": "HarborTrace.ipynb · v1 · 输出 1",
+        "width": 640
+      },
+      "actual_source": {
+        "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+        "source_id": "cell:1:output:1",
+        "version": 1
+      },
+      "media": {
+        "sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+        "bytes": 12062
+      }
+    },
+    "open-current": {
+      "browser": {
+        "height": 350,
+        "location": "HarborTrace.ipynb · v2 · Cell 2",
+        "media": "/api/workspace/sessions/82f0d51af780498b8dacdcc809bc368c/messages/b65beca7a7244cb2a3f4c12592bfcec2/media/372d85962b5345e7b971359b9d334795?view=inline",
+        "title": "HarborTrace.ipynb · v2 · 输出 1",
+        "width": 640
+      },
+      "actual_source": {
+        "document_id": "local_a502c786eaf541a6b74ba27a6a277e7b",
+        "source_id": "cell:1:output:1",
+        "version": 2
+      },
+      "media": {
+        "sha256": "f2bc50567d68856c2409d5c5de78cc2e69b5f4001fa6f6f854517e8c03ed0d42",
+        "bytes": 11658
+      }
+    }
+  },
+  "provider": [],
+  "first_divergence": {
+    "first": "target_selection_uses_parent_candidate_and_both_preview_outputs",
+    "compare": "scope_pins_current_version_only_before_candidate_retrieval",
+    "three": "missing_table_requirement_before_budget_and_candidate_admission"
+  }
+}
