@@ -61,6 +61,10 @@ curl -sS http://127.0.0.1:8000/api/rag/local/search \
 
 在接口文档可用 `POST /api/rag/local/migrate` 显式回填旧库的当前版；`POST /api/rag/local/migrate/bundle` 接受旧 deck/chunks 包、课程、原路径和已核对的完整原件 SHA-256。 `RAG_SEARCH_BACKEND=local` 可让旧 `/api/rag/search` 的文本请求查本地索引，设置为 `legacy` 即切回。缺等价当前版的旧向量会被 SQLite 隐藏。[发布设计与回退](./docs/B/B01-发布设计.md)
 
+## 原件预览
+
+服务端设置 `SOURCE_EVIDENCE_COURSE_IDS` 为获准预览的课程 ID（逗号分隔）。`POST /api/rag/local/evidence/current` 接收来源三元组、原件 SHA-256、发布代次和展示规格。可预览 PDF/PPTX 整页、可靠对象裁区和 Notebook 的指定已保存输出。未配置课程时入口关闭。PPTX 整页依赖 LibreOffice，可用 `SRAG_SOFFICE` 指定可执行文件。没有转换器时返回原生定位和可用正文。[原件预览与复现](./docs/D/D02-版本化原件与裁图.md)
+
 ## 旧向量导入
 
 - **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。

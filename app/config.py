@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     app_port: int = 8000
     course_root: Path = Path("./courses")
     data_dir: Path = Path("./data")
+    source_evidence_course_ids: str = ""
+    srag_soffice: Path | None = None
+    source_evidence_max_inline_bytes: int = 8 * 1024 * 1024
 
     dashscope_api_key: str = ""
     dashscope_base_url: str = ""

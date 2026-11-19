@@ -9,6 +9,7 @@ from app import __version__
 from app.api.health import router as health_router
 from app.api.local_library import router as local_library_router
 from app.api.rag import router as rag_router
+from app.api.source_evidence import router as source_evidence_router
 from app.api.structure_search import router as structure_search_router
 from app.config import get_settings
 
@@ -34,6 +35,7 @@ def create_app() -> FastAPI:
     )
     app.include_router(health_router, prefix="/api", tags=["健康检查"])
     app.include_router(rag_router, prefix="/api/rag", tags=["知识检索"])
+    app.include_router(source_evidence_router, prefix="/api/rag/local/evidence", tags=["原件"])
     app.include_router(structure_search_router, prefix="/api/rag/structure", tags=["结构检索"])
     app.include_router(local_library_router, prefix="/api/rag/local", tags=["本地资料"])
     return app

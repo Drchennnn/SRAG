@@ -120,6 +120,8 @@ class HistoricalSource:
     source: SourceDraft | None = None
     content_sha256: str | None = None
     original: bytes | None = None
+    publication_epoch: int | None = None
+    is_current: bool = False
 
 
 class LocalLibraryStore(MetadataStore):
@@ -302,7 +304,7 @@ class LocalLibraryStore(MetadataStore):
             promote_due(db, _now())
             row = db.execute(
                 f"""
-                SELECT s.*, v.content_sha256, v.original
+                SELECT s.*, v.content_sha256, v.original, d.publication_epoch, d.current_version
                 FROM local_sources s
                 JOIN local_documents d ON d.document_id = s.document_id AND d.deleted = 0
                 JOIN local_versions v ON v.document_id = s.document_id AND v.version = s.version
@@ -315,9 +317,17 @@ class LocalLibraryStore(MetadataStore):
             return HistoricalSource("not_accessible")
         original = row["original"]
         digest = row["content_sha256"]
+        epoch = row["publication_epoch"]
+        is_current = row["current_version"] == key.version
         if original is None or hashlib.sha256(original).hexdigest() != digest:
-            return HistoricalSource("original_unavailable", _source(row), digest)
-        return HistoricalSource("available", _source(row), digest, original)
+            return HistoricalSource(
+                "original_unavailable",
+                _source(row),
+                digest,
+                publication_epoch=epoch,
+                is_current=is_current,
+            )
+        return HistoricalSource("available", _source(row), digest, original, epoch, is_current)
 
     def legacy_sources(
         self,
