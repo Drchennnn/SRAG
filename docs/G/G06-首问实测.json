@@ -1,0 +1,469 @@
+{
+  "schema": "g06-public-browser-v1",
+  "subject_base": "69cea707d6b7bddf82970489bb73be084cdf4b0b",
+  "files_sha256": {
+    "app/rag/workspace.py": "d09fb4522ed19a542647c085ef7fd56c8bcbf2ad2e0b6932d0813e79caef9c98",
+    "app/rag/workspace_objects.py": "8352ce5e8893befc01dfe689011465ed5c2663cb34adf49931632c01ae1f0f57",
+    "app/rag/source_vision.py": "8f9d16bff5ee11d26ec9cc13fcc38c634fe89899eeb618609f5836d1fd1483d2",
+    "docs/G/G05-probe.py": "efd47e1c5993b0e22a9b5a2fc9cfcc72d36e8cafd892745776a8b06bb8af2b10",
+    "docs/G/G06-probe.py": "682c48118601decc8ce640e5a37f474af84214352ac43e1891413ee200078542",
+    "docs/G/G06-browser.sh": "db2a00ef5203d4ac888775272de30140b7e815ff82e6833b3ee6fc584233b03f"
+  },
+  "agent_browser": "agent-browser 0.43.0",
+  "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "vision_enabled": true,
+  "provider_attempts": [
+    {
+      "event": "real_vision_attempt",
+      "image_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+      "model": "qwen3-vl-plus",
+      "http_status": 200,
+      "http_headers_ms": 1271.845
+    }
+  ],
+  "answers": {
+    "first": {
+      "browser": {
+        "displays": 1,
+        "height": 350,
+        "media_url": "/api/workspace/sessions/f4254a605ea04196a59f6994de401e38/messages/e3fd970497f74caab17fa6f5629b8b55/media/761047986edd450096ff49547d90e411?view=inline",
+        "message_id": "e3fd970497f74caab17fa6f5629b8b55",
+        "text": "课程助手正在加载图片…图 1 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 已读取问这张图查看原件seconds依据 · HarborTrace.ipynb · v1 · Cell 2",
+        "width": 640
+      },
+      "request": {
+        "client_turn_id": "13bd2bd4-0da0-4223-bb97-9d6944a87bb2",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？",
+        "scope_revision": 2
+      },
+      "http_status": 200,
+      "turn": {
+        "turn_id": "d3a7433ca2ff4624af7e3c7d6f376dfe",
+        "client_turn_id": "13bd2bd4-0da0-4223-bb97-9d6944a87bb2",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "display": {
+            "byte_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          },
+          "effective_scope": {
+            "course_ids": [
+              "harbor-panels"
+            ],
+            "document_ids": [
+              "local_65c4c10937b447538d7067c0c53d8567"
+            ]
+          },
+          "external_call_count": 1,
+          "object_candidates": [
+            {
+              "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          ],
+          "read_status": "succeeded",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 1333.4606669377536,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 222,
+                  "input_tokens": 320,
+                  "output_tokens": 13,
+                  "total_tokens": 333
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 1",
+            "display_id": "761047986edd450096ff49547d90e411",
+            "display_source": {
+              "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/f4254a605ea04196a59f6994de401e38/messages/e3fd970497f74caab17fa6f5629b8b55/media/761047986edd450096ff49547d90e411?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "seconds",
+            "type": "text"
+          }
+        ],
+        "message_id": "e3fd970497f74caab17fa6f5629b8b55",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": null,
+                "actual_input_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+                "actual_source": {
+                  "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "cff0a6c2928880ed25660033eee20157e507a629ccebcb2628dcb9c63941bea5",
+                "status": "succeeded",
+                "text": "seconds",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "d3a7433ca2ff4624af7e3c7d6f376dfe",
+        "visible_display_ids": [
+          "761047986edd450096ff49547d90e411"
+        ]
+      },
+      "browser_png_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+    },
+    "repeat": {
+      "browser": {
+        "displays": 1,
+        "height": 350,
+        "media_url": "/api/workspace/sessions/f4254a605ea04196a59f6994de401e38/messages/506d487871fb482dbe652980e4e91187/media/34d5f4997a6243b98f916e605b6e7a5a?view=inline",
+        "message_id": "506d487871fb482dbe652980e4e91187",
+        "text": "课程助手正在加载图片…图 1 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 已读取问这张图查看原件seconds依据 · HarborTrace.ipynb · v1 · Cell 2",
+        "width": 640
+      },
+      "request": {
+        "client_turn_id": "08c2521a-62ac-4f1e-bea3-7afc58ea794b",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？",
+        "scope_revision": 2
+      },
+      "http_status": 200,
+      "turn": {
+        "turn_id": "d740b15f50d5442bb66c56306f7d48f1",
+        "client_turn_id": "08c2521a-62ac-4f1e-bea3-7afc58ea794b",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "display": {
+            "byte_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          },
+          "effective_scope": {
+            "course_ids": [
+              "harbor-panels"
+            ],
+            "document_ids": [
+              "local_65c4c10937b447538d7067c0c53d8567"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          ],
+          "read_status": "succeeded",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 5.504707922227681,
+            "reads": [
+              {
+                "cache_hit": true,
+                "execution": "cache_reuse",
+                "external_call": false,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {}
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 1",
+            "display_id": "34d5f4997a6243b98f916e605b6e7a5a",
+            "display_source": {
+              "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/f4254a605ea04196a59f6994de401e38/messages/506d487871fb482dbe652980e4e91187/media/34d5f4997a6243b98f916e605b6e7a5a?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "seconds",
+            "type": "text"
+          }
+        ],
+        "message_id": "506d487871fb482dbe652980e4e91187",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": null,
+                "actual_input_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+                "actual_source": {
+                  "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "execution": "cache_reuse",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "cff0a6c2928880ed25660033eee20157e507a629ccebcb2628dcb9c63941bea5",
+                "status": "succeeded",
+                "text": "seconds",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_65c4c10937b447538d7067c0c53d8567",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "d740b15f50d5442bb66c56306f7d48f1",
+        "visible_display_ids": [
+          "34d5f4997a6243b98f916e605b6e7a5a"
+        ]
+      },
+      "browser_png_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+    },
+    "table": {
+      "browser": {
+        "displays": 0,
+        "message_id": "0369063ce91c41f88767cf3fb10805fd",
+        "text": "课程助手PulseGate-limits.pptx · v1 · 表格\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |依据 · PulseGate-limits.pptx · v1 · 第 1 页"
+      },
+      "request": {
+        "client_turn_id": "95d64b3e-5695-4e77-900b-10e0e2dd3366",
+        "kind": "ask",
+        "text": "PulseGate-limits.pptx 第 1 页表格里的 Pulse gate 设定值是多少？",
+        "scope_revision": 3
+      },
+      "http_status": 200,
+      "turn": {
+        "turn_id": "836e8a2c0a3c42fab012ab8a669a76ce",
+        "client_turn_id": "95d64b3e-5695-4e77-900b-10e0e2dd3366",
+        "kind": "ask",
+        "text": "PulseGate-limits.pptx 第 1 页表格里的 Pulse gate 设定值是多少？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_77575c68259c4292a025ef3838306cb4"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_77575c68259c4292a025ef3838306cb4",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_77575c68259c4292a025ef3838306cb4",
+            "source_id": "page:1:shape:2",
+            "version": 1
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "PulseGate-limits.pptx · v1 · 表格\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+            "type": "text"
+          }
+        ],
+        "message_id": "0369063ce91c41f88767cf3fb10805fd",
+        "ordinal": 6,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PulseGate-limits.pptx",
+            "locator": {
+              "bbox": [
+                0.065,
+                0.16,
+                0.865,
+                0.32
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_77575c68259c4292a025ef3838306cb4",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "0c41ad4a82be87e3e51b8f04ddb6551e3f354fa8078e24e9728f67e2020f14c8",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_77575c68259c4292a025ef3838306cb4",
+                "source_id": "page:1:shape:2",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "836e8a2c0a3c42fab012ab8a669a76ce",
+        "visible_display_ids": []
+      }
+    }
+  }
+}

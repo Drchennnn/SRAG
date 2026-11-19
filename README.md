@@ -87,6 +87,7 @@ WORKSPACE_COURSE_IDS=signals .venv/bin/python -m uvicorn app.main:app --host 127
 
 在本机打开 `http://127.0.0.1:8000/workspace`，选择已授权的课程，导入 PDF、PPTX 或 Notebook。
 资料库可展开到页、Cell 和对象。会话在刷新后恢复，卡片动作“问这张图”和文字“刚才第二张图”均在所属消息内解析。
+普通首问可在问题中指定文件和页、Cell 或图序，例如“实验.ipynb Cell 2 第 2 张图的横轴单位是什么？”。能唯一定位时，系统读取指定图或原生表格。位置不清或读取不可用时，回答会提示缺少哪一步。
 设置 `WORKSPACE_COURSE_IDS` 可用逗号分隔多个课程。模型关闭时仍可搜索原文和查看原件，图片会标明读取状态。
 `python -m tools.workspace_chat --help` 提供使用同一会话服务的终端入口。[会话及原件权限](./docs/E/E02-会话服务.md)
 

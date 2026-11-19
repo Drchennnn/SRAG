@@ -6,7 +6,7 @@ import base64
 import hashlib
 import re
 import secrets
-from collections.abc import Mapping, Sequence
+from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass, field
 from pathlib import Path
 from time import perf_counter
@@ -32,6 +32,7 @@ from app.rag.structure_search import (
     StructureSearcher,
     StructureSearchRequest,
 )
+from app.rag.workspace_objects import ObjectIntent, object_choices, object_intent
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
 from app.schemas.workspace import (
@@ -54,9 +55,18 @@ from app.stores.workspace import Attachment, Session, Turn, WorkspaceStore, json
 
 _ORDINAL = re.compile(r"第\s*([0-9]+|[一二两三四五六七八九十]+)\s*张(?:图|图片)")
 _IMAGE_REFERENCE = re.compile(r"(?:刚才|上一条|上面|那|这|哪)\s*(?:的\s*)?(?:一?张\s*)?(?:图|图片)")
+_HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条")
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
 _PAGE = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:页|张幻灯片)")
 _CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*cell", re.IGNORECASE)
+_CELL_PREFIX = re.compile(r"\bcell\s+([1-9][0-9]{0,3})\b", re.IGNORECASE)
+_FILE_MENTION = re.compile(r"\.(?:pdf|pptx|ipynb)(?=$|[^a-z0-9_])", re.IGNORECASE)
+_FILE_EXCLUSION = re.compile(
+    r"(?:不要|请勿|禁止|不用|不许|无需|不得|(?<!\w)别)(?:再|去)?\s*"
+    r"(?:使用|用|查|看|读取|读|打开|引用|选择|选)"
+    r"|\b(?:do not|don['’]t|must not|never)\s+(?:use|read|open|select|cite)\b",
+    re.IGNORECASE,
+)
 _FILE_ARGUMENT = (
     r"""\s*["'“‘「『]?([^"'”’」』,，。！？；;!?\n]{1,180}?\.(?:pdf|pptx|ipynb))"""
     r"""(?=$|[\s"'”’」』,，。！？；;!?.和与、及])["'”’」』]?"""
@@ -437,8 +447,14 @@ class WorkspaceService:
             if isinstance(turn.request.anchor, ClarificationAnchor):
                 return self._choose(turn, session, turn.request.anchor)
             ordinal = _ORDINAL.search(turn.request.text)
-            if turn.request.kind == "ask" and (
-                ordinal or _IMAGE_REFERENCE.search(turn.request.text)
+            located = _location(turn.request.text, None) is not None or _FILE_MENTION.search(
+                turn.request.text
+            )
+            image_reference = ordinal or _IMAGE_REFERENCE.search(turn.request.text)
+            if (
+                turn.request.kind == "ask"
+                and image_reference
+                and (not located or _HISTORY_IMAGE.search(turn.request.text))
             ):
                 return self._resolve_reference(owner, turn, session, ordinal)
             return self._retrieve(turn, session, turn.request.text)
@@ -634,22 +650,7 @@ class WorkspaceService:
         ):
             error = "stale_reference"
         if error in {"stale_reference", "not_accessible", "original_unavailable"}:
-            return self.store.finish(
-                turn,
-                "failed",
-                {
-                    "error": error,
-                    "retryable": error == "stale_reference",
-                    "trace": {
-                        "external_call_count": response.external_call_count,
-                        "vision": {"elapsed_ms": elapsed_ms, "status": response.read_status},
-                    },
-                },
-                None,
-                (),
-                (),
-                self.allowed_courses,
-            )
+            return self._finish_invalid_read(turn, error, _vision_trace(response, elapsed_ms))
         reads = _visual_reads(response)
         source = stored.source
         assert source is not None
@@ -691,27 +692,7 @@ class WorkspaceService:
             draft,
             refs=[ref],
             resolution=message,
-            trace={
-                "external_call_count": response.external_call_count,
-                "vision": {
-                    "elapsed_ms": elapsed_ms,
-                    "status": response.read_status,
-                    "capability_reason": response.capability_reason,
-                    "reads": [
-                        {
-                            "execution": record.execution,
-                            "cache_hit": record.cache_hit,
-                            "external_call": record.external_call,
-                            "provider": record.provider,
-                            "model": record.model,
-                            "prompt_version": record.prompt_version,
-                            "usage": record.usage if record.external_call else {},
-                            "missing_or_error": record.missing_or_error,
-                        }
-                        for record in response.reads
-                    ],
-                },
-            },
+            trace=_vision_trace(response, elapsed_ms),
             failed=response.read_status == "failed",
         )
 
@@ -759,6 +740,8 @@ class WorkspaceService:
         if mode == "ask" and location is None and asks_for_definition_and_experiment(text):
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
+        if mode == "ask" and (target := object_intent(text)):
+            return self._answer_object(turn, session, text, target, documents, node, location)
         if mode == "summary":
             ranked = sorted(
                 (source for source in snapshot.sources if source.text.strip()),
@@ -840,6 +823,176 @@ class WorkspaceService:
         if not draft.sources:
             draft.notice("no_readable_evidence", "在所选范围内没有读到支持本题的原文或图片。")
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _answer_object(
+        self,
+        turn: Turn,
+        session: Session,
+        text: str,
+        target: ObjectIntent,
+        documents: dict[str, SnapshotDocument],
+        node: CatalogNode | None,
+        location: StructureLocation | None,
+    ) -> Turn:
+        draft = Draft(session.session_id)
+        names = _object_file_names(text, documents.values())
+        if names is None:
+            draft.notice("scope_not_found", "无法确认指定文件，请明确可使用的资料名称。")
+            return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in documents.values()])
+        narrowed = self.snapshots.read(
+            SnapshotRequest(
+                tuple(session.course_ids),
+                tuple(documents),
+                tuple(names),
+                require_single_document=location is not None,
+            )
+        )
+        if any(
+            doc.document_id not in documents
+            or _doc_ref(doc) != _doc_ref(documents[doc.document_id])
+            for doc in narrowed.documents
+        ):
+            raise WorkspaceError("stale_reference")
+        docs = {doc.document_id: doc for doc in narrowed.documents}
+        refs = [_doc_ref(doc) for doc in docs.values()]
+        if narrowed.resolution_status == "ambiguous_scope":
+            return self._clarify(
+                turn,
+                "有多份资料符合范围，请选择一份。",
+                self._document_choices(session.session_id, docs),
+                refs,
+            )
+        if narrowed.resolution_status != "resolved":
+            draft.notice("scope_not_found", "在所选范围内找不到指定的文件。")
+            return self._complete(turn, draft, refs=refs)
+        sources = [
+            source
+            for source in narrowed.sources
+            if location is None
+            or (
+                (location.page is None or source.locator.get("page") == location.page)
+                and (
+                    location.cell_index is None
+                    or source.locator.get("cell_index") == location.cell_index
+                )
+            )
+        ]
+        focus = node.source if node and (location is None or node.source in sources) else None
+        region_rects = {}
+        for source in sources:
+            key = (source.document_id, source.version, source.source_id)
+            region_id = self.region_ids.get(key)
+            if region_id and (region := self.evidence.regions.get(region_id)):
+                if (
+                    region.coordinate_frame == "visible_page_norm_v1"
+                    and region.source == _key(source)
+                    and region.content_sha256 == docs[source.document_id].content_sha256
+                ):
+                    region_rects[key] = region.target_rect
+        choices = object_choices(target, sources, focus=focus, region_rects=region_rects)
+        trace: dict[str, Any] = {
+            "route": "target_object",
+            "effective_scope": _effective(docs),
+            "object_candidates": [_key(choice).model_dump() for choice in choices],
+            "external_call_count": 0,
+        }
+        if len(choices) != 1:
+            note = (
+                "有多个可能的对象，请指定原件位置或图序。"
+                if choices
+                else "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+            )
+            draft.notice("object_ambiguous" if choices else "object_not_found", note)
+            return self._complete(turn, draft, refs=refs, trace=trace)
+        source = choices[0]
+        trace["selected_source"] = _key(source).model_dump()
+        if target.kind == "table":
+            failures = self._read_text(turn, draft, docs, choices, 1)
+            if failures or not draft.sources:
+                draft.notice("object_unreadable", "已定位表格，未读到可核对的原生表格内容。")
+        else:
+            error = self._read_selected_image(
+                turn, draft, docs[source.document_id], source, text, trace
+            )
+            if error:
+                return self._finish_invalid_read(turn, error, trace)
+        return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _finish_invalid_read(self, turn: Turn, error: str, trace: dict[str, Any]) -> Turn:
+        vision = trace["vision"]
+        return self.store.finish(
+            turn,
+            "failed",
+            {
+                "error": error,
+                "retryable": error == "stale_reference",
+                "trace": {
+                    "external_call_count": trace["external_call_count"],
+                    "vision": {"elapsed_ms": vision["elapsed_ms"], "status": vision["status"]},
+                },
+            },
+            None,
+            (),
+            (),
+            self.allowed_courses,
+        )
+
+    def _read_selected_image(
+        self,
+        turn: Turn,
+        draft: Draft,
+        document: SnapshotDocument,
+        source: SnapshotSource,
+        question: str,
+        trace: dict[str, Any],
+    ) -> str | None:
+        if not self.store.active(turn):
+            raise WorkspaceError("interrupted")
+        request = self._render_request(document, source)
+        result = self.evidence.render_current(request)
+        display = result.display
+        if result.status in {"stale_reference", "not_accessible"}:
+            raise WorkspaceError(result.status)
+        if display is not None:
+            trace["display"] = {
+                "source": display.actual_source.model_dump(),
+                "byte_sha256": display.byte_sha256,
+                "rect": display.rect_visible_norm,
+                "fallback_reason": display.fallback_reason,
+            }
+        if display is not None and (
+            display.actual_source == request.source and display.fallback_reason is None
+        ):
+            started = perf_counter()
+            result = self.vision.process_current(
+                request.model_copy(
+                    update={"read_intent": "directed_question", "question": question}
+                ),
+                expected_input_sha256=display.byte_sha256,
+            )
+            trace.update(_vision_trace(result, (perf_counter() - started) * 1000))
+            if result.status in {"stale_reference", "not_accessible", "original_unavailable"}:
+                return result.status
+        trace["read_status"] = result.read_status
+        reads = _visual_reads(result)
+        item = draft.add_evidence(document, source, reads)
+        draft.add_image(
+            item, result, request, f"{document.file_name} · v{document.version} · {_label(source)}"
+        )
+        for read in reads:
+            if (
+                read.actual_source == request.source
+                and read.status in {"succeeded", "partial"}
+                and read.origin_execution == "real_provider"
+                and read.text
+            ):
+                draft.text(read.text, item.evidence_id)
+                return None
+        draft.notice(
+            "object_unreadable",
+            "本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。",
+        )
+        return None
 
     def _answer_with_supplement(
         self,
@@ -1341,7 +1494,7 @@ def _summary_coverage(
 def _location(query: str, node: CatalogNode | None) -> StructureLocation | None:
     if match := _PAGE.search(query):
         return StructureLocation(page=int(match.group(1)))
-    if match := _CELL.search(query):
+    if match := _CELL.search(query) or _CELL_PREFIX.search(query):
         return StructureLocation(cell_index=int(match.group(1)) - 1)
     if node and node.source:
         if isinstance(page := node.source.locator.get("page"), int):
@@ -1360,6 +1513,25 @@ def _explicit_filenames(text: str) -> list[str]:
             files.append(following[1])
             offset = following.end()
     return files
+
+
+def _object_file_names(text: str, documents: Iterable[SnapshotDocument]) -> list[str] | None:
+    names = []
+    resolved: list[tuple[int, int]] = []
+    for doc in documents:
+        pattern = rf"(?<![a-z0-9._-]){re.escape(doc.file_name)}(?=$|[^a-z0-9._-]|\.(?=$|\s))"
+        for match in re.finditer(pattern, text, re.IGNORECASE):
+            preceding = re.split(r"[，。！？；,;!?\n]", text[: match.start()])[-1]
+            if _FILE_EXCLUSION.search(preceding):
+                return None
+            names.append(doc.file_name)
+            resolved.append(match.span())
+    if any(
+        not any(start <= mention.start() and mention.end() <= end for start, end in resolved)
+        for mention in _FILE_MENTION.finditer(text)
+    ):
+        return None
+    return _explicit_filenames(text) or list(dict.fromkeys(names))
 
 
 def _media_candidates(
@@ -1452,6 +1624,30 @@ def _visual_reads(response: EvidenceResult) -> list[TurnRead]:
         )
         for record in response.reads
     ]
+
+
+def _vision_trace(response: EvidenceResult, elapsed_ms: float) -> dict[str, Any]:
+    return {
+        "external_call_count": response.external_call_count,
+        "vision": {
+            "elapsed_ms": elapsed_ms,
+            "status": response.read_status,
+            "capability_reason": response.capability_reason,
+            "reads": [
+                {
+                    "execution": record.execution,
+                    "cache_hit": record.cache_hit,
+                    "external_call": record.external_call,
+                    "provider": record.provider,
+                    "model": record.model,
+                    "prompt_version": record.prompt_version,
+                    "usage": record.usage if record.external_call else {},
+                    "missing_or_error": record.missing_or_error,
+                }
+                for record in response.reads
+            ],
+        },
+    }
 
 
 def _image_response(result: EvidenceResult) -> tuple[bytes, str]:

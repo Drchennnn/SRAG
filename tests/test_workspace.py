@@ -759,3 +759,111 @@ def test_combined_web_question_allows_explicit_request_for_each_part(system, tmp
     result = _ask(client, session, "请分别给出中值滤波的定义和留出集实验验证。")
     trace = result["turn"]["trace"]
     assert trace["route"] == "evidence_answer"
+
+
+@pytest.fixture
+def public_object_files(tmp_path):
+    import runpy
+
+    fixture = runpy.run_path("docs/G/G05-probe.py")
+    return tmp_path / "fixtures", fixture["build"](tmp_path)
+
+
+def test_first_in_file_image_question_selects_one_exact_output(system, public_object_files):
+    _, _, _, client = system
+    originals, public = public_object_files
+    session = _create(client)
+    imported = _upload(client, session, originals / "v1" / "HarborTrace.ipynb")
+    result = _ask(client, session, "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？")
+    trace = result["turn"]["trace"]
+    selected = {
+        "document_id": imported["document_id"],
+        "version": 1,
+        "source_id": "cell:1:output:1",
+    }
+    assert trace["selected_source"] == selected
+    assert trace["object_candidates"] == [selected]
+    assert trace["read_status"] == "not_attempted"
+    assert trace["external_call_count"] == 0
+    displays = [block for block in result["message"]["blocks"] if block["type"] == "source_image"]
+    assert len(displays) == 1
+    assert displays[0]["display_source"] == selected
+    assert (
+        _sha(client.get(displays[0]["media_url"]).content)
+        == public["image_sha256"]["1"]["cell:1:output:1"]
+    )
+
+
+def test_unknown_side_and_unreadable_slot_never_substitute_neighbor(system, public_object_files):
+    _, _, _, client = system
+    originals, _ = public_object_files
+    session = _create(client)
+    source = originals / "v1" / "HarborTrace.ipynb"
+    data = json.loads(source.read_text())
+    data["cells"][1]["outputs"][1]["data"]["image/png"] = "bad image"
+    source.write_text(json.dumps(data))
+    _upload(client, session, source)
+    ambiguous = _ask(client, session, "HarborTrace.ipynb Cell 2 的右侧琥珀子图刻度单位是什么？")
+    assert not ambiguous["message"]["sources"]
+    assert ambiguous["turn"]["trace"]["external_call_count"] == 0
+    broken = _ask(client, session, "HarborTrace.ipynb 第 2 个 Cell 第 2 张图的横轴单位是什么？")
+    assert broken["turn"]["trace"]["selected_source"]["source_id"] == "cell:1:output:1"
+    assert broken["turn"]["trace"]["external_call_count"] == 0
+    assert all(block["type"] != "source_image" for block in broken["message"]["blocks"])
+    assert any(block.get("code") == "object_unreadable" for block in broken["message"]["blocks"])
+
+
+def test_first_table_question_reads_exact_native_table(system, public_object_files):
+    _, _, _, client = system
+    originals, _ = public_object_files
+    session = _create(client)
+    _upload(client, session, originals / "PulseGate-limits.pptx")
+    result = _ask(
+        client, session, "PulseGate-limits.pptx 第 1 页 表格里的 Pulse gate 设定值是多少？"
+    )
+    assert result["turn"]["trace"]["selected_source"]["source_id"] == "page:1:shape:2"
+    assert result["turn"]["trace"]["external_call_count"] == 0
+    (item,) = result["message"]["sources"].values()
+    (read,) = item["reads"]
+    assert read["method"] == "native_table"
+    assert read["actual_source"] == item["revision"]["source"]
+    assert "17.5" in read["text"]
+
+
+def test_stale_first_image_keeps_call_count_without_publishing_source(
+    system, public_object_files, monkeypatch
+):
+    from app.rag.source_evidence import EvidenceResult
+
+    _, service, _, client = system
+    originals, _ = public_object_files
+    session = _create(client)
+    _upload(client, session, originals / "v1" / "HarborTrace.ipynb")
+
+    def changed_during_read(request, *, expected_input_sha256):
+        assert expected_input_sha256
+        return EvidenceResult(
+            status="stale_reference", requested_source=request.source, external_call_count=1
+        )
+
+    monkeypatch.setattr(service.vision, "process_current", changed_during_read)
+    result = _ask(client, session, "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？")
+    assert result["turn"]["error"] == "stale_reference"
+    assert result["message"] is None
+    assert set(result["turn"]["trace"]) == {"external_call_count", "vision"}
+    assert result["turn"]["trace"]["external_call_count"] == 1
+
+
+def test_first_image_question_does_not_substitute_another_named_file(system, public_object_files):
+    _, _, _, client = system
+    originals, _ = public_object_files
+    session = _create(client)
+    _upload(client, session, originals / "v1" / "HarborTrace.ipynb")
+    for question in (
+        "MissingNotebook.ipynb 的 Cell 2 第 2 张图是什么单位？请不要用 HarborTrace.ipynb 代替。",
+        "not-HarborTrace.ipynb Cell 2 第 2 张图的单位是什么？",
+        "请不要用 HarborTrace.ipynb，Cell 2 第 2 张图的单位是什么？",
+    ):
+        result = _ask(client, session, question)
+        assert result["message"]["blocks"][0]["code"] == "scope_not_found"
+        assert not result["message"]["sources"]

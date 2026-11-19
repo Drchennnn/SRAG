@@ -204,7 +204,9 @@ class SourceVisionService:
         )
         self._flight_namespace = str(cache_dir.expanduser().resolve())
 
-    def process_current(self, request: EvidenceRequest) -> EvidenceResult:
+    def process_current(
+        self, request: EvidenceRequest, *, expected_input_sha256: str | None = None
+    ) -> EvidenceResult:
         display_request = request.model_copy(
             update={"read_intent": "display_only", "question": None}
         )
@@ -213,6 +215,12 @@ class SourceVisionService:
             return base
         if base.status != "available" or base.display is None:
             return base.model_copy(update={"capability_reason": "input_unsupported"})
+        if expected_input_sha256 is not None and (
+            base.display.byte_sha256 != expected_input_sha256
+            or base.display.actual_source != request.source
+            or base.display.fallback_reason is not None
+        ):
+            return _stale(base)
         if not self._authorized(base.display.actual_source, request):
             return _stale(base)
         if not self.enabled:

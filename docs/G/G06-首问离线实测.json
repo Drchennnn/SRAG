@@ -1,0 +1,260 @@
+{
+  "schema": "g06-public-browser-v1",
+  "subject_base": "69cea707d6b7bddf82970489bb73be084cdf4b0b",
+  "files_sha256": {
+    "app/rag/workspace.py": "d09fb4522ed19a542647c085ef7fd56c8bcbf2ad2e0b6932d0813e79caef9c98",
+    "app/rag/workspace_objects.py": "8352ce5e8893befc01dfe689011465ed5c2663cb34adf49931632c01ae1f0f57",
+    "app/rag/source_vision.py": "8f9d16bff5ee11d26ec9cc13fcc38c634fe89899eeb618609f5836d1fd1483d2",
+    "docs/G/G05-probe.py": "efd47e1c5993b0e22a9b5a2fc9cfcc72d36e8cafd892745776a8b06bb8af2b10",
+    "docs/G/G06-probe.py": "682c48118601decc8ce640e5a37f474af84214352ac43e1891413ee200078542",
+    "docs/G/G06-browser.sh": "db2a00ef5203d4ac888775272de30140b7e815ff82e6833b3ee6fc584233b03f"
+  },
+  "agent_browser": "agent-browser 0.43.0",
+  "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "vision_enabled": false,
+  "provider_attempts": [],
+  "answers": {
+    "first": {
+      "browser": {
+        "displays": 1,
+        "height": 350,
+        "media_url": "/api/workspace/sessions/612b42151f584b409833e01a3b2fa842/messages/658ac4d6a6ae4543864f3beea7b477ed/media/8eb5faa510cf41f88eea738dc74f5b34?view=inline",
+        "message_id": "658ac4d6a6ae4543864f3beea7b477ed",
+        "text": "课程助手正在加载图片…图 1 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。",
+        "width": 640
+      },
+      "request": {
+        "client_turn_id": "cac28d80-61dc-4cca-aa20-6843326576c3",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？",
+        "scope_revision": 2
+      },
+      "http_status": 200,
+      "turn": {
+        "turn_id": "72e85e92ef6e4e31a4a13936827043e3",
+        "client_turn_id": "cac28d80-61dc-4cca-aa20-6843326576c3",
+        "kind": "ask",
+        "text": "HarborTrace.ipynb Cell 2 第 2 张图的横轴刻度单位是什么？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "display": {
+            "byte_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_86505b75d34f4b2f835139013d0b4dd2",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          },
+          "effective_scope": {
+            "course_ids": [
+              "harbor-panels"
+            ],
+            "document_ids": [
+              "local_86505b75d34f4b2f835139013d0b4dd2"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_86505b75d34f4b2f835139013d0b4dd2",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          ],
+          "read_status": "not_attempted",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_86505b75d34f4b2f835139013d0b4dd2",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": "provider_disabled",
+            "elapsed_ms": 4.3869169894605875,
+            "reads": [],
+            "status": "not_attempted"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 1",
+            "display_id": "8eb5faa510cf41f88eea738dc74f5b34",
+            "display_source": {
+              "document_id": "local_86505b75d34f4b2f835139013d0b4dd2",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/612b42151f584b409833e01a3b2fa842/messages/658ac4d6a6ae4543864f3beea7b477ed/media/8eb5faa510cf41f88eea738dc74f5b34?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "code": "object_unreadable",
+            "text": "本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "658ac4d6a6ae4543864f3beea7b477ed",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_86505b75d34f4b2f835139013d0b4dd2",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "72e85e92ef6e4e31a4a13936827043e3",
+        "visible_display_ids": [
+          "8eb5faa510cf41f88eea738dc74f5b34"
+        ]
+      },
+      "browser_png_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+    },
+    "table": {
+      "browser": {
+        "displays": 0,
+        "message_id": "e881487bebd04db4bc10c045014b7bba",
+        "text": "课程助手PulseGate-limits.pptx · v1 · 表格\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |依据 · PulseGate-limits.pptx · v1 · 第 1 页"
+      },
+      "request": {
+        "client_turn_id": "80bcbac6-8d36-4a45-820e-a093123285e0",
+        "kind": "ask",
+        "text": "PulseGate-limits.pptx 第 1 页表格里的 Pulse gate 设定值是多少？",
+        "scope_revision": 3
+      },
+      "http_status": 200,
+      "turn": {
+        "turn_id": "0f65770ef9e5439780fc57c1b313aedb",
+        "client_turn_id": "80bcbac6-8d36-4a45-820e-a093123285e0",
+        "kind": "ask",
+        "text": "PulseGate-limits.pptx 第 1 页表格里的 Pulse gate 设定值是多少？",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_a65d02a06ec2412199559b65bf4d21f2"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_a65d02a06ec2412199559b65bf4d21f2",
+              "source_id": "page:1:shape:2",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_a65d02a06ec2412199559b65bf4d21f2",
+            "source_id": "page:1:shape:2",
+            "version": 1
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "PulseGate-limits.pptx · v1 · 表格\n| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+            "type": "text"
+          }
+        ],
+        "message_id": "e881487bebd04db4bc10c045014b7bba",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PulseGate-limits.pptx",
+            "locator": {
+              "bbox": [
+                0.065,
+                0.16,
+                0.865,
+                0.32
+              ],
+              "page": 1
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_a65d02a06ec2412199559b65bf4d21f2",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Series | Gate setting (mA) | Dataset |\n| --- | --- | --- |\n| Pulse gate | 17.5 | held-out |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "0c41ad4a82be87e3e51b8f04ddb6551e3f354fa8078e24e9728f67e2020f14c8",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_a65d02a06ec2412199559b65bf4d21f2",
+                "source_id": "page:1:shape:2",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "0f65770ef9e5439780fc57c1b313aedb",
+        "visible_display_ids": []
+      }
+    }
+  }
+}

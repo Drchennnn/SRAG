@@ -865,3 +865,19 @@ def test_current_http_route_is_backward_compatible_and_accepts_read_intent(
     assert display_body["read_status"] == "not_attempted" and display_body["reads"] == []
     assert read_body["capability_reason"] == "mock_only"
     assert read_body["reads"][0]["text"] == "Signal comparison"
+
+
+def test_selected_image_digest_is_checked_before_provider(library, tmp_path):
+    _, imported = _import_pdf(library)
+    evidence = _evidence(library, tmp_path)
+    request = _request(imported)
+
+    def unexpected(_request):
+        pytest.fail("a mismatch must be rejected before sending any image")
+
+    result = _vision(evidence, library, tmp_path, unexpected).process_current(
+        request, expected_input_sha256="0" * 64
+    )
+    assert result.status == "stale_reference"
+    assert result.external_call_count == 0
+    assert not result.reads
