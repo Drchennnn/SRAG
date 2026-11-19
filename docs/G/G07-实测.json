@@ -1,0 +1,844 @@
+{
+  "schema": "g07-public-browser-v1",
+  "subject_base": "af056d1c7ddf7b99dd548493e5702e7f28c4dd95",
+  "files_sha256": {
+    "app/rag/workspace.py": "6a8310fe965fce7b247ef4bda6e2e77f75c445c29d004e42aeacd35833143d9b",
+    "app/rag/workspace_versions.py": "aed86fb52d79965e791a85d4c26e29bdc6e081e08096e0fbbb4e20bceb6ce407",
+    "app/rag/workspace_initial_focus.py": "a01143e0b72936ddcec11f8322242addb15b181278dc832ed9ac82e36f7de54e",
+    "app/web/workspace/workspace.js": "d383630a5543ea4e48355f6458a992925afae99c6a08432d15580e55735cc09e",
+    "docs/G/G05-probe.py": "efd47e1c5993b0e22a9b5a2fc9cfcc72d36e8cafd892745776a8b06bb8af2b10",
+    "docs/G/G07-probe.py": "b7325c3bd3fb6a098b15621938a3a1de5e58033ccc68271f9b8ecc419e817056",
+    "docs/G/G07-browser.sh": "b0944bee51ea18a529d82af235dd7c3175ab601f1fa3dd766d17d92c9c75d284"
+  },
+  "synthetic_versions": {
+    "1": {
+      "file": "VersionDeck.ipynb",
+      "sha256": "45caa3da362bff6ef9ccd7209d6f208badd5650022832edb4ac02c39f7004590",
+      "saved_text": "Pilot amplitude frequency: 2.5 kHz"
+    },
+    "2": {
+      "file": "VersionDeck.ipynb",
+      "sha256": "9ad21f70ff2ec8cb0ad359a15da33dd5a10c6fda36195c65c278dd058179160b",
+      "saved_text": "Pilot amplitude frequency: 4.5 kHz"
+    }
+  },
+  "agent_browser": "agent-browser 0.43.0",
+  "chrome": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "external_calls": 0,
+  "focus_setup": {
+    "focus": "Cell 2 · Harbor pump study",
+    "history_images": 0
+  },
+  "cases": {
+    "history-empty": {
+      "request": {
+        "client_turn_id": "fe6add0b-23d1-4655-9411-581582170a22",
+        "kind": "ask",
+        "text": "刚才第二张图",
+        "scope_revision": 6
+      },
+      "turn": {
+        "turn_id": "aae6337302044291ab3f73fa97ab9ce1",
+        "client_turn_id": "fe6add0b-23d1-4655-9411-581582170a22",
+        "kind": "ask",
+        "text": "刚才第二张图",
+        "status": "clarification",
+        "resolution": null,
+        "trace": null,
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "code": "clarification",
+            "text": "找不到带图片的已完成回答，请从原件卡片选择。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "a9c252b8e6a04bfba49844d45f1d73fe",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "aae6337302044291ab3f73fa97ab9ce1",
+        "visible_display_ids": []
+      },
+      "browser": {
+        "citations": [],
+        "images": [],
+        "message_id": "a9c252b8e6a04bfba49844d45f1d73fe",
+        "text": "课程助手找不到带图片的已完成回答，请从原件卡片选择。"
+      }
+    },
+    "current": {
+      "request": {
+        "client_turn_id": "43428224-fb27-4fa2-9b08-ab5ffd5c1475",
+        "kind": "ask",
+        "text": "第二张图",
+        "scope_revision": 6
+      },
+      "turn": {
+        "turn_id": "c49fad22a702486aa7674c1e7c6e1ff5",
+        "client_turn_id": "43428224-fb27-4fa2-9b08-ab5ffd5c1475",
+        "kind": "ask",
+        "text": "第二张图",
+        "status": "completed",
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_233d92113f0c4437b8e377deae544167",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "method": "current_focus",
+          "resolution": "current_focus"
+        },
+        "trace": {
+          "display": {
+            "byte_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_233d92113f0c4437b8e377deae544167",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          },
+          "external_call_count": 0,
+          "read_status": "not_attempted",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_233d92113f0c4437b8e377deae544167",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": "provider_disabled",
+            "elapsed_ms": 3.548292093910277,
+            "reads": [],
+            "status": "not_attempted"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 1",
+            "display_id": "e2b82ea223fb4c07b316e2496ea2ebb7",
+            "display_source": {
+              "document_id": "local_233d92113f0c4437b8e377deae544167",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/745dfdbd4aba407e928f09837a8a80b1/messages/97a85e2bac0e47c5abc26c3b13a58ae1/media/e2b82ea223fb4c07b316e2496ea2ebb7?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "code": "object_unreadable",
+            "text": "本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "97a85e2bac0e47c5abc26c3b13a58ae1",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_233d92113f0c4437b8e377deae544167",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "c49fad22a702486aa7674c1e7c6e1ff5",
+        "visible_display_ids": [
+          "e2b82ea223fb4c07b316e2496ea2ebb7"
+        ]
+      },
+      "browser": {
+        "citations": [],
+        "images": [
+          {
+            "url": "/api/workspace/sessions/745dfdbd4aba407e928f09837a8a80b1/messages/97a85e2bac0e47c5abc26c3b13a58ae1/media/e2b82ea223fb4c07b316e2496ea2ebb7?view=inline",
+            "width": 640
+          }
+        ],
+        "message_id": "97a85e2bac0e47c5abc26c3b13a58ae1",
+        "text": "课程助手正在加载图片…图 1 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。"
+      },
+      "browser_png_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+    },
+    "ambiguous": {
+      "request": {
+        "client_turn_id": "82bdfda6-a794-469a-8f16-c437f649b27b",
+        "kind": "ask",
+        "text": "那张图是哪一张？",
+        "scope_revision": 2
+      },
+      "turn": {
+        "turn_id": "5abe9012bc3047818b00e1c7fcef4629",
+        "client_turn_id": "82bdfda6-a794-469a-8f16-c437f649b27b",
+        "kind": "ask",
+        "text": "那张图是哪一张？",
+        "status": "clarification",
+        "resolution": null,
+        "trace": null,
+        "error": null,
+        "retryable": false,
+        "options": [
+          {
+            "option_id": "aa3ef05cb7194bc0b22eb4329358cb81",
+            "label": "HarborTrace.ipynb · v1 · 输出 0",
+            "kind": "document"
+          },
+          {
+            "option_id": "8c44e99c13eb4d6c810cddf6dcfda135",
+            "label": "HarborTrace.ipynb · v1 · 输出 1",
+            "kind": "document"
+          }
+        ]
+      },
+      "message": {
+        "blocks": [
+          {
+            "code": "clarification",
+            "text": "请明确要读取的当前文件或图片。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "ddd00af6b1be44c6a442d166a58d0ca5",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "5abe9012bc3047818b00e1c7fcef4629",
+        "visible_display_ids": []
+      },
+      "browser": {
+        "citations": [],
+        "images": [],
+        "message_id": "ddd00af6b1be44c6a442d166a58d0ca5",
+        "text": "课程助手请明确要读取的当前文件或图片。"
+      }
+    },
+    "choice": {
+      "request": {
+        "client_turn_id": "fb863df0-2a27-4c13-a34c-d3a584b9b24b",
+        "kind": "ask",
+        "text": "那张图是哪一张？",
+        "scope_revision": 2,
+        "anchor": {
+          "type": "clarification",
+          "turn_id": "5abe9012bc3047818b00e1c7fcef4629",
+          "option_id": "8c44e99c13eb4d6c810cddf6dcfda135"
+        }
+      },
+      "turn": {
+        "turn_id": "0d291e3f099542689f38add9a0b0ea3b",
+        "client_turn_id": "fb863df0-2a27-4c13-a34c-d3a584b9b24b",
+        "kind": "ask",
+        "text": "那张图是哪一张？",
+        "status": "completed",
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_233d92113f0c4437b8e377deae544167",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "method": "current_choice",
+          "resolution": "current_choice"
+        },
+        "trace": {
+          "display": {
+            "byte_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_233d92113f0c4437b8e377deae544167",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          },
+          "external_call_count": 0,
+          "read_status": "not_attempted",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_233d92113f0c4437b8e377deae544167",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": "provider_disabled",
+            "elapsed_ms": 3.104915958829224,
+            "reads": [],
+            "status": "not_attempted"
+          }
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "HarborTrace.ipynb · v1 · 输出 1",
+            "display_id": "7eeb6f026ff24a59800476584ac78d5e",
+            "display_source": {
+              "document_id": "local_233d92113f0c4437b8e377deae544167",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 350,
+            "media_url": "/api/workspace/sessions/4109bbc4d3d64c8cbbf5b00917f6826d/messages/1795707231884b4ca07806e339ebd82a/media/7eeb6f026ff24a59800476584ac78d5e?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "code": "object_unreadable",
+            "text": "本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "1795707231884b4ca07806e339ebd82a",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "HarborTrace.ipynb",
+            "locator": {
+              "cell_id": "panels",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Harbor pump study"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "357493c4fe2ccca9f19f4484e1888fa7c58336f45d456de0be62eb51a3c3cf70",
+              "course_id": "harbor-panels",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_233d92113f0c4437b8e377deae544167",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "0d291e3f099542689f38add9a0b0ea3b",
+        "visible_display_ids": [
+          "7eeb6f026ff24a59800476584ac78d5e"
+        ]
+      },
+      "browser": {
+        "citations": [],
+        "images": [
+          {
+            "url": "/api/workspace/sessions/4109bbc4d3d64c8cbbf5b00917f6826d/messages/1795707231884b4ca07806e339ebd82a/media/7eeb6f026ff24a59800476584ac78d5e?view=inline",
+            "width": 640
+          }
+        ],
+        "message_id": "1795707231884b4ca07806e339ebd82a",
+        "text": "课程助手正在加载图片…图 1 · HarborTrace.ipynb · v1 · 输出 1HarborTrace.ipynb · v1 · Cell 2 · 未读取问这张图查看原件本轮没有读到可核对的指定图像。已显示的原件或回退预览可打开核对。"
+      },
+      "browser_png_sha256": "eb7798a1e4c2f841b136561f8173d087b3cef6426202d3b92634b12bd08f371e"
+    },
+    "version-history": {
+      "request": {
+        "client_turn_id": "620a32d9-87af-4a59-a298-b01e3788c32a",
+        "kind": "search",
+        "text": "Pilot amplitude frequency",
+        "scope_revision": 2
+      },
+      "turn": {
+        "turn_id": "704995ef82c74beea4be7baa6ae4683e",
+        "client_turn_id": "620a32d9-87af-4a59-a298-b01e3788c32a",
+        "kind": "search",
+        "text": "Pilot amplitude frequency",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "VersionDeck.ipynb",
+              "locator": {
+                "cell_id": "stability",
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "VersionDeck.ipynb",
+              "locator": {
+                "cell_id": "stability",
+                "cell_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "parent_context",
+                  "seed": {
+                    "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 2,
+            "checked_positions": [
+              "cell:0"
+            ],
+            "enumerated_source_count": 2,
+            "evidence_inspected_count": 2,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 1,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 4,
+            "returned_count": 2,
+            "searchable_source_count": 2,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "pulse-evidence"
+            ],
+            "document_ids": [
+              "local_2aa607a95bf448cabf5e5b78bf519cae"
+            ]
+          },
+          "search_status": "ok"
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "VersionDeck.ipynb · v1 · 输出 0\nPilot amplitude frequency: 2.5 kHz",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "VersionDeck.ipynb · v1 · Cell 1 · Code cell 1\nsummarize()",
+            "type": "text"
+          }
+        ],
+        "message_id": "0305c58da8e24128972140c63900c3f6",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "VersionDeck.ipynb",
+            "locator": {
+              "cell_id": "stability",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Pilot amplitude frequency: 2.5 kHz",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "45caa3da362bff6ef9ccd7209d6f208badd5650022832edb4ac02c39f7004590",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "VersionDeck.ipynb",
+            "locator": {
+              "cell_id": "stability",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "summarize()",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "45caa3da362bff6ef9ccd7209d6f208badd5650022832edb4ac02c39f7004590",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "704995ef82c74beea4be7baa6ae4683e",
+        "visible_display_ids": []
+      },
+      "browser": {
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "VersionDeck.ipynb · v1 · Cell 1"
+          },
+          {
+            "id": "ev-2",
+            "label": "VersionDeck.ipynb · v1 · Cell 1"
+          }
+        ],
+        "images": [],
+        "message_id": "0305c58da8e24128972140c63900c3f6",
+        "text": "课程助手VersionDeck.ipynb · v1 · 输出 0\nPilot amplitude frequency: 2.5 kHz依据 · VersionDeck.ipynb · v1 · Cell 1VersionDeck.ipynb · v1 · Cell 1 · Code cell 1\nsummarize()依据 · VersionDeck.ipynb · v1 · Cell 1"
+      }
+    },
+    "compare": {
+      "request": {
+        "client_turn_id": "86953e71-9823-4bb0-b915-28ff05bc08d8",
+        "kind": "ask",
+        "text": "比较 VersionDeck.ipynb 上一版和当前版 Cell 1 保存输出。",
+        "scope_revision": 5
+      },
+      "turn": {
+        "turn_id": "24e67dad902b4d828fbb9e48adec83b7",
+        "client_turn_id": "86953e71-9823-4bb0-b915-28ff05bc08d8",
+        "kind": "ask",
+        "text": "比较 VersionDeck.ipynb 上一版和当前版 Cell 1 保存输出。",
+        "status": "completed",
+        "resolution": null,
+        "trace": {
+          "current_read_status": "succeeded",
+          "current_source": {
+            "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+            "source_id": "cell:0:output:0",
+            "version": 2
+          },
+          "external_call_count": 0,
+          "historical_message_id": "0305c58da8e24128972140c63900c3f6",
+          "historical_read_status": "succeeded",
+          "historical_source": {
+            "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          "route": "version_comparison"
+        },
+        "error": null,
+        "retryable": false,
+        "options": []
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "旧版 v1\nPilot amplitude frequency: 2.5 kHz",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "当前版 v2\nPilot amplitude frequency: 4.5 kHz",
+            "type": "text"
+          }
+        ],
+        "message_id": "2ea17dfe45d343b5b293dd52c7c695ae",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "VersionDeck.ipynb",
+            "locator": {
+              "cell_id": "stability",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Pilot amplitude frequency: 2.5 kHz",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "45caa3da362bff6ef9ccd7209d6f208badd5650022832edb4ac02c39f7004590",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "VersionDeck.ipynb",
+            "locator": {
+              "cell_id": "stability",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Pilot amplitude frequency: 4.5 kHz",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "9ad21f70ff2ec8cb0ad359a15da33dd5a10c6fda36195c65c278dd058179160b",
+              "course_id": "pulse-evidence",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "24e67dad902b4d828fbb9e48adec83b7",
+        "visible_display_ids": []
+      },
+      "browser": {
+        "citations": [
+          {
+            "id": "ev-1",
+            "label": "VersionDeck.ipynb · v1 · Cell 1"
+          },
+          {
+            "id": "ev-2",
+            "label": "VersionDeck.ipynb · v2 · Cell 1"
+          }
+        ],
+        "images": [],
+        "message_id": "2ea17dfe45d343b5b293dd52c7c695ae",
+        "text": "课程助手旧版 v1\nPilot amplitude frequency: 2.5 kHz依据 · VersionDeck.ipynb · v1 · Cell 1当前版 v2\nPilot amplitude frequency: 4.5 kHz依据 · VersionDeck.ipynb · v2 · Cell 1"
+      }
+    }
+  },
+  "clarification_persisted": {
+    "before_refresh": [
+      "HarborTrace.ipynb · v1 · 输出 0",
+      "HarborTrace.ipynb · v1 · 输出 1"
+    ],
+    "after_refresh": [
+      "HarborTrace.ipynb · v1 · 输出 0",
+      "HarborTrace.ipynb · v1 · 输出 1"
+    ]
+  },
+  "version_citation_roundtrip": {
+    "1": {
+      "browser": {
+        "body": "Pilot amplitude frequency: 2.5 kHz",
+        "location": "历史版本",
+        "title": "VersionDeck.ipynb · v1 · Cell 1"
+      },
+      "get": {
+        "category": "citation",
+        "status": 200,
+        "path": "/api/workspace/sessions/95fb70a3ecca4e61ab3ba81f4b2bc5e2/messages/2ea17dfe45d343b5b293dd52c7c695ae/evidence/ev-1",
+        "query": {},
+        "request": null,
+        "response": {
+          "source": {
+            "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+            "version": 1,
+            "source_id": "cell:0:output:0"
+          },
+          "file_name": "VersionDeck.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "stability",
+            "output_index": 0,
+            "section_path": []
+          },
+          "text": "Pilot amplitude frequency: 2.5 kHz",
+          "is_current": false
+        }
+      }
+    },
+    "2": {
+      "browser": {
+        "body": "Pilot amplitude frequency: 4.5 kHz",
+        "location": "当前版本",
+        "title": "VersionDeck.ipynb · v2 · Cell 1"
+      },
+      "get": {
+        "category": "citation",
+        "status": 200,
+        "path": "/api/workspace/sessions/95fb70a3ecca4e61ab3ba81f4b2bc5e2/messages/2ea17dfe45d343b5b293dd52c7c695ae/evidence/ev-2",
+        "query": {},
+        "request": null,
+        "response": {
+          "source": {
+            "document_id": "local_2aa607a95bf448cabf5e5b78bf519cae",
+            "version": 2,
+            "source_id": "cell:0:output:0"
+          },
+          "file_name": "VersionDeck.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "stability",
+            "output_index": 0,
+            "section_path": []
+          },
+          "text": "Pilot amplitude frequency: 4.5 kHz",
+          "is_current": true
+        }
+      }
+    }
+  }
+}

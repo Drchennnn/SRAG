@@ -33,7 +33,9 @@ from app.rag.structure_search import (
     StructureSearchRequest,
 )
 from app.rag.workspace_composition import asks_for_composition, compose_evidence
+from app.rag.workspace_initial_focus import answer_current_image, resolve_current_image
 from app.rag.workspace_objects import ObjectIntent, object_choices, object_intent
+from app.rag.workspace_versions import compare_versions, is_version_comparison
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
 from app.schemas.workspace import (
@@ -56,8 +58,13 @@ from app.stores.structure_snapshot import (
 from app.stores.workspace import Attachment, Session, Turn, WorkspaceStore, json_text
 
 _ORDINAL = re.compile(r"第\s*([0-9]+|[一二两三四五六七八九十]+)\s*张(?:图|图片)")
-_IMAGE_REFERENCE = re.compile(r"(?:刚才|上一条|上面|那|这|哪)\s*(?:的\s*)?(?:一?张\s*)?(?:图|图片)")
-_HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条")
+_PREVIOUS_TURN = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次")
+_HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述")
+_IMAGE_REFERENCE = re.compile(
+    r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这|哪)"
+    r"\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:图片|图像|图)"
+)
+_CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*cell", re.IGNORECASE)
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
 _PAGE = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:页|张幻灯片)")
 _PAGE_PREFIX = re.compile(r"\b(?:page|slide)\s+#?([1-9][0-9]{0,3})\b", re.IGNORECASE)
@@ -449,6 +456,8 @@ class WorkspaceService:
                 )
             if isinstance(turn.request.anchor, ClarificationAnchor):
                 return self._choose(turn, session, turn.request.anchor)
+            if turn.request.kind == "ask" and is_version_comparison(turn.request.text):
+                return compare_versions(self, owner, turn, session)
             ordinal = _ORDINAL.search(turn.request.text)
             located = _location(turn.request.text, None) is not None or _FILE_MENTION.search(
                 turn.request.text
@@ -457,7 +466,7 @@ class WorkspaceService:
             if (
                 turn.request.kind == "ask"
                 and image_reference
-                and (not located or _HISTORY_IMAGE.search(turn.request.text))
+                and (not located or _PREVIOUS_TURN.search(turn.request.text))
             ):
                 return self._resolve_reference(owner, turn, session, ordinal)
             return self._retrieve(turn, session, turn.request.text)
@@ -494,6 +503,9 @@ class WorkspaceService:
     def _resolve_reference(
         self, owner: str, turn: Turn, session: Session, match: re.Match[str] | None
     ) -> Turn:
+        explicit_history = bool(_HISTORY_IMAGE.search(turn.request.text))
+        if not explicit_history and _CURRENT_IMAGE.search(turn.request.text):
+            return resolve_current_image(self, turn, session)
         _, turns, messages = self.store.timeline(owner, session.session_id)
         completed = {item.turn_id for item in turns if item.status == "completed"}
         boundary = next(
@@ -513,9 +525,30 @@ class WorkspaceService:
             None,
         )
         if previous is None:
+            if not explicit_history:
+                return resolve_current_image(self, turn, session)
             return self._clarify(turn, "找不到带图片的已完成回答，请从原件卡片选择。", [], [])
         ids = previous["visible_display_ids"]
         index = _number(match.group(1)) if match else (1 if len(ids) == 1 else 0)
+        if not explicit_history and session.focus_id:
+            catalog = self._catalog(session.session_id)
+            focus = catalog.nodes.get(session.focus_id)
+            relevant = {ids[index - 1]} if 1 <= index <= len(ids) else set(ids)
+            displays = [
+                block for block in previous["blocks"] if block.get("display_id") in relevant
+            ]
+            if (
+                focus is None
+                or any(not _focus_matches_display(focus, previous, block) for block in displays)
+                or (
+                    match is not None
+                    and len(displays) == 1
+                    and not _focus_ordinal_matches(catalog, focus, index, displays[0])
+                )
+            ):
+                return self._clarify(
+                    turn, "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。", [], []
+                )
         if 1 <= index <= len(ids):
             anchor = DisplayAnchor(
                 type="display",
@@ -579,6 +612,10 @@ class WorkspaceService:
         node = self._node(session, option["node_id"])
         if not _in_scope(session, node.document):
             raise inaccessible()
+        if option.get("current_object"):
+            return answer_current_image(
+                self, turn, session, node, previous.request.text, "current_choice"
+            )
         return self._retrieve(
             turn, session, previous.request.text, forced=node, kind=previous.request.kind
         )
@@ -1727,6 +1764,37 @@ def _in_scope(session: Session, doc: SnapshotDocument) -> bool:
     return doc.course_id in session.course_ids and (
         not session.document_ids or doc.document_id in session.document_ids
     )
+
+
+def _focus_matches_display(
+    focus: CatalogNode, message: dict[str, Any], block: dict[str, Any]
+) -> bool:
+    displayed = SourceKey.model_validate(block["display_source"])
+    doc = focus.document
+    if (displayed.document_id, displayed.version) != (doc.document_id, doc.version):
+        return False
+    if focus.source is None or displayed == focus.key():
+        return True
+    if focus.source.kind not in {"page", "cell"}:
+        return False
+    key = "page" if focus.source.kind == "page" else "cell_index"
+    source = message["sources"].get(block["evidence_id"], {})
+    return source.get("locator", {}).get(key) == focus.source.locator.get(key)
+
+
+def _focus_ordinal_matches(
+    catalog: Catalog, focus: CatalogNode, ordinal: int, block: dict[str, Any]
+) -> bool:
+    sources = [
+        entry.source
+        for entry in catalog.nodes.values()
+        if entry.source and _doc_ref(entry.document) == _doc_ref(focus.document)
+    ]
+    choices = object_choices(
+        ObjectIntent(kind="image", ordinal=ordinal, order="images"), sources, focus=focus.source
+    )
+    displayed = SourceKey.model_validate(block["display_source"])
+    return len(choices) == 1 and _key(choices[0]) == displayed
 
 
 def _doc_ref(doc) -> dict[str, Any]:
