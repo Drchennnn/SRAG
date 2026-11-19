@@ -82,11 +82,17 @@ def test_plain_questions_parse_specific_objects_but_keep_existing_previews():
     assert object_intent("右侧琥珀子图的横轴刻度单位是什么？") == ObjectIntent(
         kind="image", direction="right"
     )
+    for question in ("右侧图的单位是什么？", "右边那幅图的横轴是什么？"):
+        assert object_intent(question) == ObjectIntent(kind="image", direction="right")
     assert object_intent("What is the unit of the subplot on the right?") == ObjectIntent(
         kind="image", direction="right"
     )
     assert object_intent("定义域右侧有什么限制？图表上的数据是多少？") == ObjectIntent(kind="image")
     assert object_intent("第 1 页表格里的 Pulse gate 设定值是多少？") == ObjectIntent(kind="table")
+    assert object_intent("请核对原表的电流列") == ObjectIntent(kind="table")
+    assert object_intent("第 2 列的单位是什么？") == ObjectIntent(kind="table")
+    assert object_intent("输入序列的单位是什么？") is None
+    assert object_intent("打开原表") is None
 
 
 def test_image_ordinal_preserves_broken_slots_and_differs_from_raw_output_number():

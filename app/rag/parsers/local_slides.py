@@ -3,10 +3,12 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
+from math import isfinite
 from pathlib import Path
 from threading import Lock
 from typing import Any
 
+from app.rag.pdf_coordinates import Rect, pdf_visible_matrix, transform_rect
 from app.schemas.local import ParsedSource, SourceDraft
 
 _PDF_POSITION_EPSILON = 3.5
@@ -40,6 +42,7 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
 
     document = pdfium.PdfDocument(path)
     sources: list[SourceDraft] = []
+    images: list[SourceDraft] = []
     ordinal = 0
     try:
         for page_index in range(len(document)):
@@ -52,9 +55,8 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
                     native_text = _normalize_pdf_text(text_page.get_text_range())
                     page_bbox = page.get_bbox()
                     page_rotation = page.get_rotation()
-                    has_image = any(
-                        True for _ in page.get_objects(filter=[pdfium.raw.FPDF_PAGEOBJ_IMAGE])
-                    )
+                    native_images = list(page.get_objects(filter=[pdfium.raw.FPDF_PAGEOBJ_IMAGE]))
+                    has_image = bool(native_images)
                     page_state = (
                         "available"
                         if native_text
@@ -83,6 +85,11 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
                     )
                     ordinal += 1
 
+                    images.extend(
+                        _pdf_image_sources(
+                            page, native_images, page_no, page_bbox, page_rotation, pdfium
+                        )
+                    )
                     if page_rotation != 0:
                         continue
                     for table_index, table in enumerate(
@@ -121,7 +128,116 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
                 page.close()
     finally:
         document.close()
+    # Preserve page/table ordinals. Images follow the visible reading order within each page.
+    for image in images:
+        image.ordinal = len(sources)
+        sources.append(image)
     return ParsedSource(title=path.stem, sources=sources)
+
+
+def _pdf_image_sources(
+    page: Any, images: list[Any], page_no: int, page_bbox: Rect, rotation: int, pdfium: Any
+) -> list[SourceDraft]:
+    """Register independent top-level rasters with a reliable visible rectangle."""
+    if not images or any(obj.level != 0 for obj in images):
+        return []
+    try:
+        matrix = pdf_visible_matrix(page_bbox, rotation)
+    except ValueError:
+        return []
+
+    try:
+        raster_bounds = [(obj, obj.get_bounds()) for obj in images]
+        form_bounds = [
+            obj.get_bounds()
+            for obj in page.get_objects(filter=[pdfium.raw.FPDF_PAGEOBJ_FORM], max_depth=1)
+        ]
+    except pdfium.PdfiumError:
+        return []
+    if not all(isfinite(value) for _, bounds in raster_bounds for value in bounds) or not all(
+        isfinite(value) for bounds in form_bounds for value in bounds
+    ):
+        return []
+
+    positioned = []
+    for obj, bounds in raster_bounds:
+        if not _rectangles_overlap(bounds, page_bbox):
+            continue
+        if not _pdf_image_has_reliable_bounds(obj, bounds, page_bbox, pdfium):
+            return []
+        # A competing raster or composited layer would make the apparent object order unreliable.
+        if any(_rectangles_overlap(bounds, other) for other in form_bounds) or any(
+            _rectangles_overlap(bounds, previous) for _, previous in positioned
+        ):
+            return []
+        visible = [_unit_interval(value) for value in transform_rect(bounds, matrix)]
+        positioned.append((visible, bounds))
+
+    positioned.sort(key=lambda item: (item[0][1], item[0][0], item[0][3], item[0][2]))
+    return [
+        SourceDraft(
+            source_id=f"page:{page_no}:image:{image_index}",
+            kind="page_object",
+            ordinal=0,  # Assigned after the unchanged page/table sequence.
+            parent_id=f"page:{page_no}",
+            locator={
+                "format": "pdf",
+                "page": page_no,
+                "object_type": "image",
+                "image_index": image_index,
+                "bbox": visible,
+                "native_bbox": list(bounds),
+                "coordinate_frame": "visible_page_norm_v1",
+                "native_coordinate_frame": "pdf_page_units_bottom_left_v1",
+                "position_basis": "pdfium_native_image_extents_v1",
+                "native_to_visible_transform": {
+                    "version": "pdf_cropbox_bottom_left_to_visible_norm_v1",
+                    "page_bbox": list(page_bbox),
+                    "rotation_degrees_clockwise": rotation,
+                    "matrix": list(matrix),
+                },
+            },
+        )
+        for image_index, (visible, bounds) in enumerate(positioned, start=1)
+    ]
+
+
+def _pdf_image_has_reliable_bounds(obj, bounds: Rect, crop: Rect, pdfium) -> bool:
+    left, bottom, right, top = bounds
+    crop_left, crop_bottom, crop_right, crop_top = crop
+    if not (crop_left <= left < right <= crop_right and crop_bottom <= bottom < top <= crop_top):
+        return False
+    if (right - left) >= 0.9 * (crop_right - crop_left) and (top - bottom) >= 0.9 * (
+        crop_top - crop_bottom
+    ):
+        return (
+            False  # A page-sized raster is a page-level object, including scans with an OCR layer.
+        )
+    try:
+        matrix = obj.get_matrix()
+    except pdfium.PdfiumError:
+        return False
+    if not (
+        all(
+            isfinite(value)
+            for value in (matrix.a, matrix.b, matrix.c, matrix.d, matrix.e, matrix.f)
+        )
+        and (matrix.b == matrix.c == 0 or matrix.a == matrix.d == 0)
+    ):
+        return False
+    clip_path = pdfium.raw.FPDFPageObj_GetClipPath(obj)
+    # PDFium returns -1 for an object without a referenced clip path; 0 can include a text clip.
+    return (
+        bool(clip_path)
+        and pdfium.raw.FPDFClipPath_CountPaths(clip_path) == -1
+        and not pdfium.raw.FPDFPageObj_HasTransparency(obj)
+    )
+
+
+def _rectangles_overlap(left: Rect, right: Rect) -> bool:
+    return min(left[2], right[2]) > max(left[0], right[0]) and min(left[3], right[3]) > max(
+        left[1], right[1]
+    )
 
 
 def _parse_pptx(path: Path) -> ParsedSource:

@@ -1,0 +1,200 @@
+{
+  "reviewer": "g10_gate",
+  "baseline_commit": "e921fa87f48a4e67c58010181a187c6e0e12b833",
+  "review_commit": "dccbdcf69105ebe871e15c3ea472bd2604bd9e9d",
+  "review_tree": "7c29885eca73fcacaacede5f74f601889c0c9b1b",
+  "checked_with": "isolated Chromium, ordinary product UI, native table rendering via LibreOffice",
+  "automated_regression": {
+    "passed": 99,
+    "skipped": 0
+  },
+  "reimport_and_new_version": [
+    {
+      "status": "published",
+      "version": 1,
+      "document_id": "local_f40640f37cd94755bf12a70270a6530e",
+      "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+      "publication_epoch": 1,
+      "source_count": 1,
+      "searchable_count": 1
+    },
+    {
+      "status": "skipped",
+      "version": 1,
+      "document_id": "local_f40640f37cd94755bf12a70270a6530e",
+      "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+      "publication_epoch": 2,
+      "source_count": 3,
+      "searchable_count": 1
+    },
+    {
+      "status": "skipped",
+      "version": 1,
+      "document_id": "local_f40640f37cd94755bf12a70270a6530e",
+      "content_sha256": "ff935e30677979dfbac62c6c13b6f26e9d0cbd1a01228984bd55467b3176765d",
+      "publication_epoch": 3,
+      "source_count": 3,
+      "searchable_count": 1
+    },
+    {
+      "status": "published",
+      "version": 2,
+      "document_id": "local_f40640f37cd94755bf12a70270a6530e",
+      "content_sha256": "690f302434b135549dc723a3c45bec3e4dfc822f1d2727dd214dbe5e72d52c04",
+      "publication_epoch": 4,
+      "source_count": 3,
+      "searchable_count": 1
+    }
+  ],
+  "existing_page_citation_source": {
+    "document_id": "local_f40640f37cd94755bf12a70270a6530e",
+    "version": 1,
+    "source_id": "page:1"
+  },
+  "existing_page_citation_http": [
+    200,
+    200,
+    200,
+    200
+  ],
+  "existing_page_citation_current_flags": [
+    true,
+    true,
+    true,
+    false
+  ],
+  "ordinary_questions_anchor_empty": true,
+  "source_images": {
+    "normal": {
+      "source": {
+        "document_id": "local_f40640f37cd94755bf12a70270a6530e",
+        "source_id": "page:1:image:2",
+        "version": 1
+      },
+      "source_read_status": "not_attempted",
+      "inline_dimensions": [
+        448,
+        352
+      ],
+      "rect_visible_norm": [
+        0.546667,
+        0.3225,
+        0.92,
+        0.7625000000000001
+      ],
+      "original_dimensions": [
+        1200,
+        800
+      ],
+      "original_visible_highlight": [
+        "54.6667%",
+        "32.25%",
+        "37.3333%",
+        "44%"
+      ],
+      "original_page": 1,
+      "answer_evidence_id": "ev-1",
+      "original_open_http": 200
+    },
+    "rotated": {
+      "source": {
+        "document_id": "local_ee4006682a0e492d9206ab58f4797399",
+        "source_id": "page:1:image:2",
+        "version": 1
+      },
+      "source_read_status": "not_attempted",
+      "inline_dimensions": [
+        336,
+        446
+      ],
+      "rect_visible_norm": [
+        0.508889,
+        0.18885000000000002,
+        0.8822220000000001,
+        0.582832
+      ],
+      "original_dimensions": [
+        900,
+        1130
+      ],
+      "original_visible_highlight": [
+        "50.8889%",
+        "18.885%",
+        "37.3333%",
+        "39.3982%"
+      ],
+      "original_page": 1,
+      "answer_evidence_id": "ev-1",
+      "original_open_http": 200
+    },
+    "table": {
+      "source": {
+        "document_id": "local_a403f8e41e32425390eb713ccf58974f",
+        "source_id": "page:1:shape:2",
+        "version": 1
+      },
+      "source_read_status": "not_attempted",
+      "inline_dimensions": [
+        1210,
+        332
+      ],
+      "rect_visible_norm": [
+        0.08,
+        0.246667,
+        0.92,
+        0.553333
+      ],
+      "original_dimensions": [
+        1440,
+        1080
+      ],
+      "original_visible_highlight": [
+        "8%",
+        "24.6667%",
+        "84%",
+        "30.6666%"
+      ],
+      "original_page": 1,
+      "answer_evidence_id": "ev-1",
+      "original_open_http": 200,
+      "native_read": {
+        "actual_input_media_type": null,
+        "actual_input_rect": null,
+        "actual_input_sha256": null,
+        "actual_source": {
+          "document_id": "local_a403f8e41e32425390eb713ccf58974f",
+          "source_id": "page:1:shape:2",
+          "version": 1
+        },
+        "execution": null,
+        "method": "native_table",
+        "model": null,
+        "origin_execution": null,
+        "prompt_version": null,
+        "question_sha256": null,
+        "status": "succeeded",
+        "text": "| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+        "warnings": []
+      },
+      "citation_http": 200
+    }
+  },
+  "right_image_pixels_confirmed_without_left_image": [
+    "normal",
+    "rotated"
+  ],
+  "card_followup_matches_prior_display": true,
+  "other_owner_media_http": 404,
+  "scan": "object_not_found, no guessed crop",
+  "ambiguous": "object_ambiguous, no guessed crop",
+  "vision_enabled": false,
+  "vision_real_calls": 0,
+  "vision_cache_hits": 0,
+  "vision_attempts_blocked": 0,
+  "vision_failures": 0,
+  "infrastructure_retries": [
+    "Initial isolated launcher imported G09 modules on both phases. Discarded as candidate evidence.",
+    "Path guard saw the macOS /tmp symlink and blocked before any product I/O. Resolved both paths.",
+    "Fixed composer overlapped the automated rotated-card action. Centered the browser control and replayed from the empty database."
+  ]
+}

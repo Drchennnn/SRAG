@@ -36,17 +36,23 @@ _TABLE_NUMBER = re.compile(
 _COORDINATED_ORDINAL = re.compile(rf"第\s*(?:{_NUMBER})\s*(?:张|幅|个)\s*(?:和|及|与|、)\s*第")
 _IMAGE = re.compile(
     r"子图|图片|图像|插图|图表|原图|什么图|[左右上下]图|图[中上内]|图里的"
+    r"|[左右上下](?:侧|边|方|半)(?:的|[那这][张幅个])?\s*图"
     r"|\b(?:figure|image|picture|plot|subplot|chart|panel)\b",
     re.IGNORECASE,
 )
 _TABLE = re.compile(
-    r"表格|(?:参数|配置|汇总|限制|限值|阈值|对照|结果)表|(?<!图)表[中内里]|(?:这|那)张表"
+    r"原表|表格|(?:参数|配置|汇总|限制|限值|阈值|对照|结果)表|(?<!图)表[中内里]|(?:这|那)张表"
     r"|\btable\b",
+    re.IGNORECASE,
+)
+_COLUMN = re.compile(
+    rf"表头|列名|(?:这|那|哪)一?列|第\s*(?:{_NUMBER})\s*列"
+    r"|(?<![行队排序])列的(?:单位|数值|读值)|\bcolumn\b",
     re.IGNORECASE,
 )
 _FACT = re.compile(
     r"什么|哪[个些种项列行]|多少|如何|为何|怎么|何种|是否|单位|刻度|读出|读取|解读|"
-    r"分析|解释|描述|比较|对比|告诉|趋势|数值|结论|"
+    r"分析|解释|描述|比较|对比|告诉|趋势|数值|结论|核对|"
     r"\b(?:what|which|how|why|read|describe|explain|compare|unit|value|trend|axis)\b",
     re.IGNORECASE,
 )
@@ -75,7 +81,11 @@ _DIRECTIONS: tuple[tuple[Direction, re.Pattern[str]], ...] = (
     ("top", _direction_pattern(r"上(?:侧|方|半)", r"(?:upper|topmost|top)")),
     ("bottom", _direction_pattern(r"下(?:侧|方|半)", r"(?:lower|bottommost|bottom)")),
 )
-_NATIVE_POSITION_BASES = ("native_shape_extents_v1", "axis_aligned_native_rule_grid_v1")
+_NATIVE_POSITION_BASES = (
+    "native_shape_extents_v1",
+    "axis_aligned_native_rule_grid_v1",
+    "pdfium_native_image_extents_v1",
+)
 _NATIVE_IMAGE_TYPES = {"picture", "image", "chart"}
 
 
@@ -99,8 +109,10 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
         or not (re.search(r"[?？]", question) or (include_reference and (images or tables)))
     ):
         return None
-    has_table = bool(tables or _TABLE.search(question))
     has_image = bool(images or _IMAGE.search(question) or (outputs and _AXIS.search(question)))
+    has_table = bool(
+        tables or _TABLE.search(question) or (not has_image and _COLUMN.search(question))
+    )
     if not (has_image or has_table):
         return None
     kind: ObjectKind = "table" if has_table else "image"

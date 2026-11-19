@@ -23,6 +23,7 @@ from typing import Any, Literal, Protocol
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 
 from app.rag.parsers.local_slides import _PDFIUM_LOCK
+from app.rag.pdf_coordinates import pdf_visible_matrix, transform_rect
 from app.schemas.local import SourceDraft, SourceKey
 from app.stores.local_library import HistoricalSource
 
@@ -805,31 +806,21 @@ def _pdf_rect_to_visible(
     rotation: int,
 ) -> tuple[float, float, float, float]:
     x0, y0, x1, y1 = crop
-    width, height = x1 - x0, y1 - y0
-    if width <= 0 or height <= 0 or rotation not in {0, 90, 180, 270}:
-        raise ValueError("invalid PDF crop or rotation")
+    matrix = pdf_visible_matrix(crop, rotation)
     left, bottom, right, top = rect
     left, right = max(left, x0), min(right, x1)
     bottom, top = max(bottom, y0), min(top, y1)
     if right <= left or top <= bottom:
         raise ValueError("native rectangle is outside the crop box")
 
-    def point(x_value: float, y_value: float) -> tuple[float, float]:
-        x_screen, y_screen = x_value - x0, y1 - y_value
-        if rotation == 0:
-            return x_screen / width, y_screen / height
-        if rotation == 90:
-            return (height - y_screen) / height, x_screen / width
-        if rotation == 180:
-            return (width - x_screen) / width, (height - y_screen) / height
-        return y_screen / height, (width - x_screen) / width
-
-    points = [point(x_value, y_value) for x_value in (left, right) for y_value in (bottom, top)]
+    visible_left, visible_top, visible_right, visible_bottom = transform_rect(
+        (left, bottom, right, top), matrix
+    )
     return (
-        min(item[0] for item in points),
-        min(item[1] for item in points),
-        max(item[0] for item in points),
-        max(item[1] for item in points),
+        max(0.0, visible_left),
+        max(0.0, visible_top),
+        min(1.0, visible_right),
+        min(1.0, visible_bottom),
     )
 
 

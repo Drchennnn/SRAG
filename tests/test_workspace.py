@@ -830,6 +830,34 @@ def test_first_table_question_reads_exact_native_table(system, public_object_fil
     assert "17.5" in read["text"]
 
 
+@pytest.mark.skipif(not os.getenv("SRAG_SOFFICE"), reason="SRAG_SOFFICE not configured")
+def test_first_table_answer_shows_the_same_object_without_vision(system, public_object_files):
+    _, service, app, client = system
+    service.evidence.soffice_path = Path(os.environ["SRAG_SOFFICE"])
+    originals, _ = public_object_files
+    session = _create(client)
+    _upload(client, session, originals / "PulseGate-limits.pptx")
+    result = _ask(client, session, "核对 PulseGate-limits.pptx 第 1 页原表的设定值与单位。")
+    message = result["message"]
+    (evidence_id, item), = message["sources"].items()
+    text, image = message["blocks"]
+    assert text["citations"] == [evidence_id] == [image["evidence_id"]]
+    assert item["reads"][0]["method"] == "native_table"
+    source = item["revision"]["source"]
+    assert item["reads"][0]["actual_source"] == source == image["display_source"]
+    assert "17.5" in text["text"] and "mA" in text["text"]
+    assert image["rendition_kind"] == "object_crop" and image["rect_visible_norm"]
+    assert image["read_status"] == "not_attempted"
+    assert result["turn"]["trace"]["external_call_count"] == 0
+    assert client.get(image["media_url"]).headers["content-type"] == "image/png"
+    endpoint = session + f"/messages/{message['message_id']}/evidence/{evidence_id}"
+    assert client.get(endpoint).json()["source"] == image["display_source"]
+    with TestClient(app, base_url=_HOST) as other:
+        _create(other)
+        assert other.get(endpoint).status_code == 404
+        assert other.get(image["media_url"]).status_code == 404
+
+
 def test_stale_first_image_keeps_call_count_without_publishing_source(
     system, public_object_files, monkeypatch
 ):

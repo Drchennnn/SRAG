@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import hashlib
+import sqlite3
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -9,7 +10,10 @@ from PIL import Image
 from pptx import Presentation
 from pptx.util import Inches
 
+from app.config import Settings
+from app.rag import local_library
 from app.rag.parsers.local_slides import parse_local_slides
+from app.schemas.local import SourceKey
 
 ROOT = Path(__file__).parents[1]
 A03_PDF = ROOT / "docs/A/样例/Signal-reference.pdf"
@@ -102,7 +106,7 @@ def test_raster_only_pdf_is_needs_ocr_without_fts_text_or_render(
         raise AssertionError("scan detection must not render or OCR")
 
     monkeypatch.setattr(pypdfium2.PdfPage, "render", forbid_render)
-    source = parse_local_slides(scan).sources[0]
+    (source,) = parse_local_slides(scan).sources
 
     assert source.source_id == "page:1"
     assert source.state == "needs_ocr"
@@ -113,6 +117,120 @@ def test_raster_only_pdf_is_needs_ocr_without_fts_text_or_render(
     assert source.locator["rotation_degrees_clockwise"] == 0
     assert source.locator["render_status"] == "not_attempted"
     assert source.locator["ocr_status"] == "not_attempted"
+
+
+def test_pdf_registers_rotated_cropped_images_in_visible_order(tmp_path: Path) -> None:
+    pdf = tmp_path / "two-panels.pdf"
+    # The raster painted first becomes the right panel after the clockwise page rotation.
+    commands = [
+        _pdf_text(60, 670, "Induction lab"),
+        "q 160 0 0 145 220 420 cm /Panel Do Q",
+        "q 160 0 0 145 220 100 cm /Panel Do Q",
+    ]
+    pdf.write_bytes(
+        _build_pdf("\n".join(commands).encode(), crop="25 40 587 752", rotation=90, raster=True)
+    )
+
+    first = parse_local_slides(pdf)
+    assert parse_local_slides(pdf) == first
+    page, left, right = first.sources
+    assert page.source_id == "page:1" and page.text == "Induction lab"
+    assert [left.source_id, right.source_id] == ["page:1:image:1", "page:1:image:2"]
+    assert [page.ordinal, left.ordinal, right.ordinal] == [0, 1, 2]
+    assert left.locator["native_bbox"] == [220, 100, 380, 245]
+    assert right.locator["native_bbox"] == [220, 420, 380, 565]
+    for image in (left, right):
+        assert image.parent_id == page.source_id and not image.text
+        assert image.locator["position_basis"] == "pdfium_native_image_extents_v1"
+        assert image.locator["native_to_visible_transform"]["matrix"] == pytest.approx(
+            [0, 1 / 562, 1 / 712, 0, -40 / 712, -25 / 562]
+        )
+    assert left.locator["bbox"] == pytest.approx(
+        [60 / 712, 195 / 562, 205 / 712, 355 / 562], abs=1e-6
+    )
+    assert right.locator["bbox"] == pytest.approx(
+        [380 / 712, 195 / 562, 525 / 712, 355 / 562], abs=1e-6
+    )
+
+
+@pytest.mark.parametrize(
+    "other",
+    [
+        "q 70 0 0 105 430 420 cm /Panel Do Q",  # Overlap
+        "q 110 15 0 90 360 540 cm /Panel Do Q",  # Skew on the same visible half
+        "q 100 0 0 90 560 540 cm /Panel Do Q",  # Clipped by the CropBox
+        "q 415 565 55 70 re W n 100 0 0 90 390 550 cm /Panel Do Q",  # Path clip
+    ],
+)
+def test_pdf_uses_page_fallback_for_competing_unreliable_rasters(
+    tmp_path: Path, other: str
+) -> None:
+    pdf = tmp_path / "unreliable.pdf"
+    commands = [
+        _pdf_text(60, 670, "Induction lab"),
+        "q 150 0 0 130 360 400 cm /Panel Do Q",
+        other,
+    ]
+    pdf.write_bytes(_build_pdf("\n".join(commands).encode(), raster=True))
+
+    (page,) = parse_local_slides(pdf).sources
+    assert page.source_id == "page:1" and page.text == "Induction lab"
+
+
+def test_legacy_pdf_reimport_appends_images_without_mutating_page_rows_or_fts(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    pdf = tmp_path / "lab.pdf"
+    native = [
+        _pdf_text(60, 670, "Induction lab"),
+        "q 170 0 0 150 330 180 cm /Panel Do Q",
+    ]
+    pdf.write_bytes(_build_pdf("\n".join(native).encode(), raster=True))
+    archived = pdf.read_bytes()
+    sqlite_path = tmp_path / "library.sqlite3"
+    library = local_library.LocalLibrary(
+        Settings(
+            _env_file=None,
+            sqlite_path=sqlite_path,
+            data_dir=tmp_path / "data",
+            course_root=tmp_path,
+        )
+    )
+
+    def parse_as_old_release(path: Path):
+        parsed = parse_local_slides(path)
+        return parsed.model_copy(update={"sources": parsed.sources[:1]})
+
+    with monkeypatch.context() as baseline:
+        baseline.setattr(local_library, "parse_local_slides", parse_as_old_release)
+        (old,) = library.import_paths("demo", [pdf])
+
+    def original_rows():
+        with sqlite3.connect(sqlite_path) as database:
+            return (
+                database.execute(
+                    "SELECT * FROM local_sources WHERE source_id = 'page:1'"
+                ).fetchall(),
+                database.execute("SELECT * FROM local_fts").fetchall(),
+                database.execute("SELECT * FROM local_versions").fetchall(),
+                database.execute("SELECT * FROM local_paths").fetchall(),
+            )
+
+    before = original_rows()
+    (reimported,) = library.import_paths("demo", [pdf])
+    (again,) = library.import_paths("demo", [pdf])
+    assert original_rows() == before
+    assert reimported.status == again.status == "skipped"
+    assert reimported.document_id == again.document_id == old.document_id
+    assert reimported.version == again.version == old.version == 1
+    assert reimported.publication_epoch == again.publication_epoch == old.publication_epoch + 1
+    assert old.source_count == 1 and reimported.source_count == again.source_count == 2
+    assert old.searchable_count == reimported.searchable_count == again.searchable_count == 1
+    for source_id in ("page:1", "page:1:image:1"):
+        key = SourceKey(document_id=old.document_id, version=1, source_id=source_id)
+        historical = library.store.read_source(key, course_ids=["demo"])
+        assert historical.status == "available" and historical.original == archived
+        assert library.store.read_source(key, course_ids=["other"]).status == "not_accessible"
 
 
 def test_a03_pptx_keeps_native_table_shape_path_units_and_bbox() -> None:
@@ -221,7 +339,9 @@ def _pdf_grid(left: float, bottom: float, header: str, value: str) -> list[str]:
     return commands
 
 
-def _build_pdf(stream: bytes) -> bytes:
+def _build_pdf(
+    stream: bytes, *, crop: str = "0 0 612 792", rotation: int = 0, raster: bool = False
+) -> bytes:
     objects: list[bytes] = [b""]
 
     def add(value: bytes) -> int:
@@ -229,12 +349,21 @@ def _build_pdf(stream: bytes) -> bytes:
         return len(objects) - 1
 
     font = add(b"<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>")
+    xobjects = ""
+    if raster:
+        pixels = b"\x20\x40\xc0" * 16
+        image = add(
+            b"<< /Type /XObject /Subtype /Image /Width 4 /Height 4 /ColorSpace /DeviceRGB "
+            b"/BitsPerComponent 8 /Length %d >>\nstream\n" % len(pixels) + pixels + b"\nendstream"
+        )
+        xobjects = f"/XObject << /Panel {image} 0 R >>"
     pages = add(b"")
     content = add(b"<< /Length %d >>\nstream\n" % len(stream) + stream + b"\nendstream")
     page = add(
         (
             f"<< /Type /Page /Parent {pages} 0 R /MediaBox [0 0 612 792] "
-            f"/Resources << /Font << /F1 {font} 0 R >> >> /Contents {content} 0 R >>"
+            f"/CropBox [{crop}] /Rotate {rotation} "
+            f"/Resources << /Font << /F1 {font} 0 R >> {xobjects} >> /Contents {content} 0 R >>"
         ).encode("ascii")
     )
     objects[pages] = f"<< /Type /Pages /Count 1 /Kids [{page} 0 R] >>".encode()

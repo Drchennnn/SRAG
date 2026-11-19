@@ -193,6 +193,7 @@ class LocalLibraryStore(MetadataStore):
                     db, document, plan, parsed, content_sha256, document_format, original
                 )
             )
+            added_images = False
             if version_row is None or (not version_row["archived"] and original is not None):
                 _save_sources(db, document_id, version, parsed.sources)
                 if version_row is not None:
@@ -201,10 +202,19 @@ class LocalLibraryStore(MetadataStore):
                         "WHERE document_id = ? AND version = ?",
                         (original, parsed.title, document_id, version),
                     )
+            elif document_format == "pdf" and original is not None and legacy is None:
+                added_images = _append_missing_pdf_images(db, document_id, version, parsed.sources)
 
             if legacy:
                 _bind_legacy(db, document_id, version, plan, legacy, content_sha256)
             result = _activate(db, document, plan, version, cutoff, release_at, legacy is not None)
+            if added_images and result == "skipped" and not plan.move:
+                # Activation already invalidates snapshots on version or path changes.
+                db.execute(
+                    "UPDATE local_documents SET publication_epoch = publication_epoch + 1 "
+                    "WHERE document_id = ?",
+                    (document_id,),
+                )
             counts = db.execute(
                 """
                 SELECT count(*) AS source_count,
@@ -524,6 +534,45 @@ def _save_sources(
         if item.text.strip():
             origin = item.locator.get("text_origin", "native_text")
             _save_fts(db, source_rowid, item.title, item.text, origin)
+
+
+def _append_missing_pdf_images(
+    db: Connection, document_id: str, version: int, sources: list[SourceDraft]
+) -> bool:
+    images = [
+        item
+        for item in sources
+        if item.kind == "page_object"
+        and not item.text.strip()
+        and item.locator.get("object_type") == "image"
+        and item.locator.get("position_basis") == "pdfium_native_image_extents_v1"
+    ]
+    if not images:
+        return False
+
+    rows = db.execute(
+        """
+        SELECT source_id, kind, ordinal, json_extract(locator_json, '$.page') AS page
+        FROM local_sources WHERE document_id = ? AND version = ?
+        """,
+        (document_id, version),
+    ).fetchall()
+    existing = {row["source_id"] for row in rows}
+    pages = {row["source_id"]: row["page"] for row in rows if row["kind"] == "page"}
+    start = max((row["ordinal"] for row in rows), default=-1) + 1
+    missing = (
+        item
+        for item in images
+        if item.source_id not in existing
+        and item.parent_id in pages
+        and pages[item.parent_id] == item.locator.get("page")
+    )
+    additions = [
+        image.model_copy(update={"ordinal": ordinal})
+        for ordinal, image in enumerate(missing, start)
+    ]
+    _save_sources(db, document_id, version, additions)
+    return bool(additions)
 
 
 def _save_fts(db: Connection, rowid: int, title: str, text: str, origin: str) -> None:

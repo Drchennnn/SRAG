@@ -1001,6 +1001,26 @@ class WorkspaceService:
             failures = self._read_text(turn, draft, docs, choices, 1)
             if failures or not draft.sources:
                 draft.notice("object_unreadable", "已定位表格，未读到可核对的原生表格内容。")
+            else:
+                item = next(iter(draft.sources.values()))
+                doc = docs[source.document_id]
+                # Use the native table bounds so the requested column keeps its headers and units.
+                request = self._render_request(doc, source).model_copy(
+                    update={"registered_region_id": None}
+                )
+                result = self.evidence.render_current(request)
+                if result.status in {"stale_reference", "not_accessible"}:
+                    raise WorkspaceError(result.status)
+                display = result.display
+                if (
+                    display is not None
+                    and display.actual_source == item.revision.source
+                    and display.rendition_kind == "object_crop"
+                ):
+                    label = f"{doc.file_name} · v{doc.version} · {_label(source)}"
+                    draft.add_image(item, result, request, label)
+                else:
+                    draft.notice("table_crop_unavailable", "表格裁图不可用，可从依据打开原表。")
         else:
             error = self._read_selected_image(
                 turn, draft, docs[source.document_id], source, text, trace
