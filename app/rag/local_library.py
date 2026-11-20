@@ -17,9 +17,10 @@ from app.rag.local_migration import (
 )
 from app.rag.parsers.local_notebook import parse_local_notebook
 from app.rag.parsers.local_slides import parse_local_slides
-from app.schemas.local import ImportResult, LocalHit, ParsedSource
+from app.schemas.local import ImportResult, LocalHit, ParsedSource, SourceKey
 from app.schemas.rag import SearchRequest
 from app.stores.local_library import LegacyBinding, LocalLibraryStore
+from app.stores.structure_snapshot import SnapshotRequest, StructureSnapshotStore
 
 _SUFFIXES = {".pdf", ".pptx", ".ipynb"}
 
@@ -75,6 +76,79 @@ class LocalLibrary:
 
     def search(self, request: SearchRequest) -> list[LocalHit]:
         return self.store.search_local(request)
+
+    def enhance_pdf_ocr(self, course_id: str, document_id: str) -> dict:
+        """Run local Docling after publication and pin each write to the archived PDF."""
+        from app.rag.parsers.pdf import PDFParser
+
+        snapshot = StructureSnapshotStore(self.settings).read(
+            SnapshotRequest((course_id,), (document_id,), require_single_document=True)
+        )
+        if snapshot.resolution_status != "resolved":
+            raise ValueError("当前课程没有此资料")
+        document = snapshot.documents[0]
+        if document.document_format != "pdf":
+            raise ValueError("只支持已发布的 PDF 扫描页")
+        candidates = [
+            SourceKey(document_id=document_id, version=document.version, source_id=source.source_id)
+            for source in snapshot.sources
+            if source.kind == "page" and source.state == "needs_ocr"
+        ]
+        pages = {
+            key.source_id: "already_available"
+            for key in candidates
+            if self.store.read_ocr_text(key, course_ids=(course_id,))
+        }
+        pending = [key for key in candidates if key.source_id not in pages]
+        report = {
+            "document_id": document_id,
+            "version": document.version,
+            "publication_epoch": document.publication_epoch,
+            "content_sha256": document.content_sha256,
+            "pipeline": "docling_pdf_sparse_page_ocr",
+            "pages": pages,
+        }
+        if not pending:
+            return report
+        raw = self.store.read_source(pending[0], course_ids=(course_id,))
+        if (
+            raw.status != "available"
+            or raw.original is None
+            or not raw.is_current
+            or raw.content_sha256 != document.content_sha256
+            or raw.publication_epoch != document.publication_epoch
+        ):
+            pages.update((key.source_id, "stale_or_unavailable") for key in pending)
+            return report
+        with TemporaryDirectory(prefix="srag-ocr-") as directory:
+            path = Path(directory) / "original.pdf"
+            path.write_bytes(raw.original)
+            deck = PDFParser(
+                Path(directory) / "parsed",
+                enable_ocr_fallback=True,
+                ocr_min_text_tokens=self.settings.slide_pdf_ocr_min_text_tokens,
+            ).parse(path)
+        by_source = {
+            f"page:{slide.slide_no}": "\n".join(
+                item.text for item in slide.elements if "-ocr-" in item.element_id
+            )
+            for slide in deck.slides
+        }
+        for key in pending:
+            value = by_source.get(key.source_id, "")
+            if not value.strip():
+                pages[key.source_id] = "no_ocr_text"
+                continue
+            saved = self.store.write_enhancement(
+                key,
+                course_ids=(course_id,),
+                content_sha256=document.content_sha256,
+                publication_epoch=document.publication_epoch,
+                text=value,
+                origin="ocr",
+            )
+            pages[key.source_id] = "published" if saved else "stale_or_unavailable"
+        return report
 
     def delete(self, document_id: str) -> bool:
         return self.store.delete_local(document_id)

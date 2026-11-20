@@ -1,0 +1,509 @@
+{
+  "docling_version": "2.131.0",
+  "cases": [
+    {
+      "file": "Northpoint-Completion-Briefing.pdf",
+      "ocr_enabled": false,
+      "native_ms": 21.304,
+      "docling_ms": 2789.181,
+      "native": [
+        {
+          "id": "page:1",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 314,
+          "page": 1
+        },
+        {
+          "id": "page:2",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 260,
+          "page": 2
+        },
+        {
+          "id": "page:3",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 187,
+          "page": 3
+        },
+        {
+          "id": "page:4",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 242,
+          "page": 4
+        },
+        {
+          "id": "page:5",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 196,
+          "page": 5
+        },
+        {
+          "id": "page:6",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 221,
+          "page": 6
+        },
+        {
+          "id": "page:7",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 202,
+          "page": 7
+        },
+        {
+          "id": "page:8",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 525,
+          "page": 8
+        }
+      ],
+      "docling": [
+        [
+          {
+            "kind": "title",
+            "text_chars": 38,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 38,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 79,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 77,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 71,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 37,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 74,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 71,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 68,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 18,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 45,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 40,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 74,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 25,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 74,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 66,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 67,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 18,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 48,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 45,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 75,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 22,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 65,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 70,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 54,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 18,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 49,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 65,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 60,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ],
+        [
+          {
+            "kind": "title",
+            "text_chars": 44,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 70,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 70,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 79,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 84,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 85,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 80,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 6,
+            "position": true,
+            "ocr_text": null
+          }
+        ]
+      ]
+    },
+    {
+      "file": "Drum-Lab.pdf",
+      "ocr_enabled": false,
+      "native_ms": 0.915,
+      "docling_ms": 121.854,
+      "native": [
+        {
+          "id": "page:1",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 19,
+          "page": 1
+        },
+        {
+          "id": "page:1:image:1",
+          "kind": "page_object",
+          "state": "available",
+          "text_chars": 0,
+          "page": 1
+        },
+        {
+          "id": "page:1:image:2",
+          "kind": "page_object",
+          "state": "available",
+          "text_chars": 0,
+          "page": 1
+        }
+      ],
+      "docling": [
+        [
+          {
+            "kind": "title",
+            "text_chars": 19,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "image",
+            "text_chars": 0,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "image",
+            "text_chars": 0,
+            "position": true,
+            "ocr_text": null
+          }
+        ]
+      ]
+    },
+    {
+      "file": "Drum-Rotated.pdf",
+      "ocr_enabled": false,
+      "native_ms": 0.77,
+      "docling_ms": 125.795,
+      "native": [
+        {
+          "id": "page:1",
+          "kind": "page",
+          "state": "available",
+          "text_chars": 19,
+          "page": 1
+        },
+        {
+          "id": "page:1:image:1",
+          "kind": "page_object",
+          "state": "available",
+          "text_chars": 0,
+          "page": 1
+        },
+        {
+          "id": "page:1:image:2",
+          "kind": "page_object",
+          "state": "available",
+          "text_chars": 0,
+          "page": 1
+        }
+      ],
+      "docling": [
+        [
+          {
+            "kind": "title",
+            "text_chars": 19,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "image",
+            "text_chars": 0,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "image",
+            "text_chars": 0,
+            "position": true,
+            "ocr_text": null
+          }
+        ]
+      ]
+    },
+    {
+      "file": "Drum-Scan.pdf",
+      "ocr_enabled": false,
+      "native_ms": 0.382,
+      "docling_ms": 101.094,
+      "native": [
+        {
+          "id": "page:1",
+          "kind": "page",
+          "state": "needs_ocr",
+          "text_chars": 0,
+          "page": 1
+        }
+      ],
+      "docling": [
+        [
+          {
+            "kind": "image",
+            "text_chars": 0,
+            "position": true,
+            "ocr_text": null
+          }
+        ]
+      ]
+    },
+    {
+      "file": "Drum-Scan.pdf",
+      "ocr_enabled": true,
+      "native_ms": 0.322,
+      "docling_ms": 4622.612,
+      "native": [
+        {
+          "id": "page:1",
+          "kind": "page",
+          "state": "needs_ocr",
+          "text_chars": 0,
+          "page": 1
+        }
+      ],
+      "docling": [
+        [
+          {
+            "kind": "image",
+            "text_chars": 0,
+            "position": true,
+            "ocr_text": null
+          },
+          {
+            "kind": "text",
+            "text_chars": 19,
+            "position": true,
+            "ocr_text": "Overview [unscaled]"
+          }
+        ]
+      ]
+    }
+  ]
+}

@@ -38,6 +38,7 @@ _FTS_REASON_CODES = {
     "native_text": "fts_native",
     "legacy_text": "fts_legacy",
     "enhancement": "fts_enhancement",
+    "ocr": "fts_ocr",
 }
 
 

@@ -1,0 +1,106 @@
+{
+  "pdf": {
+    "pages": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "late_key": {
+      "document_id": "local_a317e7ecd17e4963ac69d649de71cfbb",
+      "version": 1,
+      "source_id": "page:8"
+    },
+    "reading_input_estimate": 4075,
+    "full_text_scope": true
+  },
+  "pagination": {
+    "count": 10,
+    "no_omissions": true,
+    "preferred_first": "page:8",
+    "stale_cursor_after_replace": true
+  },
+  "table": {
+    "headers": [
+      "Panel",
+      "Drift (mm)",
+      "Wait (ms)"
+    ],
+    "rows": [
+      [
+        "Panel",
+        "Drift (mm)",
+        "Wait (ms)"
+      ],
+      [
+        "North",
+        "11",
+        "73"
+      ],
+      [
+        "South",
+        "19",
+        "104"
+      ]
+    ],
+    "key": {
+      "document_id": "local_d3c0be2dc6bc46a6ae81182c9dfcff2c",
+      "version": 1,
+      "source_id": "page:1:shape:3"
+    },
+    "locator": [
+      0.05,
+      0.133333,
+      0.65,
+      0.4
+    ]
+  },
+  "notebook": {
+    "read": [
+      "cell:0",
+      "cell:1",
+      "cell:1:output:0",
+      "cell:1:output:2"
+    ],
+    "unread_visual": [
+      {
+        "source": {
+          "document_id": "local_259419b9f1d44395bfcba08ac00df5e9",
+          "version": 1,
+          "source_id": "cell:1:output:1"
+        },
+        "title": "Calibration notes · output 2",
+        "kind": "notebook_output",
+        "locator": {
+          "cell_index": 1,
+          "output_index": 1,
+          "section_path": [
+            "Calibration notes"
+          ]
+        }
+      }
+    ],
+    "full_text_scope": true
+  },
+  "ocr": {
+    "native_before": 0,
+    "ocr_ms": 6679.083,
+    "text": "Overview [unscaled]",
+    "actual_ocr_ref": {
+      "document_id": "local_c450d534365d41e593346aadfd802737",
+      "version": 1,
+      "source_id": "page:1"
+    },
+    "vision_unchanged": true,
+    "after_replace_fts_only_current": true,
+    "same_epoch": true,
+    "stale_write_denied": true,
+    "delete_hides_derivative": true,
+    "mid_parse_replace_republish_rejected": true,
+    "republish_reuses_identical_digest_derivative": true
+  }
+}

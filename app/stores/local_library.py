@@ -375,6 +375,7 @@ class LocalLibraryStore(MetadataStore):
         content_sha256: str,
         publication_epoch: int,
         text: str,
+        origin: Literal["enhancement", "ocr"] = "enhancement",
     ) -> bool:
         if not course_ids or not text.strip():
             return False
@@ -384,7 +385,8 @@ class LocalLibraryStore(MetadataStore):
             promote_due(db, _now())
             row = db.execute(
                 f"""
-                SELECT s.id, s.title FROM local_sources s
+                SELECT s.id, s.title, s.kind, s.state, s.text, v.document_format
+                FROM local_sources s
                 JOIN local_documents d ON d.document_id = s.document_id
                     AND d.current_version = s.version AND d.deleted = 0
                 JOIN local_versions v ON v.document_id = s.document_id AND v.version = s.version
@@ -395,8 +397,42 @@ class LocalLibraryStore(MetadataStore):
             ).fetchone()
             if row is None:
                 return False
-            _save_fts(db, row["id"], row["title"], text.strip(), "enhancement")
+            if origin == "ocr":
+                if (
+                    row["document_format"] != "pdf"
+                    or row["kind"] != "page"
+                    or row["state"] != "needs_ocr"
+                    or row["text"].strip()
+                ):
+                    return False
+                # Retain the exact derivative previously referenced by a completed answer.
+                saved = db.execute(
+                    "SELECT body FROM local_fts WHERE rowid = ? AND origin = 'ocr'", (-row["id"],)
+                ).fetchone()
+                if saved:
+                    return saved["body"] == text.strip()
+            _save_fts(db, row["id"], row["title"], text.strip(), origin)
             return True
+
+    def read_ocr_text(self, key: SourceKey, *, course_ids: Sequence[str]) -> str:
+        """Re-open a saved OCR derivative under the same version access rules as its page."""
+        if not course_ids:
+            return ""
+        scope, args = _scope_sql(course_ids, [key.document_id])
+        with self._connect() as db:
+            promote_due(db, _now())
+            row = db.execute(
+                f"""
+                SELECT f.body FROM local_sources s
+                JOIN local_documents d ON d.document_id = s.document_id AND d.deleted = 0
+                JOIN local_versions v ON v.document_id = s.document_id AND v.version = s.version
+                JOIN local_fts f ON f.rowid = -s.id AND f.origin = 'ocr'
+                WHERE s.source_id = ? AND s.version = ? AND v.published_at IS NOT NULL
+                    AND v.original IS NOT NULL AND d.current_version IS NOT NULL {scope}
+                """,
+                [key.source_id, key.version, *args],
+            ).fetchone()
+        return row["body"] if row else ""
 
 
 def _now() -> float:
@@ -576,10 +612,12 @@ def _append_missing_pdf_images(
 
 
 def _save_fts(db: Connection, rowid: int, title: str, text: str, origin: str) -> None:
+    # Native and visual derivatives keep their existing positive row IDs.
+    fts_id = -rowid if origin == "ocr" else 2 * rowid + (origin == "enhancement")
     db.execute(
         "INSERT OR REPLACE INTO local_fts(rowid, title, body, source_rowid, origin) "
         "VALUES (?, ?, ?, ?, ?)",
-        (2 * rowid + (origin == "enhancement"), title, text, rowid, origin),
+        (fts_id, title, text, rowid, origin),
     )
 
 

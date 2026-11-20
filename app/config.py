@@ -4,6 +4,7 @@ from functools import lru_cache
 from pathlib import Path
 from typing import Literal
 
+from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -28,6 +29,7 @@ class Settings(BaseSettings):
     source_vision_enabled: bool = False
     workspace_course_ids: str = ""
     workspace_max_upload_bytes: int = 50 * 1024 * 1024
+    workspace_input_token_limit: int = Field(default=32_768, gt=0)
 
     dashscope_api_key: str = ""
     dashscope_base_url: str = ""
@@ -48,6 +50,17 @@ class Settings(BaseSettings):
     deepseek_chat_model: str = "deepseek-flash"
     deepseek_timeout_seconds: float = 60.0
     deepseek_max_retries: int = 3
+    deepseek_context_tokens: int = Field(default=0, ge=0)
+
+    @property
+    def answer_context_tokens(self) -> int:
+        if self.deepseek_context_tokens:
+            return self.deepseek_context_tokens
+        official = self.deepseek_base_url.rstrip("/") == "https://api.deepseek.com"
+        if official and self.deepseek_chat_model in {"deepseek-flash", "deepseek-v4-pro"}:
+            return 1_048_576
+        # Custom endpoints can advertise different context sizes for the same model name.
+        return 16_384
 
     jev_base_url: str = "https://api.zleap.com/v1"
     jev_model: str = "Zev-1"

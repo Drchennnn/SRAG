@@ -1,0 +1,970 @@
+{
+  "readings": {
+    "Northpoint-Completion-Briefing.pdf": {
+      "budget": 24576,
+      "estimated_input": 4075,
+      "prioritized": false,
+      "full_text_scope": true,
+      "outline": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "Northpoint program completion briefing",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "title": "Directory and administrative contacts",
+          "kind": "page",
+          "locator": {
+            "page": 2
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "title": "Spring award round",
+          "kind": "page",
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "title": "Project sign-off workflow",
+          "kind": "page",
+          "locator": {
+            "page": 4
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "title": "Summer award round",
+          "kind": "page",
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "title": "Ceremonies and records",
+          "kind": "page",
+          "locator": {
+            "page": 6
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "title": "Winter award round",
+          "kind": "page",
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "title": "Choosing a round with an internship deadline",
+          "kind": "page",
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "outline_total": 8,
+      "read_ranges": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "Northpoint program completion briefing",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          },
+          "start": 0,
+          "end": 314,
+          "method": "native_text",
+          "text_sha256": "ffc2ef2a19616fb547e50a42095cb800b1b961891ee3fd458776985ded186206"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "title": "Directory and administrative contacts",
+          "kind": "page",
+          "locator": {
+            "page": 2
+          },
+          "start": 0,
+          "end": 260,
+          "method": "native_text",
+          "text_sha256": "81232461ae88774bc77dee281c8f2309994f21f18ac81ae84764d1caf8d59441"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "title": "Spring award round",
+          "kind": "page",
+          "locator": {
+            "page": 3
+          },
+          "start": 0,
+          "end": 187,
+          "method": "native_text",
+          "text_sha256": "766bac2478e514650e8a71a3d1c5d75f9ef3a05fdd39e3ab2c3b6bca19aa5485"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "title": "Project sign-off workflow",
+          "kind": "page",
+          "locator": {
+            "page": 4
+          },
+          "start": 0,
+          "end": 242,
+          "method": "native_text",
+          "text_sha256": "fa89971afc73d9bd8e7203ef66700c0fc5e26664426184245fbe8e1f015903a4"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "title": "Summer award round",
+          "kind": "page",
+          "locator": {
+            "page": 5
+          },
+          "start": 0,
+          "end": 196,
+          "method": "native_text",
+          "text_sha256": "9993938fc5d6dbbcfc219a25584a35344359c2740fde94f9d1200f6a3fa6e918"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "title": "Ceremonies and records",
+          "kind": "page",
+          "locator": {
+            "page": 6
+          },
+          "start": 0,
+          "end": 221,
+          "method": "native_text",
+          "text_sha256": "20d223e786f7d331c57242b0615c7a3aec553d91593ae3d125eb6a3d07a56153"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "title": "Winter award round",
+          "kind": "page",
+          "locator": {
+            "page": 7
+          },
+          "start": 0,
+          "end": 202,
+          "method": "native_text",
+          "text_sha256": "6797b4832b10aa51de03be0804c023114d42309d3bf82f34c081e8c1f7e16783"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "title": "Choosing a round with an internship deadline",
+          "kind": "page",
+          "locator": {
+            "page": 8
+          },
+          "start": 0,
+          "end": 525,
+          "method": "native_text",
+          "text_sha256": "010276e5d991db6becadf09d75ac2fff177b99d476e3725d45483dc620417e15"
+        }
+      ],
+      "skipped": [],
+      "skipped_total": 0,
+      "unread_visual": [],
+      "unread_visual_total": 0,
+      "visual_read_status": "not_attempted",
+      "next_cursor": null
+    },
+    "Drum-Readings.pptx": {
+      "budget": 24576,
+      "estimated_input": 731,
+      "prioritized": false,
+      "full_text_scope": true,
+      "outline": [],
+      "outline_total": 0,
+      "read_ranges": [
+        {
+          "source": {
+            "document_id": "local_48c0463d00d0449688bbb48f0757b318",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          },
+          "start": 0,
+          "end": 109,
+          "method": "native_text",
+          "text_sha256": "dd5c2076dae839b83bbed60dac7693ef9447a63df67e308c6e1e7f12305d01d1"
+        },
+        {
+          "source": {
+            "document_id": "local_48c0463d00d0449688bbb48f0757b318",
+            "version": 1,
+            "source_id": "page:1:shape:2"
+          },
+          "title": "",
+          "kind": "page_object",
+          "locator": {
+            "page": 1,
+            "bbox": [
+              0.1,
+              0.266667,
+              0.9,
+              0.533333
+            ]
+          },
+          "start": 0,
+          "end": 109,
+          "method": "native_table",
+          "text_sha256": "dd5c2076dae839b83bbed60dac7693ef9447a63df67e308c6e1e7f12305d01d1"
+        }
+      ],
+      "skipped": [],
+      "skipped_total": 0,
+      "unread_visual": [],
+      "unread_visual_total": 0,
+      "visual_read_status": "not_attempted",
+      "next_cursor": null
+    },
+    "v1/Drum-Trend.ipynb": {
+      "budget": 24576,
+      "estimated_input": 599,
+      "prioritized": false,
+      "full_text_scope": true,
+      "outline": [
+        {
+          "source": {
+            "document_id": "local_2227fe9b929b4d229c4e202a61f05968",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "title": "Code cell 1",
+          "kind": "cell",
+          "locator": {
+            "cell_index": 0,
+            "section_path": []
+          }
+        }
+      ],
+      "outline_total": 1,
+      "read_ranges": [
+        {
+          "source": {
+            "document_id": "local_2227fe9b929b4d229c4e202a61f05968",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "title": "Code cell 1",
+          "kind": "cell",
+          "locator": {
+            "cell_index": 0,
+            "section_path": []
+          },
+          "start": 0,
+          "end": 22,
+          "method": "native_text",
+          "text_sha256": "bc134d2aa43dfd4ccde36458f38ae14cb8883c5d7f42b2ad7f42c5524321f832"
+        },
+        {
+          "source": {
+            "document_id": "local_2227fe9b929b4d229c4e202a61f05968",
+            "version": 1,
+            "source_id": "cell:0:output:0"
+          },
+          "title": "Code cell 1 \u00b7 output 1",
+          "kind": "notebook_output",
+          "locator": {
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": []
+          },
+          "start": 0,
+          "end": 39,
+          "method": "native_text",
+          "text_sha256": "f04a6767f0849b2ac1f376357fbb85a721ae70c486af9643bb2d7678f1e79473"
+        }
+      ],
+      "skipped": [
+        {
+          "source": {
+            "document_id": "local_2227fe9b929b4d229c4e202a61f05968",
+            "version": 1,
+            "source_id": "cell:0:output:1"
+          },
+          "title": "Code cell 1 \u00b7 output 2",
+          "kind": "notebook_output",
+          "locator": {
+            "cell_index": 0,
+            "output_index": 1,
+            "section_path": []
+          },
+          "reason": "image_only"
+        }
+      ],
+      "skipped_total": 1,
+      "unread_visual": [
+        {
+          "source": {
+            "document_id": "local_2227fe9b929b4d229c4e202a61f05968",
+            "version": 1,
+            "source_id": "cell:0:output:1"
+          },
+          "title": "Code cell 1 \u00b7 output 2",
+          "kind": "notebook_output",
+          "locator": {
+            "cell_index": 0,
+            "output_index": 1,
+            "section_path": []
+          }
+        }
+      ],
+      "unread_visual_total": 1,
+      "visual_read_status": "not_attempted",
+      "next_cursor": null
+    },
+    "Drum-Scan.pdf": {
+      "budget": 24576,
+      "estimated_input": 0,
+      "prioritized": false,
+      "full_text_scope": false,
+      "outline": [],
+      "outline_total": 0,
+      "read_ranges": [],
+      "skipped": [
+        {
+          "source": {
+            "document_id": "local_8b39f0bab0d2468d9b0bf8fdf77fe8dc",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          },
+          "reason": "needs_ocr"
+        }
+      ],
+      "skipped_total": 1,
+      "unread_visual": [
+        {
+          "source": {
+            "document_id": "local_8b39f0bab0d2468d9b0bf8fdf77fe8dc",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          }
+        }
+      ],
+      "unread_visual_total": 1,
+      "visual_read_status": "not_attempted",
+      "next_cursor": null
+    }
+  },
+  "publish_ms": {
+    "Northpoint-Completion-Briefing.pdf": 22.888,
+    "Drum-Readings.pptx": 6.443,
+    "v1/Drum-Trend.ipynb": 3.0,
+    "Drum-Scan.pdf": 2.664
+  },
+  "ocr": {
+    "write": {
+      "document_id": "local_8b39f0bab0d2468d9b0bf8fdf77fe8dc",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "fc6b03933456d0dd6bb903c119d3e181d159c51eac69fb6515e0a1084e77ad3c",
+      "pipeline": "docling_pdf_sparse_page_ocr",
+      "pages": {
+        "page:1": "published"
+      }
+    },
+    "elapsed_ms": 6886.526,
+    "search_before": "no_text_anchor",
+    "search_after": "ok",
+    "reading": {
+      "budget": 24576,
+      "estimated_input": 228,
+      "prioritized": false,
+      "full_text_scope": true,
+      "outline": [],
+      "outline_total": 0,
+      "read_ranges": [
+        {
+          "source": {
+            "document_id": "local_8b39f0bab0d2468d9b0bf8fdf77fe8dc",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          },
+          "start": 0,
+          "end": 19,
+          "method": "ocr",
+          "text_sha256": "6e01c5e6bafad8c0dec140cbaf0338fc39885e626bc7b9d4254fbd21fd33af41"
+        }
+      ],
+      "skipped": [],
+      "skipped_total": 0,
+      "unread_visual": [
+        {
+          "source": {
+            "document_id": "local_8b39f0bab0d2468d9b0bf8fdf77fe8dc",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          }
+        }
+      ],
+      "unread_visual_total": 1,
+      "visual_read_status": "not_attempted",
+      "next_cursor": null
+    }
+  },
+  "resumed": {
+    "first_window": {
+      "budget": 800,
+      "estimated_input": 785,
+      "prioritized": true,
+      "full_text_scope": false,
+      "outline": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "Northpoint program completion briefing",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "title": "Directory and administrative contacts",
+          "kind": "page",
+          "locator": {
+            "page": 2
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "title": "Spring award round",
+          "kind": "page",
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "title": "Project sign-off workflow",
+          "kind": "page",
+          "locator": {
+            "page": 4
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "title": "Summer award round",
+          "kind": "page",
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "title": "Ceremonies and records",
+          "kind": "page",
+          "locator": {
+            "page": 6
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "title": "Winter award round",
+          "kind": "page",
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "title": "Choosing a round with an internship deadline",
+          "kind": "page",
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "outline_total": 8,
+      "read_ranges": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "title": "Choosing a round with an internship deadline",
+          "kind": "page",
+          "locator": {
+            "page": 8
+          },
+          "start": 0,
+          "end": 525,
+          "method": "native_text",
+          "text_sha256": "010276e5d991db6becadf09d75ac2fff177b99d476e3725d45483dc620417e15"
+        }
+      ],
+      "skipped": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "Northpoint program completion briefing",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          },
+          "reason": "window_budget"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "title": "Directory and administrative contacts",
+          "kind": "page",
+          "locator": {
+            "page": 2
+          },
+          "reason": "window_budget"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "title": "Spring award round",
+          "kind": "page",
+          "locator": {
+            "page": 3
+          },
+          "reason": "window_budget"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "title": "Project sign-off workflow",
+          "kind": "page",
+          "locator": {
+            "page": 4
+          },
+          "reason": "window_budget"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "title": "Summer award round",
+          "kind": "page",
+          "locator": {
+            "page": 5
+          },
+          "reason": "window_budget"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "title": "Ceremonies and records",
+          "kind": "page",
+          "locator": {
+            "page": 6
+          },
+          "reason": "window_budget"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "title": "Winter award round",
+          "kind": "page",
+          "locator": {
+            "page": 7
+          },
+          "reason": "window_budget"
+        }
+      ],
+      "skipped_total": 7,
+      "unread_visual": [],
+      "unread_visual_total": 0,
+      "visual_read_status": "not_attempted",
+      "next_cursor": {
+        "scope_sha256": "b7ef0295de9e2ce562c2587dcec370f44bf1dfb1ace8c7692cc3ba6e3d871f21",
+        "source_index": 1,
+        "offset": 0,
+        "prioritized": true
+      }
+    },
+    "next_window": {
+      "budget": 24576,
+      "estimated_input": 3290,
+      "prioritized": true,
+      "full_text_scope": false,
+      "outline": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "Northpoint program completion briefing",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "title": "Directory and administrative contacts",
+          "kind": "page",
+          "locator": {
+            "page": 2
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "title": "Spring award round",
+          "kind": "page",
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "title": "Project sign-off workflow",
+          "kind": "page",
+          "locator": {
+            "page": 4
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "title": "Summer award round",
+          "kind": "page",
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "title": "Ceremonies and records",
+          "kind": "page",
+          "locator": {
+            "page": 6
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "title": "Winter award round",
+          "kind": "page",
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "title": "Choosing a round with an internship deadline",
+          "kind": "page",
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "outline_total": 8,
+      "read_ranges": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "title": "Northpoint program completion briefing",
+          "kind": "page",
+          "locator": {
+            "page": 1
+          },
+          "start": 0,
+          "end": 314,
+          "method": "native_text",
+          "text_sha256": "ffc2ef2a19616fb547e50a42095cb800b1b961891ee3fd458776985ded186206"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "title": "Directory and administrative contacts",
+          "kind": "page",
+          "locator": {
+            "page": 2
+          },
+          "start": 0,
+          "end": 260,
+          "method": "native_text",
+          "text_sha256": "81232461ae88774bc77dee281c8f2309994f21f18ac81ae84764d1caf8d59441"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "title": "Spring award round",
+          "kind": "page",
+          "locator": {
+            "page": 3
+          },
+          "start": 0,
+          "end": 187,
+          "method": "native_text",
+          "text_sha256": "766bac2478e514650e8a71a3d1c5d75f9ef3a05fdd39e3ab2c3b6bca19aa5485"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "title": "Project sign-off workflow",
+          "kind": "page",
+          "locator": {
+            "page": 4
+          },
+          "start": 0,
+          "end": 242,
+          "method": "native_text",
+          "text_sha256": "fa89971afc73d9bd8e7203ef66700c0fc5e26664426184245fbe8e1f015903a4"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "title": "Summer award round",
+          "kind": "page",
+          "locator": {
+            "page": 5
+          },
+          "start": 0,
+          "end": 196,
+          "method": "native_text",
+          "text_sha256": "9993938fc5d6dbbcfc219a25584a35344359c2740fde94f9d1200f6a3fa6e918"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "title": "Ceremonies and records",
+          "kind": "page",
+          "locator": {
+            "page": 6
+          },
+          "start": 0,
+          "end": 221,
+          "method": "native_text",
+          "text_sha256": "20d223e786f7d331c57242b0615c7a3aec553d91593ae3d125eb6a3d07a56153"
+        },
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "title": "Winter award round",
+          "kind": "page",
+          "locator": {
+            "page": 7
+          },
+          "start": 0,
+          "end": 202,
+          "method": "native_text",
+          "text_sha256": "6797b4832b10aa51de03be0804c023114d42309d3bf82f34c081e8c1f7e16783"
+        }
+      ],
+      "skipped": [
+        {
+          "source": {
+            "document_id": "local_78efc91fccc34f1d9092ddbe39e439db",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "title": "Choosing a round with an internship deadline",
+          "kind": "page",
+          "locator": {
+            "page": 8
+          },
+          "reason": "before_cursor"
+        }
+      ],
+      "skipped_total": 1,
+      "unread_visual": [],
+      "unread_visual_total": 0,
+      "visual_read_status": "not_attempted",
+      "next_cursor": null
+    }
+  }
+}
