@@ -93,6 +93,8 @@ PDF 的独立图片只在能核对原件边界时出现在页下。可以直接�
 “当前第 2 张图”按当前原件里的图序，“刚才第 2 张图”按上一条展示的顺序。比较已有引用的上一版与当前版时，可从同一条回答分别打开两份原件。[图序与版本验收](./docs/G/G07-图序与版本.md)
 设置 `WORKSPACE_COURSE_IDS` 可用逗号分隔多个课程。模型关闭时仍可搜索原文和查看原件，图片会标明读取状态。
 要在网页生成答案，在 `.env` 设置 `WORKSPACE_ANSWER_ENABLED=true` 和现有的 `DEEPSEEK_API_KEY`，重启后提问。生成会把当前问题和实际读取的必要文字发送给所配置的 DeepSeek 服务。点击引用可核对本轮来源。配置不可用时页面标记摘录回退。 [真实网页复验](./docs/G/G16-网页回答与续问.md)
+
+默认检索策略为 `fts`。在 `.env` 可用 `WORKSPACE_RETRIEVAL_STRATEGY` 显式选择 `bilingual`、`jev` 或 `expanded` 并重启。评分策略使用 `JEV_API_KEY`，默认服务 `https://api.zleap.com/v1`、模型 `Zev-1`。短文件全文及显式页可直接读取本地资料。[Jev 实测与适用范围](./docs/G/G17-双语与证据评分对照.md)
 `python -m tools.workspace_chat --help` 提供使用同一会话服务的终端入口。[会话及原件权限](./docs/E/E02-会话服务.md)
 
 从空库导入到消息里显示原件的浏览器演示可复跑。[M1 与两种网页追问](./docs/E/E04-M1.md)

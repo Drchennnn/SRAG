@@ -1,0 +1,1129 @@
+{
+  "subject": "8ab177f4af36b12c9d23a2a1b8c18f30c292bd10",
+  "fixed_result_sha256": "33be3bdb9170c5c1eb9a2473c75834cf69ae1fed6746492714fa36fa47fce968",
+  "earlier_result_sha256": "0a2b47d456074254522a5e3eea630931d21f40a808cdf4f847519ea956047628",
+  "max_sources": 4,
+  "rubric_review": {
+    "provider_requests": 0,
+    "finding": "An affirmative regex misread the negated noun phrase 可外推的适用数据.",
+    "correction": "Exclude noun modifiers after 外推; evaluate stored responses without invoking providers."
+  },
+  "counts": {
+    "raw": {
+      "fts": 2,
+      "bilingual": 3,
+      "jev": 5,
+      "expanded": 6
+    },
+    "reviewed": {
+      "fts": 3,
+      "bilingual": 3,
+      "jev": 5,
+      "expanded": 6
+    }
+  },
+  "cases": {
+    "formula": {
+      "fts": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "cited_sources": [],
+        "selected": [],
+        "read_count": 0,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "bilingual": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "jev": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ]
+        ],
+        "read_count": 3,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "expanded": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ]
+        ],
+        "read_count": 3,
+        "expansion": {
+          "status": "no_new_candidates",
+          "term": "KSB-17",
+          "added_source": null,
+          "displaced_source": null
+        }
+      }
+    },
+    "formula_alt": {
+      "fts": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "read_count": 3,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "bilingual": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "jev": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:1"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "expanded": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:1"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "no_new_candidates",
+          "term": "KSB-17",
+          "added_source": null,
+          "displaced_source": null
+        }
+      }
+    },
+    "cross_file": {
+      "fts": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "bilingual": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "jev": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "expanded": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "unsupported_new_candidate",
+          "term": "DXW-63",
+          "added_source": null,
+          "displaced_source": null
+        }
+      }
+    },
+    "missing": {
+      "fts": {
+        "raw": false,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "bilingual": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "jev": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "expanded": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:6"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1"
+          ],
+          [
+            "Cold-Venue-Readings.pptx",
+            "page:1:shape:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "no_read_anchor",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      }
+    },
+    "caption": {
+      "fts": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ]
+        ],
+        "selected": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:2"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:2"
+          ]
+        ],
+        "read_count": 2,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "bilingual": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ]
+        ],
+        "selected": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:2"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:2"
+          ]
+        ],
+        "read_count": 2,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "jev": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ]
+        ],
+        "selected": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:2"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:2"
+          ]
+        ],
+        "read_count": 2,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "expanded": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ]
+        ],
+        "selected": [
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:2"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:2"
+          ]
+        ],
+        "read_count": 2,
+        "expansion": {
+          "status": "no_read_anchor",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      }
+    },
+    "linked_ticket": {
+      "fts": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:9"
+          ]
+        ],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "read_count": 3,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "bilingual": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:9"
+          ]
+        ],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:2"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "jev": {
+        "raw": false,
+        "reviewed": false,
+        "missing_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:9"
+          ]
+        ],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Q-Lamp-Calibration-Plate.pdf",
+            "page:1:image:1"
+          ]
+        ],
+        "read_count": 3,
+        "expansion": {
+          "status": "not_requested",
+          "term": null,
+          "added_source": null,
+          "displaced_source": null
+        }
+      },
+      "expanded": {
+        "raw": true,
+        "reviewed": true,
+        "missing_sources": [],
+        "cited_sources": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:9"
+          ]
+        ],
+        "selected": [
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:3"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:4"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:5"
+          ],
+          [
+            "Calibrated-Guard-Band.pdf",
+            "page:9"
+          ]
+        ],
+        "read_count": 4,
+        "expansion": {
+          "status": "succeeded",
+          "term": "DXW-63",
+          "added_source": {
+            "document_id": "local_5b5a24a036724d97a4a2a35b41dc38ad",
+            "version": 1,
+            "source_id": "page:9"
+          },
+          "displaced_source": {
+            "document_id": "local_c137e3093ad74780b861bf89ba8ad560",
+            "version": 1,
+            "source_id": "page:1:image:1"
+          }
+        }
+      }
+    }
+  },
+  "requests": {
+    "rewrite": {
+      "external_calls": 6,
+      "http_statuses": {
+        "200": 6
+      },
+      "headers_ms": {
+        "min": 295.576,
+        "median": 322.889,
+        "max": 421.247
+      }
+    },
+    "answer": {
+      "external_calls": 23,
+      "http_statuses": {
+        "200": 23
+      },
+      "headers_ms": {
+        "min": 305.037,
+        "median": 334.555,
+        "max": 640.623
+      }
+    },
+    "score": {
+      "external_calls": 9,
+      "http_statuses": {
+        "200": 9
+      },
+      "headers_ms": {
+        "min": 865.52,
+        "median": 1856.427,
+        "max": 15449.432
+      }
+    },
+    "image": {
+      "external_calls": 1,
+      "http_statuses": {
+        "200": 1
+      },
+      "headers_ms": {
+        "min": 1170.092,
+        "median": 1170.092,
+        "max": 1170.092
+      }
+    },
+    "injected": 1,
+    "blocked": 0
+  },
+  "tokens": {
+    "answer": 25497,
+    "rewrite": 1044,
+    "jev_comparison": {
+      "input_tokens": 22164,
+      "output_tokens": 50
+    },
+    "jev_injected_retry_control_actual": {
+      "input_tokens": 1745,
+      "output_tokens": 4
+    },
+    "vision": {
+      "image_tokens": 257,
+      "input_tokens": 353,
+      "output_tokens": 16,
+      "total_tokens": 369
+    }
+  },
+  "pipeline_ms": {
+    "fts": {
+      "min": 1.205,
+      "median": 1.769,
+      "max": 2.746
+    },
+    "bilingual": {
+      "min": 839.789,
+      "median": 928.563,
+      "max": 1497.704
+    },
+    "jev": {
+      "min": 892.716,
+      "median": 1175.617,
+      "max": 15730.571
+    },
+    "expanded": {
+      "min": 11.949,
+      "median": 15.875,
+      "max": 2377.464
+    }
+  },
+  "cache": {
+    "initial_jev": 6,
+    "rewrite": 12,
+    "vision": 3
+  }
+}

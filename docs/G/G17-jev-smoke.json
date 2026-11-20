@@ -1,0 +1,44 @@
+{
+  "cold": {
+    "provider": "jev",
+    "model": "Zev-1",
+    "attempts": [
+      {
+        "status": 200,
+        "outcome": "response",
+        "elapsed_ms": 2296.451
+      }
+    ],
+    "candidate_ids": [
+      "candidate_fact",
+      "candidate_decoy"
+    ],
+    "input_bytes": 1521,
+    "usage": {
+      "input_tokens": 763,
+      "output_tokens": 2
+    },
+    "status": "succeeded",
+    "cache_hit": false,
+    "external_call_count": 1,
+    "elapsed_ms": 2329.798
+  },
+  "repeat": {
+    "provider": "jev",
+    "model": "Zev-1",
+    "attempts": [],
+    "candidate_ids": [
+      "candidate_fact",
+      "candidate_decoy"
+    ],
+    "input_bytes": 1521,
+    "status": "succeeded",
+    "cache_hit": true,
+    "external_call_count": 0,
+    "elapsed_ms": 0.272
+  },
+  "scores": {
+    "candidate_decoy": 0.00226,
+    "candidate_fact": 0.965193
+  }
+}

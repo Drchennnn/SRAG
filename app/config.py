@@ -31,6 +31,7 @@ class Settings(BaseSettings):
     workspace_max_upload_bytes: int = 50 * 1024 * 1024
     workspace_answer_enabled: bool = False
     workspace_input_token_limit: int = Field(default=32_768, gt=0)
+    workspace_retrieval_strategy: Literal["fts", "bilingual", "jev", "expanded"] = "fts"
 
     dashscope_api_key: str = ""
     dashscope_base_url: str = ""
@@ -66,6 +67,8 @@ class Settings(BaseSettings):
     jev_base_url: str = "https://api.zleap.com/v1"
     jev_model: str = "Zev-1"
     jev_api_key: str = ""
+    jev_timeout_seconds: float = Field(default=15, gt=0)
+    jev_max_retries: int = Field(default=1, ge=0, le=3)
 
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str = ""

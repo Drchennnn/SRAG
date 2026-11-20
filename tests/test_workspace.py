@@ -216,6 +216,57 @@ def _sha(data):
     return hashlib.sha256(data).hexdigest()
 
 
+def test_optional_retrieval_is_audited_only_when_selected_document_cannot_be_read_directly(
+    system, tmp_path, monkeypatch
+):
+    from types import SimpleNamespace
+
+    from app.rag.workspace_generation import GeneratedStatement, Generation
+
+    settings, _, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.workspace_retrieval_strategy = "jev"
+    settings.deepseek_api_key = "offline-test-marker"
+    fixtures = runpy.run_path("docs/G/G14-fixtures.py")
+    file = tmp_path / fixtures["FILENAME"]
+    fixtures["make_pdf"](file)
+    scope = _create(client)
+    first = _upload(client, scope, file)
+    other = tmp_path / "Another-Briefing.pdf"
+    other.write_bytes(file.read_bytes())
+    _upload(client, scope, other)
+    observed = []
+
+    def plan(_settings, searcher, snapshot, request, allowed_courses, **options):
+        observed.append((tuple(d.document_id for d in snapshot.documents), options["strategy"]))
+        initial = searcher.search(request, allowed_course_ids=allowed_courses)
+        return SimpleNamespace(
+            initial=initial, selected=initial.candidates[:1], trace={"external_call_count": 2}
+        )
+
+    def generate(_settings, _question, evidence, **_options):
+        (key, *_) = evidence
+        return Generation(
+            "succeeded",
+            (GeneratedStatement("有原文依据。", (key,)),),
+            "",
+            {"status": "succeeded", "external_call_count": 1},
+        )
+
+    monkeypatch.setattr("app.rag.workspace_retrieval.plan_retrieval", plan)
+    monkeypatch.setattr("app.rag.workspace.generate_response", generate)
+    direct = _create(client, course_ids=[_COURSE], document_ids=[first["document_id"]])
+    result = _ask(client, direct, "这份课件列了哪些结业时间？")
+    assert result["turn"]["trace"]["external_call_count"] == 1
+    assert result["turn"]["trace"]["reading"]["full_text_scope"] and not observed
+
+    result = _ask(client, scope, "What does the spring award round say?")
+    assert len(observed) == 1 and observed[0][1] == "jev" and len(observed[0][0]) == 2
+    assert result["turn"]["trace"]["external_call_count"] == 3
+    assert result["turn"]["trace"]["retrieval"]["external_call_count"] == 2
+    assert len(result["turn"]["trace"]["reading"]["read_ranges"]) == 1
+
+
 def test_real_upload_and_two_followup_paths_preserve_order_and_offline_state(system):
     _, _, _, client = system
     session, imported, node, revision, first, images = _notebook_case(client)

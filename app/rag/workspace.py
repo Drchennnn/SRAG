@@ -879,18 +879,26 @@ class WorkspaceService:
                 "max_sources": _SUMMARY_SOURCE_LIMIT,
             }
         else:
-            search = self.searcher.search(
-                StructureSearchRequest(
-                    query=text,
-                    location=location,
-                    top_k=12,
-                    scope=StructureScope(
-                        course_ids=session.course_ids,
-                        document_ids=list(documents),
-                        file_names=[] if node else file_names,
-                    ),
+            request = StructureSearchRequest(
+                query=text,
+                location=location,
+                top_k=12,
+                scope=StructureScope(
+                    course_ids=session.course_ids,
+                    document_ids=list(documents),
+                    file_names=[] if node else file_names,
                 ),
-                allowed_course_ids=self.allowed_courses,
+            )
+            use_retrieval = (
+                mode == "ask"
+                and not _CONTINUE_TEXT.fullmatch(text)
+                and not (whole_file and _SUMMARY_FILE.search(text))
+            )
+            plan = self._plan_search(turn, snapshot, request) if use_retrieval else None
+            search = (
+                plan.initial
+                if plan
+                else self.searcher.search(request, allowed_course_ids=self.allowed_courses)
             )
             if search.status == "ambiguous_scope":
                 match_ids = {item.document_id for item in search.options}
@@ -909,9 +917,10 @@ class WorkspaceService:
                     raise WorkspaceError("stale_reference")
             if not file_names and {doc.document_id for doc in search.snapshot} != set(documents):
                 raise WorkspaceError("stale_reference")
+            chosen = plan.selected if plan else search.candidates
             ranked = [
                 sources[(hit.source.document_id, hit.source.source_id)]
-                for hit in search.candidates
+                for hit in chosen
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
             trace = {
@@ -926,9 +935,12 @@ class WorkspaceService:
                         "match_kind": hit.match_kind,
                         "reasons": [reason.model_dump() for reason in hit.reasons],
                     }
-                    for hit in search.candidates
+                    for hit in chosen
                 ],
             }
+            if plan:
+                trace["retrieval"] = plan.trace
+                trace["external_call_count"] = plan.trace.get("external_call_count", 0)
         if topic_document:
             trace["topic_document_id"] = topic_document
         if mode in {"ask", "summary"} and self.settings.workspace_answer_enabled:
@@ -967,6 +979,41 @@ class WorkspaceService:
         elif mode in {"ask", "summary"} and any(b["type"] == "text" for b in draft.blocks):
             draft.notice("excerpt_fallback", "未启用回答模型或缺少配置。本条为原文摘录。")
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _plan_search(
+        self, turn: Turn, snapshot: StructureSnapshot, request: StructureSearchRequest
+    ):
+        settings = self.settings
+        strategy = settings.workspace_retrieval_strategy
+        if (
+            strategy == "fts"
+            or request.location is not None
+            or not settings.workspace_answer_enabled
+            or not settings.deepseek_api_key.strip()
+        ):
+            return None
+        budget = min(
+            settings.workspace_input_token_limit, settings.answer_context_tokens - OUTPUT_RESERVE
+        )
+        if budget <= 0:
+            return None
+        if len(snapshot.documents) == 1:
+            bodies = [source.text for source in snapshot.sources if source.text.strip()]
+            if estimate_input_budget(bodies) + 320 * len(bodies) + 4096 <= budget:
+                return None  # Full-text reading already covers this selected short document.
+        from app.rag.workspace_retrieval import plan_retrieval
+
+        return plan_retrieval(
+            settings,
+            self.searcher,
+            snapshot,
+            request,
+            self.allowed_courses,
+            strategy=strategy,
+            budget=4,
+            library=self.library.store,
+            active=lambda: self.store.active(turn),
+        )
 
     def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
         if read.method == "ocr":
@@ -1109,7 +1156,8 @@ class WorkspaceService:
             self.settings.workspace_input_token_limit + OUTPUT_RESERVE,
         )
         draft = Draft(turn.session_id)
-        trace.update(route="generated_answer", external_call_count=0)
+        trace["route"] = "generated_answer"
+        trace.setdefault("external_call_count", 0)
         try:
             window = read_window(
                 self.library.store,
@@ -1189,7 +1237,9 @@ class WorkspaceService:
             coverage=coverage,
         )
         trace["generation"] = result.trace
-        trace["external_call_count"] = result.trace["external_call_count"]
+        trace["external_call_count"] = (
+            trace.get("external_call_count", 0) + result.trace["external_call_count"]
+        )
         if result.status in {"succeeded", "partial", "insufficient"}:
             draft.blocks = [block for block in draft.blocks if block["type"] != "text"]
             for statement in result.statements:
