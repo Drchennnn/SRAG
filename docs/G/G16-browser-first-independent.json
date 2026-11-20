@@ -1,0 +1,501 @@
+{
+  "subject": "47a4e25e439955efc94685dc130230b701cbde88",
+  "kind": "independent first review",
+  "case": "first",
+  "question": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+  "request_kind": "ask",
+  "source_fixture_sha": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+  "http_status": 200,
+  "provider_calls": [
+    {
+      "turn": "first",
+      "client_turn_id": "99de88d1-3e01-4616-b8a6-0f2e2be74f26",
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "a3b4dee110fdcfdfd73c0b3c9c365204956391291a7b575908da9f8e124aa077",
+      "evidence_markers": {
+        "3": [
+          "May 31",
+          "June 18"
+        ],
+        "5": [
+          "August 23",
+          "September 12"
+        ],
+        "7": [
+          "December 8",
+          "January 14"
+        ],
+        "8": [
+          "July 15"
+        ]
+      },
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 358.185
+    }
+  ],
+  "expected_option_count": 3,
+  "gold_unique_options": [
+    "Spring award round",
+    "Summer award round",
+    "Winter award round"
+  ],
+  "incorrect_statement": {
+    "citations": [
+      "ev-3",
+      "ev-5",
+      "ev-7"
+    ],
+    "text": "课件列出的结业（award）轮次有四个：春季轮、夏季轮、冬季轮；其中春季轮项目签字最后接受日为5月31日，奖项记录日为6月18日；夏季轮项目签字最后接受日为8月23日，奖项记录日为9月12日；冬季轮项目签字最后接受日为12月8日，奖项记录日为次年1月14日。",
+    "type": "text"
+  },
+  "verdict": "failed",
+  "assertion": "stated 4 total options, expected 3",
+  "generation": {
+    "attempts": [
+      {
+        "elapsed_ms": 2791.669,
+        "outcome": "response",
+        "status": 200
+      }
+    ],
+    "elapsed_ms": 2885.808,
+    "estimated_input": 6636,
+    "external_call_count": 1,
+    "input_budget": 32768,
+    "input_evidence_ids": [
+      "ev-1",
+      "ev-2",
+      "ev-3",
+      "ev-4",
+      "ev-5",
+      "ev-6",
+      "ev-7",
+      "ev-8"
+    ],
+    "model": "deepseek-flash",
+    "output_reserve": 8192,
+    "provider": "deepseek",
+    "status": "partial",
+    "total_tokens": 1914
+  },
+  "reading": {
+    "budget": 30803,
+    "estimated_input": 4075,
+    "full_text_scope": true,
+    "mode": "ask",
+    "next_cursor": null,
+    "outline": [
+      {
+        "kind": "page",
+        "locator": {
+          "page": 1
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:1",
+          "version": 1
+        },
+        "title": "Northpoint program completion briefing"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 2
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "title": "Directory and administrative contacts"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 3
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:3",
+          "version": 1
+        },
+        "title": "Spring award round"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 4
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:4",
+          "version": 1
+        },
+        "title": "Project sign-off workflow"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 5
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:5",
+          "version": 1
+        },
+        "title": "Summer award round"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 6
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:6",
+          "version": 1
+        },
+        "title": "Ceremonies and records"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 7
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:7",
+          "version": 1
+        },
+        "title": "Winter award round"
+      },
+      {
+        "kind": "page",
+        "locator": {
+          "page": 8
+        },
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:8",
+          "version": 1
+        },
+        "title": "Choosing a round with an internship deadline"
+      }
+    ],
+    "outline_total": 8,
+    "preferred": [
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:1",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:2",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:3",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:4",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:5",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:6",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:7",
+        "version": 1
+      },
+      {
+        "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+        "source_id": "page:8",
+        "version": 1
+      }
+    ],
+    "prioritized": false,
+    "read_ranges": [
+      {
+        "end": 314,
+        "kind": "page",
+        "locator": {
+          "page": 1
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:1",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "ffc2ef2a19616fb547e50a42095cb800b1b961891ee3fd458776985ded186206",
+        "title": "Northpoint program completion briefing"
+      },
+      {
+        "end": 260,
+        "kind": "page",
+        "locator": {
+          "page": 2
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:2",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "81232461ae88774bc77dee281c8f2309994f21f18ac81ae84764d1caf8d59441",
+        "title": "Directory and administrative contacts"
+      },
+      {
+        "end": 187,
+        "kind": "page",
+        "locator": {
+          "page": 3
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:3",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "766bac2478e514650e8a71a3d1c5d75f9ef3a05fdd39e3ab2c3b6bca19aa5485",
+        "title": "Spring award round"
+      },
+      {
+        "end": 242,
+        "kind": "page",
+        "locator": {
+          "page": 4
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:4",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "fa89971afc73d9bd8e7203ef66700c0fc5e26664426184245fbe8e1f015903a4",
+        "title": "Project sign-off workflow"
+      },
+      {
+        "end": 196,
+        "kind": "page",
+        "locator": {
+          "page": 5
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:5",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "9993938fc5d6dbbcfc219a25584a35344359c2740fde94f9d1200f6a3fa6e918",
+        "title": "Summer award round"
+      },
+      {
+        "end": 221,
+        "kind": "page",
+        "locator": {
+          "page": 6
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:6",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "20d223e786f7d331c57242b0615c7a3aec553d91593ae3d125eb6a3d07a56153",
+        "title": "Ceremonies and records"
+      },
+      {
+        "end": 202,
+        "kind": "page",
+        "locator": {
+          "page": 7
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:7",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "6797b4832b10aa51de03be0804c023114d42309d3bf82f34c081e8c1f7e16783",
+        "title": "Winter award round"
+      },
+      {
+        "end": 525,
+        "kind": "page",
+        "locator": {
+          "page": 8
+        },
+        "method": "native_text",
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:8",
+          "version": 1
+        },
+        "start": 0,
+        "text_sha256": "010276e5d991db6becadf09d75ac2fff177b99d476e3725d45483dc620417e15",
+        "title": "Choosing a round with an internship deadline"
+      }
+    ],
+    "skipped": [],
+    "skipped_total": 0,
+    "unread_visual": [],
+    "unread_visual_total": 0,
+    "visual_read_status": "not_attempted"
+  },
+  "cited": {
+    "ev-3": {
+      "evidence_id": "ev-3",
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "locator": {
+        "page": 3,
+        "text_span": [
+          0,
+          187
+        ]
+      },
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": null,
+          "actual_input_rect": null,
+          "actual_input_sha256": null,
+          "actual_source": {
+            "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+            "source_id": "page:3",
+            "version": 1
+          },
+          "execution": null,
+          "method": "native_text",
+          "model": null,
+          "origin_execution": null,
+          "prompt_version": null,
+          "question_sha256": null,
+          "status": "succeeded",
+          "text": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+          "warnings": []
+        }
+      ],
+      "revision": {
+        "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+        "course_id": "northpoint-completion",
+        "publication_epoch": 1,
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:3",
+          "version": 1
+        }
+      }
+    },
+    "ev-5": {
+      "evidence_id": "ev-5",
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "locator": {
+        "page": 5,
+        "text_span": [
+          0,
+          196
+        ]
+      },
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": null,
+          "actual_input_rect": null,
+          "actual_input_sha256": null,
+          "actual_source": {
+            "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+            "source_id": "page:5",
+            "version": 1
+          },
+          "execution": null,
+          "method": "native_text",
+          "model": null,
+          "origin_execution": null,
+          "prompt_version": null,
+          "question_sha256": null,
+          "status": "succeeded",
+          "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+          "warnings": []
+        }
+      ],
+      "revision": {
+        "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+        "course_id": "northpoint-completion",
+        "publication_epoch": 1,
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:5",
+          "version": 1
+        }
+      }
+    },
+    "ev-7": {
+      "evidence_id": "ev-7",
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "locator": {
+        "page": 7,
+        "text_span": [
+          0,
+          202
+        ]
+      },
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": null,
+          "actual_input_rect": null,
+          "actual_input_sha256": null,
+          "actual_source": {
+            "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+            "source_id": "page:7",
+            "version": 1
+          },
+          "execution": null,
+          "method": "native_text",
+          "model": null,
+          "origin_execution": null,
+          "prompt_version": null,
+          "question_sha256": null,
+          "status": "succeeded",
+          "text": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+          "warnings": []
+        }
+      ],
+      "revision": {
+        "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+        "course_id": "northpoint-completion",
+        "publication_epoch": 1,
+        "source": {
+          "document_id": "local_dcbde9ef199e47018ba5a543f2322b95",
+          "source_id": "page:7",
+          "version": 1
+        }
+      }
+    }
+  }
+}

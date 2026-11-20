@@ -4,6 +4,8 @@ from __future__ import annotations
 
 import asyncio
 import json
+from collections.abc import Callable
+from time import perf_counter
 from typing import Any
 
 import httpx
@@ -24,6 +26,7 @@ class DeepSeekClient:
         *,
         transport: httpx.AsyncBaseTransport | None = None,
         answer_thinking: bool = False,
+        on_attempt: Callable[[dict[str, Any]], None] | None = None,
     ) -> None:
         self.api_key = settings.deepseek_api_key
         self.base_url = (settings.deepseek_base_url or _DEFAULT_BASE_URL).rstrip("/")
@@ -33,6 +36,7 @@ class DeepSeekClient:
         self.max_retries = settings.deepseek_max_retries
         self.transport = transport
         self.answer_thinking = answer_thinking
+        self.on_attempt = on_attempt
 
     def require_api_key(self) -> str:
         """仅在实际调用 DeepSeek 时检查 API Key。"""
@@ -41,22 +45,30 @@ class DeepSeekClient:
             raise RuntimeError("尚未在 .env 中配置 DEEPSEEK_API_KEY")
         return self.api_key
 
-    async def generate_answer(self, messages: list[dict[str, str]]) -> dict[str, Any]:
+    async def generate_answer(
+        self,
+        messages: list[dict[str, str]],
+        *,
+        response_format: dict[str, str] | None = None,
+        temperature: float = 0.2,
+    ) -> dict[str, Any]:
         """用配置的对话模型生成文字回答；空输出或截断最多重试一次。"""
 
         total_tokens = 0
-        for max_tokens in ((8192, 16384) if self.answer_thinking else (4096, 8192)):
+        for max_tokens in (8192, 16384) if self.answer_thinking else (4096, 8192):
             response = await self._chat_completion(
                 messages=messages,
                 model=self.chat_model,
-                temperature=0.2,
+                temperature=temperature,
                 max_tokens=max_tokens,
+                response_format=response_format,
                 thinking={"type": "enabled" if self.answer_thinking else "disabled"},
                 reasoning_effort="low" if self.answer_thinking else None,
             )
             usage = response.get("usage")
-            if isinstance(usage, dict):
-                total_tokens += usage.get("total_tokens", 0)
+            tokens = usage.get("total_tokens") if isinstance(usage, dict) else None
+            if type(tokens) is int and tokens >= 0:
+                total_tokens += tokens
             content = response.get("content")
             if (
                 isinstance(content, str)
@@ -232,13 +244,14 @@ class DeepSeekClient:
         choices = data.get("choices")
         if not isinstance(choices, list) or not choices:
             raise RuntimeError("DeepSeek 返回了无效的 choices")
-        message = choices[0].get("message")
+        choice = choices[0]
+        message = choice.get("message") if isinstance(choice, dict) else None
         if not isinstance(message, dict):
             raise RuntimeError("DeepSeek 返回了无效的 message")
         content = message.get("content", "")
         return {
             "content": content,
-            "finish_reason": choices[0].get("finish_reason"),
+            "finish_reason": choice.get("finish_reason"),
             "usage": data.get("usage", {}),
         }
 
@@ -252,15 +265,34 @@ class DeepSeekClient:
         last_error: Exception | None = None
 
         for attempt in range(self.max_retries + 1):
+            started = perf_counter()
             try:
                 response = await client.post(url, headers=headers, json=payload)
             except httpx.TransportError as exc:
+                if self.on_attempt:
+                    self.on_attempt(
+                        {
+                            "status": None,
+                            "outcome": "timeout"
+                            if isinstance(exc, httpx.TimeoutException)
+                            else "transport_error",
+                            "elapsed_ms": round((perf_counter() - started) * 1000, 3),
+                        }
+                    )
                 last_error = exc
                 if attempt >= self.max_retries:
                     break
                 await asyncio.sleep(2**attempt)
                 continue
 
+            if self.on_attempt:
+                self.on_attempt(
+                    {
+                        "status": response.status_code,
+                        "outcome": "response" if response.is_success else "http_error",
+                        "elapsed_ms": round((perf_counter() - started) * 1000, 3),
+                    }
+                )
             if response.status_code in _RETRYABLE_STATUS_CODES:
                 last_error = RuntimeError(f"DeepSeek 暂时不可用：HTTP {response.status_code}")
                 if attempt < self.max_retries:

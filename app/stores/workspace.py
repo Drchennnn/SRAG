@@ -316,7 +316,9 @@ class WorkspaceStore(MetadataStore):
     def active(self, turn: Turn) -> bool:
         with self._connect() as db:
             row = db.execute(
-                "SELECT status, attempt, lease_until FROM workspace_turns WHERE turn_id=?",
+                """SELECT t.status, t.attempt, t.lease_until, s.scope_revision
+                   FROM workspace_turns t JOIN workspace_sessions s USING (session_id)
+                   WHERE t.turn_id=?""",
                 (turn.turn_id,),
             ).fetchone()
             return (
@@ -324,6 +326,7 @@ class WorkspaceStore(MetadataStore):
                 and row["status"] == "running"
                 and row["attempt"] == turn.attempt
                 and row["lease_until"] > time()
+                and row["scope_revision"] == turn.request.scope_revision
             )
 
     def finish(

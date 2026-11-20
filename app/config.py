@@ -29,6 +29,7 @@ class Settings(BaseSettings):
     source_vision_enabled: bool = False
     workspace_course_ids: str = ""
     workspace_max_upload_bytes: int = 50 * 1024 * 1024
+    workspace_answer_enabled: bool = False
     workspace_input_token_limit: int = Field(default=32_768, gt=0)
 
     dashscope_api_key: str = ""

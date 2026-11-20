@@ -7,7 +7,7 @@ import hashlib
 import re
 import secrets
 from collections.abc import Iterable, Mapping, Sequence
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from pathlib import Path
 from time import perf_counter
 from typing import Any
@@ -33,8 +33,10 @@ from app.rag.structure_search import (
     StructureSearchRequest,
 )
 from app.rag.workspace_composition import asks_for_composition, compose_evidence
+from app.rag.workspace_generation import OUTPUT_RESERVE, generate_response
 from app.rag.workspace_initial_focus import answer_current_image, resolve_current_image
 from app.rag.workspace_objects import ObjectIntent, object_choices, object_intent
+from app.rag.workspace_reading import ReadingCursor, estimate_input_budget, read_window
 from app.rag.workspace_versions import compare_versions, is_version_comparison
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
@@ -71,10 +73,20 @@ _PAGE_PREFIX = re.compile(r"\b(?:page|slide)\s+#?([1-9][0-9]{0,3})\b", re.IGNORE
 _CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*cell", re.IGNORECASE)
 _CELL_PREFIX = re.compile(r"\bcell\s+([1-9][0-9]{0,3})\b", re.IGNORECASE)
 _FILE_MENTION = re.compile(r"\.(?:pdf|pptx|ipynb)(?=$|[^a-z0-9_])", re.IGNORECASE)
+_WHOLE_FILE = re.compile(
+    r"这份(?:课件|文件|资料)|整份|全文|各页|\b(?:whole|entire) (?:file|document)\b", re.I
+)
+_REWRITE_PRIOR = re.compile(
+    r"两句|[一两三二四]句话|简短|简要|简述|再说一遍|精简|summari[sz]e", re.I
+)
+_SUMMARY_FILE = re.compile(r"总结|概括|概要|summari[sz]e", re.I)
+_CONTINUE_TEXT = re.compile(r"^(?:请)?(?:继续读|继续往后读|续读|读下一段)[。！？?\s]*$")
+_SWITCH_FILE = re.compile(r"切换到|改问|改看|\bswitch to\b", re.I)
+_SWITCH_DENIAL = re.compile(r"不要|请勿|禁止|别|\b(?:not|never|don['’]t)\b", re.I)
 _FILE_EXCLUSION = re.compile(
     r"(?:不要|请勿|禁止|不用|不许|无需|不得|(?<!\w)别)(?:再|去)?\s*"
-    r"(?:使用|用|查|看|读取|读|打开|引用|选择|选)"
-    r"|\b(?:do not|don['’]t|must not|never)\s+(?:use|read|open|select|cite)\b",
+    r"(?:使用|用|查|看|读取|读|打开|引用|选择|选|切换到|改问|改看)"
+    r"|\b(?:do not|don['’]t|must not|never)\s+(?:use|read|open|select|cite|switch to)\b",
     re.IGNORECASE,
 )
 _FILE_ARGUMENT = (
@@ -412,7 +424,7 @@ class WorkspaceService:
                 item
                 for item in evidence.reads
                 if item.actual_source == key
-                and item.method in {"native_text", "native_table"}
+                and item.method in {"native_text", "native_table", "ocr"}
                 and item.status in {"succeeded", "partial"}
                 and item.text
             ),
@@ -428,12 +440,7 @@ class WorkspaceService:
             key,
         )
         source = current.source
-        excerpt = read.text
-        if "excerpt_truncated" in read.warnings:
-            excerpt = excerpt.removesuffix("…")
-        if source is None or not (
-            source.text.startswith(excerpt) or source.text.strip().startswith(excerpt)
-        ):
+        if source is None or not self._matches_text(evidence, read, source.text):
             raise WorkspaceError("original_unavailable", 409)
         if not self._turn_access(turn):
             raise inaccessible()
@@ -469,7 +476,7 @@ class WorkspaceService:
                 and (not located or _PREVIOUS_TURN.search(turn.request.text))
             ):
                 return self._resolve_reference(owner, turn, session, ordinal)
-            return self._retrieve(turn, session, turn.request.text)
+            return self._retrieve(turn, session, turn.request.text, owner=owner)
         except WorkspaceError as error:
             # Authorized absence of a stored reference is a turn failure, with no source metadata.
             return self.store.finish(
@@ -744,14 +751,48 @@ class WorkspaceService:
         *,
         forced: CatalogNode | None = None,
         kind: str | None = None,
+        owner: str | None = None,
     ) -> Turn:
         mode = kind or turn.request.kind
         node = forced
-        if node is None and session.focus_id and mode == "ask":
+        switching = bool(mode == "ask" and _FILE_MENTION.search(text) and _affirmed_switch(text))
+        explicit_location = _location(text, None)
+        whole_file = _WHOLE_FILE.search(text)
+        followup = bool(
+            self.settings.workspace_answer_enabled
+            and owner
+            and mode == "ask"
+            and not explicit_location
+            and not whole_file
+            and not _FILE_MENTION.search(text)
+            and (
+                _PREVIOUS_TURN.search(text)
+                or _CONTINUE_TEXT.fullmatch(text)
+                or (len(text) <= 28 and _REWRITE_PRIOR.search(text))
+            )
+        )
+        latest = self._latest_reply(owner, turn) if owner and followup else None
+        topic_document = None
+        if latest and latest[0].request.scope_revision == turn.request.scope_revision:
+            topic_document = (latest[0].outcome.get("trace") or {}).get("topic_document_id")
+        if (
+            node is None
+            and session.focus_id
+            and mode == "ask"
+            and not (switching or topic_document)
+        ):
             node = self._node(session, session.focus_id, stale=True)
         if not set(session.course_ids) <= self.allowed_courses:
             raise inaccessible()
-        doc_ids = (node.document.document_id,) if node else tuple(session.document_ids)
+        doc_ids = (
+            (node.document.document_id,)
+            if node
+            else (
+                (topic_document,)
+                if topic_document
+                else (() if switching else tuple(session.document_ids))
+            )
+        )
         snapshot = self.snapshots.read(SnapshotRequest(tuple(session.course_ids), doc_ids))
         if snapshot.resolution_status != "resolved":
             if doc_ids:
@@ -766,17 +807,49 @@ class WorkspaceService:
         ):
             raise WorkspaceError("stale_reference")
         refs = [_doc_ref(doc) for doc in documents.values()]
+        if switching:
+            names = _object_file_names(text, documents.values())
+            selected = (
+                self.snapshots.read(
+                    SnapshotRequest(
+                        tuple(session.course_ids),
+                        tuple(documents),
+                        tuple(names or ()),
+                        require_single_document=True,
+                    )
+                )
+                if names
+                else None
+            )
+            if selected is None or selected.resolution_status != "resolved":
+                draft = Draft(session.session_id)
+                draft.notice("scope_not_found", "无法确认要切换的文件，请从资料目录选择。")
+                return self._complete(turn, draft)
+            if any(
+                _doc_ref(doc) != _doc_ref(documents[doc.document_id]) for doc in selected.documents
+            ):
+                raise WorkspaceError("stale_reference")
+            snapshot = selected
+            documents = {doc.document_id: doc for doc in snapshot.documents}
+            refs = [_doc_ref(doc) for doc in documents.values()]
+            topic_document = selected.documents[0].document_id
         if mode == "summary" and len(documents) != 1:
             options = self._document_choices(session.session_id, documents)
             return self._clarify(turn, "请选择一份资料进行总结。", options, refs)
         sources = {(source.document_id, source.source_id): source for source in snapshot.sources}
-        explicit_location = _location(text, None)
-        location = explicit_location or _location("", node)
+        location = explicit_location or (None if whole_file else _location("", node))
         file_names = [
             doc.file_name
             for doc in documents.values()
             if doc.file_name.casefold() in text.casefold()
         ]
+        if self.settings.workspace_answer_enabled and mode in {"ask", "summary"}:
+            names = _object_file_names(text, documents.values())
+            if names is None:
+                draft = Draft(session.session_id)
+                draft.notice("scope_not_found", "指定文件不在本轮范围，请确认资料或明确切换。")
+                return self._complete(turn, draft, refs=refs)
+            file_names = names
         if mode == "ask" and asks_for_composition(text):
             return self._answer_composition(turn, session, text, snapshot)
         if mode == "ask" and location is None and asks_for_definition_and_experiment(text):
@@ -784,6 +857,17 @@ class WorkspaceService:
             return self._answer_with_supplement(turn, session, text, documents, file_names)
         if mode == "ask" and (target := object_intent(text)):
             return self._answer_object(turn, session, text, target, documents, node, location)
+        previous = None
+        if followup:
+            previous = self._scoped_previous(latest, documents) if latest else None
+            if _REWRITE_PRIOR.search(text):
+                if previous:
+                    return self._rewrite_previous(turn, previous, refs, topic_document)
+                draft = Draft(session.session_id)
+                draft.notice(
+                    "prior_evidence_unavailable", "本范围没有可核对的上一轮回答。请重述问题。"
+                )
+                return self._complete(turn, draft, refs=refs)
         if mode == "summary":
             ranked = sorted(
                 (source for source in snapshot.sources if source.text.strip()),
@@ -845,6 +929,22 @@ class WorkspaceService:
                     for hit in search.candidates
                 ],
             }
+        if topic_document:
+            trace["topic_document_id"] = topic_document
+        if mode in {"ask", "summary"} and self.settings.workspace_answer_enabled:
+            if self.settings.deepseek_api_key.strip():
+                answer_mode = "summary" if whole_file and _SUMMARY_FILE.search(text) else mode
+                return self._generate_snapshot(
+                    turn,
+                    snapshot,
+                    ranked,
+                    trace,
+                    mode=answer_mode,
+                    location=location,
+                    names=file_names,
+                    previous=previous,
+                    question=text,
+                )
         draft = Draft(session.session_id)
         if mode == "summary":
             draft.text("当前文件摘要（部分来源）")
@@ -864,7 +964,240 @@ class WorkspaceService:
             trace["display_attempts"] = self._attach_images(turn, draft, documents, chosen)
         if not draft.sources:
             draft.notice("no_readable_evidence", "在所选范围内没有读到支持本题的原文或图片。")
+        elif mode in {"ask", "summary"} and any(b["type"] == "text" for b in draft.blocks):
+            draft.notice("excerpt_fallback", "未启用回答模型或缺少配置。本条为原文摘录。")
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
+        if read.method == "ocr":
+            original = self.library.store.read_ocr_text(
+                item.revision.source, course_ids=(item.revision.course_id,)
+            )
+        if span := item.locator.get("text_span"):
+            start, end = span
+            return 0 <= start < end <= len(original) and original[start:end] == read.text
+        excerpt = read.text.removesuffix("…") if "excerpt_truncated" in read.warnings else read.text
+        return original.startswith(excerpt) or original.strip().startswith(excerpt)
+
+    def _latest_reply(self, owner: str, turn: Turn) -> tuple[Turn, dict[str, Any]] | None:
+        _, turns, messages = self.store.timeline(owner, turn.session_id)
+        previous_turns = {row.turn_id: row for row in turns if row.status == "completed"}
+        boundary = next(item["ordinal"] for item in messages if item["turn_id"] == turn.turn_id)
+        message = next(
+            (
+                item
+                for item in reversed(messages)
+                if item["ordinal"] < boundary and item["role"] == "assistant"
+            ),
+            None,
+        )
+        if not message or not (previous := previous_turns.get(message["turn_id"])):
+            return None
+        if not self._turn_access(previous):
+            return None
+        return previous, message
+
+    def _scoped_previous(
+        self, latest: tuple[Turn, dict[str, Any]], documents: dict[str, SnapshotDocument]
+    ) -> tuple[Turn, dict[str, Any], dict[str, TurnEvidence]] | None:
+        previous, message = latest
+        identifiers = {
+            key
+            for block in message["blocks"]
+            if block["type"] == "text"
+            for key in block.get("citations", [])
+        }
+        sources = {}
+        for key in message["sources"]:
+            if key not in identifiers:
+                continue
+            item = TurnEvidence.model_validate(message["sources"][key])
+            identity = item.revision.source
+            doc = documents.get(identity.document_id)
+            if doc is None or doc.version != identity.version:
+                return None
+            raw = self._historical_source(_doc_ref(doc), identity)
+            reads = [
+                read
+                for read in item.reads
+                if raw.source
+                and read.text
+                and read.status in {"succeeded", "partial"}
+                and read.actual_source == identity
+                and read.method in {"native_text", "native_table", "ocr"}
+                and self._matches_text(item, read, raw.source.text)
+            ]
+            if reads:
+                sources[key] = item.model_copy(update={"reads": reads})
+        return (previous, message, sources) if sources else None
+
+    @staticmethod
+    def _prior_context(previous) -> dict[str, str]:
+        turn, message, _ = previous
+        body = "\n".join(block["text"] for block in message["blocks"] if block["type"] == "text")
+        return {"previous_question": turn.request.text[:800], "previous_answer": body[:1800]}
+
+    def _rewrite_previous(self, turn, previous, refs, topic_document=None) -> Turn:
+        _, _, sources = previous
+        draft = Draft(turn.session_id, sources=sources)
+        for evidence_id, item in sources.items():
+            draft.text(item.reads[0].text, evidence_id)
+        trace = {
+            "route": "generated_answer",
+            "reading": {
+                "mode": "previous_citations",
+                "revalidated_evidence_ids": list(sources),
+                "visual_read_status": "not_attempted",
+            },
+        }
+        if topic_document:
+            trace["topic_document_id"] = topic_document
+        self._generate_draft(
+            turn, draft, trace, "rewrite", refs=refs, context=self._prior_context(previous)
+        )
+        return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _generate_snapshot(
+        self, turn, snapshot, ranked, trace, *, mode, location, names, previous, question
+    ):
+        if names:
+            allowed = {name.casefold() for name in names}
+            docs = tuple(doc for doc in snapshot.documents if doc.file_name.casefold() in allowed)
+            if not docs:
+                return self._complete(turn, Draft(turn.session_id), trace=trace)
+        else:
+            docs = snapshot.documents
+        identifiers = {doc.document_id for doc in docs}
+        sources = tuple(
+            source
+            for source in snapshot.sources
+            if source.document_id in identifiers
+            and (
+                location is None
+                or (
+                    (location.page is None or source.locator.get("page") == location.page)
+                    and (
+                        location.cell_index is None
+                        or source.locator.get("cell_index") == location.cell_index
+                    )
+                )
+            )
+        )
+        snapshot = replace(snapshot, sources=sources, documents=docs)
+        source_keys = {(source.document_id, source.source_id) for source in sources}
+        ranked = [
+            source for source in ranked if (source.document_id, source.source_id) in source_keys
+        ]
+        preferred = [_key(source) for source in ranked] if mode == "ask" else []
+        # Course-wide search keeps the lexical/adjacency scope; selected files may fit in full.
+        if len(docs) > 1 and location is None:
+            snapshot = replace(snapshot, sources=tuple(ranked))
+        last_trace = previous[0].outcome.get("trace", {}).get("reading", {}) if previous else {}
+        cursor = None
+        if _CONTINUE_TEXT.fullmatch(question):
+            if last_trace.get("next_cursor"):
+                cursor = ReadingCursor(**last_trace["next_cursor"])
+                preferred = [SourceKey.model_validate(key) for key in last_trace["preferred"]]
+            else:
+                draft = Draft(turn.session_id)
+                draft.notice("no_reading_cursor", "本轮范围没有可续读的位置。")
+                return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs])
+        context = self._prior_context(previous) if previous else None
+        reserve = 1800 + estimate_input_budget([question, context])
+        ceiling = min(
+            self.settings.answer_context_tokens,
+            self.settings.workspace_input_token_limit + OUTPUT_RESERVE,
+        )
+        draft = Draft(turn.session_id)
+        trace.update(route="generated_answer", external_call_count=0)
+        try:
+            window = read_window(
+                self.library.store,
+                snapshot,
+                context_tokens=ceiling,
+                output_reserve=OUTPUT_RESERVE,
+                prompt_reserve=reserve,
+                preferred_sources=preferred,
+                cursor=cursor,
+                active=lambda: self.store.active(turn),
+            )
+        except ValueError:
+            draft.notice("reading_budget", "模型上下文预算无法容纳原文，请缩小范围或调整模型配置。")
+            return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs], trace=trace)
+        trace["reading"] = window.trace() | {
+            "mode": mode,
+            "preferred": [key.model_dump() for key in preferred],
+            "full_text_scope": window.full_text_scope and len(docs) == 1 and location is None,
+            "location": location.model_dump(mode="json") if location else None,
+        }
+        for segment in window.segments:
+            source = segment.source
+            read = TurnRead(
+                actual_source=_key(source),
+                method=segment.method,
+                status="succeeded",
+                text=segment.text,
+            )
+            item = draft.add_evidence(segment.document, source, [read])
+            item.locator["text_span"] = [segment.start, segment.end]
+            draft.text(segment.text, item.evidence_id)
+        refs = [_doc_ref(doc) for doc in docs]
+        self._generate_draft(
+            turn,
+            draft,
+            trace,
+            mode,
+            refs=refs,
+            question=question,
+            context=context,
+            coverage={
+                "full_text_scope": trace["reading"]["full_text_scope"],
+                "unread_visual_total": len(window.unread_visual),
+            },
+        )
+        selected = ranked or [segment.source for segment in window.segments]
+        if mode == "ask" and selected:
+            media = _media_candidates(selected, snapshot.sources, None)
+            self._attach_images(turn, draft, {doc.document_id: doc for doc in docs}, media)
+        return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _generate_draft(
+        self,
+        turn,
+        draft,
+        trace,
+        mode,
+        *,
+        refs,
+        historical=(),
+        question=None,
+        context=None,
+        coverage=None,
+    ) -> None:
+        if not self.store.active(turn):
+            raise WorkspaceError("interrupted")
+        if not all(
+            self.store.filter_accessible(refs, self.allowed_courses, current=True)
+        ) or not all(self.store.filter_accessible(historical, self.allowed_courses)):
+            raise WorkspaceError("stale_reference")
+        result = generate_response(
+            self.settings,
+            question or turn.request.text,
+            draft.sources,
+            mode=mode,
+            context=context,
+            coverage=coverage,
+        )
+        trace["generation"] = result.trace
+        trace["external_call_count"] = result.trace["external_call_count"]
+        if result.status in {"succeeded", "partial", "insufficient"}:
+            draft.blocks = [block for block in draft.blocks if block["type"] != "text"]
+            for statement in result.statements:
+                draft.text(statement.text, *statement.citations)
+            if result.missing:
+                draft.notice("missing_evidence", result.missing)
+        else:
+            draft.notice("excerpt_fallback", "回答模型未能生成可核对的答案。本条保留已读原文摘录。")
 
     def _answer_composition(
         self, turn: Turn, session: Session, text: str, snapshot: StructureSnapshot
@@ -1603,7 +1936,7 @@ def _summary_coverage(
 
 
 def _location(query: str, node: CatalogNode | None) -> StructureLocation | None:
-    if match := _PAGE.search(query):
+    if match := _PAGE.search(query) or _PAGE_PREFIX.search(query):
         return StructureLocation(page=int(match.group(1)))
     if match := _CELL.search(query) or _CELL_PREFIX.search(query):
         return StructureLocation(cell_index=int(match.group(1)) - 1)
@@ -1624,6 +1957,14 @@ def _explicit_filenames(text: str) -> list[str]:
             files.append(following[1])
             offset = following.end()
     return files
+
+
+def _affirmed_switch(text: str) -> bool:
+    for match in _SWITCH_FILE.finditer(text):
+        clause = re.split(r"[，。！？；,;!?\n]", text[: match.start()])[-1]
+        if not _SWITCH_DENIAL.search(clause):
+            return True
+    return False
 
 
 def _object_file_names(text: str, documents: Iterable[SnapshotDocument]) -> list[str] | None:

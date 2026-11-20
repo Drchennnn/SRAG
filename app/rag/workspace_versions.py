@@ -29,6 +29,9 @@ _CURRENT = re.compile(r"(?:当前|现行|新|最新|现在这)版(?:本)?|\b(?:c
 _COMPARE = re.compile(
     r"比较|对比|相比|差异|区别|变化|不同|\b(?:compare|differ\w*|chang\w*)\b", re.I
 )
+_BARE_COMPARISON = re.compile(
+    r"^(?:和|跟|与)旧版(?:本)?(?:相比|比较|对比)(?:呢|怎样|如何)?[？?。\s]*$"
+)
 _VERSION = re.compile(
     r"(?<![A-Za-z0-9])v(?:ersion\s*)?([1-9][0-9]{0,5})(?![A-Za-z0-9])"
     r"|(?:第\s*)?([1-9][0-9]{0,5})\s*版",
@@ -62,7 +65,8 @@ class _Previous:
 def is_version_comparison(text: str) -> bool:
     request_text = _FILE_TOKEN.sub(" ", text)
     return bool(
-        _COMPARE.search(text)
+        _BARE_COMPARISON.fullmatch(text)
+        or _COMPARE.search(text)
         and (
             (_OLD.search(request_text) and _CURRENT.search(request_text))
             or len(_versions(request_text)) > 1
@@ -108,6 +112,7 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
     if not set(session.course_ids) <= service.allowed_courses:
         raise inaccessible()
     question = turn.request.text
+    implicit = bool(_BARE_COMPARISON.fullmatch(question))
     draft = Draft(session.session_id)
     trace: dict[str, Any] = {"route": "version_comparison", "external_call_count": 0}
     scope = tuple(session.course_ids)
@@ -119,10 +124,11 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
     focus = None
     if not names and session.focus_id:
         focus = service._catalog(session.session_id).nodes.get(session.focus_id)
-        if focus is None:
+        if focus is None and not implicit:
             draft.notice("comparison_scope", "先前定位已随版本变更，请明确要比较的文件及对象。")
             return service._complete(turn, draft, trace=trace)
-        names = [focus.document.file_name]
+        if focus is not None:
+            names = [focus.document.file_name]
     if names:
         snapshot = service.snapshots.read(
             SnapshotRequest(
@@ -191,6 +197,17 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         for candidate in current
         if _counterpart(past, candidate, location, intent)
     ]
+    if implicit and location is None and not image and len(paired) > 1:
+        latest = paired[0][0].message_id
+        recent = [(older, newer) for older, newer in paired if older.message_id == latest]
+        keys = {
+            (_key(older.source).document_id, older.source.version, newer.version)
+            for older, newer in recent
+        }
+        if len(keys) == 1 and len(recent) <= 8:
+            paired = recent
+            if len(paired) > 1:
+                return _compare_native_group(service, turn, draft, docs, paired, trace)
     if len(paired) != 1:
         code = "comparison_missing_history" if not old else "comparison_ambiguous"
         text = (
@@ -224,6 +241,15 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
             return service._finish_invalid_read(turn, error, trace)
     else:
         _compare_native(service, draft, past, document, selected, trace)
+        if service.settings.workspace_answer_enabled and len(draft.sources) == 2:
+            service._generate_draft(
+                turn,
+                draft,
+                trace,
+                "compare_versions",
+                refs=[_doc_ref(document)],
+                historical=[history_ref],
+            )
     return service._complete(
         turn,
         draft,
@@ -246,6 +272,47 @@ def _completed_history(
         if message["role"] == "assistant" and previous and service._turn_access(previous):
             history.append((previous, message))
     return list(reversed(history))
+
+
+def _compare_native_group(service, turn, draft, docs, paired, trace):
+    from app.rag.workspace import _doc_ref
+
+    if not service.store.active(turn):
+        raise WorkspaceError("interrupted")
+    older, newer = paired[0]
+    revision = older.evidence.revision
+    historical = [
+        dict(
+            course_id=revision.course_id,
+            document_id=revision.source.document_id,
+            version=revision.source.version,
+            publication_epoch=revision.publication_epoch,
+            content_sha256=revision.content_sha256,
+        )
+    ]
+    document = docs[newer.document_id]
+    refs = [_doc_ref(document)]
+    trace["paired_sources"] = []
+    for previous, current in paired:
+        details: dict[str, Any] = {}
+        _compare_native(service, draft, previous, document, current, details)
+        trace["paired_sources"].append(
+            {
+                "historical": _key(previous.source).model_dump(),
+                "current": _key(current).model_dump(),
+                **details,
+            }
+        )
+    if service.settings.workspace_answer_enabled and draft.sources:
+        service._generate_draft(
+            turn,
+            draft,
+            trace,
+            "compare_versions",
+            refs=refs,
+            historical=historical,
+        )
+    return service._complete(turn, draft, refs=refs, historical=historical, trace=trace)
 
 
 def _old_candidates(
@@ -438,9 +505,11 @@ def _compare_native(
     )
     if old_read:
         item = _include_old(draft, past, old_read)
+        item.locator["version_role"] = "historical"
         draft.text(f"旧版 v{past.source.version}\n{old_read.text}", item.evidence_id)
     if new_read:
         item = draft.add_evidence(document, selected, [new_read])
+        item.locator["version_role"] = "current"
         draft.text(f"当前版 v{document.version}\n{new_read.text}", item.evidence_id)
     if not old_read or not new_read:
         missing = (
@@ -475,6 +544,9 @@ def _include_old(draft: Draft, past: _Previous, read: TurnRead | None) -> TurnEv
             "evidence_id": f"ev-{len(draft.sources) + 1}",
             "reads": [read] if read else [],
             "read_status": read.status if read else "not_attempted",
+            "locator": {
+                key: value for key, value in past.evidence.locator.items() if key != "text_span"
+            },
         }
     )
     draft.sources[item.evidence_id] = item

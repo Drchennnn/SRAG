@@ -1,0 +1,303 @@
+{
+  "first_summary": {
+    "notices": [
+      "prior_evidence_unavailable"
+    ],
+    "calls": 0,
+    "input": [],
+    "previous_context": null,
+    "prompt_coverage": null,
+    "trace_coverage": null,
+    "generation_status": null,
+    "citations": [],
+    "evidence_ids": []
+  },
+  "initial": {
+    "notices": [],
+    "calls": 1,
+    "input": [
+      {
+        "file": "Northpoint.pdf",
+        "page": 1
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 2
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 3
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 4
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 5
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 6
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 7
+      },
+      {
+        "file": "Northpoint.pdf",
+        "page": 8
+      }
+    ],
+    "previous_context": {},
+    "prompt_coverage": {
+      "full_text_scope": true,
+      "unread_visual_total": 0
+    },
+    "trace_coverage": true,
+    "generation_status": "succeeded",
+    "citations": [
+      [
+        "ev-1"
+      ]
+    ],
+    "evidence_ids": [
+      "ev-1",
+      "ev-2",
+      "ev-3",
+      "ev-4",
+      "ev-5",
+      "ev-6",
+      "ev-7",
+      "ev-8",
+      "ev-9"
+    ]
+  },
+  "same_session_follow": {
+    "notices": [],
+    "calls": 1,
+    "input": [
+      {
+        "file": "Northpoint.pdf",
+        "page": 1
+      }
+    ],
+    "previous_context": {
+      "previous_question": "这份课件里的最后一个期限是什么？",
+      "previous_answer": "合成核验回答。"
+    },
+    "prompt_coverage": {},
+    "trace_coverage": null,
+    "generation_status": "succeeded",
+    "citations": [
+      [
+        "ev-1"
+      ]
+    ],
+    "evidence_ids": [
+      "ev-1"
+    ]
+  },
+  "cross_session_guard": {
+    "notices": [
+      "prior_evidence_unavailable"
+    ],
+    "calls": 0,
+    "input": [],
+    "previous_context": null,
+    "prompt_coverage": null,
+    "trace_coverage": null,
+    "generation_status": null,
+    "citations": [],
+    "evidence_ids": []
+  },
+  "scoped_page": {
+    "notices": [],
+    "calls": 1,
+    "input": [
+      {
+        "file": "Northpoint.pdf",
+        "page": 5
+      }
+    ],
+    "previous_context": {},
+    "prompt_coverage": {
+      "full_text_scope": true,
+      "unread_visual_total": 0
+    },
+    "trace_coverage": true,
+    "generation_status": "succeeded",
+    "citations": [
+      [
+        "ev-1"
+      ]
+    ],
+    "evidence_ids": [
+      "ev-1",
+      "ev-2"
+    ]
+  },
+  "provider_failure": {
+    "notices": [
+      "excerpt_fallback"
+    ],
+    "calls": 1,
+    "input": [
+      {
+        "file": "Northpoint.pdf",
+        "page": 3
+      }
+    ],
+    "previous_context": {},
+    "prompt_coverage": {
+      "full_text_scope": true,
+      "unread_visual_total": 0
+    },
+    "trace_coverage": true,
+    "generation_status": "provider_error",
+    "citations": [
+      [
+        "ev-1"
+      ]
+    ],
+    "evidence_ids": [
+      "ev-1",
+      "ev-2"
+    ]
+  },
+  "negated_scope_switch": {
+    "notices": [],
+    "calls": 1,
+    "input": [
+      {
+        "file": "Secondary.pdf",
+        "page": 1
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 2
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 3
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 4
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 5
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 6
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 7
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 8
+      }
+    ],
+    "previous_context": {},
+    "prompt_coverage": {
+      "full_text_scope": true,
+      "unread_visual_total": 0
+    },
+    "trace_coverage": true,
+    "generation_status": "succeeded",
+    "citations": [
+      [
+        "ev-1"
+      ]
+    ],
+    "evidence_ids": [
+      "ev-1",
+      "ev-2",
+      "ev-3",
+      "ev-4",
+      "ev-5",
+      "ev-6",
+      "ev-7",
+      "ev-8",
+      "ev-9"
+    ]
+  },
+  "positive_switch": {
+    "notices": [],
+    "calls": 1,
+    "input": [
+      {
+        "file": "Secondary.pdf",
+        "page": 1
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 2
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 3
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 4
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 5
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 6
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 7
+      },
+      {
+        "file": "Secondary.pdf",
+        "page": 8
+      }
+    ],
+    "previous_context": {},
+    "prompt_coverage": {
+      "full_text_scope": true,
+      "unread_visual_total": 0
+    },
+    "trace_coverage": true,
+    "generation_status": "succeeded",
+    "citations": [
+      [
+        "ev-1"
+      ]
+    ],
+    "evidence_ids": [
+      "ev-1",
+      "ev-2",
+      "ev-3",
+      "ev-4",
+      "ev-5",
+      "ev-6",
+      "ev-7",
+      "ev-8",
+      "ev-9"
+    ]
+  },
+  "follow_after_positive_switch": {
+    "notices": [
+      "prior_evidence_unavailable"
+    ],
+    "calls": 0,
+    "input": [],
+    "previous_context": null,
+    "prompt_coverage": null,
+    "trace_coverage": null,
+    "generation_status": null,
+    "citations": [],
+    "evidence_ids": []
+  }
+}

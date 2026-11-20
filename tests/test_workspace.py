@@ -2,6 +2,7 @@ import base64
 import hashlib
 import json
 import os
+import runpy
 import subprocess
 import sys
 from concurrent.futures import ThreadPoolExecutor
@@ -130,6 +131,85 @@ def _published_bytes(version, index):
     return base64.b64decode(
         json.loads(p.read_text())["cells"][1]["outputs"][index]["data"]["image/png"]
     )
+
+
+def test_generated_answer_uses_whole_file_prior_citations_and_explicit_switch(
+    system, tmp_path, monkeypatch
+):
+    from app.rag.workspace_generation import GeneratedStatement, Generation
+
+    settings, _, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-test-marker"
+    fixtures = runpy.run_path("docs/G/G14-fixtures.py")
+    filename = fixtures["FILENAME"]
+    file = tmp_path / filename
+    fixtures["make_pdf"](file)
+    observed = []
+
+    def generate(_settings, question, evidence, *, mode, context=None, coverage=None):
+        observed.append((question, mode, context, list(evidence.values()), coverage))
+        chosen = tuple(
+            key for key, item in evidence.items() if item.locator.get("page") in {3, 5, 7, 8}
+        ) or tuple(evidence)
+        return Generation(
+            "succeeded",
+            (GeneratedStatement("已按可核对的原文回答。", chosen),),
+            "",
+            {"status": "succeeded", "external_call_count": 0},
+        )
+
+    monkeypatch.setattr("app.rag.workspace.generate_response", generate)
+    session = _create(client)
+    imported = _upload(client, session, file)
+    focus = _node(client, session, imported["document_id"], "page", page=2)
+    revision = _focus(client, session, focus)
+    first = _ask(client, session, fixtures["QUESTIONS"][0], revision)
+    assert first["turn"]["trace"]["route"] == "generated_answer"
+    assert [item.locator["page"] for item in observed[0][3]] == list(range(1, 9))
+    assert observed[0][4]["full_text_scope"]
+    short = _ask(client, session, "用两句话总结", revision)
+    assert short["turn"]["trace"]["reading"]["mode"] == "previous_citations"
+    assert observed[1][2]["previous_question"] == fixtures["QUESTIONS"][0]
+    assert [item.locator["page"] for item in observed[1][3]] == [3, 5, 7, 8]
+    for key in short["message"]["blocks"][0]["citations"]:
+        original = client.get(
+            session + f"/messages/{short['message']['message_id']}/evidence/{key}"
+        )
+        assert original.status_code == 200
+        assert original.json()["source"] == short["message"]["sources"][key]["revision"]["source"]
+
+    other_session = _create(client)
+    isolated = _ask(client, other_session, "用两句话总结")
+    assert isolated["message"]["blocks"][0]["code"] == "prior_evidence_unavailable"
+    assert len(observed) == 2
+    missing = _ask(client, session, "改问 Missing.pdf 的重点是什么？", revision)
+    assert missing["message"]["blocks"][0]["code"] == "scope_not_found"
+    assert len(observed) == 2
+    other = tmp_path / "Public-Alternative.pdf"
+    other.write_bytes(file.read_bytes())
+    alternate = _upload(client, session, other)
+    switched = _ask(client, session, "改问 Public-Alternative.pdf 的第 5 页有什么条件？", revision)
+    assert switched["turn"]["trace"]["route"] == "generated_answer"
+    assert observed[2][2] is None
+    (source,) = observed[2][3]
+    assert source.revision.source.document_id == alternate["document_id"]
+    assert source.locator["page"] == 5
+    assert not observed[2][4]["full_text_scope"]
+    continued = _ask(client, session, "把刚才的回答用中文简短说一遍。", revision)
+    assert continued["turn"]["trace"]["reading"]["mode"] == "previous_citations"
+    (topic_source,) = observed[3][3]
+    assert topic_source.revision.source.document_id == alternate["document_id"]
+    denied = _ask(
+        client, session, "不要切换到 Public-Alternative.pdf，只继续解释签字规则。", revision
+    )
+    assert denied["message"]["blocks"][0]["code"] == "scope_not_found"
+    assert len(observed) == 4
+    fresh = _create(client, course_ids=[_COURSE], document_ids=[imported["document_id"]])
+    whole = _ask(client, fresh, "用两句话总结这份课件。")
+    assert whole["turn"]["trace"]["reading"]["full_text_scope"]
+    assert observed[4][1] == "summary" and observed[4][2] is None
+    assert [item.locator["page"] for item in observed[4][3]] == list(range(1, 9))
 
 
 def _sha(data):
@@ -839,7 +919,7 @@ def test_first_table_answer_shows_the_same_object_without_vision(system, public_
     _upload(client, session, originals / "PulseGate-limits.pptx")
     result = _ask(client, session, "核对 PulseGate-limits.pptx 第 1 页原表的设定值与单位。")
     message = result["message"]
-    (evidence_id, item), = message["sources"].items()
+    ((evidence_id, item),) = message["sources"].items()
     text, image = message["blocks"]
     assert text["citations"] == [evidence_id] == [image["evidence_id"]]
     assert item["reads"][0]["method"] == "native_table"

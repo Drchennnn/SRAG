@@ -1,0 +1,4049 @@
+{
+  "subject": "efd0fd01fc04a6bd7bdefb7ba2d74190d1f31069",
+  "live": true,
+  "fixtures": {
+    "filename": "Northpoint-Completion-Briefing.pdf",
+    "course_id": "northpoint-completion",
+    "fixture_hashes": {
+      "v1": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+      "v2": "c63e3b96ee9b116deacd121013469f073f652b7266e1855883b35fd5910bb041"
+    },
+    "questions": {
+      "first": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+      "follow": "用中文把刚才的回答总结成两句话。",
+      "current": "本页夏季批次的项目签字截止和正式结业登记分别是哪天？",
+      "compare": "和旧版相比呢？",
+      "specific_compare": "请比较 Northpoint-Completion-Briefing.pdf 第 5 页旧版和当前版的夏季截止和登记时间。"
+    },
+    "v1_evidence_pages": {
+      "3": [
+        "May 31",
+        "June 18"
+      ],
+      "5": [
+        "August 23",
+        "September 12"
+      ],
+      "7": [
+        "December 8",
+        "January 14"
+      ],
+      "8": [
+        "July 15",
+        "eligibility letter",
+        "not an award certificate"
+      ]
+    },
+    "v2_page_5": [
+      "August 21",
+      "September 10"
+    ],
+    "award_rounds": [
+      "Spring award round",
+      "Summer award round",
+      "Winter award round"
+    ]
+  },
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "gold": {
+    "provided_evidence": {
+      "ev-1": {
+        "evidence_id": "ev-1",
+        "revision": {
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "course_id": "northpoint-completion",
+          "publication_epoch": 1,
+          "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 3
+        },
+        "read_status": "succeeded",
+        "reads": [
+          {
+            "actual_source": {
+              "document_id": "public-g16-gold",
+              "version": 1,
+              "source_id": "page:3"
+            },
+            "method": "native_text",
+            "status": "succeeded",
+            "text": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+            "warnings": [],
+            "execution": null,
+            "origin_execution": null,
+            "actual_input_sha256": null,
+            "actual_input_media_type": null,
+            "actual_input_rect": null,
+            "model": null,
+            "prompt_version": null,
+            "question_sha256": null
+          }
+        ]
+      },
+      "ev-2": {
+        "evidence_id": "ev-2",
+        "revision": {
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "course_id": "northpoint-completion",
+          "publication_epoch": 1,
+          "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 5
+        },
+        "read_status": "succeeded",
+        "reads": [
+          {
+            "actual_source": {
+              "document_id": "public-g16-gold",
+              "version": 1,
+              "source_id": "page:5"
+            },
+            "method": "native_text",
+            "status": "succeeded",
+            "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+            "warnings": [],
+            "execution": null,
+            "origin_execution": null,
+            "actual_input_sha256": null,
+            "actual_input_media_type": null,
+            "actual_input_rect": null,
+            "model": null,
+            "prompt_version": null,
+            "question_sha256": null
+          }
+        ]
+      },
+      "ev-3": {
+        "evidence_id": "ev-3",
+        "revision": {
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "course_id": "northpoint-completion",
+          "publication_epoch": 1,
+          "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 7
+        },
+        "read_status": "succeeded",
+        "reads": [
+          {
+            "actual_source": {
+              "document_id": "public-g16-gold",
+              "version": 1,
+              "source_id": "page:7"
+            },
+            "method": "native_text",
+            "status": "succeeded",
+            "text": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+            "warnings": [],
+            "execution": null,
+            "origin_execution": null,
+            "actual_input_sha256": null,
+            "actual_input_media_type": null,
+            "actual_input_rect": null,
+            "model": null,
+            "prompt_version": null,
+            "question_sha256": null
+          }
+        ]
+      },
+      "ev-4": {
+        "evidence_id": "ev-4",
+        "revision": {
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "course_id": "northpoint-completion",
+          "publication_epoch": 1,
+          "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 8
+        },
+        "read_status": "succeeded",
+        "reads": [
+          {
+            "actual_source": {
+              "document_id": "public-g16-gold",
+              "version": 1,
+              "source_id": "page:8"
+            },
+            "method": "native_text",
+            "status": "succeeded",
+            "text": "Choosing a round with an internship deadline\nFor a July 15 internship that requires the official award certificate,\na student who misses spring cannot supply that certificate by July 15.\nAsk the employer whether an eligibility letter from the Registry is acceptable.\nThe eligibility letter is not an award certificate and must not be presented as one.\nIf alternative proof is accepted, use the earliest round whose sign-off you can meet.\nIf the official certificate is mandatory, ask to move the internship start date.\nPage 8",
+            "warnings": [],
+            "execution": null,
+            "origin_execution": null,
+            "actual_input_sha256": null,
+            "actual_input_media_type": null,
+            "actual_input_rect": null,
+            "model": null,
+            "prompt_version": null,
+            "question_sha256": null
+          }
+        ]
+      }
+    },
+    "response": {
+      "status": "partial",
+      "statements": [
+        {
+          "text": "课件列出三个结业（award）轮次：春季轮项目签字截止 5 月 31 日、6 月 18 日记录；夏季轮签字截止 8 月 23 日、9 月 12 日记录；冬季轮签字截止 12 月 8 日、次年 1 月 14 日记录。",
+          "citations": [
+            "ev-1",
+            "ev-2",
+            "ev-3"
+          ]
+        },
+        {
+          "text": "官方结业证明只能在记录之后由 Registry 签发，因此春季轮最早也要到 6 月 18 日记录后才可能出证。",
+          "citations": [
+            "ev-1"
+          ]
+        },
+        {
+          "text": "针对 7 月 15 日暑期实习需正式结业证明的情形：错过春季签字的学生无法在 7 月 15 日前拿到该证明。",
+          "citations": [
+            "ev-4"
+          ]
+        },
+        {
+          "text": "可选做法一：询问雇主是否接受 Registry 出具的资格信（eligibility letter）；该信不是结业证明，不得当作结业证明出示。若接受替代证明，就选自己能赶上签字的最早轮次。",
+          "citations": [
+            "ev-4"
+          ]
+        },
+        {
+          "text": "可选做法二：若必须提供正式结业证明，则申请推迟实习开始日期。",
+          "citations": [
+            "ev-4"
+          ]
+        }
+      ],
+      "missing": "课件未说明 Registry 签发资格信需要多长时间，也未给出各轮次从记录到实际出证的具体天数，因此无法确认资格信能否在 7 月 15 日前取得。",
+      "trace": {
+        "provider": "deepseek",
+        "model": "deepseek-flash",
+        "attempts": [
+          {
+            "status": 200,
+            "outcome": "response",
+            "elapsed_ms": 2397.042
+          }
+        ],
+        "output_reserve": 8192,
+        "input_evidence_ids": [
+          "ev-1",
+          "ev-2",
+          "ev-3",
+          "ev-4"
+        ],
+        "estimated_input": 4424,
+        "input_budget": 32768,
+        "total_tokens": 1300,
+        "status": "partial",
+        "external_call_count": 1,
+        "elapsed_ms": 2428.519
+      }
+    }
+  },
+  "provider": [
+    {
+      "turn": "fixed_gold",
+      "client_turn_id": null,
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "7083e655d43f5557eb77c899f5c1a71e0dd66d74f4c09bd1a83ad2f5790c561d",
+      "evidence_markers": {
+        "3": [
+          "May 31",
+          "June 18"
+        ],
+        "5": [
+          "August 23",
+          "September 12"
+        ],
+        "7": [
+          "December 8",
+          "January 14"
+        ],
+        "8": [
+          "July 15"
+        ]
+      },
+      "input_evidence": [
+        {
+          "id": "ev-1",
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "id": "ev-2",
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "id": "ev-3",
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "id": "ev-4",
+          "source": {
+            "document_id": "public-g16-gold",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "has_previous_context": false,
+      "generation_mode": "ask",
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 438.403
+    },
+    {
+      "turn": "first",
+      "client_turn_id": "bdf29821-1ec7-458f-ada7-299aea2a75c6",
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "6cf1731837bab68fdef405b353c47442f3087ba81f1e6478d3dbbfc68c5ee804",
+      "evidence_markers": {
+        "3": [
+          "May 31",
+          "June 18"
+        ],
+        "5": [
+          "August 23",
+          "September 12"
+        ],
+        "7": [
+          "December 8",
+          "January 14"
+        ],
+        "8": [
+          "July 15"
+        ]
+      },
+      "input_evidence": [
+        {
+          "id": "ev-1",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "locator": {
+            "page": 1
+          }
+        },
+        {
+          "id": "ev-2",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "locator": {
+            "page": 2
+          }
+        },
+        {
+          "id": "ev-3",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "id": "ev-4",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "locator": {
+            "page": 4
+          }
+        },
+        {
+          "id": "ev-5",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "id": "ev-6",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "locator": {
+            "page": 6
+          }
+        },
+        {
+          "id": "ev-7",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "id": "ev-8",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "has_previous_context": false,
+      "generation_mode": "ask",
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 446.187
+    },
+    {
+      "turn": "follow",
+      "client_turn_id": "7fe9a2e2-571e-4a1b-8c7c-8ba06fdca2ed",
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "59e0e8c58afdf76a96351c3be0317c49f92b03abc009a51d83a52355d1cc67c7",
+      "evidence_markers": {
+        "3": [
+          "May 31",
+          "June 18"
+        ],
+        "5": [
+          "August 23",
+          "September 12"
+        ],
+        "7": [
+          "December 8",
+          "January 14"
+        ],
+        "8": [
+          "July 15"
+        ]
+      },
+      "input_evidence": [
+        {
+          "id": "ev-3",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "id": "ev-4",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "locator": {
+            "page": 4
+          }
+        },
+        {
+          "id": "ev-5",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "id": "ev-6",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "locator": {
+            "page": 6
+          }
+        },
+        {
+          "id": "ev-7",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "id": "ev-8",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "has_previous_context": true,
+      "generation_mode": "rewrite",
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 428.895
+    },
+    {
+      "turn": "first",
+      "client_turn_id": "14ed8fdb-8967-4e16-aff4-0480d282a535",
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "6cf1731837bab68fdef405b353c47442f3087ba81f1e6478d3dbbfc68c5ee804",
+      "evidence_markers": {
+        "3": [
+          "May 31",
+          "June 18"
+        ],
+        "5": [
+          "August 23",
+          "September 12"
+        ],
+        "7": [
+          "December 8",
+          "January 14"
+        ],
+        "8": [
+          "July 15"
+        ]
+      },
+      "input_evidence": [
+        {
+          "id": "ev-1",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "locator": {
+            "page": 1
+          }
+        },
+        {
+          "id": "ev-2",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "locator": {
+            "page": 2
+          }
+        },
+        {
+          "id": "ev-3",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "locator": {
+            "page": 3
+          }
+        },
+        {
+          "id": "ev-4",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:4"
+          },
+          "locator": {
+            "page": 4
+          }
+        },
+        {
+          "id": "ev-5",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5
+          }
+        },
+        {
+          "id": "ev-6",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "locator": {
+            "page": 6
+          }
+        },
+        {
+          "id": "ev-7",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:7"
+          },
+          "locator": {
+            "page": 7
+          }
+        },
+        {
+          "id": "ev-8",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "locator": {
+            "page": 8
+          }
+        }
+      ],
+      "has_previous_context": false,
+      "generation_mode": "ask",
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 543.272
+    },
+    {
+      "turn": "current",
+      "client_turn_id": "bfe78985-7501-4167-aed8-15f42d302e51",
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "185c1551369290e942285f645eb7c2e550f77ef142e43acede4bcc3cd2a9108b",
+      "evidence_markers": {
+        "3": [],
+        "5": [],
+        "7": [],
+        "8": []
+      },
+      "input_evidence": [
+        {
+          "id": "ev-1",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 2,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5
+          }
+        }
+      ],
+      "has_previous_context": false,
+      "generation_mode": "ask",
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 304.414
+    },
+    {
+      "turn": "compare",
+      "client_turn_id": "109eb2fc-3d7e-4895-a6df-abd297f470ab",
+      "sent": true,
+      "model": "deepseek-flash",
+      "request_sha256": "04c885ae300093ec80060ed3aefd69fe821a95df0e30ab6de4c43771a7abbf40",
+      "evidence_markers": {
+        "3": [],
+        "5": [
+          "August 23",
+          "September 12"
+        ],
+        "7": [],
+        "8": []
+      },
+      "input_evidence": [
+        {
+          "id": "ev-1",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 1,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5,
+            "version_role": "historical"
+          }
+        },
+        {
+          "id": "ev-2",
+          "source": {
+            "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+            "version": 2,
+            "source_id": "page:5"
+          },
+          "locator": {
+            "page": 5,
+            "version_role": "current"
+          }
+        }
+      ],
+      "has_previous_context": false,
+      "generation_mode": "compare_versions",
+      "message_roles": [
+        "system",
+        "user"
+      ],
+      "status": 200,
+      "headers_ms": 392.209
+    }
+  ],
+  "http": [
+    {
+      "operation": "import",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/import",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 10.176,
+      "response": {
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "status": "published",
+        "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+        "version": 1,
+        "publication_epoch": 1,
+        "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+        "source_count": 8,
+        "searchable_count": 8
+      }
+    },
+    {
+      "operation": "turns",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/turns",
+      "case": "first",
+      "status": 200,
+      "request": {
+        "client_turn_id": "bdf29821-1ec7-458f-ada7-299aea2a75c6",
+        "kind": "ask",
+        "text": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+        "scope_revision": 3
+      },
+      "elapsed_ms": 2878.089,
+      "response": {
+        "turn": {
+          "turn_id": "d121a536305d4165ae587c45ae268d97",
+          "client_turn_id": "bdf29821-1ec7-458f-ada7-299aea2a75c6",
+          "kind": "ask",
+          "text": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "candidates": [
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:1",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 2
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:2",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 3
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:3",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 4
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:4",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 5
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:5",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 6
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:6",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 7
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:7",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 8
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:8",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "coverage": {
+              "checked_adjacency_edges": 0,
+              "checked_positions": [
+                "page:1",
+                "page:2",
+                "page:3",
+                "page:4",
+                "page:5",
+                "page:6",
+                "page:7",
+                "page:8"
+              ],
+              "enumerated_source_count": 8,
+              "evidence_inspected_count": 8,
+              "fts_candidate_cap": 36,
+              "fts_scan_truncated": false,
+              "fts_seed_count": 0,
+              "full_file_read": false,
+              "reserved_adjacency_slots": 0,
+              "returned_count": 8,
+              "searchable_source_count": 8,
+              "snapshot_document_count": 1,
+              "truncated": false,
+              "truncated_by_reason": {}
+            },
+            "effective_scope": {
+              "course_ids": [
+                "northpoint-completion"
+              ],
+              "document_ids": [
+                "local_25d2900b9ef64740a48f8e323ec57c5f"
+              ]
+            },
+            "external_call_count": 1,
+            "generation": {
+              "attempts": [
+                {
+                  "elapsed_ms": 2731.217,
+                  "outcome": "response",
+                  "status": 200
+                }
+              ],
+              "elapsed_ms": 2823.61,
+              "estimated_input": 6785,
+              "external_call_count": 1,
+              "input_budget": 32768,
+              "input_evidence_ids": [
+                "ev-1",
+                "ev-2",
+                "ev-3",
+                "ev-4",
+                "ev-5",
+                "ev-6",
+                "ev-7",
+                "ev-8"
+              ],
+              "model": "deepseek-flash",
+              "output_reserve": 8192,
+              "provider": "deepseek",
+              "status": "partial",
+              "total_tokens": 2002
+            },
+            "reading": {
+              "budget": 30803,
+              "estimated_input": 4075,
+              "full_text_scope": true,
+              "location": null,
+              "mode": "ask",
+              "next_cursor": null,
+              "outline": [
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 1
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "title": "Northpoint program completion briefing"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 2
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "title": "Directory and administrative contacts"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 3
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "title": "Spring award round"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 4
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "title": "Project sign-off workflow"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 5
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "title": "Summer award round"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 6
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "title": "Ceremonies and records"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 7
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "title": "Winter award round"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 8
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "title": "Choosing a round with an internship deadline"
+                }
+              ],
+              "outline_total": 8,
+              "preferred": [
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              ],
+              "prioritized": false,
+              "read_ranges": [
+                {
+                  "end": 314,
+                  "kind": "page",
+                  "locator": {
+                    "page": 1
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "ffc2ef2a19616fb547e50a42095cb800b1b961891ee3fd458776985ded186206",
+                  "title": "Northpoint program completion briefing"
+                },
+                {
+                  "end": 260,
+                  "kind": "page",
+                  "locator": {
+                    "page": 2
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "81232461ae88774bc77dee281c8f2309994f21f18ac81ae84764d1caf8d59441",
+                  "title": "Directory and administrative contacts"
+                },
+                {
+                  "end": 187,
+                  "kind": "page",
+                  "locator": {
+                    "page": 3
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "766bac2478e514650e8a71a3d1c5d75f9ef3a05fdd39e3ab2c3b6bca19aa5485",
+                  "title": "Spring award round"
+                },
+                {
+                  "end": 242,
+                  "kind": "page",
+                  "locator": {
+                    "page": 4
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "fa89971afc73d9bd8e7203ef66700c0fc5e26664426184245fbe8e1f015903a4",
+                  "title": "Project sign-off workflow"
+                },
+                {
+                  "end": 196,
+                  "kind": "page",
+                  "locator": {
+                    "page": 5
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "9993938fc5d6dbbcfc219a25584a35344359c2740fde94f9d1200f6a3fa6e918",
+                  "title": "Summer award round"
+                },
+                {
+                  "end": 221,
+                  "kind": "page",
+                  "locator": {
+                    "page": 6
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "20d223e786f7d331c57242b0615c7a3aec553d91593ae3d125eb6a3d07a56153",
+                  "title": "Ceremonies and records"
+                },
+                {
+                  "end": 202,
+                  "kind": "page",
+                  "locator": {
+                    "page": 7
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "6797b4832b10aa51de03be0804c023114d42309d3bf82f34c081e8c1f7e16783",
+                  "title": "Winter award round"
+                },
+                {
+                  "end": 525,
+                  "kind": "page",
+                  "locator": {
+                    "page": 8
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "010276e5d991db6becadf09d75ac2fff177b99d476e3725d45483dc620417e15",
+                  "title": "Choosing a round with an internship deadline"
+                }
+              ],
+              "skipped": [],
+              "skipped_total": 0,
+              "unread_visual": [],
+              "unread_visual_total": 0,
+              "visual_read_status": "not_attempted"
+            },
+            "route": "generated_answer",
+            "search_status": "no_text_anchor"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-3",
+                "ev-5",
+                "ev-7"
+              ],
+              "text": "课件列出的结业（award）轮次有三个：春季轮、夏季轮、冬季轮。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-3"
+              ],
+              "text": "春季轮：项目签字最后接受日为5月31日，奖项记录日为6月18日；只有在记录之后，Registry 才能签发正式获奖证书。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-5"
+              ],
+              "text": "夏季轮：项目签字最后接受日为8月23日，奖项记录日为9月12日；当春季已过且签字在8月23日前到达时选择此轮。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-7"
+              ],
+              "text": "冬季轮：项目签字最后接受日为12月8日，奖项记录日为次年1月14日；当夏季签字截止已过时使用此轮。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "对于要求正式获奖证书的7月15日实习，错过春季的学生无法在7月15日前提供该证书。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "课件建议：询问雇主是否接受 Registry 出具的资格信（eligibility letter）；该信不是获奖证书，不得当作证书出示。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "若替代证明被接受，选择你能满足签字要求的最早轮次；若正式证书为强制要求，则申请推迟实习开始日期。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-4"
+              ],
+              "text": "签字流程要求：把完整报告提交给项目评估人并等待批准；上传草稿不满足签字项目要求；在选择行政轮次前先取得已批准的表格。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-6"
+              ],
+              "text": "用于雇佣材料的是 Registry 的记录日期；典礼邀请与正式获奖记录是分开的。",
+              "type": "text"
+            },
+            {
+              "code": "missing_evidence",
+              "text": "课件未说明 Registry 资格信的处理时长，也未说明雇主是否通常接受该信；因此无法确认在7月15日前能否拿到可用的替代证明。",
+              "type": "notice"
+            },
+            {
+              "caption": "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing",
+              "display_id": "95fe0a1146604d52807b657818b0ad1e",
+              "display_source": {
+                "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "evidence_id": "ev-9",
+              "fallback_reason": null,
+              "height": 880,
+              "media_url": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/media/95fe0a1146604d52807b657818b0ad1e?view=inline",
+              "read_status": "not_attempted",
+              "rect_visible_norm": null,
+              "rendition_kind": "original_page",
+              "type": "source_image",
+              "width": 1300
+            }
+          ],
+          "message_id": "cf176dbdfe224c6a80a189a2bb2b3e1d",
+          "ordinal": 2,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1,
+                "text_span": [
+                  0,
+                  314
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Northpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 2,
+                "text_span": [
+                  0,
+                  260
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Directory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            },
+            "ev-3": {
+              "evidence_id": "ev-3",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 3,
+                "text_span": [
+                  0,
+                  187
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              }
+            },
+            "ev-4": {
+              "evidence_id": "ev-4",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 4,
+                "text_span": [
+                  0,
+                  242
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Project sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            },
+            "ev-5": {
+              "evidence_id": "ev-5",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5,
+                "text_span": [
+                  0,
+                  196
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            },
+            "ev-6": {
+              "evidence_id": "ev-6",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 6,
+                "text_span": [
+                  0,
+                  221
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Ceremonies and records\nA ceremony invitation is separate from the official award record.\nA public celebration can be scheduled independently of the award date.\nUse the Registry record date for employment paperwork.\nPage 6",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            },
+            "ev-7": {
+              "evidence_id": "ev-7",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 7,
+                "text_span": [
+                  0,
+                  202
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            },
+            "ev-8": {
+              "evidence_id": "ev-8",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 8,
+                "text_span": [
+                  0,
+                  525
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Choosing a round with an internship deadline\nFor a July 15 internship that requires the official award certificate,\na student who misses spring cannot supply that certificate by July 15.\nAsk the employer whether an eligibility letter from the Registry is acceptable.\nThe eligibility letter is not an award certificate and must not be presented as one.\nIf alternative proof is accepted, use the earliest round whose sign-off you can meet.\nIf the official certificate is mandatory, ask to move the internship start date.\nPage 8",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            },
+            "ev-9": {
+              "evidence_id": "ev-9",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1
+              },
+              "read_status": "not_attempted",
+              "reads": [],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "d121a536305d4165ae587c45ae268d97",
+          "visible_display_ids": [
+            "95fe0a1146604d52807b657818b0ad1e"
+          ]
+        },
+        "options": []
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/evidence/ev-3",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 4.223,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:3"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 3
+        },
+        "text": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/evidence/ev-5",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 5.643,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:5"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 5
+        },
+        "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/evidence/ev-7",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 5.262,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:7"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 7
+        },
+        "text": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/evidence/ev-8",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 4.823,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:8"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 8
+        },
+        "text": "Choosing a round with an internship deadline\nFor a July 15 internship that requires the official award certificate,\na student who misses spring cannot supply that certificate by July 15.\nAsk the employer whether an eligibility letter from the Registry is acceptable.\nThe eligibility letter is not an award certificate and must not be presented as one.\nIf alternative proof is accepted, use the earliest round whose sign-off you can meet.\nIf the official certificate is mandatory, ask to move the internship start date.\nPage 8",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/evidence/ev-4",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 4.37,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:4"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 4
+        },
+        "text": "Project sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/cf176dbdfe224c6a80a189a2bb2b3e1d/evidence/ev-6",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 4.483,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:6"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 6
+        },
+        "text": "Ceremonies and records\nA ceremony invitation is separate from the official award record.\nA public celebration can be scheduled independently of the award date.\nUse the Registry record date for employment paperwork.\nPage 6",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "turns",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/turns",
+      "case": "follow",
+      "status": 200,
+      "request": {
+        "client_turn_id": "7fe9a2e2-571e-4a1b-8c7c-8ba06fdca2ed",
+        "kind": "ask",
+        "text": "用中文把刚才的回答总结成两句话。",
+        "scope_revision": 3
+      },
+      "elapsed_ms": 1711.135,
+      "response": {
+        "turn": {
+          "turn_id": "7d7cc2509bce4615bfbc4dff4a25736f",
+          "client_turn_id": "7fe9a2e2-571e-4a1b-8c7c-8ba06fdca2ed",
+          "kind": "ask",
+          "text": "用中文把刚才的回答总结成两句话。",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "external_call_count": 1,
+            "generation": {
+              "attempts": [
+                {
+                  "elapsed_ms": 1675.23,
+                  "outcome": "response",
+                  "status": 200
+                }
+              ],
+              "elapsed_ms": 1688.19,
+              "estimated_input": 6891,
+              "external_call_count": 1,
+              "input_budget": 32768,
+              "input_evidence_ids": [
+                "ev-3",
+                "ev-4",
+                "ev-5",
+                "ev-6",
+                "ev-7",
+                "ev-8"
+              ],
+              "model": "deepseek-flash",
+              "output_reserve": 8192,
+              "provider": "deepseek",
+              "status": "succeeded",
+              "total_tokens": 1770
+            },
+            "reading": {
+              "mode": "previous_citations",
+              "revalidated_evidence_ids": [
+                "ev-3",
+                "ev-4",
+                "ev-5",
+                "ev-6",
+                "ev-7",
+                "ev-8"
+              ],
+              "visual_read_status": "not_attempted"
+            },
+            "route": "generated_answer"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-3",
+                "ev-5",
+                "ev-7"
+              ],
+              "text": "课件列出春季、夏季、冬季三个结业轮次：春季签字截止5月31日、记录日6月18日；夏季签字截止8月23日、记录日9月12日；冬季签字截止12月8日、记录日次年1月14日，且只有记录后 Registry 才能签发正式获奖证书。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "对于7月15日实习要求正式证书的情况，错过春季者无法在7月15日前提供证书，应先询问雇主是否接受 Registry 的资格信（该信不是获奖证书），若接受则选能满足签字要求的最早轮次，若正式证书为强制要求则申请推迟实习开始日期。",
+              "type": "text"
+            }
+          ],
+          "message_id": "4fc9ed4e00074934b3b14796b99d11a1",
+          "ordinal": 4,
+          "role": "assistant",
+          "sources": {
+            "ev-3": {
+              "evidence_id": "ev-3",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 3,
+                "text_span": [
+                  0,
+                  187
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              }
+            },
+            "ev-4": {
+              "evidence_id": "ev-4",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 4,
+                "text_span": [
+                  0,
+                  242
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Project sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            },
+            "ev-5": {
+              "evidence_id": "ev-5",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5,
+                "text_span": [
+                  0,
+                  196
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            },
+            "ev-6": {
+              "evidence_id": "ev-6",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 6,
+                "text_span": [
+                  0,
+                  221
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Ceremonies and records\nA ceremony invitation is separate from the official award record.\nA public celebration can be scheduled independently of the award date.\nUse the Registry record date for employment paperwork.\nPage 6",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            },
+            "ev-7": {
+              "evidence_id": "ev-7",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 7,
+                "text_span": [
+                  0,
+                  202
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            },
+            "ev-8": {
+              "evidence_id": "ev-8",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 8,
+                "text_span": [
+                  0,
+                  525
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Choosing a round with an internship deadline\nFor a July 15 internship that requires the official award certificate,\na student who misses spring cannot supply that certificate by July 15.\nAsk the employer whether an eligibility letter from the Registry is acceptable.\nThe eligibility letter is not an award certificate and must not be presented as one.\nIf alternative proof is accepted, use the earliest round whose sign-off you can meet.\nIf the official certificate is mandatory, ask to move the internship start date.\nPage 8",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "7d7cc2509bce4615bfbc4dff4a25736f",
+          "visible_display_ids": []
+        },
+        "options": []
+      }
+    },
+    {
+      "operation": "turns",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/turns",
+      "case": "first",
+      "status": 200,
+      "request": {
+        "client_turn_id": "14ed8fdb-8967-4e16-aff4-0480d282a535",
+        "kind": "ask",
+        "text": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+        "scope_revision": 4
+      },
+      "elapsed_ms": 3348.03,
+      "response": {
+        "turn": {
+          "turn_id": "84eccde844a24798a56260562e5556cf",
+          "client_turn_id": "14ed8fdb-8967-4e16-aff4-0480d282a535",
+          "kind": "ask",
+          "text": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "candidates": [
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:1",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 2
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:2",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 3
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:3",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 4
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:4",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 5
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:5",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 6
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:6",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 7
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:7",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 8
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:8",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "coverage": {
+              "checked_adjacency_edges": 0,
+              "checked_positions": [
+                "page:1",
+                "page:2",
+                "page:3",
+                "page:4",
+                "page:5",
+                "page:6",
+                "page:7",
+                "page:8"
+              ],
+              "enumerated_source_count": 8,
+              "evidence_inspected_count": 8,
+              "fts_candidate_cap": 36,
+              "fts_scan_truncated": false,
+              "fts_seed_count": 0,
+              "full_file_read": false,
+              "reserved_adjacency_slots": 0,
+              "returned_count": 8,
+              "searchable_source_count": 8,
+              "snapshot_document_count": 1,
+              "truncated": false,
+              "truncated_by_reason": {}
+            },
+            "effective_scope": {
+              "course_ids": [
+                "northpoint-completion"
+              ],
+              "document_ids": [
+                "local_25d2900b9ef64740a48f8e323ec57c5f"
+              ]
+            },
+            "external_call_count": 1,
+            "generation": {
+              "attempts": [
+                {
+                  "elapsed_ms": 3308.913,
+                  "outcome": "response",
+                  "status": 200
+                }
+              ],
+              "elapsed_ms": 3320.921,
+              "estimated_input": 6785,
+              "external_call_count": 1,
+              "input_budget": 32768,
+              "input_evidence_ids": [
+                "ev-1",
+                "ev-2",
+                "ev-3",
+                "ev-4",
+                "ev-5",
+                "ev-6",
+                "ev-7",
+                "ev-8"
+              ],
+              "model": "deepseek-flash",
+              "output_reserve": 8192,
+              "provider": "deepseek",
+              "status": "partial",
+              "total_tokens": 2016
+            },
+            "reading": {
+              "budget": 30803,
+              "estimated_input": 4075,
+              "full_text_scope": true,
+              "location": null,
+              "mode": "ask",
+              "next_cursor": null,
+              "outline": [
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 1
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "title": "Northpoint program completion briefing"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 2
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "title": "Directory and administrative contacts"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 3
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "title": "Spring award round"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 4
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "title": "Project sign-off workflow"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 5
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "title": "Summer award round"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 6
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "title": "Ceremonies and records"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 7
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "title": "Winter award round"
+                },
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 8
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "title": "Choosing a round with an internship deadline"
+                }
+              ],
+              "outline_total": 8,
+              "preferred": [
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              ],
+              "prioritized": false,
+              "read_ranges": [
+                {
+                  "end": 314,
+                  "kind": "page",
+                  "locator": {
+                    "page": 1
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "ffc2ef2a19616fb547e50a42095cb800b1b961891ee3fd458776985ded186206",
+                  "title": "Northpoint program completion briefing"
+                },
+                {
+                  "end": 260,
+                  "kind": "page",
+                  "locator": {
+                    "page": 2
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "81232461ae88774bc77dee281c8f2309994f21f18ac81ae84764d1caf8d59441",
+                  "title": "Directory and administrative contacts"
+                },
+                {
+                  "end": 187,
+                  "kind": "page",
+                  "locator": {
+                    "page": 3
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "766bac2478e514650e8a71a3d1c5d75f9ef3a05fdd39e3ab2c3b6bca19aa5485",
+                  "title": "Spring award round"
+                },
+                {
+                  "end": 242,
+                  "kind": "page",
+                  "locator": {
+                    "page": 4
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "fa89971afc73d9bd8e7203ef66700c0fc5e26664426184245fbe8e1f015903a4",
+                  "title": "Project sign-off workflow"
+                },
+                {
+                  "end": 196,
+                  "kind": "page",
+                  "locator": {
+                    "page": 5
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "9993938fc5d6dbbcfc219a25584a35344359c2740fde94f9d1200f6a3fa6e918",
+                  "title": "Summer award round"
+                },
+                {
+                  "end": 221,
+                  "kind": "page",
+                  "locator": {
+                    "page": 6
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "20d223e786f7d331c57242b0615c7a3aec553d91593ae3d125eb6a3d07a56153",
+                  "title": "Ceremonies and records"
+                },
+                {
+                  "end": 202,
+                  "kind": "page",
+                  "locator": {
+                    "page": 7
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "6797b4832b10aa51de03be0804c023114d42309d3bf82f34c081e8c1f7e16783",
+                  "title": "Winter award round"
+                },
+                {
+                  "end": 525,
+                  "kind": "page",
+                  "locator": {
+                    "page": 8
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "010276e5d991db6becadf09d75ac2fff177b99d476e3725d45483dc620417e15",
+                  "title": "Choosing a round with an internship deadline"
+                }
+              ],
+              "skipped": [],
+              "skipped_total": 0,
+              "unread_visual": [],
+              "unread_visual_total": 0,
+              "visual_read_status": "not_attempted"
+            },
+            "route": "generated_answer",
+            "search_status": "no_text_anchor"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-3",
+                "ev-5",
+                "ev-7"
+              ],
+              "text": "课件列出的结业（award）轮次有三个：春季轮、夏季轮和冬季轮。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-3"
+              ],
+              "text": "春季轮：项目签字最晚接受日期为5月31日，奖项记录日期为6月18日；只有在记录之后，Registry 才能签发正式获奖证书。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-5"
+              ],
+              "text": "夏季轮：项目签字最晚接受日期为8月23日，奖项记录日期为9月12日；当春季已过且签字在8月23日前到达时选择此轮。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-7"
+              ],
+              "text": "冬季轮：项目签字最晚接受日期为12月8日，奖项记录日期为次年1月14日；当夏季签字截止已过时使用此轮。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "对于要求7月15日提供正式获奖证书的实习，错过春季的学生无法在7月15日前提供该证书。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "课件建议：询问雇主是否接受 Registry 出具的资格信（eligibility letter）；该信不是获奖证书，不得当作证书出示。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-8"
+              ],
+              "text": "若接受替代证明，选择签字能够满足的最早轮次；若正式证书为强制要求，则申请推迟实习开始日期。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-4"
+              ],
+              "text": "签字流程要求：向项目评估人提交完整报告并等待批准，上传草稿不满足签字要求，须在选行政轮次前取得已批准表格。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-6"
+              ],
+              "text": "就业材料应使用 Registry 的记录日期；典礼邀请与正式获奖记录相互独立。",
+              "type": "text"
+            },
+            {
+              "code": "missing_evidence",
+              "text": "课件未说明 Registry 资格信的处理时长，也未说明推迟实习是否可行或需提前多久申请；因此无法确认在7月15日前能否拿到资格信，或推迟到哪个日期合适。",
+              "type": "notice"
+            },
+            {
+              "caption": "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing",
+              "display_id": "b5055ae7eae048dd88822221869ee037",
+              "display_source": {
+                "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "evidence_id": "ev-9",
+              "fallback_reason": null,
+              "height": 880,
+              "media_url": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/85fbef0a51dd47cf9dc41d9959c019c4/media/b5055ae7eae048dd88822221869ee037?view=inline",
+              "read_status": "not_attempted",
+              "rect_visible_norm": null,
+              "rendition_kind": "original_page",
+              "type": "source_image",
+              "width": 1300
+            }
+          ],
+          "message_id": "85fbef0a51dd47cf9dc41d9959c019c4",
+          "ordinal": 6,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1,
+                "text_span": [
+                  0,
+                  314
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Northpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 2,
+                "text_span": [
+                  0,
+                  260
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Directory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            },
+            "ev-3": {
+              "evidence_id": "ev-3",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 3,
+                "text_span": [
+                  0,
+                  187
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:3",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              }
+            },
+            "ev-4": {
+              "evidence_id": "ev-4",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 4,
+                "text_span": [
+                  0,
+                  242
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:4",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Project sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            },
+            "ev-5": {
+              "evidence_id": "ev-5",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5,
+                "text_span": [
+                  0,
+                  196
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            },
+            "ev-6": {
+              "evidence_id": "ev-6",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 6,
+                "text_span": [
+                  0,
+                  221
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:6",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Ceremonies and records\nA ceremony invitation is separate from the official award record.\nA public celebration can be scheduled independently of the award date.\nUse the Registry record date for employment paperwork.\nPage 6",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            },
+            "ev-7": {
+              "evidence_id": "ev-7",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 7,
+                "text_span": [
+                  0,
+                  202
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:7",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            },
+            "ev-8": {
+              "evidence_id": "ev-8",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 8,
+                "text_span": [
+                  0,
+                  525
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:8",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Choosing a round with an internship deadline\nFor a July 15 internship that requires the official award certificate,\na student who misses spring cannot supply that certificate by July 15.\nAsk the employer whether an eligibility letter from the Registry is acceptable.\nThe eligibility letter is not an award certificate and must not be presented as one.\nIf alternative proof is accepted, use the earliest round whose sign-off you can meet.\nIf the official certificate is mandatory, ask to move the internship start date.\nPage 8",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            },
+            "ev-9": {
+              "evidence_id": "ev-9",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1
+              },
+              "read_status": "not_attempted",
+              "reads": [],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "84eccde844a24798a56260562e5556cf",
+          "visible_display_ids": [
+            "b5055ae7eae048dd88822221869ee037"
+          ]
+        },
+        "options": []
+      }
+    },
+    {
+      "operation": "import",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/import",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 11.338,
+      "response": {
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "status": "published",
+        "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+        "version": 2,
+        "publication_epoch": 2,
+        "content_sha256": "c63e3b96ee9b116deacd121013469f073f652b7266e1855883b35fd5910bb041",
+        "source_count": 8,
+        "searchable_count": 8
+      }
+    },
+    {
+      "operation": "turns",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/turns",
+      "case": "current",
+      "status": 200,
+      "request": {
+        "client_turn_id": "bfe78985-7501-4167-aed8-15f42d302e51",
+        "kind": "ask",
+        "text": "本页夏季批次的项目签字截止和正式结业登记分别是哪天？",
+        "scope_revision": 6
+      },
+      "elapsed_ms": 829.92,
+      "response": {
+        "turn": {
+          "turn_id": "12bca7ef1a43482f9da9553c7b96afb2",
+          "client_turn_id": "bfe78985-7501-4167-aed8-15f42d302e51",
+          "kind": "ask",
+          "text": "本页夏季批次的项目签字截止和正式结业登记分别是哪天？",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "candidates": [
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 5
+                },
+                "match_kind": "direct",
+                "reasons": [
+                  {
+                    "code": "direct_location",
+                    "seed": {
+                      "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                      "source_id": "page:5",
+                      "version": 2
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              }
+            ],
+            "coverage": {
+              "checked_adjacency_edges": 0,
+              "checked_positions": [
+                "page:5"
+              ],
+              "enumerated_source_count": 8,
+              "evidence_inspected_count": 1,
+              "fts_candidate_cap": 36,
+              "fts_scan_truncated": false,
+              "fts_seed_count": 0,
+              "full_file_read": false,
+              "reserved_adjacency_slots": 0,
+              "returned_count": 1,
+              "searchable_source_count": 8,
+              "snapshot_document_count": 1,
+              "truncated": false,
+              "truncated_by_reason": {}
+            },
+            "effective_scope": {
+              "course_ids": [
+                "northpoint-completion"
+              ],
+              "document_ids": [
+                "local_25d2900b9ef64740a48f8e323ec57c5f"
+              ]
+            },
+            "external_call_count": 1,
+            "generation": {
+              "attempts": [
+                {
+                  "elapsed_ms": 775.35,
+                  "outcome": "response",
+                  "status": 200
+                }
+              ],
+              "elapsed_ms": 790.508,
+              "estimated_input": 2684,
+              "external_call_count": 1,
+              "input_budget": 32768,
+              "input_evidence_ids": [
+                "ev-1"
+              ],
+              "model": "deepseek-flash",
+              "output_reserve": 8192,
+              "provider": "deepseek",
+              "status": "succeeded",
+              "total_tokens": 632
+            },
+            "reading": {
+              "budget": 30881,
+              "estimated_input": 427,
+              "full_text_scope": false,
+              "location": {
+                "cell_id": null,
+                "cell_index": null,
+                "cell_range": null,
+                "page": 5,
+                "page_range": null
+              },
+              "mode": "ask",
+              "next_cursor": null,
+              "outline": [
+                {
+                  "kind": "page",
+                  "locator": {
+                    "page": 5
+                  },
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 2
+                  },
+                  "title": "Summer award round"
+                }
+              ],
+              "outline_total": 1,
+              "preferred": [
+                {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              ],
+              "prioritized": false,
+              "read_ranges": [
+                {
+                  "end": 196,
+                  "kind": "page",
+                  "locator": {
+                    "page": 5
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 2
+                  },
+                  "start": 0,
+                  "text_sha256": "8efb75a168842bf25a6aed5ec8cc38cdec1b6feb0628fb5a564b12f138a37865",
+                  "title": "Summer award round"
+                }
+              ],
+              "skipped": [],
+              "skipped_total": 0,
+              "unread_visual": [],
+              "unread_visual_total": 0,
+              "visual_read_status": "not_attempted"
+            },
+            "route": "generated_answer",
+            "search_status": "ok"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "夏季批次的项目签字截止日期是8月21日，正式结业登记日期是9月10日。",
+              "type": "text"
+            },
+            {
+              "caption": "Northpoint-Completion-Briefing.pdf · v2 · 第 5 页 · Summer award round",
+              "display_id": "a348089cd30a4b0fa559bc08f7567b09",
+              "display_source": {
+                "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                "source_id": "page:5",
+                "version": 2
+              },
+              "evidence_id": "ev-2",
+              "fallback_reason": null,
+              "height": 880,
+              "media_url": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/4aca8c2a0dc142ddac4a5c07b72ce2e0/media/a348089cd30a4b0fa559bc08f7567b09?view=inline",
+              "read_status": "not_attempted",
+              "rect_visible_norm": null,
+              "rendition_kind": "original_page",
+              "type": "source_image",
+              "width": 1300
+            }
+          ],
+          "message_id": "4aca8c2a0dc142ddac4a5c07b72ce2e0",
+          "ordinal": 8,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5,
+                "text_span": [
+                  0,
+                  196
+                ]
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 2
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Summer award round\nThe last accepted project sign-off is August 21.\nThe summer award is recorded on September 10.\nSelect this round when spring has passed and sign-off arrives by August 21.\nPage 5",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "c63e3b96ee9b116deacd121013469f073f652b7266e1855883b35fd5910bb041",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 2,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5
+              },
+              "read_status": "not_attempted",
+              "reads": [],
+              "revision": {
+                "content_sha256": "c63e3b96ee9b116deacd121013469f073f652b7266e1855883b35fd5910bb041",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 2,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              }
+            }
+          },
+          "turn_id": "12bca7ef1a43482f9da9553c7b96afb2",
+          "visible_display_ids": [
+            "a348089cd30a4b0fa559bc08f7567b09"
+          ]
+        },
+        "options": []
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/4aca8c2a0dc142ddac4a5c07b72ce2e0/evidence/ev-1",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 4.807,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 2,
+          "source_id": "page:5"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 5
+        },
+        "text": "Summer award round\nThe last accepted project sign-off is August 21.\nThe summer award is recorded on September 10.\nSelect this round when spring has passed and sign-off arrives by August 21.\nPage 5",
+        "is_current": true
+      }
+    },
+    {
+      "operation": "turns",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/turns",
+      "case": "compare",
+      "status": 200,
+      "request": {
+        "client_turn_id": "109eb2fc-3d7e-4895-a6df-abd297f470ab",
+        "kind": "ask",
+        "text": "和旧版相比呢？",
+        "scope_revision": 6
+      },
+      "elapsed_ms": 1711.858,
+      "response": {
+        "turn": {
+          "turn_id": "0fa5591f41a9467f841a0562d5944751",
+          "client_turn_id": "109eb2fc-3d7e-4895-a6df-abd297f470ab",
+          "kind": "ask",
+          "text": "和旧版相比呢？",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "current_read_status": "succeeded",
+            "current_source": {
+              "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+              "source_id": "page:5",
+              "version": 2
+            },
+            "external_call_count": 1,
+            "generation": {
+              "attempts": [
+                {
+                  "elapsed_ms": 1675.561,
+                  "outcome": "response",
+                  "status": 200
+                }
+              ],
+              "elapsed_ms": 1688.226,
+              "estimated_input": 3141,
+              "external_call_count": 1,
+              "input_budget": 32768,
+              "input_evidence_ids": [
+                "ev-1",
+                "ev-2"
+              ],
+              "model": "deepseek-flash",
+              "output_reserve": 8192,
+              "provider": "deepseek",
+              "status": "succeeded",
+              "total_tokens": 922
+            },
+            "historical_message_id": "85fbef0a51dd47cf9dc41d9959c019c4",
+            "historical_read_status": "succeeded",
+            "historical_source": {
+              "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+              "source_id": "page:5",
+              "version": 1
+            },
+            "route": "version_comparison"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "旧版（version 1）第5页规定：夏季奖励轮次最后接受的项目签核日期为8月23日，夏季奖励记录日期为9月12日；当春季已过且签核在8月23日前到达时选择该轮次。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "当前版（version 2）第5页规定：最后接受的项目签核日期为8月21日，夏季奖励记录日期为9月10日；当春季已过且签核在8月21日前到达时选择该轮次。",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-1",
+                "ev-2"
+              ],
+              "text": "相比旧版，当前版把最后接受的签核日期从8月23日提前到8月21日，把夏季奖励记录日期从9月12日提前到9月10日，选择条件中的签核截止日期也相应改为8月21日。",
+              "type": "text"
+            }
+          ],
+          "message_id": "b71fb0e92a494f8d8a882555352d8e36",
+          "ordinal": 10,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5,
+                "version_role": "historical"
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 5,
+                "version_role": "current"
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                    "source_id": "page:5",
+                    "version": 2
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Summer award round\nThe last accepted project sign-off is August 21.\nThe summer award is recorded on September 10.\nSelect this round when spring has passed and sign-off arrives by August 21.\nPage 5",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "c63e3b96ee9b116deacd121013469f073f652b7266e1855883b35fd5910bb041",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 2,
+                "source": {
+                  "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              }
+            }
+          },
+          "turn_id": "0fa5591f41a9467f841a0562d5944751",
+          "visible_display_ids": []
+        },
+        "options": []
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/b71fb0e92a494f8d8a882555352d8e36/evidence/ev-1",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 4.905,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 1,
+          "source_id": "page:5"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 5
+        },
+        "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+        "is_current": false
+      }
+    },
+    {
+      "operation": "citation",
+      "path": "/api/workspace/sessions/dfa6758df0dc49bb87bef7a2882c47b6/messages/b71fb0e92a494f8d8a882555352d8e36/evidence/ev-2",
+      "case": null,
+      "status": 200,
+      "request": null,
+      "elapsed_ms": 6.532,
+      "response": {
+        "source": {
+          "document_id": "local_25d2900b9ef64740a48f8e323ec57c5f",
+          "version": 2,
+          "source_id": "page:5"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 5
+        },
+        "text": "Summer award round\nThe last accepted project sign-off is August 21.\nThe summer award is recorded on September 10.\nSelect this round when spring has passed and sign-off arrives by August 21.\nPage 5",
+        "is_current": true
+      }
+    }
+  ],
+  "browser_turns": [
+    {
+      "citations": [
+        {
+          "id": "ev-3",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 3 页"
+        },
+        {
+          "id": "ev-5",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-7",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 7 页"
+        },
+        {
+          "id": "ev-3",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 3 页"
+        },
+        {
+          "id": "ev-5",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-7",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 7 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        },
+        {
+          "id": "ev-4",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 4 页"
+        },
+        {
+          "id": "ev-6",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 6 页"
+        }
+      ],
+      "focus": "Northpoint-Completion-Briefing.pdf",
+      "html_text": "课程助手课件列出的结业（award）轮次有三个：春季轮、夏季轮、冬季轮。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 3 页Northpoint-Completion-Briefing.pdf · v1 · 第 5 页Northpoint-Completion-Briefing.pdf · v1 · 第 7 页春季轮：项目签字最后接受日为5月31日，奖项记录日为6月18日；只有在记录之后，Registry 才能签发正式获奖证书。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 3 页夏季轮：项目签字最后接受日为8月23日，奖项记录日为9月12日；当春季已过且签字在8月23日前到达时选择此轮。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页冬季轮：项目签字最后接受日为12月8日，奖项记录日为次年1月14日；当夏季签字截止已过时使用此轮。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 7 页对于要求正式获奖证书的7月15日实习，错过春季的学生无法在7月15日前提供该证书。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页课件建议：询问雇主是否接受 Registry 出具的资格信（eligibility letter）；该信不是获奖证书，不得当作证书出示。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页若替代证明被接受，选择你能满足签字要求的最早轮次；若正式证书为强制要求，则申请推迟实习开始日期。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页签字流程要求：把完整报告提交给项目评估人并等待批准；上传草稿不满足签字项目要求；在选择行政轮次前先取得已批准的表格。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 4 页用于雇佣材料的是 Registry 的记录日期；典礼邀请与正式获奖记录是分开的。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 6 页课件未说明 Registry 资格信的处理时长，也未说明雇主是否通常接受该信；因此无法确认在7月15日前能否拿到可用的替代证明。正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefingNorthpoint-Completion-Briefing.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+      "message_id": "cf176dbdfe224c6a80a189a2bb2b3e1d"
+    },
+    {
+      "citations": [
+        {
+          "id": "ev-3",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 3 页"
+        },
+        {
+          "id": "ev-5",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-7",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 7 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        }
+      ],
+      "focus": "Northpoint-Completion-Briefing.pdf",
+      "html_text": "课程助手课件列出春季、夏季、冬季三个结业轮次：春季签字截止5月31日、记录日6月18日；夏季签字截止8月23日、记录日9月12日；冬季签字截止12月8日、记录日次年1月14日，且只有记录后 Registry 才能签发正式获奖证书。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 3 页Northpoint-Completion-Briefing.pdf · v1 · 第 5 页Northpoint-Completion-Briefing.pdf · v1 · 第 7 页对于7月15日实习要求正式证书的情况，错过春季者无法在7月15日前提供证书，应先询问雇主是否接受 Registry 的资格信（该信不是获奖证书），若接受则选能满足签字要求的最早轮次，若正式证书为强制要求则申请推迟实习开始日期。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页",
+      "message_id": "4fc9ed4e00074934b3b14796b99d11a1"
+    },
+    {
+      "citations": [
+        {
+          "id": "ev-3",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 3 页"
+        },
+        {
+          "id": "ev-5",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-7",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 7 页"
+        },
+        {
+          "id": "ev-3",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 3 页"
+        },
+        {
+          "id": "ev-5",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-7",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 7 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        },
+        {
+          "id": "ev-8",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+        },
+        {
+          "id": "ev-4",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 4 页"
+        },
+        {
+          "id": "ev-6",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 6 页"
+        }
+      ],
+      "focus": "第 2 页 · Directory and administrative contacts",
+      "html_text": "课程助手课件列出的结业（award）轮次有三个：春季轮、夏季轮和冬季轮。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 3 页Northpoint-Completion-Briefing.pdf · v1 · 第 5 页Northpoint-Completion-Briefing.pdf · v1 · 第 7 页春季轮：项目签字最晚接受日期为5月31日，奖项记录日期为6月18日；只有在记录之后，Registry 才能签发正式获奖证书。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 3 页夏季轮：项目签字最晚接受日期为8月23日，奖项记录日期为9月12日；当春季已过且签字在8月23日前到达时选择此轮。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页冬季轮：项目签字最晚接受日期为12月8日，奖项记录日期为次年1月14日；当夏季签字截止已过时使用此轮。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 7 页对于要求7月15日提供正式获奖证书的实习，错过春季的学生无法在7月15日前提供该证书。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页课件建议：询问雇主是否接受 Registry 出具的资格信（eligibility letter）；该信不是获奖证书，不得当作证书出示。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页若接受替代证明，选择签字能够满足的最早轮次；若正式证书为强制要求，则申请推迟实习开始日期。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 8 页签字流程要求：向项目评估人提交完整报告并等待批准，上传草稿不满足签字要求，须在选行政轮次前取得已批准表格。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 4 页就业材料应使用 Registry 的记录日期；典礼邀请与正式获奖记录相互独立。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 6 页课件未说明 Registry 资格信的处理时长，也未说明推迟实习是否可行或需提前多久申请；因此无法确认在7月15日前能否拿到资格信，或推迟到哪个日期合适。正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefingNorthpoint-Completion-Briefing.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件",
+      "message_id": "85fbef0a51dd47cf9dc41d9959c019c4"
+    },
+    {
+      "citations": [
+        {
+          "id": "ev-1",
+          "label": "Northpoint-Completion-Briefing.pdf · v2 · 第 5 页"
+        }
+      ],
+      "focus": "第 5 页 · Summer award round",
+      "html_text": "课程助手夏季批次的项目签字截止日期是8月21日，正式结业登记日期是9月10日。依据 · Northpoint-Completion-Briefing.pdf · v2 · 第 5 页正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v2 · 第 5 页 · Summer award roundNorthpoint-Completion-Briefing.pdf · v2 · 第 5 页 · 未读取问这张图查看图片回原件",
+      "message_id": "4aca8c2a0dc142ddac4a5c07b72ce2e0"
+    },
+    {
+      "citations": [
+        {
+          "id": "ev-1",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-2",
+          "label": "Northpoint-Completion-Briefing.pdf · v2 · 第 5 页"
+        },
+        {
+          "id": "ev-1",
+          "label": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+        },
+        {
+          "id": "ev-2",
+          "label": "Northpoint-Completion-Briefing.pdf · v2 · 第 5 页"
+        }
+      ],
+      "focus": "第 5 页 · Summer award round",
+      "html_text": "课程助手旧版（version 1）第5页规定：夏季奖励轮次最后接受的项目签核日期为8月23日，夏季奖励记录日期为9月12日；当春季已过且签核在8月23日前到达时选择该轮次。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页当前版（version 2）第5页规定：最后接受的项目签核日期为8月21日，夏季奖励记录日期为9月10日；当春季已过且签核在8月21日前到达时选择该轮次。依据 · Northpoint-Completion-Briefing.pdf · v2 · 第 5 页相比旧版，当前版把最后接受的签核日期从8月23日提前到8月21日，把夏季奖励记录日期从9月12日提前到9月10日，选择条件中的签核截止日期也相应改为8月21日。依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页Northpoint-Completion-Briefing.pdf · v2 · 第 5 页",
+      "message_id": "b71fb0e92a494f8d8a882555352d8e36"
+    }
+  ],
+  "browser_readers": {
+    "reader-1-ev-3": {
+      "body": "Spring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 3 页"
+    },
+    "reader-1-ev-4": {
+      "body": "Project sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 4 页"
+    },
+    "reader-1-ev-5": {
+      "body": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+    },
+    "reader-1-ev-6": {
+      "body": "Ceremonies and records\nA ceremony invitation is separate from the official award record.\nA public celebration can be scheduled independently of the award date.\nUse the Registry record date for employment paperwork.\nPage 6",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 6 页"
+    },
+    "reader-1-ev-7": {
+      "body": "Winter award round\nThe last accepted project sign-off is December 8.\nThe winter award is recorded on January 14 of the following year.\nUse this round when the summer sign-off deadline has passed.\nPage 7",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 7 页"
+    },
+    "reader-1-ev-8": {
+      "body": "Choosing a round with an internship deadline\nFor a July 15 internship that requires the official award certificate,\na student who misses spring cannot supply that certificate by July 15.\nAsk the employer whether an eligibility letter from the Registry is acceptable.\nThe eligibility letter is not an award certificate and must not be presented as one.\nIf alternative proof is accepted, use the earliest round whose sign-off you can meet.\nIf the official certificate is mandatory, ask to move the internship start date.\nPage 8",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 8 页"
+    },
+    "reader-4-ev-1": {
+      "body": "Summer award round\nThe last accepted project sign-off is August 21.\nThe summer award is recorded on September 10.\nSelect this round when spring has passed and sign-off arrives by August 21.\nPage 5",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v2 · 第 5 页"
+    },
+    "reader-5-ev-1": {
+      "body": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "location": "历史版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页"
+    },
+    "reader-5-ev-2": {
+      "body": "Summer award round\nThe last accepted project sign-off is August 21.\nThe summer award is recorded on September 10.\nSelect this round when spring has passed and sign-off arrives by August 21.\nPage 5",
+      "location": "当前版本",
+      "title": "Northpoint-Completion-Briefing.pdf · v2 · 第 5 页"
+    }
+  }
+}
