@@ -1,0 +1,883 @@
+{
+  "fixture": "Northpoint-Completion-Briefing.pdf",
+  "fixture_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+  "pages": 8,
+  "required_phrases_by_page": {
+    "3": [
+      "May 31",
+      "June 18"
+    ],
+    "5": [
+      "August 23",
+      "September 12"
+    ],
+    "7": [
+      "December 8",
+      "January 14"
+    ],
+    "8": [
+      "July 15",
+      "eligibility letter",
+      "not an award certificate"
+    ]
+  },
+  "browser": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "config": {
+    "subject": "82c5a40d3de6224c238ab461bc5d670c5005ba39",
+    "deepseek_key_present": true,
+    "deepseek_key_source": "isolated sentinel",
+    "real_provider_allowed": false,
+    "vision_enabled": false,
+    "request_guards": [
+      "httpx_sync",
+      "httpx_async",
+      "socket.connect"
+    ]
+  },
+  "outbound_attempts": 0,
+  "outbound_sent": 0,
+  "turns": [
+    {
+      "request": {
+        "client_turn_id": "df0251a3-540e-48db-92bc-f602bb8e035c",
+        "kind": "ask",
+        "text": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+        "scope_revision": 3
+      },
+      "response": {
+        "turn": {
+          "turn_id": "00add1d7d4344481bd98bcd0b7878f9c",
+          "client_turn_id": "df0251a3-540e-48db-92bc-f602bb8e035c",
+          "kind": "ask",
+          "text": "这份课件说结业有哪些时间可以选？项目签字赶不上春季截止，但七月十五日的暑期实习要正式结业证明，该怎么选？",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "candidates": [
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:1",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 2
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:2",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 3
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:3",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 4
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:4",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 5
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:5",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 6
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:6",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 7
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:7",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 8
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:8",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "coverage": {
+              "checked_adjacency_edges": 0,
+              "checked_positions": [
+                "page:1",
+                "page:2",
+                "page:3",
+                "page:4",
+                "page:5",
+                "page:6",
+                "page:7",
+                "page:8"
+              ],
+              "enumerated_source_count": 8,
+              "evidence_inspected_count": 8,
+              "fts_candidate_cap": 36,
+              "fts_scan_truncated": false,
+              "fts_seed_count": 0,
+              "full_file_read": false,
+              "reserved_adjacency_slots": 0,
+              "returned_count": 8,
+              "searchable_source_count": 8,
+              "snapshot_document_count": 1,
+              "truncated": false,
+              "truncated_by_reason": {}
+            },
+            "display_attempts": {
+              "attempt_limit": 12,
+              "attempted": 1,
+              "display_limit": 3,
+              "displayed": 1,
+              "eligible": 1,
+              "failed": 0,
+              "unattempted": 0
+            },
+            "effective_scope": {
+              "course_ids": [
+                "northpoint-completion"
+              ],
+              "document_ids": [
+                "local_ab43a1e610284f90be40119d750e5f7d"
+              ]
+            },
+            "search_status": "no_text_anchor"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2",
+              "type": "text"
+            },
+            {
+              "caption": "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing",
+              "display_id": "21cdce6d475b4b79bebaa3376e619aee",
+              "display_source": {
+                "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "evidence_id": "ev-3",
+              "fallback_reason": null,
+              "height": 880,
+              "media_url": "/api/workspace/sessions/c40858bb70a04ce3b050790dc44922ba/messages/e494abe5b50b4daaacbe8a63a8e0fae3/media/21cdce6d475b4b79bebaa3376e619aee?view=inline",
+              "read_status": "not_attempted",
+              "rect_visible_norm": null,
+              "rendition_kind": "original_page",
+              "type": "source_image",
+              "width": 1300
+            }
+          ],
+          "message_id": "e494abe5b50b4daaacbe8a63a8e0fae3",
+          "ordinal": 2,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Northpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 2
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Directory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            },
+            "ev-3": {
+              "evidence_id": "ev-3",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1
+              },
+              "read_status": "not_attempted",
+              "reads": [],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "00add1d7d4344481bd98bcd0b7878f9c",
+          "visible_display_ids": [
+            "21cdce6d475b4b79bebaa3376e619aee"
+          ]
+        },
+        "options": []
+      },
+      "dom": {
+        "citations": [
+          "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页",
+          "Northpoint-Completion-Briefing.pdf · v1 · 第 2 页"
+        ],
+        "focus": "Northpoint-Completion-Briefing.pdf",
+        "message_id": "e494abe5b50b4daaacbe8a63a8e0fae3",
+        "text": "课程助手Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 2 页正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefingNorthpoint-Completion-Briefing.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "text_blocks": [
+        "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+        "Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2"
+      ],
+      "elapsed_ms": 48.043
+    },
+    {
+      "request": {
+        "client_turn_id": "0256fe5f-7b62-4d53-b0f9-eaeacb763816",
+        "kind": "ask",
+        "text": "用中文把刚才的回答总结成两句话。",
+        "scope_revision": 3
+      },
+      "response": {
+        "turn": {
+          "turn_id": "998e280f91094c15bfd20a87dcf44de6",
+          "client_turn_id": "0256fe5f-7b62-4d53-b0f9-eaeacb763816",
+          "kind": "ask",
+          "text": "用中文把刚才的回答总结成两句话。",
+          "status": "completed",
+          "resolution": null,
+          "trace": {
+            "candidates": [
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:1",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 2
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:2",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 3
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:3",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 4
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:4",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 5
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:5",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 6
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:6",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 7
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:7",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "file_name": "Northpoint-Completion-Briefing.pdf",
+                "locator": {
+                  "page": 8
+                },
+                "match_kind": "browse",
+                "reasons": [
+                  {
+                    "code": "page_browse_fallback",
+                    "seed": {
+                      "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                      "source_id": "page:8",
+                      "version": 1
+                    }
+                  }
+                ],
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "coverage": {
+              "checked_adjacency_edges": 0,
+              "checked_positions": [
+                "page:1",
+                "page:2",
+                "page:3",
+                "page:4",
+                "page:5",
+                "page:6",
+                "page:7",
+                "page:8"
+              ],
+              "enumerated_source_count": 8,
+              "evidence_inspected_count": 8,
+              "fts_candidate_cap": 36,
+              "fts_scan_truncated": false,
+              "fts_seed_count": 0,
+              "full_file_read": false,
+              "reserved_adjacency_slots": 0,
+              "returned_count": 8,
+              "searchable_source_count": 8,
+              "snapshot_document_count": 1,
+              "truncated": false,
+              "truncated_by_reason": {}
+            },
+            "display_attempts": {
+              "attempt_limit": 12,
+              "attempted": 1,
+              "display_limit": 3,
+              "displayed": 1,
+              "eligible": 1,
+              "failed": 0,
+              "unattempted": 0
+            },
+            "effective_scope": {
+              "course_ids": [
+                "northpoint-completion"
+              ],
+              "document_ids": [
+                "local_ab43a1e610284f90be40119d750e5f7d"
+              ]
+            },
+            "search_status": "no_text_anchor"
+          },
+          "error": null,
+          "retryable": false,
+          "options": []
+        },
+        "message": {
+          "blocks": [
+            {
+              "citations": [
+                "ev-1"
+              ],
+              "text": "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+              "type": "text"
+            },
+            {
+              "citations": [
+                "ev-2"
+              ],
+              "text": "Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2",
+              "type": "text"
+            },
+            {
+              "caption": "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing",
+              "display_id": "c557bc83e4b0415e967895244b06491b",
+              "display_source": {
+                "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "evidence_id": "ev-3",
+              "fallback_reason": null,
+              "height": 880,
+              "media_url": "/api/workspace/sessions/c40858bb70a04ce3b050790dc44922ba/messages/331e88431e8647188b85da196d130182/media/c557bc83e4b0415e967895244b06491b?view=inline",
+              "read_status": "not_attempted",
+              "rect_visible_norm": null,
+              "rendition_kind": "original_page",
+              "type": "source_image",
+              "width": 1300
+            }
+          ],
+          "message_id": "331e88431e8647188b85da196d130182",
+          "ordinal": 4,
+          "role": "assistant",
+          "sources": {
+            "ev-1": {
+              "evidence_id": "ev-1",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                    "source_id": "page:1",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Northpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            },
+            "ev-2": {
+              "evidence_id": "ev-2",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 2
+              },
+              "read_status": "succeeded",
+              "reads": [
+                {
+                  "actual_input_media_type": null,
+                  "actual_input_rect": null,
+                  "actual_input_sha256": null,
+                  "actual_source": {
+                    "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                    "source_id": "page:2",
+                    "version": 1
+                  },
+                  "execution": null,
+                  "method": "native_text",
+                  "model": null,
+                  "origin_execution": null,
+                  "prompt_version": null,
+                  "question_sha256": null,
+                  "status": "succeeded",
+                  "text": "Directory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2",
+                  "warnings": []
+                }
+              ],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            },
+            "ev-3": {
+              "evidence_id": "ev-3",
+              "file_name": "Northpoint-Completion-Briefing.pdf",
+              "locator": {
+                "page": 1
+              },
+              "read_status": "not_attempted",
+              "reads": [],
+              "revision": {
+                "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+                "course_id": "northpoint-completion",
+                "publication_epoch": 1,
+                "source": {
+                  "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            }
+          },
+          "turn_id": "998e280f91094c15bfd20a87dcf44de6",
+          "visible_display_ids": [
+            "c557bc83e4b0415e967895244b06491b"
+          ]
+        },
+        "options": []
+      },
+      "dom": {
+        "citations": [
+          "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页",
+          "Northpoint-Completion-Briefing.pdf · v1 · 第 2 页"
+        ],
+        "focus": "Northpoint-Completion-Briefing.pdf",
+        "message_id": "331e88431e8647188b85da196d130182",
+        "text": "课程助手Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 2 页正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefingNorthpoint-Completion-Briefing.pdf · v1 · 第 1 页 · 未读取问这张图查看图片回原件"
+      },
+      "text_blocks": [
+        "Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+        "Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2"
+      ],
+      "elapsed_ms": 20.024
+    }
+  ],
+  "opened_citations": [
+    {
+      "operation": "citation",
+      "status": 200,
+      "request": null,
+      "response": {
+        "source": {
+          "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+          "version": 1,
+          "source_id": "page:1"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 1
+        },
+        "text": "Northpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+        "is_current": true
+      },
+      "elapsed_ms": 4.47
+    },
+    {
+      "operation": "citation",
+      "status": 200,
+      "request": null,
+      "response": {
+        "source": {
+          "document_id": "local_ab43a1e610284f90be40119d750e5f7d",
+          "version": 1,
+          "source_id": "page:1"
+        },
+        "file_name": "Northpoint-Completion-Briefing.pdf",
+        "locator": {
+          "page": 1
+        },
+        "text": "Northpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1",
+        "is_current": true
+      },
+      "elapsed_ms": 4.663
+    }
+  ]
+}

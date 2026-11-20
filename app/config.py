@@ -49,6 +49,10 @@ class Settings(BaseSettings):
     deepseek_timeout_seconds: float = 60.0
     deepseek_max_retries: int = 3
 
+    jev_base_url: str = "https://api.zleap.com/v1"
+    jev_model: str = "Zev-1"
+    jev_api_key: str = ""
+
     qdrant_url: str = "http://localhost:6333"
     qdrant_api_key: str = ""
     qdrant_collection: str = "course_chunks"

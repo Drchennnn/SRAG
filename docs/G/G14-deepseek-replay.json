@@ -1,0 +1,33 @@
+{
+  "deepseek_configured": true,
+  "jev_configured": true,
+  "query_model": "deepseek-flash",
+  "answer_model": "deepseek-flash",
+  "timeout_seconds": 60.0,
+  "max_retries": 3,
+  "calls": {
+    "query": {
+      "attempts": [
+        {
+          "method": "POST",
+          "path": "/v1/chat/completions",
+          "status": 200,
+          "headers_ms": 317.581
+        }
+      ],
+      "status": "succeeded"
+    },
+    "answer": {
+      "attempts": [
+        {
+          "method": "POST",
+          "path": "/v1/chat/completions",
+          "status": 200,
+          "headers_ms": 192.17
+        }
+      ],
+      "status": "succeeded",
+      "total_tokens": 51
+    }
+  }
+}
