@@ -1077,3 +1077,53 @@ def test_composition_does_not_replace_explicit_page_by_another_page(system, publ
         )
         assert result["turn"]["status"] == "clarification"
         assert not result["message"]["sources"]
+
+
+@pytest.mark.parametrize("valid_citation", [True, False])
+def test_composition_can_synthesize_existing_reads_without_a_new_retrieval(
+    system, public_object_files, monkeypatch, valid_citation
+):
+    from app.clients.deepseek import DeepSeekClient
+
+    settings, _, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "synthetic-key"
+    requests = []
+
+    async def recover(self, messages, **kwargs):
+        request = json.loads(messages[-1]["content"])
+        requests.append(request)
+        sources = {item["locator"]["evidence_role"]: item for item in request["evidence"]}
+        assert set(sources) == {"principle", "table", "saved_output"}
+        assert sources["table"]["reads"][0]["method"] == "native_table"
+        assert "17.5" in sources["table"]["reads"][0]["text"]
+        return {
+            "content": json.dumps({
+                "statements": [{
+                    "text": "原表数值是 17.5。",
+                    "citations": [sources["table"]["id"] if valid_citation else "ev-unknown"],
+                }],
+                "missing": "",
+            })
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", recover)
+    originals, public = public_object_files
+    session = _create(client)
+    for name in ("PulseGate-lecture.ipynb", "PulseGate-run.ipynb", "PulseGate-limits.pptx"):
+        _upload(client, session, originals / name)
+    result = _ask(client, session, public["questions"]["three"], client_id="compose-generation")
+    assert len(requests) == 1 and requests[0]["mode"] == "compose"
+    message = result["message"]
+    trace = result["turn"]["trace"]
+    assert trace["supplement_count"] <= 1
+    assert trace["generation"]["status"] == ("succeeded" if valid_citation else "invalid_response")
+    assert set(trace["final_evidence_ids"]) == set(message["sources"])
+    if valid_citation:
+        (evidence_id,) = message["sources"]
+        assert message["blocks"][0]["text"] == "原表数值是 17.5。"
+        endpoint = session + f"/messages/{message['message_id']}/evidence/{evidence_id}"
+        assert client.get(endpoint).json()["source"]["source_id"] == "page:1:shape:2"
+    else:
+        assert len(message["sources"]) == 3
+        assert message["blocks"][-1]["code"] == "generation_unavailable"

@@ -20,7 +20,9 @@ from app.schemas.turn_evidence import TurnEvidence
 OUTPUT_RESERVE = 8192
 _CHAT_FRAME_RESERVE = 128
 _TEXT_METHODS = {"native_text", "native_table", "ocr"}
-_LOCATOR_FIELDS = {"page", "cell_index", "output_index", "section_path", "bbox", "version_role"}
+_LOCATOR_FIELDS = {
+    "page", "cell_index", "output_index", "section_path", "bbox", "version_role", "evidence_role",
+}
 _COVERAGE_FIELDS = {
     "mode",
     "full_text_scope",
@@ -52,6 +54,11 @@ summary 概括证据范围。若用户只要求把上次回答简短重述，遵
 每个结论至少使用一个确实支持它的 evidence id。字段 text 仅放正文，请勿嵌入引文标号。
 missing 只写具体尚不能确认的事项，没有缺项时为空字符串。
 无支持结论时 statements 为空并明确 missing。"""
+
+_COMPOSITION_INSTRUCTIONS = """
+按 evidence_role 分清讲义条件、原生表格、保存输出。对照同一对象、实验条件、指标、单位。
+不能把未测值当成零，不能用其他条件的结果填空。表格值不表示保存输出证实该值。
+只有原文明确记录的完成次数才算已完成。明确缺项，分别引用实际支持其余结论的原件。"""
 
 GenerationStatus = Literal[
     "succeeded",
@@ -132,8 +139,9 @@ def generate_response(
         },
         "evidence": list(evidence_data.values()),
     }
+    instructions = _INSTRUCTIONS + (_COMPOSITION_INSTRUCTIONS if mode == "compose" else "")
     messages = [
-        {"role": "system", "content": _INSTRUCTIONS},
+        {"role": "system", "content": instructions},
         {
             "role": "user",
             "content": json.dumps(prompt_data, ensure_ascii=False, separators=(",", ":")),

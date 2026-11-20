@@ -1296,7 +1296,28 @@ class WorkspaceService:
             draft.text(statement.text, *statement.citations)
         for code, note in run.notices:
             draft.notice(code, note)
-        return self._complete(turn, draft, refs=list(refs.values()), trace=run.trace)
+        refs = list(refs.values())
+        if (
+            self.settings.workspace_answer_enabled
+            and run.read_evidence
+            and run.trace["answer_status"] != "supported"
+            and not run.trace["conflicts"]
+        ):
+            generated = Draft(session.session_id, sources=run.read_evidence)
+            self._generate_draft(turn, generated, run.trace, "compose", refs=refs)
+            status = run.trace["generation"]["status"]
+            if status in {"succeeded", "partial", "insufficient"}:
+                cited = {key for block in generated.blocks for key in block.get("citations", [])}
+                generated.sources = {
+                    key: item for key, item in generated.sources.items() if key in cited
+                }
+                run.trace["final_evidence_ids"] = list(generated.sources)
+                draft = generated
+            else:
+                draft.notice(
+                    "generation_unavailable", "回答模型未生成可核对的答案，已保留本地核对结果。"
+                )
+        return self._complete(turn, draft, refs=refs, trace=run.trace)
 
     def _answer_object(
         self,

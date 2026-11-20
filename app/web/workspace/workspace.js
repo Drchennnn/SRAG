@@ -352,7 +352,7 @@ function renderCatalog() {
         if (nextOpen) state.expanded.add(entry.node_id);
         else state.expanded.delete(entry.node_id);
       }
-      void chooseNode(entry, !selected);
+      void chooseNode(entry, focus !== entry.node_id);
     }, {selected, open: items.length ? isOpen : undefined, version: entry.kind === "document" ? entry.version : null});
     itemButton.dataset.nodeId = entry.node_id;
     li.append(itemButton);
@@ -702,7 +702,7 @@ function renderControls() {
   const local = session && state.outbox.get(session.session_id);
   const canSummary = session?.scope?.document_ids.length === 1;
   const localRetry = local?.indeterminate;
-  const busy = !session || state.navigating || isRunning();
+  const busy = !session || state.navigating || state.uploading || isRunning();
   ui.send.disabled = busy || (!ui.question.value.trim() && !localRetry);
   ui["search-query"].disabled = !session;
   ui["search-submit"].disabled = busy || localRetry || !ui["search-query"].value.trim();
@@ -751,7 +751,7 @@ function schedulePolling() {
 }
 
 async function submitTurn(kind, field = null) {
-  if (!state.session || state.navigating || isRunning()) return;
+  if (!state.session || state.navigating || state.uploading || isRunning()) return;
   const captured = captureSession();
   let incoming = state.outbox.get(captured.id);
   if (incoming?.indeterminate && kind !== "ask") return;
@@ -861,6 +861,11 @@ async function importFiles(event) {
       state.expanded.add(courseId);
       await reloadCatalog(capture);
       await reloadSession(capture);
+      if (!isCurrent(capture)) return;
+      const replacement = state.documents.get(replaceId);
+      if (replacement && !state.session.focus && state.session.scope.document_ids.includes(replaceId)) {
+        await chooseNode(replacement);
+      }
       ui["import-files"].value = "";
       ui["replace-document"].checked = false;
     }

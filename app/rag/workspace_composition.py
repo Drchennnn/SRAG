@@ -101,6 +101,7 @@ class CompositionStatement:
 class Composition:
     statements: list[CompositionStatement] = field(default_factory=list)
     evidence: dict[str, TurnEvidence] = field(default_factory=dict)
+    read_evidence: dict[str, TurnEvidence] = field(default_factory=dict)
     notices: list[tuple[str, str]] = field(default_factory=list)
     trace: dict[str, Any] = field(default_factory=dict)
 
@@ -248,6 +249,9 @@ def compose_evidence(
             )
             item.update(evidence_id=evidence.evidence_id, read_status=evidence.read_status)
             reads.append((role, evidence, actual))
+            result.read_evidence[evidence.evidence_id] = evidence.model_copy(
+                update={"locator": {**evidence.locator, "evidence_role": role}}
+            )
 
     read_candidates(keys)
     selected = _select(reads, text)

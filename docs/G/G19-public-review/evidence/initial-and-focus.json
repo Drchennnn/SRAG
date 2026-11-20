@@ -1,0 +1,2880 @@
+[
+  {
+    "subject": "f34a17ab6d1d70b60093744640c1243aad11fafd",
+    "chromium": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "http_ledger_sha256": "1f2b77d1587266dd01aa4654cf90561399443a9b2c2a677a31cd97a9fa1591fc",
+    "provider_ledger_sha256": "3b1b158b626990cac5ff00a72f183d2dde9d11d5e3af7288fba22a228df2797e",
+    "fixture": {
+      "course": "g19-independent-canopy",
+      "questions": {
+        "first": "综合这份英文课件，用中文解释现场初检、潮湿复核和正式放行三种流程怎么选，各自有哪些条件？",
+        "summary": "用两句话总结。",
+        "show_saved": "请展示第 1 个 Cell 的保存输出。",
+        "second": "刚才第二张图，横轴的单位是什么？",
+        "pdf_visual": "第 4 页右侧图的横轴单位是什么？",
+        "pdf_v2": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+        "version": "和旧版相比呢？",
+        "cross_file": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。",
+        "missing": "Sparrow 接头在盐雾室连续运行 72 小时以后的 Residual drift 是多少？湿台复核的读数能直接当作这个值吗？"
+      },
+      "files": {
+        "fixtures/v1/Canopy-Coupler-Field-Notes.pdf": {
+          "sha256": "40c7c9364d03208ca111667f1e5a3d3f1a85f3da7b2aa3185b03604adcc8ac88",
+          "bytes": 32118
+        },
+        "fixtures/v1/Sparrow-Repeat-Run.ipynb": {
+          "sha256": "7dd701cf73e96e399bd36fda80a96fc5d9f5b4e1219fd65639a93a71b7888f2f",
+          "bytes": 33186
+        },
+        "fixtures/v2/Canopy-Coupler-Field-Notes.pdf": {
+          "sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+          "bytes": 30595
+        },
+        "fixtures/v2/Sparrow-Repeat-Run.ipynb": {
+          "sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+          "bytes": 33182
+        },
+        "fixtures/Sparrow-Coupler-Release-Log.pptx": {
+          "sha256": "0f9755f444f04982267b3b51760a8178702c142f82646252e1ade1fe1a630560",
+          "bytes": 29586
+        }
+      }
+    },
+    "provider_counts": {
+      "deepseek": 5,
+      "dashscope": 2
+    },
+    "blocked_attempts": 0,
+    "turn_register": [
+      {
+        "case": "first",
+        "question": "综合这份英文课件，用中文解释现场初检、潮湿复核和正式放行三种流程怎么选，各自有哪些条件？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 2524.3
+      },
+      {
+        "case": "summary",
+        "question": "用两句话总结。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1710.037
+      },
+      {
+        "case": "pdf_visual",
+        "question": "第 4 页右侧图的横轴单位是什么？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 2115.441
+      },
+      {
+        "case": "show_saved",
+        "question": "请展示第 1 个 Cell 的保存输出。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1004.25
+      },
+      {
+        "case": "second",
+        "question": "刚才第二张图，横轴的单位是什么？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 981.997
+      },
+      {
+        "case": "show_saved",
+        "question": "请展示第 1 个 Cell 的保存输出。",
+        "turn_status": "failed",
+        "error": "stale_reference",
+        "http_elapsed_ms": 8.227
+      },
+      {
+        "case": "second",
+        "question": "刚才第二张图，横轴的单位是什么？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 11.426
+      },
+      {
+        "case": "pdf_v2",
+        "question": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+        "turn_status": "failed",
+        "error": "stale_reference",
+        "http_elapsed_ms": 6.937
+      },
+      {
+        "case": "version",
+        "question": "和旧版相比呢？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 2603.459
+      },
+      {
+        "case": "cross_file",
+        "question": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 26.987
+      },
+      {
+        "case": "missing",
+        "question": "Sparrow 接头在盐雾室连续运行 72 小时以后的 Residual drift 是多少？湿台复核的读数能直接当作这个值吗？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 6482.923
+      }
+    ],
+    "critical_turns": [
+      {
+        "case": "show_saved",
+        "question": "请展示第 1 个 Cell 的保存输出。",
+        "client_turn_id": "be0b0419-d0db-40f0-92cc-0a74e717a10a",
+        "scope_revision": 5,
+        "turn_status": "failed",
+        "error": "stale_reference",
+        "http_elapsed_ms": 8.227,
+        "trace": null,
+        "resolution": null,
+        "message_id": null,
+        "blocks": [],
+        "sources": {},
+        "visible_display_ids": [],
+        "actual_visible_cards": [],
+        "dom": {
+          "missing": true,
+          "notices": "处理失败 · 资料版本已更改，请从目录重新选择。"
+        },
+        "opened_citations": [],
+        "provider_calls": []
+      },
+      {
+        "case": "second",
+        "question": "刚才第二张图，横轴的单位是什么？",
+        "client_turn_id": "2b140953-cbbc-45c2-b608-2a5c07ede725",
+        "scope_revision": 5,
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 11.426,
+        "trace": null,
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_39e8407380e845bb973f0cc92d268287",
+            "source_id": "cell:0:output:2",
+            "version": 1
+          },
+          "display_id": "028d63653cfc4694b2e9c5d6225b5ee9",
+          "message_id": "392770b2aa4e4c16858bc7d07aed3673",
+          "method": "visible_ordinal",
+          "ordinal": 2,
+          "resolution": "visible_ordinal"
+        },
+        "message_id": "e908d3ec7a204278af94f822584e56f2",
+        "blocks": [
+          {
+            "code": "historical_only",
+            "text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
+            "type": "notice"
+          }
+        ],
+        "sources": {},
+        "visible_display_ids": [],
+        "actual_visible_cards": [],
+        "dom": {
+          "missing": true,
+          "notices": ""
+        },
+        "opened_citations": [],
+        "provider_calls": []
+      },
+      {
+        "case": "pdf_v2",
+        "question": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+        "client_turn_id": "cfd33311-88a7-4bc2-8b2f-cd6d890c03be",
+        "scope_revision": 7,
+        "turn_status": "failed",
+        "error": "stale_reference",
+        "http_elapsed_ms": 6.937,
+        "trace": null,
+        "resolution": null,
+        "message_id": null,
+        "blocks": [],
+        "sources": {},
+        "visible_display_ids": [],
+        "actual_visible_cards": [],
+        "dom": {
+          "missing": true,
+          "notices": "处理失败 · 资料版本已更改，请从目录重新选择。"
+        },
+        "opened_citations": [],
+        "provider_calls": []
+      },
+      {
+        "case": "cross_file",
+        "question": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。",
+        "client_turn_id": "105175ba-3dee-4272-b829-f83553880364",
+        "scope_revision": 8,
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 26.987,
+        "trace": {
+          "answer_status": "insufficient",
+          "comparison": "missing_evidence",
+          "conflicts": [],
+          "effective_scope": {
+            "course_ids": [
+              "g19-independent-canopy"
+            ],
+            "document_ids": [
+              "local_1a5cc370df2741a391475d39e6cac532",
+              "local_39e8407380e845bb973f0cc92d268287",
+              "local_99a85aa3378547bdb591cdeb2340e519"
+            ],
+            "file_names": []
+          },
+          "external_call_count": 0,
+          "final_evidence_ids": [],
+          "first_missing": [
+            "principle",
+            "table",
+            "saved_output"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                  "source_id": "page:2:shape:3",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                  "source_id": "page:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_99a85aa3378547bdb591cdeb2340e519",
+                  "source_id": "page:6",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                  "source_id": "page:2:shape:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                  "source_id": "page:1:shape:3",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_99a85aa3378547bdb591cdeb2340e519",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              ],
+              "elapsed_ms": 2.985832979902625,
+              "kind": "first",
+              "query": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。\n讲义规定",
+              "scope": {
+                "course_ids": [
+                  "g19-independent-canopy"
+                ],
+                "document_ids": [
+                  "local_1a5cc370df2741a391475d39e6cac532",
+                  "local_39e8407380e845bb973f0cc92d268287",
+                  "local_99a85aa3378547bdb591cdeb2340e519"
+                ],
+                "file_names": []
+              }
+            }
+          ],
+          "missing": [
+            "principle",
+            "table",
+            "saved_output"
+          ],
+          "requirements": [
+            "principle",
+            "table",
+            "saved_output"
+          ],
+          "role_checks": [
+            {
+              "evidence_id": "ev-1",
+              "read_status": "succeeded",
+              "role": "table",
+              "source": {
+                "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                "source_id": "page:2:shape:3",
+                "version": 1
+              }
+            },
+            {
+              "evidence_id": "ev-2",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "evidence_id": "ev-3",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_99a85aa3378547bdb591cdeb2340e519",
+                "source_id": "page:6",
+                "version": 2
+              }
+            },
+            {
+              "evidence_id": "ev-4",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_1a5cc370df2741a391475d39e6cac532",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "evidence_id": "ev-5",
+              "read_status": "succeeded",
+              "role": "saved_output",
+              "source": {
+                "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            },
+            {
+              "read_status": "available",
+              "role": "saved_output",
+              "source": {
+                "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            },
+            {
+              "read_status": "available",
+              "role": "saved_output",
+              "source": {
+                "document_id": "local_39e8407380e845bb973f0cc92d268287",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            },
+            {
+              "evidence_id": "ev-6",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_99a85aa3378547bdb591cdeb2340e519",
+                "source_id": "page:5",
+                "version": 2
+              }
+            }
+          ],
+          "route": "evidence_composition",
+          "supplement_count": 0,
+          "supports": {}
+        },
+        "resolution": null,
+        "message_id": "139a547084b64ba5966c2bd8d61be51f",
+        "blocks": [
+          {
+            "code": "composition_missing_principle",
+            "text": "本轮缺少可核对的定义或适用条件。",
+            "type": "notice"
+          },
+          {
+            "code": "composition_missing_table",
+            "text": "本轮缺少可核对的原生表格。",
+            "type": "notice"
+          },
+          {
+            "code": "composition_missing_saved_output",
+            "text": "本轮缺少可核对的保存的实测输出。",
+            "type": "notice"
+          }
+        ],
+        "sources": {},
+        "visible_display_ids": [],
+        "actual_visible_cards": [],
+        "dom": {
+          "missing": true,
+          "notices": ""
+        },
+        "opened_citations": [],
+        "provider_calls": []
+      }
+    ],
+    "full_filtered_sha256": "7146c6d1fe0c1e6b05cc87bf045955ff240222f42f71abc35da2428aa1438f84"
+  },
+  {
+    "subject": "602fdaac672c4b6e67d2bb4afaa56b8441283bc6",
+    "chromium": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+    "http_ledger_sha256": "cd762a140c761dc70919859787d654492c329e0002fa00c3b4f4cd6c34f4ee1d",
+    "provider_ledger_sha256": "bf898b219ca968b479cab2532c8492cbe3197b0c547cbc5b2394ff66833f5cc2",
+    "fixture": {
+      "course": "g19-independent-canopy",
+      "questions": {
+        "first": "综合这份英文课件，用中文解释现场初检、潮湿复核和正式放行三种流程怎么选，各自有哪些条件？",
+        "summary": "用两句话总结。",
+        "show_saved": "请展示第 1 个 Cell 的保存输出。",
+        "second": "刚才第二张图，横轴的单位是什么？",
+        "pdf_visual": "第 4 页右侧图的横轴单位是什么？",
+        "pdf_v2": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+        "version": "和旧版相比呢？",
+        "cross_file": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。",
+        "missing": "Sparrow 接头在盐雾室连续运行 72 小时以后的 Residual drift 是多少？湿台复核的读数能直接当作这个值吗？"
+      },
+      "files": {
+        "fixtures/v1/Canopy-Coupler-Field-Notes.pdf": {
+          "sha256": "40c7c9364d03208ca111667f1e5a3d3f1a85f3da7b2aa3185b03604adcc8ac88",
+          "bytes": 32118
+        },
+        "fixtures/v1/Sparrow-Repeat-Run.ipynb": {
+          "sha256": "7dd701cf73e96e399bd36fda80a96fc5d9f5b4e1219fd65639a93a71b7888f2f",
+          "bytes": 33186
+        },
+        "fixtures/v2/Canopy-Coupler-Field-Notes.pdf": {
+          "sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+          "bytes": 30595
+        },
+        "fixtures/v2/Sparrow-Repeat-Run.ipynb": {
+          "sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+          "bytes": 33182
+        },
+        "fixtures/Sparrow-Coupler-Release-Log.pptx": {
+          "sha256": "0f9755f444f04982267b3b51760a8178702c142f82646252e1ade1fe1a630560",
+          "bytes": 29586
+        }
+      }
+    },
+    "provider_counts": {
+      "deepseek": 7,
+      "dashscope": 3
+    },
+    "blocked_attempts": 0,
+    "turn_register": [
+      {
+        "case": "first",
+        "question": "综合这份英文课件，用中文解释现场初检、潮湿复核和正式放行三种流程怎么选，各自有哪些条件？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 2944.746
+      },
+      {
+        "case": "summary",
+        "question": "用两句话总结。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1550.734
+      },
+      {
+        "case": "pdf_visual",
+        "question": "第 4 页右侧图的横轴单位是什么？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1445.577
+      },
+      {
+        "case": "show_saved",
+        "question": "请展示第 1 个 Cell 的保存输出。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1112.88
+      },
+      {
+        "case": "second",
+        "question": "刚才第二张图，横轴的单位是什么？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1133.16
+      },
+      {
+        "case": "show_saved",
+        "question": "请展示第 1 个 Cell 的保存输出。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 939.858
+      },
+      {
+        "case": "second",
+        "question": "刚才第二张图，横轴的单位是什么？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1174.034
+      },
+      {
+        "case": "pdf_v2",
+        "question": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1994.285
+      },
+      {
+        "case": "version",
+        "question": "和旧版相比呢？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 2620.476
+      },
+      {
+        "case": "cross_file",
+        "question": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 27.103
+      },
+      {
+        "case": "missing",
+        "question": "Sparrow 接头在盐雾室连续运行 72 小时以后的 Residual drift 是多少？湿台复核的读数能直接当作这个值吗？",
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 6125.175
+      }
+    ],
+    "critical_turns": [
+      {
+        "case": "show_saved",
+        "question": "请展示第 1 个 Cell 的保存输出。",
+        "client_turn_id": "7ebba309-19a1-44f0-9921-2dd2a423222b",
+        "scope_revision": 6,
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 939.858,
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Sparrow-Repeat-Run.ipynb",
+              "locator": {
+                "cell_id": "wet-run",
+                "cell_index": 0,
+                "section_path": []
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Sparrow-Repeat-Run.ipynb",
+              "locator": {
+                "cell_id": "wet-run",
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Sparrow-Repeat-Run.ipynb",
+              "locator": {
+                "cell_id": "wet-run",
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Sparrow-Repeat-Run.ipynb",
+              "locator": {
+                "cell_id": "wet-run",
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:0"
+            ],
+            "enumerated_source_count": 4,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": true,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 2,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g19-independent-canopy"
+            ],
+            "document_ids": [
+              "local_3412ee680f4c4560be0bc25c6d0eae5a"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 896.005,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 909.268,
+            "estimated_input": 2980,
+            "external_call_count": 1,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 755
+          },
+          "reading": {
+            "budget": 30917,
+            "estimated_input": 721,
+            "full_text_scope": false,
+            "location": {
+              "cell_id": null,
+              "cell_index": 0,
+              "cell_range": null,
+              "page": null,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "title": "Code cell 1"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              },
+              {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            ],
+            "prioritized": false,
+            "read_ranges": [
+              {
+                "end": 87,
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "d6d4b0bc7621a983f4918024527764e8c7f6f1aee7aed012e328227e5d6d02e6",
+                "title": "Code cell 1"
+              },
+              {
+                "end": 92,
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "7f8bb3802fc2f48413be388e4fc05acba410fdb86978ac2f44508a62c70b0b72",
+                "title": "Code cell 1 · output 1"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "skipped_total": 2,
+            "unread_visual": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "unread_visual_total": 2,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "resolution": null,
+        "message_id": "67453e536e884f2baddb5c7522ae2677",
+        "blocks": [
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "第 1 个 Cell 的保存输出为：“Sparrow humid bench review / Completed repetitions: 3 of 3. / No 72-hour salt fog run recorded.”",
+            "type": "text"
+          },
+          {
+            "caption": "Sparrow-Repeat-Run.ipynb · v2 · 输出 1",
+            "display_id": "e18ee93268224f8485abeff3d00eba29",
+            "display_source": {
+              "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 480,
+            "media_url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/67453e536e884f2baddb5c7522ae2677/media/e18ee93268224f8485abeff3d00eba29?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 840
+          },
+          {
+            "caption": "Sparrow-Repeat-Run.ipynb · v2 · 输出 2",
+            "display_id": "94abc627f8a942328855a8526826e025",
+            "display_source": {
+              "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 480,
+            "media_url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/67453e536e884f2baddb5c7522ae2677/media/94abc627f8a942328855a8526826e025?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 840
+          }
+        ],
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Sparrow-Repeat-Run.ipynb",
+            "locator": {
+              "cell_id": "wet-run",
+              "cell_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                87
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "# Sparrow humid bench review\n# Read saved diagnostic outputs and the repetition count.\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Sparrow-Repeat-Run.ipynb",
+            "locator": {
+              "cell_id": "wet-run",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                92
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Sparrow humid bench review\nCompleted repetitions: 3 of 3.\nNo 72-hour salt fog run recorded.\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Sparrow-Repeat-Run.ipynb",
+            "locator": {
+              "cell_id": "wet-run",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Sparrow-Repeat-Run.ipynb",
+            "locator": {
+              "cell_id": "wet-run",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          }
+        },
+        "visible_display_ids": [
+          "e18ee93268224f8485abeff3d00eba29",
+          "94abc627f8a942328855a8526826e025"
+        ],
+        "actual_visible_cards": [
+          {
+            "id": "e18ee93268224f8485abeff3d00eba29",
+            "ordinal": "1",
+            "status": "图 1 · Sparrow-Repeat-Run.ipynb · v2 · 输出 1\n\nSparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件",
+            "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/67453e536e884f2baddb5c7522ae2677/media/e18ee93268224f8485abeff3d00eba29?view=inline",
+            "http": [
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "db2e7e5ed11a7b70e6b1c257d9d3bd8cf74c66e7b71588dafb3596882759bec0",
+                "bytes": 11756
+              },
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "db2e7e5ed11a7b70e6b1c257d9d3bd8cf74c66e7b71588dafb3596882759bec0",
+                "bytes": 11756
+              }
+            ]
+          },
+          {
+            "id": "94abc627f8a942328855a8526826e025",
+            "ordinal": "2",
+            "status": "图 2 · Sparrow-Repeat-Run.ipynb · v2 · 输出 2\n\nSparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+            "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/67453e536e884f2baddb5c7522ae2677/media/94abc627f8a942328855a8526826e025?view=inline",
+            "http": [
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "7690871388170e01b140bb9353534561fb63284ec65124690a92ad565102513d",
+                "bytes": 12447
+              },
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "7690871388170e01b140bb9353534561fb63284ec65124690a92ad565102513d",
+                "bytes": 12447
+              }
+            ]
+          }
+        ],
+        "dom": {
+          "cards": [
+            {
+              "id": "e18ee93268224f8485abeff3d00eba29",
+              "location": "图 1 · Sparrow-Repeat-Run.ipynb · v2 · 输出 1\n\nSparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件",
+              "ordinal": "1",
+              "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/67453e536e884f2baddb5c7522ae2677/media/e18ee93268224f8485abeff3d00eba29?view=inline",
+              "visible": true
+            },
+            {
+              "id": "94abc627f8a942328855a8526826e025",
+              "location": "图 2 · Sparrow-Repeat-Run.ipynb · v2 · 输出 2\n\nSparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+              "ordinal": "2",
+              "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/67453e536e884f2baddb5c7522ae2677/media/94abc627f8a942328855a8526826e025?view=inline",
+              "visible": true
+            }
+          ],
+          "citations": [
+            "ev-2"
+          ],
+          "id": "67453e536e884f2baddb5c7522ae2677",
+          "text": "课程助手第 1 个 Cell 的保存输出为：“Sparrow humid bench review / Completed repetitions: 3 of 3. / No 72-hour salt fog run recorded.”依据 · Sparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 0正在加载图片…图 1 · Sparrow-Repeat-Run.ipynb · v2 · 输出 1Sparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 1 · 图像未读取问这张图查看原件正在加载图片…图 2 · Sparrow-Repeat-Run.ipynb · v2 · 输出 2Sparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 2 · 图像未读取问这张图查看原件"
+        },
+        "opened_citations": [],
+        "provider_calls": [
+          {
+            "turn": {
+              "case": "show_saved",
+              "text": "请展示第 1 个 Cell 的保存输出。",
+              "client_turn_id": "7ebba309-19a1-44f0-9921-2dd2a423222b"
+            },
+            "sent": true,
+            "provider": "deepseek",
+            "request_sha256": "4408a5c48998a6acc932eb523c181e4570c988c09654303ec0467f6f22c2d1f2",
+            "model": "deepseek-flash",
+            "model_input": {
+              "question": "请展示第 1 个 Cell 的保存输出。",
+              "mode": "ask",
+              "previous_context": {},
+              "coverage": {
+                "full_text_scope": false,
+                "unread_visual_total": 2
+              },
+              "evidence": [
+                {
+                  "id": "ev-1",
+                  "source": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "version": 2,
+                    "source_id": "cell:0"
+                  },
+                  "file_name": "Sparrow-Repeat-Run.ipynb",
+                  "locator": {
+                    "cell_index": 0,
+                    "section_path": []
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "# Sparrow humid bench review\n# Read saved diagnostic outputs and the repetition count.\n"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-2",
+                  "source": {
+                    "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                    "version": 2,
+                    "source_id": "cell:0:output:0"
+                  },
+                  "file_name": "Sparrow-Repeat-Run.ipynb",
+                  "locator": {
+                    "cell_index": 0,
+                    "output_index": 0,
+                    "section_path": []
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Sparrow humid bench review\nCompleted repetitions: 3 of 3.\nNo 72-hour salt fog run recorded.\n"
+                    }
+                  ]
+                }
+              ]
+            },
+            "status_code": 200,
+            "headers_ms": 356.225
+          }
+        ]
+      },
+      {
+        "case": "second",
+        "question": "刚才第二张图，横轴的单位是什么？",
+        "client_turn_id": "c8d20a36-d53d-42cd-8ce0-aad7005c0b36",
+        "scope_revision": 6,
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1174.034,
+        "trace": {
+          "external_call_count": 1,
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 1157.0975839858875,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 392,
+                  "input_tokens": 481,
+                  "output_tokens": 18,
+                  "total_tokens": 499
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+            "source_id": "cell:0:output:2",
+            "version": 2
+          },
+          "display_id": "94abc627f8a942328855a8526826e025",
+          "message_id": "67453e536e884f2baddb5c7522ae2677",
+          "method": "visible_ordinal",
+          "ordinal": 2,
+          "resolution": "visible_ordinal"
+        },
+        "message_id": "f18f82bc95144ad283f97d171d2f4ac7",
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "Samples [points]",
+            "type": "text"
+          }
+        ],
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Sparrow-Repeat-Run.ipynb",
+            "locator": {
+              "cell_id": "wet-run",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": null,
+                "actual_input_sha256": "7690871388170e01b140bb9353534561fb63284ec65124690a92ad565102513d",
+                "actual_source": {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "f3a248806581a7225f117ab8fa58c41a71960aab5af09211353309a8a362a1df",
+                "status": "succeeded",
+                "text": "Samples [points]",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "bca9670290cd9a13ca5c2c92cf3c30affb5e75e11403298867120b5b0faa3e24",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          }
+        },
+        "visible_display_ids": [],
+        "actual_visible_cards": [],
+        "dom": {
+          "cards": [],
+          "citations": [
+            "ev-1"
+          ],
+          "id": "f18f82bc95144ad283f97d171d2f4ac7",
+          "text": "课程助手Samples [points]依据 · Sparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 2"
+        },
+        "opened_citations": [
+          {
+            "body": "放大",
+            "displayed": true,
+            "location": "",
+            "open": true,
+            "status": "图像已读取",
+            "title": "Sparrow-Repeat-Run.ipynb · v2 · Cell 1 · 输出 2",
+            "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/f18f82bc95144ad283f97d171d2f4ac7/evidence/ev-1/preview",
+            "evidence_id": "ev-1",
+            "record": "7-second-citation-ev-1",
+            "media": [
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "7690871388170e01b140bb9353534561fb63284ec65124690a92ad565102513d",
+                "bytes": 12447
+              }
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "turn": {
+              "case": "second",
+              "text": "刚才第二张图，横轴的单位是什么？",
+              "client_turn_id": "c8d20a36-d53d-42cd-8ce0-aad7005c0b36"
+            },
+            "sent": true,
+            "provider": "dashscope",
+            "request_sha256": "fea91519a0c1890f6c6b607991fd4544a177fdc141b0362f33a69aeb7dafb01d",
+            "model": "qwen3-vl-plus",
+            "image_sha256": "7690871388170e01b140bb9353534561fb63284ec65124690a92ad565102513d",
+            "status_code": 200,
+            "headers_ms": 1134.725
+          }
+        ]
+      },
+      {
+        "case": "pdf_v2",
+        "question": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+        "client_turn_id": "d0ed550d-8c03-4e60-8b25-4221a94cc0c8",
+        "scope_revision": 9,
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 1994.285,
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 1
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 2
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:2",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:2",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 3
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:3",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:3",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 4
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:4",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:4",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 5
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:5",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:5",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 6
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:6",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:6",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 7
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:7",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:7",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Canopy-Coupler-Field-Notes.pdf",
+              "locator": {
+                "page": 8
+              },
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "source_id": "page:8",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:8",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 0,
+            "checked_positions": [
+              "page:1",
+              "page:2",
+              "page:3",
+              "page:4",
+              "page:5",
+              "page:6",
+              "page:7",
+              "page:8"
+            ],
+            "enumerated_source_count": 10,
+            "evidence_inspected_count": 8,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 8,
+            "searchable_source_count": 8,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g19-independent-canopy"
+            ],
+            "document_ids": [
+              "local_df949cfeafc1470f81869996d85c40f2"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1928.957,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1943.323,
+            "estimated_input": 6181,
+            "external_call_count": 1,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7",
+              "ev-8"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1626
+          },
+          "reading": {
+            "budget": 30881,
+            "estimated_input": 3567,
+            "full_text_scope": true,
+            "location": null,
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 1
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:1",
+                  "version": 2
+                },
+                "title": "Canopy coupler field course"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 2
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:2",
+                  "version": 2
+                },
+                "title": "What an interval means"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 3
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:3",
+                  "version": 2
+                },
+                "title": "On-site screening / dry intake"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 4
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4",
+                  "version": 2
+                },
+                "title": "Coupler diagnostic plots"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 5
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:5",
+                  "version": 2
+                },
+                "title": "Demonstration with spare leads"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 6
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:6",
+                  "version": 2
+                },
+                "title": "Humid bench review"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 7
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:7",
+                  "version": 2
+                },
+                "title": "Build records and responsibilities"
+              },
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 8
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:8",
+                  "version": 2
+                },
+                "title": "Formal release"
+              }
+            ],
+            "outline_total": 8,
+            "preferred": [
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:1",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:2",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:3",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:4",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:5",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:6",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:7",
+                "version": 2
+              },
+              {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:8",
+                "version": 2
+              }
+            ],
+            "prioritized": false,
+            "read_ranges": [
+              {
+                "end": 171,
+                "kind": "page",
+                "locator": {
+                  "page": 1
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:1",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "d4253fc81648badc538530ee67f13135442b7d0b026880d3597de9626cfe0efc",
+                "title": "Canopy coupler field course"
+              },
+              {
+                "end": 159,
+                "kind": "page",
+                "locator": {
+                  "page": 2
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:2",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "b132f64626d699f78e550495cb8df02dc6ed02ba450c5fdb7020fe82ebff9f64",
+                "title": "What an interval means"
+              },
+              {
+                "end": 220,
+                "kind": "page",
+                "locator": {
+                  "page": 3
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:3",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "81801c6816e21864ee0e4704c83b191e842ef7594bd6e395b295b0e71a6d7f2d",
+                "title": "On-site screening / dry intake"
+              },
+              {
+                "end": 188,
+                "kind": "page",
+                "locator": {
+                  "page": 4
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "c87bdcf169321c8437a5499ba42a9c7b87815ab9694c5aa9a391225fb3de6d37",
+                "title": "Coupler diagnostic plots"
+              },
+              {
+                "end": 173,
+                "kind": "page",
+                "locator": {
+                  "page": 5
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:5",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "5ed356daeea4379e8d8fd47dd65c5ae8422c0c5c14cbdf37377d65c5f25efac8",
+                "title": "Demonstration with spare leads"
+              },
+              {
+                "end": 361,
+                "kind": "page",
+                "locator": {
+                  "page": 6
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:6",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "2cdef85206a9ffbdfd1a685487d222f9eadc4ef1d876c9bda94d42862f549b4e",
+                "title": "Humid bench review"
+              },
+              {
+                "end": 154,
+                "kind": "page",
+                "locator": {
+                  "page": 7
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:7",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "5a8ebce0dfc1cd9af5c491a3d4b5a37eabb5bd330cba06f562590d8e2f86cbac",
+                "title": "Build records and responsibilities"
+              },
+              {
+                "end": 241,
+                "kind": "page",
+                "locator": {
+                  "page": 8
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:8",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "a5a83a5b8df146904b5a6afe47d308c07b29e23ff9343ca47db71db195bfc2d0",
+                "title": "Formal release"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.046717,
+                    0.403595,
+                    0.47601,
+                    0.720588
+                  ],
+                  "page": 4
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4:image:1",
+                  "version": 2
+                },
+                "title": ""
+              },
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.522727,
+                    0.403595,
+                    0.95202,
+                    0.720588
+                  ],
+                  "page": 4
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4:image:2",
+                  "version": 2
+                },
+                "title": ""
+              }
+            ],
+            "skipped_total": 2,
+            "unread_visual": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.046717,
+                    0.403595,
+                    0.47601,
+                    0.720588
+                  ],
+                  "page": 4
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4:image:1",
+                  "version": 2
+                },
+                "title": ""
+              },
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.522727,
+                    0.403595,
+                    0.95202,
+                    0.720588
+                  ],
+                  "page": 4
+                },
+                "source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4:image:2",
+                  "version": 2
+                },
+                "title": ""
+              }
+            ],
+            "unread_visual_total": 2,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "no_text_anchor"
+        },
+        "resolution": null,
+        "message_id": "bcb575f87bea49959df5ff2a0b7a792b",
+        "blocks": [
+          {
+            "citations": [
+              "ev-6"
+            ],
+            "text": "潮湿复核（Humid bench review）适用于已安装的耦合器受潮但未接触盐的情况；条件是在平衡后，于 48-58% RH 下至少等待 34 分钟，并在技术评审前完成三次完整重复。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "保持时间只在耦合器和腔室达到平衡后才开始计算。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "未找到其他潮湿复核时长或湿度范围的说明；课件第4页的两张诊断图未读取，但现有文字未表明其含相关参数。",
+            "type": "notice"
+          },
+          {
+            "caption": "Canopy-Coupler-Field-Notes.pdf · v2 · 第 1 页 · Canopy coupler field course",
+            "display_id": "aa66622ba40d4a6581f977772aa308ed",
+            "display_source": {
+              "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+              "source_id": "page:1",
+              "version": 2
+            },
+            "evidence_id": "ev-9",
+            "fallback_reason": null,
+            "height": 1224,
+            "media_url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/bcb575f87bea49959df5ff2a0b7a792b/media/aa66622ba40d4a6581f977772aa308ed?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "original_page",
+            "type": "source_image",
+            "width": 1584
+          }
+        ],
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 1,
+              "text_span": [
+                0,
+                171
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:1",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Canopy coupler field course\nAn English field workshop. Start at the welcome desk and collect a badge.\nThese notes separate screening, wet bench review, and release.\nPAGE 1",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 2,
+              "text_span": [
+                0,
+                159
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:2",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "What an interval means\nHold time starts only after the coupler and chamber have equilibrated.\nIllustrations are separate from instrument specifications.\nPAGE 2",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:2",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 3,
+              "text_span": [
+                0,
+                220
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:3",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "On-site screening / dry intake\nChoose an on-site screening when the receiving coupler is dry and intact.\nHold for 6 minutes after equilibration, without energizing it.\nA screening stamp does not authorize release.\nPAGE 3",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:3",
+                "version": 2
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 4,
+              "text_span": [
+                0,
+                188
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:4",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Coupler diagnostic plots\nTwo diagnostic plots show different variables. Axis units appear inside the panels.\nA panel axis unit must be read from the diagram, not from the paragraph.\nPAGE 4",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:4",
+                "version": 2
+              }
+            }
+          },
+          "ev-5": {
+            "evidence_id": "ev-5",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 5,
+              "text_span": [
+                0,
+                173
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:5",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Demonstration with spare leads\nThe tray demo uses an open spare lead at 12 minutes. It is not a release process.\nNo diagnostics were signed during this demonstration.\nPAGE 5",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:5",
+                "version": 2
+              }
+            }
+          },
+          "ev-6": {
+            "evidence_id": "ev-6",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 6,
+              "text_span": [
+                0,
+                361
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:6",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Humid bench review\nUse this route when an installed coupler is damp but has no salt exposure.\nCondition: after equilibration, wait at least 34 minutes at 48-58% RH.\nRun three complete repetitions before the technical review.\nSparrow dry-bench values cannot stand in for continuous salt fog.\nNo 72-hour salt fog Residual drift is available in this course.\nPAGE 6",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:6",
+                "version": 2
+              }
+            }
+          },
+          "ev-7": {
+            "evidence_id": "ev-7",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 7,
+              "text_span": [
+                0,
+                154
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:7",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Build records and responsibilities\nRecord the equipment ID and preserve the instrument trace.\nDo not treat a saved demonstration image as approval.\nPAGE 7",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:7",
+                "version": 2
+              }
+            }
+          },
+          "ev-8": {
+            "evidence_id": "ev-8",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 8,
+              "text_span": [
+                0,
+                241
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:8",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Formal release\nUse formal release only after humid-bench review first passes.\nRequire a signed sheet and a supervisor-confirmed seal code. A repeat screen is insufficient.\nThe formal release log never supplies endurance qualification.\nPAGE 8",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:8",
+                "version": 2
+              }
+            }
+          },
+          "ev-9": {
+            "evidence_id": "ev-9",
+            "file_name": "Canopy-Coupler-Field-Notes.pdf",
+            "locator": {
+              "page": 1
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "3ca74039cba96f3581f5074772f1bf16b642d418f44134c12be0ab0859c1aeb4",
+              "course_id": "g19-independent-canopy",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:1",
+                "version": 2
+              }
+            }
+          }
+        },
+        "visible_display_ids": [
+          "aa66622ba40d4a6581f977772aa308ed"
+        ],
+        "actual_visible_cards": [],
+        "dom": {
+          "cards": [
+            {
+              "id": "aa66622ba40d4a6581f977772aa308ed",
+              "location": "图 1 · Canopy-Coupler-Field-Notes.pdf · v2 · 第 1 页 · Canopy coupler field course\n\nCanopy-Coupler-Field-Notes.pdf · v2 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+              "ordinal": "1",
+              "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/bcb575f87bea49959df5ff2a0b7a792b/media/aa66622ba40d4a6581f977772aa308ed?view=inline",
+              "visible": true
+            }
+          ],
+          "citations": [
+            "ev-6",
+            "ev-2"
+          ],
+          "id": "bcb575f87bea49959df5ff2a0b7a792b",
+          "text": "课程助手潮湿复核（Humid bench review）适用于已安装的耦合器受潮但未接触盐的情况；条件是在平衡后，于 48-58% RH 下至少等待 34 分钟，并在技术评审前完成三次完整重复。依据 · Canopy-Coupler-Field-Notes.pdf · v2 · 第 6 页保持时间只在耦合器和腔室达到平衡后才开始计算。依据 · Canopy-Coupler-Field-Notes.pdf · v2 · 第 2 页未找到其他潮湿复核时长或湿度范围的说明；课件第4页的两张诊断图未读取，但现有文字未表明其含相关参数。正在加载图片…图 1 · Canopy-Coupler-Field-Notes.pdf · v2 · 第 1 页 · Canopy coupler field courseCanopy-Coupler-Field-Notes.pdf · v2 · 第 1 页 · 图像未读取问这张图查看图片回原件"
+        },
+        "opened_citations": [
+          {
+            "body": "放大\n\nWhat an interval means\nHold time starts only after the coupler and chamber have equilibrated.\nIllustrations are separate from instrument specifications.\nPAGE 2",
+            "displayed": true,
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Canopy-Coupler-Field-Notes.pdf · v2 · 第 2 页",
+            "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/bcb575f87bea49959df5ff2a0b7a792b/evidence/ev-2/preview",
+            "evidence_id": "ev-2",
+            "record": "8-pdf_v2-citation-ev-2",
+            "media": [
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "d246e2c64ce47328bb071ed38092c6e5e94bbb8a43fa911c3b11537c408cba6b",
+                "bytes": 48759
+              }
+            ]
+          },
+          {
+            "body": "放大\n\nHumid bench review\nUse this route when an installed coupler is damp but has no salt exposure.\nCondition: after equilibration, wait at least 34 minutes at 48-58% RH.\nRun three complete repetitions before the technical review.\nSparrow dry-bench values cannot stand in for continuous salt fog.\nNo 72-hour salt fog Residual drift is available in this course.\nPAGE 6",
+            "displayed": true,
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Canopy-Coupler-Field-Notes.pdf · v2 · 第 6 页",
+            "url": "/api/workspace/sessions/2d0f5d87c9ea4df3a9f41be9b0f2513d/messages/bcb575f87bea49959df5ff2a0b7a792b/evidence/ev-6/preview",
+            "evidence_id": "ev-6",
+            "record": "8-pdf_v2-citation-ev-6",
+            "media": [
+              {
+                "status_code": 200,
+                "content_type": "image/png",
+                "sha256": "c9d017944025c92bc0f8543ba174862f938a25027af9a6b36f2203152e416f32",
+                "bytes": 95598
+              }
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "turn": {
+              "case": "pdf_v2",
+              "text": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+              "client_turn_id": "d0ed550d-8c03-4e60-8b25-4221a94cc0c8"
+            },
+            "sent": true,
+            "provider": "deepseek",
+            "request_sha256": "d8c1a4b471333c7ba454066a0054b64057d40a9ccb95bc992f76f739f708640e",
+            "model": "deepseek-flash",
+            "model_input": {
+              "question": "这份课件里潮湿复核需要等多久，允许的湿度范围是多少？",
+              "mode": "ask",
+              "previous_context": {},
+              "coverage": {
+                "full_text_scope": true,
+                "unread_visual_total": 2
+              },
+              "evidence": [
+                {
+                  "id": "ev-1",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:1"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 1
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Canopy coupler field course\nAn English field workshop. Start at the welcome desk and collect a badge.\nThese notes separate screening, wet bench review, and release.\nPAGE 1"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-2",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:2"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 2
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "What an interval means\nHold time starts only after the coupler and chamber have equilibrated.\nIllustrations are separate from instrument specifications.\nPAGE 2"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-3",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:3"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 3
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "On-site screening / dry intake\nChoose an on-site screening when the receiving coupler is dry and intact.\nHold for 6 minutes after equilibration, without energizing it.\nA screening stamp does not authorize release.\nPAGE 3"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-4",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:4"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 4
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Coupler diagnostic plots\nTwo diagnostic plots show different variables. Axis units appear inside the panels.\nA panel axis unit must be read from the diagram, not from the paragraph.\nPAGE 4"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-5",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:5"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 5
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Demonstration with spare leads\nThe tray demo uses an open spare lead at 12 minutes. It is not a release process.\nNo diagnostics were signed during this demonstration.\nPAGE 5"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-6",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:6"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 6
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Humid bench review\nUse this route when an installed coupler is damp but has no salt exposure.\nCondition: after equilibration, wait at least 34 minutes at 48-58% RH.\nRun three complete repetitions before the technical review.\nSparrow dry-bench values cannot stand in for continuous salt fog.\nNo 72-hour salt fog Residual drift is available in this course.\nPAGE 6"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-7",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:7"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 7
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Build records and responsibilities\nRecord the equipment ID and preserve the instrument trace.\nDo not treat a saved demonstration image as approval.\nPAGE 7"
+                    }
+                  ]
+                },
+                {
+                  "id": "ev-8",
+                  "source": {
+                    "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                    "version": 2,
+                    "source_id": "page:8"
+                  },
+                  "file_name": "Canopy-Coupler-Field-Notes.pdf",
+                  "locator": {
+                    "page": 8
+                  },
+                  "reads": [
+                    {
+                      "method": "native_text",
+                      "status": "succeeded",
+                      "text": "Formal release\nUse formal release only after humid-bench review first passes.\nRequire a signed sheet and a supervisor-confirmed seal code. A repeat screen is insufficient.\nThe formal release log never supplies endurance qualification.\nPAGE 8"
+                    }
+                  ]
+                }
+              ]
+            },
+            "status_code": 200,
+            "headers_ms": 352.181
+          }
+        ]
+      },
+      {
+        "case": "cross_file",
+        "question": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。",
+        "client_turn_id": "38eddac6-a7f8-42d5-a6c4-87d15ecac713",
+        "scope_revision": 10,
+        "turn_status": "completed",
+        "error": null,
+        "http_elapsed_ms": 27.103,
+        "trace": {
+          "answer_status": "insufficient",
+          "comparison": "missing_evidence",
+          "conflicts": [],
+          "effective_scope": {
+            "course_ids": [
+              "g19-independent-canopy"
+            ],
+            "document_ids": [
+              "local_2befd6df30234e64b5fa868b61c0db2b",
+              "local_3412ee680f4c4560be0bc25c6d0eae5a",
+              "local_df949cfeafc1470f81869996d85c40f2"
+            ],
+            "file_names": []
+          },
+          "external_call_count": 0,
+          "final_evidence_ids": [],
+          "first_missing": [
+            "principle",
+            "table",
+            "saved_output"
+          ],
+          "hops": [
+            {
+              "candidates": [
+                {
+                  "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "source_id": "page:2:shape:3",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "source_id": "page:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:6",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "source_id": "page:1:shape:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "source_id": "page:2:shape:2",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "source_id": "page:1",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "source_id": "page:1:shape:3",
+                  "version": 1
+                },
+                {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                {
+                  "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                  "source_id": "page:5",
+                  "version": 2
+                }
+              ],
+              "elapsed_ms": 3.5743339685723186,
+              "kind": "first",
+              "query": "Sparrow 潮湿复核，讲义规定的适用条件是什么？实验记录的表格里 Residual drift 是多少？结合保存输出说明是否完成了规定的重复次数。\n讲义规定",
+              "scope": {
+                "course_ids": [
+                  "g19-independent-canopy"
+                ],
+                "document_ids": [
+                  "local_2befd6df30234e64b5fa868b61c0db2b",
+                  "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                  "local_df949cfeafc1470f81869996d85c40f2"
+                ],
+                "file_names": []
+              }
+            }
+          ],
+          "missing": [
+            "principle",
+            "table",
+            "saved_output"
+          ],
+          "requirements": [
+            "principle",
+            "table",
+            "saved_output"
+          ],
+          "role_checks": [
+            {
+              "evidence_id": "ev-1",
+              "read_status": "succeeded",
+              "role": "table",
+              "source": {
+                "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                "source_id": "page:2:shape:3",
+                "version": 1
+              }
+            },
+            {
+              "evidence_id": "ev-2",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "evidence_id": "ev-3",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:6",
+                "version": 2
+              }
+            },
+            {
+              "evidence_id": "ev-4",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_2befd6df30234e64b5fa868b61c0db2b",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "evidence_id": "ev-5",
+              "read_status": "succeeded",
+              "role": "saved_output",
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            },
+            {
+              "read_status": "available",
+              "role": "saved_output",
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            },
+            {
+              "read_status": "available",
+              "role": "saved_output",
+              "source": {
+                "document_id": "local_3412ee680f4c4560be0bc25c6d0eae5a",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            },
+            {
+              "evidence_id": "ev-6",
+              "read_status": "succeeded",
+              "role": "principle",
+              "source": {
+                "document_id": "local_df949cfeafc1470f81869996d85c40f2",
+                "source_id": "page:5",
+                "version": 2
+              }
+            }
+          ],
+          "route": "evidence_composition",
+          "supplement_count": 0,
+          "supports": {}
+        },
+        "resolution": null,
+        "message_id": "3bb29604606c40788961481ce43a3e16",
+        "blocks": [
+          {
+            "code": "composition_missing_principle",
+            "text": "本轮缺少可核对的定义或适用条件。",
+            "type": "notice"
+          },
+          {
+            "code": "composition_missing_table",
+            "text": "本轮缺少可核对的原生表格。",
+            "type": "notice"
+          },
+          {
+            "code": "composition_missing_saved_output",
+            "text": "本轮缺少可核对的保存的实测输出。",
+            "type": "notice"
+          }
+        ],
+        "sources": {},
+        "visible_display_ids": [],
+        "actual_visible_cards": [],
+        "dom": {
+          "cards": [],
+          "citations": [],
+          "id": "3bb29604606c40788961481ce43a3e16",
+          "text": "课程助手本轮缺少可核对的定义或适用条件。本轮缺少可核对的原生表格。本轮缺少可核对的保存的实测输出。"
+        },
+        "opened_citations": [],
+        "provider_calls": []
+      }
+    ],
+    "full_filtered_sha256": "665b302da6eaedfba1d68adfb4d0cfbe74a3ff9cde3ca13f13d8ac819ed56e09"
+  }
+]

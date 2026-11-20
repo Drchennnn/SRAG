@@ -102,6 +102,8 @@ PDF 的独立图片只在能核对原件边界时出现在页下。可以直接�
 
 从空库导入到消息里显示原件的浏览器演示可复跑。[M1 与两种网页追问](./docs/E/E04-M1.md)
 
+用单独工作树和空数据目录试用选中文件后的中文多页问答、图序追问和换版回看。[G19 独立实测与启动命令](./docs/G/G19-独立整审与试用.md)
+
 ## 跨文件补证据
 
 已发布的 PDF、PPTX、Notebook 可用 `python -m tools.workspace_reading read --course COURSE_ID --document DOCUMENT_ID` 查看有版本和原文偏移的顺序阅读。扫描 PDF 用同模块的 `ocr` 子命令在基础发布后按需增强。 [使用与复现](./docs/G/G15-顺序阅读与扫描增强.md)
