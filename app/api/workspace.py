@@ -12,6 +12,7 @@ from fastapi.routing import APIRoute
 
 from app.config import Settings, get_settings
 from app.rag.workspace import WorkspaceService, make_workspace
+from app.rag.workspace_preview import render_citation_preview
 from app.schemas.workspace import (
     CreateSession,
     TurnRequest,
@@ -262,3 +263,11 @@ def historical_evidence(
     payload = service.historical_evidence(owner, session_id, message_id, evidence_id)
     response.headers.update(_MEDIA_HEADERS)
     return payload
+
+
+@router.get("/sessions/{session_id}/messages/{message_id}/evidence/{evidence_id}/preview")
+def historical_citation_preview(
+    session_id: str, message_id: str, evidence_id: str, owner: Owner, service: Service
+):
+    image, mime_type = render_citation_preview(service, owner, session_id, message_id, evidence_id)
+    return Response(image, media_type=mime_type, headers=_MEDIA_HEADERS)

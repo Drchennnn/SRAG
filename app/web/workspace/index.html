@@ -35,6 +35,14 @@
             <button id="import-button" type="submit" class="primary" disabled>开始导入</button>
           </form>
         </details>
+        <details id="search-panel">
+          <summary>查找原文</summary>
+          <form id="search-form" class="library-search">
+            <label class="screen-reader" for="search-query">原文关键词</label>
+            <input id="search-query" type="search" maxlength="4000" placeholder="文件中的词或短语">
+            <button id="search-submit" class="quiet" type="submit" disabled>查找</button>
+          </form>
+        </details>
         <ul id="import-results" class="import-results" aria-live="polite"></ul>
       </div>
 
@@ -51,13 +59,19 @@
             <h2 id="workspace-title">课程复习</h2>
             <p id="scope-summary" class="scope-summary">加载范围中…</p>
           </div>
-          <button id="clear-file" class="quiet" type="button" hidden>查看所选课程</button>
+          <div class="discussion-actions">
+            <button id="clear-file" class="quiet" type="button" hidden>查看所选课程</button>
+            <button id="toggle-reader" class="quiet" type="button" aria-controls="reader" aria-expanded="false">原件预览</button>
+          </div>
         </header>
 
         <section id="location" class="location" aria-labelledby="location-title" hidden>
           <div class="location-main">
             <div><p id="location-kind" class="location-kind"></p><h3 id="location-title"></h3></div>
-            <button id="preview-location" class="quiet" type="button" hidden>打开原件</button>
+            <div class="location-actions">
+              <button id="preview-location" class="quiet" type="button" hidden>打开原件</button>
+              <button id="summary-file" class="quiet" type="button" hidden>总结此文件</button>
+            </div>
           </div>
           <div class="location-nav" aria-label="目录位置导航">
             <button id="parent-location" class="quiet" type="button">返回上级</button>
@@ -72,11 +86,6 @@
         </section>
 
         <form id="composer" class="composer">
-          <fieldset class="mode-picker" aria-label="操作类型">
-            <label><input type="radio" name="kind" value="ask" checked><span>问答</span></label>
-            <label><input type="radio" name="kind" value="search"><span>搜索</span></label>
-            <label><input type="radio" name="kind" value="summary"><span>单文件总结</span></label>
-          </fieldset>
           <div id="anchor-bar" class="anchor-bar" hidden>
             <span id="anchor-label"></span>
             <button id="clear-anchor" class="quiet" type="button">取消引用</button>
@@ -91,14 +100,17 @@
         </form>
       </div>
     </main>
+    <dialog id="reader" aria-labelledby="reader-title">
+      <header class="reader-head">
+        <div>
+          <h2 id="reader-title">原件阅读</h2>
+          <p id="reader-location"></p>
+          <p id="reader-status"></p>
+        </div>
+        <button id="close-reader" class="quiet" type="button">关闭原件</button>
+      </header>
+      <div id="reader-body" class="reader-body"></div>
+    </dialog>
   </div>
-
-  <dialog id="reader" aria-labelledby="reader-title">
-    <header class="reader-head">
-      <div><h2 id="reader-title">原件阅读</h2><p id="reader-location"></p></div>
-      <button id="close-reader" class="quiet" type="button">关闭原件</button>
-    </header>
-    <div id="reader-body" class="reader-body"></div>
-  </dialog>
 </body>
 </html>

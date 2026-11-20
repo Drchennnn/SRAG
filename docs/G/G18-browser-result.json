@@ -1,0 +1,541 @@
+{
+  "subject": "c3c47eb951ed61dd107cf9dfa6bb82efcf9d7c50",
+  "chromium": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "renderer": "libreoffice",
+  "outgoing_provider_calls": 0,
+  "simulated_vision_reads": [
+    {
+      "mode": "synthetic_provider_reply",
+      "question": "这张图横轴的单位是什么？",
+      "input_sha256": "0a4429d37d8f980190eb2b6c7a7f1315515f7320cff76ace4f48873f450e7dff"
+    }
+  ],
+  "turns": [
+    {
+      "request": {
+        "client_turn_id": "423cb90b-f8e3-4826-812e-5d77fea71265",
+        "kind": "ask",
+        "text": "第 5 页夏季档的项目签字截止是什么？",
+        "scope_revision": 4
+      },
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "draft": "",
+        "id": "0bee76c36b1749d9be78ebd5c4a1ff96",
+        "text": "课程助手Northpoint-Completion-Briefing.pdf · v1 · 第 5 页 · Summer award round\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页 · Summer award roundNorthpoint-Completion-Briefing.pdf · v1 · 第 5 页 · 图像未读取问这张图查看图片回原件未启用回答模型或缺少配置。本条为原文摘录。"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "490012fe-5d25-4ca6-a408-df9166b3f915",
+        "kind": "ask",
+        "text": "用一句话概括刚才的回答。",
+        "scope_revision": 4
+      },
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "draft": "",
+        "id": "0f876433b0274d1aa05f07a3601e818a",
+        "text": "课程助手Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页回答模型未能生成可核对的答案。本条保留已读原文摘录。"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "215d321f-b751-4caf-951b-9dba53a59d96",
+        "kind": "summary",
+        "text": "总结当前资料",
+        "scope_revision": 4
+      },
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2",
+          "ev-3",
+          "ev-4",
+          "ev-5",
+          "ev-6"
+        ],
+        "draft": "等一下继续问这份文件。",
+        "id": "c100d448cbc4467b9c1c058dd6523ec7",
+        "text": "课程助手当前文件摘要（部分来源）Northpoint-Completion-Briefing.pdf · v1 · 第 1 页 · Northpoint program completion briefing\nNorthpoint program completion briefing\nNorthpoint School of Instrument Design\nThis fictional briefing introduces administrative planning for the lab program.\nCompletion dates and the rules for choosing a round appear in later sections.\nKeep a working copy of the program handbook and check all signed forms.\nPage 1依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 1 页Northpoint-Completion-Briefing.pdf · v1 · 第 2 页 · Directory and administrative contacts\nDirectory and administrative contacts\nThe lab office retains copies of project submissions and assessment forms.\nThe Registry publishes the authorized record once an award is recorded.\nUse the general help desk for account and building access questions.\nPage 2依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 2 页Northpoint-Completion-Briefing.pdf · v1 · 第 3 页 · Spring award round\nSpring award round\nThe last accepted project sign-off is May 31.\nThe spring award is recorded on June 18.\nOnly after recording may the Registry issue an official award certificate.\nPage 3依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 3 页Northpoint-Completion-Briefing.pdf · v1 · 第 4 页 · Project sign-off workflow\nProject sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 4 页Northpoint-Completion-Briefing.pdf · v1 · 第 5 页 · Summer award round\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页Northpoint-Completion-Briefing.pdf · v1 · 第 6 页 · Ceremonies and records\nCeremonies and records\nA ceremony invitation is separate from the official award record.\nA public celebration can be scheduled independently of the award date.\nUse the Registry record date for employment paperwork.\nPage 6依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 6 页部分页、Cell 或摘录未完整读取，请参照来源与范围。未启用回答模型或缺少配置。本条为原文摘录。"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "edf65496-cf7f-478b-9a54-080dd1fbf084",
+        "kind": "search",
+        "text": "August 23",
+        "scope_revision": 4
+      },
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2"
+        ],
+        "draft": "等一下继续问这份文件。",
+        "id": "d4bd9c8c26074811a1798b8cad878ff1",
+        "text": "课程助手Northpoint-Completion-Briefing.pdf · v1 · 第 5 页 · Summer award round\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页Northpoint-Completion-Briefing.pdf · v1 · 第 4 页 · Project sign-off workflow\nProject sign-off workflow\nSubmit the completed report to the project assessor and wait for approval.\nUploading a draft does not satisfy the signed project requirement.\nCollect the approved form before selecting an administrative round.\nPage 4依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 4 页"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "4fbfda56-c900-4ce4-95b2-33b4e3e505fa",
+        "kind": "ask",
+        "text": "第 5 页的提交时间是什么？",
+        "scope_revision": 4
+      },
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "draft": "",
+        "id": "640bfc666e7849ffade14f7a4a91cd8f",
+        "text": "课程助手Northpoint-Completion-Briefing.pdf · v1 · 第 5 页 · Summer award round\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5依据 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页正在加载图片…图 1 · Northpoint-Completion-Briefing.pdf · v1 · 第 5 页 · Summer award roundNorthpoint-Completion-Briefing.pdf · v1 · 第 5 页 · 图像未读取问这张图查看图片回原件未启用回答模型或缺少配置。本条为原文摘录。"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "0fef33e5-3e2c-4548-9289-8d6af2a45286",
+        "kind": "search",
+        "text": "Cedar",
+        "scope_revision": 8
+      },
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2"
+        ],
+        "draft": "",
+        "id": "cc012670b80248ac97ac42cba0bb79ac",
+        "text": "课程助手Drum-Readings.pptx · v1 · 第 1 页\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |依据 · Drum-Readings.pptx · v1 · 第 1 页Drum-Readings.pptx · v1 · 表格\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |依据 · Drum-Readings.pptx · v1 · 第 1 页"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "8a8fea46-8472-47b4-a8be-72e40698f727",
+        "kind": "ask",
+        "text": "显示本 Cell 的原件图片",
+        "scope_revision": 12
+      },
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2"
+        ],
+        "draft": "",
+        "id": "7c1d8ebc6ea440f399de07f5107bfb9f",
+        "text": "课程助手Drum-Trend.ipynb · v1 · Cell 1 · Code cell 1\nplot_resonance_drift()依据 · Drum-Trend.ipynb · v1 · Cell 1Drum-Trend.ipynb · v1 · 输出 0\nResonance drift measured at 11.25 kHz.依据 · Drum-Trend.ipynb · v1 · Cell 1 · 输出 0正在加载图片…图 1 · Drum-Trend.ipynb · v1 · 输出 1Drum-Trend.ipynb · v1 · Cell 1 · 输出 1 · 图像未读取问这张图查看原件未启用回答模型或缺少配置。本条为原文摘录。"
+      },
+      "status": 200
+    },
+    {
+      "request": {
+        "client_turn_id": "befae31d-0235-4486-80b4-d9ffbfdf6907",
+        "kind": "ask",
+        "text": "这张图横轴的单位是什么？",
+        "scope_revision": 12,
+        "anchor": {
+          "type": "display",
+          "message_id": "7c1d8ebc6ea440f399de07f5107bfb9f",
+          "display_id": "ca319ba75c0c4ec8a3d2e379b1ae14aa"
+        }
+      },
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "draft": "",
+        "id": "20af6b323992409491d41679f79e3665",
+        "text": "课程助手横轴为 Cycle，单位是 minutes（分钟）。依据 · Drum-Trend.ipynb · v1 · Cell 1 · 输出 1"
+      },
+      "status": 200
+    }
+  ],
+  "catalog_pdf": {
+    "pane": {
+      "body": "放大\n\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-815f98f2b7df1171d995b8232c2adeaa/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        1300,
+        880
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 0,
+      "status": "仅展示 · 图像未读取",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-815f98f2b7df1171d995b8232c2adeaa/media",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 51110,
+      "sha256": "d64c6d5036f066068626065e1de31a243efdf7d1bbe101daaf32c7df21bdcfd8"
+    }
+  },
+  "citation_pdf_narrow": {
+    "pane": {
+      "body": "放大\n\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/0bee76c36b1749d9be78ebd5c4a1ff96/evidence/ev-1/preview",
+      "details": "当前版本",
+      "horizontalOverflow": false,
+      "image": [
+        1300,
+        880
+      ],
+      "layout": "fixed",
+      "open": true,
+      "scroll": 955,
+      "status": "已提取文字 · 图像未读取",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页",
+      "viewport": [
+        680,
+        700
+      ],
+      "width": 490
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/0bee76c36b1749d9be78ebd5c4a1ff96/evidence/ev-1/preview",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 51110,
+      "sha256": "d64c6d5036f066068626065e1de31a243efdf7d1bbe101daaf32c7df21bdcfd8"
+    }
+  },
+  "citation_pdf_narrow_scroll_before": 955,
+  "citation_pdf_historical": {
+    "pane": {
+      "body": "放大\n\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/0bee76c36b1749d9be78ebd5c4a1ff96/evidence/ev-1/preview",
+      "details": "历史版本",
+      "horizontalOverflow": false,
+      "image": [
+        1300,
+        880
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 79,
+      "status": "已提取文字 · 图像未读取",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/0bee76c36b1749d9be78ebd5c4a1ff96/evidence/ev-1/preview",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 51110,
+      "sha256": "d64c6d5036f066068626065e1de31a243efdf7d1bbe101daaf32c7df21bdcfd8"
+    }
+  },
+  "pdf_source_before_and_after": [
+    {
+      "source": {
+        "document_id": "local_fc4ef7b21b8d49029aeeb6bf9b1d2a03",
+        "version": 1,
+        "source_id": "page:5"
+      },
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "locator": {
+        "page": 5
+      },
+      "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "is_current": true
+    },
+    {
+      "source": {
+        "document_id": "local_fc4ef7b21b8d49029aeeb6bf9b1d2a03",
+        "version": 1,
+        "source_id": "page:5"
+      },
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "locator": {
+        "page": 5
+      },
+      "text": "Summer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "is_current": false
+    }
+  ],
+  "catalog_pptx": {
+    "pane": {
+      "body": "放大\n\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-d8a8285d8a1cc407ac93d3f4c409c5a8/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        1440,
+        1080
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 79,
+      "status": "仅展示 · 图像未读取",
+      "title": "Drum-Readings.pptx · v1 · 第 1 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-d8a8285d8a1cc407ac93d3f4c409c5a8/media",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 31653,
+      "sha256": "574b0cf2b7fa520a4490bbaa0e392b36f6c20a2d8dbb210c9eb71d2530fc963a"
+    }
+  },
+  "catalog_pptx_crop": {
+    "pane": {
+      "body": "放大\n\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-cf6a28a929bdd06f522716545d9a3c4e/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        1210,
+        332
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 79,
+      "status": "仅展示 · 图像未读取",
+      "title": "Drum-Readings.pptx · v1 · 第 1 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-cf6a28a929bdd06f522716545d9a3c4e/media",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 25099,
+      "sha256": "eda8ae8dd6cf826f6bd52ad6b649777ef81644752db043a4e143e8238276731c"
+    }
+  },
+  "citation_pptx": {
+    "pane": {
+      "body": "放大\n\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/cc012670b80248ac97ac42cba0bb79ac/evidence/ev-1/preview",
+      "details": "当前版本",
+      "horizontalOverflow": false,
+      "image": [
+        1440,
+        1080
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 4516,
+      "status": "已提取文字 · 图像未读取",
+      "title": "Drum-Readings.pptx · v1 · 第 1 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/cc012670b80248ac97ac42cba0bb79ac/evidence/ev-1/preview",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 31653,
+      "sha256": "574b0cf2b7fa520a4490bbaa0e392b36f6c20a2d8dbb210c9eb71d2530fc963a"
+    }
+  },
+  "notebook_output": {
+    "pane": {
+      "body": "放大",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-3fdeac3d928ba39e6db5fa8c41857465/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        640,
+        450
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 0,
+      "status": "仅展示 · 图像未读取",
+      "title": "Drum-Trend.ipynb · v1 · Cell 1 · 输出 1",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/catalog/node-3fdeac3d928ba39e6db5fa8c41857465/media",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 8378,
+      "sha256": "0a4429d37d8f980190eb2b6c7a7f1315515f7320cff76ace4f48873f450e7dff"
+    }
+  },
+  "notebook_follow_up_citation": {
+    "pane": {
+      "body": "放大",
+      "chosen": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/20af6b323992409491d41679f79e3665/evidence/ev-1/preview",
+      "details": "",
+      "horizontalOverflow": false,
+      "image": [
+        640,
+        450
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 5649,
+      "status": "图像已读取",
+      "title": "Drum-Trend.ipynb · v1 · Cell 1 · 输出 1",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/9c50e383f92f495498bb3e5c5fdb1818/messages/20af6b323992409491d41679f79e3665/evidence/ev-1/preview",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 8378,
+      "sha256": "0a4429d37d8f980190eb2b6c7a7f1315515f7320cff76ace4f48873f450e7dff"
+    }
+  },
+  "notebook_follow_up_replayed_read": {
+    "execution": "synthetic_provider_reply",
+    "resolution": {
+      "actual_source": {
+        "document_id": "local_b3cd0916255d4156bacaa994196993d0",
+        "source_id": "cell:0:output:1",
+        "version": 1
+      },
+      "display_id": "ca319ba75c0c4ec8a3d2e379b1ae14aa",
+      "message_id": "7c1d8ebc6ea440f399de07f5107bfb9f",
+      "method": "display_anchor",
+      "ordinal": 1,
+      "resolution": "display_anchor"
+    },
+    "evidence": {
+      "evidence_id": "ev-1",
+      "file_name": "Drum-Trend.ipynb",
+      "locator": {
+        "cell_id": "resonance-drift",
+        "cell_index": 0,
+        "output_index": 1,
+        "section_path": []
+      },
+      "read_status": "succeeded",
+      "reads": [
+        {
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": null,
+          "actual_input_sha256": "0a4429d37d8f980190eb2b6c7a7f1315515f7320cff76ace4f48873f450e7dff",
+          "actual_source": {
+            "document_id": "local_b3cd0916255d4156bacaa994196993d0",
+            "source_id": "cell:0:output:1",
+            "version": 1
+          },
+          "execution": "real_provider",
+          "method": "vision",
+          "model": "g18-offline-fixture",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "question_sha256": "d5df38f06043e4c6a199ea3d0cc6c4577267b385eb9680d1dae1c961461b3b60",
+          "status": "succeeded",
+          "text": "横轴为 Cycle，单位是 minutes（分钟）。",
+          "warnings": []
+        }
+      ],
+      "revision": {
+        "content_sha256": "7708e88b1fd59dd9091c51869eea7f832a945de744dc71c8cd435e4812f14e12",
+        "course_id": "srag-g18-public",
+        "publication_epoch": 1,
+        "source": {
+          "document_id": "local_b3cd0916255d4156bacaa994196993d0",
+          "source_id": "cell:0:output:1",
+          "version": 1
+        }
+      }
+    },
+    "display_attached_to_reply": false
+  },
+  "cross_session": {
+    "original": "9c50e383f92f495498bb3e5c5fdb1818",
+    "new": {
+      "empty": true,
+      "preview": false,
+      "session": "bfb706c3cd7347f4afbed5e0c333c46b"
+    }
+  },
+  "imports": [
+    {
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "status": "published",
+      "document_id": "local_fc4ef7b21b8d49029aeeb6bf9b1d2a03",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "0660ed3b06c2da5e36e057af272c632d66d80e556ea5b84a36d640943e30a0ac",
+      "source_count": 8,
+      "searchable_count": 8
+    },
+    {
+      "file_name": "Northpoint-Completion-Briefing.pdf",
+      "status": "published",
+      "document_id": "local_fc4ef7b21b8d49029aeeb6bf9b1d2a03",
+      "version": 2,
+      "publication_epoch": 2,
+      "content_sha256": "c63e3b96ee9b116deacd121013469f073f652b7266e1855883b35fd5910bb041",
+      "source_count": 8,
+      "searchable_count": 8
+    },
+    {
+      "file_name": "Drum-Readings.pptx",
+      "status": "published",
+      "document_id": "local_99e006d4a6e74840b312f3065a312010",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "53445bb442807865a3f999e686e18f1874a8a51bac2bee96c2932d44b36ed4e7",
+      "source_count": 2,
+      "searchable_count": 2
+    },
+    {
+      "file_name": "Drum-Trend.ipynb",
+      "status": "published",
+      "document_id": "local_b3cd0916255d4156bacaa994196993d0",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "7708e88b1fd59dd9091c51869eea7f832a945de744dc71c8cd435e4812f14e12",
+      "source_count": 3,
+      "searchable_count": 2
+    }
+  ]
+}

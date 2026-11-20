@@ -6,11 +6,13 @@ const ui = Object.fromEntries([
   "sessions", "new-session", "catalog", "import-form", "import-course", "import-files",
   "replace-label", "replace-document", "import-button", "import-results", "workspace-status",
   "scope-summary", "clear-file", "location", "location-kind", "location-title",
-  "preview-location", "parent-location", "previous-location", "next-location", "messages",
+  "preview-location", "summary-file", "toggle-reader", "search-form", "search-query", "search-submit",
+  "parent-location", "previous-location", "next-location", "messages",
   "turn-status", "turn-actions", "composer", "question", "composer-status", "send", "anchor-bar",
   "anchor-label", "clear-anchor", "reader", "reader-title", "reader-body",
-  "reader-location", "close-reader",
+  "reader-location", "reader-status", "close-reader",
 ].map((id) => [id, byId(id)]));
+const shell = document.querySelector(".shell");
 
 const state = {
   sessions: [],
@@ -30,6 +32,7 @@ const state = {
   threadKey: "",
   actionKey: "",
   readerRequest: 0,
+  readerTrigger: null,
   pollTimer: null,
 };
 
@@ -126,23 +129,13 @@ function mediaURL(value, sessionId, view = "inline") {
     const url = new URL(value, window.location.origin);
     const prefix = `${sessionPath(sessionId)}/`;
     const relative = url.pathname.slice(prefix.length);
-    const correctPath = /^(messages\/[^/]+\/media\/[^/]+|catalog\/[^/]+\/media)$/.test(relative);
+    const correctPath = /^(messages\/[^/]+\/(media\/[^/]+|evidence\/[^/]+\/preview)|catalog\/[^/]+\/media)$/.test(relative);
     if (url.origin !== location.origin || !url.pathname.startsWith(prefix) ||
         !correctPath || url.username || url.password || url.hash) return null;
-    url.search = relative.startsWith("messages/") ? new URLSearchParams({view}).toString() : "";
+    url.search = /^messages\/[^/]+\/media\//.test(relative) ? new URLSearchParams({view}).toString() : "";
     return url.pathname + url.search;
   } catch {
     return null;
-  }
-}
-
-function mode() {
-  return ui.composer.elements.kind.value;
-}
-
-function pickMode(value) {
-  for (const input of ui.composer.querySelectorAll('input[name="kind"]')) {
-    input.checked = input.value === value;
   }
 }
 
@@ -153,7 +146,6 @@ function anchor(value = null, label = "") {
 }
 
 function useAnchor(value, label, question = "") {
-  pickMode("ask");
   anchor(value, label);
   if (question && !ui.question.value.trim()) ui.question.value = question;
   ui.question.focus();
@@ -233,7 +225,8 @@ async function loadSession(id) {
   indexCatalog([]);
   anchor();
   ui.question.value = "";
-  if (ui.reader.open) ui.reader.close();
+  ui["search-query"].value = "";
+  closeReader({clear: true});
   clearTimeout(state.pollTimer);
   setStatus(ui["workspace-status"], "");
   render();
@@ -402,6 +395,7 @@ async function updateScope(courseIds, documentIds) {
   });
   if (isCurrent(capture)) {
     anchor();
+    closeReader({clear: true});
     setSession(payload);
   }
 }
@@ -433,6 +427,7 @@ async function chooseCourse(id) {
 async function chooseNode(entry, setFocus = true) {
   if (!setFocus) {
     renderCatalog();
+    if (["page", "page_object", "cell", "notebook_output"].includes(entry.kind)) previewNode(entry);
     return;
   }
   await withNavigation(async () => {
@@ -454,6 +449,8 @@ async function chooseNode(entry, setFocus = true) {
     revealFocus(entry.parent);
     anchor();
     setSession(payload);
+    if (["page", "page_object", "cell", "notebook_output"].includes(entry.kind)) previewNode(entry);
+    else closeReader({clear: true});
   });
 }
 
@@ -477,6 +474,7 @@ function renderLocation() {
   ui["location-kind"].textContent = `${kindText[entry.kind] ?? entry.kind} · v${documentEntry.version}`;
   ui["location-title"].textContent = entry.label;
   ui["preview-location"].hidden = !entry.has_media && !entry.text;
+  ui["summary-file"].hidden = !documentEntry.document_id || documentIds.length !== 1;
   ui["parent-location"].disabled = !entry.parent;
   ui["previous-location"].disabled = !state.nodes.has(entry.previous_id);
   ui["next-location"].disabled = !state.nodes.has(entry.next_id);
@@ -487,8 +485,40 @@ function sourceLocation(block, evidence) {
   const locator = evidence?.locator ?? block.locator;
   const where = locator?.page != null ? `第 ${locator.page} 页` :
     Number.isInteger(locator?.cell_index) ? `Cell ${locator.cell_index + 1}` : key?.source_id;
-  return [evidence?.file_name, key?.version != null ? `v${key.version}` : null, where]
+  const output = Number.isInteger(locator?.output_index) ? `输出 ${locator.output_index}` : null;
+  return [evidence?.file_name, key?.version != null ? `v${key.version}` : null, where, output]
     .filter(Boolean).join(" · ");
+}
+
+function visionRead(evidence, key = evidence?.revision?.source) {
+  return evidence?.reads?.find((read) => {
+    const actual = read.actual_source;
+    return read.method === "vision" && key && actual?.document_id === key.document_id &&
+      actual.version === key.version && actual.source_id === key.source_id;
+  });
+}
+
+function imageReadStatus(block, evidence, {originalPage = false} = {}) {
+  const visual = visionRead(evidence, block.display_source);
+  const status = readText[visual?.status ?? block.read_status] ?? "未读取";
+  const simulated = visual?.origin_execution === "mock_protocol" || visual?.execution === "mock_protocol";
+  const cached = visual?.execution === "cache_reuse" ? "（复用已读结果）" : "";
+  const rect = visual?.actual_input_rect;
+  const readCrop = originalPage && validRect(rect) &&
+    rect.some((boundary, index) => boundary !== [0, 0, 1, 1][index]);
+  const range = readCrop && ["succeeded", "partial"].includes(visual.status) ? " · 实际读图范围为裁区" : "";
+  return `${simulated ? "模拟" : ""}图像${status}${cached}${range}`;
+}
+
+function openImageEvidence(block, evidence, sessionId, {originalPage = false} = {}) {
+  const details = sourceLocation(block, evidence);
+  openReader({
+    url: mediaURL(block.media_url, sessionId, originalPage ? "page" : "inline"),
+    title: block.caption || details || "原件图像",
+    details,
+    status: imageReadStatus(block, evidence, {originalPage}),
+    rect: originalPage ? block.rect_visible_norm : null,
+  });
 }
 
 function renderSourceCard(block, message, position) {
@@ -504,7 +534,7 @@ function renderSourceCard(block, message, position) {
   picture.append(notice);
   const caption = node("figcaption");
   caption.append(node("p", "source-caption", `图 ${position} · ${title}`));
-  const status = readText[block.read_status ?? evidence?.read_status] ?? "未读取";
+  const status = imageReadStatus(block, evidence);
   caption.append(node("p", "source-details", [details, status, block.fallback_reason].filter(Boolean).join(" · ")));
   const actions = node("div", "source-actions");
   const sessionId = state.session.session_id;
@@ -514,12 +544,10 @@ function renderSourceCard(block, message, position) {
     type: "display", message_id: message.message_id, display_id: block.display_id,
   }, `引用图 ${position} · ${title}`));
   const controls = [ask, button(isNotebookOutput ? "查看原件" : "查看图片",
-    () => openReader({url: inline, title, details}))];
+    () => openImageEvidence(block, evidence, sessionId))];
   if (!isNotebookOutput) {
-    const page = mediaURL(block.media_url, sessionId, "page");
-    controls.push(button("回原件", () => openReader({
-      url: page, title, details, rect: block.rect_visible_norm,
-    })));
+    controls.push(button("回原件",
+      () => openImageEvidence(block, evidence, sessionId, {originalPage: true})));
   }
   for (const control of controls) control.disabled = true;
   actions.append(...controls);
@@ -567,6 +595,10 @@ function renderMessages() {
     article.append(node("h3", "", isUser ? "你" : "课程助手"));
     const content = node("div", "message-content");
     const order = message.visible_display_ids ?? [];
+    const sessionId = state.session.session_id;
+    const citedImages = new Map((message.blocks ?? []).filter((block) =>
+      block.type === "source_image" && order.includes(block.display_id) &&
+      mediaURL(block.media_url, sessionId)).map((block) => [block.evidence_id, block]));
     for (const block of message.blocks ?? []) {
       if (block.type === "source_image") {
         const position = order.indexOf(block.display_id);
@@ -579,14 +611,29 @@ function renderMessages() {
           const id = typeof citation === "string" ? citation : citation.evidence_id;
           const evidence = message.sources?.[id];
           if (!evidence) return null;
-          const label = sourceLocation({}, evidence);
-          if (!evidence.reads?.some((read) =>
-            ["native_text", "native_table"].includes(read.method) && read.text
-          )) return node("span", "", label);
+          const image = citedImages.get(id);
+          const text = evidence.reads?.some((read) =>
+            ["native_text", "native_table", "ocr"].includes(read.method) && read.text
+          );
+          const read = visionRead(evidence);
+          const recordedVision = read?.origin_execution === "real_provider" &&
+            ["succeeded", "partial"].includes(read.status) && read.actual_input_sha256;
+          const label = image?.caption || sourceLocation({}, evidence);
+          if (!text && !image && !recordedVision) return node("span", "", label);
           const button = node("button", "secondary", label);
           button.type = "button";
           button.dataset.evidenceId = id;
-          button.addEventListener("click", () => showTextEvidence(message, id, label));
+          button.addEventListener("click", () => {
+            if (image && (!text || image.rendition_kind === "object_crop")) {
+              openImageEvidence(image, evidence, sessionId);
+            } else if (!text) {
+              const path = citationPath(sessionId, message.message_id, id);
+              openReader({url: mediaURL(`${path}/preview`, sessionId), title: label,
+                status: imageReadStatus({}, evidence)});
+            } else {
+              void showTextEvidence(message, id, label);
+            }
+          });
           return button;
         }).filter(Boolean);
         if (references.length) {
@@ -655,12 +702,14 @@ function renderControls() {
   const local = session && state.outbox.get(session.session_id);
   const canSummary = session?.scope?.document_ids.length === 1;
   const localRetry = local?.indeterminate;
-  const canSend = mode() === "summary" ? canSummary : Boolean(ui.question.value.trim());
-  ui.send.disabled = !session || state.navigating || isRunning() || (!canSend && !localRetry);
+  const busy = !session || state.navigating || isRunning();
+  ui.send.disabled = busy || (!ui.question.value.trim() && !localRetry);
+  ui["search-query"].disabled = !session;
+  ui["search-submit"].disabled = busy || localRetry || !ui["search-query"].value.trim();
+  ui["summary-file"].disabled = busy || localRetry || !canSummary;
   ui.send.textContent = localRetry ? "重发本轮" : "发送";
   setStatus(ui["composer-status"], localRetry ? "提交结果尚未确认，可使用相同请求重发。" :
-    isRunning() ? "正在处理，可取消本轮。" :
-    mode() === "summary" && !canSummary ? "请选择一份资料后总结。" : "");
+    isRunning() ? "正在处理，可取消本轮。" : "");
   const imports = state.courses.map((course) => {
     const option = node("option", "", course.label || course.course_id);
     option.value = course.course_id;
@@ -701,21 +750,21 @@ function schedulePolling() {
   }, 900);
 }
 
-async function submitTurn(event) {
-  event.preventDefault();
-  if (ui.send.disabled) return;
+async function submitTurn(kind, field = null) {
+  if (!state.session || state.navigating || isRunning()) return;
   const captured = captureSession();
   let incoming = state.outbox.get(captured.id);
+  if (incoming?.indeterminate && kind !== "ask") return;
   if (!incoming?.indeterminate) {
-    const kind = mode();
-    const text = ui.question.value.trim() || (kind === "summary" ? "总结当前资料" : "");
+    if (kind === "summary" && state.session.scope.document_ids.length !== 1) return;
+    const text = field?.value.trim() || (kind === "summary" ? "总结当前资料" : "");
     if (!text) return;
     const payload = {client_turn_id: crypto.randomUUID(), kind, text, scope_revision: state.session.scope_revision};
-    if (state.anchor) payload.anchor = {...state.anchor};
-    incoming = {payload, inFlight: false, indeterminate: false};
+    if (kind === "ask" && state.anchor) payload.anchor = {...state.anchor};
+    incoming = {payload, field, inFlight: false, indeterminate: false};
     state.outbox.set(captured.id, incoming);
-    ui.question.value = "";
-    anchor();
+    if (field) field.value = "";
+    if (kind === "ask") anchor();
   }
   incoming.inFlight = true;
   incoming.indeterminate = false;
@@ -736,7 +785,9 @@ async function submitTurn(event) {
         incoming.indeterminate = true;
       } else {
         state.outbox.delete(captured.id);
-        if (isCurrent(captured) && !ui.question.value.trim()) ui.question.value = incoming.payload.text;
+        if (isCurrent(captured) && incoming.field && !incoming.field.value.trim()) {
+          incoming.field.value = incoming.payload.text;
+        }
       }
       if (isCurrent(captured)) setStatus(ui["workspace-status"], describeError(error));
     }
@@ -827,27 +878,90 @@ function validRect(rect) {
     rect[0] < rect[2] && rect[1] < rect[3];
 }
 
+function citationPath(sessionId, messageId, evidenceId) {
+  return `${sessionPath(sessionId)}/messages/${encodeURIComponent(messageId)}/evidence/${encodeURIComponent(evidenceId)}`;
+}
+
 async function showTextEvidence(message, id, label) {
   const sessionId = state.session.session_id;
   const request = ++state.readerRequest;
   const isCurrent = () => state.session?.session_id === sessionId && request === state.readerRequest;
-  const path = `/api/workspace/sessions/${encodeURIComponent(sessionId)}/messages/${encodeURIComponent(message.message_id)}/evidence/${encodeURIComponent(id)}`;
+  const path = citationPath(sessionId, message.message_id, id);
   try {
     const source = await api(path);
     if (!isCurrent()) return;
     const details = sourceLocation({}, {file_name: source.file_name, locator: source.locator,
       revision: {source: source.source}});
-    openReader({title: details, details: source.is_current ? "当前版本" : "历史版本",
-      fallback: source.text});
+    const evidence = message.sources?.[id];
+    const turn = state.session.turns?.find((item) => item.turn_id === message.turn_id);
+    const generation = turn?.trace?.generation;
+    const usedByAnswer = ["succeeded", "partial"].includes(generation?.status) &&
+      generation.input_evidence_ids?.includes(id);
+    const hasPage = Number.isInteger(source.locator?.page);
+    const hasOutput = Number.isInteger(source.locator?.output_index);
+    const visual = imageReadStatus({}, evidence, {originalPage: hasPage});
+    openReader({
+      url: hasPage || hasOutput ? mediaURL(`${path}/preview`, sessionId) : null,
+      title: details, details: source.is_current ? "当前版本" : "历史版本",
+      status: `${usedByAnswer ? "文字已交给回答模型" : "已提取文字"} · ${visual}`,
+      rect: hasPage ? source.locator?.bbox : null,
+      fallback: source.text,
+    });
   } catch (error) {
-    if (isCurrent()) openReader({title: label, fallback: error.message});
+    if (isCurrent()) openReader({title: label, fallback: describeError(error)});
   }
 }
 
-function openReader({url, title, details, rect, fallback}) {
+function keepChatPosition(change) {
+  const article = [...ui.messages.querySelectorAll("article")].find((item) =>
+    item.getBoundingClientRect().bottom > 0);
+  const top = article?.getBoundingClientRect().top;
+  const [x, y] = [window.scrollX, window.scrollY];
+  change();
+  const delta = article ? article.getBoundingClientRect().top - top : 0;
+  window.scrollTo(x, window.scrollY + delta);
+  if (!article) window.scrollTo(x, y);
+}
+
+function showReader() {
+  if (ui.reader.open) return;
+  state.readerTrigger = document.activeElement;
+  keepChatPosition(() => {
+    shell.classList.add("preview-open");
+    ui.reader.show();
+    if (window.matchMedia("(min-width: 1041px)").matches) {
+      state.readerTrigger?.focus({preventScroll: true});
+    }
+  });
+  ui["toggle-reader"].setAttribute("aria-expanded", "true");
+}
+
+function closeReader({clear = false} = {}) {
+  state.readerRequest += 1;
+  if (ui.reader.open) {
+    keepChatPosition(() => {
+      ui.reader.close();
+      shell.classList.remove("preview-open");
+      if (!clear && state.readerTrigger?.isConnected) {
+        state.readerTrigger.focus({preventScroll: true});
+      }
+    });
+  }
+  state.readerTrigger = null;
+  ui["toggle-reader"].setAttribute("aria-expanded", "false");
+  if (clear) {
+    ui["reader-title"].textContent = "原件阅读";
+    ui["reader-location"].textContent = "";
+    ui["reader-status"].textContent = "";
+    ui["reader-body"].replaceChildren();
+  }
+}
+
+function openReader({url, title, details, status, rect, fallback}) {
   state.readerRequest += 1;
   ui["reader-title"].textContent = title;
   ui["reader-location"].textContent = details ?? "";
+  ui["reader-status"].textContent = status ?? "";
   ui["reader-body"].replaceChildren();
   if (!url) {
     ui["reader-body"].append(node("p", "text-block", fallback || "没有可供预览的图片。"));
@@ -883,25 +997,35 @@ function openReader({url, title, details, rect, fallback}) {
     image.addEventListener("error", () => {
       picture.hidden = true;
       indicator.hidden = false;
-      indicator.textContent = fallback || "原件不可用或访问权限已失效。";
+      indicator.textContent = fallback ? "暂时无法渲染原件，可核对下方的原文。" :
+        "原件暂时无法渲染或已不可访问。";
       zoom.disabled = true;
     });
     ui["reader-body"].append(controls, indicator, picture);
+    if (fallback) ui["reader-body"].append(node("p", "text-block reader-excerpt", fallback));
     image.src = url;
   }
-  if (!ui.reader.open) ui.reader.showModal();
+  showReader();
+}
+
+function previewNode(entry) {
+  const doc = entry.doc ?? entry;
+  const path = `${currentPath()}/catalog/${encodeURIComponent(entry.node_id)}/media`;
+  const label = sourceLocation({}, {
+    file_name: doc.file_name, revision: {source: {version: doc.version}}, locator: entry.locator,
+  });
+  openReader({
+    url: entry.has_media ? mediaURL(path, state.session.session_id) : null,
+    title: label || entry.label,
+    details: "当前版本 · 资料目录",
+    status: "仅展示 · 图像未读取",
+    fallback: entry.text,
+  });
 }
 
 function previewFocus() {
   const entry = state.nodes.get(state.session?.focus?.node_id);
-  if (!entry) return;
-  const path = `${currentPath()}/catalog/${encodeURIComponent(entry.node_id)}/media`;
-  openReader({
-    url: entry.has_media ? mediaURL(path, state.session.session_id) : null,
-    title: entry.label,
-    details: `${kindText[entry.kind] ?? entry.kind} · v${entry.version}`,
-    fallback: entry.text,
-  });
+  if (entry && (entry.has_media || entry.text)) previewNode(entry);
 }
 
 ui["new-session"].addEventListener("click", () => void createSession());
@@ -912,6 +1036,12 @@ ui["clear-file"].addEventListener("click", () => {
   void withNavigation(() => updateScope(state.session.scope.course_ids, []));
 });
 ui["preview-location"].addEventListener("click", previewFocus);
+ui["toggle-reader"].addEventListener("click", () => {
+  if (ui.reader.open) closeReader();
+  else if (ui["reader-body"].children.length) showReader();
+  else openReader({title: "原件预览", fallback: "选择资料页、保存输出或回答中的引用。"});
+});
+ui["summary-file"].addEventListener("click", () => void submitTurn("summary"));
 for (const [control, getId] of [
   ["parent-location", (item) => item.parent?.node_id],
   ["previous-location", (item) => item.previous_id],
@@ -924,15 +1054,23 @@ for (const [control, getId] of [
   });
 }
 ui["clear-anchor"].addEventListener("click", () => { anchor(); renderControls(); });
-ui.composer.addEventListener("submit", submitTurn);
-ui.composer.addEventListener("input", () => {
-  if (mode() !== "ask") anchor();
-  renderControls();
+ui.composer.addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!ui.send.disabled) void submitTurn("ask", ui.question);
 });
-ui["close-reader"].addEventListener("click", () => ui.reader.close());
-ui.reader.addEventListener("close", () => {
-  state.readerRequest += 1;
-  ui["reader-body"].replaceChildren();
+ui["search-form"].addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (!ui["search-submit"].disabled) void submitTurn("search", ui["search-query"]);
+});
+ui.composer.addEventListener("input", renderControls);
+ui["search-form"].addEventListener("input", renderControls);
+ui["close-reader"].addEventListener("click", () => closeReader());
+ui.reader.addEventListener("cancel", (event) => { event.preventDefault(); closeReader(); });
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && ui.reader.open && !event.defaultPrevented) {
+    event.preventDefault();
+    closeReader();
+  }
 });
 
 void bootstrap();

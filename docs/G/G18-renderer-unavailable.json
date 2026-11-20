@@ -1,0 +1,165 @@
+{
+  "subject": "c3c47eb951ed61dd107cf9dfa6bb82efcf9d7c50",
+  "chromium": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "renderer": "unavailable",
+  "outgoing_provider_calls": 0,
+  "catalog_pptx": {
+    "pane": {
+      "body": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+      "chosen": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/catalog/node-3f5477b438184902c1eb19dab4effabf/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        0,
+        0
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 79,
+      "status": "仅展示 · 图像未读取",
+      "title": "Drum-Readings.pptx · v1 · 第 1 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/catalog/node-3f5477b438184902c1eb19dab4effabf/media",
+      "status": 409,
+      "content_type": "application/json",
+      "response": {
+        "detail": {
+          "code": "rendition_unavailable"
+        }
+      }
+    }
+  },
+  "catalog_pptx_crop": {
+    "pane": {
+      "body": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+      "chosen": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/catalog/node-7528cca3fac69ee9606ea8026229065e/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        0,
+        0
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 79,
+      "status": "仅展示 · 图像未读取",
+      "title": "Drum-Readings.pptx · v1 · 第 1 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/catalog/node-7528cca3fac69ee9606ea8026229065e/media",
+      "status": 409,
+      "content_type": "application/json",
+      "response": {
+        "detail": {
+          "code": "rendition_unavailable"
+        }
+      }
+    }
+  },
+  "citation_pptx": {
+    "pane": {
+      "body": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\n| Series | Frequency [Hz] | Current [A] |\n| --- | --- | --- |\n| Cedar | 13.75 | 6.25 |\n| Ash | 17.50 | 8.50 |",
+      "chosen": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/messages/b66a1b48aa84480897758837bfe0fe1f/evidence/ev-1/preview",
+      "details": "当前版本",
+      "horizontalOverflow": false,
+      "image": [
+        0,
+        0
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 4516,
+      "status": "已提取文字 · 图像未读取",
+      "title": "Drum-Readings.pptx · v1 · 第 1 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/messages/b66a1b48aa84480897758837bfe0fe1f/evidence/ev-1/preview",
+      "status": 409,
+      "content_type": "application/json",
+      "response": {
+        "detail": {
+          "code": "rendition_unavailable"
+        }
+      }
+    }
+  },
+  "citation_pdf_historical": {
+    "pane": {
+      "body": "放大\n\nSummer award round\nThe last accepted project sign-off is August 23.\nThe summer award is recorded on September 12.\nSelect this round when spring has passed and sign-off arrives by August 23.\nPage 5",
+      "chosen": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/messages/254f54b0441e446b9d2a21258bbacde3/evidence/ev-1/preview",
+      "details": "历史版本",
+      "horizontalOverflow": false,
+      "image": [
+        1300,
+        880
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 79,
+      "status": "已提取文字 · 图像未读取",
+      "title": "Northpoint-Completion-Briefing.pdf · v1 · 第 5 页",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/messages/254f54b0441e446b9d2a21258bbacde3/evidence/ev-1/preview",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 51110,
+      "sha256": "d64c6d5036f066068626065e1de31a243efdf7d1bbe101daaf32c7df21bdcfd8"
+    }
+  },
+  "notebook_output": {
+    "pane": {
+      "body": "放大",
+      "chosen": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/catalog/node-c8807ed446477b970ab55bef12e0081d/media",
+      "details": "当前版本 · 资料目录",
+      "horizontalOverflow": false,
+      "image": [
+        640,
+        450
+      ],
+      "layout": "sticky",
+      "open": true,
+      "scroll": 0,
+      "status": "仅展示 · 图像未读取",
+      "title": "Drum-Trend.ipynb · v1 · Cell 1 · 输出 1",
+      "viewport": [
+        1440,
+        900
+      ],
+      "width": 477.59375
+    },
+    "http": {
+      "method": "GET",
+      "path": "/api/workspace/sessions/73852f869ff0418f9ee68a91d77fe637/catalog/node-c8807ed446477b970ab55bef12e0081d/media",
+      "status": 200,
+      "content_type": "image/png",
+      "size": 8378,
+      "sha256": "0a4429d37d8f980190eb2b6c7a7f1315515f7320cff76ace4f48873f450e7dff"
+    }
+  }
+}
