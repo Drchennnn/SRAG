@@ -500,3 +500,26 @@
 ## 2026-11-20 · G20 架构签发，待执行
 
 架构负责人根据 G19 裁决与独立会诊签发[诊断协议](./docs/G/G20-证据断点诊断.md)。产品基线 d993748，交接基线 ef9aa1c。同步架构、路线、清单和执行入口。本次只完成任务设计；G20 各步骤待运行与签认。下一步领取 G20 A，冻结公开资料与判据。
+
+## 2026-11-20 · G20 步骤 A 冻结材料与判据 · 独审通过
+
+- 执行者 `g20_exec`（主会话 `6a4dad8c-66bd-482c-8211-cd0e444516d2`）在 `78c0194b3085511fb98616784eed93a8baf1223e`（产品基线 `d993748`）领取 G20，保留 21 项既有本地修改/未跟踪文件。选取从未参与开发的 CC BY 4.0 真实英文课件 `Mixtral-of-Experts-2401.04088v1.pdf`（13 页、32,116 字符）与 `Direct-Preference-Optimization-2305.18290v3.pdf`（27 页、93,297 字符），配可控换版 `Mixtral-Router-Verification.ipynb`（v1/v2），冻结 11 题 12 轮共 17 个必需证据单元（`E01`–`E17`）。A03 沿用 `G19-A03-聚合.json` 封存结果。
+- 独立审核者 `g20_gate`（子代理 `bae37a75-70b2-4cac-bfd5-e7ed27d10ce4`）在步骤 B 运行前反查原件哈希、解析对象、裁区渲染位图及 `E01`–`E17` 原文锚点，修正文档内嵌 PNG 摘要描述并签认通过，放行步骤 B。[步骤 A 冻结材料与判据](./docs/G/G20-A-冻结材料与判据.md) · [判据 JSON](./docs/G/G20-A-判据与标注.json)
+
+## 2026-11-20 · G20 步骤 B 产品基线五层记账 · 独审通过
+
+- 执行者 `g20_exec` 从干净 `git archive d993748c01fabaff26586908de9bf72499534012` 与空 SQLite 库运行真实网页默认配置（`WORKSPACE_ANSWER_ENABLED=true`、`strategy=fts`、`SOURCE_VISION_ENABLED=true`）及关闭回答开关的历史对照。默认基线 12/12 轮完成，整题通过 4/11（按轮次 5/12，另 `Q06`、`Q09` 部分支持），必需证据采用 7/17（`E06, E08, E12, E13, E15, E16, E17`），真实调用 DeepSeek 4 次、DashScope 2 次（均 HTTP 200），严重错误 0。
+- 10 个丢失证据单元的首次断点分布：`E01–E03`（`Q01`）在 Layer 4 完整实读后于 Layer 5 因 `generate_response` 对 `messages` 二次 JSON 转义（`33,939 > 32,768`）触发 `budget_exceeded` 降级英文摘录；`E04`（`Q02`）在 Layer 1 因 LaTeX 三线表无竖线未登记 `page:8:table:1` 且 `target_object` 不回退父页 `page:8`；`E05`（`Q03`）在 Layer 3 因 `_on_side("right")` 硬编码 `x0 >= 0.5` 筛掉 `x0=0.444992` 的已登记右图 `page:5:image:1`；`E07`（`Q05`）与 `E09`（`Q06`）在 Layer 2 因纯中文/跨文件词法 FTS 漏召回 `DPO` `page:20`（`Q05` 前 7 页还叠加 Layer 5 `budget_exceeded`）；`E10–E11`（`Q07`）与 `E14`（`Q09`）因自然问法误入 `_answer_with_supplement(top_k=2)` 僵化正则或漏进 `compare_versions`。
+- 独立审核者 `g20_gate` 从干净 `d993748` 归档独立复跑全部 12 轮（`/tmp/g20-b-gate-replay.json`），逐项核对 17 个单元的五层轨迹、总体/条件分母及首次失败原因一致，签认通过并放行步骤 C。[步骤 B 基线记录](./docs/G/G20-B-产品基线记录.md) · [默认基线实测](./docs/G/G20-B-基线实测.json) · [历史开关对照](./docs/G/G20-B-历史开关对照.json)
+
+## 2026-11-20 · G20 步骤 C 定向单因素配对对照 · 独审通过
+
+- 执行者 `g20_exec` 在干净 `git archive d993748c01fabaff26586908de9bf72499534012` 上针对步骤 B 观察到的五类首个断点开展单因素配对实验（`C1`、`C2a/b`、`C3a/b`、`C4a/b`、`C5`，共 23 次真实外部 HTTPS 调用：DeepSeek 20 次、DashScope 1 次、Zleap `Zev-1` 2 次，全部 HTTP 200，0 新增严重错误）。
+- 逐项配对结果：`C1` 仅在 `read_window` 增加 `+1,600` 字节转义预留即消除 `generate_response` 二次 JSON 转义 `budget_exceeded`（`33,939 -> 32,227 <= 32,768`），救回 `Q01` 的 `E01–E03`（3/3）；`C2a` 在无竖线三线表未登记时回退读取父页 `page:8` 救回 `Q02` 的 `E04` 页级支持（1/1，精确表对象仍为 0/1）；`C2b` 放宽 `_on_side("right")` 中心判定救回 `Q03` 的 `E05`（`page:5:image:1` 真实视觉读取，1/1）且同页无方位 `Q10` 保持 `object_ambiguous` 零退化；`C3a` 单切 `bilingual` 将 `DPO page:20` 召回至候选 #1 并完成 Layer 4 实读，叠加 `C1` 后完整救回 `Q05` 的 `E07`（1/1）；`C3b` 发现默认 `_fuse` 因保留 2 个无文字图片邻居将 `alternate_pool` 第 6 名的 `DPO page:20` 挤到第 13 名，剔除无文字图片后在相同 12 文本候选池上 `bilingual` 因 `budget=4` 截断第 11 名的 `DPO page:20`，而 `Zev-1`（评分 `0.812`）将其提至第 3 名入选并救回 `Q06` 的 `E09`（达成 `E08+E09` 2/2）；`C4a` 给定对象证明现有生成工具 1 次调用即可答对 `Q07`，`C4b` 仅替换动作选择为 `max_steps=2` 的 SAG 工具循环救回 `E10–E11`（2/2）；`C5` 核实更新 v2 后 SQLite 历史库中 v1 `cell:0:output:0` 仍完好可取，放宽 `is_version_comparison` 识别 `_OLD + _COMPARE` 进入 `compare_versions` 后救回 `Q09` 的 `E14`（达成 `E14+E15` 2/2）。
+- 独立审核者 `g20_gate` 从干净 `d993748` 归档独立复跑全部 7 组配对实验（`/tmp/g20-c-gate-replay.json`），核实输入固定、同池候选一致、单项干预生效及四项竞争解释边界，签认通过并放行步骤 D。[步骤 C 对照报告](./docs/G/G20-C-定向对照实验.md) · [配对实测 JSON](./docs/G/G20-C-配对实测.json)
+
+## 2026-11-20 · G20 步骤 D 诊断汇总、样本外复核与独立裁决 · 独审通过（G20 完成并交回）
+
+- 执行者 `g20_exec` 汇总步骤 A/B/C 的 17 个必需证据单元全周期追踪表、各层总体与条件分子分母、38 次真实服务调用耗时分位数与复现命令，并选取未参与步骤 A/B/C 的第三份 CC BY 4.0 真实英文课件 `PagedAttention-2309.06180v1.pdf`（16 页、81,813 字符，SHA-256 `55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e`）与 4 道新中文问法（`H01`–`H04`），在干净 `git archive d993748c01fabaff26586908de9bf72499534012` 上对比原默认主路径（Control）与步骤 C 验证的四项主路径收敛修复（Treatment：`C1` 窗口预留对齐 + `C2a` 无登记表回退父页 + `C3` 双语纯文本融合 + `C4` 解除 `asks_for_definition_and_experiment` 僵化劫持）。
+- 样本外复核结果：Control `0/4` 通过（`H01`、`H03` 触发 `budget_exceeded` 且 `H03` `fts` 漏召回第 13 页，`H02` 无竖线三线表报 `object_not_found`，`H04` 被 `asks_for_definition_and_experiment` 劫持拒答，0 次模型调用）；Treatment `4/4` 作答（7 次真实 DeepSeek 调用均 HTTP 200），其中 `H01`、`H03`、`H04` 完整命中并准确绑定页级引用，`H02` 回退读取 `page:9` 答对总显存、KV 缓存内存与最大槽位数共 9/12 项单元格，同时实证了无竖线三线表在线性 `native_text` 中缺乏列分隔符时 `GPUs` 行发生列移位的边界。
+- 独立审核者 `g20_gate` 直接反查 `PagedAttention` 原件、从干净 `d993748` 归档独立复跑样本外对照（`/tmp/g20-d-gate-replay.json`），核对五层分子分母、38/38 次真实 HTTPS 调用（100% HTTP 200）延迟分位数与三项核心结论无误，完成最终门审签认。按协议停在 G20 并交回架构负责人；`app/` 生产代码与 21 项既有脏文件未触碰，M2 保持返工，H01、正式 J、桌面端及生产主路径切换待架构负责人裁决放行。[步骤 D 最终裁决](./docs/G/G20-D-诊断汇总与独立裁决.md) · [样本外复核 JSON](./docs/G/G20-D-样本外复核.json)

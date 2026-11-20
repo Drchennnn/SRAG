@@ -1,0 +1,881 @@
+{
+  "task_id": "G20",
+  "step": "D_holdout_verification",
+  "subject_commit": "d993748c01fabaff26586908de9bf72499534012",
+  "holdout_file": {
+    "file_name": "PagedAttention-2309.06180v1.pdf",
+    "sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+    "bytes": 1459631,
+    "license": "CC-BY-4.0 (https://creativecommons.org/licenses/by/4.0/)",
+    "origin": "https://arxiv.org/abs/2309.06180 (Kwon et al., SOSP 2023)"
+  },
+  "control": {
+    "arm": "control_d993748_default",
+    "apply_fixes": false,
+    "turns": [
+      {
+        "question_id": "H01",
+        "category": "前段综合与概念机制（16 页长文超过单窗 30.7KB 预算）",
+        "question": "在这份论文里，现有大模型推理系统的 KV 缓存主要有哪三类内存浪费？vLLM 是如何像操作系统虚拟内存一样管理 KV 缓存的？",
+        "expected_pages": [
+          "page:1",
+          "page:4",
+          "page:5",
+          "page:6"
+        ],
+        "expected_facts": [
+          "三类内存浪费：预留空间 (reserved memory)、内部碎片 (internal fragmentation)、外部碎片 (external fragmentation)",
+          "借鉴操作系统虚拟内存与分页机制，将 KV 缓存划分为固定大小的逻辑 KV 块和物理 KV 块，通过块表 (block table) 动态映射，按需分配消除碎片"
+        ],
+        "http_elapsed_ms": 153.788,
+        "route": "generated_answer",
+        "generation_status": "budget_exceeded",
+        "estimated_input": 33932,
+        "alternate_query": null,
+        "selected_sources": [
+          "page:6",
+          "page:5",
+          "page:2",
+          "page:7",
+          "page:1",
+          "page:8",
+          "page:9",
+          "page:12",
+          "page:11",
+          "page:7:table:1",
+          "page:11:table:1",
+          "page:10:table:1"
+        ],
+        "read_ranges": [
+          "page:1",
+          "page:2",
+          "page:5",
+          "page:6",
+          "page:7",
+          "page:7:table:1",
+          "page:8"
+        ],
+        "text_blocks": [
+          {
+            "text": "Efficient Memory Management for Large Language\nModel Serving with PagedAttention\nWoosuk Kwon1,∗ Zhuohan Li1,∗ Siyuan Zhuang1 Ying Sheng1,2 Lianmin Zheng1 Cody Hao Yu3\nJoseph E. Gonzalez1 Hao Zhang4\nIon Stoica1\n1UC Berkeley 2Stanford University 3\nIndependent Researcher 4UC San Diego\nAbstract\nHigh throughput serving of large language models (LLMs)\nrequires batching sufficiently many requests at a time. How￾ever, existing systems struggle because the key-value cache\n(KV cache) memory for each request is huge and grows\nand shrinks dynamically. When managed inefficiently, this\nmemory can be significantly wasted by fragmentation and\nredundant duplication, limiting the batch size. To address\nthis problem, we propose PagedAttention, an attention al￾gorithm inspired by the classical virtual memory and pag￾ing techniques in operating systems. On top of it, we build\nvLLM, an LLM serving system that achieves (1) near-zero\nwaste in KV cache memory and (2) flexible sharing of KV\ncache within and across requests to further reduce mem￾ory usage. Our evaluations show that vLLM improves the\nthroughput of popular LLMs by 2-4× with the same level\nof latency compared to the state-of-the-art systems, such\nas FasterTransformer and Orca. The improvement is more\npronounced with longer sequences, larger models, and more\ncomplex decoding algorithms. vLLM’s source code is publicly\navailable at https://github.com/vllm-project/vllm.\n1 Introduction\nThe emergence of large language models (LLMs) like GPT [5,\n37] and PaLM [9] have enabled new applications such as pro￾gramming assistants [6, 18] and universal chatbots [19, 35]\nthat are starting to profoundly impact our work and daily\nroutines. Many cloud companies [34, 44] are racing to pro￾vide these applications as hosted services. However, running\nthese applications is very expensive, requiring a large num￾ber of hardware accelerators such as GPUs. According to\nrecent estimates, processing an LLM request can be 10× more\nexpensive than a traditional keyword query [43]. Given these\nhigh costs, increasing the throughput—and hence reducing\nPermission to make digital or hard copies of part or all of this work for\npersonal or classroom use is granted without fee provided that copies are\nnot made or distributed for profit or commercial advantage and that copies\nbear this notice and the full citation on the first page. Copyrights for third￾party components of this work must be honored. For all other uses, contact\nthe owner/author(s).\nSOSP ’23, October 23–26, 2023, Koblenz, Germany\n© 2023 Copyright held by the owner/author(s).\nACM ISBN 979-8-4007-0229-7/23/10.\nhttps://doi.org/10.1145/3600006.3613165\nNVIDIA A100 40GB\nParameters\n(26GB, 65%)\nKV\nCache\n(>30%)\nOthers\n20\n30\n40\nMemory usage (GB)\nParameter size\nExisting systems vLLM\n0 10 20 30 40\nBatch size (# requests)\n0\n0.4k\n0.8k\n1.2k\nThroughput (token/s)\nFigure 1. Left: Memory layout when serving an LLM with\n13B parameters on NVIDIA A100. The parameters (gray)\npersist in GPU memory throughout serving. The memory\nfor the KV cache (red) is (de)allocated per serving request.\nA small amount of memory (yellow) is used ephemerally\nfor activation. Right: vLLM smooths out the rapid growth\ncurve of KV cache memory seen in existing systems [31, 60],\nleading to a notable boost in serving throughput.\nthe cost per request—of LLM serving systems is becoming\nmore important.\nAt the core of LLMs lies an autoregressive Transformer\nmodel [53]. This model generates words (tokens), one at a\ntime, based on the input (prompt) and the previous sequence\nof the output’s tokens it has generated so far. For each re￾quest, this expensive process is repeated until the model out￾puts a termination token. This sequential generation process\nmakes the workload memory-bound, underutilizing the com￾putation power of GPUs and limiting the serving throughput.\nImproving the throughput is possible by batching multi￾ple requests together. However, to process many requests\nin a batch, the memory space for each request should be\nefficiently managed. For example, Fig. 1 (left) illustrates the\nmemory distribution for a 13B-parameter LLM on an NVIDIA\nA100 GPU with 40GB RAM. Approximately 65% of the mem￾ory is allocated for the model weights, which remain static\nduring serving. Close to 30% of the memory is used to store\nthe dynamic states of the requests. For Transformers, these\nstates consist of the key and value tensors associated with the\nattention mechanism, commonly referred to as KV cache [41],\nwhich represent the context from earlier tokens to gener￾ate new output tokens in sequence. The remaining small\n∗Equal contribution.\n1\narXiv:2309.06180v1 [cs.LG] 12 Sep 2023",
+            "citations": [
+              "ev-1"
+            ]
+          },
+          {
+            "text": "Orca\n(Max)\nOrca\n(Pow2)\nOrca\n(Oracle)\nvLLM\n0\n20\n40\n60\n80\n100\nKV cache usage (%)\n20.4\n13.3\n57.3\n8.9\n26.8\n17.9\n13.6\n41.6\n38.2\n25.2\n36.6\n96.3\nToken states Reservation Internal frag. External frag.\n& Others\nFigure 2. Average percentage of memory wastes in different\nLLM serving systems during the experiment in §6.2.\npercentage of memory is used for other data, including ac￾tivations – the ephemeral tensors created when evaluating\nthe LLM. Since the model weights are constant and the ac￾tivations only occupy a small fraction of the GPU memory,\nthe way the KV cache is managed is critical in determining\nthe maximum batch size. When managed inefficiently, the\nKV cache memory can significantly limit the batch size and\nconsequently the throughput of the LLM, as illustrated in\nFig. 1 (right).\nIn this paper, we observe that existing LLM serving sys￾tems [31, 60] fall short of managing the KV cache memory\nefficiently. This is mainly because they store the KV cache of\na request in contiguous memory space, as most deep learning\nframeworks [33, 39] require tensors to be stored in contigu￾ous memory. However, unlike the tensors in the traditional\ndeep learning workloads, the KV cache has unique charac￾teristics: it dynamically grows and shrinks over time as the\nmodel generates new tokens, and its lifetime and length are\nnot known a priori. These characteristics make the existing\nsystems’ approach significantly inefficient in two ways:\nFirst, the existing systems [31, 60] suffer from internal and\nexternal memory fragmentation. To store the KV cache of\na request in contiguous space, they pre-allocate a contigu￾ous chunk of memory with the request’s maximum length\n(e.g., 2048 tokens). This can result in severe internal frag￾mentation, since the request’s actual length can be much\nshorter than its maximum length (e.g., Fig. 11). Moreover,\neven if the actual length is known a priori, the pre-allocation\nis still inefficient: As the entire chunk is reserved during the\nrequest’s lifetime, other shorter requests cannot utilize any\npart of the chunk that is currently unused. Besides, external\nmemory fragmentation can also be significant, since the pre￾allocated size can be different for each request. Indeed, our\nprofiling results in Fig. 2 show that only 20.4% - 38.2% of the\nKV cache memory is used to store the actual token states in\nthe existing systems.\nSecond, the existing systems cannot exploit the opportu￾nities for memory sharing. LLM services often use advanced\ndecoding algorithms, such as parallel sampling and beam\nsearch, that generate multiple outputs per request. In these\nscenarios, the request consists of multiple sequences that can\npartially share their KV cache. However, memory sharing is\nnot possible in the existing systems because the KV cache of\nthe sequences is stored in separate contiguous spaces.\nTo address the above limitations, we propose PagedAt￾tention, an attention algorithm inspired by the operating\nsystem’s (OS) solution to memory fragmentation and shar￾ing: virtual memory with paging. PagedAttention divides the\nrequest’s KV cache into blocks, each of which can contain\nthe attention keys and values of a fixed number of tokens. In\nPagedAttention, the blocks for the KV cache are not neces￾sarily stored in contiguous space. Therefore, we can manage\nthe KV cache in a more flexible way as in OS’s virtual mem￾ory: one can think of blocks as pages, tokens as bytes, and\nrequests as processes. This design alleviates internal frag￾mentation by using relatively small blocks and allocating\nthem on demand. Moreover, it eliminates external fragmen￾tation as all blocks have the same size. Finally, it enables\nmemory sharing at the granularity of a block, across the\ndifferent sequences associated with the same request or even\nacross the different requests.\nIn this work, we build vLLM, a high-throughput distributed\nLLM serving engine on top of PagedAttention that achieves\nnear-zero waste in KV cache memory. vLLM uses block-level\nmemory management and preemptive request scheduling\nthat are co-designed with PagedAttention. vLLM supports\npopular LLMs such as GPT [5], OPT [62], and LLaMA [52]\nwith varying sizes, including the ones exceeding the memory\ncapacity of a single GPU. Our evaluations on various models\nand workloads show that vLLM improves the LLM serving\nthroughput by 2-4× compared to the state-of-the-art sys￾tems [31, 60], without affecting the model accuracy at all. The\nimprovements are more pronounced with longer sequences,\nlarger models, and more complex decoding algorithms (§4.3).\nIn summary, we make the following contributions:\n• We identify the challenges in memory allocation in serving\nLLMs and quantify their impact on serving performance.\n• We propose PagedAttention, an attention algorithm that\noperates on KV cache stored in non-contiguous paged\nmemory, which is inspired by the virtual memory and\npaging in OS.\n• We design and implement vLLM, a distributed LLM serving\nengine built on top of PagedAttention.\n• We evaluate vLLM on various scenarios and demonstrate\nthat it substantially outperforms the previous state-of-the￾art solutions such as FasterTransformer [31] and Orca [60].\n2 Background\nIn this section, we describe the generation and serving pro￾cedures of typical LLMs and the iteration-level scheduling\nused in LLM serving.\n2",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "KV Cache Manager\nScheduler\nCPU Block\nAllocator\nGPU Block\nAllocator\nBlock tables\nWorker 0\nModel\nShard 0\nCache\nEngine\nWorker 1\nModel\nShard 1\nCache\nEngine\nWorker N - 1\nModel\nShard N - 1\nCache\nEngine\n…\nFigure 4. vLLM system overview.\nAlthough compaction [54] has been proposed as a poten￾tial solution to fragmentation, performing compaction in a\nperformance-sensitive LLM serving system is impractical\ndue to the massive KV cache. Even with compaction, the\npre-allocated chunk space for each request prevents memory\nsharing specific to decoding algorithms in existing memory\nmanagement systems.\n4 Method\nIn this work, we develop a new attention algorithm, Page￾dAttention, and build an LLM serving engine, vLLM, to tackle\nthe challenges outlined in §3. The architecture of vLLM is\nshown in Fig. 4. vLLM adopts a centralized scheduler to\ncoordinate the execution of distributed GPU workers. The\nKV cache manager effectively manages the KV cache in a\npaged fashion, enabled by PagedAttention. Specifically, the\nKV cache manager manages the physical KV cache memory\non the GPU workers through the instructions sent by the\ncentralized scheduler.\nNext, We describe the PagedAttention algorithm in §4.1.\nWith that, we show the design of the KV cache manager in\n§4.2 and how it facilitates PagedAttention in §4.3, respec￾tively. Then, we show how this design facilitates effective\nmemory management for various decoding methods (§4.4)\nand handles the variable length input and output sequences\n(§4.5). Finally, we show how the system design of vLLM\nworks in a distributed setting (§4.6).\n4.1 PagedAttention\nTo address the memory challenges in §3, we introduce Page￾dAttention, an attention algorithm inspired by the classic idea\nof paging [25] in operating systems. Unlike the traditional\nattention algorithms, PagedAttention allows storing continu￾ous keys and values in non-contiguous memory space. Specif￾ically, PagedAttention partitions the KV cache of each se￾quence into KV blocks. Each block contains the key and value\nvectors for a fixed number of tokens,1 which we denote as KV\n1\nIn Transformer, each token has a set of key and value vectors across layers\nand attention heads within a layer. All the key and value vectors can be\nmanaged together within a single KV block, or the key and value vectors at\ndifferent heads and layers can each have a separate block and be managed\nin separate block tables. The two designs have no performance difference\nand we choose the second one for easy implementation.\nforth Query\nvector\nyears ago our fathers\nbrought forth\nFour score and seven\nKey and value vectors\nBlock 1\nBlock 2\nBlock 0\nFigure 5. Illustration of the PagedAttention algorithm,\nwhere the attention key and values vectors are stored as\nnon-contiguous blocks in the memory.\nblock size (𝐵). Denote the key block 𝐾𝑗 = (𝑘(𝑗−1)𝐵+1, . . . , 𝑘𝑗𝐵)\nand value block 𝑉𝑗 = (𝑣(𝑗−1)𝐵+1, . . . , 𝑣𝑗𝐵). The attention com￾putation in Eq. 4 can be transformed into the following block￾wise computation:\n𝐴𝑖𝑗 =\nexp(𝑞\n⊤\n𝑖 𝐾𝑗 /\n√\n𝑑)\nÍ⌈𝑖/𝐵⌉\n𝑡=1\nexp(𝑞\n⊤\n𝑖\n𝐾𝑡 1/\n√\n𝑑)\n, 𝑜𝑖 =\n⌈\n∑︁\n𝑖/𝐵⌉\n𝑗=1\n𝑉𝑗𝐴\n⊤\n𝑖𝑗, (4)\nwhere 𝐴𝑖𝑗 = (𝑎𝑖,(𝑗−1)𝐵+1, . . . , 𝑎𝑖,𝑗𝐵) is the row vector of atten￾tion score on 𝑗-th KV block.\nDuring the attention computation, the PagedAttention\nkernel identifies and fetches different KV blocks separately.\nWe show an example of PagedAttention in Fig. 5: The key\nand value vectors are spread across three blocks, and the\nthree blocks are not contiguous on the physical memory. At\neach time, the kernel multiplies the query vector 𝑞𝑖 of the\nquery token (“forth”) and the key vectors 𝐾𝑗\nin a block (e.g.,\nkey vectors of “Four score and seven” for block 0) to compute\nthe attention score𝐴𝑖𝑗, and later multiplies𝐴𝑖𝑗 with the value\nvectors 𝑉𝑗\nin a block to derive the final attention output 𝑜𝑖\n.\nIn summary, the PagedAttention algorithm allows the\nKV blocks to be stored in non-contiguous physical memory,\nwhich enables more flexible paged memory management in\nvLLM.\n4.2 KV Cache Manager\nThe key idea behind vLLM’s memory manager is analogous\nto the virtual memory [25] in operating systems. OS parti￾tions memory into fixed-sized pages and maps user programs’\nlogical pages to physical pages. Contiguous logical pages can\ncorrespond to non-contiguous physical memory pages, al￾lowing user programs to access memory as though it were\ncontiguous. Moreover, physical memory space needs not to\nbe fully reserved in advance, enabling the OS to dynamically\nallocate physical pages as needed. vLLM uses the ideas be￾hind virtual memory to manage the KV cache in an LLM\nservice. Enabled by PagedAttention, we organize the KV\ncache as fixed-size KV blocks, like pages in virtual memory.\nA request’s KV cache is represented as a series of logical\nKV blocks, filled from left to right as new tokens and their KV\ncache are generated. The last KV block’s unfilled positions\nare reserved for future generations. On GPU workers, a block\nengine allocates a contiguous chunk of GPU DRAM and\n5",
+            "citations": [
+              "ev-3"
+            ]
+          },
+          {
+            "text": "Request\nA\nFour score and seven\nyears ago our fathers\nbrought\nPrompt: “Four score and seven years ago our”\nOutputs: “fathers” → “brought” → …\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nyears ago our fathers\nbrought\nFour score and seven\nPhysical KV blocks\n(on GPU DRAM)\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nBlock 4\nBlock 5\nBlock 6\nBlock 7\nBlock 8\nLogical KV blocks\nPhysical block\nnumber # filled\n7 4\n1 3 → 4\n3 1\n– –\n1 1 1 1 Block Table\n1 1 1 2\n3\n1\n1\n1\n1 2\n3 3 3\n1\n1\n1\n1\n3\n1 1 1 2\n1 1 1 1\n3\nFigure 6. Block table translation in vLLM.\ndivides it into physical KV blocks (this is also done on CPU\nRAM for swapping; see §4.5). The KV block manager also\nmaintains block tables—the mapping between logical and\nphysical KV blocks of each request. Each block table entry\nrecords the corresponding physical blocks of a logical block\nand the number of filled positions. Separating logical and\nphysical KV blocks allows vLLM to dynamically grow the\nKV cache memory without reserving it for all positions in\nadvance, which eliminates most memory waste in existing\nsystems, as in Fig. 2.\n4.3 Decoding with PagedAttention and vLLM\nNext, we walk through an example, as in Fig. 6, to demon￾strate how vLLM executes PagedAttention and manages the\nmemory during the decoding process of a single input se￾quence: ○1 As in OS’s virtual memory, vLLM does not require\nreserving the memory for the maximum possible generated\nsequence length initially. Instead, it reserves only the nec￾essary KV blocks to accommodate the KV cache generated\nduring prompt computation. In this case, The prompt has 7\ntokens, so vLLM maps the first 2 logical KV blocks (0 and\n1) to 2 physical KV blocks (7 and 1, respectively). In the\nprefill step, vLLM generates the KV cache of the prompts\nand the first output token with a conventional self-attention\nalgorithm (e.g., [13]). vLLM then stores the KV cache of the\nfirst 4 tokens in logical block 0 and the following 3 tokens\nin logical block 1. The remaining slot is reserved for the\nsubsequent autoregressive generation phase. ○2 In the first\nautoregressive decoding step, vLLM generates the new token\nwith the PagedAttention algorithm on physical blocks 7 and\n1. Since one slot remains available in the last logical block,\nthe newly generated KV cache is stored there, and the block\ntable’s #filled record is updated. ○3 At the second decoding\nstep, as the last logical block is full, vLLM stores the newly\ngenerated KV cache in a new logical block; vLLM allocates a\nnew physical block (physical block 3) for it and stores this\nmapping in the block table.\nGlobally, for each decoding iteration, vLLM first selects\na set of candidate sequences for batching (more in §4.5),\nand allocates the physical blocks for the newly required\nlogical blocks. Then, vLLM concatenates all the input tokens\nof the current iteration (i.e., all tokens for prompt phase\nFour score and seven\nyears ago our fathers\nbrought\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nyears ago our fathers\nof times\nbrought\nIt was the best\nFour score and seven\nPhysical KV blocks\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nBlock 4\nBlock 5\nBlock 6\nBlock 7\nBlock 8\nLogical KV blocks\nIt was the best\nof times\nBlock 0\nBlock 1\nBlock 2\nLogical KV blocks\nRequest\nA\nRequest\nB\nFigure 7. Storing the KV cache of two requests at the same\ntime in vLLM.\nrequests and the latest tokens for generation phase requests)\nas one sequence and feeds it into the LLM. During LLM’s\ncomputation, vLLM uses the PagedAttention kernel to access\nthe previous KV cache stored in the form of logical KV blocks\nand saves the newly generated KV cache into the physical\nKV blocks. Storing multiple tokens within a KV block (block\nsize > 1) enables the PagedAttention kernel to process the\nKV cache across more positions in parallel, thus increasing\nthe hardware utilization and reducing latency. However, a\nlarger block size also increases memory fragmentation. We\nstudy the effect of block size in §7.2.\nAgain, vLLM dynamically assigns new physical blocks to\nlogical blocks as more tokens and their KV cache are gener￾ated. As all the blocks are filled from left to right and a new\nphysical block is only allocated when all previous blocks\nare full, vLLM limits all the memory wastes for a request\nwithin one block, so it can effectively utilize all the memory,\nas shown in Fig. 2. This allows more requests to fit into mem￾ory for batching—hence improving the throughput. Once a\nrequest finishes its generation, its KV blocks can be freed to\nstore the KV cache of other requests. In Fig. 7, we show an\nexample of vLLM managing the memory for two sequences.\nThe logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block\nengine in GPU workers. The neighboring logical blocks of\nboth sequences do not need to be contiguous in physical GPU\nmemory and the space of physical blocks can be effectively\nutilized by both sequences.\n4.4 Application to Other Decoding Scenarios\n§4.3 shows how PagedAttention and vLLM handle basic de￾coding algorithms, such as greedy decoding and sampling,\nthat take one user prompt as input and generate a single out￾put sequence. In many successful LLM applications [18, 34],\nan LLM service must offer more complex decoding scenarios\nthat exhibit complex accessing patterns and more opportuni￾ties for memory sharing. We show the general applicability\nof vLLM on them in this section.\nParallel sampling. In LLM-based program assistants [6, 18],\nan LLM generates multiple sampled outputs for a single in￾put prompt; users can choose a favorite output from various\ncandidates. So far we have implicitly assumed that a request\n6",
+            "citations": [
+              "ev-4"
+            ]
+          },
+          {
+            "text": "Sample\nA1\nFour score and seven\nyears ago our fathers\nBlock 0\nBlock 1\nyears ago our mothers\nyears ago our fathers\nFour score and seven\nPhysical KV blocks\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nBlock 4\nBlock 5\nBlock 6\nBlock 7\nBlock 8\nLogical KV blocks\nFour score and seven\nyears ago our mothers\nBlock 0\nBlock 1\nLogical KV blocks\nSample\nA2\nCopy-on-write\nRef count: 2 → 1\nFigure 8. Parallel sampling example.\ngenerates a single sequence. In the remainder of this paper,\nwe assume the more general case in which a request gener￾ates multiple sequences. In parallel sampling, one request\nincludes multiple samples sharing the same input prompt,\nallowing the KV cache of the prompt to be shared as well. Via\nits PagedAttention and paged memory management, vLLM\ncan realize this sharing easily and save memory.\nFig. 8 shows an example of parallel decoding for two out￾puts. Since both outputs share the same prompt, we only\nreserve space for one copy of the prompt’s state at the prompt\nphase; the logical blocks for the prompts of both sequences\nare mapped to the same physical blocks: the logical block 0\nand 1 of both sequences are mapped to physical blocks 7 and\n1, respectively. Since a single physical block can be mapped\nto multiple logical blocks, we introduce a reference count for\neach physical block. In this case, the reference counts for\nphysical blocks 7 and 1 are both 2. At the generation phase,\nthe two outputs sample different output tokens and need\nseparate storage for KV cache. vLLM implements a copy-on￾write mechanism at the block granularity for the physical\nblocks that need modification by multiple sequences, similar\nto the copy-on-write technique in OS virtual memory (e.g.,\nwhen forking a process). Specifically, in Fig. 8, when sample\nA1 needs to write to its last logical block (logical block 1),\nvLLM recognizes that the reference count of the correspond￾ing physical block (physical block 1) is greater than 1; it\nallocates a new physical block (physical block 3), instructs\nthe block engine to copy the information from physical block\n1, and decreases the reference count to 1. Next, when sample\nA2 writes to physical block 1, the reference count is already\nreduced to 1; thus A2 directly writes its newly generated KV\ncache to physical block 1.\nIn summary, vLLM enables the sharing of most of the\nspace used to store the prompts’ KV cache across multiple\noutput samples, with the exception of the final logical block,\nwhich is managed by a copy-on-write mechanism. By sharing\nphysical blocks across multiple samples, memory usage can\nbe greatly reduced, especially for long input prompts.\nBeam search. In LLM tasks like machine translation [59],\nthe users expect the top-𝑘 most appropriate translations out￾put by the LLM. Beam search [49] is widely used to decode\nthe most probable output sequence from an LLM, as it miti￾gates the computational complexity of fully traversing the\nBlock 10\nBlock 11\nBlock 1 Block 3 Block 6\nBlock 7\nBlock 5\nBlock 0\nBlock 2 Block 4 Block 8\nBlock 9\nBlock 12\nBeam candidate 0\nBeam candidate 1\nBeam candidate 2\nBeam candidate 3\nFigure 9. Beam search example.\nsample space. The algorithm relies on the beam width pa￾rameter 𝑘, which determines the number of top candidates\nretained at every step. During decoding, beam search ex￾pands each candidate sequence in the beam by considering\nall possible tokens, computes their respective probabilities us￾ing the LLM, and retains the top-𝑘 most probable sequences\nout of 𝑘 · |𝑉 | candidates, where |𝑉 | is the vocabulary size.\nUnlike parallel decoding, beam search facilities sharing\nnot only the initial prompt blocks but also other blocks across\ndifferent candidates, and the sharing patterns dynamically\nchange as the decoding process advances, similar to the pro￾cess tree in the OS created by compound forks. Fig. 9 shows\nhow vLLM manages the KV blocks for a beam search ex￾ample with 𝑘 = 4. Prior to the iteration illustrated as the\ndotted line, each candidate sequence has used 4 full logi￾cal blocks. All beam candidates share the first block 0 (i.e.,\nprompt). Candidate 3 digresses from others from the second\nblock. Candidates 0-2 share the first 3 blocks and diverge at\nthe fourth block. At subsequent iterations, the top-4 prob￾able candidates all originate from candidates 1 and 2. As\nthe original candidates 0 and 3 are no longer among the\ntop candidates, their logical blocks are freed, and the refer￾ence counts of corresponding physical blocks are reduced.\nvLLM frees all physical blocks whose reference counts reach\n0 (blocks 2, 4, 5, 8). Then, vLLM allocates new physical blocks\n(blocks 9-12) to store the new KV cache from the new can￾didates. Now, all candidates share blocks 0, 1, 3; candidates\n0 and 1 share block 6, and candidates 2 and 3 further share\nblock 7.\nPrevious LLM serving systems require frequent memory\ncopies of the KV cache across the beam candidates. For exam￾ple, in the case shown in Fig. 9, after the dotted line, candidate\n3 would need to copy a large portion of candidate 2’s KV\ncache to continue generation. This frequent memory copy\noverhead is significantly reduced by vLLM’s physical block\nsharing. In vLLM, most blocks of different beam candidates\ncan be shared. The copy-on-write mechanism is applied only\nwhen the newly generated tokens are within an old shared\nblock, as in parallel decoding. This involves only copying\none block of data.\nShared prefix. Commonly, the LLM user provides a (long)\ndescription of the task including instructions and example\ninputs and outputs, also known as system prompt [36]. The\ndescription is concatenated with the actual task input to form\nthe prompt of the request. The LLM generates outputs based\n7",
+            "citations": [
+              "ev-5"
+            ]
+          },
+          {
+            "text": "| ealize this sh . 8 shows an Since both | haring easily n example of outputs sha |\n| --- | --- |\n| ve space for o ; the logical apped to the | one copy of th blocks for t e same phys |",
+            "citations": [
+              "ev-6"
+            ]
+          },
+          {
+            "text": "Translate English to French:\n“sea otter” => “loutre de mer”\n“peppermint” => “menthe poivrée”\n“plush girafe” => “girafe en peluche”\n“cheese” =>\n“fromage”\nTranslate English to French:\n“sea otter” => “loutre de mer”\n“peppermint” => “menthe poivrée”\n“plush girafe” => “girafe en peluche”\n“I love you” =>\n“Je t’amie”\nShared prefix\nTask input\nTask output\nSequence A\nPrompt\nSequence B\nPrompt\nSequence A\nLLM output\nSequence B\nLLM output\nFigure 10. Shared prompt example for machine translation.\nThe examples are adopted from [5].\non the full prompt. Fig. 10 shows an example. Moreover, the\nshared prefix can be further tuned, via prompt engineering,\nto improve the accuracy of the downstream tasks [26, 27].\nFor this type of application, many user prompts share a\nprefix, thus the LLM service provider can store the KV cache\nof the prefix in advance to reduce the redundant computa￾tion spent on the prefix. In vLLM, this can be conveniently\nachieved by reserving a set of physical blocks for a set of\npredefined shared prefixes by the LLM service provider, as\nhow OS handles shared library across processes. A user in￾put prompt with the shared prefix can simply map its logi￾cal blocks to the cached physical blocks (with the last block\nmarked copy-on-write). The prompt phase computation only\nneeds to execute on the user’s task input.\n",
+            "citations": [
+              "ev-7"
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "回答模型未能生成可核对的答案。本条保留已读原文摘录。"
+          }
+        ],
+        "cited_pages": [
+          "page:1",
+          "page:2",
+          "page:5",
+          "page:6",
+          "page:7",
+          "page:7:table:1",
+          "page:8"
+        ],
+        "provider_calls": []
+      },
+      {
+        "question_id": "H02",
+        "category": "PDF 无竖线三线表查询（第 9 页 Table 1）",
+        "question": "第 9 页表格里，13B、66B 和 175B 三种模型配置分别使用了多少张什么型号的 GPU？它们留给 KV 缓存的内存大小和最大 KV 缓存槽位数（slots）分别是多少？",
+        "expected_pages": [
+          "page:9"
+        ],
+        "expected_facts": [
+          "13B: 1 张 A100 (40GB)，KV 缓存内存 12 GB，最大槽位数 15.7K",
+          "66B: 4×A100 (160GB)，KV 缓存内存 21 GB，最大槽位数 9.7K",
+          "175B: 8×A100-80GB (640GB)，KV 缓存内存 264 GB，最大槽位数 60.1K"
+        ],
+        "http_elapsed_ms": 15.0,
+        "route": "target_object",
+        "generation_status": null,
+        "estimated_input": null,
+        "alternate_query": null,
+        "selected_sources": [],
+        "read_ranges": [],
+        "text_blocks": [],
+        "notices": [
+          {
+            "code": "object_not_found",
+            "text": "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+          }
+        ],
+        "cited_pages": [],
+        "provider_calls": []
+      },
+      {
+        "question_id": "H03",
+        "category": "长文后段纯中文检索（第 13 页 §7.3 恢复机制对比）",
+        "question": "当 GPU 显存不足需要抢占请求时，论文比较了哪两种恢复机制？为什么在块大小（block size）很小的时候，换入换出（swapping）的开销比重新计算（recomputation）大得多？",
+        "expected_pages": [
+          "page:13"
+        ],
+        "expected_facts": [
+          "两种恢复机制：重计算 (recomputation) 和 交换/换入换出 (swapping)",
+          "块很小时 swapping 会在 CPU 与 GPU 之间产生大量小数据块传输，受限于有效 PCIe 带宽导致开销剧增；而 recomputation 不依赖 KV 块传输，开销跨不同块大小保持恒定"
+        ],
+        "http_elapsed_ms": 106.649,
+        "route": "generated_answer",
+        "generation_status": "budget_exceeded",
+        "estimated_input": 33696,
+        "alternate_query": null,
+        "selected_sources": [
+          "page:13",
+          "page:8",
+          "page:6",
+          "page:14",
+          "page:4",
+          "page:7",
+          "page:5",
+          "page:12",
+          "page:7:table:1",
+          "page:10:table:1",
+          "page:11:table:1",
+          "page:3"
+        ],
+        "read_ranges": [
+          "page:3",
+          "page:4",
+          "page:5",
+          "page:6",
+          "page:7",
+          "page:7:table:1"
+        ],
+        "text_blocks": [
+          {
+            "text": "2.1 Transformer-Based Large Language Models\nThe task of language modeling is to model the probability\nof a list of tokens (𝑥1, . . . , 𝑥𝑛). Since language has a natural\nsequential ordering, it is common to factorize the joint prob￾ability over the whole sequence as the product of conditional\nprobabilities (a.k.a. autoregressive decomposition [3]):\n𝑃 (𝑥) = 𝑃 (𝑥1) · 𝑃 (𝑥2 | 𝑥1) · · · 𝑃 (𝑥𝑛 | 𝑥1, . . . , 𝑥𝑛−1). (1)\nTransformers [53] have become the de facto standard ar￾chitecture for modeling the probability above at a large scale.\nThe most important component of a Transformer-based lan￾guage model is its self-attention layers. For an input hidden\nstate sequence (𝑥1, . . . , 𝑥𝑛) ∈ R\n𝑛×𝑑\n, a self-attention layer\nfirst applies linear transformations on each position 𝑖 to get\nthe query, key, and value vectors:\n𝑞𝑖 = 𝑊𝑞𝑥𝑖\n, 𝑘𝑖 = 𝑊𝑘𝑥𝑖\n, 𝑣𝑖 = 𝑊𝑣𝑥𝑖\n. (2)\nThen, the self-attention layer computes the attention score\n𝑎𝑖𝑗 by multiplying the query vector at one position with all\nthe key vectors before it and compute the output 𝑜𝑖 as the\nweighted average over the value vectors:\n𝑎𝑖𝑗 =\nexp(𝑞\n⊤\n𝑖\n𝑘𝑗 /\n√\n𝑑)\nÍ𝑖\n𝑡=1\nexp(𝑞\n⊤\n𝑖\n𝑘𝑡 /\n√\n𝑑)\n, 𝑜𝑖 =\n∑︁\n𝑖\n𝑗=1\n𝑎𝑖𝑗𝑣𝑗\n. (3)\nBesides the computation in Eq. 4, all other components\nin the Transformer model, including the embedding layer,\nfeed-forward layer, layer normalization [2], residual connec￾tion [22], output logit computation, and the query, key, and\nvalue transformation in Eq. 2, are all applied independently\nposition-wise in a form of 𝑦𝑖 = 𝑓 (𝑥𝑖).\n2.2 LLM Service & Autoregressive Generation\nOnce trained, LLMs are often deployed as a conditional gen￾eration service (e.g., completion API [34] or chatbot [19, 35]).\nA request to an LLM service provides a list of input prompt\ntokens (𝑥1, . . . , 𝑥𝑛), and the LLM service generates a list of\noutput tokens (𝑥𝑛+1, . . . , 𝑥𝑛+𝑇 ) according to Eq. 1. We refer to\nthe concatenation of the prompt and output lists as sequence.\nDue to the decomposition in Eq. 1, the LLM can only sam￾ple and generate new tokens one by one, and the generation\nprocess of each new token depends on all the previous tokens\nin that sequence, specifically their key and value vectors. In\nthis sequential generation process, the key and value vectors\nof existing tokens are often cached for generating future\ntokens, known as KV cache. Note that the KV cache of one\ntoken depends on all its previous tokens. This means that the\nKV cache of the same token appearing at different positions\nin a sequence will be different.\nGiven a request prompt, the generation computation in\nthe LLM service can be decomposed into two phases:\nThe prompt phase takes the whole user prompt (𝑥1, . . . , 𝑥𝑛)\nas input and computes the probability of the first new to￾ken 𝑃 (𝑥𝑛+1 | 𝑥1, . . . , 𝑥𝑛). During this process, also gener￾ates the key vectors 𝑘1, . . . , 𝑘𝑛 and value vectors 𝑣1, . . . , 𝑣𝑛.\nSince prompt tokens 𝑥1, . . . , 𝑥𝑛 are all known, the computa￾tion of the prompt phase can be parallelized using matrix￾matrix multiplication operations. Therefore, this phase can\nefficiently use the parallelism inherent in GPUs.\nThe autoregressive generation phase generates the re￾maining new tokens sequentially. At iteration 𝑡, the model\ntakes one token 𝑥𝑛+𝑡 as input and computes the probability\n𝑃 (𝑥𝑛+𝑡+1 | 𝑥1, . . . , 𝑥𝑛+𝑡) with the key vectors 𝑘1, . . . , 𝑘𝑛+𝑡 and\nvalue vectors𝑣1, . . . , 𝑣𝑛+𝑡\n. Note that the key and value vectors\nat positions 1 to 𝑛 + 𝑡 − 1 are cached at previous iterations,\nonly the new key and value vector 𝑘𝑛+𝑡 and 𝑣𝑛+𝑡 are com￾puted at this iteration. This phase completes either when the\nsequence reaches a maximum length (specified by users or\nlimited by LLMs) or when an end-of-sequence (<eos>) token\nis emitted. The computation at different iterations cannot\nbe parallelized due to the data dependency and often uses\nmatrix-vector multiplication, which is less efficient. As a re￾sult, this phase severely underutilizes GPU computation and\nbecomes memory-bound, being responsible for most portion\nof the latency of a single request.\n2.3 Batching Techniques for LLMs\nThe compute utilization in serving LLMs can be improved\nby batching multiple requests. Because the requests share\nthe same model weights, the overhead of moving weights is\namortized across the requests in a batch, and can be over￾whelmed by the computational overhead when the batch\nsize is sufficiently large. However, batching the requests\nto an LLM service is non-trivial for two reasons. First, the\nrequests may arrive at different times. A naive batching strat￾egy would either make earlier requests wait for later ones\nor delay the incoming requests until earlier ones finish, lead￾ing to significant queueing delays. Second, the requests may\nhave vastly different input and output lengths (Fig. 11). A\nstraightforward batching technique would pad the inputs\nand outputs of the requests to equalize their lengths, wasting\nGPU computation and memory.\nTo address this problem, fine-grained batching mecha￾nisms, such as cellular batching [16] and iteration-level sched￾uling [60], have been proposed. Unlike traditional methods\nthat work at the request level, these techniques operate at\nthe iteration level. After each iteration, completed requests\nare removed from the batch, and new ones are added. There￾fore, a new request can be processed after waiting for a\nsingle iteration, not waiting for the entire batch to complete.\nMoreover, with special GPU kernels, these techniques elim￾inate the need to pad the inputs and outputs. By reducing\nthe queueing delay and the inefficiencies from padding, the\nfine-grained batching mechanisms significantly increase the\nthroughput of LLM serving.\n3",
+            "citations": [
+              "ev-1"
+            ]
+          },
+          {
+            "text": "Four score and seven years ago our fathers brought forth <eos> <resv> … <resv> You only live once <eos> <resv> … <resv>\n2038 slots never used\n(internal fragmentation)\n2 slots future used\n(reserved) External fragmentation\n7 KV cache states for\nrequest A’s prompt\n3 KV cache states for\nrequest B’s prompt\n1 slot future used\n(reserved)\n507 slots never used\n(Internal fragmentation)\nRequest B\ncurrent iteration\nRequest A\ncurrent iteration\n1 slot for\ngenerated token\nFigure 3. KV cache memory management in existing systems. Three types of memory wastes – reserved, internal fragmentation,\nand external fragmentation – exist that prevent other requests from fitting into the memory. The token in each memory slot\nrepresents its KV cache. Note the same tokens can have different KV cache when at different positions.\n3 Memory Challenges in LLM Serving\nAlthough fine-grained batching reduces the waste of com￾puting and enables requests to be batched in a more flexible\nway, the number of requests that can be batched together is\nstill constrained by GPU memory capacity, particularly the\nspace allocated to store the KV cache. In other words, the\nserving system’s throughput is memory-bound. Overcom￾ing this memory-bound requires addressing the following\nchallenges in the memory management:\nLarge KV cache. The KV Cache size grows quickly with the\nnumber of requests. As an example, for the 13B parameter\nOPT model [62], the KV cache of a single token demands 800\nKB of space, calculated as 2 (key and value vectors) × 5120\n(hidden state size) × 40 (number of layers) × 2 (bytes per\nFP16). Since OPT can generate sequences up to 2048 tokens,\nthe memory required to store the KV cache of one request\ncan be as much as 1.6 GB. Concurrent GPUs have memory\ncapacities in the tens of GBs. Even if all available memory\nwas allocated to KV cache, only a few tens of requests could\nbe accommodated. Moreover, inefficient memory manage￾ment can further decrease the batch size, as shown in Fig. 2.\nAdditionally, given the current trends, the GPU’s computa￾tion speed grows faster than the memory capacity [17]. For\nexample, from NVIDIA A100 to H100, The FLOPS increases\nby more than 2x, but the GPU memory stays at 80GB max￾imum. Therefore, we believe the memory will become an\nincreasingly significant bottleneck.\nComplex decoding algorithms. LLM services offer a range\nof decoding algorithms for users to select from, each with\nvarying implications for memory management complexity.\nFor example, when users request multiple random samples\nfrom a single input prompt, a typical use case in program\nsuggestion [18], the KV cache of the prompt part, which\naccounts for 12% of the total KV cache memory in our ex￾periment (§6.3), can be shared to minimize memory usage.\nOn the other hand, the KV cache during the autoregressive\ngeneration phase should remain unshared due to the dif￾ferent sample results and their dependence on context and\nposition. The extent of KV cache sharing depends on the\nspecific decoding algorithm employed. In more sophisticated\nalgorithms like beam search [49], different request beams\ncan share larger portions (up to 55% memory saving, see\n§6.3) of their KV cache, and the sharing pattern evolves as\nthe decoding process advances.\nScheduling for unknown input & output lengths. The\nrequests to an LLM service exhibit variability in their input\nand output lengths. This requires the memory management\nsystem to accommodate a wide range of prompt lengths. In\naddition, as the output length of a request grows at decoding,\nthe memory required for its KV cache also expands and may\nexhaust available memory for incoming requests or ongoing\ngeneration for existing prompts. The system needs to make\nscheduling decisions, such as deleting or swapping out the\nKV cache of some requests from GPU memory.\n3.1 Memory Management in Existing Systems\nSince most operators in current deep learning frameworks\n[33, 39] require tensors to be stored in contiguous memory,\nprevious LLM serving systems [31, 60] also store the KV\ncache of one request as a contiguous tensor across the differ￾ent positions. Due to the unpredictable output lengths from\nthe LLM, they statically allocate a chunk of memory for a\nrequest based on the request’s maximum possible sequence\nlength, irrespective of the actual input or eventual output\nlength of the request.\nFig. 3 illustrates two requests: request A with 2048 max￾imum possible sequence length and request B with a max￾imum of 512. The chunk pre-allocation scheme in existing\nsystems has three primary sources of memory wastes: re￾served slots for future tokens, internal fragmentation due to\nover-provisioning for potential maximum sequence lengths,\nand external fragmentation from the memory allocator like\nthe buddy allocator. The external fragmentation will never\nbe used for generated tokens, which is known before serving\na request. Internal fragmentation also remains unused, but\nthis is only realized after a request has finished sampling.\nThey are both pure memory waste. Although the reserved\nmemory is eventually used, reserving this space for the en￾tire request’s duration, especially when the reserved space\nis large, occupies the space that could otherwise be used to\nprocess other requests. We visualize the average percentage\nof memory wastes in our experiments in Fig. 2, revealing\nthat the actual effective memory in previous systems can be\nas low as 20.4%.\n4",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "KV Cache Manager\nScheduler\nCPU Block\nAllocator\nGPU Block\nAllocator\nBlock tables\nWorker 0\nModel\nShard 0\nCache\nEngine\nWorker 1\nModel\nShard 1\nCache\nEngine\nWorker N - 1\nModel\nShard N - 1\nCache\nEngine\n…\nFigure 4. vLLM system overview.\nAlthough compaction [54] has been proposed as a poten￾tial solution to fragmentation, performing compaction in a\nperformance-sensitive LLM serving system is impractical\ndue to the massive KV cache. Even with compaction, the\npre-allocated chunk space for each request prevents memory\nsharing specific to decoding algorithms in existing memory\nmanagement systems.\n4 Method\nIn this work, we develop a new attention algorithm, Page￾dAttention, and build an LLM serving engine, vLLM, to tackle\nthe challenges outlined in §3. The architecture of vLLM is\nshown in Fig. 4. vLLM adopts a centralized scheduler to\ncoordinate the execution of distributed GPU workers. The\nKV cache manager effectively manages the KV cache in a\npaged fashion, enabled by PagedAttention. Specifically, the\nKV cache manager manages the physical KV cache memory\non the GPU workers through the instructions sent by the\ncentralized scheduler.\nNext, We describe the PagedAttention algorithm in §4.1.\nWith that, we show the design of the KV cache manager in\n§4.2 and how it facilitates PagedAttention in §4.3, respec￾tively. Then, we show how this design facilitates effective\nmemory management for various decoding methods (§4.4)\nand handles the variable length input and output sequences\n(§4.5). Finally, we show how the system design of vLLM\nworks in a distributed setting (§4.6).\n4.1 PagedAttention\nTo address the memory challenges in §3, we introduce Page￾dAttention, an attention algorithm inspired by the classic idea\nof paging [25] in operating systems. Unlike the traditional\nattention algorithms, PagedAttention allows storing continu￾ous keys and values in non-contiguous memory space. Specif￾ically, PagedAttention partitions the KV cache of each se￾quence into KV blocks. Each block contains the key and value\nvectors for a fixed number of tokens,1 which we denote as KV\n1\nIn Transformer, each token has a set of key and value vectors across layers\nand attention heads within a layer. All the key and value vectors can be\nmanaged together within a single KV block, or the key and value vectors at\ndifferent heads and layers can each have a separate block and be managed\nin separate block tables. The two designs have no performance difference\nand we choose the second one for easy implementation.\nforth Query\nvector\nyears ago our fathers\nbrought forth\nFour score and seven\nKey and value vectors\nBlock 1\nBlock 2\nBlock 0\nFigure 5. Illustration of the PagedAttention algorithm,\nwhere the attention key and values vectors are stored as\nnon-contiguous blocks in the memory.\nblock size (𝐵). Denote the key block 𝐾𝑗 = (𝑘(𝑗−1)𝐵+1, . . . , 𝑘𝑗𝐵)\nand value block 𝑉𝑗 = (𝑣(𝑗−1)𝐵+1, . . . , 𝑣𝑗𝐵). The attention com￾putation in Eq. 4 can be transformed into the following block￾wise computation:\n𝐴𝑖𝑗 =\nexp(𝑞\n⊤\n𝑖 𝐾𝑗 /\n√\n𝑑)\nÍ⌈𝑖/𝐵⌉\n𝑡=1\nexp(𝑞\n⊤\n𝑖\n𝐾𝑡 1/\n√\n𝑑)\n, 𝑜𝑖 =\n⌈\n∑︁\n𝑖/𝐵⌉\n𝑗=1\n𝑉𝑗𝐴\n⊤\n𝑖𝑗, (4)\nwhere 𝐴𝑖𝑗 = (𝑎𝑖,(𝑗−1)𝐵+1, . . . , 𝑎𝑖,𝑗𝐵) is the row vector of atten￾tion score on 𝑗-th KV block.\nDuring the attention computation, the PagedAttention\nkernel identifies and fetches different KV blocks separately.\nWe show an example of PagedAttention in Fig. 5: The key\nand value vectors are spread across three blocks, and the\nthree blocks are not contiguous on the physical memory. At\neach time, the kernel multiplies the query vector 𝑞𝑖 of the\nquery token (“forth”) and the key vectors 𝐾𝑗\nin a block (e.g.,\nkey vectors of “Four score and seven” for block 0) to compute\nthe attention score𝐴𝑖𝑗, and later multiplies𝐴𝑖𝑗 with the value\nvectors 𝑉𝑗\nin a block to derive the final attention output 𝑜𝑖\n.\nIn summary, the PagedAttention algorithm allows the\nKV blocks to be stored in non-contiguous physical memory,\nwhich enables more flexible paged memory management in\nvLLM.\n4.2 KV Cache Manager\nThe key idea behind vLLM’s memory manager is analogous\nto the virtual memory [25] in operating systems. OS parti￾tions memory into fixed-sized pages and maps user programs’\nlogical pages to physical pages. Contiguous logical pages can\ncorrespond to non-contiguous physical memory pages, al￾lowing user programs to access memory as though it were\ncontiguous. Moreover, physical memory space needs not to\nbe fully reserved in advance, enabling the OS to dynamically\nallocate physical pages as needed. vLLM uses the ideas be￾hind virtual memory to manage the KV cache in an LLM\nservice. Enabled by PagedAttention, we organize the KV\ncache as fixed-size KV blocks, like pages in virtual memory.\nA request’s KV cache is represented as a series of logical\nKV blocks, filled from left to right as new tokens and their KV\ncache are generated. The last KV block’s unfilled positions\nare reserved for future generations. On GPU workers, a block\nengine allocates a contiguous chunk of GPU DRAM and\n5",
+            "citations": [
+              "ev-3"
+            ]
+          },
+          {
+            "text": "Request\nA\nFour score and seven\nyears ago our fathers\nbrought\nPrompt: “Four score and seven years ago our”\nOutputs: “fathers” → “brought” → …\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nyears ago our fathers\nbrought\nFour score and seven\nPhysical KV blocks\n(on GPU DRAM)\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nBlock 4\nBlock 5\nBlock 6\nBlock 7\nBlock 8\nLogical KV blocks\nPhysical block\nnumber # filled\n7 4\n1 3 → 4\n3 1\n– –\n1 1 1 1 Block Table\n1 1 1 2\n3\n1\n1\n1\n1 2\n3 3 3\n1\n1\n1\n1\n3\n1 1 1 2\n1 1 1 1\n3\nFigure 6. Block table translation in vLLM.\ndivides it into physical KV blocks (this is also done on CPU\nRAM for swapping; see §4.5). The KV block manager also\nmaintains block tables—the mapping between logical and\nphysical KV blocks of each request. Each block table entry\nrecords the corresponding physical blocks of a logical block\nand the number of filled positions. Separating logical and\nphysical KV blocks allows vLLM to dynamically grow the\nKV cache memory without reserving it for all positions in\nadvance, which eliminates most memory waste in existing\nsystems, as in Fig. 2.\n4.3 Decoding with PagedAttention and vLLM\nNext, we walk through an example, as in Fig. 6, to demon￾strate how vLLM executes PagedAttention and manages the\nmemory during the decoding process of a single input se￾quence: ○1 As in OS’s virtual memory, vLLM does not require\nreserving the memory for the maximum possible generated\nsequence length initially. Instead, it reserves only the nec￾essary KV blocks to accommodate the KV cache generated\nduring prompt computation. In this case, The prompt has 7\ntokens, so vLLM maps the first 2 logical KV blocks (0 and\n1) to 2 physical KV blocks (7 and 1, respectively). In the\nprefill step, vLLM generates the KV cache of the prompts\nand the first output token with a conventional self-attention\nalgorithm (e.g., [13]). vLLM then stores the KV cache of the\nfirst 4 tokens in logical block 0 and the following 3 tokens\nin logical block 1. The remaining slot is reserved for the\nsubsequent autoregressive generation phase. ○2 In the first\nautoregressive decoding step, vLLM generates the new token\nwith the PagedAttention algorithm on physical blocks 7 and\n1. Since one slot remains available in the last logical block,\nthe newly generated KV cache is stored there, and the block\ntable’s #filled record is updated. ○3 At the second decoding\nstep, as the last logical block is full, vLLM stores the newly\ngenerated KV cache in a new logical block; vLLM allocates a\nnew physical block (physical block 3) for it and stores this\nmapping in the block table.\nGlobally, for each decoding iteration, vLLM first selects\na set of candidate sequences for batching (more in §4.5),\nand allocates the physical blocks for the newly required\nlogical blocks. Then, vLLM concatenates all the input tokens\nof the current iteration (i.e., all tokens for prompt phase\nFour score and seven\nyears ago our fathers\nbrought\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nyears ago our fathers\nof times\nbrought\nIt was the best\nFour score and seven\nPhysical KV blocks\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nBlock 4\nBlock 5\nBlock 6\nBlock 7\nBlock 8\nLogical KV blocks\nIt was the best\nof times\nBlock 0\nBlock 1\nBlock 2\nLogical KV blocks\nRequest\nA\nRequest\nB\nFigure 7. Storing the KV cache of two requests at the same\ntime in vLLM.\nrequests and the latest tokens for generation phase requests)\nas one sequence and feeds it into the LLM. During LLM’s\ncomputation, vLLM uses the PagedAttention kernel to access\nthe previous KV cache stored in the form of logical KV blocks\nand saves the newly generated KV cache into the physical\nKV blocks. Storing multiple tokens within a KV block (block\nsize > 1) enables the PagedAttention kernel to process the\nKV cache across more positions in parallel, thus increasing\nthe hardware utilization and reducing latency. However, a\nlarger block size also increases memory fragmentation. We\nstudy the effect of block size in §7.2.\nAgain, vLLM dynamically assigns new physical blocks to\nlogical blocks as more tokens and their KV cache are gener￾ated. As all the blocks are filled from left to right and a new\nphysical block is only allocated when all previous blocks\nare full, vLLM limits all the memory wastes for a request\nwithin one block, so it can effectively utilize all the memory,\nas shown in Fig. 2. This allows more requests to fit into mem￾ory for batching—hence improving the throughput. Once a\nrequest finishes its generation, its KV blocks can be freed to\nstore the KV cache of other requests. In Fig. 7, we show an\nexample of vLLM managing the memory for two sequences.\nThe logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block\nengine in GPU workers. The neighboring logical blocks of\nboth sequences do not need to be contiguous in physical GPU\nmemory and the space of physical blocks can be effectively\nutilized by both sequences.\n4.4 Application to Other Decoding Scenarios\n§4.3 shows how PagedAttention and vLLM handle basic de￾coding algorithms, such as greedy decoding and sampling,\nthat take one user prompt as input and generate a single out￾put sequence. In many successful LLM applications [18, 34],\nan LLM service must offer more complex decoding scenarios\nthat exhibit complex accessing patterns and more opportuni￾ties for memory sharing. We show the general applicability\nof vLLM on them in this section.\nParallel sampling. In LLM-based program assistants [6, 18],\nan LLM generates multiple sampled outputs for a single in￾put prompt; users can choose a favorite output from various\ncandidates. So far we have implicitly assumed that a request\n6",
+            "citations": [
+              "ev-4"
+            ]
+          },
+          {
+            "text": "Sample\nA1\nFour score and seven\nyears ago our fathers\nBlock 0\nBlock 1\nyears ago our mothers\nyears ago our fathers\nFour score and seven\nPhysical KV blocks\nBlock 0\nBlock 1\nBlock 2\nBlock 3\nBlock 4\nBlock 5\nBlock 6\nBlock 7\nBlock 8\nLogical KV blocks\nFour score and seven\nyears ago our mothers\nBlock 0\nBlock 1\nLogical KV blocks\nSample\nA2\nCopy-on-write\nRef count: 2 → 1\nFigure 8. Parallel sampling example.\ngenerates a single sequence. In the remainder of this paper,\nwe assume the more general case in which a request gener￾ates multiple sequences. In parallel sampling, one request\nincludes multiple samples sharing the same input prompt,\nallowing the KV cache of the prompt to be shared as well. Via\nits PagedAttention and paged memory management, vLLM\ncan realize this sharing easily and save memory.\nFig. 8 shows an example of parallel decoding for two out￾puts. Since both outputs share the same prompt, we only\nreserve space for one copy of the prompt’s state at the prompt\nphase; the logical blocks for the prompts of both sequences\nare mapped to the same physical blocks: the logical block 0\nand 1 of both sequences are mapped to physical blocks 7 and\n1, respectively. Since a single physical block can be mapped\nto multiple logical blocks, we introduce a reference count for\neach physical block. In this case, the reference counts for\nphysical blocks 7 and 1 are both 2. At the generation phase,\nthe two outputs sample different output tokens and need\nseparate storage for KV cache. vLLM implements a copy-on￾write mechanism at the block granularity for the physical\nblocks that need modification by multiple sequences, similar\nto the copy-on-write technique in OS virtual memory (e.g.,\nwhen forking a process). Specifically, in Fig. 8, when sample\nA1 needs to write to its last logical block (logical block 1),\nvLLM recognizes that the reference count of the correspond￾ing physical block (physical block 1) is greater than 1; it\nallocates a new physical block (physical block 3), instructs\nthe block engine to copy the information from physical block\n1, and decreases the reference count to 1. Next, when sample\nA2 writes to physical block 1, the reference count is already\nreduced to 1; thus A2 directly writes its newly generated KV\ncache to physical block 1.\nIn summary, vLLM enables the sharing of most of the\nspace used to store the prompts’ KV cache across multiple\noutput samples, with the exception of the final logical block,\nwhich is managed by a copy-on-write mechanism. By sharing\nphysical blocks across multiple samples, memory usage can\nbe greatly reduced, especially for long input prompts.\nBeam search. In LLM tasks like machine translation [59],\nthe users expect the top-𝑘 most appropriate translations out￾put by the LLM. Beam search [49] is widely used to decode\nthe most probable output sequence from an LLM, as it miti￾gates the computational complexity of fully traversing the\nBlock 10\nBlock 11\nBlock 1 Block 3 Block 6\nBlock 7\nBlock 5\nBlock 0\nBlock 2 Block 4 Block 8\nBlock 9\nBlock 12\nBeam candidate 0\nBeam candidate 1\nBeam candidate 2\nBeam candidate 3\nFigure 9. Beam search example.\nsample space. The algorithm relies on the beam width pa￾rameter 𝑘, which determines the number of top candidates\nretained at every step. During decoding, beam search ex￾pands each candidate sequence in the beam by considering\nall possible tokens, computes their respective probabilities us￾ing the LLM, and retains the top-𝑘 most probable sequences\nout of 𝑘 · |𝑉 | candidates, where |𝑉 | is the vocabulary size.\nUnlike parallel decoding, beam search facilities sharing\nnot only the initial prompt blocks but also other blocks across\ndifferent candidates, and the sharing patterns dynamically\nchange as the decoding process advances, similar to the pro￾cess tree in the OS created by compound forks. Fig. 9 shows\nhow vLLM manages the KV blocks for a beam search ex￾ample with 𝑘 = 4. Prior to the iteration illustrated as the\ndotted line, each candidate sequence has used 4 full logi￾cal blocks. All beam candidates share the first block 0 (i.e.,\nprompt). Candidate 3 digresses from others from the second\nblock. Candidates 0-2 share the first 3 blocks and diverge at\nthe fourth block. At subsequent iterations, the top-4 prob￾able candidates all originate from candidates 1 and 2. As\nthe original candidates 0 and 3 are no longer among the\ntop candidates, their logical blocks are freed, and the refer￾ence counts of corresponding physical blocks are reduced.\nvLLM frees all physical blocks whose reference counts reach\n0 (blocks 2, 4, 5, 8). Then, vLLM allocates new physical blocks\n(blocks 9-12) to store the new KV cache from the new can￾didates. Now, all candidates share blocks 0, 1, 3; candidates\n0 and 1 share block 6, and candidates 2 and 3 further share\nblock 7.\nPrevious LLM serving systems require frequent memory\ncopies of the KV cache across the beam candidates. For exam￾ple, in the case shown in Fig. 9, after the dotted line, candidate\n3 would need to copy a large portion of candidate 2’s KV\ncache to continue generation. This frequent memory copy\noverhead is significantly reduced by vLLM’s physical block\nsharing. In vLLM, most blocks of different beam candidates\ncan be shared. The copy-on-write mechanism is applied only\nwhen the newly generated tokens are within an old shared\nblock, as in parallel decoding. This involves only copying\none block of data.\nShared prefix. Commonly, the LLM user provides a (long)\ndescription of the task including instructions and example\ninputs and outputs, also known as system prompt [36]. The\ndescription is concatenated with the actual task input to form\nthe prompt of the request. The LLM generates outputs based\n7",
+            "citations": [
+              "ev-5"
+            ]
+          },
+          {
+            "text": "| ealize this sh . 8 shows an Since both | haring easily n example of outputs sha |\n| --- | --- |\n| ve space for o ; the logical apped to the | one copy of th blocks for t e same phys |",
+            "citations": [
+              "ev-6"
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "回答模型未能生成可核对的答案。本条保留已读原文摘录。"
+          }
+        ],
+        "cited_pages": [
+          "page:3",
+          "page:4",
+          "page:5",
+          "page:6",
+          "page:7",
+          "page:7:table:1"
+        ],
+        "provider_calls": []
+      },
+      {
+        "question_id": "H04",
+        "category": "含“定义”与“实验”自然中文问法（测试动作路由与综合）",
+        "question": "论文对逻辑 KV 块到物理 KV 块的块表映射是怎么定义的？在翻译和聊天机器人负载实验中，vLLM 相比现有系统取得了多少倍的吞吐量提升？",
+        "expected_pages": [
+          "page:6",
+          "page:12",
+          "page:14"
+        ],
+        "expected_facts": [
+          "块表 (block table) 定义每个请求的逻辑 KV 块到物理 KV 块的映射，并记录每个块已填充的词元位置数 (# filled)，支持写时复制 (copy-on-write)",
+          "相比现有最先进系统 (FasterTransformer / Orca)，vLLM 取得了 2–4 倍 (2-4x) 的吞吐量提升（或更低延迟下支撑数倍请求率）"
+        ],
+        "http_elapsed_ms": 51.774,
+        "route": "evidence_answer",
+        "generation_status": null,
+        "estimated_input": null,
+        "alternate_query": null,
+        "selected_sources": [],
+        "read_ranges": [],
+        "text_blocks": [],
+        "notices": [
+          {
+            "code": "definition",
+            "text": "本轮可核对的原文不足以确认定义。"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。"
+          }
+        ],
+        "cited_pages": [],
+        "provider_calls": []
+      }
+    ]
+  },
+  "treatment": {
+    "arm": "treatment_step_c_targeted_fixes",
+    "apply_fixes": true,
+    "turns": [
+      {
+        "question_id": "H01",
+        "category": "前段综合与概念机制（16 页长文超过单窗 30.7KB 预算）",
+        "question": "在这份论文里，现有大模型推理系统的 KV 缓存主要有哪三类内存浪费？vLLM 是如何像操作系统虚拟内存一样管理 KV 缓存的？",
+        "expected_pages": [
+          "page:1",
+          "page:4",
+          "page:5",
+          "page:6"
+        ],
+        "expected_facts": [
+          "三类内存浪费：预留空间 (reserved memory)、内部碎片 (internal fragmentation)、外部碎片 (external fragmentation)",
+          "借鉴操作系统虚拟内存与分页机制，将 KV 缓存划分为固定大小的逻辑 KV 块和物理 KV 块，通过块表 (block table) 动态映射，按需分配消除碎片"
+        ],
+        "http_elapsed_ms": 10127.75,
+        "route": "generated_answer",
+        "generation_status": "partial",
+        "estimated_input": 31957,
+        "alternate_query": "In this paper, what are the three main types of memory waste in the KV cache of existing large-model inference systems? How does vLLM manage the KV cache like operating system virtual memory?",
+        "selected_sources": [
+          "page:2",
+          "page:5",
+          "page:7",
+          "page:11"
+        ],
+        "read_ranges": [
+          "page:1",
+          "page:2",
+          "page:3",
+          "page:5",
+          "page:7",
+          "page:7:table:1",
+          "page:11",
+          "page:11:table:1"
+        ],
+        "text_blocks": [
+          {
+            "text": "论文指出，现有大模型推理系统把每个请求的 KV 缓存存放在连续内存中，而 KV 缓存会随生成动态增长和收缩，且其生命周期与长度事先未知，因此造成两类低效：一是内部与外部内存碎片，二是无法利用内存共享机会。",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "内部碎片来自按请求最大长度（如 2048 tokens）预分配连续块，实际长度常远短于最大值；且整块在请求生命周期内被保留，其他较短请求无法使用其中未用部分。外部碎片则因各请求预分配大小不同而产生。",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "共享方面的浪费体现在：并行采样、beam search 等解码算法为每个请求生成多个输出序列，这些序列可部分共享 KV 缓存，但因各序列 KV 缓存存放在各自独立的连续空间而无法共享。",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "论文图 2 的剖析结果显示，现有系统中仅 20.4%–38.2% 的 KV 缓存内存用于存储实际 token 状态。",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "vLLM 借助 PagedAttention 把 KV 缓存组织为固定大小的 KV 块，类似操作系统虚拟内存中的页；一个请求的 KV 缓存表示为一系列逻辑 KV 块，随新 token 生成从左到右填充，最后一个块未填位置预留给后续生成。",
+            "citations": [
+              "ev-4"
+            ]
+          },
+          {
+            "text": "类比关系为：块相当于页，token 相当于字节，请求相当于进程；逻辑块可映射到非连续的物理块，物理内存无需预先全部保留，可按需动态分配。",
+            "citations": [
+              "ev-2",
+              "ev-4"
+            ]
+          },
+          {
+            "text": "这种设计用小块的按需分配缓解内部碎片，并因所有块大小相同而消除外部碎片，还支持以块为粒度在同一请求的不同序列乃至不同请求之间共享内存。",
+            "citations": [
+              "ev-2"
+            ]
+          },
+          {
+            "text": "共享通过物理块的引用计数与块粒度写时复制实现：如并行采样中两个序列的逻辑块 0、1 映射到相同物理块 7、1，引用计数均为 2；某序列写入引用计数大于 1 的块时，分配新物理块、复制数据并把引用计数降为 1。",
+            "citations": [
+              "ev-5"
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "missing_evidence",
+            "text": "证据仅覆盖第 1、2、3、5、7、11 页等局部内容（full_text_scope 为 false），未读到论文第 3 节对内存浪费的完整分类原文；因此无法确认论文是否明确将 KV 缓存内存浪费归纳为“三类”，以及第三类（除碎片与共享缺失外）的确切名称与定义。"
+          }
+        ],
+        "cited_pages": [
+          "page:2",
+          "page:2",
+          "page:2",
+          "page:2",
+          "page:5",
+          "page:2",
+          "page:5",
+          "page:2",
+          "page:7"
+        ],
+        "provider_calls": [
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H01",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h01"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 164,
+              "completion_tokens": 44,
+              "total_tokens": 208,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              },
+              "prompt_cache_hit_tokens": 0,
+              "prompt_cache_miss_tokens": 164
+            },
+            "elapsed_ms": 1571.469
+          },
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H01",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h01"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 8103,
+              "completion_tokens": 599,
+              "total_tokens": 8702,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "prompt_cache_hit_tokens": 256,
+              "prompt_cache_miss_tokens": 7847
+            },
+            "elapsed_ms": 8341.909
+          }
+        ]
+      },
+      {
+        "question_id": "H02",
+        "category": "PDF 无竖线三线表查询（第 9 页 Table 1）",
+        "question": "第 9 页表格里，13B、66B 和 175B 三种模型配置分别使用了多少张什么型号的 GPU？它们留给 KV 缓存的内存大小和最大 KV 缓存槽位数（slots）分别是多少？",
+        "expected_pages": [
+          "page:9"
+        ],
+        "expected_facts": [
+          "13B: 1 张 A100 (40GB)，KV 缓存内存 12 GB，最大槽位数 15.7K",
+          "66B: 4×A100 (160GB)，KV 缓存内存 21 GB，最大槽位数 9.7K",
+          "175B: 8×A100-80GB (640GB)，KV 缓存内存 264 GB，最大槽位数 60.1K"
+        ],
+        "http_elapsed_ms": 1995.221,
+        "route": "generated_answer",
+        "generation_status": "succeeded",
+        "estimated_input": 8006,
+        "alternate_query": null,
+        "selected_sources": [
+          "page:9"
+        ],
+        "read_ranges": [
+          "page:9"
+        ],
+        "text_blocks": [
+          {
+            "text": "第 9 页 Table 1 中，13B 配置使用 4×A100（总 GPU 内存 40 GB），66B 配置使用 8×A100（总 GPU 内存 160 GB），175B 配置使用 8×A100-80GB（总 GPU 内存 640 GB）。",
+            "citations": [
+              "ev-1"
+            ]
+          },
+          {
+            "text": "留给 KV 缓存的内存：13B 为 12 GB，66B 为 21 GB，175B 为 264 GB。",
+            "citations": [
+              "ev-1"
+            ]
+          },
+          {
+            "text": "最大 KV 缓存槽位数：13B 为 15.7K，66B 为 9.7K，175B 为 60.1K。",
+            "citations": [
+              "ev-1"
+            ]
+          }
+        ],
+        "notices": [],
+        "cited_pages": [
+          "page:9",
+          "page:9",
+          "page:9"
+        ],
+        "provider_calls": [
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H02",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h02"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 1897,
+              "completion_tokens": 184,
+              "total_tokens": 2081,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "prompt_cache_hit_tokens": 256,
+              "prompt_cache_miss_tokens": 1641
+            },
+            "elapsed_ms": 1792.632
+          }
+        ]
+      },
+      {
+        "question_id": "H03",
+        "category": "长文后段纯中文检索（第 13 页 §7.3 恢复机制对比）",
+        "question": "当 GPU 显存不足需要抢占请求时，论文比较了哪两种恢复机制？为什么在块大小（block size）很小的时候，换入换出（swapping）的开销比重新计算（recomputation）大得多？",
+        "expected_pages": [
+          "page:13"
+        ],
+        "expected_facts": [
+          "两种恢复机制：重计算 (recomputation) 和 交换/换入换出 (swapping)",
+          "块很小时 swapping 会在 CPU 与 GPU 之间产生大量小数据块传输，受限于有效 PCIe 带宽导致开销剧增；而 recomputation 不依赖 KV 块传输，开销跨不同块大小保持恒定"
+        ],
+        "http_elapsed_ms": 3372.776,
+        "route": "generated_answer",
+        "generation_status": "succeeded",
+        "estimated_input": 31972,
+        "alternate_query": "When GPU memory is insufficient and requests need to be preempted, which two recovery mechanisms does the paper compare? Why, when the block size is very small, is the overhead of swapping much larger than that of recomputation?",
+        "selected_sources": [
+          "page:13",
+          "page:8",
+          "page:14",
+          "page:7"
+        ],
+        "read_ranges": [
+          "page:1",
+          "page:7",
+          "page:7:table:1",
+          "page:8",
+          "page:13",
+          "page:14"
+        ],
+        "text_blocks": [
+          {
+            "text": "论文比较的两种恢复机制是换入换出（swapping）和重新计算（recomputation）：swapping 把被驱逐的块复制到 CPU 内存，recomputation 则在被抢占的序列重新调度时重新计算 KV cache。",
+            "citations": [
+              "ev-4",
+              "ev-5"
+            ]
+          },
+          {
+            "text": "块大小很小时 swapping 开销大得多，是因为小块会导致 CPU 与 GPU 之间大量小数据传输，限制了有效 PCIe 带宽；而 recomputation 的开销在不同块大小下保持恒定，因为它不使用 KV 块。",
+            "citations": [
+              "ev-5"
+            ]
+          },
+          {
+            "text": "因此块大小小时 recomputation 更高效，块大小大时 swapping 更高效；不过 recomputation 的开销从不超过 swapping 延迟的 20%，块大小在 16 到 64 之间时两者端到端性能相当。",
+            "citations": [
+              "ev-5"
+            ]
+          }
+        ],
+        "notices": [],
+        "cited_pages": [
+          "page:8",
+          "page:13",
+          "page:13",
+          "page:13"
+        ],
+        "provider_calls": [
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H03",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h03"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 180,
+              "completion_tokens": 51,
+              "total_tokens": 231,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              },
+              "prompt_cache_hit_tokens": 0,
+              "prompt_cache_miss_tokens": 180
+            },
+            "elapsed_ms": 1044.527
+          },
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H03",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h03"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 7984,
+              "completion_tokens": 206,
+              "total_tokens": 8190,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "prompt_cache_hit_tokens": 256,
+              "prompt_cache_miss_tokens": 7728
+            },
+            "elapsed_ms": 2135.839
+          }
+        ]
+      },
+      {
+        "question_id": "H04",
+        "category": "含“定义”与“实验”自然中文问法（测试动作路由与综合）",
+        "question": "论文对逻辑 KV 块到物理 KV 块的块表映射是怎么定义的？在翻译和聊天机器人负载实验中，vLLM 相比现有系统取得了多少倍的吞吐量提升？",
+        "expected_pages": [
+          "page:6",
+          "page:12",
+          "page:14"
+        ],
+        "expected_facts": [
+          "块表 (block table) 定义每个请求的逻辑 KV 块到物理 KV 块的映射，并记录每个块已填充的词元位置数 (# filled)，支持写时复制 (copy-on-write)",
+          "相比现有最先进系统 (FasterTransformer / Orca)，vLLM 取得了 2–4 倍 (2-4x) 的吞吐量提升（或更低延迟下支撑数倍请求率）"
+        ],
+        "http_elapsed_ms": 3935.547,
+        "route": "generated_answer",
+        "generation_status": "partial",
+        "estimated_input": 32340,
+        "alternate_query": "How does the paper define the block table mapping from logical KV blocks to physical KV blocks? In the translation and chatbot workload experiments, how many times throughput improvement did vLLM achieve compared to existing systems?",
+        "selected_sources": [
+          "page:6",
+          "page:12",
+          "page:8",
+          "page:1"
+        ],
+        "read_ranges": [
+          "page:1",
+          "page:2",
+          "page:3",
+          "page:6",
+          "page:8",
+          "page:12"
+        ],
+        "text_blocks": [
+          {
+            "text": "vLLM 为每个请求维护块表（block table），记录逻辑 KV 块到物理 KV 块的映射；每个块表条目记录该逻辑块对应的物理块以及已填充位置数（#filled）。逻辑块与物理块分离，使 vLLM 无需预先为全部位置预留内存即可动态增长 KV cache。",
+            "citations": [
+              "ev-4"
+            ]
+          },
+          {
+            "text": "在翻译负载（共享前缀）实验中，vLLM 相比 Orca (Oracle)：1-shot 前缀（1 个 80 token 示例）时吞吐量高 1.67×；5-shot 前缀（5 个示例、341 token）时吞吐量高 3.58×。",
+            "citations": [
+              "ev-6"
+            ]
+          },
+          {
+            "text": "在聊天机器人负载（ShareGPT，OPT-13B，提示截断到最后 1024 token、最多生成 1024 token）实验中，vLLM 可维持比三个 Orca 基线高 2× 的请求速率。",
+            "citations": [
+              "ev-6"
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "missing_evidence",
+            "text": "论文摘要与引言中给出的总体“2-4× 吞吐量提升”是对 FasterTransformer 和 Orca 等现有系统的概括，并非专门针对翻译与聊天机器人负载；这两类负载的具体倍数已分别由上述实验数据给出。"
+          }
+        ],
+        "cited_pages": [
+          "page:6",
+          "page:12",
+          "page:12"
+        ],
+        "provider_calls": [
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H04",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h04"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 168,
+              "completion_tokens": 46,
+              "total_tokens": 214,
+              "prompt_tokens_details": {
+                "cached_tokens": 0
+              },
+              "prompt_cache_hit_tokens": 0,
+              "prompt_cache_miss_tokens": 168
+            },
+            "elapsed_ms": 1258.791
+          },
+          {
+            "context": {
+              "arm": "treatment_step_c_targeted_fixes",
+              "question_id": "H04",
+              "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h04"
+            },
+            "provider": "deepseek",
+            "url": "https://api.deepseek.com/v1/chat/completions",
+            "model": "deepseek-flash",
+            "status_code": 200,
+            "usage": {
+              "prompt_tokens": 7927,
+              "completion_tokens": 286,
+              "total_tokens": 8213,
+              "prompt_tokens_details": {
+                "cached_tokens": 256
+              },
+              "prompt_cache_hit_tokens": 256,
+              "prompt_cache_miss_tokens": 7671
+            },
+            "elapsed_ms": 2485.219
+          }
+        ]
+      }
+    ]
+  },
+  "provider_summary": {
+    "total_calls": 7,
+    "http_200_calls": 7,
+    "events": [
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H01",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h01"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 164,
+          "completion_tokens": 44,
+          "total_tokens": 208,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 164
+        },
+        "elapsed_ms": 1571.469
+      },
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H01",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h01"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 8103,
+          "completion_tokens": 599,
+          "total_tokens": 8702,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "prompt_cache_hit_tokens": 256,
+          "prompt_cache_miss_tokens": 7847
+        },
+        "elapsed_ms": 8341.909
+      },
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H02",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h02"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 1897,
+          "completion_tokens": 184,
+          "total_tokens": 2081,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "prompt_cache_hit_tokens": 256,
+          "prompt_cache_miss_tokens": 1641
+        },
+        "elapsed_ms": 1792.632
+      },
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H03",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h03"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 180,
+          "completion_tokens": 51,
+          "total_tokens": 231,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 180
+        },
+        "elapsed_ms": 1044.527
+      },
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H03",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h03"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 7984,
+          "completion_tokens": 206,
+          "total_tokens": 8190,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "prompt_cache_hit_tokens": 256,
+          "prompt_cache_miss_tokens": 7728
+        },
+        "elapsed_ms": 2135.839
+      },
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H04",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h04"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 168,
+          "completion_tokens": 46,
+          "total_tokens": 214,
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "prompt_cache_hit_tokens": 0,
+          "prompt_cache_miss_tokens": 168
+        },
+        "elapsed_ms": 1258.791
+      },
+      {
+        "context": {
+          "arm": "treatment_step_c_targeted_fixes",
+          "question_id": "H04",
+          "client_turn_id": "g20-d-treatment_step_c_targeted_fixes-h04"
+        },
+        "provider": "deepseek",
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "model": "deepseek-flash",
+        "status_code": 200,
+        "usage": {
+          "prompt_tokens": 7927,
+          "completion_tokens": 286,
+          "total_tokens": 8213,
+          "prompt_tokens_details": {
+            "cached_tokens": 256
+          },
+          "prompt_cache_hit_tokens": 256,
+          "prompt_cache_miss_tokens": 7671
+        },
+        "elapsed_ms": 2485.219
+      }
+    ]
+  }
+}

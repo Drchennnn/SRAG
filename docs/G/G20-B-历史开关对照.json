@@ -1,0 +1,5368 @@
+{
+  "task_id": "G20",
+  "step": "B",
+  "subject_commit": "d993748c01fabaff26586908de9bf72499534012",
+  "config": {
+    "workspace_course_ids": "g20-moe-dpo-course",
+    "workspace_answer_enabled": false,
+    "workspace_retrieval_strategy": "fts",
+    "source_vision_enabled": true,
+    "deepseek_chat_model": "deepseek-flash",
+    "dashscope_vision_model": "qwen3-vl-plus",
+    "answer_context_tokens": 1048576,
+    "workspace_input_token_limit": 32768
+  },
+  "session_id": "1c43f62ad7cf4c9cad5faa663ba963ae",
+  "document_ids": {
+    "Mixtral-of-Experts-2401.04088v1.pdf": "local_be39ee09e5cb43809106eca8e3e8f183",
+    "Direct-Preference-Optimization-2305.18290v3.pdf": "local_40b1031938214f878a2fa28cf3c919d2",
+    "Mixtral-Router-Verification.ipynb": "local_8bdff45258644d33a073331e46e576eb"
+  },
+  "imports": [
+    {
+      "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+      "status": "published",
+      "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+      "source_count": 25,
+      "searchable_count": 17
+    },
+    {
+      "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+      "status": "published",
+      "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+      "source_count": 29,
+      "searchable_count": 27
+    },
+    {
+      "file_name": "Mixtral-Router-Verification.ipynb",
+      "status": "published",
+      "document_id": "local_8bdff45258644d33a073331e46e576eb",
+      "version": 1,
+      "publication_epoch": 1,
+      "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+      "source_count": 4,
+      "searchable_count": 2
+    },
+    {
+      "file_name": "Mixtral-Router-Verification.ipynb",
+      "status": "published",
+      "document_id": "local_8bdff45258644d33a073331e46e576eb",
+      "version": 2,
+      "publication_epoch": 2,
+      "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+      "source_count": 4,
+      "searchable_count": 2
+    }
+  ],
+  "v1_inventory_summary": {
+    "total_sources": 58,
+    "by_file": {
+      "Mixtral-of-Experts-2401.04088v1.pdf": [
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:1",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2730,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:2",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3362,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:3",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3129,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:4",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3006,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:5",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2549,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:6",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2471,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:7",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2783,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:7:table:1",
+          "parent_id": "page:7",
+          "kind": "page_object",
+          "object_type": "table",
+          "bbox": [
+            0.127879,
+            0.583576,
+            0.761024,
+            0.664431
+          ],
+          "text_chars": 288,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:7:table:2",
+          "parent_id": "page:7",
+          "kind": "page_object",
+          "object_type": "table",
+          "bbox": [
+            0.127879,
+            0.693716,
+            0.761024,
+            0.774571
+          ],
+          "text_chars": 264,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:7:table:3",
+          "parent_id": "page:7",
+          "kind": "page_object",
+          "object_type": "table",
+          "bbox": [
+            0.127879,
+            0.803857,
+            0.761024,
+            0.884712
+          ],
+          "text_chars": 682,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:8",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2591,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:9",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3756,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:10",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3956,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:11",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 469,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:12",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 826,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:12:table:1",
+          "parent_id": "page:12",
+          "kind": "page_object",
+          "object_type": "table",
+          "bbox": [
+            0.108704,
+            0.835299,
+            0.652235,
+            0.89113
+          ],
+          "text_chars": 606,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:13",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 488,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:1:image:1",
+          "parent_id": "page:1",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.241175,
+            0.289432,
+            0.758822,
+            0.422765
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:2:image:1",
+          "parent_id": "page:2",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.305881,
+            0.075819,
+            0.694056,
+            0.213038
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:3:image:1",
+          "parent_id": "page:3",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.176492,
+            0.699523,
+            0.823515,
+            0.873932
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:4:image:1",
+          "parent_id": "page:4",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.222962,
+            0.27123,
+            0.772958,
+            0.514879
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:5:image:1",
+          "parent_id": "page:5",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.444992,
+            0.688088,
+            0.800889,
+            0.863947
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:5:image:2",
+          "parent_id": "page:5",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.176471,
+            0.688093,
+            0.422344,
+            0.856755
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:6:image:1",
+          "parent_id": "page:6",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.208828,
+            0.561018,
+            0.791163,
+            0.809371
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "version": 1,
+          "source_id": "page:8:image:1",
+          "parent_id": "page:8",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.176471,
+            0.584591,
+            0.823507,
+            0.875128
+          ],
+          "text_chars": 0,
+          "state": "available"
+        }
+      ],
+      "Direct-Preference-Optimization-2305.18290v3.pdf": [
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:1",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3168,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:2",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4580,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:3",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4607,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:4",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4279,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:5",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4150,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:6",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3973,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:7",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4395,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:8",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4202,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:9",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4500,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:10",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4507,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:11",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4156,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:12",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4047,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:13",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 4162,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:14",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3904,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:15",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2740,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:16",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2670,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:17",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2210,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:18",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2572,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:19",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 1090,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:20",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2691,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:21",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 1802,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:22",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3558,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:23",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2500,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:24",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3987,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:25",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3133,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:26",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 3532,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:27",
+          "parent_id": null,
+          "kind": "page",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 2182,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:2:image:1",
+          "parent_id": "page:2",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.176796,
+            0.09091,
+            0.823207,
+            0.19123
+          ],
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+          "version": 1,
+          "source_id": "page:27:image:1",
+          "parent_id": "page:27",
+          "kind": "page_object",
+          "object_type": "image",
+          "bbox": [
+            0.454701,
+            0.114404,
+            0.823527,
+            0.452869
+          ],
+          "text_chars": 0,
+          "state": "available"
+        }
+      ],
+      "Mixtral-Router-Verification.ipynb": [
+        {
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "document_id": "local_8bdff45258644d33a073331e46e576eb",
+          "version": 1,
+          "source_id": "cell:0",
+          "parent_id": null,
+          "kind": "cell",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 238,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "document_id": "local_8bdff45258644d33a073331e46e576eb",
+          "version": 1,
+          "source_id": "cell:0:output:0",
+          "parent_id": "cell:0",
+          "kind": "notebook_output",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 492,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "document_id": "local_8bdff45258644d33a073331e46e576eb",
+          "version": 1,
+          "source_id": "cell:0:output:1",
+          "parent_id": "cell:0",
+          "kind": "notebook_output",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 0,
+          "state": "available"
+        },
+        {
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "document_id": "local_8bdff45258644d33a073331e46e576eb",
+          "version": 1,
+          "source_id": "cell:0:output:2",
+          "parent_id": "cell:0",
+          "kind": "notebook_output",
+          "object_type": null,
+          "bbox": null,
+          "text_chars": 0,
+          "state": "available"
+        }
+      ]
+    }
+  },
+  "v2_notebook_inventory": [
+    {
+      "file_name": "Mixtral-Router-Verification.ipynb",
+      "document_id": "local_8bdff45258644d33a073331e46e576eb",
+      "version": 2,
+      "source_id": "cell:0",
+      "parent_id": null,
+      "kind": "cell",
+      "object_type": null,
+      "text_chars": 238,
+      "state": "available"
+    },
+    {
+      "file_name": "Mixtral-Router-Verification.ipynb",
+      "document_id": "local_8bdff45258644d33a073331e46e576eb",
+      "version": 2,
+      "source_id": "cell:0:output:0",
+      "parent_id": "cell:0",
+      "kind": "notebook_output",
+      "object_type": null,
+      "text_chars": 492,
+      "state": "available"
+    },
+    {
+      "file_name": "Mixtral-Router-Verification.ipynb",
+      "document_id": "local_8bdff45258644d33a073331e46e576eb",
+      "version": 2,
+      "source_id": "cell:0:output:1",
+      "parent_id": "cell:0",
+      "kind": "notebook_output",
+      "object_type": null,
+      "text_chars": 0,
+      "state": "available"
+    },
+    {
+      "file_name": "Mixtral-Router-Verification.ipynb",
+      "document_id": "local_8bdff45258644d33a073331e46e576eb",
+      "version": 2,
+      "source_id": "cell:0:output:2",
+      "parent_id": "cell:0",
+      "kind": "notebook_output",
+      "object_type": null,
+      "text_chars": 0,
+      "state": "available"
+    }
+  ],
+  "turns": [
+    {
+      "question_id": "Q01",
+      "turn_index": 1,
+      "category": "短文件综合与公式",
+      "scope_action": "select_document:Mixtral-of-Experts-2401.04088v1.pdf",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1
+      },
+      "question": "综合这份课件，用中文解释稀疏混合专家层（SMoE）是怎么根据门控网络计算输出的？每个词元激活几个专家、总参数量和激活参数量分别是多少？在多卡专家并行（Expert Parallelism）时会带来什么挑战？",
+      "required_evidence_units": [
+        "E01",
+        "E02",
+        "E03"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_be39ee09e5cb43809106eca8e3e8f183"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-915f3d4536eb2224141740a486acdf78",
+        "label": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 242.685,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 3
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:3",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 8
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:8",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 7
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:7",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:2",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 12
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12",
+                  "version": 1
+                }
+              },
+              {
+                "code": "parent_context",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:11",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:12",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 11
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:11",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12:table:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:11",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.108704,
+                0.835299,
+                0.652235,
+                0.89113
+              ],
+              "page": 12
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:12",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:12:table:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.176492,
+                0.699523,
+                0.823515,
+                0.873932
+              ],
+              "page": 3
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:3:image:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.176471,
+                0.584591,
+                0.823507,
+                0.875128
+              ],
+              "page": 8
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:8:image:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.241175,
+                0.289432,
+                0.758822,
+                0.422765
+              ],
+              "page": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:1:image:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.127879,
+                0.583576,
+                0.761024,
+                0.664431
+              ],
+              "page": 7
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:7:table:1",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 39,
+          "checked_positions": [
+            "page:3",
+            "page:8",
+            "page:1",
+            "page:7",
+            "page:2",
+            "page:12",
+            "page:11",
+            "page:9",
+            "page:4",
+            "page:6",
+            "page:10",
+            "page:13",
+            "page:5"
+          ],
+          "enumerated_source_count": 25,
+          "evidence_inspected_count": 22,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 10,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 4,
+          "returned_count": 12,
+          "searchable_source_count": 17,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "child_object": 4,
+            "fts_native": 2,
+            "next_position": 6,
+            "previous_position": 2,
+            "same_position_object": 4
+          }
+        },
+        "display_attempts": {
+          "attempt_limit": 12,
+          "attempted": 2,
+          "display_limit": 3,
+          "displayed": 2,
+          "eligible": 2,
+          "failed": 0,
+          "unattempted": 0
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "search_status": "ok"
+      },
+      "message_id": "1dd8573e2af84f39bac660ff0a424123",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页 · can increase the model’s parameter count while keeping its computational cost effectively constant.\ncan increase the model’s parameter count while keeping its computational cost effectively constant.\nThis motivates a distinction between the model’s total parameter count (commonly referenced as the\nsparse parameter count), which grows with n, and the number of parameters used for processing an\nindividual token (called the active parameter count), which grows with K up to n.\nMoE layers can be run efficiently on single GPUs with high performance specialized kernels. For\nexample, Megablocks [13] casts the feed-forward network (FFN) operations of the MoE layer as large\nsparse matrix multiplications, significantly enhancing the execution speed and naturally handling\ncases where different experts get a variable number of tokens assigned to them. Moreover, the\nMoE layer can be distributed to multiple GPUs through standard Model Parallelism techniques, and\nthrough a particular kind of partition…",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页 · First choice First or second choice\nFirst choice First or second choice\nLayer 0 Layer 15 Layer 31 Layer 0 Layer 15 Layer 31\nArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%\nDM Mathematics 14.1% 28.4% 19.7% 44.9% 67.0% 44.5%\nGithub 14.9% 28.1% 19.7% 49.9% 66.9% 49.2%\nGutenberg 13.9% 26.1% 26.3% 49.5% 63.1% 52.2%\nPhilPapers 13.6% 25.3% 22.1% 46.9% 61.9% 51.3%\nPubMed Abstracts 14.2% 24.6% 22.0% 48.6% 61.6% 51.8%\nStackExchange 13.6% 27.2% 23.6% 48.2% 64.6% 53.6%\nWikipedia (en) 14.4% 23.6% 25.3% 49.8% 62.1% 51.8%\nTable 5: Percentage of expert assignment repetitions. We evaluate the proportion of times the same expert is\nassigned to a token i and its following token i+1. We report whether the first chosen expert is the same, or whether\nthe same expert is observed as first or second choice in consecutive tokens. For reference, the expected proportion\nof repetitions in the case of random assignments is 1\n8 = 12.5% for “First choice” and …",
+          "type": "text"
+        },
+        {
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页 · can increase the model’s parameter count while keeping its computational cost effectively constant.",
+          "display_id": "8201d78919444f7b81775e7519570677",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:3",
+            "version": 1
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/1dd8573e2af84f39bac660ff0a424123/media/8201d78919444f7b81775e7519570677?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+          "display_id": "933028cb9c304c55aa7c920ce93b60ef",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:3:image:1",
+            "version": 1
+          },
+          "evidence_id": "ev-4",
+          "fallback_reason": null,
+          "height": 340,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/1dd8573e2af84f39bac660ff0a424123/media/933028cb9c304c55aa7c920ce93b60ef?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": [
+            0.15649200000000002,
+            0.679523,
+            0.843515,
+            0.8939320000000001
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 842
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 3
+          },
+          "read_status": "partial",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "partial",
+              "text": "can increase the model’s parameter count while keeping its computational cost effectively constant.\nThis motivates a distinction between the model’s total parameter count (commonly referenced as the\nsparse parameter count), which grows with n, and the number of parameters used for processing an\nindividual token (called the active parameter count), which grows with K up to n.\nMoE layers can be run efficiently on single GPUs with high performance specialized kernels. For\nexample, Megablocks [13] casts the feed-forward network (FFN) operations of the MoE layer as large\nsparse matrix multiplications, significantly enhancing the execution speed and naturally handling\ncases where different experts get a variable number of tokens assigned to them. Moreover, the\nMoE layer can be distributed to multiple GPUs through standard Model Parallelism techniques, and\nthrough a particular kind of partition…",
+              "warnings": [
+                "excerpt_truncated"
+              ]
+            }
+          ],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:3",
+              "version": 1
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 8
+          },
+          "read_status": "partial",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                "source_id": "page:8",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "partial",
+              "text": "First choice First or second choice\nLayer 0 Layer 15 Layer 31 Layer 0 Layer 15 Layer 31\nArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%\nDM Mathematics 14.1% 28.4% 19.7% 44.9% 67.0% 44.5%\nGithub 14.9% 28.1% 19.7% 49.9% 66.9% 49.2%\nGutenberg 13.9% 26.1% 26.3% 49.5% 63.1% 52.2%\nPhilPapers 13.6% 25.3% 22.1% 46.9% 61.9% 51.3%\nPubMed Abstracts 14.2% 24.6% 22.0% 48.6% 61.6% 51.8%\nStackExchange 13.6% 27.2% 23.6% 48.2% 64.6% 53.6%\nWikipedia (en) 14.4% 23.6% 25.3% 49.8% 62.1% 51.8%\nTable 5: Percentage of expert assignment repetitions. We evaluate the proportion of times the same expert is\nassigned to a token i and its following token i+1. We report whether the first chosen expert is the same, or whether\nthe same expert is observed as first or second choice in consecutive tokens. For reference, the expected proportion\nof repetitions in the case of random assignments is 1\n8 = 12.5% for “First choice” and …",
+              "warnings": [
+                "excerpt_truncated"
+              ]
+            }
+          ],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:8",
+              "version": 1
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 3
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:3",
+              "version": 1
+            }
+          }
+        },
+        "ev-4": {
+          "evidence_id": "ev-4",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "bbox": [
+              0.176492,
+              0.699523,
+              0.823515,
+              0.873932
+            ],
+            "page": 3
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:3:image:1",
+              "version": 1
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "8201d78919444f7b81775e7519570677",
+        "933028cb9c304c55aa7c920ce93b60ef"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "version": 1,
+            "source_id": "page:3"
+          },
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 3
+          },
+          "is_current": true,
+          "text_sha256": "5c7ce51328ba4d22efed679b4f0d811ffea63740c1f698116090890c7fdc3214",
+          "text_preview": "can increase the model’s parameter count while keeping its computational cost effectively constant.\nThis motivates a distinction between the model’s total parameter count (commonly referenced as the\nsparse parameter count), which grows with",
+          "preview_status_code": 200,
+          "preview_sha256": "6f7be84bbd6ddca8472ef9dda5c92ddeb0d7460845eecf980e070c454a3d670d",
+          "preview_bytes": 400107
+        },
+        {
+          "evidence_id": "ev-2",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "version": 1,
+            "source_id": "page:8"
+          },
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 8
+          },
+          "is_current": true,
+          "text_sha256": "852e5bd377205a5ddd7853bfe556e65a9eac83b810c2017833cee3aaf83d9260",
+          "text_preview": "First choice First or second choice\nLayer 0 Layer 15 Layer 31 Layer 0 Layer 15 Layer 31\nArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%\nDM Mathematics 14.1% 28.4% 19.7% 44.9% 67.0% 44.5%\nGithub 14.9% 28.1% 19.7% 49.9% 66.9% 49.2%\nGutenberg 13.9% ",
+          "preview_status_code": 200,
+          "preview_sha256": "29e57ba0aa972c85e9097fde8e0f9dfc499c6a83f62734082f3ac46176ad31a2",
+          "preview_bytes": 665352
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "8201d78919444f7b81775e7519570677",
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:3",
+            "version": 1
+          },
+          "rendition_kind": "original_page",
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页 · can increase the model’s parameter count while keeping its computational cost effectively constant.",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "6f7be84bbd6ddca8472ef9dda5c92ddeb0d7460845eecf980e070c454a3d670d",
+          "inline_bytes": 400107,
+          "page_status_code": 200,
+          "page_sha256": "6f7be84bbd6ddca8472ef9dda5c92ddeb0d7460845eecf980e070c454a3d670d"
+        },
+        {
+          "display_id": "933028cb9c304c55aa7c920ce93b60ef",
+          "evidence_id": "ev-4",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:3:image:1",
+            "version": 1
+          },
+          "rendition_kind": "object_crop",
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+          "rect_visible_norm": [
+            0.15649200000000002,
+            0.679523,
+            0.843515,
+            0.8939320000000001
+          ],
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "6fee39ab95db27d665dd145a449ebc3e2be1dcbadc21cb9721bbcfb9be110a7a",
+          "inline_bytes": 49466,
+          "page_status_code": 200,
+          "page_sha256": "6f7be84bbd6ddca8472ef9dda5c92ddeb0d7460845eecf980e070c454a3d670d"
+        }
+      ],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q02",
+      "turn_index": 2,
+      "category": "图表或公式（PDF 三线表）",
+      "scope_action": "select_document:Mixtral-of-Experts-2401.04088v1.pdf",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1
+      },
+      "question": "第 8 页表格里的 ArXiv 和 DM Mathematics 数据集，在第 0 层、第 15 层和第 31 层（First choice）连续两个词元选到同一个专家的重复比例分别是多少？随机分配的理论基准是多少？",
+      "required_evidence_units": [
+        "E04"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_be39ee09e5cb43809106eca8e3e8f183"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-915f3d4536eb2224141740a486acdf78",
+        "label": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 16.856,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [],
+        "route": "target_object"
+      },
+      "message_id": "92ec7f20a2ca49d7b2a91193ab18b9ae",
+      "blocks": [
+        {
+          "code": "object_not_found",
+          "text": "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+          "type": "notice"
+        }
+      ],
+      "sources": {},
+      "visible_display_ids": [],
+      "opened_citations": [],
+      "displayed_media": [],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q03",
+      "turn_index": 3,
+      "category": "图表或公式（PDF 双子图定位与读图）",
+      "scope_action": "select_document:Mixtral-of-Experts-2401.04088v1.pdf",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1
+      },
+      "question": "第 5 页右侧图的横轴和纵轴分别表示什么？图中纵轴的刻度范围大约从多少到多少，曲线随上下文长度增加呈现什么趋势？",
+      "required_evidence_units": [
+        "E05"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_be39ee09e5cb43809106eca8e3e8f183"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-915f3d4536eb2224141740a486acdf78",
+        "label": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 14.671,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [],
+        "route": "target_object"
+      },
+      "message_id": "dd03bf59e78b496db4c1c539298f7594",
+      "blocks": [
+        {
+          "code": "object_not_found",
+          "text": "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+          "type": "notice"
+        }
+      ],
+      "sources": {},
+      "visible_display_ids": [],
+      "opened_citations": [],
+      "displayed_media": [],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q04",
+      "turn_index": 4,
+      "category": "图表或公式（PDF 图像榜单实读）",
+      "scope_action": "select_document:Mixtral-of-Experts-2401.04088v1.pdf",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1
+      },
+      "question": "第 6 页的排行榜图里，Mixtral-8x7b-Instruct-v0.1 的 Arena Elo 评分、MT-bench 分数和开源许可证分别是什么？图中排名第一的模型及其 Arena Elo 评分是多少？",
+      "required_evidence_units": [
+        "E06"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_be39ee09e5cb43809106eca8e3e8f183"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-915f3d4536eb2224141740a486acdf78",
+        "label": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 3128.486,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+          "fallback_reason": null,
+          "rect": [
+            0.18882800000000002,
+            0.541018,
+            0.811163,
+            0.829371
+          ],
+          "source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+          "source_id": "page:6:image:1",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 3060.4251249460503,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 338,
+                "input_tokens": 467,
+                "output_tokens": 86,
+                "total_tokens": 553
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "message_id": "254b9fb043224ed8abf6fcf40d609421",
+      "blocks": [
+        {
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+          "display_id": "580d984bff9941d295db01d13fae4e56",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          },
+          "evidence_id": "ev-1",
+          "fallback_reason": null,
+          "height": 458,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/254b9fb043224ed8abf6fcf40d609421/media/580d984bff9941d295db01d13fae4e56?view=inline",
+          "read_status": "succeeded",
+          "rect_visible_norm": [
+            0.18882800000000002,
+            0.541018,
+            0.811163,
+            0.829371
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 762
+        },
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Mixtral-8x7b-Instruct-v0.1 的 Arena Elo 评分为 1121，MT-bench 分数为 8.3，开源许可证为 Apache 2.0；图中排名第一的模型是 GPT-4-Turbo，其 Arena Elo 评分为 1243。",
+          "type": "text"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "bbox": [
+              0.208828,
+              0.561018,
+              0.791163,
+              0.809371
+            ],
+            "page": 6
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": "image/png",
+              "actual_input_rect": [
+                0.18882800000000002,
+                0.541018,
+                0.811163,
+                0.829371
+              ],
+              "actual_input_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+              "actual_source": {
+                "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                "source_id": "page:6:image:1",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "model": "qwen3-vl-plus",
+              "origin_execution": "real_provider",
+              "prompt_version": "source-directed-v1",
+              "question_sha256": "c5f9c30bea1abda8c014245fbd47c8ed937e66073ccc8a2e7e215edea13b0324",
+              "status": "succeeded",
+              "text": "Mixtral-8x7b-Instruct-v0.1 的 Arena Elo 评分为 1121，MT-bench 分数为 8.3，开源许可证为 Apache 2.0；图中排名第一的模型是 GPT-4-Turbo，其 Arena Elo 评分为 1243。",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:6:image:1",
+              "version": 1
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "580d984bff9941d295db01d13fae4e56"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "image_media_inline",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          },
+          "media_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+          "media_bytes": 95281
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "580d984bff9941d295db01d13fae4e56",
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          },
+          "rendition_kind": "object_crop",
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+          "rect_visible_norm": [
+            0.18882800000000002,
+            0.541018,
+            0.811163,
+            0.829371
+          ],
+          "read_status": "succeeded",
+          "inline_status_code": 200,
+          "inline_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+          "inline_bytes": 95281,
+          "page_status_code": 200,
+          "page_sha256": "db0af31b5108c2a93f3dcb90c6c9ffb2c1e48b21e53d9a02f8fb5d664bab93a9"
+        }
+      ],
+      "provider_calls": [
+        {
+          "turn": {
+            "question_id": "Q04",
+            "turn_index": 4,
+            "client_turn_id": "g20-b-turn-04-q04"
+          },
+          "provider": "dashscope",
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "model": "qwen3-vl-plus",
+          "image_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+          "request_sha256": "875b6861c633ae35d050470525308464de322750b05e3954b790159f7ea8c148",
+          "status_code": 200,
+          "usage": {
+            "image_tokens": 338,
+            "input_tokens": 467,
+            "input_tokens_details": {
+              "image_tokens": 338,
+              "text_tokens": 129
+            },
+            "output_tokens": 86,
+            "output_tokens_details": {
+              "text_tokens": 86
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 553
+          },
+          "elapsed_ms": 2973.802
+        }
+      ]
+    },
+    {
+      "question_id": "Q05",
+      "turn_index": 5,
+      "category": "长文检索（27 页 PDF 附录后段）",
+      "scope_action": "select_document:Direct-Preference-Optimization-2305.18290v3.pdf",
+      "referred_version": {
+        "Direct-Preference-Optimization-2305.18290v3.pdf": 1
+      },
+      "question": "在这份论文的附录实现细节里，默认使用的优化器、学习率、线性预热步数和批次大小分别是多少？默认的温度惩罚系数是多少，在做文本摘要实验时改成了多少？",
+      "required_evidence_units": [
+        "E07"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_40b1031938214f878a2fa28cf3c919d2"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-eae7ecf2a32c0b677714d541b276a9e2",
+        "label": "Direct-Preference-Optimization-2305.18290v3.pdf",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+        "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 82.092,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:2",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 3
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:3",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 4
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:4",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 5
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:5",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 6
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:6",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 7
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:7",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 8
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:8",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 9
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:9",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 10
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:10",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:10",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 11
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:11",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:11",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 12
+            },
+            "match_kind": "browse",
+            "reasons": [
+              {
+                "code": "page_browse_fallback",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:12",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:12",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1",
+            "page:2",
+            "page:3",
+            "page:4",
+            "page:5",
+            "page:6",
+            "page:7",
+            "page:8",
+            "page:9",
+            "page:10",
+            "page:11",
+            "page:12",
+            "page:13",
+            "page:14",
+            "page:15",
+            "page:16",
+            "page:17",
+            "page:18",
+            "page:19",
+            "page:20",
+            "page:21",
+            "page:22",
+            "page:23",
+            "page:24",
+            "page:25",
+            "page:26",
+            "page:27"
+          ],
+          "enumerated_source_count": 29,
+          "evidence_inspected_count": 27,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 12,
+          "searchable_source_count": 27,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "page_browse_fallback": 15
+          }
+        },
+        "display_attempts": {
+          "attempt_limit": 12,
+          "attempted": 1,
+          "display_limit": 3,
+          "displayed": 1,
+          "eligible": 1,
+          "failed": 0,
+          "unattempted": 0
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_40b1031938214f878a2fa28cf3c919d2"
+          ]
+        },
+        "search_status": "no_text_anchor"
+      },
+      "message_id": "cc710768577b42188d7a3ac7fb035e17",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Direct-Preference-Optimization-2305.18290v3.pdf · v1 · 第 1 页 · Direct Preference Optimization:\nDirect Preference Optimization:\nYour Language Model is Secretly a Reward Model\nRafael Rafailov∗† Archit Sharma∗† Eric Mitchell∗†\nStefano Ermon†‡ Christopher D. Manning† Chelsea Finn†\n†Stanford University ‡CZ Biohub\n{rafailov,architsh,eric.mitchell}@cs.stanford.edu\nAbstract\nWhile large-scale unsupervised language models (LMs) learn broad world knowl￾edge and some reasoning skills, achieving precise control of their behavior is\ndifficult due to the completely unsupervised nature of their training. Existing\nmethods for gaining such steerability collect human labels of the relative quality of\nmodel generations and fine-tune the unsupervised LM to align with these prefer￾ences, often with reinforcement learning from human feedback (RLHF). However,\nRLHF is a complex and often unstable procedure, first fitting a reward model that\nreflects the human preferences, and then fine-tuning the large un…",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Direct-Preference-Optimization-2305.18290v3.pdf · v1 · 第 2 页 · Figure 1: DPO optimizes for human preferences while avoiding reinforcement learning. Existing methods\nFigure 1: DPO optimizes for human preferences while avoiding reinforcement learning. Existing methods\nfor fine-tuning language models with human feedback first fit a reward model to a dataset of prompts and\nhuman preferences over pairs of responses, and then use RL to find a policy that maximizes the learned reward.\nIn contrast, DPO directly optimizes for the policy best satisfying the preferences with a simple classification\nobjective, fitting an implicit reward model whose corresponding optimal policy can be extracted in closed form.\nwe will show that the RL-based objective used by existing methods can be optimized exactly with a\nsimple binary cross-entropy objective, greatly simplifying the preference learning pipeline.\nAt a high level, existing methods instill the desired behaviors into a language model using curated\nsets of human preferences representing the types of behaviors that …",
+          "type": "text"
+        },
+        {
+          "caption": "Direct-Preference-Optimization-2305.18290v3.pdf · v1 · 第 1 页 · Direct Preference Optimization:",
+          "display_id": "62906142df8d48d7956448d807bb99c9",
+          "display_source": {
+            "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/cc710768577b42188d7a3ac7fb035e17/media/62906142df8d48d7956448d807bb99c9?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "locator": {
+            "page": 1
+          },
+          "read_status": "partial",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "partial",
+              "text": "Direct Preference Optimization:\nYour Language Model is Secretly a Reward Model\nRafael Rafailov∗† Archit Sharma∗† Eric Mitchell∗†\nStefano Ermon†‡ Christopher D. Manning† Chelsea Finn†\n†Stanford University ‡CZ Biohub\n{rafailov,architsh,eric.mitchell}@cs.stanford.edu\nAbstract\nWhile large-scale unsupervised language models (LMs) learn broad world knowl￾edge and some reasoning skills, achieving precise control of their behavior is\ndifficult due to the completely unsupervised nature of their training. Existing\nmethods for gaining such steerability collect human labels of the relative quality of\nmodel generations and fine-tune the unsupervised LM to align with these prefer￾ences, often with reinforcement learning from human feedback (RLHF). However,\nRLHF is a complex and often unstable procedure, first fitting a reward model that\nreflects the human preferences, and then fine-tuning the large un…",
+              "warnings": [
+                "excerpt_truncated"
+              ]
+            }
+          ],
+          "revision": {
+            "content_sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:1",
+              "version": 1
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "locator": {
+            "page": 2
+          },
+          "read_status": "partial",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "partial",
+              "text": "Figure 1: DPO optimizes for human preferences while avoiding reinforcement learning. Existing methods\nfor fine-tuning language models with human feedback first fit a reward model to a dataset of prompts and\nhuman preferences over pairs of responses, and then use RL to find a policy that maximizes the learned reward.\nIn contrast, DPO directly optimizes for the policy best satisfying the preferences with a simple classification\nobjective, fitting an implicit reward model whose corresponding optimal policy can be extracted in closed form.\nwe will show that the RL-based objective used by existing methods can be optimized exactly with a\nsimple binary cross-entropy objective, greatly simplifying the preference learning pipeline.\nAt a high level, existing methods instill the desired behaviors into a language model using curated\nsets of human preferences representing the types of behaviors that …",
+              "warnings": [
+                "excerpt_truncated"
+              ]
+            }
+          ],
+          "revision": {
+            "content_sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:2",
+              "version": 1
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "locator": {
+            "page": 1
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:1",
+              "version": 1
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "62906142df8d48d7956448d807bb99c9"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "locator": {
+            "page": 1
+          },
+          "is_current": true,
+          "text_sha256": "42305cc5c5d5064c35af3357043dc0fa8c78952146c207f7f991a9eb72cc5361",
+          "text_preview": "Direct Preference Optimization:\nYour Language Model is Secretly a Reward Model\nRafael Rafailov∗† Archit Sharma∗† Eric Mitchell∗†\nStefano Ermon†‡ Christopher D. Manning† Chelsea Finn†\n†Stanford University ‡CZ Biohub\n{rafailov,architsh,eric.m",
+          "preview_status_code": 200,
+          "preview_sha256": "efa2a5dedba517f567609d7c7936a3f7a2d08ef97ee6bcc1026411043c743c8e",
+          "preview_bytes": 405800
+        },
+        {
+          "evidence_id": "ev-2",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+          "locator": {
+            "page": 2
+          },
+          "is_current": true,
+          "text_sha256": "b06512de9d3fcf337696ea1f012ceaf62400a291f082f1541e534573a889fa3e",
+          "text_preview": "Figure 1: DPO optimizes for human preferences while avoiding reinforcement learning. Existing methods\nfor fine-tuning language models with human feedback first fit a reward model to a dataset of prompts and\nhuman preferences over pairs of r",
+          "preview_status_code": 200,
+          "preview_sha256": "f832127e64d472d21415eb627dd3cd6f400e0918a5c265c542ff1e8df0fc6a79",
+          "preview_bytes": 552572
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "62906142df8d48d7956448d807bb99c9",
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "rendition_kind": "original_page",
+          "caption": "Direct-Preference-Optimization-2305.18290v3.pdf · v1 · 第 1 页 · Direct Preference Optimization:",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "efa2a5dedba517f567609d7c7936a3f7a2d08ef97ee6bcc1026411043c743c8e",
+          "inline_bytes": 405800,
+          "page_status_code": 200,
+          "page_sha256": "efa2a5dedba517f567609d7c7936a3f7a2d08ef97ee6bcc1026411043c743c8e"
+        }
+      ],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q06",
+      "turn_index": 6,
+      "category": "跨文件检索与候选排序（两份 PDF）",
+      "scope_action": "course_scope",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1,
+        "Direct-Preference-Optimization-2305.18290v3.pdf": 1
+      },
+      "question": "Mixtral 和 DPO 这两份资料里，Mixtral-8x7B-Instruct 微调时用了哪两种方法？而在 DPO 论文附录里 TL;DR 摘要的 β 参数和默认 β 分别是多少？",
+      "required_evidence_units": [
+        "E08",
+        "E09"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": []
+      },
+      "session_focus": null,
+      "http_elapsed_ms": 114.395,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 6
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:6",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:2",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 5
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:5",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 8
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:8",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 9
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:10",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:9",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 4
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:4",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "locator": {
+              "page": 24
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:24",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:25",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+                  "source_id": "page:23",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+              "source_id": "page:24",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "parent_context",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.208828,
+                0.561018,
+                0.791163,
+                0.809371
+              ],
+              "page": 6
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:6:image:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.241175,
+                0.289432,
+                0.758822,
+                0.422765
+              ],
+              "page": 1
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:1:image:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.305881,
+                0.075819,
+                0.694056,
+                0.213038
+              ],
+              "page": 2
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:2:image:1",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 85,
+          "checked_positions": [
+            "page:6",
+            "page:1",
+            "page:2",
+            "page:5",
+            "page:8",
+            "page:9",
+            "page:4",
+            "page:24",
+            "page:23",
+            "cell:0",
+            "page:22",
+            "page:20",
+            "page:7",
+            "page:10",
+            "page:27",
+            "page:19",
+            "page:16",
+            "page:17",
+            "page:14",
+            "page:18",
+            "page:15",
+            "page:3",
+            "page:25",
+            "page:26",
+            "page:21",
+            "page:13",
+            "page:11"
+          ],
+          "enumerated_source_count": 58,
+          "evidence_inspected_count": 49,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 31,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 4,
+          "returned_count": 12,
+          "searchable_source_count": 46,
+          "snapshot_document_count": 3,
+          "truncated": true,
+          "truncated_by_reason": {
+            "child_object": 10,
+            "fts_native": 22,
+            "next_position": 22,
+            "previous_position": 21,
+            "same_position_object": 12
+          }
+        },
+        "display_attempts": {
+          "attempt_limit": 12,
+          "attempted": 2,
+          "display_limit": 3,
+          "displayed": 2,
+          "eligible": 2,
+          "failed": 0,
+          "unattempted": 0
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_40b1031938214f878a2fa28cf3c919d2",
+            "local_8bdff45258644d33a073331e46e576eb",
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "search_status": "ok"
+      },
+      "message_id": "fcf10ee7c267452a8a71108fcfe5a20f",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 3.3 Bias Benchmarks\n3.3 Bias Benchmarks\nLlama 2 70B Mixtral 8x7B\nBBQ accuracy 51.5% 56.0%\nBOLD sentiment score (avg ± std)\ngender 0.293 ± 0.073 0.323 ±0.045\nprofession 0.218 ± 0.073 0.243 ± 0.087\nreligious_ideology 0.188 ± 0.133 0.144 ± 0.089\npolitical_ideology 0.149 ± 0.140 0.186 ± 0.146\nrace 0.232 ± 0.049 0.232 ± 0.052\nFigure 5: Bias Benchmarks. Compared Llama 2 70B,\nMixtral presents less bias (higher accuracy on BBQ, lower\nstd on BOLD) and displays more positive sentiment (higher\navg on BOLD).\nTo identify possible flaws to be corrected\nby fine-tuning / preference modeling, we\nmeasure the base model performance on\nBias Benchmark for QA (BBQ) [24] and\nBias in Open-Ended Language Generation\nDataset (BOLD) [10]. BBQ is a dataset\nof hand-written question sets that target\nattested social biases against nine differ￾ent socially-relevant categories: age, dis￾ability status, gender identity, nationality,\nphysical…",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 1 页 · Mixtral of Experts\nMixtral of Experts\nAlbert Q. Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch,\nBlanche Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas,\nEmma Bou Hanna, Florian Bressand, Gianna Lengyel, Guillaume Bour,\nGuillaume Lample, Lélio Renard Lavaud, Lucile Saulnier, Marie-Anne Lachaux,\nPierre Stock, Sandeep Subramanian, Sophia Yang, Szymon Antoniak, Teven Le Scao,\nThéophile Gervet, Thibaut Lavril, Thomas Wang, Timothée Lacroix, William El Sayed\nAbstract\nWe introduce Mixtral 8x7B, a Sparse Mixture of Experts (SMoE) language\nmodel. Mixtral has the same architecture as Mistral 7B, with the difference\nthat each layer is composed of 8 feedforward blocks (i.e. experts). For every\ntoken, at each layer, a router network selects two experts to process the current\nstate and combine their outputs. Even though each token only sees two experts,\nthe selected experts can be different…",
+          "type": "text"
+        },
+        {
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 3.3 Bias Benchmarks",
+          "display_id": "0ba8509949694d8dab53fa03c401a9da",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6",
+            "version": 1
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/fcf10ee7c267452a8a71108fcfe5a20f/media/0ba8509949694d8dab53fa03c401a9da?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+          "display_id": "2394770a32304f61a3d5dd53b605412c",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          },
+          "evidence_id": "ev-4",
+          "fallback_reason": null,
+          "height": 458,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/fcf10ee7c267452a8a71108fcfe5a20f/media/2394770a32304f61a3d5dd53b605412c?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": [
+            0.18882800000000002,
+            0.541018,
+            0.811163,
+            0.829371
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 762
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 6
+          },
+          "read_status": "partial",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "partial",
+              "text": "3.3 Bias Benchmarks\nLlama 2 70B Mixtral 8x7B\nBBQ accuracy 51.5% 56.0%\nBOLD sentiment score (avg ± std)\ngender 0.293 ± 0.073 0.323 ±0.045\nprofession 0.218 ± 0.073 0.243 ± 0.087\nreligious_ideology 0.188 ± 0.133 0.144 ± 0.089\npolitical_ideology 0.149 ± 0.140 0.186 ± 0.146\nrace 0.232 ± 0.049 0.232 ± 0.052\nFigure 5: Bias Benchmarks. Compared Llama 2 70B,\nMixtral presents less bias (higher accuracy on BBQ, lower\nstd on BOLD) and displays more positive sentiment (higher\navg on BOLD).\nTo identify possible flaws to be corrected\nby fine-tuning / preference modeling, we\nmeasure the base model performance on\nBias Benchmark for QA (BBQ) [24] and\nBias in Open-Ended Language Generation\nDataset (BOLD) [10]. BBQ is a dataset\nof hand-written question sets that target\nattested social biases against nine differ￾ent socially-relevant categories: age, dis￾ability status, gender identity, nationality,\nphysical…",
+              "warnings": [
+                "excerpt_truncated"
+              ]
+            }
+          ],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:6",
+              "version": 1
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 1
+          },
+          "read_status": "partial",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "partial",
+              "text": "Mixtral of Experts\nAlbert Q. Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch,\nBlanche Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas,\nEmma Bou Hanna, Florian Bressand, Gianna Lengyel, Guillaume Bour,\nGuillaume Lample, Lélio Renard Lavaud, Lucile Saulnier, Marie-Anne Lachaux,\nPierre Stock, Sandeep Subramanian, Sophia Yang, Szymon Antoniak, Teven Le Scao,\nThéophile Gervet, Thibaut Lavril, Thomas Wang, Timothée Lacroix, William El Sayed\nAbstract\nWe introduce Mixtral 8x7B, a Sparse Mixture of Experts (SMoE) language\nmodel. Mixtral has the same architecture as Mistral 7B, with the difference\nthat each layer is composed of 8 feedforward blocks (i.e. experts). For every\ntoken, at each layer, a router network selects two experts to process the current\nstate and combine their outputs. Even though each token only sees two experts,\nthe selected experts can be different…",
+              "warnings": [
+                "excerpt_truncated"
+              ]
+            }
+          ],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:1",
+              "version": 1
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 6
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:6",
+              "version": 1
+            }
+          }
+        },
+        "ev-4": {
+          "evidence_id": "ev-4",
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "bbox": [
+              0.208828,
+              0.561018,
+              0.791163,
+              0.809371
+            ],
+            "page": 6
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+              "source_id": "page:6:image:1",
+              "version": 1
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "0ba8509949694d8dab53fa03c401a9da",
+        "2394770a32304f61a3d5dd53b605412c"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "version": 1,
+            "source_id": "page:6"
+          },
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 6
+          },
+          "is_current": true,
+          "text_sha256": "200903a3cd95b1f133821ffa08ba6d1362c9debbc46c4b7dfd103fbe4ece4cb6",
+          "text_preview": "3.3 Bias Benchmarks\nLlama 2 70B Mixtral 8x7B\nBBQ accuracy 51.5% 56.0%\nBOLD sentiment score (avg ± std)\ngender 0.293 ± 0.073 0.323 ±0.045\nprofession 0.218 ± 0.073 0.243 ± 0.087\nreligious_ideology 0.188 ± 0.133 0.144 ± 0.089\npolitical_ideolog",
+          "preview_status_code": 200,
+          "preview_sha256": "db0af31b5108c2a93f3dcb90c6c9ffb2c1e48b21e53d9a02f8fb5d664bab93a9",
+          "preview_bytes": 399834
+        },
+        {
+          "evidence_id": "ev-2",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+          "locator": {
+            "page": 1
+          },
+          "is_current": true,
+          "text_sha256": "64980f22e3f28b01a96e471a434369f7f6cbfdc64c2cdd9357dcba3e9c08a6ec",
+          "text_preview": "Mixtral of Experts\nAlbert Q. Jiang, Alexandre Sablayrolles, Antoine Roux, Arthur Mensch,\nBlanche Savary, Chris Bamford, Devendra Singh Chaplot, Diego de las Casas,\nEmma Bou Hanna, Florian Bressand, Gianna Lengyel, Guillaume Bour,\nGuillaume ",
+          "preview_status_code": 200,
+          "preview_sha256": "339c95eb3c9e1a72e1888a25a3aedcc141d0a96aad2effd5ecba766b8819225a",
+          "preview_bytes": 439434
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "0ba8509949694d8dab53fa03c401a9da",
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6",
+            "version": 1
+          },
+          "rendition_kind": "original_page",
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 3.3 Bias Benchmarks",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "db0af31b5108c2a93f3dcb90c6c9ffb2c1e48b21e53d9a02f8fb5d664bab93a9",
+          "inline_bytes": 399834,
+          "page_status_code": 200,
+          "page_sha256": "db0af31b5108c2a93f3dcb90c6c9ffb2c1e48b21e53d9a02f8fb5d664bab93a9"
+        },
+        {
+          "display_id": "2394770a32304f61a3d5dd53b605412c",
+          "evidence_id": "ev-4",
+          "display_source": {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:6:image:1",
+            "version": 1
+          },
+          "rendition_kind": "object_crop",
+          "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+          "rect_visible_norm": [
+            0.18882800000000002,
+            0.541018,
+            0.811163,
+            0.829371
+          ],
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+          "inline_bytes": 95281,
+          "page_status_code": 200,
+          "page_sha256": "db0af31b5108c2a93f3dcb90c6c9ffb2c1e48b21e53d9a02f8fb5d664bab93a9"
+        }
+      ],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q07",
+      "turn_index": 7,
+      "category": "跨文件定义与实验核对（PDF + Notebook）",
+      "scope_action": "course_scope",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1,
+        "Mixtral-Router-Verification.ipynb": 1
+      },
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "required_evidence_units": [
+        "E10",
+        "E11"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": []
+      },
+      "session_focus": null,
+      "http_elapsed_ms": 43.716,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "answer_sections": {
+          "definition": "missing",
+          "experiment": "missing"
+        },
+        "answer_status": "no_evidence",
+        "budget": 2,
+        "cited_evidence_ids": [],
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_40b1031938214f878a2fa28cf3c919d2",
+            "local_8bdff45258644d33a073331e46e576eb",
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "elapsed_ms": 26.707791024819016,
+        "external_call_count": 0,
+        "final_evidence_ids": [
+          "ev-1",
+          "ev-2"
+        ],
+        "first_missing": [
+          "definition",
+          "experiment"
+        ],
+        "first_search_status": "ok",
+        "first_supported": [],
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "g20-moe-dpo-course",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+                "locator": {
+                  "page": 2
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 7.052378943433806,
+                "source": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "g20-moe-dpo-course",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+                "locator": {
+                  "page": 7
+                },
+                "origins": [],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": null,
+                "source": {
+                  "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 4.0225840639323,
+            "kind": "first",
+            "query": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+            "scope": {
+              "course_ids": [
+                "g20-moe-dpo-course"
+              ],
+              "document_ids": [
+                "local_40b1031938214f878a2fa28cf3c919d2",
+                "local_8bdff45258644d33a073331e46e576eb",
+                "local_be39ee09e5cb43809106eca8e3e8f183"
+              ]
+            }
+          }
+        ],
+        "misses": [],
+        "missing": [
+          "definition",
+          "experiment"
+        ],
+        "replacements": [],
+        "requirements": [
+          "definition",
+          "experiment"
+        ],
+        "route": "evidence_answer",
+        "scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_40b1031938214f878a2fa28cf3c919d2",
+            "local_8bdff45258644d33a073331e46e576eb",
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+            "course_id": "g20-moe-dpo-course",
+            "document_id": "local_40b1031938214f878a2fa28cf3c919d2",
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "publication_epoch": 1,
+            "version": 1
+          },
+          {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g20-moe-dpo-course",
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "publication_epoch": 1,
+            "version": 1
+          },
+          {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "g20-moe-dpo-course",
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "publication_epoch": 1,
+            "version": 1
+          }
+        ],
+        "snapshot_recheck_count": 4,
+        "source_read_count": 2,
+        "status": "partial",
+        "stop_reason": "no_definition_anchor",
+        "strategy": "supplement",
+        "supplement_count": 0,
+        "term": null
+      },
+      "message_id": "b0083aad4a2e4c6a92c73952d00ba3ec",
+      "blocks": [
+        {
+          "code": "definition",
+          "text": "本轮可核对的原文不足以确认定义。",
+          "type": "notice"
+        },
+        {
+          "code": "experiment",
+          "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+          "type": "notice"
+        }
+      ],
+      "sources": {},
+      "visible_display_ids": [],
+      "opened_citations": [],
+      "displayed_media": [],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q08a",
+      "turn_index": 8,
+      "category": "跨轮跨版（Notebook v1 展示与读取）",
+      "scope_action": "select_document:Mixtral-Router-Verification.ipynb",
+      "referred_version": {
+        "Mixtral-Router-Verification.ipynb": 1
+      },
+      "question": "请展示第 1 个 Cell 的保存输出，并说明实测的平均路由分发延迟、容量因子以及评估词元数分别是多少？",
+      "required_evidence_units": [
+        "E12"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_8bdff45258644d33a073331e46e576eb"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-8bb5b3c1e87f58735ff43692ae7980c4",
+        "label": "Mixtral-Router-Verification.ipynb",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-Router-Verification.ipynb",
+        "document_id": "local_8bdff45258644d33a073331e46e576eb",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 25.675,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 6,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 4,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": true,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 4,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "display_attempts": {
+          "attempt_limit": 12,
+          "attempted": 2,
+          "display_limit": 3,
+          "displayed": 2,
+          "eligible": 2,
+          "failed": 0,
+          "unattempted": 0
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_8bdff45258644d33a073331e46e576eb"
+          ]
+        },
+        "search_status": "ok"
+      },
+      "message_id": "3e3ca665e490426c89ced427b573bd4d",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · Code cell 1\n# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.25, tokens=32768)",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral-Router-Verification.ipynb · v1 · 输出 0\nExperiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 62.3% (random baseline: 46.4%)\nMean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+          "type": "text"
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v1 · 输出 1",
+          "display_id": "879f2bd719ed4479808cc203087a1057",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:1",
+            "version": 1
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/3e3ca665e490426c89ced427b573bd4d/media/879f2bd719ed4479808cc203087a1057?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v1 · 输出 2",
+          "display_id": "4327e78da8ab485f9344048bca62a8bf",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:2",
+            "version": 1
+          },
+          "evidence_id": "ev-4",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/3e3ca665e490426c89ced427b573bd4d/media/4327e78da8ab485f9344048bca62a8bf?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.25, tokens=32768)",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 1
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "Experiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 62.3% (random baseline: 46.4%)\nMean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 1,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            }
+          }
+        },
+        "ev-4": {
+          "evidence_id": "ev-4",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 2,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "879f2bd719ed4479808cc203087a1057",
+        "4327e78da8ab485f9344048bca62a8bf"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "version": 1,
+            "source_id": "cell:0"
+          },
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "router-eval-run",
+            "section_path": []
+          },
+          "is_current": true,
+          "text_sha256": "4477180fddc8fa08600acd82fa213118439e906e0ad04b4059e712d18ab5b12e",
+          "text_preview": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.25, tokens=32768)",
+          "preview_status_code": 409
+        },
+        {
+          "evidence_id": "ev-2",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "version": 1,
+            "source_id": "cell:0:output:0"
+          },
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "router-eval-run",
+            "output_index": 0,
+            "section_path": []
+          },
+          "is_current": true,
+          "text_sha256": "5c25dc22b9caed19ab6e7cf9389258508a1d0be550d29dacbe6907dab8720976",
+          "text_preview": "Experiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random baseline:",
+          "preview_status_code": 409
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "879f2bd719ed4479808cc203087a1057",
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:1",
+            "version": 1
+          },
+          "rendition_kind": "notebook_output",
+          "caption": "Mixtral-Router-Verification.ipynb · v1 · 输出 1",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "cc631dd29912b734863d0051bb78e56535476f60c6600d46bf752ec63cbb72a1",
+          "inline_bytes": 14800,
+          "page_status_code": 409,
+          "page_sha256": null
+        },
+        {
+          "display_id": "4327e78da8ab485f9344048bca62a8bf",
+          "evidence_id": "ev-4",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:2",
+            "version": 1
+          },
+          "rendition_kind": "notebook_output",
+          "caption": "Mixtral-Router-Verification.ipynb · v1 · 输出 2",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "24d8f79fac6188b6537fa4fae8ac0fdf03869e733f60aa47939d7666aeff0104",
+          "inline_bytes": 17629,
+          "page_status_code": 409,
+          "page_sha256": null
+        }
+      ],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q08b",
+      "turn_index": 9,
+      "category": "跨轮跨版（按展示图序追问第 2 张图）",
+      "scope_action": "keep_previous_scope",
+      "referred_version": {
+        "Mixtral-Router-Verification.ipynb": 1
+      },
+      "question": "刚才第二张图的横轴名称和方括号里的单位是什么？",
+      "required_evidence_units": [
+        "E13"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_8bdff45258644d33a073331e46e576eb"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-8bb5b3c1e87f58735ff43692ae7980c4",
+        "label": "Mixtral-Router-Verification.ipynb",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-Router-Verification.ipynb",
+        "document_id": "local_8bdff45258644d33a073331e46e576eb",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 1314.569,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": {
+        "actual_source": {
+          "document_id": "local_8bdff45258644d33a073331e46e576eb",
+          "source_id": "cell:0:output:2",
+          "version": 1
+        },
+        "display_id": "4327e78da8ab485f9344048bca62a8bf",
+        "message_id": "3e3ca665e490426c89ced427b573bd4d",
+        "method": "visible_ordinal",
+        "ordinal": 2,
+        "resolution": "visible_ordinal"
+      },
+      "options": [],
+      "trace": {
+        "external_call_count": 1,
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1298.7111669499427,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 392,
+                "input_tokens": 486,
+                "output_tokens": 19,
+                "total_tokens": 505
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "message_id": "81e7483a46b84c38b901850c82235138",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Batch Size [tokens]",
+          "type": "text"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 2,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": "image/png",
+              "actual_input_rect": null,
+              "actual_input_sha256": "24d8f79fac6188b6537fa4fae8ac0fdf03869e733f60aa47939d7666aeff0104",
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0:output:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "model": "qwen3-vl-plus",
+              "origin_execution": "real_provider",
+              "prompt_version": "source-directed-v1",
+              "question_sha256": "edf06616f5ce8c20cdb69cd1c3e263690aa6a4eef5ddccd55ca9f0af6987b5ff",
+              "status": "succeeded",
+              "text": "Batch Size [tokens]",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            }
+          }
+        }
+      },
+      "visible_display_ids": [],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "visual_citation_preview",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:2",
+            "version": 1
+          },
+          "preview_sha256": "24d8f79fac6188b6537fa4fae8ac0fdf03869e733f60aa47939d7666aeff0104",
+          "preview_bytes": 17629
+        }
+      ],
+      "displayed_media": [],
+      "provider_calls": [
+        {
+          "turn": {
+            "question_id": "Q08b",
+            "turn_index": 9,
+            "client_turn_id": "g20-b-turn-09-q08b"
+          },
+          "provider": "dashscope",
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "model": "qwen3-vl-plus",
+          "image_sha256": "24d8f79fac6188b6537fa4fae8ac0fdf03869e733f60aa47939d7666aeff0104",
+          "request_sha256": "1ae2b5cc155c0960a3abc2c9eef1cb794c0372ceb9ab32d2c0d493b86a147cf6",
+          "status_code": 200,
+          "usage": {
+            "image_tokens": 392,
+            "input_tokens": 486,
+            "input_tokens_details": {
+              "image_tokens": 392,
+              "text_tokens": 94
+            },
+            "output_tokens": 19,
+            "output_tokens_details": {
+              "text_tokens": 19
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            },
+            "total_tokens": 505
+          },
+          "elapsed_ms": 1274.784
+        }
+      ]
+    },
+    {
+      "question_id": "Q09",
+      "turn_index": 10,
+      "category": "跨轮跨版（Notebook 更新至 v2 后自然问法跨版比较）",
+      "scope_action": "update_notebook_to_v2_and_ask",
+      "referred_version": {
+        "Mixtral-Router-Verification.ipynb": "v1_vs_v2"
+      },
+      "question": "跟上一版相比，第 1 个 Cell 保存输出里的平均路由分发延迟、容量因子和评估词元数有什么变化？",
+      "required_evidence_units": [
+        "E14",
+        "E15"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_8bdff45258644d33a073331e46e576eb"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-3915609e8fa93b928c0ad2a45b9a26e1",
+        "label": "Mixtral-Router-Verification.ipynb",
+        "kind": "document",
+        "version": 2,
+        "file_name": "Mixtral-Router-Verification.ipynb",
+        "document_id": "local_8bdff45258644d33a073331e46e576eb",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 25.31,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 2
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 6,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 4,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": true,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 4,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "display_attempts": {
+          "attempt_limit": 12,
+          "attempted": 2,
+          "display_limit": 3,
+          "displayed": 2,
+          "eligible": 2,
+          "failed": 0,
+          "unattempted": 0
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_8bdff45258644d33a073331e46e576eb"
+          ]
+        },
+        "search_status": "ok"
+      },
+      "message_id": "b71469a67cc14258a9e9928242e1dd3e",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Mixtral-Router-Verification.ipynb · v2 · Cell 1 · Code cell 1\n# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.50, tokens=65536)",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral-Router-Verification.ipynb · v2 · 输出 0\nExperiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 63.1% (random baseline: 46.4%)\nMean routing dispatch latency: 0.31 ms / step (capacity_factor=1.50)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+          "type": "text"
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v2 · 输出 1",
+          "display_id": "82b45d7b2c934bbcade56bda1b27af78",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:1",
+            "version": 2
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/b71469a67cc14258a9e9928242e1dd3e/media/82b45d7b2c934bbcade56bda1b27af78?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v2 · 输出 2",
+          "display_id": "0a6c477025614236aa2d4dcafe4beb15",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:2",
+            "version": 2
+          },
+          "evidence_id": "ev-4",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/b71469a67cc14258a9e9928242e1dd3e/media/0a6c477025614236aa2d4dcafe4beb15?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0",
+                "version": 2
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.50, tokens=65536)",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 2
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "Experiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 63.1% (random baseline: 46.4%)\nMean routing dispatch latency: 0.31 ms / step (capacity_factor=1.50)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 1,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            }
+          }
+        },
+        "ev-4": {
+          "evidence_id": "ev-4",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 2,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "82b45d7b2c934bbcade56bda1b27af78",
+        "0a6c477025614236aa2d4dcafe4beb15"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "version": 2,
+            "source_id": "cell:0"
+          },
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "router-eval-run",
+            "section_path": []
+          },
+          "is_current": true,
+          "text_sha256": "149161b26ec1f467f51da7024d7d183c1fcffd755c00e30a040cb6eabab461a8",
+          "text_preview": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.50, tokens=65536)",
+          "preview_status_code": 409
+        },
+        {
+          "evidence_id": "ev-2",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "version": 2,
+            "source_id": "cell:0:output:0"
+          },
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "router-eval-run",
+            "output_index": 0,
+            "section_path": []
+          },
+          "is_current": true,
+          "text_sha256": "96f20647a1fb965da5054171c875ad7ad629186f6138a4244e32c9df58faaacf",
+          "text_preview": "Experiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline:",
+          "preview_status_code": 409
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "82b45d7b2c934bbcade56bda1b27af78",
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:1",
+            "version": 2
+          },
+          "rendition_kind": "notebook_output",
+          "caption": "Mixtral-Router-Verification.ipynb · v2 · 输出 1",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "8a5e145803ae8d4ad2511be0f9a486448939696875c084874e8d13be513d39b9",
+          "inline_bytes": 17947,
+          "page_status_code": 409,
+          "page_sha256": null
+        },
+        {
+          "display_id": "0a6c477025614236aa2d4dcafe4beb15",
+          "evidence_id": "ev-4",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:2",
+            "version": 2
+          },
+          "rendition_kind": "notebook_output",
+          "caption": "Mixtral-Router-Verification.ipynb · v2 · 输出 2",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "8557b9afdc410a1b5ec1e253515de162d931ca3b739198412d4591ead6357299",
+          "inline_bytes": 16737,
+          "page_status_code": 409,
+          "page_sha256": null
+        }
+      ],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q10",
+      "turn_index": 11,
+      "category": "合理澄清（同页双图无方位/序号指代消歧）",
+      "scope_action": "select_document:Mixtral-of-Experts-2401.04088v1.pdf",
+      "referred_version": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": 1
+      },
+      "question": "第 5 页的插图里具体展示了什么结果？",
+      "required_evidence_units": [
+        "E16"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_be39ee09e5cb43809106eca8e3e8f183"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-915f3d4536eb2224141740a486acdf78",
+        "label": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "kind": "document",
+        "version": 1,
+        "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+        "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 13.212,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_be39ee09e5cb43809106eca8e3e8f183"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [
+          {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:5:image:1",
+            "version": 1
+          },
+          {
+            "document_id": "local_be39ee09e5cb43809106eca8e3e8f183",
+            "source_id": "page:5:image:2",
+            "version": 1
+          }
+        ],
+        "route": "target_object"
+      },
+      "message_id": "d2dfe117ddea423aa53abc70a3e6eb94",
+      "blocks": [
+        {
+          "code": "object_ambiguous",
+          "text": "有多个可能的对象，请指定原件位置或图序。",
+          "type": "notice"
+        }
+      ],
+      "sources": {},
+      "visible_display_ids": [],
+      "opened_citations": [],
+      "displayed_media": [],
+      "provider_calls": []
+    },
+    {
+      "question_id": "Q11",
+      "turn_index": 12,
+      "category": "缺证边界（明确未测项并拒绝代用）",
+      "scope_action": "select_document:Mixtral-Router-Verification.ipynb",
+      "referred_version": {
+        "Mixtral-Router-Verification.ipynb": 2
+      },
+      "question": "在实验记录里，64 卡在 128k 上下文长度下的 All-to-All 通信延迟实测是多少毫秒？能把单步 0.31 ms 的路由分发延迟直接当作这个通信延迟吗？",
+      "required_evidence_units": [
+        "E17"
+      ],
+      "session_scope": {
+        "course_ids": [
+          "g20-moe-dpo-course"
+        ],
+        "document_ids": [
+          "local_8bdff45258644d33a073331e46e576eb"
+        ]
+      },
+      "session_focus": {
+        "node_id": "node-3915609e8fa93b928c0ad2a45b9a26e1",
+        "label": "Mixtral-Router-Verification.ipynb",
+        "kind": "document",
+        "version": 2,
+        "file_name": "Mixtral-Router-Verification.ipynb",
+        "document_id": "local_8bdff45258644d33a073331e46e576eb",
+        "course_id": "g20-moe-dpo-course",
+        "parent_id": null,
+        "previous_id": null,
+        "next_id": null,
+        "locator": {},
+        "text": "",
+        "has_media": false
+      },
+      "http_elapsed_ms": 19.269,
+      "turn_status": "completed",
+      "turn_error": null,
+      "resolution": null,
+      "options": [],
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "parent_context",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 2
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 4,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 4,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 1,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 4,
+          "returned_count": 4,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "display_attempts": {
+          "attempt_limit": 12,
+          "attempted": 1,
+          "display_limit": 3,
+          "displayed": 1,
+          "eligible": 1,
+          "failed": 0,
+          "unattempted": 0
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g20-moe-dpo-course"
+          ],
+          "document_ids": [
+            "local_8bdff45258644d33a073331e46e576eb"
+          ]
+        },
+        "search_status": "ok"
+      },
+      "message_id": "c3e5a9ebd03f4d409b8c3b494f5b99a8",
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Mixtral-Router-Verification.ipynb · v2 · 输出 0\nExperiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 63.1% (random baseline: 46.4%)\nMean routing dispatch latency: 0.31 ms / step (capacity_factor=1.50)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral-Router-Verification.ipynb · v2 · Cell 1 · Code cell 1\n# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.50, tokens=65536)",
+          "type": "text"
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v2 · 输出 1",
+          "display_id": "3379ef676e224a2f95986616ea47055d",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:1",
+            "version": 2
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/1c43f62ad7cf4c9cad5faa663ba963ae/messages/c3e5a9ebd03f4d409b8c3b494f5b99a8/media/3379ef676e224a2f95986616ea47055d?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "Experiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 63.1% (random baseline: 46.4%)\nMean routing dispatch latency: 0.31 ms / step (capacity_factor=1.50)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "section_path": []
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_8bdff45258644d33a073331e46e576eb",
+                "source_id": "cell:0",
+                "version": 2
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.50, tokens=65536)",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0",
+              "version": 2
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 1,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g20-moe-dpo-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_8bdff45258644d33a073331e46e576eb",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            }
+          }
+        }
+      },
+      "visible_display_ids": [
+        "3379ef676e224a2f95986616ea47055d"
+      ],
+      "opened_citations": [
+        {
+          "evidence_id": "ev-1",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "version": 2,
+            "source_id": "cell:0:output:0"
+          },
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "router-eval-run",
+            "output_index": 0,
+            "section_path": []
+          },
+          "is_current": true,
+          "text_sha256": "96f20647a1fb965da5054171c875ad7ad629186f6138a4244e32c9df58faaacf",
+          "text_preview": "Experiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline:",
+          "preview_status_code": 409
+        },
+        {
+          "evidence_id": "ev-2",
+          "open_mode": "text_evidence",
+          "status_code": 200,
+          "source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "version": 2,
+            "source_id": "cell:0"
+          },
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_index": 0,
+            "cell_id": "router-eval-run",
+            "section_path": []
+          },
+          "is_current": true,
+          "text_sha256": "149161b26ec1f467f51da7024d7d183c1fcffd755c00e30a040cb6eabab461a8",
+          "text_preview": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.50, tokens=65536)",
+          "preview_status_code": 409
+        }
+      ],
+      "displayed_media": [
+        {
+          "display_id": "3379ef676e224a2f95986616ea47055d",
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_8bdff45258644d33a073331e46e576eb",
+            "source_id": "cell:0:output:1",
+            "version": 2
+          },
+          "rendition_kind": "notebook_output",
+          "caption": "Mixtral-Router-Verification.ipynb · v2 · 输出 1",
+          "rect_visible_norm": null,
+          "read_status": "not_attempted",
+          "inline_status_code": 200,
+          "inline_sha256": "8a5e145803ae8d4ad2511be0f9a486448939696875c084874e8d13be513d39b9",
+          "inline_bytes": 17947,
+          "page_status_code": 409,
+          "page_sha256": null
+        }
+      ],
+      "provider_calls": []
+    }
+  ],
+  "provider_summary": {
+    "total_calls": 2,
+    "deepseek_calls": 0,
+    "dashscope_calls": 2,
+    "jev_calls": 0,
+    "http_200_calls": 2,
+    "events": [
+      {
+        "turn": {
+          "question_id": "Q04",
+          "turn_index": 4,
+          "client_turn_id": "g20-b-turn-04-q04"
+        },
+        "provider": "dashscope",
+        "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+        "model": "qwen3-vl-plus",
+        "image_sha256": "f293c749c504c17c3bf2cbbd711012cd401faa4e87e1d9b93d2735b7585fd832",
+        "request_sha256": "875b6861c633ae35d050470525308464de322750b05e3954b790159f7ea8c148",
+        "status_code": 200,
+        "usage": {
+          "image_tokens": 338,
+          "input_tokens": 467,
+          "input_tokens_details": {
+            "image_tokens": 338,
+            "text_tokens": 129
+          },
+          "output_tokens": 86,
+          "output_tokens_details": {
+            "text_tokens": 86
+          },
+          "prompt_tokens_details": {
+            "cached_tokens": 0
+          },
+          "total_tokens": 553
+        },
+        "elapsed_ms": 2973.802
+      },
+      {
+        "turn": {
+          "question_id": "Q08b",
+          "turn_index": 9,
+          "client_turn_id": "g20-b-turn-09-q08b"
+        },
+        "provider": "dashscope",
+        "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+        "model": "qwen3-vl-plus",
+        "image_sha256": "24d8f79fac6188b6537fa4fae8ac0fdf03869e733f60aa47939d7666aeff0104",
+        "request_sha256": "1ae2b5cc155c0960a3abc2c9eef1cb794c0372ceb9ab32d2c0d493b86a147cf6",
+        "status_code": 200,
+        "usage": {
+          "image_tokens": 392,
+          "input_tokens": 486,
+          "input_tokens_details": {
+            "image_tokens": 392,
+            "text_tokens": 94
+          },
+          "output_tokens": 19,
+          "output_tokens_details": {
+            "text_tokens": 19
+          },
+          "prompt_tokens_details": {
+            "cached_tokens": 128
+          },
+          "total_tokens": 505
+        },
+        "elapsed_ms": 1274.784
+      }
+    ]
+  }
+}
