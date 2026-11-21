@@ -527,3 +527,9 @@
 ## 2026-11-21 · 接受 G20 诊断并签发 G21
 
 架构负责人核对 1de0cf3 的 G20 配对探针、样本外记录与受测源码，仅放行预算一致性修复与独立复审。C4b 含已知文件名停止条件及来源配额，通用编排结论待验证。G21 待领取，M2 仍返工。
+
+## 2026-11-21 · G21 阅读与生成预算一致性 · 独审通过（G21 完成并交回）
+
+- 执行者 `g21_exec`（主会话 `6a4dad8c-66bd-482c-8211-cd0e444516d2`）在授权提交 `6b3e81adf0eb949162dcb7e52ee3bf17ba3e4846`（G20 诊断提交 `1de0cf3`）领取 G21，仅修改 `app/rag/workspace_reading.py`、`app/rag/workspace_generation.py`、`app/rag/workspace.py` 的预算处理逻辑及对应测试，保持检索策略（`fts`）、模型（`deepseek-flash`）、授权范围与版本选择不变，保留 A03 封存及 21 项既有本地修改/未跟踪文件。
+- 统一预算实现：提取 `estimate_prompt_reserve`、`estimate_embedded_json_budget` 与 `estimate_embedded_text_budget`，使阅读窗口 `read_window` 与生成预检 `generate_response` 按同一最终 `messages` 二次 JSON 序列化表示、配置上限（`min(workspace_input_token_limit, answer_context_tokens - OUTPUT_RESERVE)`）和输出预留（`OUTPUT_RESERVE = 8,192`）逐字节核算；允许按实际开销收缩末段文本或移除预算外来源，同步更新 `TurnEvidence` 的 `text_span` 与 `input_evidence` 以确保引用严格对应最终送入模型的证据；固定开销本身超限或无法保留任何有效证据时分别记录 `fixed_overhead_exceeded` 与 `no_evidence_fits`。
+- 独立审核者 `g21_gate`（子代理 `ff5856be-d8c6-4b16-9cce-18afaf92e4c5`）按 `RAG.md` 完成三步独立复跑签认：（1）在干净 `6b3e81a` 归档上复现 `Q01` 选入 15 段（`30,662 <= 30,694`）但在 `generate_response` 膨胀至 `33,939 > 32,768` 触发 `budget_exceeded`（0 次调用、退回英文摘录）；（2）独立复跑 `tests/test_workspace*.py`（139 passed, 2 skipped）、Ruff 静态检查及 14 节复杂转义/长历史 Notebook 边界探针（`exact_limit - 1`、`exact_limit`、`exact_limit + 1` 下阅读窗口与生成预检均为 `0` 字节误差，普通短问题、真实超限与模型失败三条路径均通过）；（3）通过真实 Chromium 浏览器 `/workspace/` 独立复跑 `docs/G/G21-browser-verify.py` 重测 `Q01` 并对 37 页公开陌生课件 `Mamba-2312.00752v1.pdf`（CC BY 4.0，132,772 字符）做盲验及合法超限核验：修复后 `Q01`（`32,753 <= 32,768`，14 段）与 `Blind_Mamba`（`32,768 == 32,768` 100% 满额，8 段末段收缩为 `page:17 [0..245]`）阅读与生成预检误差均为 `0` 字节，各发起 1 次真实 DeepSeek 调用（HTTP 200，0 额外调用）生成采用必要依据的中文综合回答，浏览器逐一点击全部引用打开 `#reader` 核对文件名、版号 `v1` 和页码均正确，合法超限（`limit=500`）准确展示 `reading_budget` 降级提示。按指令停在 G21 并交回架构负责人。[G21 报告](./docs/G/G21-阅读与生成预算一致性.md) · [浏览器与盲验实测](./docs/G/G21-浏览器与盲验实测.json)

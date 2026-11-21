@@ -251,3 +251,140 @@ def test_timeout_is_sanitized_and_counted(settings, monkeypatch):
     assert result.trace["attempts"][0]["outcome"] == "timeout"
     assert result.trace["attempts"][1]["status"] == 401
     assert "secret" not in str(result)
+
+
+def test_generation_precheck_trims_or_drops_oversized_evidence_and_records_reasons(
+    settings, monkeypatch
+):
+    from app.rag.workspace_generation import estimate_prompt_reserve
+
+    ev1 = _evidence(
+        "ev-1",
+        page=1,
+        reads=[
+            TurnRead(
+                actual_source=SourceKey(document_id="lecture", version=2, source_id="page:1"),
+                method="native_text",
+                status="succeeded",
+                text='第一页："引号" 与 \\反斜线 \n多行中文依据 A。\n多行中文依据 B。\n',
+            )
+        ],
+    )
+    ev1.locator["text_span"] = [0, len(ev1.reads[0].text)]
+    ev2 = _evidence(
+        "ev-2",
+        page=2,
+        reads=[
+            TurnRead(
+                actual_source=SourceKey(document_id="lecture", version=2, source_id="page:2"),
+                method="native_text",
+                status="succeeded",
+                text="第二页：长文本段落 " + ('"测试" \\路径\n' * 40),
+            )
+        ],
+    )
+    ev2.locator["text_span"] = [10, 10 + len(ev2.reads[0].text)]
+    ev3 = _evidence(
+        "ev-3",
+        page=3,
+        reads=[
+            TurnRead(
+                actual_source=SourceKey(document_id="lecture", version=2, source_id="page:3"),
+                method="native_text",
+                status="succeeded",
+                text="第三页：超预算应被移除的来源。",
+            )
+        ],
+    )
+    context = {
+        "previous_question": '上轮问题："为什么" \\path\n',
+        "previous_answer": "上轮回答：历史上下文 " * 30,
+    }
+    coverage = {"full_text_scope": False, "unread_visual_total": 1}
+    fixed = estimate_prompt_reserve(_QUESTION, mode="ask", context=context, coverage=coverage)
+
+    # 1. Fixed overhead itself exceeds limit -> budget_reason == "fixed_overhead_exceeded"
+    over_fixed = generate_response(
+        settings.model_copy(update={"workspace_input_token_limit": fixed - 1}),
+        _QUESTION,
+        {"ev-1": ev1},
+        mode="ask",
+        context=context,
+        coverage=coverage,
+    )
+    assert over_fixed.status == "budget_exceeded"
+    assert over_fixed.trace["budget_reason"] == "fixed_overhead_exceeded"
+    assert over_fixed.trace["input_evidence_ids"] == []
+    assert over_fixed.trace["external_call_count"] == 0
+
+    # 2. Fixed overhead fits, but remaining budget cannot fit even 1 valid character of ev-1
+    no_ev = generate_response(
+        settings.model_copy(update={"workspace_input_token_limit": fixed + 40}),
+        _QUESTION,
+        {"ev-1": ev1},
+        mode="ask",
+        context=context,
+        coverage=coverage,
+    )
+    assert no_ev.status == "budget_exceeded"
+    assert no_ev.trace["budget_reason"] == "no_evidence_fits"
+    assert no_ev.trace["input_evidence_ids"] == []
+    assert no_ev.trace["external_call_count"] == 0
+
+    # 3. Budget fits ev-1 in full, shrinks ev-2, and drops ev-3; citations to ev-3 are rejected.
+    _wire(
+        monkeypatch,
+        _completion(
+            json.dumps(
+                {
+                    "statements": [{"text": "前两页。", "citations": ["ev-1", "ev-2"]}],
+                    "missing": "",
+                }
+            )
+        ),
+    )
+    full_two = generate_response(
+        settings.model_copy(update={"workspace_input_token_limit": 100_000}),
+        _QUESTION,
+        {"ev-1": ev1, "ev-2": ev2},
+        mode="ask",
+        context=context,
+        coverage=coverage,
+    )
+    full_two_bytes = full_two.trace["estimated_input"]
+    tight_limit = full_two_bytes - 120
+    requests = _wire(
+        monkeypatch,
+        _completion(
+            json.dumps(
+                {
+                    "statements": [
+                        {"text": "采用第一页与第二页缩减后的依据。", "citations": ["ev-1", "ev-2"]}
+                    ],
+                    "missing": "",
+                }
+            )
+        ),
+    )
+    trimmed = generate_response(
+        settings.model_copy(update={"workspace_input_token_limit": tight_limit}),
+        _QUESTION,
+        {"ev-1": ev1, "ev-2": ev2, "ev-3": ev3},
+        mode="ask",
+        context=context,
+        coverage=coverage,
+    )
+    assert trimmed.status == "succeeded"
+    assert trimmed.trace["estimated_input"] <= tight_limit
+    assert trimmed.trace["raw_estimated_input"] > tight_limit
+    assert trimmed.trace["input_evidence_ids"] == ["ev-1", "ev-2"]
+    assert trimmed.trace["trimmed_evidence_ids"] == ["ev-2"]
+    assert trimmed.trace["dropped_evidence_ids"] == ["ev-3"]
+    assert "ev-3" not in trimmed.input_evidence
+    shrunk_ev2 = trimmed.input_evidence["ev-2"]
+    assert shrunk_ev2.read_status == "partial"
+    assert shrunk_ev2.locator["text_span"] == [10, 10 + len(shrunk_ev2.reads[0].text)]
+    assert ev2.reads[0].text.startswith(shrunk_ev2.reads[0].text)
+    sent_payload = json.loads(requests[0]["messages"][1]["content"])
+    assert [item["id"] for item in sent_payload["evidence"]] == ["ev-1", "ev-2"]
+    assert sent_payload["evidence"][1]["reads"][0]["text"] == shrunk_ev2.reads[0].text

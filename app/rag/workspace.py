@@ -33,10 +33,19 @@ from app.rag.structure_search import (
     StructureSearchRequest,
 )
 from app.rag.workspace_composition import asks_for_composition, compose_evidence
-from app.rag.workspace_generation import OUTPUT_RESERVE, generate_response
+from app.rag.workspace_generation import (
+    OUTPUT_RESERVE,
+    estimate_prompt_reserve,
+    generate_response,
+)
 from app.rag.workspace_initial_focus import answer_current_image, resolve_current_image
 from app.rag.workspace_objects import ObjectIntent, object_choices, object_intent
-from app.rag.workspace_reading import ReadingCursor, estimate_input_budget, read_window
+from app.rag.workspace_reading import (
+    ReadingCursor,
+    _has_visual,
+    estimate_input_budget,
+    read_window,
+)
 from app.rag.workspace_versions import compare_versions, is_version_comparison
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
@@ -1150,32 +1159,100 @@ class WorkspaceService:
                 draft.notice("no_reading_cursor", "本轮范围没有可续读的位置。")
                 return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs])
         context = self._prior_context(previous) if previous else None
-        reserve = 1800 + estimate_input_budget([question, context])
+        unread_visual_total = sum(1 for source in snapshot.sources if _has_visual(source))
+        reserve_false = estimate_prompt_reserve(
+            question,
+            mode=mode,
+            context=context,
+            coverage={"full_text_scope": False, "unread_visual_total": unread_visual_total},
+        )
+        reserve_true = estimate_prompt_reserve(
+            question,
+            mode=mode,
+            context=context,
+            coverage={"full_text_scope": True, "unread_visual_total": unread_visual_total},
+        )
+        reserve = reserve_false
         ceiling = min(
             self.settings.answer_context_tokens,
             self.settings.workspace_input_token_limit + OUTPUT_RESERVE,
         )
+        input_budget = ceiling - OUTPUT_RESERVE
         draft = Draft(turn.session_id)
         trace["route"] = "generated_answer"
         trace.setdefault("external_call_count", 0)
         try:
-            window = read_window(
-                self.library.store,
-                snapshot,
-                context_tokens=ceiling,
-                output_reserve=OUTPUT_RESERVE,
-                prompt_reserve=reserve,
-                preferred_sources=preferred,
-                cursor=cursor,
-                active=lambda: self.store.active(turn),
-            )
+            if len(docs) == 1 and location is None and cursor is None:
+                window = read_window(
+                    self.library.store,
+                    snapshot,
+                    context_tokens=ceiling,
+                    output_reserve=OUTPUT_RESERVE,
+                    prompt_reserve=reserve_true,
+                    preferred_sources=preferred,
+                    cursor=cursor,
+                    active=lambda: self.store.active(turn),
+                )
+                if window.full_text_scope:
+                    reserve = reserve_true
+                else:
+                    window = read_window(
+                        self.library.store,
+                        snapshot,
+                        context_tokens=ceiling,
+                        output_reserve=OUTPUT_RESERVE,
+                        prompt_reserve=reserve_false,
+                        preferred_sources=preferred,
+                        cursor=cursor,
+                        active=lambda: self.store.active(turn),
+                    )
+            else:
+                window = read_window(
+                    self.library.store,
+                    snapshot,
+                    context_tokens=ceiling,
+                    output_reserve=OUTPUT_RESERVE,
+                    prompt_reserve=reserve_false,
+                    preferred_sources=preferred,
+                    cursor=cursor,
+                    active=lambda: self.store.active(turn),
+                )
         except ValueError:
+            budget_reason = (
+                "fixed_overhead_exceeded" if input_budget <= reserve else "no_evidence_fits"
+            )
+            trace["reading"] = {
+                "status": "budget_exceeded",
+                "budget_reason": budget_reason,
+                "input_budget": max(0, input_budget),
+                "prompt_reserve": reserve,
+                "budget": max(0, input_budget - reserve),
+                "estimated_input": 0,
+                "visual_read_status": "not_attempted",
+            }
+            trace["generation"] = {
+                "provider": "deepseek",
+                "model": self.settings.deepseek_chat_model,
+                "status": "budget_exceeded",
+                "budget_reason": budget_reason,
+                "input_budget": max(0, input_budget),
+                "fixed_overhead": reserve,
+                "estimated_input": reserve,
+                "output_reserve": OUTPUT_RESERVE,
+                "input_evidence_ids": [],
+                "external_call_count": 0,
+                "attempts": [],
+            }
             draft.notice("reading_budget", "模型上下文预算无法容纳原文，请缩小范围或调整模型配置。")
             return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs], trace=trace)
+        full_text_scope = window.full_text_scope and len(docs) == 1 and location is None
         trace["reading"] = window.trace() | {
             "mode": mode,
+            "input_budget": max(0, input_budget),
+            "prompt_reserve": reserve,
+            "estimated_message_input": reserve + window.estimated_input,
             "preferred": [key.model_dump() for key in preferred],
-            "full_text_scope": window.full_text_scope and len(docs) == 1 and location is None,
+            "full_text_scope": full_text_scope,
             "location": location.model_dump(mode="json") if location else None,
         }
         for segment in window.segments:
@@ -1199,7 +1276,7 @@ class WorkspaceService:
             question=question,
             context=context,
             coverage={
-                "full_text_scope": trace["reading"]["full_text_scope"],
+                "full_text_scope": full_text_scope,
                 "unread_visual_total": len(window.unread_visual),
             },
         )
@@ -1241,6 +1318,17 @@ class WorkspaceService:
             trace.get("external_call_count", 0) + result.trace["external_call_count"]
         )
         if result.status in {"succeeded", "partial", "insufficient"}:
+            if result.input_evidence:
+                non_text = {
+                    key: item
+                    for key, item in draft.sources.items()
+                    if key not in result.input_evidence
+                    and not any(
+                        read.method in {"native_text", "native_table", "ocr"}
+                        for read in item.reads
+                    )
+                }
+                draft.sources = {**result.input_evidence, **non_text}
             draft.blocks = [block for block in draft.blocks if block["type"] != "text"]
             for statement in result.statements:
                 draft.text(statement.text, *statement.citations)

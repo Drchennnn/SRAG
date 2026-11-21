@@ -16,7 +16,18 @@ from app.config import Settings
 from app.rag.local_library import LocalLibrary
 from app.rag.parsers.pdf import PDFParser
 from app.rag.structure_search import StructureScope, StructureSearcher, StructureSearchRequest
-from app.rag.workspace_reading import read_window
+from app.rag.workspace_generation import (
+    _CHAT_FRAME_RESERVE,
+    _LOCATOR_FIELDS,
+    OUTPUT_RESERVE,
+    estimate_prompt_reserve,
+)
+from app.rag.workspace_reading import (
+    estimate_embedded_json_budget,
+    estimate_embedded_text_budget,
+    estimate_input_budget,
+    read_window,
+)
 from app.schemas.local import SourceKey
 from app.schemas.rag import SearchRequest
 from app.schemas.workspace import WorkspaceError
@@ -263,3 +274,116 @@ def test_delayed_docling_write_is_discarded_after_release_changes(library, tmp_p
     report = library.enhance_pdf_ocr(COURSE, result.document_id)
     assert report["pages"] == {"page:1": "stale_or_unavailable"}
     assert not library.search(SearchRequest(query="computed", course_id=COURSE))
+
+
+def test_reading_window_matches_final_message_budget_across_escaping_and_boundaries(
+    library, tmp_path
+):
+    from app.rag.workspace_generation import _build_messages
+
+    cells = [
+        {
+            "id": f"c-{idx}",
+            "cell_type": "markdown",
+            "metadata": {},
+            "source": (
+                f"# 第 {idx} 节 \"引号\" 与 \\反斜线\n"
+                f"公式：G(x) = \\sum_{{i=0}}^{{n-1}} \"w_i\" \\cdot E_i(x)\n"
+                f"多行中文说明 A_{idx}\n多行中文说明 B_{idx}\n"
+            ),
+        }
+        for idx in range(12)
+    ]
+    nb_path = tmp_path / "复杂_\"引号\"_\\反斜线_课件.ipynb"
+    nb_path.write_text(
+        json.dumps({"nbformat": 4, "nbformat_minor": 5, "metadata": {}, "cells": cells}),
+        encoding="utf-8",
+    )
+    published = _publish(library, nb_path)
+    snapshot = _snapshot(library, published.document_id)
+    question = "请解释 \"G(x)\" 公式中 \\sum 的含义？\n并列出各节结论。"
+    context = {
+        "previous_question": "上一轮 \"问题\" \\路径\n第二行" * 15,
+        "previous_answer": "上一轮 \"回答\" \\反斜线\n多行内容" * 30,
+    }
+    coverage_true = {"full_text_scope": True, "unread_visual_total": 0}
+    coverage_false = {"full_text_scope": False, "unread_visual_total": 0}
+    reserve_true = estimate_prompt_reserve(
+        question, mode="ask", context=context, coverage=coverage_true
+    )
+    reserve_false = estimate_prompt_reserve(
+        question, mode="ask", context=context, coverage=coverage_false
+    )
+
+    full_window = read_window(
+        library.store,
+        snapshot,
+        context_tokens=50_000,
+        output_reserve=OUTPUT_RESERVE,
+        prompt_reserve=reserve_true,
+    )
+    assert full_window.full_text_scope and full_window.next_cursor is None
+    assert len(full_window.segments) == 12
+
+    def build_evidence_payload(segments):
+        payload = []
+        for idx, seg in enumerate(segments, 1):
+            payload.append(
+                {
+                    "id": f"ev-{idx}",
+                    "source": {
+                        "document_id": seg.source.document_id,
+                        "version": seg.source.version,
+                        "source_id": seg.source.source_id,
+                    },
+                    "file_name": seg.document.file_name,
+                    "locator": {
+                        k: v for k, v in seg.source.locator.items() if k in _LOCATOR_FIELDS
+                    },
+                    "reads": [{"method": seg.method, "status": "succeeded", "text": seg.text}],
+                }
+            )
+        return payload
+
+    exact_messages = _build_messages(
+        question,
+        mode="ask",
+        context=context,
+        coverage=coverage_true,
+        evidence=build_evidence_payload(full_window.segments),
+    )
+    exact_full_total = estimate_input_budget(exact_messages) + _CHAT_FRAME_RESERVE
+    assert reserve_true + full_window.estimated_input == exact_full_total
+
+    # Boundary: exact full-text budget and +1 byte both fit 100% without truncation.
+    for limit in (exact_full_total, exact_full_total + 1):
+        win = read_window(
+            library.store,
+            snapshot,
+            context_tokens=limit + OUTPUT_RESERVE,
+            output_reserve=OUTPUT_RESERVE,
+            prompt_reserve=reserve_true,
+        )
+        assert win.full_text_scope and win.next_cursor is None
+        assert reserve_true + win.estimated_input == exact_full_total <= limit
+
+    # Boundary - 1 byte: must shrink the last segment or drop trailing source and stay <= limit.
+    win_below = read_window(
+        library.store,
+        snapshot,
+        context_tokens=(exact_full_total - 1) + OUTPUT_RESERVE,
+        output_reserve=OUTPUT_RESERVE,
+        prompt_reserve=reserve_false,
+    )
+    assert not win_below.full_text_scope and win_below.next_cursor is not None
+    msgs_below = _build_messages(
+        question,
+        mode="ask",
+        context=context,
+        coverage=coverage_false,
+        evidence=build_evidence_payload(win_below.segments),
+    )
+    actual_below = estimate_input_budget(msgs_below) + _CHAT_FRAME_RESERVE
+    assert reserve_false + win_below.estimated_input == actual_below <= exact_full_total - 1
+    assert estimate_embedded_json_budget({"a": '1"2\\3\n'}) > 0
+    assert estimate_embedded_text_budget('中文"\\n') > 0

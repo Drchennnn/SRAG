@@ -1127,3 +1127,151 @@ def test_composition_can_synthesize_existing_reads_without_a_new_retrieval(
     else:
         assert len(message["sources"]) == 3
         assert message["blocks"][-1]["code"] == "generation_unavailable"
+
+
+def test_workspace_budget_paths_short_question_over_limit_and_provider_failure(
+    system, tmp_path, monkeypatch
+):
+    from app.clients.deepseek import DeepSeekClient
+
+    settings, _, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "synthetic-key"
+
+    cells = [
+        {
+            "cell_type": "markdown",
+            "id": f"sec-{idx}",
+            "metadata": {},
+            "source": [
+                f"## 第 {idx} 节 \"路由器\" 与 \\反斜线\n"
+                + f"公式 G(x) = Softmax(TopK(x · W_g))，节次 {idx}。\n"
+                + ('多行说明："参数" 47B / 13B，\\n 换行测试。\n' * 12)
+            ],
+        }
+        for idx in range(1, 13)
+    ]
+    nb_file = tmp_path / "预算_多来源_测试.ipynb"
+    nb_file.write_text(
+        json.dumps({"nbformat": 4, "nbformat_minor": 5, "metadata": {}, "cells": cells}),
+        encoding="utf-8",
+    )
+    session = _create(client)
+    imported = _upload(client, session, nb_file)
+    scope = client.patch(
+        session + "/scope",
+        json={
+            "course_ids": [_COURSE],
+            "document_ids": [imported["document_id"]],
+            "scope_revision": 1,
+        },
+    ).json()
+    rev = scope["scope_revision"]
+
+    sent_messages = []
+
+    async def succeed(self, messages, **kwargs):
+        if self.on_attempt:
+            self.on_attempt({"status": 200, "outcome": "succeeded"})
+        sent_messages.append(messages)
+        prompt = json.loads(messages[-1]["content"])
+        ids = [item["id"] for item in prompt["evidence"]]
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {
+                            "text": f"已采用 {len(ids)} 条证据生成中文回答。",
+                            "citations": [ids[0], ids[-1]] if len(ids) > 1 else [ids[0]],
+                        }
+                    ],
+                    "missing": "",
+                }
+            ),
+            "usage": {"total_tokens": 321},
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", succeed)
+
+    # Path 1: Ordinary short question where full document fits in budget.
+    settings.workspace_input_token_limit = 32_768
+    ok = _ask(client, session, '请解释 "G(x)" 公式与 \\反斜线 各节内容？', rev, client_id="t-short")
+    rd_ok = ok["turn"]["trace"]["reading"]
+    gn_ok = ok["turn"]["trace"]["generation"]
+    assert rd_ok["full_text_scope"] is True
+    assert rd_ok["estimated_message_input"] == gn_ok["estimated_input"] <= 32_768
+    assert gn_ok["status"] == "succeeded" and gn_ok["external_call_count"] == 1
+    assert gn_ok["total_tokens"] == 321
+    for cid in ok["message"]["blocks"][0]["citations"]:
+        ev_res = client.get(session + f"/messages/{ok['message']['message_id']}/evidence/{cid}")
+        assert ev_res.status_code == 200
+
+    # Path 2a: Partial budget limit (shrinks last fitting segment and drops remaining cells,
+    # with long history from previous turn).
+    tight_budget = gn_ok["estimated_input"] - 1500
+    settings.workspace_input_token_limit = tight_budget
+    shrunk = _ask(
+        client,
+        session,
+        '结合上一轮，继续用中文说明 "47B" 与 \\n 细节？',
+        rev,
+        client_id="t-shrunk",
+    )
+    rd_sh = shrunk["turn"]["trace"]["reading"]
+    gn_sh = shrunk["turn"]["trace"]["generation"]
+    assert rd_sh["full_text_scope"] is False
+    assert rd_sh["estimated_message_input"] == gn_sh["estimated_input"] <= tight_budget
+    assert gn_sh["status"] == "succeeded" and gn_sh["external_call_count"] == 1
+    assert len(gn_sh["input_evidence_ids"]) < 12
+    for cid in shrunk["message"]["blocks"][0]["citations"]:
+        ev_res = client.get(
+            session + f"/messages/{shrunk['message']['message_id']}/evidence/{cid}"
+        )
+        assert ev_res.status_code == 200
+        assert ev_res.json()["text"] == shrunk["message"]["sources"][cid]["reads"][0]["text"]
+
+    # Path 2b: Genuine hard over-limit (fixed overhead exceeded and no evidence fits).
+    calls_before = len(sent_messages)
+    settings.workspace_input_token_limit = 500
+    over_fixed = _ask(
+        client, session, "预算低于固定头部开销时会怎样？", rev, client_id="t-fixed-over"
+    )
+    assert over_fixed["message"]["blocks"][0]["code"] == "reading_budget"
+    assert over_fixed["turn"]["trace"]["reading"]["budget_reason"] == "fixed_overhead_exceeded"
+    assert over_fixed["turn"]["trace"]["generation"]["status"] == "budget_exceeded"
+    assert over_fixed["turn"]["trace"]["generation"]["budget_reason"] == "fixed_overhead_exceeded"
+    assert over_fixed["turn"]["trace"]["external_call_count"] == 0
+    assert len(sent_messages) == calls_before
+
+    fixed_needed = over_fixed["turn"]["trace"]["reading"]["prompt_reserve"]
+    settings.workspace_input_token_limit = fixed_needed + 30
+    over_no_ev = _ask(client, session, "预算低于固定头部开销时会怎样？", rev, client_id="t-no-ev")
+    assert over_no_ev["message"]["blocks"][0]["code"] == "reading_budget"
+    assert over_no_ev["turn"]["trace"]["reading"]["budget_reason"] == "no_evidence_fits"
+    assert over_no_ev["turn"]["trace"]["generation"]["status"] == "budget_exceeded"
+    assert over_no_ev["turn"]["trace"]["generation"]["budget_reason"] == "no_evidence_fits"
+    assert over_no_ev["turn"]["trace"]["external_call_count"] == 0
+    assert len(sent_messages) == calls_before
+
+    # Path 3: Model failure (budget precheck passes, provider errors -> excerpt_fallback).
+    settings.workspace_input_token_limit = 32_768
+
+    async def fail_provider(self, messages, **kwargs):
+        if self.on_attempt:
+            self.on_attempt({"status": 503, "outcome": "http_error"})
+        raise RuntimeError("simulated provider outage")
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fail_provider)
+    failed = _ask(client, session, "模型故障时如何回退？", rev, client_id="t-fail")
+    assert failed["turn"]["trace"]["generation"]["status"] == "provider_error"
+    assert failed["turn"]["trace"]["reading"]["estimated_message_input"] == (
+        failed["turn"]["trace"]["generation"]["estimated_input"]
+    )
+    assert any(b.get("code") == "excerpt_fallback" for b in failed["message"]["blocks"])
+    first_cid = failed["message"]["blocks"][0]["citations"][0]
+    assert (
+        client.get(
+            session + f"/messages/{failed['message']['message_id']}/evidence/{first_cid}"
+        ).status_code
+        == 200
+    )

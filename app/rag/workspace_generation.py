@@ -6,7 +6,7 @@ import asyncio
 import json
 import re
 from collections.abc import Mapping
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from time import perf_counter
 from typing import Any, Literal
 
@@ -14,7 +14,11 @@ import httpx
 
 from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
-from app.rag.workspace_reading import estimate_input_budget
+from app.rag.workspace_reading import (
+    _fit,
+    estimate_embedded_json_budget,
+    estimate_input_budget,
+)
 from app.schemas.turn_evidence import TurnEvidence
 
 OUTPUT_RESERVE = 8192
@@ -84,6 +88,66 @@ class Generation:
     statements: tuple[GeneratedStatement, ...]
     missing: str
     trace: dict[str, Any]
+    input_evidence: dict[str, TurnEvidence] = field(default_factory=dict)
+
+
+def _clean_context(context: Mapping[str, Any] | None) -> dict[str, str]:
+    return {
+        key: value
+        for key, value in (context or {}).items()
+        if key in {"previous_question", "previous_answer"} and type(value) is str
+    }
+
+
+def _clean_coverage(coverage: Mapping[str, Any] | None) -> dict[str, bool | int | str]:
+    return {
+        key: value
+        for key, value in (coverage or {}).items()
+        if key in _COVERAGE_FIELDS and type(value) in {bool, int, str}
+    }
+
+
+def _build_messages(
+    question: str,
+    *,
+    mode: str,
+    context: Mapping[str, Any] | None = None,
+    coverage: Mapping[str, Any] | None = None,
+    evidence: list[dict[str, Any]],
+) -> list[dict[str, str]]:
+    prompt_data = {
+        "question": question,
+        "mode": mode,
+        "previous_context": _clean_context(context),
+        "coverage": _clean_coverage(coverage),
+        "evidence": evidence,
+    }
+    instructions = _INSTRUCTIONS + (_COMPOSITION_INSTRUCTIONS if mode == "compose" else "")
+    return [
+        {"role": "system", "content": instructions},
+        {
+            "role": "user",
+            "content": json.dumps(prompt_data, ensure_ascii=False, separators=(",", ":")),
+        },
+    ]
+
+
+def estimate_prompt_reserve(
+    question: str,
+    *,
+    mode: str,
+    context: Mapping[str, Any] | None = None,
+    coverage: Mapping[str, Any] | None = None,
+) -> int:
+    """Exact byte-level overhead of the final chat completion request before evidence."""
+    messages = _build_messages(
+        question,
+        mode=mode,
+        context=context,
+        coverage=coverage,
+        evidence=[],
+    )
+    return estimate_input_budget(messages) + _CHAT_FRAME_RESERVE
 
 
 def generate_response(
@@ -106,54 +170,85 @@ def generate_response(
     }
 
     def finish(
-        status: GenerationStatus, statements: tuple[GeneratedStatement, ...] = (), missing: str = ""
+        status: GenerationStatus,
+        statements: tuple[GeneratedStatement, ...] = (),
+        missing: str = "",
+        selected_evidence: dict[str, TurnEvidence] | None = None,
     ) -> Generation:
         trace.update(
             status=status,
             external_call_count=len(attempts),
             elapsed_ms=round((perf_counter() - started) * 1000, 3),
         )
-        return Generation(status, statements, missing, trace)
+        return Generation(status, statements, missing, trace, selected_evidence or {})
 
     if not settings.workspace_answer_enabled:
         return finish("disabled")
     if not settings.deepseek_api_key.strip():
         return finish("not_configured")
-    evidence_data = _read_text(evidence)
+    evidence_data, valid_evidence = _read_text_with_items(evidence)
     trace["input_evidence_ids"] = list(evidence_data)
     if not evidence_data:
         return finish("insufficient", missing="本轮没有可核对的文字依据。")
 
-    prompt_data = {
-        "question": question,
-        "mode": mode,
-        "previous_context": {
-            key: value
-            for key, value in (context or {}).items()
-            if key in {"previous_question", "previous_answer"} and type(value) is str
-        },
-        "coverage": {
-            key: value
-            for key, value in (coverage or {}).items()
-            if key in _COVERAGE_FIELDS and type(value) in {bool, int, str}
-        },
-        "evidence": list(evidence_data.values()),
-    }
-    instructions = _INSTRUCTIONS + (_COMPOSITION_INSTRUCTIONS if mode == "compose" else "")
-    messages = [
-        {"role": "system", "content": instructions},
-        {
-            "role": "user",
-            "content": json.dumps(prompt_data, ensure_ascii=False, separators=(",", ":")),
-        },
-    ]
-    estimated_input = estimate_input_budget(messages) + _CHAT_FRAME_RESERVE
+    fixed_overhead = estimate_prompt_reserve(
+        question, mode=mode, context=context, coverage=coverage
+    )
+    messages = _build_messages(
+        question,
+        mode=mode,
+        context=context,
+        coverage=coverage,
+        evidence=list(evidence_data.values()),
+    )
+    raw_estimated_input = estimate_input_budget(messages) + _CHAT_FRAME_RESERVE
     input_budget = min(
         settings.workspace_input_token_limit, settings.answer_context_tokens - OUTPUT_RESERVE
     )
-    trace.update(estimated_input=estimated_input, input_budget=max(0, input_budget))
-    if estimated_input > input_budget:
-        return finish("budget_exceeded")
+    trace.update(
+        fixed_overhead=fixed_overhead,
+        estimated_input=raw_estimated_input,
+        input_budget=max(0, input_budget),
+    )
+    if raw_estimated_input > input_budget:
+        if input_budget <= 0 or fixed_overhead > input_budget:
+            trace.update(
+                budget_reason="fixed_overhead_exceeded",
+                input_evidence_ids=[],
+                dropped_evidence_ids=list(evidence_data),
+            )
+            return finish("budget_exceeded")
+        evidence_data, valid_evidence, trimmed_ids, dropped_ids = _fit_evidence_to_budget(
+            evidence_data, valid_evidence, input_budget - fixed_overhead
+        )
+        if not evidence_data:
+            trace.update(
+                budget_reason="no_evidence_fits",
+                input_evidence_ids=[],
+                dropped_evidence_ids=dropped_ids,
+            )
+            return finish("budget_exceeded")
+        messages = _build_messages(
+            question,
+            mode=mode,
+            context=context,
+            coverage=coverage,
+            evidence=list(evidence_data.values()),
+        )
+        estimated_input = estimate_input_budget(messages) + _CHAT_FRAME_RESERVE
+        trace.update(
+            raw_estimated_input=raw_estimated_input,
+            estimated_input=estimated_input,
+            input_evidence_ids=list(evidence_data),
+            trimmed_evidence_ids=trimmed_ids,
+            dropped_evidence_ids=dropped_ids,
+        )
+        if estimated_input > input_budget:
+            trace.update(
+                budget_reason="no_evidence_fits",
+                input_evidence_ids=[],
+            )
+            return finish("budget_exceeded")
 
     client = DeepSeekClient(settings, on_attempt=attempts.append)
     try:
@@ -172,11 +267,18 @@ def generate_response(
     except (ValueError, TypeError, RecursionError):
         return finish("invalid_response")
     status = "insufficient" if not statements else ("partial" if missing else "succeeded")
-    return finish(status, statements, missing)
+    return finish(status, statements, missing, valid_evidence)
 
 
 def _read_text(evidence: Mapping[str, TurnEvidence]) -> dict[str, dict]:
-    result = {}
+    return _read_text_with_items(evidence)[0]
+
+
+def _read_text_with_items(
+    evidence: Mapping[str, TurnEvidence],
+) -> tuple[dict[str, dict[str, Any]], dict[str, TurnEvidence]]:
+    result: dict[str, dict[str, Any]] = {}
+    items: dict[str, TurnEvidence] = {}
     for identifier, item in evidence.items():
         if identifier != item.evidence_id:
             continue
@@ -201,7 +303,93 @@ def _read_text(evidence: Mapping[str, TurnEvidence]) -> dict[str, dict]:
                 },
                 "reads": reads,
             }
-    return result
+            items[identifier] = item
+    return result, items
+
+
+def _fit_evidence_to_budget(
+    evidence_data: Mapping[str, dict[str, Any]],
+    valid_evidence: Mapping[str, TurnEvidence],
+    budget: int,
+) -> tuple[dict[str, dict[str, Any]], dict[str, TurnEvidence], list[str], list[str]]:
+    fitted_data: dict[str, dict[str, Any]] = {}
+    fitted_items: dict[str, TurnEvidence] = {}
+    trimmed_ids: list[str] = []
+    keys = list(evidence_data)
+    used = 0
+    for idx, identifier in enumerate(keys):
+        entry = evidence_data[identifier]
+        item = valid_evidence[identifier]
+        comma_cost = 1 if fitted_data else 0
+        full_cost = comma_cost + estimate_embedded_json_budget(entry)
+        if used + full_cost <= budget:
+            fitted_data[identifier] = entry
+            fitted_items[identifier] = item
+            used += full_cost
+            continue
+        first_read = entry["reads"][0]
+        raw_text = first_read["text"]
+        partial_skeleton = {
+            **entry,
+            "reads": [{"method": first_read["method"], "status": "partial", "text": ""}],
+        }
+        meta_cost = comma_cost + estimate_embedded_json_budget(partial_skeleton)
+        capacity = budget - used - meta_cost
+        end = _fit(raw_text, 0, capacity)
+        shrunk_text = raw_text[:end]
+        if end > 0 and shrunk_text.strip():
+            fitted_data[identifier] = {
+                **entry,
+                "reads": [
+                    {
+                        "method": first_read["method"],
+                        "status": "partial",
+                        "text": shrunk_text,
+                    }
+                ],
+            }
+            fitted_items[identifier] = _trim_turn_evidence(item, shrunk_text, end)
+            trimmed_ids.append(identifier)
+            dropped_ids = keys[idx + 1 :]
+        else:
+            dropped_ids = keys[idx:]
+        return fitted_data, fitted_items, trimmed_ids, dropped_ids
+    return fitted_data, fitted_items, trimmed_ids, []
+
+
+def _trim_turn_evidence(item: TurnEvidence, shrunk_text: str, end: int) -> TurnEvidence:
+    source = item.revision.source
+    new_reads = []
+    replaced = False
+    for read in item.reads:
+        if (
+            not replaced
+            and read.actual_source == source
+            and read.method in _TEXT_METHODS
+            and read.status in {"succeeded", "partial"}
+            and read.text.strip()
+        ):
+            warnings = list(read.warnings)
+            if "excerpt_truncated" not in warnings:
+                warnings.append("excerpt_truncated")
+            new_reads.append(
+                read.model_copy(
+                    update={"text": shrunk_text, "status": "partial", "warnings": warnings}
+                )
+            )
+            replaced = True
+        elif read.method not in _TEXT_METHODS:
+            new_reads.append(read)
+    new_locator = dict(item.locator)
+    if isinstance(span := new_locator.get("text_span"), list) and len(span) == 2:
+        new_locator["text_span"] = [span[0], span[0] + end]
+    return item.model_copy(
+        update={
+            "reads": new_reads,
+            "read_status": "partial",
+            "locator": new_locator,
+        }
+    )
 
 
 def _parse_answer(content: object, allowed) -> tuple[tuple[GeneratedStatement, ...], str]:

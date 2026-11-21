@@ -86,15 +86,44 @@ class _Readable:
     text: str
     method: Literal["native_text", "native_table", "ocr"]
     headers: tuple[str, ...] = ()
+    file_name: str = ""
+
+    def metadata_size_for(self, ev_index: int = 1) -> int:
+        skeleton = {
+            "id": f"ev-{ev_index}",
+            "source": _source_key(self.source).model_dump(),
+            "file_name": self.file_name,
+            "locator": {
+                name: self.source.locator[name]
+                for name in _POSITION_FIELDS
+                if name in self.source.locator
+            },
+            "reads": [{"method": self.method, "status": "succeeded", "text": ""}],
+        }
+        return estimate_embedded_json_budget(skeleton) + (1 if ev_index > 1 else 0)
 
     @property
     def metadata_size(self) -> int:
-        return estimate_input_budget({**_descriptor(self.source), "headers": self.headers}) + 48
+        return self.metadata_size_for(1)
 
 
 def estimate_input_budget(value: Any) -> int:
     """Conservative UTF-8 JSON sizing for byte-level model input, not billed tokens."""
     return len(json.dumps(value, ensure_ascii=False, separators=(",", ":")).encode())
+
+
+def estimate_embedded_json_budget(value: Any) -> int:
+    """Exact UTF-8 byte cost of a JSON value serialized inside a JSON string field."""
+    raw = json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+    escaped = json.dumps(raw, ensure_ascii=False, separators=(",", ":"))[1:-1]
+    return len(escaped.encode())
+
+
+def estimate_embedded_text_budget(text: str) -> int:
+    """Exact UTF-8 byte cost of string characters inside an embedded JSON string field."""
+    raw = json.dumps(text, ensure_ascii=False, separators=(",", ":"))[1:-1]
+    escaped = json.dumps(raw, ensure_ascii=False, separators=(",", ":"))[1:-1]
+    return len(escaped.encode())
 
 
 def read_window(
@@ -119,7 +148,7 @@ def read_window(
     sources = sorted(snapshot.sources, key=_position)
     available = _available_documents(store, documents, sources, active)
     preferred = {_key(item) for item in preferred_sources}
-    candidates, skipped, unread = _readable_sources(store, sources, available, preferred)
+    candidates, skipped, unread = _readable_sources(store, sources, documents, available, preferred)
     outline = [_descriptor(source) for source in sources if source.kind in {"page", "cell"}]
     outline = [entry for entry in outline if entry["title"]]
     anchor_names = {_key(item.source) for item in candidates if _key(item.source) in preferred}
@@ -128,7 +157,10 @@ def read_window(
         cursor.prioritized
         if cursor
         else bool(anchor_names)
-        and sum(item.metadata_size + estimate_input_budget(item.text) for item in candidates)
+        and sum(
+            item.metadata_size_for(idx) + estimate_embedded_text_budget(item.text)
+            for idx, item in enumerate(candidates, 1)
+        )
         > budget
     )
     if prioritized:
@@ -153,9 +185,10 @@ def read_window(
         if not active():
             raise WorkspaceError("interrupted")
         item = candidates[index]
-        capacity = budget - used - item.metadata_size
+        meta_size = item.metadata_size_for(len(segments) + 1)
+        capacity = budget - used - meta_size
         end = _fit(item.text, offset, capacity)
-        if end == offset:
+        if end == offset or not item.text[offset:end].strip():
             if not segments:
                 raise ValueError("reading budget cannot fit the next text segment and its source")
             break
@@ -171,7 +204,7 @@ def read_window(
                 item.headers,
             )
         )
-        used += item.metadata_size + estimate_input_budget(text)
+        used += meta_size + estimate_embedded_text_budget(text)
         if end < len(item.text):
             offset = end
             break
@@ -230,7 +263,7 @@ def _available_documents(store, documents, sources, active) -> frozenset[str]:
     return frozenset(available)
 
 
-def _readable_sources(store, sources, available, preferred):
+def _readable_sources(store, sources, documents, available, preferred):
     by_key = {_key(source): source for source in sources}
     result = []
     skipped = []
@@ -240,6 +273,8 @@ def _readable_sources(store, sources, available, preferred):
         if visual:
             unread.append(_descriptor(source))
         text = source.text
+        doc = documents.get(source.document_id)
+        file_name = doc.file_name if doc else ""
         if source.document_id not in available:
             reason = "original_unavailable"
         elif not text.strip():
@@ -249,7 +284,7 @@ def _readable_sources(store, sources, available, preferred):
                 else ""
             )
             if ocr:
-                result.append(_Readable(source, ocr, "ocr"))
+                result.append(_Readable(source, ocr, "ocr", file_name=file_name))
                 continue
             reason = (
                 "needs_ocr"
@@ -278,6 +313,7 @@ def _readable_sources(store, sources, available, preferred):
                         text,
                         "native_table" if object_type == "table" else "native_text",
                         headers,
+                        file_name,
                     )
                 )
                 continue
@@ -321,18 +357,22 @@ def _resume(candidates, cursor, signature):
 
 
 def _fit(text: str, start: int, budget: int) -> int:
-    if estimate_input_budget(text[start:]) <= budget:
+    if budget <= 0 or start >= len(text):
+        return start
+    if estimate_embedded_text_budget(text[start:]) <= budget:
         return len(text)
-    lo, hi = start, min(len(text), start + max(budget - 2, 0))
+    lo, hi = start, min(len(text), start + budget)
     while lo < hi:
         middle = (lo + hi + 1) // 2
-        if estimate_input_budget(text[start:middle]) <= budget:
+        if estimate_embedded_text_budget(text[start:middle]) <= budget:
             lo = middle
         else:
             hi = middle - 1
     # Prefer a whole line (especially a table row), with a hard split for oversized rows.
     edge = text.rfind("\n", start + (lo - start) // 2, lo)
-    return edge + 1 if edge >= start else lo
+    if edge >= start and text[start : edge + 1].strip():
+        return edge + 1
+    return lo
 
 
 def _sample_outline(outline: list[dict[str, Any]]) -> list[dict[str, Any]]:
