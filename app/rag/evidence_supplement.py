@@ -74,10 +74,19 @@ _METRICS = {
     "f1": re.compile(r"\bF1\b", re.IGNORECASE),
 }
 _NEGATES_CONDITION = re.compile(
-    r"(?:\b(?:not|without|exclude|except)|不要|不(?:用|是|采用|使用)|排除)"
+    r"(?:\b(?:not|without|exclude|except|different\s+from|distinct\s+from)|"
+    r"不要|不(?:用|是|采用|使用|同于)|并非|排除|区别于)"
     r"[ \t]*(?:(?:use|using|the|only)[ \t]+)?$",
     re.IGNORECASE,
 )
+_SENTENCE_BREAK = re.compile(r"[。\n!?！？；;]|(?<!\d)\.(?!\d)")
+_EXP_REF_LABELED = re.compile(
+    r"\bExperiment-ID\s*:\s*([A-Za-z0-9_-]+)\b"
+    r"|\b(?:Trial|Experiment|Exp|Run)\s*[#:-]?\s*([A-Za-z0-9_-]+)\b"
+    r"|实验\s*([A-Za-z0-9_-]+)",
+    re.IGNORECASE,
+)
+_EXP_REF_CODE = re.compile(r"\b([A-Za-z]+[0-9][A-Za-z0-9_-]*)\b")
 _TOPIC_PARTS = re.compile(r"[a-z0-9]+(?:[ \t._-]+[a-z0-9]+)*|[\u3400-\u9fff]{2,40}")
 _ZH_TOPIC_PREFIX = re.compile(r"^(?:请问|请给出|请说明|解释|什么是)[ \t]*")
 _EXPLICIT_TOPIC = re.compile(
@@ -794,8 +803,16 @@ def _experiment_in(
         fields.get(name) for name in ("split", "metric", "unit", "baseline", "trial", "samples")
     ):
         return None, "experiment_fields_missing"
+    def_block_start, def_block_end = _block_bounds(
+        definition.evidence.reads[0].text, definition.support.start
+    )
+    def_block = definition.evidence.reads[0].text[def_block_start:def_block_end]
     if problem := _condition_problem(
-        question, fields, context_texts=(read.text, definition.evidence.reads[0].text)
+        question,
+        fields,
+        context_texts=(segment, def_block),
+        experiment_id=anchor.word,
+        ambiguous_context=len(markers) > 1,
     ):
         return None, problem
     if not all(_NUMBER.fullmatch(fields[name]) for name in ("baseline", "trial")):
@@ -882,21 +899,84 @@ def _experiment_fields(segment: str) -> tuple[dict[str, str], int, str | None]:
     return fields, field_end, None
 
 
+def _norm_exp_id(value: str) -> str:
+    return re.sub(r"[\s_-]+", "", unicodedata.normalize("NFKC", value)).casefold()
+
+
+def _sentence_bounds(text: str, offset: int) -> tuple[int, int]:
+    start = 0
+    for boundary in _SENTENCE_BREAK.finditer(text):
+        if boundary.start() >= offset:
+            return start, boundary.start()
+        start = boundary.end()
+    return start, len(text)
+
+
+def _sentence_exp_refs(sentence: str) -> set[tuple[str, str]]:
+    """Return normalized (full_ref, suffix_ref) pairs mentioned in sentence."""
+    refs: set[tuple[str, str]] = set()
+    for match in _EXP_REF_LABELED.finditer(sentence):
+        full = _norm_exp_id(match.group(0))
+        suffix = _norm_exp_id(match.group(1) or match.group(2) or match.group(3))
+        refs.add((full, suffix))
+    for match in _EXP_REF_CODE.finditer(sentence):
+        code = _norm_exp_id(match.group(1))
+        refs.add((code, code))
+    return refs
+
+
+def _ref_matches_target(ref: tuple[str, str], target_norm: str) -> bool:
+    full, suffix = ref
+    if target_norm in {full, suffix}:
+        return True
+    if len(suffix) == 1 and re.fullmatch(
+        rf"(?:trial|exp|experiment|run)?{re.escape(suffix)}", target_norm
+    ):
+        return True
+    return False
+
+
+def _question_exp_id(question: str) -> str | None:
+    refs = _sentence_exp_refs(question)
+    if len(refs) == 1:
+        _, suffix = next(iter(refs))
+        return suffix
+    return None
+
+
 def _explicit_split_equivalence(
-    context_texts: Sequence[str], actual: str, requested: str
+    context_texts: Sequence[str],
+    actual: str,
+    requested: str,
+    *,
+    target_experiment_id: str | None = None,
+    ambiguous_context: bool = False,
 ) -> bool:
     pair = {actual.casefold().strip(), requested.casefold().strip()}
     if pair != {"held-out", "test"} and not (
         requested == "test" and _SPLITS["held-out"].fullmatch(actual)
     ):
         return False
+    target_norm = _norm_exp_id(target_experiment_id) if target_experiment_id else None
     for raw in context_texts:
         normalized = unicodedata.normalize("NFKC", raw)
         for pattern in _EXPLICIT_HELDOUT_TEST_PATTERNS:
             for match in pattern.finditer(normalized):
-                prefix = normalized[max(0, match.start() - 32) : match.start()]
-                if not _NEGATES_CONDITION.search(prefix):
-                    return True
+                sent_start, sent_end = _sentence_bounds(normalized, match.start())
+                sentence = normalized[sent_start:sent_end]
+                rel_start = match.start() - sent_start
+                prefix = sentence[max(0, rel_start - 40) : rel_start]
+                if _NEGATES_CONDITION.search(prefix):
+                    continue
+                refs = _sentence_exp_refs(sentence)
+                if refs:
+                    if target_norm is None or not any(
+                        _ref_matches_target(ref, target_norm) for ref in refs
+                    ):
+                        continue
+                elif ambiguous_context:
+                    continue
+                return True
     return False
 
 
@@ -905,7 +985,10 @@ def _condition_problem(
     fields: dict[str, str],
     *,
     context_texts: Sequence[str] = (),
+    experiment_id: str | None = None,
+    ambiguous_context: bool = False,
 ) -> str | None:
+    target_id = experiment_id or _question_exp_id(question)
     for field, aliases in (("split", _SPLITS), ("metric", _METRICS)):
         named = {
             label: list(pattern.finditer(question))
@@ -923,7 +1006,11 @@ def _condition_problem(
             actual = fields[field]
             if actual.casefold() != requested and not aliases[requested].fullmatch(actual):
                 if field == "split" and _explicit_split_equivalence(
-                    context_texts, actual, requested
+                    context_texts,
+                    actual,
+                    requested,
+                    target_experiment_id=target_id,
+                    ambiguous_context=ambiguous_context,
                 ):
                     continue
                 return f"experiment_{field}_mismatch"
@@ -951,6 +1038,10 @@ def classify_experiment_evidence(
             support, reason = _requested_experiment_in(item, definition, question)
             if support is not None:
                 supported_ids.add(ev_id)
+            elif reason == "experiment_document_mismatch" and not _FIELDS.search(
+                item.reads[0].text
+            ):
+                continue
             elif reason != "no_experiment_marker":
                 rejected_reasons[ev_id] = reason
             continue
@@ -970,7 +1061,12 @@ def classify_experiment_evidence(
         ):
             rejected_reasons[ev_id] = problem or "experiment_fields_missing"
             continue
-        if cond_problem := _condition_problem(question, fields, context_texts=(read.text,)):
+        if cond_problem := _condition_problem(
+            question,
+            fields,
+            context_texts=(read.text,),
+            experiment_id=markers[0].group(1),
+        ):
             rejected_reasons[ev_id] = cond_problem
     return supported_ids, rejected_reasons
 

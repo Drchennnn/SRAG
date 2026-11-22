@@ -294,3 +294,94 @@ def test_dual_split_selects_only_matching_split_and_handles_provider_failure(
         assert any(
             b.get("code") == "excerpt_fallback" for b in r_fail["message"]["blocks"]
         )
+
+
+def test_split_equivalence_attribution_rejects_other_experiment_and_preserves_order_invariance():
+    from app.rag.evidence_supplement import _condition_problem
+
+    q_a = "实验 A 的测试集 MAE 是多少？"
+    fields = {"split": "held-out", "metric": "MAE"}
+    assert (
+        _condition_problem(
+            q_a,
+            fields,
+            context_texts=(
+                "A 使用留出验证集。For Trial B only, held-out is used as the test split.",
+            ),
+        )
+        == "experiment_split_mismatch"
+    )
+    assert (
+        _condition_problem(
+            q_a,
+            fields,
+            context_texts=(
+                "A 使用留出验证集。For Trial A only, held-out is used as the test split.",
+            ),
+        )
+        is None
+    )
+    assert (
+        _condition_problem(
+            q_a,
+            fields,
+            context_texts=("For Trial A, held-out is different from the test split.",),
+        )
+        == "experiment_split_mismatch"
+    )
+
+    # Same cell containing both TrialA and TrialB in both orders (A then B vs B then A)
+    def_a = _ev(
+        "ev-ga",
+        "doc-g",
+        "Guide.pdf",
+        "page:1",
+        "Definition: A basalt latch opens on three consecutive readings > 8 V.\n"
+        "Experiment-ID: TrialA.",
+        page=1,
+    )
+    def_b = _ev(
+        "ev-gb",
+        "doc-g",
+        "Guide.pdf",
+        "page:2",
+        "Definition: A quartz latch opens on two consecutive readings > 5 V.\n"
+        "Experiment-ID: TrialB.",
+        page=2,
+    )
+    rec_a = (
+        "Experiment-ID: TrialA. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4. "
+        "For TrialA only, held-out is used as the test split."
+    )
+    rec_b = (
+        "Experiment-ID: TrialB. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.44. Trial: 0.31. Samples: 8."
+    )
+    q_basalt = "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？"
+    q_quartz = "Quartz latch 的定义是什么？讲义所对应的测试集实验如何验证？"
+
+    for cell_text in (f"{rec_a}\n\n{rec_b}", f"{rec_b}\n\n{rec_a}"):
+        ev_cell = _ev("ev-lab", "doc-l", "Dual-Cell.ipynb", "cell:0", cell_text, cell_index=0)
+        sup_a, rej_a = classify_experiment_evidence(
+            {"ev-ga": def_a, "ev-gb": def_b, "ev-lab": ev_cell}, q_basalt
+        )
+        assert sup_a == {"ev-lab"} and rej_a == {}
+        sup_b, rej_b = classify_experiment_evidence(
+            {"ev-ga": def_a, "ev-gb": def_b, "ev-lab": ev_cell}, q_quartz
+        )
+        assert sup_b == set() and rej_b == {"ev-lab": "experiment_split_mismatch"}
+
+    # Unattributed generic sentence in a multi-experiment block must not apply to either
+    shared_block = (
+        "Experiment-ID: TrialA. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4.\n"
+        "Experiment-ID: TrialB. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.44. Trial: 0.31. Samples: 8.\n"
+        "Held-out is used as the test split."
+    )
+    ev_shared = _ev("ev-lab", "doc-l", "Shared.ipynb", "cell:0", shared_block, cell_index=0)
+    sup_s, rej_s = classify_experiment_evidence(
+        {"ev-ga": def_a, "ev-lab": ev_shared}, q_basalt
+    )
+    assert sup_s == set() and rej_s == {"ev-lab": "experiment_split_mismatch"}
