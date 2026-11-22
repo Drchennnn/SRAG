@@ -1,0 +1,3352 @@
+{
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "cases": {
+    "warmup_v1_cell1": {
+      "question": "请展示第 1 个 Cell 的保存输出，并说明命中率、P95 延迟和吞吐量分别是多少？",
+      "elapsed_ms": 2122.1,
+      "dom": {
+        "citations": [
+          "ev-2"
+        ],
+        "id": "3cf7cf7b7016459c8d5e88f8ea30b398",
+        "notices": [],
+        "text": "课程助手\n\n第 1 个 Cell 的保存输出为：Dataset: Zephyr-Cache-16k；Cache hit rate: 78.4%；P95 decode latency: 18.6 ms；Throughput: 1420 tok/s。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0\n\n命中率为 78.4%，P95 解码延迟为 18.6 ms，吞吐量为 1420 tok/s。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0\n\n图 1 · Zephyr-Cache-Benchmark.ipynb · v1 · 输出 1\n\nZephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件\n\n图 2 · Zephyr-Cache-Benchmark.ipynb · v1 · 输出 2\n\nZephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+        "opened_citations": {
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-16k\nCache hit rate: 78.4%\nP95 decode latency: 18.6 ms\nThroughput: 1420 tok/s\n",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "99d0d9ad-8ee1-4d16-bc9f-57494b7180e6",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "请展示第 1 个 Cell 的保存输出，并说明命中率、P95 延迟和吞吐量分别是多少？",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "section_path": []
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:0"
+            ],
+            "enumerated_source_count": 6,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 4,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g24-blind-course"
+            ],
+            "document_ids": [
+              "local_e57c6ade3fa14582b0446509ec5fbb86"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1909.079,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1945.471,
+            "estimated_input": 3004,
+            "external_call_count": 1,
+            "fixed_overhead": 2219,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 826
+          },
+          "reading": {
+            "budget": 30549,
+            "estimated_input": 785,
+            "estimated_message_input": 3004,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": 0,
+              "cell_range": null,
+              "page": null,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "title": "Code cell 1"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 1
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2219,
+            "read_ranges": [
+              {
+                "end": 37,
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "de1bda775243f983b1b4a3448fd6c0494e6f6f849f103d497061339a560db4a2",
+                "title": "Code cell 1"
+              },
+              {
+                "end": 99,
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "002cd0b205713e6fc4aee81b4d0e7147ebc524f34eaab9ab675defe57355a5d0",
+                "title": "Code cell 1 · output 1"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 1
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 1
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "skipped_total": 2,
+            "unread_visual": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 1
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 1
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "unread_visual_total": 2,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "2f7ad9e535604cf2922eaef7b7396e8a"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "第 1 个 Cell 的保存输出为：Dataset: Zephyr-Cache-16k；Cache hit rate: 78.4%；P95 decode latency: 18.6 ms；Throughput: 1420 tok/s。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "命中率为 78.4%，P95 解码延迟为 18.6 ms，吞吐量为 1420 tok/s。",
+            "type": "text"
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v1 · 输出 1",
+            "display_id": "ba71b41a5acc4e6590964b8678c1217b",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/3cf7cf7b7016459c8d5e88f8ea30b398/media/ba71b41a5acc4e6590964b8678c1217b?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v1 · 输出 2",
+            "display_id": "b0e5df09b81a4aba97add3b55d2bb1fc",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/3cf7cf7b7016459c8d5e88f8ea30b398/media/b0e5df09b81a4aba97add3b55d2bb1fc?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          }
+        ],
+        "message_id": "3cf7cf7b7016459c8d5e88f8ea30b398",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                37
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "run_kv_cache_eval(batch_tokens=16384)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                99
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-16k\nCache hit rate: 78.4%\nP95 decode latency: 18.6 ms\nThroughput: 1420 tok/s\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "2f7ad9e535604cf2922eaef7b7396e8a",
+        "visible_display_ids": [
+          "ba71b41a5acc4e6590964b8678c1217b",
+          "b0e5df09b81a4aba97add3b55d2bb1fc"
+        ]
+      }
+    },
+    "warmup_v1_cell2": {
+      "question": "第 2 个 Cell 保存输出里的淘汰策略和耗时是什么？",
+      "elapsed_ms": 1583.9,
+      "dom": {
+        "citations": [
+          "ev-2"
+        ],
+        "id": "d73b363313554feca7e02ebe4d79a50c",
+        "notices": [],
+        "text": "课程助手\n\n第 2 个 Cell 的输出显示：淘汰策略为 LRU，淘汰耗时为 2.4 ms。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 2 · 输出 0",
+        "opened_citations": {
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nEviction policy: LRU\nEviction overhead: 2.4 ms\n",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v1 · Cell 2 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "12f4a0b9-118e-412f-adec-66c2ff9ebb33",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 2 个 Cell 保存输出里的淘汰策略和耗时是什么？",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "eviction-policy-v1",
+                "cell_index": 1,
+                "section_path": []
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "eviction-policy-v1",
+                "cell_index": 1,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 2,
+            "checked_positions": [
+              "cell:1"
+            ],
+            "enumerated_source_count": 6,
+            "evidence_inspected_count": 2,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 2,
+            "searchable_source_count": 4,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g24-blind-course"
+            ],
+            "document_ids": [
+              "local_e57c6ade3fa14582b0446509ec5fbb86"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1489.776,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1506.048,
+            "estimated_input": 2894,
+            "external_call_count": 1,
+            "fixed_overhead": 2182,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 719
+          },
+          "reading": {
+            "budget": 30586,
+            "estimated_input": 712,
+            "estimated_message_input": 2894,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": 1,
+              "cell_range": null,
+              "page": null,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 1,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "title": "Code cell 2"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2182,
+            "read_ranges": [
+              {
+                "end": 20,
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 1,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "e71f80b205cc38909cdb36bcfb563049ce3bfce31f65a73ac35f333a75cf1d5c",
+                "title": "Code cell 2"
+              },
+              {
+                "end": 47,
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 1,
+                  "output_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "72581d80fd8ce8ecfbde857062161e89f50de0bd231cbbfaab8b1c2fc8dbe7b1",
+                "title": "Code cell 2 · output 1"
+              }
+            ],
+            "skipped": [],
+            "skipped_total": 0,
+            "unread_visual": [],
+            "unread_visual_total": 0,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "7eb0dea9ff31439e912db13348c99b4c"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "第 2 个 Cell 的输出显示：淘汰策略为 LRU，淘汰耗时为 2.4 ms。",
+            "type": "text"
+          }
+        ],
+        "message_id": "d73b363313554feca7e02ebe4d79a50c",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "eviction-policy-v1",
+              "cell_index": 1,
+              "section_path": [],
+              "text_span": [
+                0,
+                20
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "run_eviction_audit()",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "eviction-policy-v1",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                47
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Eviction policy: LRU\nEviction overhead: 2.4 ms\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "7eb0dea9ff31439e912db13348c99b4c",
+        "visible_display_ids": []
+      }
+    },
+    "meaning1_natural_explicit": {
+      "question": "跟之前那个版本比起来，第 1 个 Cell 保存输出里的命中率和 P95 延迟怎么变了？",
+      "elapsed_ms": 2410.5,
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2"
+        ],
+        "id": "0957655dcab944d7aa3b1f0be04fd005",
+        "notices": [],
+        "text": "课程助手\n\n第 1 个 Cell 保存输出中的缓存命中率从历史版本的 78.4% 变为当前版本的 91.2%，上升了 12.8 个百分点。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\nP95 解码延迟从历史版本的 18.6 ms 降至当前版本的 11.4 ms，减少了 7.2 ms。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\n两版输出的数据集也不同：历史版本为 Zephyr-Cache-16k，当前版本为 Zephyr-Cache-32k；因此上述命中率和延迟变化是在数据集不同的情况下比较得出的。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-16k\nCache hit rate: 78.4%\nP95 decode latency: 18.6 ms\nThroughput: 1420 tok/s",
+            "location": "历史版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0"
+          },
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "0970de90-4db6-461e-899a-750a4ce73c76",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "跟之前那个版本比起来，第 1 个 Cell 保存输出里的命中率和 P95 延迟怎么变了？",
+        "trace": {
+          "current_read_status": "succeeded",
+          "current_source": {
+            "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+            "source_id": "cell:0:output:0",
+            "version": 2
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2298.031,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2311.413,
+            "estimated_input": 3120,
+            "external_call_count": 1,
+            "fixed_overhead": 2182,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 913
+          },
+          "historical_message_id": "3cf7cf7b7016459c8d5e88f8ea30b398",
+          "historical_read_status": "succeeded",
+          "historical_source": {
+            "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          "route": "version_comparison"
+        },
+        "turn_id": "b3ed5c91b13a41e1979f8cf0ce20c0c7"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "第 1 个 Cell 保存输出中的缓存命中率从历史版本的 78.4% 变为当前版本的 91.2%，上升了 12.8 个百分点。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "P95 解码延迟从历史版本的 18.6 ms 降至当前版本的 11.4 ms，减少了 7.2 ms。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "两版输出的数据集也不同：历史版本为 Zephyr-Cache-16k，当前版本为 Zephyr-Cache-32k；因此上述命中率和延迟变化是在数据集不同的情况下比较得出的。",
+            "type": "text"
+          }
+        ],
+        "message_id": "0957655dcab944d7aa3b1f0be04fd005",
+        "ordinal": 6,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "version_role": "historical"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-16k\nCache hit rate: 78.4%\nP95 decode latency: 18.6 ms\nThroughput: 1420 tok/s",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "version_role": "current"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "b3ed5c91b13a41e1979f8cf0ce20c0c7",
+        "visible_display_ids": []
+      }
+    },
+    "meaning1_natural_implicit": {
+      "question": "和上一版相比有什么变化？",
+      "elapsed_ms": 2329.8,
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2"
+        ],
+        "id": "71454d12a6fa4027a2d86f36addf9577",
+        "notices": [],
+        "text": "课程助手\n\n数据集由 Zephyr-Cache-16k 变为 Zephyr-Cache-32k。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\n缓存命中率由 78.4% 升至 91.2%。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\nP95 解码延迟由 18.6 ms 降至 11.4 ms。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\n吞吐量由 1420 tok/s 升至 2380 tok/s。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-16k\nCache hit rate: 78.4%\nP95 decode latency: 18.6 ms\nThroughput: 1420 tok/s",
+            "location": "历史版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v1 · Cell 1 · 输出 0"
+          },
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "7ccd0e2c-240d-4d0e-9505-513abf9d8b02",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "和上一版相比有什么变化？",
+        "trace": {
+          "current_read_status": "succeeded",
+          "current_source": {
+            "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+            "source_id": "cell:0:output:0",
+            "version": 2
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2127.941,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2141.833,
+            "estimated_input": 3052,
+            "external_call_count": 1,
+            "fixed_overhead": 2114,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 871
+          },
+          "historical_message_id": "0957655dcab944d7aa3b1f0be04fd005",
+          "historical_read_status": "succeeded",
+          "historical_source": {
+            "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          "route": "version_comparison"
+        },
+        "turn_id": "17e372b60f944a1ab4f7787ffa7a5cf7"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "数据集由 Zephyr-Cache-16k 变为 Zephyr-Cache-32k。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "缓存命中率由 78.4% 升至 91.2%。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "P95 解码延迟由 18.6 ms 降至 11.4 ms。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "吞吐量由 1420 tok/s 升至 2380 tok/s。",
+            "type": "text"
+          }
+        ],
+        "message_id": "71454d12a6fa4027a2d86f36addf9577",
+        "ordinal": 8,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "version_role": "historical"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-16k\nCache hit rate: 78.4%\nP95 decode latency: 18.6 ms\nThroughput: 1420 tok/s",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "1bb33c85b17fbb565bf93d4681f0cc473b7da9cb5a01579b6293d529e09a02a1",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "version_role": "current"
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "17e372b60f944a1ab4f7787ffa7a5cf7",
+        "visible_display_ids": []
+      }
+    },
+    "meaning2_old_image_only": {
+      "question": "刚才旧版展示的第 2 张图横轴是什么？",
+      "elapsed_ms": 173.0,
+      "dom": {
+        "citations": [],
+        "id": "20a523db00d34aaab769aefc561a2853",
+        "notices": [],
+        "text": "课程助手\n\n这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "2b0e0bb9-7b6d-4a64-96d7-22c0746a7f70",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+            "source_id": "cell:0:output:2",
+            "version": 1
+          },
+          "display_id": "b0e5df09b81a4aba97add3b55d2bb1fc",
+          "message_id": "3cf7cf7b7016459c8d5e88f8ea30b398",
+          "method": "visible_ordinal",
+          "ordinal": 2,
+          "resolution": "visible_ordinal"
+        },
+        "retryable": false,
+        "status": "completed",
+        "text": "刚才旧版展示的第 2 张图横轴是什么？",
+        "trace": null,
+        "turn_id": "df4af964d80f4a20bfbd780d212d6cbd"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "historical_only",
+            "text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "20a523db00d34aaab769aefc561a2853",
+        "ordinal": 10,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "df4af964d80f4a20bfbd780d212d6cbd",
+        "visible_display_ids": []
+      }
+    },
+    "meaning2_old_text_only": {
+      "question": "之前那版第 1 个 Cell 保存输出里的 P95 延迟是多少？",
+      "elapsed_ms": 2002.7,
+      "dom": {
+        "citations": [
+          "ev-2"
+        ],
+        "id": "02dafd1f456c4f4cbe57d564b81a7e0e",
+        "notices": [],
+        "text": "课程助手\n\n当前证据中第 1 个 Cell（cell_index 0）的保存输出显示：P95 decode latency 为 11.4 ms。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\n无法确认“之前那版”的 P95 延迟：本轮证据只包含版本 2 的 Cell 0 及其输出，没有历史版本或版本比较证据。\n\n图 1 · Zephyr-Cache-Benchmark.ipynb · v2 · 输出 1\n\nZephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件\n\n图 2 · Zephyr-Cache-Benchmark.ipynb · v2 · 输出 2\n\nZephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+        "opened_citations": {
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s\n",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "c045fc82-b093-4aba-ae4d-3f483bcb6a79",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "之前那版第 1 个 Cell 保存输出里的 P95 延迟是多少？",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "section_path": []
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:0"
+            ],
+            "enumerated_source_count": 6,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 4,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g24-blind-course"
+            ],
+            "document_ids": [
+              "local_e57c6ade3fa14582b0446509ec5fbb86"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1848.899,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1864.105,
+            "estimated_input": 2969,
+            "external_call_count": 1,
+            "fixed_overhead": 2184,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 794
+          },
+          "reading": {
+            "budget": 30584,
+            "estimated_input": 785,
+            "estimated_message_input": 2969,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": 0,
+              "cell_range": null,
+              "page": null,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "title": "Code cell 1"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2184,
+            "read_ranges": [
+              {
+                "end": 37,
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "19f99f811dd6ae616cbb45872c6ef666c416bd34e0b57aacf2cff28b567abba1",
+                "title": "Code cell 1"
+              },
+              {
+                "end": 99,
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "803fb1099765fd1937284d96d7865fc35f8dfbfae984ea02516ea2836e910e4f",
+                "title": "Code cell 1 · output 1"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "skipped_total": 2,
+            "unread_visual": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "unread_visual_total": 2,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "260367a6f05d4e0fa6412a8ece8d027b"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "当前证据中第 1 个 Cell（cell_index 0）的保存输出显示：P95 decode latency 为 11.4 ms。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "无法确认“之前那版”的 P95 延迟：本轮证据只包含版本 2 的 Cell 0 及其输出，没有历史版本或版本比较证据。",
+            "type": "notice"
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v2 · 输出 1",
+            "display_id": "0eab3d6acdc04ab3944caf10aca4ed15",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/02dafd1f456c4f4cbe57d564b81a7e0e/media/0eab3d6acdc04ab3944caf10aca4ed15?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v2 · 输出 2",
+            "display_id": "17ca1d935b2f465c961f1ea89f22eaa4",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/02dafd1f456c4f4cbe57d564b81a7e0e/media/17ca1d935b2f465c961f1ea89f22eaa4?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          }
+        ],
+        "message_id": "02dafd1f456c4f4cbe57d564b81a7e0e",
+        "ordinal": 12,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                37
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "run_kv_cache_eval(batch_tokens=32768)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                99
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "260367a6f05d4e0fa6412a8ece8d027b",
+        "visible_display_ids": [
+          "0eab3d6acdc04ab3944caf10aca4ed15",
+          "17ca1d935b2f465c961f1ea89f22eaa4"
+        ]
+      }
+    },
+    "meaning3_current_two_images": {
+      "question": "比较当前版里的两张图片有什么区别",
+      "elapsed_ms": 154.7,
+      "dom": {
+        "citations": [],
+        "id": "3bb7807e58c44160aa5d03440bf89430",
+        "notices": [],
+        "text": "课程助手\n\n有多个可能的对象，请指定原件位置或图序。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "35bced12-3f6f-4aa3-82ad-ef904dd38c74",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "比较当前版里的两张图片有什么区别",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g24-blind-course"
+            ],
+            "document_ids": [
+              "local_e57c6ade3fa14582b0446509ec5fbb86"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            },
+            {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            }
+          ],
+          "route": "target_object"
+        },
+        "turn_id": "bc9f803141c448f384830c45af9fc0b8"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "object_ambiguous",
+            "text": "有多个可能的对象，请指定原件位置或图序。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "3bb7807e58c44160aa5d03440bf89430",
+        "ordinal": 14,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "bc9f803141c448f384830c45af9fc0b8",
+        "visible_display_ids": []
+      }
+    },
+    "meaning4_negated_compare": {
+      "question": "不用和旧版对比，直接告诉我现在第 1 个 Cell 保存输出的命中率是多少？",
+      "elapsed_ms": 1694.8,
+      "dom": {
+        "citations": [
+          "ev-2"
+        ],
+        "id": "ad1c682df6fc4744a9f0b588b62421b5",
+        "notices": [],
+        "text": "课程助手\n\n当前第 1 个 Cell（cell_index 0）保存的输出显示：Cache hit rate 为 91.2%。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\n图 1 · Zephyr-Cache-Benchmark.ipynb · v2 · 输出 1\n\nZephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件\n\n图 2 · Zephyr-Cache-Benchmark.ipynb · v2 · 输出 2\n\nZephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+        "opened_citations": {
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s\n",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "0e8ab851-6184-4617-9f61-44215c4149d7",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "不用和旧版对比，直接告诉我现在第 1 个 Cell 保存输出的命中率是多少？",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "section_path": []
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:0"
+            ],
+            "enumerated_source_count": 6,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 4,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g24-blind-course"
+            ],
+            "document_ids": [
+              "local_e57c6ade3fa14582b0446509ec5fbb86"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1493.556,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1508.264,
+            "estimated_input": 2997,
+            "external_call_count": 1,
+            "fixed_overhead": 2212,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 756
+          },
+          "reading": {
+            "budget": 30556,
+            "estimated_input": 785,
+            "estimated_message_input": 2997,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": 0,
+              "cell_range": null,
+              "page": null,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "title": "Code cell 1"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2212,
+            "read_ranges": [
+              {
+                "end": 37,
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "19f99f811dd6ae616cbb45872c6ef666c416bd34e0b57aacf2cff28b567abba1",
+                "title": "Code cell 1"
+              },
+              {
+                "end": 99,
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "803fb1099765fd1937284d96d7865fc35f8dfbfae984ea02516ea2836e910e4f",
+                "title": "Code cell 1 · output 1"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "skipped_total": 2,
+            "unread_visual": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "unread_visual_total": 2,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "e509d5bea0eb45baae0c65aa0417c612"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "当前第 1 个 Cell（cell_index 0）保存的输出显示：Cache hit rate 为 91.2%。",
+            "type": "text"
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v2 · 输出 1",
+            "display_id": "bfd28a9bf2ed43fe90e96c3e32aa78e3",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/ad1c682df6fc4744a9f0b588b62421b5/media/bfd28a9bf2ed43fe90e96c3e32aa78e3?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v2 · 输出 2",
+            "display_id": "df80ab73bda24eedae28d05fce1849d8",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/ad1c682df6fc4744a9f0b588b62421b5/media/df80ab73bda24eedae28d05fce1849d8?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          }
+        ],
+        "message_id": "ad1c682df6fc4744a9f0b588b62421b5",
+        "ordinal": 16,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                37
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "run_kv_cache_eval(batch_tokens=32768)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                99
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "e509d5bea0eb45baae0c65aa0417c612",
+        "visible_display_ids": [
+          "bfd28a9bf2ed43fe90e96c3e32aa78e3",
+          "df80ab73bda24eedae28d05fce1849d8"
+        ]
+      }
+    },
+    "meaning4_background_trend": {
+      "question": "我们已经换掉旧版了，说说当前版第 1 个 Cell 里延迟的变化趋势",
+      "elapsed_ms": 2200.9,
+      "dom": {
+        "citations": [
+          "ev-1",
+          "ev-2"
+        ],
+        "id": "786c4cf567704a9cb4119249c644a57d",
+        "notices": [],
+        "text": "课程助手\n\n当前版（version 2）第 1 个 Cell 的代码为 run_kv_cache_eval(batch_tokens=32768)，其输出显示：Dataset 为 Zephyr-Cache-32k，Cache hit rate 为 91.2%，P95 decode latency 为 11.4 ms，Throughput 为 2380 tok/s。\n\n依据 · Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0\n\n证据只给出当前版第 1 个 Cell 的单个输出快照，未提供延迟的历史数值或多次运行数据，因此无法确认延迟的变化趋势；也未读取该 Cell 的图表（尚有 2 处可视化未读）。\n\n图 1 · Zephyr-Cache-Benchmark.ipynb · v2 · 输出 1\n\nZephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件\n\n图 2 · Zephyr-Cache-Benchmark.ipynb · v2 · 输出 2\n\nZephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "run_kv_cache_eval(batch_tokens=32768)",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1"
+          },
+          "ev-2": {
+            "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nDataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s\n",
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Zephyr-Cache-Benchmark.ipynb · v2 · Cell 1 · 输出 0"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "f8651b6d-9d9c-4ab6-bc53-6bda9d859d1e",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "我们已经换掉旧版了，说说当前版第 1 个 Cell 里延迟的变化趋势",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "section_path": []
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Zephyr-Cache-Benchmark.ipynb",
+              "locator": {
+                "cell_id": "kv-cache-bench",
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                    "source_id": "cell:0",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:0"
+            ],
+            "enumerated_source_count": 6,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 4,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g24-blind-course"
+            ],
+            "document_ids": [
+              "local_e57c6ade3fa14582b0446509ec5fbb86"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2047.538,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2061.311,
+            "estimated_input": 2985,
+            "external_call_count": 1,
+            "fixed_overhead": 2200,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 862
+          },
+          "reading": {
+            "budget": 30568,
+            "estimated_input": 785,
+            "estimated_message_input": 2985,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": 0,
+              "cell_range": null,
+              "page": null,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "title": "Code cell 1"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              },
+              {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2200,
+            "read_ranges": [
+              {
+                "end": 37,
+                "kind": "cell",
+                "locator": {
+                  "cell_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "19f99f811dd6ae616cbb45872c6ef666c416bd34e0b57aacf2cff28b567abba1",
+                "title": "Code cell 1"
+              },
+              {
+                "end": 99,
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 0,
+                  "section_path": []
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "start": 0,
+                "text_sha256": "803fb1099765fd1937284d96d7865fc35f8dfbfae984ea02516ea2836e910e4f",
+                "title": "Code cell 1 · output 1"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "skipped_total": 2,
+            "unread_visual": [
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:1",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 2"
+              },
+              {
+                "kind": "notebook_output",
+                "locator": {
+                  "cell_index": 0,
+                  "output_index": 2,
+                  "section_path": []
+                },
+                "source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:2",
+                  "version": 2
+                },
+                "title": "Code cell 1 · output 3"
+              }
+            ],
+            "unread_visual_total": 2,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "d6cdebfeca5046b0bb08e0ca7fe2bdbd"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "当前版（version 2）第 1 个 Cell 的代码为 run_kv_cache_eval(batch_tokens=32768)，其输出显示：Dataset 为 Zephyr-Cache-32k，Cache hit rate 为 91.2%，P95 decode latency 为 11.4 ms，Throughput 为 2380 tok/s。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "证据只给出当前版第 1 个 Cell 的单个输出快照，未提供延迟的历史数值或多次运行数据，因此无法确认延迟的变化趋势；也未读取该 Cell 的图表（尚有 2 处可视化未读）。",
+            "type": "notice"
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v2 · 输出 1",
+            "display_id": "2c98fa3791994ed8adc289c8bcc09e0d",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/786c4cf567704a9cb4119249c644a57d/media/2c98fa3791994ed8adc289c8bcc09e0d?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          },
+          {
+            "caption": "Zephyr-Cache-Benchmark.ipynb · v2 · 输出 2",
+            "display_id": "a78c7ca4f3b14e88a73899b6f12c9049",
+            "display_source": {
+              "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+              "source_id": "cell:0:output:2",
+              "version": 2
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 180,
+            "media_url": "/api/workspace/sessions/ac38f534cda6468da45b3373455f0da1/messages/786c4cf567704a9cb4119249c644a57d/media/a78c7ca4f3b14e88a73899b6f12c9049?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 320
+          }
+        ],
+        "message_id": "786c4cf567704a9cb4119249c644a57d",
+        "ordinal": 18,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                37
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "run_kv_cache_eval(batch_tokens=32768)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": [],
+              "text_span": [
+                0,
+                99
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                  "source_id": "cell:0:output:0",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "Dataset: Zephyr-Cache-32k\nCache hit rate: 91.2%\nP95 decode latency: 11.4 ms\nThroughput: 2380 tok/s\n",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Zephyr-Cache-Benchmark.ipynb",
+            "locator": {
+              "cell_id": "kv-cache-bench",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "2c54a7345a036ea44802d8808492a7480c4ff4e54f53d17b4f3422d75aaaa45f",
+              "course_id": "g24-blind-course",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_e57c6ade3fa14582b0446509ec5fbb86",
+                "source_id": "cell:0:output:2",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "d6cdebfeca5046b0bb08e0ca7fe2bdbd",
+        "visible_display_ids": [
+          "2c98fa3791994ed8adc289c8bcc09e0d",
+          "a78c7ca4f3b14e88a73899b6f12c9049"
+        ]
+      }
+    },
+    "boundary_unclear_cell2": {
+      "question": "跟上一版相比，第 2 个 Cell 的保存输出有什么变化？",
+      "elapsed_ms": 151.7,
+      "dom": {
+        "citations": [],
+        "id": "9da6276243bb4be38f8c89b2dd93aa09",
+        "notices": [],
+        "text": "课程助手\n\n无法唯一对应两版对象。请选择一份资料，并明确页、表格或 Cell 内的输出位置。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "c46c317e-59b7-4ef6-a151-d9950601e11f",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "跟上一版相比，第 2 个 Cell 的保存输出有什么变化？",
+        "trace": {
+          "external_call_count": 0,
+          "route": "version_comparison"
+        },
+        "turn_id": "3cd45f157b934d9386c9549a15a7bb1a"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "comparison_ambiguous",
+            "text": "无法唯一对应两版对象。请选择一份资料，并明确页、表格或 Cell 内的输出位置。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "9da6276243bb4be38f8c89b2dd93aa09",
+        "ordinal": 20,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "3cd45f157b934d9386c9549a15a7bb1a",
+        "visible_display_ids": []
+      }
+    },
+    "boundary_scope_course_wide": {
+      "question": "跟上一版相比有什么变化？",
+      "elapsed_ms": 151.9,
+      "dom": {
+        "citations": [],
+        "id": "9e1e7461b4884de192ee69f72356f320",
+        "notices": [],
+        "text": "课程助手\n\n请先选定范围内可以比较的一份资料。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "30e44679-ae73-4045-a067-0805137aaaf3",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "跟上一版相比有什么变化？",
+        "trace": {
+          "external_call_count": 0,
+          "route": "version_comparison"
+        },
+        "turn_id": "97fc44b9cd9e4cc0a61056fe425d9ad3"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "comparison_scope",
+            "text": "请先选定范围内可以比较的一份资料。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "9e1e7461b4884de192ee69f72356f320",
+        "ordinal": 22,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "97fc44b9cd9e4cc0a61056fe425d9ad3",
+        "visible_display_ids": []
+      }
+    },
+    "boundary_scope_other_file": {
+      "question": "跟上一版相比有什么变化？",
+      "elapsed_ms": 154.5,
+      "dom": {
+        "citations": [],
+        "id": "5ae4d3dc6ad34e0c831f35ea09c2a01b",
+        "notices": [],
+        "text": "课程助手\n\n本会话没有范围内、可核对的旧版引用。请从旧回答定位原件后再比较。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "acdd0095-fd53-4cfd-ad0d-bd49bc7fc6ae",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "跟上一版相比有什么变化？",
+        "trace": {
+          "external_call_count": 0,
+          "route": "version_comparison"
+        },
+        "turn_id": "bdbdb5bff5e142e28d0c69048094becd"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "comparison_missing_history",
+            "text": "本会话没有范围内、可核对的旧版引用。请从旧回答定位原件后再比较。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "5ae4d3dc6ad34e0c831f35ea09c2a01b",
+        "ordinal": 24,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "bdbdb5bff5e142e28d0c69048094becd",
+        "visible_display_ids": []
+      }
+    },
+    "boundary_missing_history_new_session": {
+      "question": "跟上一版相比，第 1 个 Cell 保存输出有什么变化？",
+      "elapsed_ms": 144.7,
+      "dom": {
+        "citations": [],
+        "id": "98f6a3e789724f239fc720a1e67755dc",
+        "notices": [],
+        "text": "课程助手\n\n本会话没有范围内、可核对的旧版引用。请从旧回答定位原件后再比较。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "22145de1-1566-4d51-a049-41d05a5d2a35",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "跟上一版相比，第 1 个 Cell 保存输出有什么变化？",
+        "trace": {
+          "external_call_count": 0,
+          "route": "version_comparison"
+        },
+        "turn_id": "5c6de22cb8d647d7a179d936b1a395e2"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "comparison_missing_history",
+            "text": "本会话没有范围内、可核对的旧版引用。请从旧回答定位原件后再比较。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "98f6a3e789724f239fc720a1e67755dc",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "5c6de22cb8d647d7a179d936b1a395e2",
+        "visible_display_ids": []
+      }
+    }
+  },
+  "provider_calls": [
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3020,
+      "status_code": 200,
+      "elapsed_ms": 1061.1
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 2910,
+      "status_code": 200,
+      "elapsed_ms": 1156.3
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3136,
+      "status_code": 200,
+      "elapsed_ms": 1248.1
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3068,
+      "status_code": 200,
+      "elapsed_ms": 1176.6
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 2985,
+      "status_code": 200,
+      "elapsed_ms": 1238.7
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3013,
+      "status_code": 200,
+      "elapsed_ms": 1087.3
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3001,
+      "status_code": 200,
+      "elapsed_ms": 1056.7
+    }
+  ]
+}
