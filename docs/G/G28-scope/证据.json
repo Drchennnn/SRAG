@@ -1,0 +1,4722 @@
+{
+  "public_baseline": {
+    "subject": "bda68cd5484fd98a46780a620a3039dd9b2ba429",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "viewport": {
+      "height": 577,
+      "width": 1280
+    },
+    "turns": [
+      {
+        "id": "with_experiment",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_73e1405b2b6941d4940d77a6de520cc2",
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1151.754,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "elapsed_ms": 1213.549,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English",
+            "total_tokens": 243
+          },
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+              "file_name": "Dock-Replay.ipynb"
+            },
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            },
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0",
+              "file_name": "Dock-Replay.ipynb"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+              "start": 0,
+              "end": 124,
+              "method": "native_text",
+              "text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c"
+            },
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0",
+              "start": 0,
+              "end": 106,
+              "method": "native_text",
+              "text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38"
+            },
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1645.938,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1663.332,
+            "estimated_input": 5253,
+            "external_call_count": 1,
+            "fixed_overhead": 3768,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1396
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录到 6 次开启；该指南未报告平均分发延迟。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "Dock-Replay.ipynb 的保存输出显示：HarborGate 干燥回放处理 23 个输入脉冲、6 次开启，平均分发延迟为 3.4 ms；湿回放未运行。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "HarborGate-Guide.pdf 未给出平均分发延迟；该数值仅见于 Dock-Replay.ipynb 的保存输出，因此无法由指南交叉确认。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-3": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+          "ev-2": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38",
+            "excerpt": [
+              "HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.",
+              "Wet replay was not run."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 375.85
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 451.084
+          }
+        ]
+      },
+      {
+        "id": "narrowed",
+        "question": "HarborGate 是怎么定义的？现在还能核对刚才干燥回放实验的平均分发延迟吗？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1374.535,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1389.482,
+            "estimated_input": 4343,
+            "external_call_count": 1,
+            "fixed_overhead": 3728,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1072
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的定义是：当至少连续 3 个采样值高于 4 V 时，HarborGate 开启；采样值恰好等于 4 V 时不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "干燥回放实验记录：HarborGate 处理了 23 个输入脉冲，并记录了 6 次开启。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "该指南未报告平均分发延迟，因此无法核对刚才干燥回放实验的平均分发延迟。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "本轮仅查所选文件。干燥回放实验的平均分发延迟数值：指南明确说明未报告该指标。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_cd7296a674df439391fdfac724dfc028/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "failed",
+            "first_click_error": "agent-browser failed (agent-browser --session g28-independent-56043 click article[data-message-id=\"a8721a8abdcf41a6b33cd1b681ef040a\"] button[data-evidence-id=\"ev-1\"]): ✗ Element 'article[data-message-id=\"a8721a8abdcf41a6b33cd1b681ef040a\"] button[data-evidence-id=\"ev-1\"]' is outside the viewport, so the click would not reach it\n",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 399.541
+          }
+        ]
+      },
+      {
+        "id": "unchanged_scope",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1783.351,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1797.503,
+            "estimated_input": 4382,
+            "external_call_count": 1,
+            "fixed_overhead": 3767,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1057
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；采样值恰好等于 4 V 不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录到 6 次开启。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "本轮仅查所选文件。干燥回放处理 23 个输入脉冲时的平均分发延迟：该指南明确未报告平均分发延迟，因此无法确认该毫秒数值。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_cd7296a674df439391fdfac724dfc028/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 474.504
+          }
+        ]
+      },
+      {
+        "id": "restored",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_73e1405b2b6941d4940d77a6de520cc2",
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": {
+            "attempts": [],
+            "cache_hit": true,
+            "elapsed_ms": 1.718,
+            "external_call_count": 0,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English"
+          },
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+              "file_name": "Dock-Replay.ipynb"
+            },
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            },
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0",
+              "file_name": "Dock-Replay.ipynb"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+              "start": 0,
+              "end": 124,
+              "method": "native_text",
+              "text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c"
+            },
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0",
+              "start": 0,
+              "end": 106,
+              "method": "native_text",
+              "text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38"
+            },
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1333.803,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1348.995,
+            "estimated_input": 5253,
+            "external_call_count": 1,
+            "fixed_overhead": 3768,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1389
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录到 6 次开启。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "Dock-Replay.ipynb 的保存输出显示：HarborGate 干燥回放处理 23 个输入脉冲，平均分发延迟为 3.4 ms；湿回放未运行。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "HarborGate-Guide.pdf 明确说明该指南未报告平均分发延迟，因此该指标只能由 Dock-Replay.ipynb 的保存输出确认，指南本身不提供该数值。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-3": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+          "ev-2": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38",
+            "excerpt": [
+              "HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.",
+              "Wet replay was not run."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 320.568
+          }
+        ]
+      },
+      {
+        "id": "sufficient_in_scope",
+        "question": "HarborGate 的开启条件怎么定义？干燥回放实验处理二十三个输入脉冲时记录了几次开启？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1249.916,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1265.533,
+            "estimated_input": 4358,
+            "external_call_count": 1,
+            "fixed_overhead": 3743,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 1020
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录了 6 次开启。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_cd7296a674df439391fdfac724dfc028/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 305.554
+          }
+        ]
+      },
+      {
+        "id": "new_session",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1177.835,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1191.301,
+            "estimated_input": 4382,
+            "external_call_count": 1,
+            "fixed_overhead": 3767,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1057
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录到 6 次开启。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "本轮仅查所选文件。干燥回放处理 23 个输入脉冲时的平均分发延迟：该指南明确未报告平均分发延迟，因此无法确认该毫秒数值。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_cd7296a674df439391fdfac724dfc028/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 349.572
+          }
+        ]
+      },
+      {
+        "id": "ordinary_gap",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在潮湿回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_73e1405b2b6941d4940d77a6de520cc2",
+              "local_cd7296a674df439391fdfac724dfc028"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 939.033,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "elapsed_ms": 973.155,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English",
+            "total_tokens": 243
+          },
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+              "file_name": "Dock-Replay.ipynb"
+            },
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            },
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0",
+              "file_name": "Dock-Replay.ipynb"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+              "start": 0,
+              "end": 124,
+              "method": "native_text",
+              "text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c"
+            },
+            {
+              "source": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0",
+              "start": 0,
+              "end": 106,
+              "method": "native_text",
+              "text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38"
+            },
+            {
+              "source": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1669.44,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1685.809,
+            "estimated_input": 5253,
+            "external_call_count": 1,
+            "fixed_overhead": 3768,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1402
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2"
+            ],
+            "text": "配套实验方面，现有证据只显示 HarborGate 的干回放（dry replay）处理了 23 个输入脉冲，并记录到 6 次开启；该干回放的平均分发延迟为 3.4 ms。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "text": "潮湿回放（wet replay）未运行，因此没有潮湿回放处理 23 个输入脉冲时的平均分发延迟数据。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "潮湿回放处理 23 个输入脉冲时的平均分发延迟（毫秒）无法确认：证据明确说明潮湿回放未运行，且指南不报告平均分发延迟。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-3": "local_cd7296a674df439391fdfac724dfc028/1/page:1",
+          "ev-1": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0",
+          "ev-2": "local_73e1405b2b6941d4940d77a6de520cc2/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          },
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1",
+            "original_text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c",
+            "excerpt": [
+              "print(\"HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.\")",
+              "print(\"Wet replay was not run.\")"
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38",
+            "excerpt": [
+              "HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.",
+              "Wet replay was not run."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 415.72
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 465.667
+          }
+        ]
+      }
+    ]
+  },
+  "public_fixed": {
+    "subject": "dd03a35c17ed31e337d49a1ef6d5095f19e145c9",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "viewport": {
+      "height": 577,
+      "width": 1280
+    },
+    "turns": [
+      {
+        "id": "with_experiment",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22",
+              "local_add98aeba9e947ac91b8016b4793e44a"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1049.848,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "elapsed_ms": 1118.805,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English",
+            "total_tokens": 243
+          },
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+              "file_name": "Dock-Replay.ipynb"
+            },
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0",
+              "file_name": "Dock-Replay.ipynb"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+              "start": 0,
+              "end": 124,
+              "method": "native_text",
+              "text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0",
+              "start": 0,
+              "end": 106,
+              "method": "native_text",
+              "text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1446.263,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1459.361,
+            "estimated_input": 5348,
+            "external_call_count": 1,
+            "fixed_overhead": 3863,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 1367
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2",
+              "ev-3"
+            ],
+            "text": "在配套实验 Dock-Replay.ipynb 的干燥回放中，HarborGate 处理 23 个输入脉冲，记录到 6 次开启，平均分发延迟为 3.4 ms。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate-Guide.pdf 未报告平均分发延迟，并说明湿回放不在该指南的测量范围内。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+          "ev-2": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+          "ev-3": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1",
+            "original_text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c",
+            "excerpt": [
+              "print(\"HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.\")",
+              "print(\"Wet replay was not run.\")"
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38",
+            "excerpt": [
+              "HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.",
+              "Wet replay was not run."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 492.923
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 369.719
+          }
+        ]
+      },
+      {
+        "id": "narrowed",
+        "question": "HarborGate 是怎么定义的？现在还能核对刚才干燥回放实验的平均分发延迟吗？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1316.771,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1329.705,
+            "estimated_input": 4824,
+            "experiment_missing": true,
+            "external_call_count": 1,
+            "fixed_overhead": 4209,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1156
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的定义是：当至少连续 3 个采样值高于 4 V 时，HarborGate 开启；恰好等于 4 V 的采样值不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "干燥回放实验只报告了 HarborGate 处理 23 个输入脉冲并记录到 6 次开启；该指南未报告平均分发延迟。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "当前证据未给出干燥回放实验的平均分发延迟数值，因此无法核对。",
+            "type": "notice"
+          },
+          {
+            "code": "experiment_outside_scope",
+            "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "failed",
+            "first_click_error": "agent-browser failed (agent-browser --session g28-independent-56734 click article[data-message-id=\"d176c1caa413432a9fb9d40bcfcec529\"] button[data-evidence-id=\"ev-1\"]): ✗ Element 'article[data-message-id=\"d176c1caa413432a9fb9d40bcfcec529\"] button[data-evidence-id=\"ev-1\"]' is outside the viewport, so the click would not reach it\n",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 417.069
+          }
+        ]
+      },
+      {
+        "id": "unchanged_scope",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1303.709,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1321.202,
+            "estimated_input": 4477,
+            "external_call_count": 1,
+            "fixed_overhead": 3862,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1080
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录到 6 次开启。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "本轮仅查所选文件。干燥回放处理 23 个输入脉冲时的平均分发延迟：该指南明确说明未报告平均分发延迟，因此无法确认该毫秒数值。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 415.726
+          }
+        ]
+      },
+      {
+        "id": "restored",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22",
+              "local_add98aeba9e947ac91b8016b4793e44a"
+            ]
+          },
+          "rewrite": {
+            "attempts": [],
+            "cache_hit": true,
+            "elapsed_ms": 2.078,
+            "external_call_count": 0,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English"
+          },
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+              "file_name": "Dock-Replay.ipynb"
+            },
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0",
+              "file_name": "Dock-Replay.ipynb"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+              "start": 0,
+              "end": 124,
+              "method": "native_text",
+              "text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0",
+              "start": 0,
+              "end": 106,
+              "method": "native_text",
+              "text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1071.223,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1084.451,
+            "estimated_input": 5348,
+            "external_call_count": 1,
+            "fixed_overhead": 3863,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 1323
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2",
+              "ev-3"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，记录到 6 次开启；配套实验记录的平均分发延迟为 3.4 ms。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+          "ev-2": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+          "ev-3": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1",
+            "original_text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c",
+            "excerpt": [
+              "print(\"HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.\")",
+              "print(\"Wet replay was not run.\")"
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38",
+            "excerpt": [
+              "HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.",
+              "Wet replay was not run."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 344.965
+          }
+        ]
+      },
+      {
+        "id": "sufficient_in_scope",
+        "question": "HarborGate 的开启条件怎么定义？干燥回放实验处理二十三个输入脉冲时记录了几次开启？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1223.522,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1237.049,
+            "estimated_input": 4839,
+            "experiment_missing": false,
+            "external_call_count": 1,
+            "fixed_overhead": 4224,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 1129
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录了 6 次开启。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 447.794
+          }
+        ]
+      },
+      {
+        "id": "new_session",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · HarborGate-Guide.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22"
+            ]
+          },
+          "rewrite": null,
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1058.662,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1073.43,
+            "estimated_input": 4477,
+            "external_call_count": 1,
+            "fixed_overhead": 3862,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1076
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "在干燥回放中，HarborGate 处理了 23 个输入脉冲，并记录到 6 次开启。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "本轮仅查所选文件。该指南未报告平均分发延迟，因此无法确认干燥回放处理 23 个输入脉冲时的平均分发延迟毫秒数。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 418.53
+          }
+        ]
+      },
+      {
+        "id": "ordinary_gap",
+        "question": "HarborGate 的开启条件怎么定义？配套实验在潮湿回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_453d0b591633483cbab2f6476ba00e22",
+              "local_add98aeba9e947ac91b8016b4793e44a"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1028.871,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "elapsed_ms": 1049.665,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English",
+            "total_tokens": 243
+          },
+          "saved_output_fallback": null,
+          "candidates": [
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+              "file_name": "Dock-Replay.ipynb"
+            },
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "file_name": "HarborGate-Guide.pdf"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0",
+              "file_name": "Dock-Replay.ipynb"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+              "start": 0,
+              "end": 331,
+              "method": "native_text",
+              "text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+              "start": 0,
+              "end": 124,
+              "method": "native_text",
+              "text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c"
+            },
+            {
+              "source": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0",
+              "start": 0,
+              "end": 106,
+              "method": "native_text",
+              "text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1230.616,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1244.09,
+            "estimated_input": 5348,
+            "external_call_count": 1,
+            "fixed_overhead": 3863,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1363
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "HarborGate 的开启条件定义为：至少连续 3 个采样值高于 4 V；恰好等于 4 V 的采样不计入。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2",
+              "ev-3"
+            ],
+            "text": "配套实验只做了干回放：HarborGate 处理 23 个输入脉冲，记录到 6 次开启，平均分发延迟为 3.4 ms；潮湿回放未运行。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "潮湿回放处理 23 个输入脉冲时的平均分发延迟：证据明确说明潮湿回放未运行，指南也未报告平均分发延迟，因此无法确认该数值。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-1": "local_453d0b591633483cbab2f6476ba00e22/1/page:1",
+          "ev-2": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0",
+          "ev-3": "local_add98aeba9e947ac91b8016b4793e44a/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-1",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1300,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "HarborGate-Guide.pdf · v1 · 第 1 页",
+            "original_text_sha256": "6e289b28f1071cd5dd464f493778dac075709e8eafb44b445461f1448bca00b2",
+            "excerpt": [
+              "HarborGate reference",
+              "Definition: HarborGate opens when at least 3 consecutive samples are above 4 V.",
+              "A sample at exactly 4 V does not count.",
+              "Dry replay: HarborGate processed 23 input pulses and recorded 6 openings.",
+              "A wet replay is outside the measurement described here."
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1",
+            "original_text_sha256": "288f2a5fdc6422c661b628a42d8f51832f254f990a8c847be06e192da2be0e9c",
+            "excerpt": [
+              "print(\"HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.\")",
+              "print(\"Wet replay was not run.\")"
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Dock-Replay.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "2d66c074398f7fabaaa8a7a89960add4f33ba4bb3f2dc936d0afeb6aa070fe38",
+            "excerpt": [
+              "HarborGate dry replay: 23 input pulses, 6 openings, mean dispatch latency 3.4 ms.",
+              "Wet replay was not run."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 366.91
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 362.871
+          }
+        ]
+      }
+    ]
+  },
+  "frame_regression": {
+    "subject": "dd03a35c17ed31e337d49a1ef6d5095f19e145c9",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "viewport": {
+      "height": 577,
+      "width": 1280
+    },
+    "turns": [
+      {
+        "id": "cold",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_8b1ec302c8ce46c888a2f7a9f1f8cecf",
+              "local_d03ec29d2f35474a868c104f4bd19b5d"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 818.063,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 872.424,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 248
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_d03ec29d2f35474a868c104f4bd19b5d",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [
+              {
+                "document_id": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf",
+                "source_id": "page:13",
+                "version": 1
+              }
+            ],
+            "status": "reserved"
+          },
+          "candidates": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0",
+              "file_name": "Frame-Run.ipynb"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:9",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:14",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:11",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:4",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:3",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:7",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "start": 0,
+              "end": 4666,
+              "method": "native_text",
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "start": 0,
+              "end": 5323,
+              "method": "native_text",
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "start": 0,
+              "end": 4958,
+              "method": "native_text",
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "start": 0,
+              "end": 5606,
+              "method": "native_text",
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "start": 0,
+              "end": 4516,
+              "method": "native_text",
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            },
+            {
+              "source": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0",
+              "start": 0,
+              "end": 142,
+              "method": "native_text",
+              "text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1408.859,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1424.069,
+            "estimated_input": 32486,
+            "external_call_count": 1,
+            "fixed_overhead": 3859,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 8141
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文将块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录一个逻辑块对应的物理块以及已填充位置数。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文指出，KV 块管理器维护块表，即每个请求的逻辑 KV 块与物理 KV 块之间的映射。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-6"
+            ],
+            "text": "配套实验输出显示：冷缓存下处理 19 个请求时，物理块 4 被分配了 7 次；该输出还说明只执行了冷缓存请求，且未对分配延迟进行测量。",
+            "type": "text"
+          }
+        ],
+        "cited_sources": {
+          "ev-4": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+          "ev-6": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-4",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "original_text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e",
+            "excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "table’s #filled record is updated. ○3 At the second decoding"
+            ]
+          },
+          {
+            "evidence_id": "ev-6",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Frame-Run.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481",
+            "excerpt": [
+              "Cold cache: 19 requests; physical frame 4 allocated 7 times.",
+              "Only cold-cache requests were executed. Allocation latency was not instrumented."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 417.347
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 466.611
+          }
+        ]
+      },
+      {
+        "id": "scoped",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次？",
+        "scope": "当前范围 · PagedAttention-2309.06180v1.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_8b1ec302c8ce46c888a2f7a9f1f8cecf"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1097.638,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 1121.041,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 248
+          },
+          "saved_output_fallback": {
+            "added": [],
+            "status": "single_document_or_slot"
+          },
+          "candidates": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:9",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:14",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:11",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:4",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:3",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:7",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:13",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "start": 0,
+              "end": 4666,
+              "method": "native_text",
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "start": 0,
+              "end": 5323,
+              "method": "native_text",
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "start": 0,
+              "end": 4958,
+              "method": "native_text",
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "start": 0,
+              "end": 5606,
+              "method": "native_text",
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:9",
+              "start": 0,
+              "end": 72,
+              "method": "native_text",
+              "text_sha256": "c20bca98fa5ac7717d33607b96684c468513a70e8a61144ec0a76dc5570969d2"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "start": 0,
+              "end": 4516,
+              "method": "native_text",
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2252.235,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2267.317,
+            "estimated_input": 32764,
+            "experiment_missing": true,
+            "external_call_count": 1,
+            "fixed_overhead": 4245,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8338
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "PagedAttention 将每个序列的 KV cache 划分为 KV 块，每块包含固定数量 token 的 key 和 value 向量，该数量记为块大小 B。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "vLLM 的 KV 块管理器维护块表，块表是每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录对应逻辑块的物理块以及已填充位置数。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "在论文图 6 的单序列解码示例中，提示有 7 个 token，vLLM 将前 2 个逻辑 KV 块（0 和 1）映射到 2 个物理 KV 块（分别为 7 和 1）；第二个解码步中最后一个逻辑块已满，vLLM 为其分配新的物理块 3 并写入块表。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "所问的“配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次”在当前证据中没有对应记录：已读页面只给出图 6 的单序列块表示例，未涉及冷缓存、十九个请求或物理块 4 的分配次数。",
+            "type": "notice"
+          },
+          {
+            "code": "experiment_outside_scope",
+            "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-3": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+          "ev-4": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 5 页",
+            "original_text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396",
+            "excerpt": [
+              "cache are generated. The last KV block’s unfilled positions"
+            ]
+          },
+          {
+            "evidence_id": "ev-4",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "original_text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e",
+            "excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "table’s #filled record is updated. ○3 At the second decoding"
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 413.37
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 622.617
+          }
+        ]
+      },
+      {
+        "id": "condition",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在热缓存下处理十九个请求时，四号物理块被分配了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_8b1ec302c8ce46c888a2f7a9f1f8cecf",
+              "local_d03ec29d2f35474a868c104f4bd19b5d"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1207.806,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 1231.018,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 248
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_d03ec29d2f35474a868c104f4bd19b5d",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [
+              {
+                "document_id": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf",
+                "source_id": "page:13",
+                "version": 1
+              }
+            ],
+            "status": "reserved"
+          },
+          "candidates": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0",
+              "file_name": "Frame-Run.ipynb"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:9",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:14",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:11",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:4",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:3",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:7",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "start": 0,
+              "end": 4666,
+              "method": "native_text",
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "start": 0,
+              "end": 5323,
+              "method": "native_text",
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "start": 0,
+              "end": 4958,
+              "method": "native_text",
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "start": 0,
+              "end": 5606,
+              "method": "native_text",
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "start": 0,
+              "end": 4516,
+              "method": "native_text",
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            },
+            {
+              "source": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0",
+              "start": 0,
+              "end": 142,
+              "method": "native_text",
+              "text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1679.631,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1694.608,
+            "estimated_input": 32486,
+            "external_call_count": 1,
+            "fixed_overhead": 3859,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8166
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文将块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录该逻辑块对应的物理块以及已填充位置的数量。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文还说明，KV 块管理器维护块表，即每个请求的逻辑 KV 块与物理 KV 块之间的映射。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-6"
+            ],
+            "text": "配套实验输出只报告了冷缓存下 19 个请求时物理帧 4 被分配 7 次，并注明只执行了冷缓存请求、未对分配延迟做测量。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "缺少热缓存下处理 19 个请求时物理块 4 的分配次数；现有配套实验证据只覆盖冷缓存条件。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-4": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+          "ev-6": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-4",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "original_text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e",
+            "excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "table’s #filled record is updated. ○3 At the second decoding"
+            ]
+          },
+          {
+            "evidence_id": "ev-6",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Frame-Run.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481",
+            "excerpt": [
+              "Cold cache: 19 requests; physical frame 4 allocated 7 times.",
+              "Only cold-cache requests were executed. Allocation latency was not instrumented."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 442.368
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 598.494
+          }
+        ]
+      },
+      {
+        "id": "missing_measurement",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次，平均分配延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_8b1ec302c8ce46c888a2f7a9f1f8cecf",
+              "local_d03ec29d2f35474a868c104f4bd19b5d"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 945.788,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 969.634,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 265
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_d03ec29d2f35474a868c104f4bd19b5d",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [
+              {
+                "document_id": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf",
+                "source_id": "page:13",
+                "version": 1
+              }
+            ],
+            "status": "reserved"
+          },
+          "candidates": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0",
+              "file_name": "Frame-Run.ipynb"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:9",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:14",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:11",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:4",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:3",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:7",
+              "file_name": "PagedAttention-2309.06180v1.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:1",
+              "start": 0,
+              "end": 4666,
+              "method": "native_text",
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:2",
+              "start": 0,
+              "end": 5323,
+              "method": "native_text",
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:5",
+              "start": 0,
+              "end": 4958,
+              "method": "native_text",
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+              "start": 0,
+              "end": 5606,
+              "method": "native_text",
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:12",
+              "start": 0,
+              "end": 4516,
+              "method": "native_text",
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            },
+            {
+              "source": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0",
+              "start": 0,
+              "end": 142,
+              "method": "native_text",
+              "text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1756.752,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1771.19,
+            "estimated_input": 32522,
+            "external_call_count": 1,
+            "fixed_overhead": 3895,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8155
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文将块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录对应的物理块以及已填充位置的数量。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-6"
+            ],
+            "text": "配套实验记录显示：在冷缓存下处理 19 个请求时，物理块 4 被分配了 7 次。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-6"
+            ],
+            "text": "该配套实验说明只执行了冷缓存请求，且未对分配延迟进行测量，因此无法给出平均分配延迟的毫秒数。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "配套实验未测量分配延迟，缺少冷缓存下 19 个请求的平均分配延迟（毫秒）数据。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-4": "local_8b1ec302c8ce46c888a2f7a9f1f8cecf/1/page:6",
+          "ev-6": "local_d03ec29d2f35474a868c104f4bd19b5d/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-4",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "original_text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e",
+            "excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "table’s #filled record is updated. ○3 At the second decoding"
+            ]
+          },
+          {
+            "evidence_id": "ev-6",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Frame-Run.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481",
+            "excerpt": [
+              "Cold cache: 19 requests; physical frame 4 allocated 7 times.",
+              "Only cold-cache requests were executed. Allocation latency was not instrumented."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 341.205
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 477.957
+          }
+        ]
+      }
+    ]
+  },
+  "r04_regression": {
+    "subject": "dd03a35c17ed31e337d49a1ef6d5095f19e145c9",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "viewport": {
+      "height": 577,
+      "width": 1280
+    },
+    "turns": [
+      {
+        "id": "R04",
+        "question": "讲义怎么定义 Mixtral 的 Top-2 router？配套实验处理十一个词元时，一号专家被选中了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_3895f8b3be844dcdb35b307f938c210c",
+              "local_54dbdc3e2f054ec98b868dfb2684fa55"
+            ]
+          },
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1219.507,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 1268.201,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 241
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_54dbdc3e2f054ec98b868dfb2684fa55",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [],
+            "status": "reserved"
+          },
+          "candidates": [
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:2",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_54dbdc3e2f054ec98b868dfb2684fa55/1/cell:0:output:0",
+              "file_name": "Allocation-Check.ipynb"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:2:table:1",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:1",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:7",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:5",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:4",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:6",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:6:table:1",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:3",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:7:table:1",
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+            }
+          ],
+          "reads": [
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:1",
+              "start": 0,
+              "end": 2730,
+              "method": "native_text",
+              "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:2",
+              "start": 0,
+              "end": 3362,
+              "method": "native_text",
+              "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:2:table:1",
+              "start": 0,
+              "end": 235,
+              "method": "native_table",
+              "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:3",
+              "start": 0,
+              "end": 3129,
+              "method": "native_text",
+              "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:4",
+              "start": 0,
+              "end": 3006,
+              "method": "native_text",
+              "text_sha256": "3ce8151d375a24ed24f9387837df0f94718ed4ebdf85e624cd0d28372595d5a4"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:5",
+              "start": 0,
+              "end": 2549,
+              "method": "native_text",
+              "text_sha256": "99ef079321ec5954a0a0a89d74e2485430b259ada7d392ea15eaeec7c936b424"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:6",
+              "start": 0,
+              "end": 2471,
+              "method": "native_text",
+              "text_sha256": "29bea43cc0d1e2c4284c58ce2e81bf885c93063bb0acb03ff387380a741f29af"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:6:table:1",
+              "start": 0,
+              "end": 369,
+              "method": "native_table",
+              "text_sha256": "17fbecc2d4cd8366e9c87f939e5dc447876ed5b161f1f9aca0a92a23e982e87c"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:7",
+              "start": 0,
+              "end": 2783,
+              "method": "native_text",
+              "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+            },
+            {
+              "source": "local_3895f8b3be844dcdb35b307f938c210c/1/page:7:table:1",
+              "start": 0,
+              "end": 288,
+              "method": "native_table",
+              "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+            },
+            {
+              "source": "local_54dbdc3e2f054ec98b868dfb2684fa55/1/cell:0:output:0",
+              "start": 0,
+              "end": 96,
+              "method": "native_text",
+              "text_sha256": "a6e3bff2cf10103a3016b97c14cb25d743d174448e1b434469ef63b3153e4bbd"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2026.103,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2044.323,
+            "estimated_input": 29058,
+            "external_call_count": 1,
+            "fixed_overhead": 3841,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7",
+              "ev-8",
+              "ev-9",
+              "ev-10",
+              "ev-11"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8481,
+            "unsupported_literal_statements": 1
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "讲义将 Mixtral 的 router 定义为：对线性层输出取 Top-K logits 后做 softmax，即 G(x) := Softmax(TopK(x · Wg))；其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "架构参数表列出 num_experts = 8、top_k_experts = 2。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-11"
+            ],
+            "text": "配套实验记录：11 个词元、每个词元记录一次分配，专家 1 被选中 5 次。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "部分结论缺少直接原文依据。",
+            "type": "notice"
+          }
+        ],
+        "cited_sources": {
+          "ev-2": "local_3895f8b3be844dcdb35b307f938c210c/1/page:2",
+          "ev-3": "local_3895f8b3be844dcdb35b307f938c210c/1/page:2:table:1",
+          "ev-11": "local_54dbdc3e2f054ec98b868dfb2684fa55/1/cell:0:output:0"
+        },
+        "clicks": [
+          {
+            "evidence_id": "ev-2",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+            "original_text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69",
+            "excerpt": [
+              "top_k_experts 2",
+              "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+              "G(x) := Softmax(TopK(x · Wg)),"
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+            "original_text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d",
+            "excerpt": [
+              "| top_k_experts | 2 |"
+            ]
+          },
+          {
+            "evidence_id": "ev-11",
+            "first_click": "succeeded",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Allocation-Check.ipynb · v1 · Cell 1 · 输出 0",
+            "original_text_sha256": "a6e3bff2cf10103a3016b97c14cb25d743d174448e1b434469ef63b3153e4bbd",
+            "excerpt": [
+              "Expert 1 was selected 5 times."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 332.859
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 622.399
+          }
+        ]
+      }
+    ]
+  },
+  "original_g28": {
+    "Q07": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_247fe285cd024d6ea8f8ed901837fa09",
+            "local_5196ef770f7345148df2773852ffb7d6",
+            "local_a98ad5d1e43c49dba5abd0ed75240639"
+          ]
+        },
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 1006.347,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1050.206,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 293
+        },
+        "saved_output_fallback": null,
+        "candidates": [
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:2",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_5196ef770f7345148df2773852ffb7d6/1/cell:0:output:0",
+            "file_name": "Mixtral-Router-Verification.ipynb"
+          },
+          {
+            "source": "local_5196ef770f7345148df2773852ffb7d6/1/cell:0",
+            "file_name": "Mixtral-Router-Verification.ipynb"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:7",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:2:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_a98ad5d1e43c49dba5abd0ed75240639/1/page:12",
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:7:table:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_a98ad5d1e43c49dba5abd0ed75240639/1/page:14",
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf"
+          },
+          {
+            "source": "local_a98ad5d1e43c49dba5abd0ed75240639/1/page:13",
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:8",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          }
+        ],
+        "reads": [
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:1",
+            "start": 0,
+            "end": 2730,
+            "method": "native_text",
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:2",
+            "start": 0,
+            "end": 3362,
+            "method": "native_text",
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:2:table:1",
+            "start": 0,
+            "end": 235,
+            "method": "native_table",
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:3",
+            "start": 0,
+            "end": 3129,
+            "method": "native_text",
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:7",
+            "start": 0,
+            "end": 2783,
+            "method": "native_text",
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:7:table:3",
+            "start": 0,
+            "end": 682,
+            "method": "native_table",
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": "local_5196ef770f7345148df2773852ffb7d6/1/cell:0",
+            "start": 0,
+            "end": 238,
+            "method": "native_text",
+            "text_sha256": "1140811606c8ee90c2964d7fd83ba0840233c7237e3cb7a7d5bc8a3fd1586c26"
+          },
+          {
+            "source": "local_5196ef770f7345148df2773852ffb7d6/1/cell:0:output:0",
+            "start": 0,
+            "end": 492,
+            "method": "native_text",
+            "text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df"
+          },
+          {
+            "source": "local_a98ad5d1e43c49dba5abd0ed75240639/1/page:12",
+            "start": 0,
+            "end": 4047,
+            "method": "native_text",
+            "text_sha256": "cc3387bead9d547555e4e52d4251d7aeb7381d123ec9bd20816b2b0a08a16fa6"
+          },
+          {
+            "source": "local_a98ad5d1e43c49dba5abd0ed75240639/1/page:13",
+            "start": 0,
+            "end": 2937,
+            "method": "native_text",
+            "text_sha256": "53e03760033dfbc61208343901249e9f8aa0d0cf709cc9cf50e3cb940506ecff"
+          },
+          {
+            "source": "local_a98ad5d1e43c49dba5abd0ed75240639/1/page:14",
+            "start": 0,
+            "end": 3904,
+            "method": "native_text",
+            "text_sha256": "66bfddb4064e92b0cf570d993b8caa8961c7ddb48eeb7f2c9e7892d300e06809"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 3098.462,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 3113.063,
+          "estimated_input": 32739,
+          "external_call_count": 1,
+          "fixed_overhead": 3941,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 9752
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral 论文中，MoE 模块对输入 x 的输出为各专家网络输出的加权和：Σ_{i=0}^{n−1} G(x)_i · E_i(x)，其中 G(x)_i 是门控网络对第 i 个专家的 n 维输出，E_i(x) 是第 i 个专家网络的输出。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "论文采用的门控定义为 G(x) := Softmax(TopK(x · W_g))，其中 (TopK(ℓ))_i := ℓ_i（当 ℓ_i 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))_i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-4"
+          ],
+          "text": "Mixtral 中专家函数 E_i(x) 采用 SwiGLU 架构并设 K = 2，因此输入词元 x 的输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · W_g))_i · SwiGLU_i(x)。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-8"
+          ],
+          "text": "配套实验 Mixtral-Router-Verification.ipynb 的输出显示：在 ArXiv 验证子集上评估 32768 个词元，第 15 层首选专家（first-choice）连续重复率为 27.9%（随机基线 12.5%）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-8"
+          ],
+          "text": "同一实验输出显示：第 15 层首选或次选专家（first-or-second）连续重复率为 62.3%（随机基线 46.4%）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-8"
+          ],
+          "text": "同一实验输出显示：平均路由分发延迟为 0.42 ms / step（capacity_factor=1.25）。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "未找到名为“Mixtral 课件”的独立课件材料；门控公式来自 Mixtral 论文（Mixtral-of-Experts-2401.04088v1.pdf）第 2.1 节，实验数值来自配套 notebook 输出。实验输出注明：128k 上下文下 64-GPU all-to-all 通信延迟本次未测量。",
+          "type": "notice"
+        }
+      ],
+      "clicks": [
+        {
+          "evidence_id": "ev-2",
+          "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:2",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "105379694fdcd908f62778c63caedb1e24bb4fcdcfe4860e0e0010e0639e35f2",
+          "excerpt": [
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),"
+          ]
+        },
+        {
+          "evidence_id": "ev-4",
+          "source": "local_247fe285cd024d6ea8f8ed901837fa09/1/page:3",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "162dfd9ad37cef1503aacb4e6c7c1f84666f5e42cfc8074e86c266dc0873334c",
+          "excerpt": [
+            "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+            "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+            "Softmax(Top2(x · Wg))i",
+            "· SwiGLUi(x)."
+          ]
+        },
+        {
+          "evidence_id": "ev-8",
+          "source": "local_5196ef770f7345148df2773852ffb7d6/1/cell:0:output:0",
+          "image_width": null,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0",
+          "scrolled_before_click": true,
+          "original_text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df",
+          "excerpt": [
+            "Router config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP",
+            "Layer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)",
+            "Mean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)"
+          ]
+        }
+      ]
+    },
+    "H04": {
+      "question": "论文对逻辑 KV 块到物理 KV 块的块表映射是怎么定义的？在翻译和聊天机器人负载实验中，vLLM 相比现有系统取得了多少倍的吞吐量提升？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_1ddc8aa530b64e56a8ee57555218932c"
+          ]
+        },
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 963.371,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1009.218,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 260
+        },
+        "saved_output_fallback": null,
+        "candidates": [
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:6",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:7",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:12",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:13",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:8",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:9",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:5",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:1",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:7:table:1",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:9:table:1",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:2",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:10",
+            "file_name": "PagedAttention-2309.06180v1.pdf"
+          }
+        ],
+        "reads": [
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:6",
+            "start": 0,
+            "end": 5606,
+            "method": "native_text",
+            "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:7",
+            "start": 0,
+            "end": 5680,
+            "method": "native_text",
+            "text_sha256": "1f1f280a8e38d990d19d41ddb0c498524385843ca67795e45d0809bdc271dfa4"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:7:table:1",
+            "start": 0,
+            "end": 185,
+            "method": "native_table",
+            "text_sha256": "ea7ad1ff695ff5175e5e7d53aaa9dbb983f05c02513a927ec18f2bdb1ec8e9a9"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:8",
+            "start": 0,
+            "end": 4188,
+            "method": "native_text",
+            "text_sha256": "5f7f909d5dd9421b2859f7f5aa2f4035f7afd3d276f21a5886c36a9beea51d3b"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:12",
+            "start": 0,
+            "end": 4516,
+            "method": "native_text",
+            "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+          },
+          {
+            "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:13",
+            "start": 0,
+            "end": 5441,
+            "method": "native_text",
+            "text_sha256": "45f79d8a864f8eee063eac27918d6930b04fd9f2a90dbf1efffbdf5e357cf3d1"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 1899.877,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 1914.251,
+          "estimated_input": 32722,
+          "external_call_count": 1,
+          "fixed_overhead": 3904,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "succeeded",
+          "total_tokens": 8271
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "论文将块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录该逻辑块对应的物理块以及已填充位置数（#filled）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "分离逻辑 KV 块与物理 KV 块使 vLLM 能动态增长 KV 缓存内存，而无需预先为所有位置预留空间。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "在翻译负载（WMT16 英德、LLaMA-13B、共享前缀）中，共享 one-shot 前缀（1 个示例、80 tokens）时，vLLM 的吞吐量比 Orca (Oracle) 高 1.67 倍。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "同一翻译负载中，共享 5 个示例（341 tokens）的前缀时，vLLM 的吞吐量比 Orca (Oracle) 高 3.58 倍。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "在聊天机器人负载（ShareGPT、OPT-13B、提示截断至最后 1024 tokens、最多生成 1024 tokens）中，vLLM 可维持的请求速率为三个 Orca 基线的 2 倍。",
+          "type": "text"
+        }
+      ],
+      "clicks": [
+        {
+          "evidence_id": "ev-1",
+          "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:6",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "b0516ed7ecb176994e083ebd9963ee9148bf8c18250f396bbff45abfad450fcd",
+          "excerpt": [
+            "maintains block tables—the mapping between logical and",
+            "and the number of filled positions. Separating logical and",
+            "table’s #filled record is updated. ○3 At the second decoding"
+          ]
+        },
+        {
+          "evidence_id": "ev-5",
+          "source": "local_1ddc8aa530b64e56a8ee57555218932c/1/page:12",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 12 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "4425086be74ce90c2a23a0aa0d0b63774867c5be9054946a7be486da5f9e5ff2",
+          "excerpt": [
+            "shown in Fig. 16 (a), vLLM achieves 1.67× higher through￾put than Orca (Oracle) when the one-shot prefix is shared.",
+            "vLLM achieves 3.58× higher throughput than Orca (Oracle).",
+            "Fig. 17 shows that vLLM can sustain 2× higher request"
+          ]
+        }
+      ]
+    },
+    "missing": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_fb5d6b9067e64b85a566b7060a8b5a74"
+          ]
+        },
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 1206.931,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1249.751,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 293
+        },
+        "saved_output_fallback": null,
+        "candidates": [
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:2",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7:table:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:13",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:2:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:8",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:8:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:12",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:11",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:9",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          }
+        ],
+        "reads": [
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:1",
+            "start": 0,
+            "end": 2730,
+            "method": "native_text",
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:2",
+            "start": 0,
+            "end": 3362,
+            "method": "native_text",
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:2:table:1",
+            "start": 0,
+            "end": 235,
+            "method": "native_table",
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:3",
+            "start": 0,
+            "end": 3129,
+            "method": "native_text",
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7",
+            "start": 0,
+            "end": 2783,
+            "method": "native_text",
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7:table:1",
+            "start": 0,
+            "end": 288,
+            "method": "native_table",
+            "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7:table:2",
+            "start": 0,
+            "end": 264,
+            "method": "native_table",
+            "text_sha256": "161dc9a6054954eebdeabee46f1cd34f6881251970f6ec92aa5c75da060baf06"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7:table:3",
+            "start": 0,
+            "end": 682,
+            "method": "native_table",
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:8",
+            "start": 0,
+            "end": 2591,
+            "method": "native_text",
+            "text_sha256": "35963af6eadcec7e4b78f9fdda08b18ad97bedd39119c24547e320fde88830c0"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:8:table:1",
+            "start": 0,
+            "end": 737,
+            "method": "native_table",
+            "text_sha256": "602a0e74f06ee42d5a10799640830597d94c3663fd3979d9623a79f22d71659f"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:9",
+            "start": 0,
+            "end": 3756,
+            "method": "native_text",
+            "text_sha256": "e67ebe400a0f1f1a8674990e2f533c3c9298a8a1b4cf608fa573389178cfd17e"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:11",
+            "start": 0,
+            "end": 469,
+            "method": "native_text",
+            "text_sha256": "263db321d3d9b07501e986bd269f8d8ae8ff557f63fb440180a9a54f5a845df4"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:12",
+            "start": 0,
+            "end": 826,
+            "method": "native_text",
+            "text_sha256": "e8be9ba436def43813ea5723cf8d0492fb0dee78c1b685de1cee08fdd2e53483"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:12:table:1",
+            "start": 0,
+            "end": 606,
+            "method": "native_table",
+            "text_sha256": "e85ed46b10dc9d8ee7aeeacfd37753d56b0badd0ebffde5e3fbd66c20b61f53f"
+          },
+          {
+            "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:13",
+            "start": 0,
+            "end": 488,
+            "method": "native_text",
+            "text_sha256": "eedff3dcd41731432d86e38dcdf7c7e1723c357779b1126b0f1cf64deef5b18d"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2364.295,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2378.884,
+          "estimated_input": 32520,
+          "external_call_count": 1,
+          "fixed_overhead": 3941,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11",
+            "ev-12",
+            "ev-13",
+            "ev-14",
+            "ev-15"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 9631
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Mixtral 论文中门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-4"
+          ],
+          "text": "在 Mixtral 中取 K = 2，专家函数 Ei(x) 采用 SwiGLU，输入词元 x 的输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-9",
+            "ev-10"
+          ],
+          "text": "论文 Table 5 中，ArXiv 在 layer 15 的连续词元专家分配重复率为：First choice 27.9%，First or second choice 62.3%。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5",
+            "ev-9"
+          ],
+          "text": "上述重复率来自论文对 The Pile 验证集各子集的路由分析（Table 5），并非配套实验在 ArXiv 验证集上的测量。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "未找到 Mixtral 课件中关于 G(x) 的独立定义材料；现有证据仅为论文原文。也未找到配套实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率，以及平均路由分发延迟的数值。",
+          "type": "notice"
+        }
+      ],
+      "clicks": [
+        {
+          "evidence_id": "ev-2",
+          "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:2",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "105379694fdcd908f62778c63caedb1e24bb4fcdcfe4860e0e0010e0639e35f2",
+          "excerpt": [
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),"
+          ]
+        },
+        {
+          "evidence_id": "ev-4",
+          "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:3",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+          "scrolled_before_click": true,
+          "original_text_sha256": "162dfd9ad37cef1503aacb4e6c7c1f84666f5e42cfc8074e86c266dc0873334c",
+          "excerpt": [
+            "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+            "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+            "Softmax(Top2(x · Wg))i",
+            "· SwiGLUi(x)."
+          ]
+        },
+        {
+          "evidence_id": "ev-9",
+          "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:8",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "ca2b7fe0331dfe4ffff5c51c2a2cd97ac361d216288102b01962b0c4c8749809",
+          "excerpt": [
+            "ArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%"
+          ]
+        },
+        {
+          "evidence_id": "ev-10",
+          "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:8:table:1",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "8a84caa3039b71d7fdb7527d1faf48a656c84746af8bc31f528aec262bd404a7",
+          "excerpt": [
+            "| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |"
+          ]
+        },
+        {
+          "evidence_id": "ev-5",
+          "source": "local_fb5d6b9067e64b85a566b7060a8b5a74/1/page:7",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 7 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "097af1451111c06f36a832276518d38e29b6d13908da04dc56c93f1443fdc92d",
+          "excerpt": []
+        }
+      ]
+    },
+    "mismatch": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 WikiText-103 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_92184b3ac32846d4a83952e45791be25",
+            "local_e23f8a7def544ff0b7f91a22bfadafc2"
+          ]
+        },
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 1233.059,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1276.805,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 295
+        },
+        "saved_output_fallback": null,
+        "candidates": [
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:2",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_e23f8a7def544ff0b7f91a22bfadafc2/1/cell:0:output:0",
+            "file_name": "Mixtral-Router-Verification.ipynb"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:7",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:7:table:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:2:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_e23f8a7def544ff0b7f91a22bfadafc2/1/cell:0",
+            "file_name": "Mixtral-Router-Verification.ipynb"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:7:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:8:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:13",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:8",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          }
+        ],
+        "reads": [
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:1",
+            "start": 0,
+            "end": 2730,
+            "method": "native_text",
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:2",
+            "start": 0,
+            "end": 3362,
+            "method": "native_text",
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:2:table:1",
+            "start": 0,
+            "end": 235,
+            "method": "native_table",
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:3",
+            "start": 0,
+            "end": 3129,
+            "method": "native_text",
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:7",
+            "start": 0,
+            "end": 2783,
+            "method": "native_text",
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:7:table:1",
+            "start": 0,
+            "end": 288,
+            "method": "native_table",
+            "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:7:table:3",
+            "start": 0,
+            "end": 682,
+            "method": "native_table",
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:8",
+            "start": 0,
+            "end": 2591,
+            "method": "native_text",
+            "text_sha256": "35963af6eadcec7e4b78f9fdda08b18ad97bedd39119c24547e320fde88830c0"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:8:table:1",
+            "start": 0,
+            "end": 737,
+            "method": "native_table",
+            "text_sha256": "602a0e74f06ee42d5a10799640830597d94c3663fd3979d9623a79f22d71659f"
+          },
+          {
+            "source": "local_92184b3ac32846d4a83952e45791be25/1/page:13",
+            "start": 0,
+            "end": 488,
+            "method": "native_text",
+            "text_sha256": "eedff3dcd41731432d86e38dcdf7c7e1723c357779b1126b0f1cf64deef5b18d"
+          },
+          {
+            "source": "local_e23f8a7def544ff0b7f91a22bfadafc2/1/cell:0",
+            "start": 0,
+            "end": 238,
+            "method": "native_text",
+            "text_sha256": "1140811606c8ee90c2964d7fd83ba0840233c7237e3cb7a7d5bc8a3fd1586c26"
+          },
+          {
+            "source": "local_e23f8a7def544ff0b7f91a22bfadafc2/1/cell:0:output:0",
+            "start": 0,
+            "end": 492,
+            "method": "native_text",
+            "text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2934.887,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2948.964,
+          "estimated_input": 26168,
+          "external_call_count": 1,
+          "fixed_overhead": 3948,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11",
+            "ev-12"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 7655
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "在 Mixtral 论文的稀疏专家混合层中，门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-3",
+            "ev-4"
+          ],
+          "text": "Mixtral 取 K = 2，专家函数 Ei(x) 采用 SwiGLU 架构，因此输入词元 x 的输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-8",
+            "ev-9"
+          ],
+          "text": "论文在 The Pile 验证集上统计了连续词元被分配同一专家的比例；第 15 层中，Wikipedia (en) 的“首选专家相同”重复率为 23.6%，“第一或第二选择相同”重复率为 62.1%。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-11",
+            "ev-12"
+          ],
+          "text": "配套实验 Mixtral-Router-Verification.ipynb 的输出显示：在 ArXiv 验证子集、32768 个词元、num_experts=8、top_k_experts=2、dispatch_kernel=Megablocks-EP 的条件下，第 15 层首选专家连续重复率为 27.9%（随机基线 12.5%），第一或第二选择连续重复率为 62.3%（随机基线 46.4%），平均路由分发延迟为 0.42 ms/step（capacity_factor=1.25）。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "配套实验未在 WikiText-103 验证集上测量：其输出明确标注评测数据为 ArXiv 验证子集，因此无法给出 WikiText-103 验证集上第 15 层的首选专家重复率和平均路由分发延迟。论文 Table 5 的重复率数据来自 The Pile 各子集，并非 WikiText-103，也不是配套实验的测量结果。",
+          "type": "notice"
+        }
+      ],
+      "clicks": [
+        {
+          "evidence_id": "ev-2",
+          "source": "local_92184b3ac32846d4a83952e45791be25/1/page:2",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "105379694fdcd908f62778c63caedb1e24bb4fcdcfe4860e0e0010e0639e35f2",
+          "excerpt": [
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),"
+          ]
+        },
+        {
+          "evidence_id": "ev-3",
+          "source": "local_92184b3ac32846d4a83952e45791be25/1/page:2:table:1",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "fe838be46e11373b26dbe3681afc5917be47fb9d5c5182d4589e80ad14fe9220",
+          "excerpt": [
+            "| top_k_experts | 2 |"
+          ]
+        },
+        {
+          "evidence_id": "ev-4",
+          "source": "local_92184b3ac32846d4a83952e45791be25/1/page:3",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "162dfd9ad37cef1503aacb4e6c7c1f84666f5e42cfc8074e86c266dc0873334c",
+          "excerpt": [
+            "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+            "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+            "Softmax(Top2(x · Wg))i",
+            "· SwiGLUi(x)."
+          ]
+        },
+        {
+          "evidence_id": "ev-8",
+          "source": "local_92184b3ac32846d4a83952e45791be25/1/page:8",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": true,
+          "original_text_sha256": "ca2b7fe0331dfe4ffff5c51c2a2cd97ac361d216288102b01962b0c4c8749809",
+          "excerpt": [
+            "ArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%"
+          ]
+        },
+        {
+          "evidence_id": "ev-9",
+          "source": "local_92184b3ac32846d4a83952e45791be25/1/page:8:table:1",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "8a84caa3039b71d7fdb7527d1faf48a656c84746af8bc31f528aec262bd404a7",
+          "excerpt": [
+            "| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |"
+          ]
+        },
+        {
+          "evidence_id": "ev-11",
+          "source": "local_e23f8a7def544ff0b7f91a22bfadafc2/1/cell:0",
+          "image_width": null,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1",
+          "scrolled_before_click": false,
+          "original_text_sha256": "1140811606c8ee90c2964d7fd83ba0840233c7237e3cb7a7d5bc8a3fd1586c26",
+          "excerpt": []
+        },
+        {
+          "evidence_id": "ev-12",
+          "source": "local_e23f8a7def544ff0b7f91a22bfadafc2/1/cell:0:output:0",
+          "image_width": null,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0",
+          "scrolled_before_click": false,
+          "original_text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df",
+          "excerpt": [
+            "Router config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP",
+            "Layer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)",
+            "Mean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)"
+          ]
+        }
+      ]
+    },
+    "scoped": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · Mixtral-of-Experts-2401.04088v1.pdf",
+      "trace": {
+        "route": "generated_answer",
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_f5f06dcbbda04f7db6a1e0659e7de0ed"
+          ]
+        },
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 850.039,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 897.704,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 293
+        },
+        "saved_output_fallback": null,
+        "candidates": [
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:2",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7:table:3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:13",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:2:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:8:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:8",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:12",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:11",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7:table:1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf"
+          }
+        ],
+        "reads": [
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:1",
+            "start": 0,
+            "end": 2730,
+            "method": "native_text",
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:2",
+            "start": 0,
+            "end": 3362,
+            "method": "native_text",
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:2:table:1",
+            "start": 0,
+            "end": 235,
+            "method": "native_table",
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:3",
+            "start": 0,
+            "end": 3129,
+            "method": "native_text",
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:4",
+            "start": 0,
+            "end": 3006,
+            "method": "native_text",
+            "text_sha256": "3ce8151d375a24ed24f9387837df0f94718ed4ebdf85e624cd0d28372595d5a4"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:4:table:1",
+            "start": 0,
+            "end": 588,
+            "method": "native_table",
+            "text_sha256": "57644aaa847d6de7b98cdf5df9650bc41814cf943aa37ea48e297f5585c7e58b"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7",
+            "start": 0,
+            "end": 2783,
+            "method": "native_text",
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7:table:1",
+            "start": 0,
+            "end": 288,
+            "method": "native_table",
+            "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7:table:2",
+            "start": 0,
+            "end": 264,
+            "method": "native_table",
+            "text_sha256": "161dc9a6054954eebdeabee46f1cd34f6881251970f6ec92aa5c75da060baf06"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7:table:3",
+            "start": 0,
+            "end": 682,
+            "method": "native_table",
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:8",
+            "start": 0,
+            "end": 2591,
+            "method": "native_text",
+            "text_sha256": "35963af6eadcec7e4b78f9fdda08b18ad97bedd39119c24547e320fde88830c0"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:8:table:1",
+            "start": 0,
+            "end": 737,
+            "method": "native_table",
+            "text_sha256": "602a0e74f06ee42d5a10799640830597d94c3663fd3979d9623a79f22d71659f"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:11",
+            "start": 0,
+            "end": 469,
+            "method": "native_text",
+            "text_sha256": "263db321d3d9b07501e986bd269f8d8ae8ff557f63fb440180a9a54f5a845df4"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:12",
+            "start": 0,
+            "end": 826,
+            "method": "native_text",
+            "text_sha256": "e8be9ba436def43813ea5723cf8d0492fb0dee78c1b685de1cee08fdd2e53483"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:12:table:1",
+            "start": 0,
+            "end": 606,
+            "method": "native_table",
+            "text_sha256": "e85ed46b10dc9d8ee7aeeacfd37753d56b0badd0ebffde5e3fbd66c20b61f53f"
+          },
+          {
+            "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:13",
+            "start": 0,
+            "end": 488,
+            "method": "native_text",
+            "text_sha256": "eedff3dcd41731432d86e38dcdf7c7e1723c357779b1126b0f1cf64deef5b18d"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2870.195,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2887.921,
+          "estimated_input": 32681,
+          "external_call_count": 1,
+          "fixed_overhead": 3941,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11",
+            "ev-12",
+            "ev-13",
+            "ev-14",
+            "ev-15",
+            "ev-16"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 10094,
+          "unsupported_literal_statements": 1
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "论文给出的门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-11",
+            "ev-12"
+          ],
+          "text": "论文 Table 5 报告：在 ArXiv 上、第 15 层，连续词元被分配同一专家的比例为——首选专家相同 27.9%，第一或第二选择中出现同一专家 62.3%。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-7",
+            "ev-11"
+          ],
+          "text": "上述重复率统计的是 The Pile 验证集各子集上词元 i 与其后一词元 i+1 的专家分配重复比例，并非专门的 ArXiv 验证集实验。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "本轮仅查所选文件。未找到 Mixtral 课件中关于 G(x) 的独立定义材料（仅有论文原文）；未找到配套实验在 ArXiv 验证集上测得的第 15 层连续词元首选专家重复率；未找到任何关于平均路由分发延迟的测量数值。 部分结论缺少直接原文依据。",
+          "type": "notice"
+        }
+      ],
+      "clicks": [
+        {
+          "evidence_id": "ev-2",
+          "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:2",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "105379694fdcd908f62778c63caedb1e24bb4fcdcfe4860e0e0010e0639e35f2",
+          "excerpt": [
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),"
+          ]
+        },
+        {
+          "evidence_id": "ev-11",
+          "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:8",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "ca2b7fe0331dfe4ffff5c51c2a2cd97ac361d216288102b01962b0c4c8749809",
+          "excerpt": [
+            "ArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%"
+          ]
+        },
+        {
+          "evidence_id": "ev-12",
+          "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:8:table:1",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "8a84caa3039b71d7fdb7527d1faf48a656c84746af8bc31f528aec262bd404a7",
+          "excerpt": [
+            "| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |"
+          ]
+        },
+        {
+          "evidence_id": "ev-7",
+          "source": "local_f5f06dcbbda04f7db6a1e0659e7de0ed/1/page:7",
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 7 页",
+          "scrolled_before_click": false,
+          "original_text_sha256": "097af1451111c06f36a832276518d38e29b6d13908da04dc56c93f1443fdc92d",
+          "excerpt": []
+        }
+      ]
+    }
+  }
+}
