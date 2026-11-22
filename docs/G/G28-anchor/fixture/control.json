@@ -1,0 +1,57 @@
+{
+  "schema": 1,
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "Relay-Protocol-Notes.pdf": {
+      "version": 1,
+      "sha256": "4742c118ca0daac334db17f2b0a9df8f9896556128cd43f03e6e4bd3ed96eac3"
+    },
+    "Relay-Latency-Log.ipynb": {
+      "version": 1,
+      "sha256": "d7e0c09426652df60625b429e0847ce6becfea884d2a4da2744095b63435004b"
+    }
+  },
+  "turns": [
+    {
+      "id": "C01_prime_a",
+      "new": false,
+      "scope": "course",
+      "question": "讲义怎么定义 Quorum Gate？配套实验测得的 mean verification latency 是多少毫秒？"
+    },
+    {
+      "id": "C02_omitted_subject",
+      "new": false,
+      "scope": "Relay-Protocol-Notes.pdf",
+      "question": "只看我刚选的这份讲义，上面到底是怎么界定刚才那个要求的？配套实验现在还能核对吗？"
+    },
+    {
+      "id": "C01_prime_b",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Quorum Gate？配套实验测得的 mean verification latency 是多少毫秒？"
+    },
+    {
+      "id": "C03_explicit_switch",
+      "new": false,
+      "scope": "Relay-Protocol-Notes.pdf",
+      "question": "Lease Backoff 怎么定义？"
+    },
+    {
+      "id": "C01_prime_c",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Quorum Gate？配套实验测得的 mean verification latency 是多少毫秒？"
+    },
+    {
+      "id": "C04_unrelated",
+      "new": false,
+      "scope": "Relay-Protocol-Notes.pdf",
+      "question": "这份讲义里，批次在流水线阶段按什么顺序处理？"
+    }
+  ]
+}
