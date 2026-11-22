@@ -794,6 +794,61 @@ def test_normal_web_question_persists_only_grounded_final_citations(system, tmp_
     assert narrowed["turn"]["trace"]["missing"] == ["experiment"]
 
 
+def test_definition_and_experiment_generation_keeps_separate_scoped_citations(
+    system, tmp_path, monkeypatch
+):
+    from app.clients.deepseek import DeepSeekClient
+
+    settings, _, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-test-marker"
+    session = _create(client)
+    question, files = _publish_supplement_case(client, session, tmp_path)
+    lecture = files["lecture"][0].name
+    lab = files["lab"][0].name
+    question += "请核对 SignalTrialA7。"
+
+    async def answer(self, messages, **kwargs):
+        request = json.loads(messages[-1]["content"])
+        assert request["mode"] == "definition_and_experiment"
+        assert "分别引用直接支撑各自结论的原件" in messages[0]["content"]
+        evidence = {item["file_name"]: item["id"] for item in request["evidence"]}
+        if lecture in request["question"]:
+            assert set(evidence) == {lecture}
+        else:
+            assert {lecture, lab} <= evidence.keys()
+        statements = [{"text": "定义依据", "citations": [evidence[lecture]]}]
+        if lab in evidence:
+            statements.append({"text": "实验依据", "citations": [evidence[lab]]})
+        return {
+            "content": json.dumps({
+                "statements": statements,
+                "missing": "" if lab in evidence else "缺少实验原件",
+            })
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", answer)
+    for text, expected_files in (
+        (question, [lecture, lab]),
+        (f"{question} 只查 {lecture}", [lecture]),
+    ):
+        result = _ask(client, session, text)
+        trace = result["turn"]["trace"]
+        assert trace["route"] == "generated_answer"
+        expected_status = "succeeded" if lab in expected_files else "partial"
+        assert trace["generation"]["status"] == expected_status
+        assert trace["generation"]["estimated_input"] <= trace["generation"]["input_budget"]
+        message = result["message"]
+        originals = [
+            client.get(session + f"/messages/{message['message_id']}/evidence/{key}")
+            for block in message["blocks"]
+            for key in block.get("citations", [])
+        ]
+        assert [original.status_code for original in originals] == [200] * len(expected_files)
+        assert [original.json()["file_name"] for original in originals] == expected_files
+        assert all(not original.json()["has_preview"] for original in originals)
+
+
 def test_supplement_respects_same_name_clarification_and_explicit_location(system, tmp_path):
     _, _, _, client = system
     session = _create(client, course_ids=[_COURSE, "other"])

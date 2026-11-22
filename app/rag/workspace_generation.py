@@ -59,6 +59,21 @@ summary 概括证据范围。若用户只要求把上次回答简短重述，遵
 missing 只写具体尚不能确认的事项，没有缺项时为空字符串。
 无支持结论时 statements 为空并明确 missing。"""
 
+_DEFINITION_EXPERIMENT_INSTRUCTIONS = """
+分开陈述定义与实验结果，分别引用直接支撑各自结论的原件。
+实验只报告原文中对应对象、数据集或负载、比较基线、条件、指标和单位的结果。
+条件不符时只指出差异并说明缺项，省略其他条件下的数值。
+保留原文对吞吐量、可维持请求速率和延迟等不同指标的区分。倍数写作“为基线的 X 倍”。
+逐项核对指标的限定条件。只把限定条件绑定到原文明示的指标，不把一个指标的层号、
+数据集或其他限定自动移用到另一个指标。
+如果问题指向配套实验而只有论文结果，明确区分来源，不能把论文结果当作配套实验的测量。
+优先引用载有具体数值的实验文本或保存输出，不能用代码或定义推断未测结果。
+课件、资料等泛称可指当前范围内直接支持定义的论文。用原件真实名称或类型说明出处，
+不因泛称与文件类型不同而声称缺少另一本课件。
+只陈述所问的结论和与其直接相关的条件。保留已确认的定义或实验项。
+missing 仅列用户所问且缺乏匹配证据的项，不在其中重复已回答结论。
+请把所有证据 ID 仅放在 citations 数组中。"""
+
 _COMPOSITION_INSTRUCTIONS = """
 按 evidence_role 分清讲义条件、原生表格、保存输出。对照同一对象、实验条件、指标、单位。
 不能把未测值当成零，不能用其他条件的结果填空。表格值不表示保存输出证实该值。
@@ -122,7 +137,11 @@ def _build_messages(
         "coverage": _clean_coverage(coverage),
         "evidence": evidence,
     }
-    instructions = _INSTRUCTIONS + (_COMPOSITION_INSTRUCTIONS if mode == "compose" else "")
+    instructions = _INSTRUCTIONS
+    if mode == "compose":
+        instructions += _COMPOSITION_INSTRUCTIONS
+    elif mode == "definition_and_experiment":
+        instructions += _DEFINITION_EXPERIMENT_INSTRUCTIONS
     return [
         {"role": "system", "content": instructions},
         {

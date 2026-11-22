@@ -41,7 +41,10 @@ def test_pdf_preview_pinned_to_citation_and_owner(preview_system, tmp_path):
     path = cited_path(session, _ask(client, session, "August 23", kind="search"), page=5)
     before = client.get(path)
     assert before.json()["is_current"]
-    assert set(before.json()) == {"source", "file_name", "locator", "text", "is_current"}
+    assert before.json()["has_preview"]
+    assert set(before.json()) == {
+        "source", "file_name", "locator", "text", "is_current", "has_preview",
+    }
     image = client.get(path + "/preview")
     assert image.status_code == 200 and image.headers["Content-Type"] == "image/png"
     assert image.headers["Cache-Control"] == "private, no-store"

@@ -903,10 +903,9 @@ async function showTextEvidence(message, id, label) {
     const usedByAnswer = ["succeeded", "partial"].includes(generation?.status) &&
       generation.input_evidence_ids?.includes(id);
     const hasPage = Number.isInteger(source.locator?.page);
-    const hasOutput = Number.isInteger(source.locator?.output_index);
     const visual = imageReadStatus({}, evidence, {originalPage: hasPage});
     openReader({
-      url: hasPage || hasOutput ? mediaURL(`${path}/preview`, sessionId) : null,
+      url: source.has_preview ? mediaURL(`${path}/preview`, sessionId) : null,
       title: details, details: source.is_current ? "当前版本" : "历史版本",
       status: `${usedByAnswer ? "文字已交给回答模型" : "已提取文字"} · ${visual}`,
       rect: hasPage ? source.locator?.bbox : null,

@@ -496,6 +496,7 @@ class WorkspaceService:
             "locator": _positions(source.locator),
             "text": read.text,
             "is_current": current.is_current,
+            "has_preview": _can_display(source),
         }
 
     def _run(self, owner: str, turn: Turn) -> Turn:
@@ -906,7 +907,12 @@ class WorkspaceService:
             file_names = names
         if mode == "ask" and asks_for_composition(text):
             return self._answer_composition(turn, session, text, snapshot)
-        if mode == "ask" and location is None and asks_for_definition_and_experiment(text):
+        if (
+            mode == "ask"
+            and location is None
+            and not self.settings.workspace_answer_enabled
+            and asks_for_definition_and_experiment(text)
+        ):
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
         if mode == "ask" and (target := object_intent(text)):
@@ -1085,10 +1091,11 @@ class WorkspaceService:
         if not readable_sources:
             return None
         context = self._prior_context(previous) if previous else None
+        prompt_mode = self._prompt_mode("ask", request.query, request.location)
         unread_visual = sum(1 for src in target_sources if _has_visual(src))
         fixed_reserve = estimate_prompt_reserve(
             request.query,
-            mode="ask",
+            mode=prompt_mode,
             context=context,
             coverage={"full_text_scope": False, "unread_visual_total": unread_visual},
         )
@@ -1123,7 +1130,7 @@ class WorkspaceService:
         if len(target_docs) == 1:
             reserve_true = estimate_prompt_reserve(
                 request.query,
-                mode="ask",
+                mode=prompt_mode,
                 context=context,
                 coverage={"full_text_scope": True, "unread_visual_total": unread_visual},
             )
@@ -1248,6 +1255,12 @@ class WorkspaceService:
         )
         return self._complete(turn, draft, refs=refs, trace=trace)
 
+    @staticmethod
+    def _prompt_mode(mode, question, location):
+        if mode == "ask" and location is None and asks_for_definition_and_experiment(question):
+            return "definition_and_experiment"
+        return mode
+
     def _generate_snapshot(
         self,
         turn,
@@ -1305,16 +1318,17 @@ class WorkspaceService:
                 draft.notice("no_reading_cursor", "本轮范围没有可续读的位置。")
                 return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs])
         context = self._prior_context(previous) if previous else None
+        prompt_mode = self._prompt_mode(mode, question, location)
         unread_visual_total = sum(1 for source in snapshot.sources if _has_visual(source))
         reserve_false = estimate_prompt_reserve(
             question,
-            mode=mode,
+            mode=prompt_mode,
             context=context,
             coverage={"full_text_scope": False, "unread_visual_total": unread_visual_total},
         )
         reserve_true = estimate_prompt_reserve(
             question,
-            mode=mode,
+            mode=prompt_mode,
             context=context,
             coverage={"full_text_scope": True, "unread_visual_total": unread_visual_total},
         )
@@ -1417,7 +1431,7 @@ class WorkspaceService:
             turn,
             draft,
             trace,
-            mode,
+            prompt_mode,
             refs=refs,
             question=question,
             context=context,
