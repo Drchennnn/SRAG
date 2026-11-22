@@ -1,0 +1,47 @@
+{
+  "candidate": "bda68cd5484fd98a46780a620a3039dd9b2ba429",
+  "baseline": "54fbd9e9daf97d6aa9f28d6ef0bdc0431f41c8fd",
+  "previous_candidate": "ed99897ec8ad7364292e5237705a66c6a8715837",
+  "verdict": "返工",
+  "viewport_px": [1280, 577],
+  "config": {
+    "workspace_answer_enabled": true,
+    "workspace_retrieval_strategy": "fts",
+    "source_vision_enabled": true,
+    "workspace_input_token_limit": 32768,
+    "generation_output_reserve": 8192
+  },
+  "regression": {
+    "passed": 4,
+    "total": 5,
+    "distinct_citation_clicks_per_turn_total": 23,
+    "first_clicks_succeeded": 23,
+    "model_calls": {"rewrite": 4, "generation": 5, "http_200": 9},
+    "turns": [
+      {"id": "P01", "targets_candidate_selected_read": [2, 2, 2], "experiment_used": true, "verdict": "通过"},
+      {"id": "P02", "targets_candidate_selected_read": [2, 2, 2], "experiment_used": true, "verdict": "通过"},
+      {"id": "P03", "targets_candidate_selected_read": [2, 2, 2], "experiment_used": true, "verdict": "通过"},
+      {"id": "P04", "targets_candidate_selected_read": [1, 1, 1], "excluded_experiment_candidate_read_cited": [0, 0, 0], "verdict": "返工"},
+      {"id": "P05", "targets_candidate_selected_read": [1, 1, 1], "related_experiment_candidate_selected_read_cited": [1, 1, 1, 1], "verdict": "通过"}
+    ]
+  },
+  "holdout": {
+    "passed": 3,
+    "total": 4,
+    "distinct_citation_clicks_per_turn_total": 11,
+    "first_clicks_succeeded": 10,
+    "out_of_viewport_recovered_by_scroll": 1,
+    "model_calls": {"rewrite": 3, "generation": 4, "http_200": 7},
+    "turns": [
+      {"id": "N01", "targets_candidate_selected_read": [2, 2, 2], "experiment_used": true, "verdict": "通过"},
+      {"id": "N02", "targets_candidate_selected_read": [2, 2, 2], "experiment_used": true, "verdict": "通过"},
+      {"id": "N03", "targets_candidate_selected_read": [2, 2, 2], "experiment_used": true, "verdict": "通过"},
+      {"id": "N04", "targets_candidate_selected_read": [1, 1, 1], "excluded_experiment_candidate_read_cited": [0, 0, 0], "verdict": "返工"}
+    ]
+  },
+  "first_trace_sha256": {
+    "regression_primary": "94772972e2fb09fe3f84fa6445262e231c4cd29b1188deb552776371142ea6f2",
+    "regression_supplement": "cfc269b429e8b3b140cfd1a26663aeccc1e9dbf1d5561206f1b16be56fba9594",
+    "holdout": "69043f9900fb2b56991bf0c1cf43cc36058adcbad3701f2dcf2dd65237afd90d"
+  }
+}

@@ -91,6 +91,7 @@ def replay(url, session, folder, manifest, log, record, save):
     ab("wait", "--text", "暂无资料")
     record["empty_library_visible"] = True
     record["browser"] = js("navigator.userAgent")
+    record["viewport"] = js("({width: innerWidth, height: innerHeight})")
     for name in manifest["files"]:
         if not js("document.querySelector('#import-panel').open"):
             ab("find", "text", "导入资料", "click", "--exact")
@@ -167,11 +168,18 @@ def replay(url, session, folder, manifest, log, record, save):
                 clicked = {"evidence_id": eid}
                 row["reader"].append(clicked)
                 try:
-                    js(
-                        f"document.querySelector({json.dumps(selector)})"
-                        ".scrollIntoView({block: 'center', behavior: 'instant'}) ?? true"
-                    )
-                    ab("click", selector)
+                    try:
+                        ab("click", selector)
+                        clicked["first_click"] = "succeeded"
+                    except RuntimeError as first_error:
+                        clicked["first_click"] = "failed"
+                        clicked["first_click_error"] = str(first_error)
+                        save()
+                        js(
+                            f"document.querySelector({json.dumps(selector)})"
+                            ".scrollIntoView({block: 'center', behavior: 'instant'}) ?? true"
+                        )
+                        ab("click", selector)
                     wait(
                         "document.querySelector('#reader').open && ("
                         "document.querySelector('#reader img')?.naturalWidth > 0 || "
