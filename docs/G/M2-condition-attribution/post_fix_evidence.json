@@ -1,0 +1,871 @@
+{
+  "subject_commit": "cfcfe5e79bde6dbd8b5346da752e4d527f4e18cd",
+  "suites": {
+    "1_only_b_declares_equiv": {
+      "mode_off": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-A.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            }
+          }
+        }
+      },
+      "mode_on_browser": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 951.093,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 969.115,
+            "estimated_input": 4712,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-1": "experiment_split_mismatch"
+            },
+            "status": "partial",
+            "total_tokens": 1139,
+            "unverified_experiment_statements": 1
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数严格高于 8 V 时开启。\n\n依据 · Guide-A.ipynb · v1 · Cell 1\n\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": [
+            "ev-2"
+          ],
+          "clicked_citations": {
+            "ev-2": {
+              "head": "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: TrialA.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-A.ipynb · v1 · Cell 1"
+            }
+          }
+        }
+      }
+    },
+    "2_a_declares_equiv": {
+      "mode_off": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "complete",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n实验 TrialA，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-A.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "ev-2": {
+              "file_name": "Lab-ASelf.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            }
+          }
+        }
+      },
+      "mode_on_browser": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1497.874,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1513.218,
+            "estimated_input": 4685,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 1157
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数都严格高于 8 V 时开启。\n\n依据 · Guide-A.ipynb · v1 · Cell 1\n\n讲义对应的实验为 TrialA；在 held-out 测试划分上，指标为 MAE，单位为 amplitude，基线为 0.26，Trial 为 0.19，样本数为 4。\n\n依据 · Lab-ASelf.ipynb · v1 · Cell 1\n\nTrialA 仅使用 held-out 作为测试划分。\n\n依据 · Lab-ASelf.ipynb · v1 · Cell 1",
+          "citations": [
+            "ev-1",
+            "ev-2"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: TrialA.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-A.ipynb · v1 · Cell 1"
+            },
+            "ev-2": {
+              "head": "Basalt latch TrialA.\nExperiment-ID: TrialA. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nFor TrialA only, held-out is used as the test split.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Lab-ASelf.ipynb · v1 · Cell 1"
+            }
+          }
+        }
+      }
+    },
+    "3_same_cell_fwd": {
+      "mode_off": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "complete",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n实验 TrialA，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-AB.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "ev-3": {
+              "file_name": "Lab-AB-Fwd.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            }
+          }
+        },
+        "ask_b": {
+          "question": "Quartz latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A quartz latch opens on two consecutive readings strictly above 5 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-AB.ipynb",
+              "version": 1,
+              "source_id": "cell:1"
+            }
+          }
+        }
+      },
+      "mode_on_browser": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1671.016,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1689.827,
+            "estimated_input": 5219,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1352
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数都严格高于 8 V 时开启。\n\n依据 · Guide-AB.ipynb · v1 · Cell 1\n\n讲义将 Basalt latch 对应到 Experiment-ID: TrialA。\n\n依据 · Guide-AB.ipynb · v1 · Cell 1\n\nTrialA 使用 held-out 作为测试划分，指标为 MAE，单位为 amplitude，基线为 0.26，试验结果为 0.19，样本数为 4。\n\n依据 · Lab-AB-Fwd.ipynb · v1 · Cell 1\n\n证据只给出 TrialA 的指标数值和划分，未说明该实验如何具体验证 Basalt latch 的开启条件（如读数序列、判定流程或与定义的对应方式）。",
+          "citations": [
+            "ev-2",
+            "ev-1"
+          ],
+          "clicked_citations": {
+            "ev-2": {
+              "head": "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: TrialA.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-AB.ipynb · v1 · Cell 1"
+            },
+            "ev-1": {
+              "head": "Basalt latch TrialA.\nExperiment-ID: TrialA. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nFor TrialA, held-out is used as the test split.\n\nQuartz latch TrialB.\nExperiment-ID: TrialB. Split: held-out",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Lab-AB-Fwd.ipynb · v1 · Cell 1"
+            }
+          }
+        },
+        "ask_b": {
+          "question": "Quartz latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1243.744,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1262.525,
+            "estimated_input": 5219,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-1": "experiment_split_mismatch"
+            },
+            "status": "partial",
+            "total_tokens": 1295,
+            "unverified_experiment_statements": 1
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nQuartz latch 的定义是：连续两次读数严格高于 5 V 时开启。\n\n依据 · Guide-AB.ipynb · v1 · Cell 2\n\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": [
+            "ev-3"
+          ],
+          "clicked_citations": {
+            "ev-3": {
+              "head": "Definition: A quartz latch opens on two consecutive readings strictly above 5 V.\nExperiment-ID: TrialB.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-AB.ipynb · v1 · Cell 2"
+            }
+          }
+        }
+      }
+    },
+    "3_same_cell_rev": {
+      "mode_off": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "complete",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n实验 TrialA，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-AB.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            },
+            "ev-3": {
+              "file_name": "Lab-AB-Rev.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            }
+          }
+        },
+        "ask_b": {
+          "question": "Quartz latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A quartz latch opens on two consecutive readings strictly above 5 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-AB.ipynb",
+              "version": 1,
+              "source_id": "cell:1"
+            }
+          }
+        }
+      },
+      "mode_on_browser": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1591.718,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1609.558,
+            "estimated_input": 5219,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 1304
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数均严格高于 8 V 时开启。\n\n依据 · Guide-AB.ipynb · v1 · Cell 1\n\nBasalt latch 对应 Experiment-ID TrialA。\n\n依据 · Guide-AB.ipynb · v1 · Cell 1\n\nTrialA 的实验在 held-out 测试划分上进行，指标为 MAE，单位为 amplitude；基线为 0.26，试验结果为 0.19，样本数为 4。\n\n依据 · Lab-AB-Rev.ipynb · v1 · Cell 1",
+          "citations": [
+            "ev-1",
+            "ev-3"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: TrialA.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-AB.ipynb · v1 · Cell 1"
+            },
+            "ev-3": {
+              "head": "Quartz latch TrialB.\nExperiment-ID: TrialB. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.44. Trial: 0.31. Samples: 8.\n\nBasalt latch TrialA.\nExperiment-ID: TrialA. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. ",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Lab-AB-Rev.ipynb · v1 · Cell 1"
+            }
+          }
+        },
+        "ask_b": {
+          "question": "Quartz latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1269.16,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1285.711,
+            "estimated_input": 5219,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-3": "experiment_split_mismatch"
+            },
+            "status": "partial",
+            "total_tokens": 1353,
+            "unverified_experiment_statements": 1
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nQuartz latch 的定义是：连续两次读数严格高于 5 V 时开启。\n\n依据 · Guide-AB.ipynb · v1 · Cell 2\n\n该定义对应 Experiment-ID: TrialB。\n\n依据 · Guide-AB.ipynb · v1 · Cell 2\n\n未找到讲义本身针对 Quartz latch 的测试集实验描述；现有实验数值来自 Lab-AB-Rev.ipynb，不能确认它就是讲义所对应的测试集实验。",
+          "citations": [
+            "ev-2"
+          ],
+          "clicked_citations": {
+            "ev-2": {
+              "head": "Definition: A quartz latch opens on two consecutive readings strictly above 5 V.\nExperiment-ID: TrialB.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-AB.ipynb · v1 · Cell 2"
+            }
+          }
+        }
+      }
+    },
+    "4_explicit_diff": {
+      "mode_off": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Guide-A.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            }
+          }
+        }
+      },
+      "mode_on_browser": {
+        "ask_a": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1444.459,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1462.063,
+            "estimated_input": 4686,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-2": "experiment_split_mismatch"
+            },
+            "status": "partial",
+            "total_tokens": 1191,
+            "unverified_experiment_statements": 2
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数都严格高于 8 V 时开启。\n\n依据 · Guide-A.ipynb · v1 · Cell 1\n\n未找到讲义所对应的测试集（test split）上的实验结果；现有证据只报告了 TrialA 的 held-out 结果，并明确说明 held-out 与 test 划分不同。",
+          "citations": [
+            "ev-1"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: TrialA.",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Guide-A.ipynb · v1 · Cell 1"
+            }
+          }
+        }
+      }
+    },
+    "5_original_six": {
+      "mode_off": {
+        "held_out": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "complete",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "version": 1,
+              "source_id": "page:1"
+            },
+            "ev-3": {
+              "file_name": "Latch-Trial.ipynb",
+              "version": 1,
+              "source_id": "cell:0"
+            }
+          }
+        },
+        "salt_fog": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "version": 1,
+              "source_id": "page:1"
+            }
+          }
+        },
+        "unfamiliar_condition": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的低温循环后的留出集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "version": 1,
+              "source_id": "page:1"
+            }
+          }
+        },
+        "different_object": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的Quartz latch 的留出集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "version": 1,
+              "source_id": "page:1"
+            }
+          }
+        },
+        "different_metric": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "version": 1,
+              "source_id": "page:1"
+            }
+          }
+        },
+        "test_split": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "route": "evidence_answer",
+          "answer_status": "partial",
+          "external_call_count": 0,
+          "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+          "citations": {
+            "ev-1": {
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "version": 1,
+              "source_id": "page:1"
+            }
+          }
+        }
+      },
+      "mode_on_browser": {
+        "held_out": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1595.226,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1613.636,
+            "estimated_input": 5873,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1694
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数严格高于 8 V 时开启。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n该指南只收录干台架（dry bench）观测。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n配套实验 Latch-Trial.ipynb 中，Experiment-ID 为 SlateTrialB6，划分为留出集（held-out），指标为 MAE，单位为 amplitude，样本数为 4。\n\n依据 · Latch-Trial.ipynb · v1 · Cell 1\n\n在该留出集实验中，基线 MAE 为 0.26，试验 MAE 为 0.19。\n\n依据 · Latch-Trial.ipynb · v1 · Cell 1\n\n该实验的基线绝对误差为 (0.21, 0.25, 0.30, 0.28)，试验绝对误差为 (0.15, 0.17, 0.22, 0.22)。\n\n依据 · Latch-Trial.ipynb · v1 · Cell 1\n\n证据未说明该留出集实验如何验证 Basalt latch 的定义（例如是否按连续三次读数严格高于 8 V 的规则判定），也未给出实验与定义之间的验证流程或结论。\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+          "citations": [
+            "ev-1",
+            "ev-5"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+            },
+            "ev-5": {
+              "head": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Latch-Trial.ipynb · v1 · Cell 1"
+            }
+          }
+        },
+        "salt_fog": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1723.274,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1741.998,
+            "estimated_input": 5353,
+            "external_call_count": 1,
+            "fixed_overhead": 3802,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1373
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数都严格高于 8 V 时开启。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n该指南只包含干台架（dry bench）观测，未包含盐雾实验。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\nLatch-Check.pptx 的检查表仅记录“Dry bench”状态为“Recorded”，未提供盐雾实验的验证内容。\n\n依据 · Latch-Check.pptx · v1 · 第 1 页Latch-Check.pptx · v1 · 第 1 页\n\n缺少盐雾实验的验证方法、条件与结果证据。\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+          "citations": [
+            "ev-1",
+            "ev-2",
+            "ev-4"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+            },
+            "ev-2": {
+              "head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nBasalt handling checklist\n| Check | Status |\n| --- | --- |\n| Dry bench | Recorded |",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Latch-Check.pptx · v1 · 第 1 页"
+            },
+            "ev-4": {
+              "head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\n| Check | Status |\n| --- | --- |\n| Dry bench | Recorded |",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Latch-Check.pptx · v1 · 第 1 页"
+            }
+          }
+        },
+        "unfamiliar_condition": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的低温循环后的留出集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1630.78,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1648.602,
+            "estimated_input": 5891,
+            "external_call_count": 1,
+            "fixed_overhead": 3823,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-5": "experiment_condition_unverified"
+            },
+            "status": "partial",
+            "total_tokens": 1667,
+            "unverified_experiment_statements": 2
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数严格高于 8 V 时开启。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n讲义对应的实验编号为 SlateTrialB6，且该指南只纳入干台架观测。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n证据未说明该 held-out 实验是否在低温循环之后进行，也未给出低温循环条件或循环后验证流程，因此无法确认“低温循环后的留出集实验”这一条件。\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+          "citations": [
+            "ev-1"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+            }
+          }
+        },
+        "different_object": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的Quartz latch 的留出集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2001.64,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2021.419,
+            "estimated_input": 5889,
+            "external_call_count": 1,
+            "fixed_overhead": 3821,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-5": "experiment_condition_unverified"
+            },
+            "status": "partial",
+            "total_tokens": 1682,
+            "unverified_experiment_statements": 2
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数严格高于 8 V 时，basalt latch 打开。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\nBasalt 指南中记录的实验编号为 SlateTrialB6，且该指南只收录干式台架观测。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n现有证据未出现“Quartz latch”这一名称，也未提供讲义中 Quartz latch 留出集实验的验证方法或结果；因此无法确认该实验如何验证。\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+          "citations": [
+            "ev-1"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+            }
+          }
+        },
+        "different_metric": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1618.03,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1635.521,
+            "estimated_input": 5890,
+            "external_call_count": 1,
+            "fixed_overhead": 3822,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-5": "experiment_metric_mismatch"
+            },
+            "status": "partial",
+            "total_tokens": 1602,
+            "unverified_experiment_statements": 2
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数严格高于 8 V 时开启。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n缺少留出集实验的 RMSE 数值；现有证据只给出 MAE（基线 0.26、试验 0.19，单位 amplitude）。\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+          "citations": [
+            "ev-1"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+            }
+          }
+        },
+        "test_split": {
+          "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "turn_status": "completed",
+          "route": "generated_answer",
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1854.703,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1872.169,
+            "estimated_input": 5873,
+            "external_call_count": 1,
+            "fixed_overhead": 3805,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "rejected_experiment_reasons": {
+              "ev-5": "experiment_split_mismatch"
+            },
+            "status": "partial",
+            "total_tokens": 1667,
+            "unverified_experiment_statements": 2
+          },
+          "external_call_count": 2,
+          "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数严格高于 8 V 时开启。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n该指南对应的实验编号为 SlateTrialB6，且指南仅包含干台架观察。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n未找到讲义所对应的测试集实验如何验证 Basalt latch 定义的直接说明；现有证据只给出实验编号、划分、指标及误差数值，未说明这些结果如何验证该定义。\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+          "citations": [
+            "ev-1"
+          ],
+          "clicked_citations": {
+            "ev-1": {
+              "head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "open": true,
+              "status": "文字已交给回答模型 · 图像未读取",
+              "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+            }
+          }
+        }
+      }
+    }
+  }
+}
