@@ -46,6 +46,27 @@ def extract_horizontal_rule_tables(
         if _has_vertical_lines_inside(vertical, box):
             continue
         parsed = _parse_rule_table(all_chars, text_page, box, ys)
+        if parsed is None and len(group) > 3:
+            ordered = sorted(group, key=lambda line: -line[2])
+            for start in range(1, len(ordered) - 2):
+                sub_group = ordered[start:]
+                sub_ys = [line[2] for line in sub_group]
+                if (sub_ys[0] - sub_ys[-1]) < _MIN_TABLE_HEIGHT:
+                    continue
+                sub_box = (
+                    min(line[0] for line in sub_group),
+                    sub_ys[-1],
+                    max(line[1] for line in sub_group),
+                    sub_ys[0],
+                )
+                if any(_boxes_overlap(sub_box, existing) for existing in existing_boxes):
+                    continue
+                if _has_vertical_lines_inside(vertical, sub_box):
+                    continue
+                parsed = _parse_rule_table(all_chars, text_page, sub_box, sub_ys)
+                if parsed is not None:
+                    group, ys, box = sub_group, sub_ys, sub_box
+                    break
         if parsed is None:
             continue
         rows, title = parsed

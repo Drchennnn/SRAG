@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from collections.abc import Iterable
 from math import isfinite
 from pathlib import Path
@@ -44,6 +45,7 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
     document = pdfium.PdfDocument(path)
     sources: list[SourceDraft] = []
     images: list[SourceDraft] = []
+    extra_objects: list[SourceDraft] = []
     ordinal = 0
     try:
         for page_index in range(len(document)):
@@ -86,14 +88,36 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
                     )
                     ordinal += 1
 
-                    images.extend(
-                        _pdf_image_sources(
-                            page, native_images, page_no, page_bbox, page_rotation, pdfium
-                        )
+                    page_images = _pdf_image_sources(
+                        page, native_images, page_no, page_bbox, page_rotation, pdfium
                     )
                     if page_rotation != 0:
+                        images.extend(page_images)
                         continue
-                    for table in _confirmed_pdf_tables(page, text_page, page_bbox, pdfium):
+                    page_tables = _confirmed_pdf_tables(page, text_page, page_bbox, pdfium)
+                    table_boxes = [tuple(table["native_bbox"]) for table in page_tables]
+                    if not page_images:
+                        page_images = _pdf_vector_image_sources(
+                            page, text_page, page_no, page_bbox, page_rotation, table_boxes, pdfium
+                        )
+                    images.extend(page_images)
+                    image_boxes = [
+                        tuple(img.locator["native_bbox"])
+                        for img in page_images
+                        if isinstance(img.locator.get("native_bbox"), list)
+                    ]
+                    extra_objects.extend(
+                        _pdf_text_object_sources(
+                            page,
+                            text_page,
+                            page_no,
+                            page_bbox,
+                            page_rotation,
+                            [*table_boxes, *image_boxes],
+                            pdfium,
+                        )
+                    )
+                    for table in page_tables:
                         table_index = table["source_index"]
                         sources.append(
                             SourceDraft(
@@ -137,6 +161,9 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
     for image in images:
         image.ordinal = len(sources)
         sources.append(image)
+    for obj in extra_objects:
+        obj.ordinal = len(sources)
+        sources.append(obj)
     return ParsedSource(title=path.stem, sources=sources)
 
 
@@ -664,3 +691,267 @@ def _first_nonempty_line(value: str) -> str:
 
 def _unit_interval(value: float) -> float:
     return round(max(0.0, min(1.0, value)), 6)
+
+
+_CAPTION_PREFIX = re.compile(
+    r"^(?:figure|fig\.?|图)\s*[0-9]+(?:\.[0-9]+)?\s*[:：.\-]",
+    re.IGNORECASE,
+)
+_FORMULA_EQ = re.compile(r"[A-Za-z_\\][A-Za-z0-9_]*\s*(?:=|:=|≈|≤|≥)\s*\S")
+
+
+def _pdf_vector_image_sources(
+    page: Any,
+    text_page: Any,
+    page_no: int,
+    page_bbox: Rect,
+    rotation: int,
+    table_boxes: list[tuple[float, float, float, float]],
+    pdfium: Any,
+) -> list[SourceDraft]:
+    """Register vector-drawn PDF subfigures/plots when no top-level raster is present."""
+    try:
+        matrix = pdf_visible_matrix(page_bbox, rotation)
+        raw_paths = [
+            obj.get_bounds()
+            for obj in page.get_objects(filter=[pdfium.raw.FPDF_PAGEOBJ_PATH], max_depth=1)
+        ]
+    except (ValueError, pdfium.PdfiumError):
+        return []
+    page_w = page_bbox[2] - page_bbox[0]
+    page_h = page_bbox[3] - page_bbox[1]
+    filtered: list[tuple[float, float, float, float]] = []
+    for box in raw_paths:
+        if not all(isfinite(v) for v in box):
+            continue
+        left, bottom, right, top = box
+        if right <= left or top <= bottom:
+            continue
+        if (right - left) >= 0.9 * page_w and (top - bottom) >= 0.9 * page_h:
+            continue
+        if any(_rectangles_overlap(box, tb) for tb in table_boxes):
+            continue
+        filtered.append((left, bottom, right, top))
+    if len(filtered) < 3:
+        return []
+
+    gap = 10.0
+    used = [False] * len(filtered)
+    clusters: list[tuple[tuple[float, float, float, float], int]] = []
+    for i in range(len(filtered)):
+        if used[i]:
+            continue
+        used[i] = True
+        queue = [filtered[i]]
+        count = 0
+        cl, cb, cr, ct = filtered[i]
+        while queue:
+            queue.pop()
+            count += 1
+            for j in range(len(filtered)):
+                if used[j]:
+                    continue
+                jl, jb, jr, jt = filtered[j]
+                if jl <= cr + gap and jr >= cl - gap and jb <= ct + gap and jt >= cb - gap:
+                    used[j] = True
+                    queue.append(filtered[j])
+                    cl, cb, cr, ct = min(cl, jl), min(cb, jb), max(cr, jr), max(ct, jt)
+        if count >= 3 and (cr - cl) >= 48.0 and (ct - cb) >= 48.0:
+            clusters.append(((cl, cb, cr, ct), count))
+    if not clusters:
+        return []
+
+    positioned: list[tuple[list[float], tuple[float, float, float, float], str]] = []
+    for bounds, _ in clusters:
+        visible = [_unit_interval(value) for value in transform_rect(bounds, matrix)]
+        left, bottom, right, top = bounds
+        title_text = _normalize_pdf_text(text_page.get_text_bounded(left, bottom, right, top))
+        positioned.append((visible, bounds, _first_nonempty_line(title_text)))
+
+    positioned.sort(key=lambda item: (item[0][1], item[0][0], item[0][3], item[0][2]))
+    return [
+        SourceDraft(
+            source_id=f"page:{page_no}:image:{image_index}",
+            kind="page_object",
+            ordinal=0,
+            parent_id=f"page:{page_no}",
+            title=title,
+            text="",
+            locator={
+                "format": "pdf",
+                "page": page_no,
+                "object_type": "image",
+                "image_index": image_index,
+                "bbox": visible,
+                "native_bbox": list(bounds),
+                "coordinate_frame": "visible_page_norm_v1",
+                "native_coordinate_frame": "pdf_page_units_bottom_left_v1",
+                "position_basis": "pdfium_native_vector_extents_v1",
+                "native_to_visible_transform": {
+                    "version": "pdf_cropbox_bottom_left_to_visible_norm_v1",
+                    "page_bbox": list(page_bbox),
+                    "rotation_degrees_clockwise": rotation,
+                    "matrix": list(matrix),
+                },
+            },
+        )
+        for image_index, (visible, bounds, title) in enumerate(positioned, start=1)
+    ]
+
+
+def _pdf_text_object_sources(
+    page: Any,
+    text_page: Any,
+    page_no: int,
+    page_bbox: Rect,
+    rotation: int,
+    excluded_boxes: list[tuple[float, float, float, float]],
+    pdfium: Any,
+) -> list[SourceDraft]:
+    """Register PDF figure captions and standalone formula blocks as page_objects."""
+    try:
+        matrix = pdf_visible_matrix(page_bbox, rotation)
+        text_objs = [
+            obj.get_bounds()
+            for obj in page.get_objects(filter=[pdfium.raw.FPDF_PAGEOBJ_TEXT], max_depth=1)
+        ]
+        path_objs = [
+            obj.get_bounds()
+            for obj in page.get_objects(filter=[pdfium.raw.FPDF_PAGEOBJ_PATH], max_depth=1)
+        ]
+    except (ValueError, pdfium.PdfiumError):
+        return []
+
+    raw_boxes = [
+        box
+        for box in text_objs
+        if all(isfinite(v) for v in box)
+        and box[2] > box[0]
+        and box[3] > box[1]
+        and not any(_rectangles_overlap(box, ex) for ex in excluded_boxes)
+    ]
+    if not raw_boxes:
+        return []
+
+    # Group text objects into visual lines (y_center within 4 pt), then contiguous blocks.
+    raw_boxes.sort(key=lambda b: (-(b[1] + b[3]) / 2, b[0]))
+    lines: list[tuple[float, float, float, float]] = []
+    for left, bottom, right, top in raw_boxes:
+        yc = (bottom + top) / 2
+        if lines and abs(yc - (lines[-1][1] + lines[-1][3]) / 2) <= 4.0:
+            pl, pb, pr, pt = lines[-1]
+            lines[-1] = (min(pl, left), min(pb, bottom), max(pr, right), max(pt, top))
+        else:
+            lines.append((left, bottom, right, top))
+
+    blocks: list[list[tuple[float, float, float, float]]] = []
+    for line in lines:
+        if blocks:
+            prev = blocks[-1][-1]
+            vgap = prev[1] - line[3]
+            h_overlap = min(prev[2], line[2]) > max(prev[0], line[0]) - 24.0
+            prev_txt = _normalize_pdf_text(text_page.get_text_bounded(*prev))
+            cur_txt = _normalize_pdf_text(text_page.get_text_bounded(*line))
+            if (
+                -4.0 <= vgap <= 10.0
+                and h_overlap
+                and not _CAPTION_PREFIX.match(cur_txt)
+                and not (_FORMULA_EQ.search(cur_txt) and not _CAPTION_PREFIX.match(prev_txt))
+            ):
+                blocks[-1].append(line)
+                continue
+        blocks.append([line])
+
+    frame_boxes = [
+        box
+        for box in path_objs
+        if all(isfinite(v) for v in box)
+        and (box[2] - box[0]) >= 48.0
+        and (box[3] - box[1]) >= 18.0
+        and not any(_rectangles_overlap(box, ex) for ex in excluded_boxes)
+    ]
+
+    captions: list[tuple[list[float], tuple[float, float, float, float], str]] = []
+    formulas: list[tuple[list[float], tuple[float, float, float, float], str]] = []
+
+    for blk in blocks:
+        bl = min(x[0] for x in blk)
+        bb = min(x[1] for x in blk)
+        br = max(x[2] for x in blk)
+        bt = max(x[3] for x in blk)
+        text = _normalize_pdf_text(text_page.get_text_bounded(bl - 1, bb - 1, br + 1, bt + 1))
+        if not text:
+            continue
+        if _CAPTION_PREFIX.match(text):
+            bounds = (
+                max(page_bbox[0], bl - 2.0),
+                max(page_bbox[1], bb - 2.0),
+                min(page_bbox[2], br + 2.0),
+                min(page_bbox[3], bt + 2.0),
+            )
+            visible = [_unit_interval(v) for v in transform_rect(bounds, matrix)]
+            captions.append((visible, bounds, text))
+            continue
+
+        containing_frame = next(
+            (
+                fb
+                for fb in frame_boxes
+                if (
+                    fb[0] <= bl + 2.0
+                    and fb[1] <= bb + 2.0
+                    and fb[2] >= br - 2.0
+                    and fb[3] >= bt - 2.0
+                )
+            ),
+            None,
+        )
+        if _FORMULA_EQ.search(text) and (containing_frame is not None or len(blk) <= 4):
+            if containing_frame is not None:
+                bounds = containing_frame
+                text = _normalize_pdf_text(text_page.get_text_bounded(*bounds))
+                if any(existing_bounds == bounds for _, existing_bounds, _ in formulas):
+                    continue
+            else:
+                bounds = (
+                    max(page_bbox[0], bl - 2.0),
+                    max(page_bbox[1], bb - 2.0),
+                    min(page_bbox[2], br + 2.0),
+                    min(page_bbox[3], bt + 2.0),
+                )
+            visible = [_unit_interval(v) for v in transform_rect(bounds, matrix)]
+            formulas.append((visible, bounds, text))
+
+    drafts: list[SourceDraft] = []
+    for kind, items in (("caption", captions), ("formula", formulas)):
+        items.sort(key=lambda item: (item[0][1], item[0][0]))
+        for idx, (visible, bounds, text) in enumerate(items, start=1):
+            drafts.append(
+                SourceDraft(
+                    source_id=f"page:{page_no}:{kind}:{idx}",
+                    kind="page_object",
+                    ordinal=0,
+                    parent_id=f"page:{page_no}",
+                    title=_first_nonempty_line(text),
+                    text="",
+                    locator={
+                        "format": "pdf",
+                        "page": page_no,
+                        "object_type": kind,
+                        f"{kind}_index": idx,
+                        "object_text": text,
+                        "bbox": visible,
+                        "native_bbox": list(bounds),
+                        "coordinate_frame": "visible_page_norm_v1",
+                        "native_coordinate_frame": "pdf_page_units_bottom_left_v1",
+                        "position_basis": "pdfium_native_text_block_v1",
+                        "native_to_visible_transform": {
+                            "version": "pdf_cropbox_bottom_left_to_visible_norm_v1",
+                            "page_bbox": list(page_bbox),
+                            "rotation_degrees_clockwise": rotation,
+                            "matrix": list(matrix),
+                        },
+                    },
+                )
+            )
+    return drafts

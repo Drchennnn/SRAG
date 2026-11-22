@@ -583,12 +583,17 @@ def _append_missing_pdf_images(
             (
                 not item.text.strip()
                 and item.locator.get("object_type") == "image"
-                and item.locator.get("position_basis") == "pdfium_native_image_extents_v1"
+                and item.locator.get("position_basis")
+                in {"pdfium_native_image_extents_v1", "pdfium_native_vector_extents_v1"}
             )
             or (
                 item.text.strip()
                 and item.locator.get("object_type") == "table"
                 and item.locator.get("position_basis") == "axis_aligned_native_rule_grid_v1"
+            )
+            or (
+                item.locator.get("object_type") in {"caption", "formula"}
+                and item.locator.get("position_basis") == "pdfium_native_text_block_v1"
             )
         )
     ]

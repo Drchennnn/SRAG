@@ -1096,7 +1096,13 @@ class WorkspaceService:
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
         if mode == "ask" and (target := object_intent(text)):
-            return self._answer_object(turn, session, text, target, documents, node, location)
+            if target.kind in {"caption", "formula"} and not any(
+                src.kind == "page_object" and src.locator.get("object_type") == target.kind
+                for src in snapshot.sources
+            ):
+                target = None
+            if target is not None:
+                return self._answer_object(turn, session, text, target, documents, node, location)
         previous = None
         resolved_topic = None
         if followup:
@@ -1922,7 +1928,7 @@ class WorkspaceService:
                 ):
                     region_rects[key] = region.target_rect
         choices = object_choices(target, sources, focus=focus, region_rects=region_rects)
-        if target.kind == "table" and len(choices) > 1:
+        if target.kind in {"table", "caption", "formula"} and len(choices) > 1:
             choices = _disambiguate_table_choices(text, choices, narrowed.sources)
         trace: dict[str, Any] = {
             "route": "target_object",
@@ -1941,7 +1947,7 @@ class WorkspaceService:
             return self._complete(turn, draft, refs=refs, trace=trace)
         source = choices[0]
         trace["selected_source"] = _key(source).model_dump()
-        if target.kind == "table":
+        if target.kind in {"table", "caption", "formula"}:
             self._render_table_crop(turn, draft, docs, source)
         else:
             error = self._read_selected_image(
@@ -2290,7 +2296,7 @@ class WorkspaceService:
         consumed = 0
         failures: dict[tuple[str, str], str] = {}
         for source in ranked:
-            if not source.text.strip():
+            if not (source.text or source.locator.get("object_text", "")).strip():
                 continue
             if consumed == limit:
                 break
@@ -2304,13 +2310,18 @@ class WorkspaceService:
                 or raw.publication_epoch != doc.publication_epoch
             ):
                 raise WorkspaceError("stale_reference")
-            if raw.status != "available" or raw.source is None or not raw.source.text.strip():
+            raw_text = (
+                (raw.source.text or raw.source.locator.get("object_text", "")).strip()
+                if raw.source is not None
+                else ""
+            )
+            if raw.status != "available" or raw.source is None or not raw_text:
                 failures[(source.document_id, source.source_id)] = (
                     raw.status if raw.status != "available" else "native_text_unavailable"
                 )
                 continue
             consumed += 1
-            text = raw.source.text.strip()
+            text = raw_text
             clipped = len(text) > _TEXT_LIMIT
             readable = text[:_TEXT_LIMIT] + ("…" if clipped else "")
             read = TurnRead(
@@ -2803,6 +2814,8 @@ def _label(source: SnapshotSource) -> str:
                 "chart": "图表",
                 "picture": "图片",
                 "image": "图片",
+                "caption": "图注",
+                "formula": "公式",
                 "text": "文本框",
             }.get(object_type, "页内对象")
             return f"{kind} · {label}" if label else kind
@@ -2998,8 +3011,13 @@ def _disambiguate_table_choices(
     choices: list[SnapshotSource],
     all_sources: Sequence[SnapshotSource],
 ) -> list[SnapshotSource]:
-    cleaned = _TABLE_STOPWORDS.sub(" ", question)
-    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9][A-Za-z0-9._-]{1,}", cleaned)]
+    cleaned = re.sub(
+        r"\b(?:the|for|and|what|where|which|who|how|is|are|in|on|of|to|its|with|about|page|pdf|formula|equation|caption|figure|fig)\b",
+        " ",
+        _TABLE_STOPWORDS.sub(" ", question),
+        flags=re.IGNORECASE,
+    )
+    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9_][A-Za-z0-9._-]{1,}", cleaned)]
     cjk_terms = [tok for tok in re.findall(r"[\u3400-\u9fff]{2,}", cleaned)]
     terms = [*latin_terms, *cjk_terms]
     if not terms:
@@ -3009,6 +3027,22 @@ def _disambiguate_table_choices(
         for src in all_sources
         if src.kind in _BASE_KINDS
     }
+    direct_scored = [
+        (
+            sum(
+                1
+                for term in terms
+                if term in (choice.text or choice.locator.get("object_text", "")).casefold()
+            ),
+            choice,
+        )
+        for choice in choices
+    ]
+    direct_best = max(score for score, _ in direct_scored)
+    if direct_best > 0:
+        winners = [choice for score, choice in direct_scored if score == direct_best]
+        if len(winners) == 1:
+            return winners
     scored: list[tuple[int, SnapshotSource]] = []
     for choice in choices:
         haystack = choice.text.casefold()
