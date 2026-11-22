@@ -1,0 +1,2832 @@
+{
+  "old": {
+    "meta": {
+      "product": "7da7d059b998e67b59d27655b64c85778a6f2472",
+      "prep_runner_sha256": "c08f4c00f466c5702e24fff60e1f77044d6d6733af991c119640fbdf6f4ac236",
+      "fixture_sha256": {
+        "Latch-Check.pptx": "6ed8fa0f243c5d386f369c12801f100582bb0070cc4738e457ef30ae198fc273",
+        "Basalt-Latch-Guide.pdf": "a0e1eb8b9f45aa615325a4a8d677d4e8e621ceef17a3240203c2f5b00a58a8c9",
+        "Latch-Trial.ipynb": "218a7456a079c0e6a8fef79c2a9148ecb601d9441ff4a466277f6f61086d39c2",
+        "v1/Latch-Plots.ipynb": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+        "v2/Latch-Plots.ipynb": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82"
+      }
+    },
+    "settings": {
+      "workspace_answer_enabled": false,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_input_token_limit": 32768,
+      "answer_context_tokens": 1048576,
+      "source_vision_enabled": true,
+      "dashscope_vision_model": "qwen3-vl-plus",
+      "dashscope_timeout_seconds": 20.0,
+      "deepseek_chat_model": "deepseek-flash",
+      "deepseek_query_model": "deepseek-flash",
+      "deepseek_timeout_seconds": 60.0,
+      "jev_model": "Zev-1",
+      "jev_timeout_seconds": 15.0,
+      "retrieval_enable_visual": true,
+      "deepseek_configured": false,
+      "dashscope_configured": true,
+      "jev_configured": false,
+      "qdrant_configured": false
+    },
+    "condition_cases": {
+      "matching": {
+        "request": {
+          "client_turn_id": "matching",
+          "kind": "ask",
+          "text": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+          "scope_revision": 1
+        },
+        "http": 200,
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "stop_reason": "supplemented",
+        "budget": 2,
+        "term": {
+          "course_id": "public",
+          "end": 135,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "7b534111254601c35c2d88aa53e824e0166118d9c726f01a310eefef1cac2396",
+          "source": {
+            "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "start": 123,
+          "word": "SlateTrialB6"
+        },
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_887e2ced0d5f4f5f82d3c3aabd35fa6f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 2.3733749985694885,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "local_7436a0e5850c4fb19139c2726661b556",
+                "local_887e2ced0d5f4f5f82d3c3aabd35fa6f"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_7436a0e5850c4fb19139c2726661b556",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.4503340935334563,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "local_7436a0e5850c4fb19139c2726661b556",
+                "local_887e2ced0d5f4f5f82d3c3aabd35fa6f"
+              ]
+            }
+          }
+        ],
+        "external_call_count": 0,
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_7436a0e5850c4fb19139c2726661b556",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "salt_fog": {
+        "request": {
+          "client_turn_id": "salt_fog",
+          "kind": "ask",
+          "text": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+          "scope_revision": 1
+        },
+        "http": 200,
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "stop_reason": "supplemented",
+        "budget": 2,
+        "term": {
+          "course_id": "public",
+          "end": 135,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "7b534111254601c35c2d88aa53e824e0166118d9c726f01a310eefef1cac2396",
+          "source": {
+            "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "start": 123,
+          "word": "SlateTrialB6"
+        },
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_887e2ced0d5f4f5f82d3c3aabd35fa6f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.6739580314606428,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "local_7436a0e5850c4fb19139c2726661b556",
+                "local_887e2ced0d5f4f5f82d3c3aabd35fa6f"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_7436a0e5850c4fb19139c2726661b556",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.0467920219525695,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "local_7436a0e5850c4fb19139c2726661b556",
+                "local_887e2ced0d5f4f5f82d3c3aabd35fa6f"
+              ]
+            }
+          }
+        ],
+        "external_call_count": 0,
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_7436a0e5850c4fb19139c2726661b556",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "known_split_mismatch": {
+        "request": {
+          "client_turn_id": "known_split_mismatch",
+          "kind": "ask",
+          "text": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "scope_revision": 1
+        },
+        "http": 200,
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "stop_reason": "mismatched",
+        "budget": 2,
+        "term": {
+          "course_id": "public",
+          "end": 135,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "7b534111254601c35c2d88aa53e824e0166118d9c726f01a310eefef1cac2396",
+          "source": {
+            "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "start": 123,
+          "word": "SlateTrialB6"
+        },
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_887e2ced0d5f4f5f82d3c3aabd35fa6f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.6228340100497007,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "local_7436a0e5850c4fb19139c2726661b556",
+                "local_887e2ced0d5f4f5f82d3c3aabd35fa6f"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "mismatched",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_split_mismatch",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_7436a0e5850c4fb19139c2726661b556",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.0101670632138848,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "local_7436a0e5850c4fb19139c2726661b556",
+                "local_887e2ced0d5f4f5f82d3c3aabd35fa6f"
+              ]
+            }
+          }
+        ],
+        "external_call_count": 0,
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_43a1b7a2e78d4fb7997e0c9ad1b3b3fa",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      }
+    },
+    "actual_condition_decisions": [
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": "experiment_split_mismatch"
+      }
+    ],
+    "asgi_replacement": {
+      "import_v1": {
+        "file_name": "Latch-Plots.ipynb",
+        "status": "published",
+        "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+        "version": 1,
+        "publication_epoch": 1,
+        "content_sha256": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+        "source_count": 3,
+        "searchable_count": 3
+      },
+      "choose_v1_http": 200,
+      "v1_focus": {
+        "persisted_focus": "node-99affd8deec309415f5a62f9a92f61b2",
+        "scope_revision": 3,
+        "selected_documents": [
+          "local_6240acb679ba4b35b4c4ab9cce54738c"
+        ],
+        "visible_focus": "node-99affd8deec309415f5a62f9a92f61b2",
+        "catalog_node": "node-99affd8deec309415f5a62f9a92f61b2",
+        "catalog_version": 1
+      },
+      "vision_v1": {
+        "request": {
+          "client_turn_id": "vision-v1",
+          "kind": "ask",
+          "text": "刚才第二张图，横轴的单位是什么？",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "273e04d465b247cab5a124b32c0089d9",
+            "client_turn_id": "vision-v1",
+            "kind": "ask",
+            "text": "刚才第二张图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": {
+              "actual_source": {
+                "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              "display_id": "ec9bda4bb8d24819a8de38a5f77f16be",
+              "message_id": "28e1997f03cb460bbd6f9cbb2b8ce6fc",
+              "method": "visible_ordinal",
+              "ordinal": 2,
+              "resolution": "visible_ordinal"
+            },
+            "trace": {
+              "external_call_count": 1,
+              "vision": {
+                "capability_reason": null,
+                "elapsed_ms": 1210.1529580540955,
+                "reads": [
+                  {
+                    "cache_hit": false,
+                    "execution": "real_provider",
+                    "external_call": true,
+                    "missing_or_error": [],
+                    "model": "qwen3-vl-plus",
+                    "prompt_version": "source-directed-v1",
+                    "provider": "dashscope-native",
+                    "usage": {
+                      "image_tokens": 254,
+                      "input_tokens": 343,
+                      "output_tokens": 19,
+                      "total_tokens": 362
+                    }
+                  }
+                ],
+                "status": "succeeded"
+              }
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "Voltage [mV]",
+                "type": "text"
+              }
+            ],
+            "message_id": "3e68bc0a613c45a0b7649080d0348506",
+            "ordinal": 4,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Latch-Plots.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": "image/png",
+                    "actual_input_rect": null,
+                    "actual_input_sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+                    "actual_source": {
+                      "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                      "source_id": "cell:0:output:1",
+                      "version": 1
+                    },
+                    "execution": "real_provider",
+                    "method": "vision",
+                    "model": "qwen3-vl-plus",
+                    "origin_execution": "real_provider",
+                    "prompt_version": "source-directed-v1",
+                    "question_sha256": "f3a248806581a7225f117ab8fa58c41a71960aab5af09211353309a8a362a1df",
+                    "status": "succeeded",
+                    "text": "Voltage [mV]",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+                  "course_id": "public",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                    "source_id": "cell:0:output:1",
+                    "version": 1
+                  }
+                }
+              }
+            },
+            "turn_id": "273e04d465b247cab5a124b32c0089d9",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "old_preview_before": {
+        "ev-1": {
+          "http": 200,
+          "sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+          "bytes": 8141
+        }
+      },
+      "import_v2": {
+        "file_name": "Latch-Plots.ipynb",
+        "status": "published",
+        "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+        "version": 2,
+        "publication_epoch": 2,
+        "content_sha256": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82",
+        "source_count": 3,
+        "searchable_count": 3
+      },
+      "after_raw_import": {
+        "persisted_focus": "node-99affd8deec309415f5a62f9a92f61b2",
+        "scope_revision": 3,
+        "selected_documents": [
+          "local_6240acb679ba4b35b4c4ab9cce54738c"
+        ],
+        "visible_focus": null,
+        "catalog_node": "node-553e42c06110779d9250b43addb98620",
+        "catalog_version": 2
+      },
+      "raw_ask": {
+        "request": {
+          "client_turn_id": "show-stale",
+          "kind": "ask",
+          "text": "请展示第 1 个 Cell 的保存输出。",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "91e8b91786fa4fa7ba37dbbc7b671952",
+            "client_turn_id": "show-stale",
+            "kind": "ask",
+            "text": "请展示第 1 个 Cell 的保存输出。",
+            "status": "failed",
+            "resolution": null,
+            "trace": null,
+            "error": "stale_reference",
+            "retryable": true,
+            "options": []
+          },
+          "message": null,
+          "options": []
+        }
+      },
+      "historic_ask": {
+        "request": {
+          "client_turn_id": "historic-explicit",
+          "kind": "ask",
+          "text": "刚才第二张图，横轴的单位是什么？",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "ad7f715660564f61a92feefc70178f29",
+            "client_turn_id": "historic-explicit",
+            "kind": "ask",
+            "text": "刚才第二张图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": {
+              "actual_source": {
+                "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              "display_id": "ec9bda4bb8d24819a8de38a5f77f16be",
+              "message_id": "28e1997f03cb460bbd6f9cbb2b8ce6fc",
+              "method": "visible_ordinal",
+              "ordinal": 2,
+              "resolution": "visible_ordinal"
+            },
+            "trace": null,
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "code": "historical_only",
+                "text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
+                "type": "notice"
+              }
+            ],
+            "message_id": "918023fa64b5422c80b578b670cd9834",
+            "ordinal": 8,
+            "role": "assistant",
+            "sources": {},
+            "turn_id": "ad7f715660564f61a92feefc70178f29",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "bare_ordinal_ask": {
+        "request": {
+          "client_turn_id": "bare-ordinal",
+          "kind": "ask",
+          "text": "第二张图，横轴的单位是什么？",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "5aed20f3edcd469daa99afd25f18f0c6",
+            "client_turn_id": "bare-ordinal",
+            "kind": "ask",
+            "text": "第二张图，横轴的单位是什么？",
+            "status": "clarification",
+            "resolution": null,
+            "trace": null,
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "code": "clarification",
+                "text": "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。",
+                "type": "notice"
+              }
+            ],
+            "message_id": "08ed001107ad4f46a7721168ab905968",
+            "ordinal": 10,
+            "role": "assistant",
+            "sources": {},
+            "turn_id": "5aed20f3edcd469daa99afd25f18f0c6",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "set_retired_focus": 404,
+      "retired_focus_error": {
+        "detail": {
+          "code": "not_accessible"
+        }
+      },
+      "rebind_current_focus": 200,
+      "after_rebind": {
+        "persisted_focus": "node-553e42c06110779d9250b43addb98620",
+        "scope_revision": 4,
+        "selected_documents": [
+          "local_6240acb679ba4b35b4c4ab9cce54738c"
+        ],
+        "visible_focus": "node-553e42c06110779d9250b43addb98620",
+        "catalog_node": "node-553e42c06110779d9250b43addb98620",
+        "catalog_version": 2
+      },
+      "vision_v2": {
+        "request": {
+          "client_turn_id": "vision-v2",
+          "kind": "ask",
+          "text": "刚才第二张图，横轴的单位是什么？",
+          "scope_revision": 4
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "c90c171553644c959cc0bfa4daa7f497",
+            "client_turn_id": "vision-v2",
+            "kind": "ask",
+            "text": "刚才第二张图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": {
+              "actual_source": {
+                "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              },
+              "display_id": "f5396f5baeb54982ac79311fe7544d3a",
+              "message_id": "da8137569d844ecbae0099c504c02bff",
+              "method": "visible_ordinal",
+              "ordinal": 2,
+              "resolution": "visible_ordinal"
+            },
+            "trace": {
+              "external_call_count": 1,
+              "vision": {
+                "capability_reason": null,
+                "elapsed_ms": 5262.690375093371,
+                "reads": [
+                  {
+                    "cache_hit": false,
+                    "execution": "real_provider",
+                    "external_call": true,
+                    "missing_or_error": [],
+                    "model": "qwen3-vl-plus",
+                    "prompt_version": "source-directed-v1",
+                    "provider": "dashscope-native",
+                    "usage": {
+                      "image_tokens": 254,
+                      "input_tokens": 343,
+                      "output_tokens": 16,
+                      "total_tokens": 359
+                    }
+                  }
+                ],
+                "status": "succeeded"
+              }
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "mm",
+                "type": "text"
+              }
+            ],
+            "message_id": "9e86691388b849e68e59b894ec00b2ab",
+            "ordinal": 14,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Latch-Plots.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": "image/png",
+                    "actual_input_rect": null,
+                    "actual_input_sha256": "86fac461e920653603e95e946400145c9f2589e894f17d6ac4c162656951c804",
+                    "actual_source": {
+                      "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                      "source_id": "cell:0:output:1",
+                      "version": 2
+                    },
+                    "execution": "real_provider",
+                    "method": "vision",
+                    "model": "qwen3-vl-plus",
+                    "origin_execution": "real_provider",
+                    "prompt_version": "source-directed-v1",
+                    "question_sha256": "f3a248806581a7225f117ab8fa58c41a71960aab5af09211353309a8a362a1df",
+                    "status": "succeeded",
+                    "text": "mm",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82",
+                  "course_id": "public",
+                  "publication_epoch": 2,
+                  "source": {
+                    "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+                    "source_id": "cell:0:output:1",
+                    "version": 2
+                  }
+                }
+              }
+            },
+            "turn_id": "c90c171553644c959cc0bfa4daa7f497",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "new_preview": {
+        "ev-1": {
+          "http": 200,
+          "sha256": "86fac461e920653603e95e946400145c9f2589e894f17d6ac4c162656951c804",
+          "bytes": 8803
+        }
+      },
+      "old_preview_after": {
+        "ev-1": {
+          "http": 200,
+          "sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+          "bytes": 8141
+        }
+      },
+      "effective_settings": {
+        "workspace_answer_enabled": false,
+        "workspace_retrieval_strategy": "fts",
+        "workspace_input_token_limit": 32768,
+        "answer_context_tokens": 1048576,
+        "source_vision_enabled": true,
+        "dashscope_vision_model": "qwen3-vl-plus",
+        "dashscope_timeout_seconds": 20.0,
+        "deepseek_chat_model": "deepseek-flash",
+        "deepseek_query_model": "deepseek-flash",
+        "deepseek_timeout_seconds": 60.0,
+        "jev_model": "Zev-1",
+        "jev_timeout_seconds": 15.0,
+        "retrieval_enable_visual": true,
+        "deepseek_configured": false,
+        "dashscope_configured": true,
+        "jev_configured": false,
+        "qdrant_configured": false
+      },
+      "provider": [
+        {
+          "request_sha256": "ec6d01d5a865483855f7df50dab00a4c9418260bac25d9382b85f39557e84409",
+          "model": "qwen3-vl-plus",
+          "provider": "dashscope",
+          "actual_input_sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+          "http_status": 200,
+          "usage": {
+            "image_tokens": 254,
+            "input_tokens": 343,
+            "input_tokens_details": {
+              "image_tokens": 254,
+              "text_tokens": 89
+            },
+            "output_tokens": 19,
+            "output_tokens_details": {
+              "text_tokens": 19
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 362
+          },
+          "elapsed_ms": 1147.267
+        },
+        {
+          "request_sha256": "498b3034a372e8c45f914fa6d13300834aa55eccc644cb673e44352325e6dd58",
+          "model": "qwen3-vl-plus",
+          "provider": "dashscope",
+          "actual_input_sha256": "86fac461e920653603e95e946400145c9f2589e894f17d6ac4c162656951c804",
+          "http_status": 200,
+          "usage": {
+            "image_tokens": 254,
+            "input_tokens": 343,
+            "input_tokens_details": {
+              "image_tokens": 254,
+              "text_tokens": 89
+            },
+            "output_tokens": 16,
+            "output_tokens_details": {
+              "text_tokens": 16
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 359
+          },
+          "elapsed_ms": 5239.511
+        }
+      ],
+      "show_v1": {
+        "request": {
+          "client_turn_id": "show-v1",
+          "kind": "ask",
+          "text": "请展示第 1 个 Cell 的保存输出。",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "turn_status": "completed",
+        "display_sources": [
+          {
+            "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+            "source_id": "cell:0:output:1",
+            "version": 1
+          }
+        ]
+      },
+      "show_v2": {
+        "request": {
+          "client_turn_id": "show-v2",
+          "kind": "ask",
+          "text": "请展示第 1 个 Cell 的保存输出。",
+          "scope_revision": 4
+        },
+        "http": 200,
+        "turn_status": "completed",
+        "display_sources": [
+          {
+            "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+            "source_id": "cell:0:output:0",
+            "version": 2
+          },
+          {
+            "document_id": "local_6240acb679ba4b35b4c4ab9cce54738c",
+            "source_id": "cell:0:output:1",
+            "version": 2
+          }
+        ]
+      }
+    },
+    "browser": {
+      "before": {
+        "focus": {
+          "course_id": "public",
+          "document_id": "local_a1d0ffaea22a470f9c2c663cf2f008a5",
+          "file_name": "Latch-Plots.ipynb",
+          "has_media": false,
+          "kind": "document",
+          "label": "Latch-Plots.ipynb",
+          "locator": {},
+          "next_id": null,
+          "node_id": "node-3ec878ecdbb8b75dc228dba3f4204d05",
+          "parent_id": null,
+          "previous_id": null,
+          "text": "",
+          "version": 1
+        },
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_a1d0ffaea22a470f9c2c663cf2f008a5"
+          ]
+        },
+        "scope_revision": 3
+      },
+      "after_upload": {
+        "focus": {
+          "course_id": "public",
+          "document_id": "local_a1d0ffaea22a470f9c2c663cf2f008a5",
+          "file_name": "Latch-Plots.ipynb",
+          "has_media": false,
+          "kind": "document",
+          "label": "Latch-Plots.ipynb",
+          "locator": {},
+          "next_id": null,
+          "node_id": "node-53741c8a8d353d7f78a032983a088d27",
+          "parent_id": null,
+          "previous_id": null,
+          "text": "",
+          "version": 2
+        },
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_a1d0ffaea22a470f9c2c663cf2f008a5"
+          ]
+        },
+        "scope_revision": 4
+      },
+      "mutations": [
+        {
+          "op": "import",
+          "method": "POST",
+          "http": 200,
+          "request": null,
+          "version": 1,
+          "turn_status": null,
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": []
+        },
+        {
+          "op": "scope",
+          "method": "PATCH",
+          "http": 200,
+          "request": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_a1d0ffaea22a470f9c2c663cf2f008a5"
+            ],
+            "scope_revision": 1
+          },
+          "version": null,
+          "turn_status": null,
+          "scope_revision": 2,
+          "response_focus": null,
+          "display_sources": []
+        },
+        {
+          "op": "focus",
+          "method": "PUT",
+          "http": 200,
+          "request": {
+            "node_id": "node-3ec878ecdbb8b75dc228dba3f4204d05",
+            "scope_revision": 2
+          },
+          "version": null,
+          "turn_status": null,
+          "scope_revision": 3,
+          "response_focus": "node-3ec878ecdbb8b75dc228dba3f4204d05",
+          "display_sources": []
+        },
+        {
+          "op": "turns",
+          "method": "POST",
+          "http": 200,
+          "request": {
+            "client_turn_id": "4138db73-0395-462f-b51c-6263e7ebcb3d",
+            "kind": "ask",
+            "scope_revision": 3,
+            "text": "请展示第 1 个 Cell 的保存输出。"
+          },
+          "version": null,
+          "turn_status": "completed",
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": [
+            {
+              "document_id": "local_a1d0ffaea22a470f9c2c663cf2f008a5",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_a1d0ffaea22a470f9c2c663cf2f008a5",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "op": "import",
+          "method": "POST",
+          "http": 200,
+          "request": null,
+          "version": 2,
+          "turn_status": null,
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": []
+        },
+        {
+          "op": "focus",
+          "method": "PUT",
+          "http": 200,
+          "request": {
+            "node_id": "node-53741c8a8d353d7f78a032983a088d27",
+            "scope_revision": 3
+          },
+          "version": null,
+          "turn_status": null,
+          "scope_revision": 4,
+          "response_focus": "node-53741c8a8d353d7f78a032983a088d27",
+          "display_sources": []
+        },
+        {
+          "op": "turns",
+          "method": "POST",
+          "http": 200,
+          "request": {
+            "client_turn_id": "a51c76cc-df3c-4ebb-9a7b-6e6a56cc3da1",
+            "kind": "ask",
+            "scope_revision": 4,
+            "text": "请展示第 1 个 Cell 的保存输出。"
+          },
+          "version": null,
+          "turn_status": "completed",
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": [
+            {
+              "document_id": "local_a1d0ffaea22a470f9c2c663cf2f008a5",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            },
+            {
+              "document_id": "local_a1d0ffaea22a470f9c2c663cf2f008a5",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "new": {
+    "meta": {
+      "product": "37a8b811f3a9b5be58aa6ea1c3e57e59df95a6cc",
+      "prep_runner_sha256": "c08f4c00f466c5702e24fff60e1f77044d6d6733af991c119640fbdf6f4ac236",
+      "fixture_sha256": {
+        "Latch-Check.pptx": "6ed8fa0f243c5d386f369c12801f100582bb0070cc4738e457ef30ae198fc273",
+        "Basalt-Latch-Guide.pdf": "a0e1eb8b9f45aa615325a4a8d677d4e8e621ceef17a3240203c2f5b00a58a8c9",
+        "Latch-Trial.ipynb": "218a7456a079c0e6a8fef79c2a9148ecb601d9441ff4a466277f6f61086d39c2",
+        "v1/Latch-Plots.ipynb": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+        "v2/Latch-Plots.ipynb": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82"
+      }
+    },
+    "settings": {
+      "workspace_answer_enabled": false,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_input_token_limit": 32768,
+      "answer_context_tokens": 1048576,
+      "source_vision_enabled": true,
+      "dashscope_vision_model": "qwen3-vl-plus",
+      "dashscope_timeout_seconds": 20.0,
+      "deepseek_chat_model": "deepseek-flash",
+      "deepseek_query_model": "deepseek-flash",
+      "deepseek_timeout_seconds": 60.0,
+      "jev_model": "Zev-1",
+      "jev_timeout_seconds": 15.0,
+      "retrieval_enable_visual": true,
+      "deepseek_configured": false,
+      "dashscope_configured": true,
+      "jev_configured": false,
+      "qdrant_configured": false
+    },
+    "condition_cases": {
+      "matching": {
+        "request": {
+          "client_turn_id": "matching",
+          "kind": "ask",
+          "text": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+          "scope_revision": 1
+        },
+        "http": 200,
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "stop_reason": "supplemented",
+        "budget": 2,
+        "term": {
+          "course_id": "public",
+          "end": 135,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "7b534111254601c35c2d88aa53e824e0166118d9c726f01a310eefef1cac2396",
+          "source": {
+            "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "start": 123,
+          "word": "SlateTrialB6"
+        },
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_0138fe5c49d74eb59392e632a2de3fe7",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.826458959840238,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_0138fe5c49d74eb59392e632a2de3fe7",
+                "local_37fdaa14122e40f292eaa5dea799a891",
+                "local_65e1ac1e9a4c4a918736845bb45b68b2"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_37fdaa14122e40f292eaa5dea799a891",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 0.9366660378873348,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_0138fe5c49d74eb59392e632a2de3fe7",
+                "local_37fdaa14122e40f292eaa5dea799a891",
+                "local_65e1ac1e9a4c4a918736845bb45b68b2"
+              ]
+            }
+          }
+        ],
+        "external_call_count": 0,
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_37fdaa14122e40f292eaa5dea799a891",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "salt_fog": {
+        "request": {
+          "client_turn_id": "salt_fog",
+          "kind": "ask",
+          "text": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+          "scope_revision": 1
+        },
+        "http": 200,
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "stop_reason": "supplemented",
+        "budget": 2,
+        "term": {
+          "course_id": "public",
+          "end": 135,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "7b534111254601c35c2d88aa53e824e0166118d9c726f01a310eefef1cac2396",
+          "source": {
+            "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "start": 123,
+          "word": "SlateTrialB6"
+        },
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_0138fe5c49d74eb59392e632a2de3fe7",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.7443340038880706,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_0138fe5c49d74eb59392e632a2de3fe7",
+                "local_37fdaa14122e40f292eaa5dea799a891",
+                "local_65e1ac1e9a4c4a918736845bb45b68b2"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_37fdaa14122e40f292eaa5dea799a891",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.3889579568058252,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_0138fe5c49d74eb59392e632a2de3fe7",
+                "local_37fdaa14122e40f292eaa5dea799a891",
+                "local_65e1ac1e9a4c4a918736845bb45b68b2"
+              ]
+            }
+          }
+        ],
+        "external_call_count": 0,
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_37fdaa14122e40f292eaa5dea799a891",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "known_split_mismatch": {
+        "request": {
+          "client_turn_id": "known_split_mismatch",
+          "kind": "ask",
+          "text": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+          "scope_revision": 1
+        },
+        "http": 200,
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "stop_reason": "mismatched",
+        "budget": 2,
+        "term": {
+          "course_id": "public",
+          "end": 135,
+          "evidence_id": "ev-1",
+          "excerpt_sha256": "7b534111254601c35c2d88aa53e824e0166118d9c726f01a310eefef1cac2396",
+          "source": {
+            "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "start": 123,
+          "word": "SlateTrialB6"
+        },
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_0138fe5c49d74eb59392e632a2de3fe7",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.5344169223681092,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_0138fe5c49d74eb59392e632a2de3fe7",
+                "local_37fdaa14122e40f292eaa5dea799a891",
+                "local_65e1ac1e9a4c4a918736845bb45b68b2"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "mismatched",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_split_mismatch",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_37fdaa14122e40f292eaa5dea799a891",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 0.8466249564662576,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_0138fe5c49d74eb59392e632a2de3fe7",
+                "local_37fdaa14122e40f292eaa5dea799a891",
+                "local_65e1ac1e9a4c4a918736845bb45b68b2"
+              ]
+            }
+          }
+        ],
+        "external_call_count": 0,
+        "answer": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_65e1ac1e9a4c4a918736845bb45b68b2",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      }
+    },
+    "actual_condition_decisions": [
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": null
+      },
+      {
+        "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+        "fields": {
+          "split": "held-out",
+          "metric": "MAE",
+          "unit": "amplitude",
+          "baseline": "0.26",
+          "trial": "0.19",
+          "samples": "4"
+        },
+        "rejection": "experiment_split_mismatch"
+      }
+    ],
+    "asgi_replacement": {
+      "import_v1": {
+        "file_name": "Latch-Plots.ipynb",
+        "status": "published",
+        "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+        "version": 1,
+        "publication_epoch": 1,
+        "content_sha256": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+        "source_count": 3,
+        "searchable_count": 3
+      },
+      "choose_v1_http": 200,
+      "v1_focus": {
+        "persisted_focus": "node-dcb3cd08a8f22626f9375b32929cab33",
+        "scope_revision": 3,
+        "selected_documents": [
+          "local_5d13603aaa5544dd9104c54e8765fbeb"
+        ],
+        "visible_focus": "node-dcb3cd08a8f22626f9375b32929cab33",
+        "catalog_node": "node-dcb3cd08a8f22626f9375b32929cab33",
+        "catalog_version": 1
+      },
+      "vision_v1": {
+        "request": {
+          "client_turn_id": "vision-v1",
+          "kind": "ask",
+          "text": "刚才第二张图，横轴的单位是什么？",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "f7e19992c0754debb2f4bf41fa751426",
+            "client_turn_id": "vision-v1",
+            "kind": "ask",
+            "text": "刚才第二张图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": {
+              "actual_source": {
+                "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              "display_id": "0196b672269e49db803dd78fcf326813",
+              "message_id": "e5514f4b0ba54091a88314d3c084eaff",
+              "method": "visible_ordinal",
+              "ordinal": 2,
+              "resolution": "visible_ordinal"
+            },
+            "trace": {
+              "external_call_count": 1,
+              "vision": {
+                "capability_reason": null,
+                "elapsed_ms": 1342.2050839290023,
+                "reads": [
+                  {
+                    "cache_hit": false,
+                    "execution": "real_provider",
+                    "external_call": true,
+                    "missing_or_error": [],
+                    "model": "qwen3-vl-plus",
+                    "prompt_version": "source-directed-v1",
+                    "provider": "dashscope-native",
+                    "usage": {
+                      "image_tokens": 254,
+                      "input_tokens": 343,
+                      "output_tokens": 19,
+                      "total_tokens": 362
+                    }
+                  }
+                ],
+                "status": "succeeded"
+              }
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "Voltage [mV]",
+                "type": "text"
+              }
+            ],
+            "message_id": "66c49a95cf394ff2b6d0c96cc57c15bd",
+            "ordinal": 4,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Latch-Plots.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": "image/png",
+                    "actual_input_rect": null,
+                    "actual_input_sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+                    "actual_source": {
+                      "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                      "source_id": "cell:0:output:1",
+                      "version": 1
+                    },
+                    "execution": "real_provider",
+                    "method": "vision",
+                    "model": "qwen3-vl-plus",
+                    "origin_execution": "real_provider",
+                    "prompt_version": "source-directed-v1",
+                    "question_sha256": "f3a248806581a7225f117ab8fa58c41a71960aab5af09211353309a8a362a1df",
+                    "status": "succeeded",
+                    "text": "Voltage [mV]",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+                  "course_id": "public",
+                  "publication_epoch": 1,
+                  "source": {
+                    "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                    "source_id": "cell:0:output:1",
+                    "version": 1
+                  }
+                }
+              }
+            },
+            "turn_id": "f7e19992c0754debb2f4bf41fa751426",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "old_preview_before": {
+        "ev-1": {
+          "http": 200,
+          "sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+          "bytes": 8141
+        }
+      },
+      "import_v2": {
+        "file_name": "Latch-Plots.ipynb",
+        "status": "published",
+        "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+        "version": 2,
+        "publication_epoch": 2,
+        "content_sha256": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82",
+        "source_count": 3,
+        "searchable_count": 3
+      },
+      "after_raw_import": {
+        "persisted_focus": "node-dcb3cd08a8f22626f9375b32929cab33",
+        "scope_revision": 3,
+        "selected_documents": [
+          "local_5d13603aaa5544dd9104c54e8765fbeb"
+        ],
+        "visible_focus": null,
+        "catalog_node": "node-362a61c9f28606689e94194b1cd1b93c",
+        "catalog_version": 2
+      },
+      "raw_ask": {
+        "request": {
+          "client_turn_id": "show-stale",
+          "kind": "ask",
+          "text": "请展示第 1 个 Cell 的保存输出。",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "2e2eb047bbbe4061b321581dc6ddf725",
+            "client_turn_id": "show-stale",
+            "kind": "ask",
+            "text": "请展示第 1 个 Cell 的保存输出。",
+            "status": "failed",
+            "resolution": null,
+            "trace": null,
+            "error": "stale_reference",
+            "retryable": true,
+            "options": []
+          },
+          "message": null,
+          "options": []
+        }
+      },
+      "historic_ask": {
+        "request": {
+          "client_turn_id": "historic-explicit",
+          "kind": "ask",
+          "text": "刚才第二张图，横轴的单位是什么？",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "eb296940a3d7427984b92b6c0c74be6f",
+            "client_turn_id": "historic-explicit",
+            "kind": "ask",
+            "text": "刚才第二张图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": {
+              "actual_source": {
+                "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              "display_id": "0196b672269e49db803dd78fcf326813",
+              "message_id": "e5514f4b0ba54091a88314d3c084eaff",
+              "method": "visible_ordinal",
+              "ordinal": 2,
+              "resolution": "visible_ordinal"
+            },
+            "trace": null,
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "code": "historical_only",
+                "text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
+                "type": "notice"
+              }
+            ],
+            "message_id": "ef538a2f66724b58ae936b8080035803",
+            "ordinal": 8,
+            "role": "assistant",
+            "sources": {},
+            "turn_id": "eb296940a3d7427984b92b6c0c74be6f",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "bare_ordinal_ask": {
+        "request": {
+          "client_turn_id": "bare-ordinal",
+          "kind": "ask",
+          "text": "第二张图，横轴的单位是什么？",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "de664cf90d0340d5a2bc950c98a392d2",
+            "client_turn_id": "bare-ordinal",
+            "kind": "ask",
+            "text": "第二张图，横轴的单位是什么？",
+            "status": "clarification",
+            "resolution": null,
+            "trace": null,
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "code": "clarification",
+                "text": "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。",
+                "type": "notice"
+              }
+            ],
+            "message_id": "db5f1384a9534920bd85667d35a649c3",
+            "ordinal": 10,
+            "role": "assistant",
+            "sources": {},
+            "turn_id": "de664cf90d0340d5a2bc950c98a392d2",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "set_retired_focus": 404,
+      "retired_focus_error": {
+        "detail": {
+          "code": "not_accessible"
+        }
+      },
+      "rebind_current_focus": 200,
+      "after_rebind": {
+        "persisted_focus": "node-362a61c9f28606689e94194b1cd1b93c",
+        "scope_revision": 4,
+        "selected_documents": [
+          "local_5d13603aaa5544dd9104c54e8765fbeb"
+        ],
+        "visible_focus": "node-362a61c9f28606689e94194b1cd1b93c",
+        "catalog_node": "node-362a61c9f28606689e94194b1cd1b93c",
+        "catalog_version": 2
+      },
+      "vision_v2": {
+        "request": {
+          "client_turn_id": "vision-v2",
+          "kind": "ask",
+          "text": "刚才第二张图，横轴的单位是什么？",
+          "scope_revision": 4
+        },
+        "http": 200,
+        "data": {
+          "turn": {
+            "turn_id": "73134617fe7f446a8b576c4f04c682b9",
+            "client_turn_id": "vision-v2",
+            "kind": "ask",
+            "text": "刚才第二张图，横轴的单位是什么？",
+            "status": "completed",
+            "resolution": {
+              "actual_source": {
+                "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                "source_id": "cell:0:output:1",
+                "version": 2
+              },
+              "display_id": "4401d897aa4646a9948cc65ed8d7983b",
+              "message_id": "4fada3b73c504d28aa443f926c989ff7",
+              "method": "visible_ordinal",
+              "ordinal": 2,
+              "resolution": "visible_ordinal"
+            },
+            "trace": {
+              "external_call_count": 1,
+              "vision": {
+                "capability_reason": null,
+                "elapsed_ms": 984.6662500640377,
+                "reads": [
+                  {
+                    "cache_hit": false,
+                    "execution": "real_provider",
+                    "external_call": true,
+                    "missing_or_error": [],
+                    "model": "qwen3-vl-plus",
+                    "prompt_version": "source-directed-v1",
+                    "provider": "dashscope-native",
+                    "usage": {
+                      "image_tokens": 254,
+                      "input_tokens": 343,
+                      "output_tokens": 16,
+                      "total_tokens": 359
+                    }
+                  }
+                ],
+                "status": "succeeded"
+              }
+            },
+            "error": null,
+            "retryable": false,
+            "options": []
+          },
+          "message": {
+            "blocks": [
+              {
+                "citations": [
+                  "ev-1"
+                ],
+                "text": "mm",
+                "type": "text"
+              }
+            ],
+            "message_id": "310ba4eea28b4a758c304a271f220ac4",
+            "ordinal": 14,
+            "role": "assistant",
+            "sources": {
+              "ev-1": {
+                "evidence_id": "ev-1",
+                "file_name": "Latch-Plots.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "output_index": 1,
+                  "section_path": []
+                },
+                "read_status": "succeeded",
+                "reads": [
+                  {
+                    "actual_input_media_type": "image/png",
+                    "actual_input_rect": null,
+                    "actual_input_sha256": "86fac461e920653603e95e946400145c9f2589e894f17d6ac4c162656951c804",
+                    "actual_source": {
+                      "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                      "source_id": "cell:0:output:1",
+                      "version": 2
+                    },
+                    "execution": "real_provider",
+                    "method": "vision",
+                    "model": "qwen3-vl-plus",
+                    "origin_execution": "real_provider",
+                    "prompt_version": "source-directed-v1",
+                    "question_sha256": "f3a248806581a7225f117ab8fa58c41a71960aab5af09211353309a8a362a1df",
+                    "status": "succeeded",
+                    "text": "mm",
+                    "warnings": []
+                  }
+                ],
+                "revision": {
+                  "content_sha256": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82",
+                  "course_id": "public",
+                  "publication_epoch": 2,
+                  "source": {
+                    "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+                    "source_id": "cell:0:output:1",
+                    "version": 2
+                  }
+                }
+              }
+            },
+            "turn_id": "73134617fe7f446a8b576c4f04c682b9",
+            "visible_display_ids": []
+          },
+          "options": []
+        }
+      },
+      "new_preview": {
+        "ev-1": {
+          "http": 200,
+          "sha256": "86fac461e920653603e95e946400145c9f2589e894f17d6ac4c162656951c804",
+          "bytes": 8803
+        }
+      },
+      "old_preview_after": {
+        "ev-1": {
+          "http": 200,
+          "sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+          "bytes": 8141
+        }
+      },
+      "effective_settings": {
+        "workspace_answer_enabled": false,
+        "workspace_retrieval_strategy": "fts",
+        "workspace_input_token_limit": 32768,
+        "answer_context_tokens": 1048576,
+        "source_vision_enabled": true,
+        "dashscope_vision_model": "qwen3-vl-plus",
+        "dashscope_timeout_seconds": 20.0,
+        "deepseek_chat_model": "deepseek-flash",
+        "deepseek_query_model": "deepseek-flash",
+        "deepseek_timeout_seconds": 60.0,
+        "jev_model": "Zev-1",
+        "jev_timeout_seconds": 15.0,
+        "retrieval_enable_visual": true,
+        "deepseek_configured": false,
+        "dashscope_configured": true,
+        "jev_configured": false,
+        "qdrant_configured": false
+      },
+      "provider": [
+        {
+          "request_sha256": "ec6d01d5a865483855f7df50dab00a4c9418260bac25d9382b85f39557e84409",
+          "model": "qwen3-vl-plus",
+          "provider": "dashscope",
+          "actual_input_sha256": "50c74924ed3f80776c17f8ab3ed4a51e8040c4ab04f4cc8f049e1f5ee752b768",
+          "http_status": 200,
+          "usage": {
+            "image_tokens": 254,
+            "input_tokens": 343,
+            "input_tokens_details": {
+              "image_tokens": 254,
+              "text_tokens": 89
+            },
+            "output_tokens": 19,
+            "output_tokens_details": {
+              "text_tokens": 19
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 0
+            },
+            "total_tokens": 362
+          },
+          "elapsed_ms": 1208.472
+        },
+        {
+          "request_sha256": "498b3034a372e8c45f914fa6d13300834aa55eccc644cb673e44352325e6dd58",
+          "model": "qwen3-vl-plus",
+          "provider": "dashscope",
+          "actual_input_sha256": "86fac461e920653603e95e946400145c9f2589e894f17d6ac4c162656951c804",
+          "http_status": 200,
+          "usage": {
+            "image_tokens": 254,
+            "input_tokens": 343,
+            "input_tokens_details": {
+              "image_tokens": 254,
+              "text_tokens": 89
+            },
+            "output_tokens": 16,
+            "output_tokens_details": {
+              "text_tokens": 16
+            },
+            "prompt_tokens_details": {
+              "cached_tokens": 128
+            },
+            "total_tokens": 359
+          },
+          "elapsed_ms": 961.712
+        }
+      ],
+      "show_v1": {
+        "request": {
+          "client_turn_id": "show-v1",
+          "kind": "ask",
+          "text": "请展示第 1 个 Cell 的保存输出。",
+          "scope_revision": 3
+        },
+        "http": 200,
+        "turn_status": "completed",
+        "display_sources": [
+          {
+            "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+            "source_id": "cell:0:output:1",
+            "version": 1
+          }
+        ]
+      },
+      "show_v2": {
+        "request": {
+          "client_turn_id": "show-v2",
+          "kind": "ask",
+          "text": "请展示第 1 个 Cell 的保存输出。",
+          "scope_revision": 4
+        },
+        "http": 200,
+        "turn_status": "completed",
+        "display_sources": [
+          {
+            "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+            "source_id": "cell:0:output:0",
+            "version": 2
+          },
+          {
+            "document_id": "local_5d13603aaa5544dd9104c54e8765fbeb",
+            "source_id": "cell:0:output:1",
+            "version": 2
+          }
+        ]
+      }
+    },
+    "browser": {
+      "before": {
+        "focus": {
+          "course_id": "public",
+          "document_id": "local_8b02199e143c479e99a4a07b2ace5966",
+          "file_name": "Latch-Plots.ipynb",
+          "has_media": false,
+          "kind": "document",
+          "label": "Latch-Plots.ipynb",
+          "locator": {},
+          "next_id": null,
+          "node_id": "node-4cade7bce9f94cb8fd02d243661b3782",
+          "parent_id": null,
+          "previous_id": null,
+          "text": "",
+          "version": 1
+        },
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_8b02199e143c479e99a4a07b2ace5966"
+          ]
+        },
+        "scope_revision": 3
+      },
+      "after_upload": {
+        "focus": {
+          "course_id": "public",
+          "document_id": "local_8b02199e143c479e99a4a07b2ace5966",
+          "file_name": "Latch-Plots.ipynb",
+          "has_media": false,
+          "kind": "document",
+          "label": "Latch-Plots.ipynb",
+          "locator": {},
+          "next_id": null,
+          "node_id": "node-d1350d9b5cc22119879eb5c1978f29ee",
+          "parent_id": null,
+          "previous_id": null,
+          "text": "",
+          "version": 2
+        },
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_8b02199e143c479e99a4a07b2ace5966"
+          ]
+        },
+        "scope_revision": 4
+      },
+      "mutations": [
+        {
+          "op": "import",
+          "method": "POST",
+          "http": 200,
+          "request": null,
+          "version": 1,
+          "turn_status": null,
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": []
+        },
+        {
+          "op": "scope",
+          "method": "PATCH",
+          "http": 200,
+          "request": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_8b02199e143c479e99a4a07b2ace5966"
+            ],
+            "scope_revision": 1
+          },
+          "version": null,
+          "turn_status": null,
+          "scope_revision": 2,
+          "response_focus": null,
+          "display_sources": []
+        },
+        {
+          "op": "focus",
+          "method": "PUT",
+          "http": 200,
+          "request": {
+            "node_id": "node-4cade7bce9f94cb8fd02d243661b3782",
+            "scope_revision": 2
+          },
+          "version": null,
+          "turn_status": null,
+          "scope_revision": 3,
+          "response_focus": "node-4cade7bce9f94cb8fd02d243661b3782",
+          "display_sources": []
+        },
+        {
+          "op": "turns",
+          "method": "POST",
+          "http": 200,
+          "request": {
+            "client_turn_id": "4d412118-fc5c-4884-98c2-4a90e30e6204",
+            "kind": "ask",
+            "scope_revision": 3,
+            "text": "请展示第 1 个 Cell 的保存输出。"
+          },
+          "version": null,
+          "turn_status": "completed",
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": [
+            {
+              "document_id": "local_8b02199e143c479e99a4a07b2ace5966",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_8b02199e143c479e99a4a07b2ace5966",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            }
+          ]
+        },
+        {
+          "op": "import",
+          "method": "POST",
+          "http": 200,
+          "request": null,
+          "version": 2,
+          "turn_status": null,
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": []
+        },
+        {
+          "op": "focus",
+          "method": "PUT",
+          "http": 200,
+          "request": {
+            "node_id": "node-d1350d9b5cc22119879eb5c1978f29ee",
+            "scope_revision": 3
+          },
+          "version": null,
+          "turn_status": null,
+          "scope_revision": 4,
+          "response_focus": "node-d1350d9b5cc22119879eb5c1978f29ee",
+          "display_sources": []
+        },
+        {
+          "op": "turns",
+          "method": "POST",
+          "http": 200,
+          "request": {
+            "client_turn_id": "5fc8fcfa-ac1d-4117-bcc9-a53f1007ccb8",
+            "kind": "ask",
+            "scope_revision": 4,
+            "text": "请展示第 1 个 Cell 的保存输出。"
+          },
+          "version": null,
+          "turn_status": "completed",
+          "scope_revision": null,
+          "response_focus": null,
+          "display_sources": [
+            {
+              "document_id": "local_8b02199e143c479e99a4a07b2ace5966",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            },
+            {
+              "document_id": "local_8b02199e143c479e99a4a07b2ace5966",
+              "source_id": "cell:0:output:1",
+              "version": 2
+            }
+          ]
+        }
+      ]
+    }
+  }
+}

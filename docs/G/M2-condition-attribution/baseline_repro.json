@@ -1,0 +1,18 @@
+{
+  "baseline_commit": "cfcfe5e79bde6dbd8b5346da752e4d527f4e18cd",
+  "function_repro": {
+    "question": "实验 A 的测试集 MAE 是多少？",
+    "fields": {
+      "split": "held-out",
+      "metric": "MAE"
+    },
+    "without_b_sentence": "experiment_split_mismatch",
+    "with_b_sentence": null,
+    "classify_experiment_evidence": {
+      "supported": [
+        "ev-2"
+      ],
+      "rejected": {}
+    }
+  }
+}

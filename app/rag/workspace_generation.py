@@ -14,6 +14,7 @@ import httpx
 
 from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
+from app.rag.evidence_supplement import classify_experiment_evidence
 from app.rag.workspace_reading import (
     _fit,
     estimate_embedded_json_budget,
@@ -39,6 +40,25 @@ _COVERAGE_FIELDS = {
     "clipped",
 }
 _INLINE_EVIDENCE_ID = re.compile(r"[\[【（(]\s*ev-[\w-]+", re.IGNORECASE)
+_NUMBER_TOKEN = re.compile(r"\d[\d,]*(?:\.\d+)?")
+_LOCATOR_OR_VERSION_NUM = re.compile(
+    r"第\s*\d+\s*页|\b(?:page|p\.?|cell|version|ver\.?|v)\s*\d+(?:\.\d+)*\b",
+    re.IGNORECASE,
+)
+_UNCERTAINTY_CUE = re.compile(
+    r"无法确认|未能确认|不能确认|无法核对|无法验证|未找到|缺少|未提供|没有|未说明|并非|不是|不等于"
+)
+_EXPERIMENT_CLAIM_CUE = re.compile(
+    r"测得|测量|实测|实验结果|基线|试验|样本数|MAE|RMSE|Baseline|Trial|Samples",
+    re.IGNORECASE,
+)
+_EXTRA_VERIFICATION_DEMAND = re.compile(
+    r"独立验证流程|额外实验说明|如何验证[^。；\n]*定义|触发条件[^。；\n]*关系"
+    r"|实验条件与[^。；\n]*关系|(?:现有证据)?(?:仅|只)(?:给出|提供)[^。；\n]*(?:指标|数值)"
+)
+_QUESTION_ASKS_EXTRA_VERIFICATION = re.compile(
+    r"独立验证|验证流程|验证步骤|触发条件|因果|机制|机理"
+)
 
 _TECHNICAL_CLAIM = re.compile(
     r"(?<![a-zA-Z0-9_])(?:[a-zA-Z][a-zA-Z0-9]+(?=\s*[（(])"
@@ -314,8 +334,126 @@ def generate_response(
             trace["unsupported_literal_statements"] = len(statements) - len(supported)
             statements = supported
             missing = " ".join(filter(None, (missing, "部分结论缺少直接原文依据。")))
+        supported_exp_ids, rejected_exp_reasons = classify_experiment_evidence(
+            valid_evidence, question
+        )
+        if rejected_exp_reasons:
+            trace["rejected_experiment_reasons"] = rejected_exp_reasons
+            filtered = tuple(
+                statement
+                for statement in statements
+                if not any(cid in rejected_exp_reasons for cid in statement.citations)
+            )
+            if len(filtered) != len(statements):
+                trace["unverified_experiment_statements"] = len(statements) - len(filtered)
+                statements = filtered
+            if not supported_exp_ids and not missing:
+                missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+        verified_exp_stmts = tuple(
+            statement
+            for statement in statements
+            if not (
+                _norm_number_tokens(statement.text, strip_locators=True)
+                and _EXPERIMENT_CLAIM_CUE.search(statement.text)
+                and not _UNCERTAINTY_CUE.search(statement.text)
+                and not any(cid in supported_exp_ids for cid in statement.citations)
+            )
+        )
+        if len(verified_exp_stmts) != len(statements):
+            trace["unverified_experiment_statements"] = trace.get(
+                "unverified_experiment_statements", 0
+            ) + (len(statements) - len(verified_exp_stmts))
+            statements = verified_exp_stmts
+            if not supported_exp_ids and not missing:
+                missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+        missing = _sanitize_missing_numbers(
+            missing,
+            statements=statements,
+            evidence=evidence_data,
+            question=question,
+            rejected_exp_ids=rejected_exp_reasons,
+            has_supported_exp=bool(supported_exp_ids),
+        )
+        if (
+            missing
+            and supported_exp_ids
+            and any(cid in supported_exp_ids for s in statements for cid in s.citations)
+            and not rejected_exp_reasons
+            and not trace.get("unsupported_literal_statements")
+            and not trace.get("unverified_experiment_statements")
+            and _EXTRA_VERIFICATION_DEMAND.search(missing)
+            and not _QUESTION_ASKS_EXTRA_VERIFICATION.search(question)
+        ):
+            kept_missing = [
+                part.strip()
+                for part in re.split(r"[。；;\n]+", missing)
+                if part.strip() and not _EXTRA_VERIFICATION_DEMAND.search(part)
+            ]
+            missing = ("；".join(kept_missing) + "。") if kept_missing else ""
     status = "insufficient" if not statements else ("partial" if missing else "succeeded")
     return finish(status, statements, missing, valid_evidence)
+
+
+def _norm_number_tokens(text: str, *, strip_locators: bool = False) -> set[str]:
+    cleaned = _LOCATOR_OR_VERSION_NUM.sub(" ", text) if strip_locators else text
+    out: set[str] = set()
+    for raw in _NUMBER_TOKEN.findall(cleaned):
+        token = raw.replace(",", "")
+        if "." in token:
+            token = token.rstrip("0").rstrip(".") or "0"
+        out.add(token)
+    return out
+
+
+def _evidence_numbers(evidence: Mapping[str, dict[str, Any]], ids: Any) -> set[str]:
+    nums: set[str] = set()
+    for eid in ids:
+        entry = evidence.get(eid)
+        if not entry:
+            continue
+        for read in entry.get("reads", ()):
+            nums.update(_norm_number_tokens(read.get("text", "")))
+    return nums
+
+
+def _sanitize_missing_numbers(
+    missing: str,
+    *,
+    statements: tuple[GeneratedStatement, ...],
+    evidence: Mapping[str, dict[str, Any]],
+    question: str,
+    rejected_exp_ids: Mapping[str, str],
+    has_supported_exp: bool,
+) -> str:
+    if not missing:
+        return missing
+    kept_cids = {cid for s in statements for cid in s.citations}
+    supported_nums = _evidence_numbers(evidence, kept_cids) | _norm_number_tokens(
+        question, strip_locators=True
+    )
+    missing_nums = _norm_number_tokens(missing, strip_locators=True)
+    forbidden = missing_nums - supported_nums
+    if not forbidden:
+        return missing
+    kept_parts: list[str] = []
+    for sent in re.split(r"[。；;\n]+", missing):
+        sent = sent.strip()
+        if not sent:
+            continue
+        sent_nums = _norm_number_tokens(sent, strip_locators=True)
+        if not (sent_nums & forbidden):
+            kept_parts.append(sent)
+            continue
+        if re.search(r"缺少|未提供|没有|无法确认|不足", sent):
+            for clause in re.split(r"[，,]+", sent):
+                clause = clause.strip()
+                if clause and not (_norm_number_tokens(clause, strip_locators=True) & forbidden):
+                    kept_parts.append(clause)
+    if kept_parts:
+        return "；".join(kept_parts) + "。"
+    if not has_supported_exp:
+        return "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+    return ""
 
 
 def _supported_technical_statements(
@@ -334,7 +472,12 @@ def _supported_technical_statements(
         key: words(" ".join(read["text"] for read in entry["reads"]))
         for key, entry in evidence.items()
     }
+    source_nums = {
+        key: _norm_number_tokens(" ".join(read["text"] for read in entry["reads"]))
+        for key, entry in evidence.items()
+    }
     question_only = words(question).difference(*source_words.values())
+    question_nums = _norm_number_tokens(question, strip_locators=True)
     supported = []
     for statement in statements:
         literals = {
@@ -342,7 +485,11 @@ def _supported_technical_statements(
             for match in _TECHNICAL_CLAIM.findall(statement.text)
         }
         cited = question_only.union(*(source_words[key] for key in statement.citations))
-        if literals <= cited:
+        stmt_nums = _norm_number_tokens(statement.text, strip_locators=True)
+        cited_nums = set().union(*(source_nums[key] for key in statement.citations))
+        if _UNCERTAINTY_CUE.search(statement.text):
+            cited_nums = cited_nums | question_nums
+        if literals <= cited and stmt_nums <= cited_nums:
             supported.append(statement)
     return tuple(supported)
 

@@ -1,0 +1,2165 @@
+{
+  "baseline": {
+    "subject": "695dd9c67c1f3847f380d53831e0c57e125449ac",
+    "fixtures": {
+      "Latch-Check.pptx": "457a227c0a67744b89a689883a708b930ec4ee9928f663983009465b49508bca",
+      "Basalt-Latch-Guide.pdf": "a0e1eb8b9f45aa615325a4a8d677d4e8e621ceef17a3240203c2f5b00a58a8c9",
+      "Latch-Trial.ipynb": "218a7456a079c0e6a8fef79c2a9148ecb601d9441ff4a466277f6f61086d39c2",
+      "v1/Latch-Plots.ipynb": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+      "v2/Latch-Plots.ipynb": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82"
+    },
+    "effective_settings": {
+      "workspace_answer_enabled": false,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_input_token_limit": 32768,
+      "answer_context_tokens": 1048576,
+      "source_vision_enabled": true,
+      "dashscope_vision_model": "qwen3-vl-plus",
+      "dashscope_timeout_seconds": 20.0,
+      "deepseek_chat_model": "deepseek-flash",
+      "deepseek_query_model": "deepseek-flash",
+      "deepseek_timeout_seconds": 60.0,
+      "jev_model": "Zev-1",
+      "jev_timeout_seconds": 15.0,
+      "retrieval_enable_visual": true,
+      "deepseek_configured": false,
+      "dashscope_configured": true,
+      "jev_configured": false,
+      "qdrant_configured": false
+    },
+    "empty": true,
+    "calls": [],
+    "cases": {
+      "held_out": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        "http": 200,
+        "answer_status": "complete",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 2.484833006747067,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 3.4606249537318945,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "salt_fog": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+        "http": 200,
+        "answer_status": "complete",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 3.3328329445794225,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.1339170159772038,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "test_split": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.9569579744711518,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "mismatched",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_split_mismatch",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.1576670221984386,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      },
+      "unfamiliar_condition": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的低温循环后的留出集实验如何验证？",
+        "http": 200,
+        "answer_status": "complete",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.827875035814941,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的低温循环后的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.215917058289051,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "different_metric": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.6250410117208958,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "mismatched",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_metric_mismatch",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.0945419780910015,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      },
+      "different_object": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的Quartz latch 的留出集实验如何验证？",
+        "http": 200,
+        "answer_status": "complete",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.4371250290423632,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的Quartz latch 的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.8417080864310265,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_583a45e3a49f46bb9885bb310d4e0a5f",
+                "local_ad5d729c47774fff8ec8921c57003849",
+                "local_c848c718c191441c83ecc31aad1b284a"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_ad5d729c47774fff8ec8921c57003849",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_c848c718c191441c83ecc31aad1b284a",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      }
+    }
+  },
+  "fixed": {
+    "subject": "ae1e727182366c9cb9ef22495d3147d595f74b3e",
+    "fixtures": {
+      "Latch-Check.pptx": "457a227c0a67744b89a689883a708b930ec4ee9928f663983009465b49508bca",
+      "Basalt-Latch-Guide.pdf": "a0e1eb8b9f45aa615325a4a8d677d4e8e621ceef17a3240203c2f5b00a58a8c9",
+      "Latch-Trial.ipynb": "218a7456a079c0e6a8fef79c2a9148ecb601d9441ff4a466277f6f61086d39c2",
+      "v1/Latch-Plots.ipynb": "469a7ffe53814c2b354d3017f93264d9f53807905eae24e9f0de36053bb2288e",
+      "v2/Latch-Plots.ipynb": "bea91789951e754afa518f1e64d7a066764c2308aaf0197d1ff79a28cbcd9f82"
+    },
+    "effective_settings": {
+      "workspace_answer_enabled": false,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_input_token_limit": 32768,
+      "answer_context_tokens": 1048576,
+      "source_vision_enabled": true,
+      "dashscope_vision_model": "qwen3-vl-plus",
+      "dashscope_timeout_seconds": 20.0,
+      "deepseek_chat_model": "deepseek-flash",
+      "deepseek_query_model": "deepseek-flash",
+      "deepseek_timeout_seconds": 60.0,
+      "jev_model": "Zev-1",
+      "jev_timeout_seconds": 15.0,
+      "retrieval_enable_visual": true,
+      "deepseek_configured": false,
+      "dashscope_configured": true,
+      "jev_configured": false,
+      "qdrant_configured": false
+    },
+    "empty": true,
+    "calls": [],
+    "cases": {
+      "held_out": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        "http": 200,
+        "answer_status": "complete",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "supported"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_e21a2d4a3aa34f10a992b6887624a4d0",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 2.0817919867113233,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "accepted",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.2923750327900052,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "实验 SlateTrialB6，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+            "type": "text"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          },
+          "ev-3": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "version": 1,
+                "source_id": "cell:0"
+              },
+              "file_name": "Latch-Trial.ipynb",
+              "locator": {
+                "cell_index": 0,
+                "cell_id": "public-note",
+                "section_path": []
+              },
+              "text": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+              "is_current": true,
+              "has_preview": false
+            }
+          }
+        }
+      },
+      "salt_fog": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_e21a2d4a3aa34f10a992b6887624a4d0",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.8338749650865793,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的盐雾实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "still_missing",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_condition_unverified",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 0.9241250809282064,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      },
+      "test_split": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_e21a2d4a3aa34f10a992b6887624a4d0",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.388459000736475,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "mismatched",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_split_mismatch",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.0686670430004597,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      },
+      "unfamiliar_condition": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的低温循环后的留出集实验如何验证？",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_e21a2d4a3aa34f10a992b6887624a4d0",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.2716669589281082,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的低温循环后的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "still_missing",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_condition_unverified",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 0.9531249525025487,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      },
+      "different_metric": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_e21a2d4a3aa34f10a992b6887624a4d0",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.433833036571741,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "mismatched",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_metric_mismatch",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.0974169708788395,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      },
+      "different_object": {
+        "question": "Basalt latch 的定义是什么？讲义所对应的Quartz latch 的留出集实验如何验证？",
+        "http": 200,
+        "answer_status": "partial",
+        "answer_sections": {
+          "definition": "supported",
+          "experiment": "missing"
+        },
+        "budget": 2,
+        "source_reads": 3,
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5057916404122347,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Latch-Check.pptx",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 1.5685703892324482e-06,
+                "source": {
+                  "document_id": "local_e21a2d4a3aa34f10a992b6887624a4d0",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.7980000702664256,
+            "kind": "first",
+            "query": "Basalt latch 的定义是什么？讲义所对应的Quartz latch 的留出集实验如何验证？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          },
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "duplicate",
+                "evidence_id": null,
+                "file_name": "Basalt-Latch-Guide.pdf",
+                "locator": {
+                  "page": 1
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "not_attempted",
+                "reason": null,
+                "score": -0.26293372314437663,
+                "source": {
+                  "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "still_missing",
+                "evidence_id": "ev-3",
+                "file_name": "Latch-Trial.ipynb",
+                "locator": {
+                  "cell_id": "public-note",
+                  "cell_index": 0,
+                  "json_pointer": "/cells/0"
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": "experiment_condition_unverified",
+                "score": -0.22606236901069962,
+                "source": {
+                  "document_id": "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 1.4490419998764992,
+            "kind": "literal_supplement",
+            "query": "SlateTrialB6",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_6e9cbd5bc122406fa813d4b46a12cb5a",
+                "local_a101d2d1a18b4878bec7c473bd051538",
+                "local_e21a2d4a3aa34f10a992b6887624a4d0"
+              ]
+            }
+          }
+        ],
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+            "type": "text"
+          },
+          {
+            "code": "experiment",
+            "text": "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+            "type": "notice"
+          }
+        ],
+        "opened_text": {
+          "ev-1": {
+            "http": 200,
+            "data": {
+              "source": {
+                "document_id": "local_a101d2d1a18b4878bec7c473bd051538",
+                "version": 1,
+                "source_id": "page:1"
+              },
+              "file_name": "Basalt-Latch-Guide.pdf",
+              "locator": {
+                "page": 1
+              },
+              "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+              "is_current": true,
+              "has_preview": true
+            }
+          }
+        }
+      }
+    }
+  }
+}
