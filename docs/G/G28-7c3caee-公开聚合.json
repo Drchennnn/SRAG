@@ -1,0 +1,99 @@
+{
+  "candidate_sha": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+  "product_fix_sha": "0a153569731702450c43d5585f9113527cddf98d",
+  "previous_gate_sha": "536a397c1d129f532df820c41ecf4cf0086aa1ab",
+  "overall_verdict": "通过（原冻结题 13/13 与 P04 三项全部通过；F02 逗号对照单独记录为边界观察）",
+  "scores": {
+    "original_5": "5/5",
+    "previous_4": "4/4",
+    "double_file_4": "4/4",
+    "total": "13/13"
+  },
+  "p04_verdicts": {
+    "outbound_http_anchoring": "通过（保留原问句前缀并显式附加受限目标说明，建立追问与前轮唯一目标的关联，previous_context={}）",
+    "final_answer_and_citation": "通过（最终回答给出所问定义及必要条件，直接引用首击打开正确 v1 讲义定义页）",
+    "narrowed_scope_isolation": "通过（旧实验候选/实读/出站/引用/旧数值复述均为 0，保留范围变化与重选办法；S03 切回恢复实验，S04 新会话不继承）"
+  },
+  "private_frozen_runs": {
+    "regression_first": {
+      "sha256": "f7d54e452240d76c28bea8e5e94dcdb04851f633afd553e6f237f5a5375ec34e",
+      "subject": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 16,
+      "reader_clicks_ok": 16
+    },
+    "absence_first": {
+      "sha256": "649d219fefd0cd966022c1d1010f4de1159261e4f01eee6fd8ff5a84af49913a",
+      "subject": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+      "turns": 1,
+      "provider_calls_total": 2,
+      "provider_calls_http_200": 2,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 3,
+      "reader_clicks_ok": 3
+    },
+    "final_holdout_first": {
+      "sha256": "88691a0c342b04014f9f8bd61b39c088e0e2406e8754074ea95d80bd3c90e19c",
+      "subject": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 10,
+      "reader_clicks_ok": 10
+    },
+    "scope_holdout_first": {
+      "sha256": "845ff279d520e07f0ce6968236a5f5689bda7a571529865552c6e0680fe673bd",
+      "subject": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+      "turns": 4,
+      "provider_calls_total": 5,
+      "provider_calls_http_200": 5,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 8,
+      "reader_clicks_ok": 8
+    }
+  },
+  "public_followup_entry": {
+    "sha256": "b76c4dbcb9baee6ab2d2348505376d57a0bb6ec9bb4f40965c1ef78252582f65",
+    "subject": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+    "turns": 10,
+    "provider_calls_total": 11,
+    "provider_calls_http_200": 11,
+    "provider_calls_failed": 0,
+    "excerpt_fallbacks": [],
+    "reader_clicks_total": 20,
+    "reader_clicks_ok": 20
+  },
+  "separate_comma_observation": {
+    "sha256": "27b11c327349d40d8f04a343b41e35551588c50ad6799c1295bd8fa6e9478631",
+    "subject": "7c3caee6ef3c99eb489c01c26146ec31b75e8417",
+    "turns": 2,
+    "provider_calls_total": 3,
+    "provider_calls_http_200": 3,
+    "provider_calls_failed": 0,
+    "excerpt_fallbacks": [],
+    "reader_clicks_total": 8,
+    "reader_clicks_ok": 8,
+    "f02_comma_route": "generated_answer",
+    "f02_comma_definition_topic": null,
+    "f02_comma_outbound_question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？",
+    "f02_comma_notices": [
+      "missing_evidence",
+      "experiment_outside_scope"
+    ],
+    "f02_comma_readers": [
+      "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+      "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+      "Beacon-Sync-Manual.pdf · v1 · 第 5 页",
+      "Beacon-Sync-Manual.pdf · v1 · 第 3 页",
+      "Beacon-Sync-Manual.pdf · v1 · 第 6 页"
+    ]
+  }
+}
