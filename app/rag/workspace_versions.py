@@ -364,7 +364,9 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
             if len(paired) > 1:
                 return _compare_native_group(service, turn, draft, docs, paired, trace)
     if len(paired) != 1:
-        reordered_options = _reordered_comparison_options(service, session, old, current, docs)
+        reordered_options = _reordered_comparison_options(
+            service, session, old, snapshot.sources, docs, image_only=image
+        )
         if reordered_options is not None:
             options, refs = reordered_options
             return service._clarify(
@@ -438,8 +440,10 @@ def _reordered_comparison_options(
     service: WorkspaceService,
     session: Session,
     old: list[_Previous],
-    current: list[SnapshotSource],
+    current: Sequence[SnapshotSource],
     docs: dict[str, SnapshotDocument],
+    *,
+    image_only: bool = False,
 ) -> tuple[list[dict[str, Any]], list[dict[str, Any]]] | None:
     from uuid import uuid4
 
@@ -454,6 +458,7 @@ def _reordered_comparison_options(
         for src in current
         if src.document_id == past.source.document_id
         and src.kind == "notebook_output"
+        and (not image_only or _can_display(src))
         and (
             (old_cell_id and src.locator.get("cell_id") == old_cell_id)
             or (

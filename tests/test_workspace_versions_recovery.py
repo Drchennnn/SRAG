@@ -120,7 +120,9 @@ def test_problem1_three_intents_and_controls_without_put_focus(system, tmp_path,
 
     for intent, query, check in (
         ("new_counterpart", "最新版里刚才读过的那张图现在的峰值是多少？", "counterpart"),
+        ("new_counterpart_bare", "最新版里刚才读过的图是什么内容？", "counterpart"),
         ("recall_old", "回看刚才读过的旧版那张图的内容。", "recall"),
+        ("recall_old_bare", "回看刚才读过的旧版图的内容。", "recall"),
         ("compare_both", "和上一版相比，刚才读过的那张图有什么变化？", "compare"),
         ("only_old", "只看旧版第一张图，刚才展示的第 1 张图是什么？", "historical_notice"),
         ("stale_ctrl", "看当前 Cell", "stale"),
@@ -204,11 +206,13 @@ def test_problem1_reordered_deleted_and_cross_session_guards(system, tmp_path, m
     assert clarify_new["turn"]["status"] == "clarification", clarify_new
     assert len(clarify_new["options"]) == 2
 
-    # Also test cross-version compare under reordered outputs -> clarifies!
+    # Also test cross-version compare under reordered outputs -> clarifies ALL 2 image options
+    # even when previous read turn contained an ordinal ("第1张图")!
     clarify_cmp = _ask(
-        client, sess, "和上一版相比，刚才读过的那张图有什么变化？", rev, client_id="reord-cmp"
+        client, sess, "对比最新版和上一版刚才读过的图的纵轴单位和数值", rev, client_id="reord-cmp"
     )
     assert clarify_cmp["turn"]["status"] == "clarification", clarify_cmp
+    assert len(clarify_cmp["options"]) == 2, clarify_cmp
 
     # Select the second option (output:1 in v2r, which holds Curve A)
     chosen = _ask(
