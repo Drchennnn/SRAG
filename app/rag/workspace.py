@@ -259,6 +259,17 @@ def _bind_definition_topic(text: str, topic: str, reference: tuple[int, int, str
     return bound
 
 
+def _is_measurement_only_followup(text: str) -> bool:
+    clauses = [clause.strip() for clause in re.split(r"[。！？!?；;\n]", text) if clause.strip()]
+    if not clauses:
+        return False
+    measurement_only = re.compile(r"测量(?:结果|值|数据)|实测(?:结果|值|数据)|数值|耗时|延迟")
+    return all(
+        _EXPERIMENT_TEXT.search(clause) or measurement_only.search(clause)
+        for clause in clauses
+    )
+
+
 def _contains_topic(text: str, name: str) -> bool:
     name = " ".join(name.split())
     text = " ".join(text.split())
@@ -1079,13 +1090,21 @@ class WorkspaceService:
             )
             if same_scope:
                 previous = self._scoped_previous(latest, current_documents)
-            if definition_reference and previous is None:
-                resolved_topic = self._resolve_definition_topic(latest, current_documents)
-                if resolved_topic is None:
+            if previous is None and (
+                definition_reference
+                or (not _REWRITE_PRIOR.search(text) and not _is_measurement_only_followup(text))
+            ):
+                confirmed = self._confirmed_definition_topics(latest, current_documents)
+                if len(confirmed) == 1:
+                    resolved_topic = next(iter(confirmed))
+                    if definition_reference:
+                        text = _bind_definition_topic(text, resolved_topic, definition_reference)
+                    elif not _contains_topic(text, resolved_topic):
+                        text = f"{text}（当前追问所指目标：{resolved_topic}）"
+                elif definition_reference or len(confirmed) > 1:
                     return self._clarify(
                         turn, "无法确定你指的是哪个定义。请写出概念或规则名称。", [], refs,
                     )
-                text = _bind_definition_topic(text, resolved_topic, definition_reference)
             if _REWRITE_PRIOR.search(text):
                 if previous:
                     return self._rewrite_previous(turn, previous, refs, topic_document)
@@ -1352,24 +1371,27 @@ class WorkspaceService:
         latest = self.store.previous_reply(owner, turn)
         return latest if latest and self._turn_access(latest[0]) else None
 
-    def _resolve_definition_topic(self, latest, documents) -> str | None:
+    def _confirmed_definition_topics(self, latest, documents) -> set[str]:
         if not latest:
-            return None
+            return set()
         topics = _definition_topics(latest[0].request.text)
         if not topics:
             prior_topic = (latest[0].outcome.get("trace") or {}).get("definition_topic")
             if isinstance(prior_topic, str) and prior_topic.strip():
                 topics = {prior_topic.strip()}
         if not topics:
-            return None
+            return set()
         current = self._scoped_previous(latest, documents, allow_subset=True)
         if not current:
-            return None
-        confirmed = {
+            return set()
+        return {
             name for name in topics
             if any(_contains_topic(read.text, name)
                    for item in current[2].values() for read in item.reads)
         }
+
+    def _resolve_definition_topic(self, latest, documents) -> str | None:
+        confirmed = self._confirmed_definition_topics(latest, documents)
         return next(iter(confirmed)) if len(confirmed) == 1 else None
 
     @staticmethod

@@ -1811,3 +1811,27 @@ def test_general_anaphora_and_unrelated_question_boundaries(system, tmp_path, mo
     explicit_switch = ask("Quiet Window 是怎么规定的？")
     assert "definition_topic" not in explicit_switch["turn"]["trace"]
     assert calls[-1]["question"] == "Quiet Window 是怎么规定的？"
+
+    # Follow-up where _definition_reference is None still resolves confirmed prior topic.
+    from app.rag.workspace import _definition_reference
+
+    non_regex_followup = "只看我选中的讲义，把刚才问过的部分重新梳理一遍；配套实验还能核对吗？"
+    assert _definition_reference(non_regex_followup) is None
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    resolved = ask(non_regex_followup)
+    assert resolved["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+    assert calls[-1]["question"].startswith(non_regex_followup)
+    assert "Acceptance Grid" in calls[-1]["question"]
+    assert calls[-1]["previous_context"] == {}
+    assert "19 ms" not in str(calls[-1])
+
+    # Ambiguous multi-topic prior turn clarifies even when _definition_reference is None.
+    scope([])
+    ask(opened.replace("Acceptance Grid", "Acceptance Grid 和 Quiet Window"))
+    scope([guide_id])
+    before = len(calls)
+    ambig_q = "只看我选中的讲义，把刚才问过的部分重新梳理一遍。"
+    assert ask(ambig_q)["turn"]["status"] == "clarification"
+    assert len(calls) == before
