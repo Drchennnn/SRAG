@@ -40,7 +40,18 @@ _COVERAGE_FIELDS = {
     "clipped",
 }
 _INLINE_EVIDENCE_ID = re.compile(r"[\[【（(]\s*ev-[\w-]+", re.IGNORECASE)
-_NUMBER_TOKEN = re.compile(r"\d+(?:\.\d+)?")
+_NUMBER_TOKEN = re.compile(r"\d[\d,]*(?:\.\d+)?")
+_LOCATOR_OR_VERSION_NUM = re.compile(
+    r"第\s*\d+\s*页|\b(?:page|p\.?|cell|version|ver\.?|v)\s*\d+(?:\.\d+)*\b",
+    re.IGNORECASE,
+)
+_UNCERTAINTY_CUE = re.compile(
+    r"无法确认|未能确认|不能确认|无法核对|无法验证|未找到|缺少|未提供|没有|未说明|并非|不是|不等于"
+)
+_EXPERIMENT_CLAIM_CUE = re.compile(
+    r"测得|测量|实测|实验结果|基线|试验|样本数|MAE|RMSE|Baseline|Trial|Samples",
+    re.IGNORECASE,
+)
 _EXTRA_VERIFICATION_DEMAND = re.compile(
     r"独立验证流程|额外实验说明|如何验证[^。；\n]*定义|触发条件[^。；\n]*关系"
     r"|实验条件与[^。；\n]*关系|(?:现有证据)?(?:仅|只)(?:给出|提供)[^。；\n]*(?:指标|数值)"
@@ -338,6 +349,23 @@ def generate_response(
                 statements = filtered
             if not supported_exp_ids and not missing:
                 missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+        verified_exp_stmts = tuple(
+            statement
+            for statement in statements
+            if not (
+                _norm_number_tokens(statement.text, strip_locators=True)
+                and _EXPERIMENT_CLAIM_CUE.search(statement.text)
+                and not _UNCERTAINTY_CUE.search(statement.text)
+                and not any(cid in supported_exp_ids for cid in statement.citations)
+            )
+        )
+        if len(verified_exp_stmts) != len(statements):
+            trace["unverified_experiment_statements"] = trace.get(
+                "unverified_experiment_statements", 0
+            ) + (len(statements) - len(verified_exp_stmts))
+            statements = verified_exp_stmts
+            if not supported_exp_ids and not missing:
+                missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
         missing = _sanitize_missing_numbers(
             missing,
             statements=statements,
@@ -366,6 +394,17 @@ def generate_response(
     return finish(status, statements, missing, valid_evidence)
 
 
+def _norm_number_tokens(text: str, *, strip_locators: bool = False) -> set[str]:
+    cleaned = _LOCATOR_OR_VERSION_NUM.sub(" ", text) if strip_locators else text
+    out: set[str] = set()
+    for raw in _NUMBER_TOKEN.findall(cleaned):
+        token = raw.replace(",", "")
+        if "." in token:
+            token = token.rstrip("0").rstrip(".") or "0"
+        out.add(token)
+    return out
+
+
 def _evidence_numbers(evidence: Mapping[str, dict[str, Any]], ids: Any) -> set[str]:
     nums: set[str] = set()
     for eid in ids:
@@ -373,7 +412,7 @@ def _evidence_numbers(evidence: Mapping[str, dict[str, Any]], ids: Any) -> set[s
         if not entry:
             continue
         for read in entry.get("reads", ()):
-            nums.update(_NUMBER_TOKEN.findall(read.get("text", "")))
+            nums.update(_norm_number_tokens(read.get("text", "")))
     return nums
 
 
@@ -389,9 +428,11 @@ def _sanitize_missing_numbers(
     if not missing:
         return missing
     kept_cids = {cid for s in statements for cid in s.citations}
-    supported_nums = _evidence_numbers(evidence, kept_cids) | set(_NUMBER_TOKEN.findall(question))
-    uncited_ids = set(rejected_exp_ids) | (set(evidence) - kept_cids)
-    forbidden = _evidence_numbers(evidence, uncited_ids) - supported_nums
+    supported_nums = _evidence_numbers(evidence, kept_cids) | _norm_number_tokens(
+        question, strip_locators=True
+    )
+    missing_nums = _norm_number_tokens(missing, strip_locators=True)
+    forbidden = missing_nums - supported_nums
     if not forbidden:
         return missing
     kept_parts: list[str] = []
@@ -399,14 +440,14 @@ def _sanitize_missing_numbers(
         sent = sent.strip()
         if not sent:
             continue
-        sent_nums = set(_NUMBER_TOKEN.findall(sent))
+        sent_nums = _norm_number_tokens(sent, strip_locators=True)
         if not (sent_nums & forbidden):
             kept_parts.append(sent)
             continue
         if re.search(r"缺少|未提供|没有|无法确认|不足", sent):
             for clause in re.split(r"[，,]+", sent):
                 clause = clause.strip()
-                if clause and not (set(_NUMBER_TOKEN.findall(clause)) & forbidden):
+                if clause and not (_norm_number_tokens(clause, strip_locators=True) & forbidden):
                     kept_parts.append(clause)
     if kept_parts:
         return "；".join(kept_parts) + "。"
@@ -432,12 +473,11 @@ def _supported_technical_statements(
         for key, entry in evidence.items()
     }
     source_nums = {
-        key: set(_NUMBER_TOKEN.findall(" ".join(read["text"] for read in entry["reads"])))
+        key: _norm_number_tokens(" ".join(read["text"] for read in entry["reads"]))
         for key, entry in evidence.items()
     }
-    all_source_nums = set().union(*source_nums.values()) if source_nums else set()
     question_only = words(question).difference(*source_words.values())
-    question_nums = set(_NUMBER_TOKEN.findall(question))
+    question_nums = _norm_number_tokens(question, strip_locators=True)
     supported = []
     for statement in statements:
         literals = {
@@ -445,8 +485,10 @@ def _supported_technical_statements(
             for match in _TECHNICAL_CLAIM.findall(statement.text)
         }
         cited = question_only.union(*(source_words[key] for key in statement.citations))
-        stmt_nums = set(_NUMBER_TOKEN.findall(statement.text)) & all_source_nums
-        cited_nums = question_nums.union(*(source_nums[key] for key in statement.citations))
+        stmt_nums = _norm_number_tokens(statement.text, strip_locators=True)
+        cited_nums = set().union(*(source_nums[key] for key in statement.citations))
+        if _UNCERTAINTY_CUE.search(statement.text):
+            cited_nums = cited_nums | question_nums
         if literals <= cited and stmt_nums <= cited_nums:
             supported.append(statement)
     return tuple(supported)

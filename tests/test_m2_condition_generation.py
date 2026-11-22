@@ -16,7 +16,11 @@ from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
 from app.rag.evidence_supplement import classify_experiment_evidence
 from app.rag.workspace import make_workspace
-from app.rag.workspace_generation import generate_response
+from app.rag.workspace_generation import (
+    GeneratedStatement,
+    _supported_technical_statements,
+    generate_response,
+)
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead
 
@@ -532,3 +536,202 @@ def test_extra_verification_demand_cleared_when_answered_but_kept_when_asked(
             assert res.missing == ""
         else:
             assert "独立验证流程" in res.missing
+
+
+def test_statement_measurement_numbers_require_direct_citation_support(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Reject hallucinated/guessed/mismatched numbers; allow direct support & uncertainty."""
+    settings = _settings(tmp_path)
+    ev1 = _ev(
+        "ev-1",
+        "doc-guide",
+        "Guide.pdf",
+        "page:1",
+        "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\n"
+        "Experiment-ID: TrialA.",
+        page=1,
+    )
+    ev2 = _ev(
+        "ev-2",
+        "doc-lab-a",
+        "Lab-A.ipynb",
+        "cell:0",
+        "Experiment-ID: TrialA. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4.",
+        cell_index=0,
+    )
+    ev3_diff_exp = _ev(
+        "ev-3",
+        "doc-lab-b",
+        "Lab-B.ipynb",
+        "cell:0",
+        "Experiment-ID: TrialB. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4.",
+        cell_index=0,
+    )
+    ev4_diff_metric = _ev(
+        "ev-4",
+        "doc-lab-rmse",
+        "Lab-RMSE.ipynb",
+        "cell:0",
+        "Experiment-ID: TrialA. Split: held-out. Metric: RMSE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4.",
+        cell_index=0,
+    )
+
+    ev_data = {
+        "ev-1": {"id": "ev-1", "reads": [{"text": ev1.reads[0].text}]},
+        "ev-2": {"id": "ev-2", "reads": [{"text": ev2.reads[0].text}]},
+    }
+    # Function-level counterexamples: hallucinated 0.87 and user-guessed 0.26 citing only ev-1
+    assert (
+        _supported_technical_statements(
+            (GeneratedStatement(text="测试集测得 0.87。", citations=("ev-1",)),),
+            ev_data,
+            "测试集测得多少？",
+        )
+        == ()
+    )
+    assert (
+        _supported_technical_statements(
+            (GeneratedStatement(text="测试集测得 0.26。", citations=("ev-1",)),),
+            ev_data,
+            "测试集是否测得 0.26？",
+        )
+        == ()
+    )
+    # Uncertainty phrasing echoing user's 0.26 and grounded definition with page/version are kept
+    kept = _supported_technical_statements(
+        (
+            GeneratedStatement(
+                text="Guide.pdf 第 1 页 v1 定义为连续三次高于 8.0 V。", citations=("ev-1",)
+            ),
+            GeneratedStatement(text="无法确认测试集是否为 0.26。", citations=("ev-1",)),
+        ),
+        ev_data,
+        "测试集是否测得 0.26？",
+    )
+    assert len(kept) == 2
+
+    # End-to-end generate_response: (1) hallucinated 0.87 & (2) guessed 0.26 in body/missing
+    async def fake_hallucinated(self, messages, **kwargs):
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {"text": "Basalt latch 高于 8 V 开启。", "citations": ["ev-1"]},
+                        {"text": "测试集测得 0.87。", "citations": ["ev-1"]},
+                        {"text": "测试集测得 0.26。", "citations": ["ev-1"]},
+                    ],
+                    "missing": "缺少测试集依据；测试集未测得 0.87。",
+                }
+            )
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_hallucinated)
+    r1 = generate_response(
+        settings,
+        "Basalt latch 的定义是什么？讲义所对应的测试集实验是否测得 0.26？",
+        {"ev-1": ev1, "ev-2": ev2},
+        mode="definition_and_experiment",
+    )
+    assert r1.status == "partial"
+    assert [s.text for s in r1.statements] == ["Basalt latch 高于 8 V 开启。"]
+    assert "0.87" not in r1.missing and "0.26" not in r1.missing
+
+    # (3) Same number 0.26 but wrong experiment (TrialB) or wrong metric (RMSE)
+    async def fake_wrong_exp(self, messages, **kwargs):
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {"text": "Basalt latch 高于 8 V 开启。", "citations": ["ev-1"]},
+                        {"text": "留出集 MAE 基线为 0.26。", "citations": ["ev-3"]},
+                    ],
+                    "missing": "",
+                }
+            )
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_wrong_exp)
+    r_exp = generate_response(
+        settings,
+        "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        {"ev-1": ev1, "ev-3": ev3_diff_exp},
+        mode="definition_and_experiment",
+    )
+    assert r_exp.status == "partial"
+    assert all("0.26" not in s.text for s in r_exp.statements)
+
+    async def fake_wrong_metric(self, messages, **kwargs):
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {"text": "Basalt latch 高于 8 V 开启。", "citations": ["ev-1"]},
+                        {"text": "留出集 MAE 基线为 0.26。", "citations": ["ev-4"]},
+                    ],
+                    "missing": "",
+                }
+            )
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_wrong_metric)
+    r_met = generate_response(
+        settings,
+        "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 MAE。",
+        {"ev-1": ev1, "ev-4": ev4_diff_metric},
+        mode="definition_and_experiment",
+    )
+    assert r_met.status == "partial"
+    assert all("0.26" not in s.text for s in r_met.statements)
+
+    # (4) Direct experiment support with formatting difference (0.260 == 0.26) -> succeeded
+    async def fake_direct_ok(self, messages, **kwargs):
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {"text": "Basalt latch 高于 8.0 V 开启。", "citations": ["ev-1"]},
+                        {"text": "留出集 MAE 基线测得 0.260。", "citations": ["ev-2"]},
+                    ],
+                    "missing": "",
+                }
+            )
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_direct_ok)
+    r_ok = generate_response(
+        settings,
+        "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+        {"ev-1": ev1, "ev-2": ev2},
+        mode="definition_and_experiment",
+    )
+    assert r_ok.status == "succeeded"
+    assert len(r_ok.statements) == 2 and "0.260" in r_ok.statements[1].text
+
+    # (5) Honest uncertainty reply ("无法确认测试集是否为 0.26") -> partial & kept
+    async def fake_uncertain(self, messages, **kwargs):
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {"text": "Basalt latch 高于 8 V 开启。", "citations": ["ev-1"]},
+                        {"text": "无法确认测试集是否为 0.26。", "citations": ["ev-1"]},
+                    ],
+                    "missing": "缺少测试集实测记录，无法确认是否为 0.26。",
+                }
+            )
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_uncertain)
+    r_unc = generate_response(
+        settings,
+        "Basalt latch 的定义是什么？讲义所对应的测试集实验是否测得 0.26？",
+        {"ev-1": ev1, "ev-2": ev2},
+        mode="definition_and_experiment",
+    )
+    assert r_unc.status == "partial"
+    assert any("无法确认测试集是否为 0.26" in s.text for s in r_unc.statements)
+    assert "0.26" in r_unc.missing
