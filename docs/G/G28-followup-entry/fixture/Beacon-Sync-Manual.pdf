@@ -1,0 +1,110 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 6 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 135 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Overview) Tj T*
+(Beacon sync manual covering barrier admission, backoff windows, and slot logs.) Tj T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 273 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Barrier Latch) Tj T*
+(Barrier Latch: admission succeeds only when two distinct peers confirm the same slot hash) Tj T*
+(before tick 4.) Tj T*
+(A confirmation from the same peer twice, or arriving at tick 4 or later, resets the latch.) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 141 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Peer Isolation) Tj T*
+(Peers maintain separate hash buffers and never forward unverified slot hashes.) Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 242 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Cooldown Guard) Tj T*
+(Cooldown Guard: after a reset, the sender pauses for 6 ticks before sending a fresh slot) Tj T*
+(hash.) Tj T*
+(Cooldown Guard only paces retries; it never opens barrier admission.) Tj T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 189 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Slot Dispatch) Tj T*
+(Slot Dispatch order: incoming slots first enter staging, then pass hash validation, and) Tj T*
+(finally append to the slot log.) Tj T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 148 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Experiment Notes) Tj T*
+(Measured sync delays are stored only in the benchmark notebook, not in this manual.) Tj T*
+ET
+endstream
+endobj
+xref
+0 16
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000148 00000 n 
+0000000218 00000 n 
+0000000344 00000 n 
+0000000530 00000 n 
+0000000656 00000 n 
+0000000980 00000 n 
+0000001106 00000 n 
+0000001298 00000 n 
+0000001426 00000 n 
+0000001720 00000 n 
+0000001848 00000 n 
+0000002089 00000 n 
+0000002217 00000 n 
+trailer
+<< /Size 16 /Root 1 0 R >>
+startxref
+2417
+%%EOF
