@@ -1,0 +1,81 @@
+{
+  "subject": "ed99897ec8ad7364292e5237705a66c6a8715837",
+  "case": "R04",
+  "route": "generated_answer",
+  "provider_calls": [
+    {
+      "host": "api.deepseek.com",
+      "model": "deepseek-flash",
+      "status": 200,
+      "elapsed_ms": 934.104
+    },
+    {
+      "host": "api.deepseek.com",
+      "model": "deepseek-flash",
+      "status": 200,
+      "elapsed_ms": 531.608
+    }
+  ],
+  "rewrite_status": "constraints_unverified",
+  "rewrite_constraint": "vague_numeral",
+  "effective_strategy": "fts",
+  "candidate_objects": [
+    "page:2",
+    "page:2:table:1",
+    "page:1",
+    "page:7",
+    "page:5",
+    "page:4",
+    "page:6",
+    "page:6:table:1",
+    "page:3",
+    "page:7:table:1"
+  ],
+  "read_objects": [
+    "page:1",
+    "page:7:table:1",
+    "page:2",
+    "page:2:table:1",
+    "page:2",
+    "page:2:table:1",
+    "page:3",
+    "page:4",
+    "page:5",
+    "page:6",
+    "page:6:table:1",
+    "page:7"
+  ],
+  "clicked": [
+    {
+      "evidence_id": "ev-1",
+      "location": "当前版本",
+      "pixels": 1224,
+      "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 1 页"
+    },
+    {
+      "evidence_id": "ev-2",
+      "location": "当前版本",
+      "pixels": 1224,
+      "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页"
+    },
+    {
+      "evidence_id": "ev-3",
+      "location": "当前版本",
+      "pixels": 1224,
+      "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页"
+    },
+    {
+      "evidence_id": "ev-4",
+      "location": "当前版本",
+      "pixels": 1224,
+      "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页"
+    },
+    {
+      "evidence_id": "ev-9",
+      "location": "当前版本",
+      "pixels": 1224,
+      "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 7 页"
+    }
+  ],
+  "missing": true
+}

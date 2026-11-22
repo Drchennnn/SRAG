@@ -1,0 +1,24 @@
+{
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "Mixtral-of-Experts-2401.04088v1.pdf": {
+      "sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da"
+    },
+    "Allocation-Check.ipynb": {
+      "sha256": "4778db40e875af08d8776523cdab137f717b8fabcac2399fe359a4fb7eb1c631"
+    }
+  },
+  "turns": [
+    {
+      "id": "R04",
+      "new": false,
+      "scope": "course",
+      "question": "讲义怎么定义 Mixtral 的 Top-2 router？配套实验处理十一个词元时，一号专家被选中了几次？"
+    }
+  ]
+}
