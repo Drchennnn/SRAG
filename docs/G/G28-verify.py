@@ -116,7 +116,7 @@ def browser_run(url, session, files, question, scoped):
     msg_id = row.pop("message_id")
     for evidence_id in row["buttons"]:
         selector = f'article[data-message-id="{msg_id}"] button[data-evidence-id="{evidence_id}"]'
-        js(f"document.querySelector({json.dumps(selector)}).click() || true")
+        ab("click", selector)
         wait("""document.querySelector('#reader').open &&
             (!document.querySelector('#reader img') ||
              document.querySelector('#reader img').complete)""")

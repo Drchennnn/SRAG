@@ -388,3 +388,35 @@ def test_generation_precheck_trims_or_drops_oversized_evidence_and_records_reaso
     sent_payload = json.loads(requests[0]["messages"][1]["content"])
     assert [item["id"] for item in sent_payload["evidence"]] == ["ev-1", "ev-2"]
     assert sent_payload["evidence"][1]["reads"][0]["text"] == shrunk_ev2.reads[0].text
+
+
+def test_compound_answer_drops_formula_cited_to_parameter_table(settings, monkeypatch):
+    definition = _evidence("ev-1", page=2)
+    table = _evidence("ev-2", page=2)
+    experiment = _evidence("ev-3", page=3)
+    definition.reads[0].text = "G(x) = Softmax(Top2(x · Wg)). Experts use SwiGLU."
+    table.reads[0].method = "native_table"
+    table.reads[0].text = "| top_k_experts | 2 |"
+    experiment.reads[0].text = "The experiment recorded 7 allocations."
+    expression = "使用 SwiGLU，公式为 G(x) = Softmax(Top2(x · W_g))。"
+    response = {
+        "statements": [
+            {"text": expression, "citations": ["ev-2"]},
+            {"text": expression, "citations": ["ev-1"]},
+            {"text": "实验分配了 7 次。", "citations": ["ev-3"]},
+        ],
+        "missing": "",
+    }
+    _wire(monkeypatch, _completion(json.dumps(response)))
+    result = generate_response(
+        settings,
+        "Mixtral 定义与实验结果是什么？",
+        {item.evidence_id: item for item in (definition, table, experiment)},
+        mode="definition_and_experiment",
+    )
+    assert result.trace["unsupported_literal_statements"] == 1
+    assert result.trace["estimated_input"] <= result.trace["input_budget"]
+    assert [(row.text, row.citations) for row in result.statements] == [
+        (expression, ("ev-1",)),
+        ("实验分配了 7 次。", ("ev-3",)),
+    ]

@@ -1026,6 +1026,7 @@ class WorkspaceService:
                     previous=previous,
                     question=text,
                     extra_media=visual_ranked if mode == "ask" else (),
+                    selected_file_scope=bool(session.document_ids or file_names),
                 )
         draft = Draft(session.session_id)
         if mode == "summary":
@@ -1164,6 +1165,7 @@ class WorkspaceService:
             active=lambda: self.store.active(turn),
             rewrite=self.rewriter,
             scorer=self.scorer,
+            supplement_saved_outputs=prompt_mode == "definition_and_experiment",
         )
 
     def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
@@ -1274,6 +1276,7 @@ class WorkspaceService:
         previous,
         question,
         extra_media=(),
+        selected_file_scope=False,
     ):
         if names:
             allowed = {name.casefold() for name in names}
@@ -1438,6 +1441,9 @@ class WorkspaceService:
             coverage={
                 "full_text_scope": full_text_scope,
                 "unread_visual_total": len(window.unread_visual),
+                "selected_file_scope": (
+                    prompt_mode == "definition_and_experiment" and selected_file_scope
+                ),
             },
         )
         selected = ranked or [segment.source for segment in window.segments]
@@ -1500,7 +1506,10 @@ class WorkspaceService:
             for statement in result.statements:
                 draft.text(statement.text, *statement.citations)
             if result.missing:
-                draft.notice("missing_evidence", result.missing)
+                missing = result.missing
+                if coverage and coverage.get("selected_file_scope"):
+                    missing = f"本轮仅查所选文件。{missing}"
+                draft.notice("missing_evidence", missing)
         else:
             draft.notice("excerpt_fallback", "回答模型未能生成可核对的答案。本条保留已读原文摘录。")
 

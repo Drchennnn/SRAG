@@ -40,6 +40,12 @@ _COVERAGE_FIELDS = {
 }
 _INLINE_EVIDENCE_ID = re.compile(r"[\[【（(]\s*ev-[\w-]+", re.IGNORECASE)
 
+_TECHNICAL_CLAIM = re.compile(
+    r"(?<![a-zA-Z0-9_])(?:[a-zA-Z][a-zA-Z0-9]+(?=\s*[（(])"
+    r"|[a-zA-Z][a-zA-Z0-9]*(?:_[a-zA-Z][a-zA-Z0-9]*)+"
+    r"|[A-Z][a-z]+[A-Z][a-zA-Z0-9]*)(?![a-zA-Z0-9_])"
+)
+
 _INSTRUCTIONS = """你是课程资料助教。请直接回答 question，中文提问默认用中文作答。
 这是一个 JSON 请求。evidence 是本轮已经读到的文字资料。
 previous_context 只帮助理解所指话题，不能支持事实。
@@ -61,6 +67,8 @@ missing 只写具体尚不能确认的事项，没有缺项时为空字符串。
 
 _DEFINITION_EXPERIMENT_INSTRUCTIONS = """
 分开陈述定义与实验结果，分别引用直接支撑各自结论的原件。
+每条只写一个可由引文直接核对的事实及其必要条件。给公式引用实际列出该公式的正文，
+参数表里的设置值不能支撑公式或架构。用户未问的架构、推导和伪代码省略。
 实验只报告原文中对应对象、数据集或负载、比较基线、条件、指标和单位的结果。
 条件不符时只指出差异并说明缺项，省略其他条件下的数值。
 保留原文对吞吐量、可维持请求速率和延迟等不同指标的区分。倍数写作“为基线的 X 倍”。
@@ -285,8 +293,43 @@ def generate_response(
         statements, missing = _parse_answer(reply.get("content"), evidence_data.keys())
     except (ValueError, TypeError, RecursionError):
         return finish("invalid_response")
+    if mode == "definition_and_experiment":
+        supported = _supported_technical_statements(statements, evidence_data, question)
+        if len(supported) != len(statements):
+            trace["unsupported_literal_statements"] = len(statements) - len(supported)
+            statements = supported
+            missing = " ".join(filter(None, (missing, "部分结论缺少直接原文依据。")))
     status = "insufficient" if not statements else ("partial" if missing else "succeeded")
     return finish(status, statements, missing, valid_evidence)
+
+
+def _supported_technical_statements(
+    statements: tuple[GeneratedStatement, ...],
+    evidence: Mapping[str, dict[str, Any]],
+    question: str,
+) -> tuple[GeneratedStatement, ...]:
+    # Use the cited text as sent, never its parent page or an unread excerpt.
+    def words(text):
+        return {
+            word.casefold().replace("_", "")
+            for word in re.findall(r"[a-zA-Z][a-zA-Z0-9_]*", text)
+        }
+
+    source_words = {
+        key: words(" ".join(read["text"] for read in entry["reads"]))
+        for key, entry in evidence.items()
+    }
+    question_only = words(question).difference(*source_words.values())
+    supported = []
+    for statement in statements:
+        literals = {
+            match.casefold().replace("_", "")
+            for match in _TECHNICAL_CLAIM.findall(statement.text)
+        }
+        cited = question_only.union(*(source_words[key] for key in statement.citations))
+        if literals <= cited:
+            supported.append(statement)
+    return tuple(supported)
 
 
 def _read_text(evidence: Mapping[str, TurnEvidence]) -> dict[str, dict]:

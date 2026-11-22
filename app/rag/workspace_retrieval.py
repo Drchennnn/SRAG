@@ -25,6 +25,7 @@ from app.rag.structure_search import (
     StructureSearcher,
     StructureSearchRequest,
     StructureSearchResponse,
+    _structural_candidate,
 )
 from app.schemas.local import SourceKey
 from app.schemas.workspace import WorkspaceError
@@ -252,6 +253,7 @@ def plan_retrieval(
     rewrite: Callable[..., RewriteResult] | None = None,
     scorer: JevClient | None = None,
     original_question: str | None = None,
+    supplement_saved_outputs: bool = False,
 ) -> RetrievalPlan:
     """Reuse a single bilingual pool and enforce one final source budget in all arms."""
 
@@ -285,6 +287,13 @@ def plan_retrieval(
     }
 
     def finish(selected: Sequence[StructureCandidate]) -> RetrievalPlan:
+        if supplement_saved_outputs and trace["rewrite"]["status"] == "constraints_unverified":
+            selected, trace["saved_output_fallback"] = _reserve_saved_outputs(
+                scope, selected, budget
+            )
+            if trace["saved_output_fallback"]["status"] == "reserved":
+                combined = {_identity(item.source): item for item in (*selected, *pool)}
+                pool[:] = list(combined.values())[:request.top_k]
         scope.check_active()
         trace["candidate_pool"] = [_candidate_trace(candidate) for candidate in pool]
         trace["visual_candidates"] = [
@@ -418,6 +427,49 @@ class _PinnedScope:
                 or source.text != candidate.text
             ):
                 raise WorkspaceError("stale_reference")
+
+
+def _reserve_saved_outputs(
+    scope: _PinnedScope, candidates: Sequence[StructureCandidate], budget: int
+) -> tuple[list[StructureCandidate], dict[str, Any]]:
+    """Reserve existing candidate slots for saved results missed by text search."""
+    if budget < 2 or len(scope.docs) < 2:
+        return list(candidates), {"status": "single_document_or_slot", "added": []}
+    if any(item.kind == "notebook_output" for item in candidates[:budget]):
+        return list(candidates), {"status": "output_already_selected", "added": []}
+    outputs = [
+        source for source in scope.sources.values()
+        if source.document_id in scope.docs
+        and source.kind == "notebook_output"
+        and source.text.strip()
+    ]
+    if not outputs:
+        return list(candidates), {"status": "no_saved_text_output", "added": []}
+    scope.verify()
+    terms = set(re.findall(r"[a-z][a-z0-9_-]{2,}", scope.request.query.casefold()))
+    selected = sorted(
+        outputs,
+        key=lambda source: (
+            -len(terms.intersection(re.findall(
+                r"[a-z][a-z0-9_-]{2,}", f"{source.title} {source.text}".casefold()
+            ))),
+            scope.docs[source.document_id].file_name.casefold(),
+            source.ordinal,
+        ),
+    )
+    # Keep the first lexical anchor, then make space for exact outputs before the tail.
+    reserved = [
+        _structural_candidate(source, source, "saved_output_fallback", scope.docs.values())
+        for source in selected[:min(2, budget - 1)]
+    ]
+    ranked = [*candidates[:1], *reserved, *candidates[1:]][:budget]
+    return ranked, {
+        "status": "reserved",
+        "added": [item.source.model_dump() for item in reserved],
+        "displaced": [
+            item.source.model_dump() for item in candidates[:budget] if item not in ranked
+        ],
+    }
 
 
 def _has_readable_text(candidate: StructureCandidate) -> bool:
