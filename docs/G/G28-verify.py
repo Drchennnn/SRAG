@@ -116,7 +116,18 @@ def browser_run(url, session, files, question, scoped):
     msg_id = row.pop("message_id")
     for evidence_id in row["buttons"]:
         selector = f'article[data-message-id="{msg_id}"] button[data-evidence-id="{evidence_id}"]'
-        ab("click", selector)
+        scrolled = False
+        try:
+            ab("click", selector)
+        except RuntimeError as error:
+            if "outside the viewport" not in str(error):
+                raise
+            js(
+                f"document.querySelector({json.dumps(selector)})"
+                ".scrollIntoView({block: 'center', behavior: 'instant'}) ?? true"
+            )
+            ab("click", selector)
+            scrolled = True
         wait("""document.querySelector('#reader').open &&
             (!document.querySelector('#reader img') ||
              document.querySelector('#reader img').complete)""")
@@ -127,6 +138,7 @@ def browser_run(url, session, files, question, scoped):
             image_width:document.querySelector('#reader img')?.naturalWidth ?? null,
             text:document.querySelector('#reader-body').innerText
         })""")
+        row["reader"][evidence_id]["scrolled_before_click"] = scrolled
         ab("click", "#close-reader")
         wait("!document.querySelector('#reader').open")
     return row

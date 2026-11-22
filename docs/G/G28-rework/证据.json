@@ -1,0 +1,4085 @@
+{
+  "architect_replay_Q07": {
+    "answer": {
+      "citations": [
+        "ev-3"
+      ],
+      "text": "Mixtral 取 K = 2，专家函数 Ei(x) 采用 SwiGLU，因此输入词元 x 的输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+      "type": "text"
+    },
+    "source": {
+      "document_id": "local_4795192b12c74c95a613a4b5b914a1d8",
+      "source_id": "page:2:table:1",
+      "version": 1
+    },
+    "clicked_original": {
+      "image_width": 1224,
+      "location": "当前版本",
+      "status": "文字已交给回答模型 · 图像未读取",
+      "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+      "text_excerpt": [
+        "| context_len | 32768 |",
+        "| top_k_experts | 2 |"
+      ]
+    }
+  },
+  "baseline_public_R04": {
+    "subject": "ed99897ec8ad7364292e5237705a66c6a8715837",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "turns": [
+      {
+        "id": "R04",
+        "question": "讲义怎么定义 Mixtral 的 Top-2 router？配套实验处理十一个词元时，一号专家被选中了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 861.662,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 928.589,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 242
+          },
+          "saved_output_fallback": null,
+          "candidate_limit": 12,
+          "candidates": [
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:2:table:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:6:table:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:7:table:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            }
+          ],
+          "read_ranges": [
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2730,
+              "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 3362,
+              "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:2:table:1",
+                "version": 1
+              },
+              "method": "native_table",
+              "start": 0,
+              "end": 235,
+              "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 3129,
+              "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 3006,
+              "text_sha256": "3ce8151d375a24ed24f9387837df0f94718ed4ebdf85e624cd0d28372595d5a4"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2549,
+              "text_sha256": "99ef079321ec5954a0a0a89d74e2485430b259ada7d392ea15eaeec7c936b424"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2471,
+              "text_sha256": "29bea43cc0d1e2c4284c58ce2e81bf885c93063bb0acb03ff387380a741f29af"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:6:table:1",
+                "version": 1
+              },
+              "method": "native_table",
+              "start": 0,
+              "end": 369,
+              "text_sha256": "17fbecc2d4cd8366e9c87f939e5dc447876ed5b161f1f9aca0a92a23e982e87c"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2783,
+              "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+            },
+            {
+              "source": {
+                "document_id": "local_4b3200e1793c445fb39632fdad0e0f29",
+                "source_id": "page:7:table:1",
+                "version": 1
+              },
+              "method": "native_table",
+              "start": 0,
+              "end": 288,
+              "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2441.684,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2460.109,
+            "estimated_input": 28304,
+            "external_call_count": 1,
+            "fixed_overhead": 3517,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7",
+              "ev-8",
+              "ev-9",
+              "ev-10"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8350
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "text": "讲义（论文《Mixtral of Experts》）将 Mixtral 的 Top-2 router 定义为：每个词元在每一层由 router 网络从 8 个前馈块（专家）中选出两个专家处理当前状态，并将两个专家的输出相加组合；架构表中 num_experts 为 8、top_k_experts 为 2。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2",
+              "ev-4"
+            ],
+            "text": "论文给出的门控形式为 G(x) := Softmax(TopK(x · Wg))，其中 TopK 保留 logits 中前 K 个坐标、其余置为 −∞；Mixtral 取 K = 2，专家函数为 SwiGLU，输出为 y = Σ Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-9"
+            ],
+            "text": "论文的路由分析只报告了 The Pile 验证集不同子集上各专家被选中的比例（层 0、15、31，含第一或第二选择），未给出“处理十一个词元时一号专家被选中几次”的计数。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "缺少配套实验对十一个词元逐一处理时一号专家被选中次数的测量结果；现有证据只有论文中的路由比例分析，不能据此得出该计数。",
+            "type": "notice"
+          }
+        ],
+        "reader": [
+          {
+            "evidence_id": "ev-1",
+            "error": "agent-browser failed (agent-browser --session g28-independent-52853 click article[data-message-id=\"f7a70050d26d465f9f53dcb270203dd4\"] button[data-evidence-id=\"ev-1\"]): ✗ Element 'article[data-message-id=\"f7a70050d26d465f9f53dcb270203dd4\"] button[data-evidence-id=\"ev-1\"]' is covered by <textarea#question> at its click point, so the input would land on that element instead. Dismiss or interact with the covering element first (it is often a dialog, banner, or sticky header).\n",
+            "text_excerpt": []
+          },
+          {
+            "evidence_id": "ev-2",
+            "error": "agent-browser failed (agent-browser --session g28-independent-52853 click article[data-message-id=\"f7a70050d26d465f9f53dcb270203dd4\"] button[data-evidence-id=\"ev-2\"]): ✗ Element 'article[data-message-id=\"f7a70050d26d465f9f53dcb270203dd4\"] button[data-evidence-id=\"ev-2\"]' is covered by <textarea#question> at its click point, so the input would land on that element instead. Dismiss or interact with the covering element first (it is often a dialog, banner, or sticky header).\n",
+            "text_excerpt": []
+          },
+          {
+            "evidence_id": "ev-3",
+            "error": "agent-browser failed (agent-browser --session g28-independent-52853 click article[data-message-id=\"f7a70050d26d465f9f53dcb270203dd4\"] button[data-evidence-id=\"ev-3\"]): ✗ Element 'article[data-message-id=\"f7a70050d26d465f9f53dcb270203dd4\"] button[data-evidence-id=\"ev-3\"]' is covered by <textarea#question> at its click point, so the input would land on that element instead. Dismiss or interact with the covering element first (it is often a dialog, banner, or sticky header).\n",
+            "text_excerpt": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+            "text_excerpt": [
+              "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+              "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+              "Softmax(Top2(x · Wg))i",
+              "· SwiGLUi(x)."
+            ]
+          },
+          {
+            "evidence_id": "ev-9",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 7 页",
+            "text_excerpt": []
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 430.038
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 514.966
+          }
+        ]
+      }
+    ]
+  },
+  "fixed_public_R04": {
+    "subject": "21d079bd6611e8db087507cb5fcbcf6a63929ca5",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "turns": [
+      {
+        "id": "R04",
+        "question": "讲义怎么定义 Mixtral 的 Top-2 router？配套实验处理十一个词元时，一号专家被选中了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 855.602,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 900.878,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 240
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_a3cedbf8529f4704a39fa03f62bb1ac9",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [],
+            "status": "reserved"
+          },
+          "candidate_limit": 12,
+          "candidates": [
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Allocation-Check.ipynb",
+              "source": {
+                "document_id": "local_a3cedbf8529f4704a39fa03f62bb1ac9",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:2:table:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:6:table:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:7:table:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            }
+          ],
+          "read_ranges": [
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2730,
+              "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 3362,
+              "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:2:table:1",
+                "version": 1
+              },
+              "method": "native_table",
+              "start": 0,
+              "end": 235,
+              "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 3129,
+              "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 3006,
+              "text_sha256": "3ce8151d375a24ed24f9387837df0f94718ed4ebdf85e624cd0d28372595d5a4"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2549,
+              "text_sha256": "99ef079321ec5954a0a0a89d74e2485430b259ada7d392ea15eaeec7c936b424"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2471,
+              "text_sha256": "29bea43cc0d1e2c4284c58ce2e81bf885c93063bb0acb03ff387380a741f29af"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:6:table:1",
+                "version": 1
+              },
+              "method": "native_table",
+              "start": 0,
+              "end": 369,
+              "text_sha256": "17fbecc2d4cd8366e9c87f939e5dc447876ed5b161f1f9aca0a92a23e982e87c"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 2783,
+              "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+            },
+            {
+              "source": {
+                "document_id": "local_72353f7481f24eaf86dcd67514f62637",
+                "source_id": "page:7:table:1",
+                "version": 1
+              },
+              "method": "native_table",
+              "start": 0,
+              "end": 288,
+              "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+            },
+            {
+              "source": {
+                "document_id": "local_a3cedbf8529f4704a39fa03f62bb1ac9",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 96,
+              "text_sha256": "a6e3bff2cf10103a3016b97c14cb25d743d174448e1b434469ef63b3153e4bbd"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1496.378,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1510.952,
+            "estimated_input": 28963,
+            "external_call_count": 1,
+            "fixed_overhead": 3746,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7",
+              "ev-8",
+              "ev-9",
+              "ev-10",
+              "ev-11"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "succeeded",
+            "total_tokens": 8327
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-1",
+              "ev-3",
+              "ev-4"
+            ],
+            "text": "讲义将 Mixtral 的 Top-2 router 定义为：每个词元在每一层由 router 网络从 8 个专家中选出两个专家处理当前状态，并将两个专家的输出相加；模型设置 K = 2，每个词元被路由到两个权重不同的 SwiGLU 子块。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-11"
+            ],
+            "text": "配套实验记录显示，处理 11 个词元时，每个词元记录一次分配，专家 1 被选中 5 次。",
+            "type": "text"
+          }
+        ],
+        "reader": [
+          {
+            "evidence_id": "ev-1",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 1 页",
+            "text_excerpt": []
+          },
+          {
+            "evidence_id": "ev-3",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+            "text_excerpt": [
+              "| context_len | 32768 |",
+              "| top_k_experts | 2 |"
+            ]
+          },
+          {
+            "evidence_id": "ev-4",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+            "text_excerpt": [
+              "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+              "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+              "Softmax(Top2(x · Wg))i",
+              "· SwiGLUi(x)."
+            ]
+          },
+          {
+            "evidence_id": "ev-11",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Allocation-Check.ipynb · v1 · Cell 1 · 输出 0",
+            "text_excerpt": [
+              "Expert allocation: 11 tokens, one recorded assignment per token.",
+              "Expert 1 was selected 5 times."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 438.3
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 587.648
+          }
+        ]
+      }
+    ]
+  },
+  "new_public_variant": {
+    "subject": "21d079bd6611e8db087507cb5fcbcf6a63929ca5",
+    "config": {
+      "workspace_input_token_limit": 32768,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_answer_enabled": true,
+      "source_vision_enabled": true
+    },
+    "turns": [
+      {
+        "id": "cold",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1029.801,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 1084.475,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 248
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [
+              {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:13",
+                "version": 1
+              }
+            ],
+            "status": "reserved"
+          },
+          "candidate_limit": 12,
+          "candidates": [
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Frame-Run.ipynb",
+              "source": {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:14",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:11",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "match_kind": "fts"
+            }
+          ],
+          "read_ranges": [
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4666,
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5323,
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4958,
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5606,
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 72,
+              "text_sha256": "c20bca98fa5ac7717d33607b96684c468513a70e8a61144ec0a76dc5570969d2"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4516,
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            },
+            {
+              "source": {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 142,
+              "text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1470.663,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1484.964,
+            "estimated_input": 32751,
+            "external_call_count": 1,
+            "fixed_overhead": 3764,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8192
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文将块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录一个逻辑块对应的物理块以及已填充位置的数量。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-7"
+            ],
+            "text": "在配套实验 Frame-Run.ipynb 的冷缓存条件下处理 19 个请求时，物理块 4 被分配了 7 次。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "该配套实验只说明仅执行了冷缓存请求，且未对分配延迟进行测量；未提供其他缓存条件或延迟数据。",
+            "type": "notice"
+          }
+        ],
+        "reader": [
+          {
+            "evidence_id": "ev-4",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "text_excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "The logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block"
+            ]
+          },
+          {
+            "evidence_id": "ev-7",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Frame-Run.ipynb · v1 · Cell 1 · 输出 0",
+            "text_excerpt": [
+              "Cold cache: 19 requests; physical frame 4 allocated 7 times.",
+              "Only cold-cache requests were executed. Allocation latency was not instrumented."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 506.628
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 513.373
+          }
+        ]
+      },
+      {
+        "id": "scoped",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次？",
+        "scope": "当前范围 · PagedAttention-2309.06180v1.pdf",
+        "trace": {
+          "route": "generated_answer",
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 821.046,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 843.968,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 249
+          },
+          "saved_output_fallback": {
+            "added": [],
+            "status": "single_document_or_slot"
+          },
+          "candidate_limit": 12,
+          "candidates": [
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:14",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:11",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:13",
+                "version": 1
+              },
+              "match_kind": "fts"
+            }
+          ],
+          "read_ranges": [
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4666,
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5323,
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4958,
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5606,
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 489,
+              "text_sha256": "09d4cf788f3f6f4f4139212b5381caf235bac26da984dd2c48714b946f882887"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4516,
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1828.933,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1843.519,
+            "estimated_input": 32720,
+            "external_call_count": 1,
+            "fixed_overhead": 3764,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8251
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "PagedAttention 将每个序列的 KV cache 划分为 KV 块，每个块包含固定数量 token 的 key 和 value 向量，该数量记为块大小 B。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "vLLM 的 KV 块管理器维护块表，块表是每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表项记录逻辑块对应的物理块以及已填充位置数。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "块表使逻辑块与物理块分离，从而让 vLLM 无需预先为所有位置保留内存即可动态增长 KV cache。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "本轮仅查所选文件。所给证据未包含“冷缓存下处理十九个请求时四号物理块被分配次数”的配套实验记录，因此无法确认该分配次数。",
+            "type": "notice"
+          }
+        ],
+        "reader": [
+          {
+            "evidence_id": "ev-3",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 5 页",
+            "text_excerpt": [
+              "cache are generated. The last KV block’s unfilled positions"
+            ]
+          },
+          {
+            "evidence_id": "ev-4",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "text_excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "The logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block"
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 448.866
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 786.11
+          }
+        ]
+      },
+      {
+        "id": "condition",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在热缓存下处理十九个请求时，四号物理块被分配了几次？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 855.992,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 880.231,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 249
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [
+              {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:13",
+                "version": 1
+              }
+            ],
+            "status": "reserved"
+          },
+          "candidate_limit": 12,
+          "candidates": [
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Frame-Run.ipynb",
+              "source": {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:14",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:11",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "match_kind": "fts"
+            }
+          ],
+          "read_ranges": [
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4666,
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5323,
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4958,
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5606,
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 72,
+              "text_sha256": "c20bca98fa5ac7717d33607b96684c468513a70e8a61144ec0a76dc5570969d2"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4516,
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            },
+            {
+              "source": {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 142,
+              "text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2022.371,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2038.265,
+            "estimated_input": 32751,
+            "external_call_count": 1,
+            "fixed_overhead": 3764,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8290
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文将 PagedAttention 的块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录该逻辑块对应的物理块以及已填充位置的数量。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-3"
+            ],
+            "text": "论文说明，PagedAttention 把每个序列的 KV 缓存划分为 KV 块，每个块包含固定数量 token 的键向量和值向量，块大小记为 B。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-7"
+            ],
+            "text": "配套实验记录的是冷缓存条件：19 个请求中，物理块 4 被分配了 7 次；该输出还注明只执行了冷缓存请求，且未对分配延迟进行测量。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "所问的“热缓存下处理十九个请求时，四号物理块被分配了几次”缺少匹配证据：现有配套实验输出只给出冷缓存下 19 个请求中物理块 4 被分配 7 次，未提供热缓存下的对应数值。",
+            "type": "notice"
+          }
+        ],
+        "reader": [
+          {
+            "evidence_id": "ev-4",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "text_excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "The logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block"
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 5 页",
+            "text_excerpt": [
+              "cache are generated. The last KV block’s unfilled positions"
+            ]
+          },
+          {
+            "evidence_id": "ev-7",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Frame-Run.ipynb · v1 · Cell 1 · 输出 0",
+            "text_excerpt": [
+              "Cold cache: 19 requests; physical frame 4 allocated 7 times.",
+              "Only cold-cache requests were executed. Allocation latency was not instrumented."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 440.292
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 602.81
+          }
+        ]
+      },
+      {
+        "id": "missing_measurement",
+        "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次，平均分配延迟是多少毫秒？",
+        "scope": "当前范围 · public的全部资料",
+        "trace": {
+          "route": "generated_answer",
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 864.192,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "constraint_reason": "vague_numeral",
+            "elapsed_ms": 889.498,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "constraints_unverified",
+            "target": "English",
+            "total_tokens": 266
+          },
+          "saved_output_fallback": {
+            "added": [
+              {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            ],
+            "displaced": [
+              {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:13",
+                "version": 1
+              }
+            ],
+            "status": "reserved"
+          },
+          "candidate_limit": 12,
+          "candidates": [
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "Frame-Run.ipynb",
+              "source": {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:14",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:11",
+                "version": 1
+              },
+              "match_kind": "fts"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "match_kind": "structural"
+            },
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "match_kind": "fts"
+            }
+          ],
+          "read_ranges": [
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4666,
+              "text_sha256": "a4f829f148d0dabca8761ec8d100ff1a7232e9e23f00f71c91da6b209303faf3"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5323,
+              "text_sha256": "507fd88078e84a7b246a08b8976112d6ee9653b60ce59756a70e4f06c71c9931"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4958,
+              "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 5606,
+              "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 48,
+              "text_sha256": "a1e8f83733d3ec090c6017671bea5d23ded1a0570a6d41d5bf86ea47d74e1e9a"
+            },
+            {
+              "source": {
+                "document_id": "local_5f4d1cf65713495fb8dff5e494f50baa",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 4516,
+              "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+            },
+            {
+              "source": {
+                "document_id": "local_871cff7b52f448db988e880f94ee28dd",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "method": "native_text",
+              "start": 0,
+              "end": 142,
+              "text_sha256": "5f82ee18280478b10e8bbc7e1cad58bfc05aaa74ac98933352b93b9b1cea6481"
+            }
+          ],
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1743.612,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1758.156,
+            "estimated_input": 32761,
+            "external_call_count": 1,
+            "fixed_overhead": 3800,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3",
+              "ev-4",
+              "ev-5",
+              "ev-6",
+              "ev-7"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 8221
+          }
+        },
+        "answer": [
+          {
+            "citations": [
+              "ev-4"
+            ],
+            "text": "论文将块表定义为每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录对应逻辑块所映射的物理块以及已填充位置的数量。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-7"
+            ],
+            "text": "配套实验记录显示：在冷缓存下处理 19 个请求时，物理块 4 被分配了 7 次。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-7"
+            ],
+            "text": "该配套实验只执行了冷缓存请求，未对分配延迟进行测量，因此无法给出平均分配延迟的毫秒数。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "配套实验未测量分配延迟，无法确认冷缓存下处理 19 个请求时的平均分配延迟（毫秒）。",
+            "type": "notice"
+          }
+        ],
+        "reader": [
+          {
+            "evidence_id": "ev-4",
+            "location": "当前版本",
+            "pixels": 1224,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+            "text_excerpt": [
+              "maintains block tables—the mapping between logical and",
+              "and the number of filled positions. Separating logical and",
+              "The logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block"
+            ]
+          },
+          {
+            "evidence_id": "ev-7",
+            "location": "当前版本",
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "Frame-Run.ipynb · v1 · Cell 1 · 输出 0",
+            "text_excerpt": [
+              "Cold cache: 19 requests; physical frame 4 allocated 7 times.",
+              "Only cold-cache requests were executed. Allocation latency was not instrumented."
+            ]
+          }
+        ],
+        "provider_calls": [
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 369.628
+          },
+          {
+            "host": "api.deepseek.com",
+            "model": "deepseek-flash",
+            "status": 200,
+            "elapsed_ms": 713.114
+          }
+        ]
+      }
+    ]
+  },
+  "original_G28_rounds": {
+    "Q07": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 888.87,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 965.181,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 293
+        },
+        "saved_output_fallback": null,
+        "candidate_limit": 12,
+        "candidates": [
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "source": {
+              "document_id": "local_80cfd257b49741a49e96852042825f6e",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "source": {
+              "document_id": "local_80cfd257b49741a49e96852042825f6e",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "match_kind": "structural"
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "source": {
+              "document_id": "local_6c0838b6a0a547cb8f67632225196bba",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "source": {
+              "document_id": "local_6c0838b6a0a547cb8f67632225196bba",
+              "source_id": "page:14",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "source": {
+              "document_id": "local_6c0838b6a0a547cb8f67632225196bba",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "match_kind": "fts"
+          }
+        ],
+        "read_ranges": [
+          {
+            "source": {
+              "document_id": "local_6c0838b6a0a547cb8f67632225196bba",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 4047,
+            "text_sha256": "cc3387bead9d547555e4e52d4251d7aeb7381d123ec9bd20816b2b0a08a16fa6"
+          },
+          {
+            "source": {
+              "document_id": "local_6c0838b6a0a547cb8f67632225196bba",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2975,
+            "text_sha256": "76cd8bcf994dfbf6abf66681ddf1831a2262fdd45f453919ea901bf4ade1bf98"
+          },
+          {
+            "source": {
+              "document_id": "local_6c0838b6a0a547cb8f67632225196bba",
+              "source_id": "page:14",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3904,
+            "text_sha256": "66bfddb4064e92b0cf570d993b8caa8961c7ddb48eeb7f2c9e7892d300e06809"
+          },
+          {
+            "source": {
+              "document_id": "local_80cfd257b49741a49e96852042825f6e",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 238,
+            "text_sha256": "1140811606c8ee90c2964d7fd83ba0840233c7237e3cb7a7d5bc8a3fd1586c26"
+          },
+          {
+            "source": {
+              "document_id": "local_80cfd257b49741a49e96852042825f6e",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 492,
+            "text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df"
+          },
+          {
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2730,
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3362,
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 235,
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3129,
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2783,
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": {
+              "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 682,
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2222.243,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2236.283,
+          "estimated_input": 32684,
+          "external_call_count": 1,
+          "fixed_overhead": 3846,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 9630
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-7"
+          ],
+          "text": "Mixtral 论文将门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-9"
+          ],
+          "text": "在 Mixtral 中 K = 2，每个词元的输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "配套实验 Mixtral-8x7B-ArXiv-Routing (v1) 使用 num_experts=8、top_k_experts=2、dispatch_kernel=Megablocks-EP，在 32768 个 ArXiv 验证子集词元上评估。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "该实验中第 15 层连续词元首选专家重复率为 27.9%（随机基线 12.5%）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "该实验中平均路由分发延迟为 0.42 ms / step（capacity_factor=1.25）。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "未找到 Mixtral 课件中关于门控网络 G(x) 的独立定义材料；上述公式来自 Mixtral 论文原文。配套实验未测量 128k 上下文下 64-GPU all-to-all 通信延迟。",
+          "type": "notice"
+        }
+      ],
+      "reader": [
+        {
+          "evidence_id": "ev-7",
+          "source": {
+            "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "text_excerpt": [
+            "context_len 32768",
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),",
+            "where (TopK(ℓ))i",
+            "n and (TopK(ℓ))i"
+          ]
+        },
+        {
+          "evidence_id": "ev-9",
+          "source": {
+            "document_id": "local_bd973c04b9464aa4b455d68d9f3386d1",
+            "source_id": "page:3",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+          "text_excerpt": [
+            "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+            "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+            "Softmax(Top2(x · Wg))i",
+            "· SwiGLUi(x)."
+          ]
+        },
+        {
+          "evidence_id": "ev-5",
+          "source": {
+            "document_id": "local_80cfd257b49741a49e96852042825f6e",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          "image_width": null,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0",
+          "text_excerpt": [
+            "Router config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP",
+            "Evaluated tokens: 32768 (ArXiv validation subset)",
+            "Layer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)",
+            "Mean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)"
+          ]
+        }
+      ]
+    },
+    "H04": {
+      "question": "论文对逻辑 KV 块到物理 KV 块的块表映射是怎么定义的？在翻译和聊天机器人负载实验中，vLLM 相比现有系统取得了多少倍的吞吐量提升？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 1288.377,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1338.688,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 260
+        },
+        "saved_output_fallback": null,
+        "candidate_limit": 12,
+        "candidates": [
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:6",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:9",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:5",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "match_kind": "structural"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:9:table:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:10",
+              "version": 1
+            },
+            "match_kind": "fts"
+          }
+        ],
+        "read_ranges": [
+          {
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:6",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 5606,
+            "text_sha256": "0657a4a7f3ef4d134cf1c4220d7697126c71ef2d7e04407819d8493d9a7ec21e"
+          },
+          {
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 5680,
+            "text_sha256": "1f1f280a8e38d990d19d41ddb0c498524385843ca67795e45d0809bdc271dfa4"
+          },
+          {
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 185,
+            "text_sha256": "ea7ad1ff695ff5175e5e7d53aaa9dbb983f05c02513a927ec18f2bdb1ec8e9a9"
+          },
+          {
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 4303,
+            "text_sha256": "4c8c9235821bf828b9ca46caee5c5a5c289ca1e02833740728cba279a0d779c4"
+          },
+          {
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 4516,
+            "text_sha256": "72d2830af29b5310d2ea63110203d511129fb7764cf3b26312e3804d6c28d256"
+          },
+          {
+            "source": {
+              "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 5441,
+            "text_sha256": "45f79d8a864f8eee063eac27918d6930b04fd9f2a90dbf1efffbdf5e357cf3d1"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2100.215,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2114.689,
+          "estimated_input": 32746,
+          "external_call_count": 1,
+          "fixed_overhead": 3809,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 8327
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "vLLM 的 KV 块管理器维护块表（block table），即每个请求的逻辑 KV 块到物理 KV 块的映射；每个块表条目记录该逻辑块对应的物理块以及已填充位置数（#filled）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "逻辑块与物理块分离，使 vLLM 能动态增长 KV 缓存，而无需预先为所有位置预留内存。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "在翻译负载（WMT16 英德、LLaMA-13B、共享前缀）中，共享 one-shot 前缀（1 个示例、80 tokens）时，vLLM 的吞吐量为 Orca (Oracle) 的 1.67 倍。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "同一翻译负载中，共享 5-shot 前缀（5 个示例、341 tokens）时，vLLM 的吞吐量为 Orca (Oracle) 的 3.58 倍。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "在聊天机器人负载（ShareGPT、OPT-13B、提示截断至最后 1024 tokens、最多生成 1024 tokens）中，vLLM 可维持的请求速率为三个 Orca 基线的 2 倍。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "聊天机器人负载的指标是“可维持请求速率”，原文未给出该负载下以吞吐量倍数表示的提升数值，因此无法确认聊天机器人负载的吞吐量提升倍数。",
+          "type": "notice"
+        }
+      ],
+      "reader": [
+        {
+          "evidence_id": "ev-1",
+          "source": {
+            "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+            "source_id": "page:6",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 6 页",
+          "text_excerpt": [
+            "maintains block tables—the mapping between logical and",
+            "and the number of filled positions. Separating logical and",
+            "The logical blocks of the two sequences are mapped to differ￾ent physical blocks within the space reserved by the block"
+          ]
+        },
+        {
+          "evidence_id": "ev-5",
+          "source": {
+            "document_id": "local_fbbf4a8ed1dd4670964ef08d96782fe2",
+            "source_id": "page:12",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 12 页",
+          "text_excerpt": [
+            "shown in Fig. 16 (a), vLLM achieves 1.67× higher through￾put than Orca (Oracle) when the one-shot prefix is shared.",
+            "vLLM achieves 3.58× higher throughput than Orca (Oracle).",
+            "Fig. 17 shows that vLLM can sustain 2× higher request"
+          ]
+        }
+      ]
+    },
+    "missing": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 1021.473,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1073.91,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 293
+        },
+        "saved_output_fallback": null,
+        "candidate_limit": 12,
+        "candidates": [
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "match_kind": "structural"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:11",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:9",
+              "version": 1
+            },
+            "match_kind": "fts"
+          }
+        ],
+        "read_ranges": [
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2730,
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3362,
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 235,
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3129,
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:4",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 52,
+            "text_sha256": "7b7d56a0ef3f4098abb2dab12056fc356c30fda81d93b55ebc9718dcf29de38b"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2783,
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 288,
+            "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:7:table:2",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 264,
+            "text_sha256": "161dc9a6054954eebdeabee46f1cd34f6881251970f6ec92aa5c75da060baf06"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 682,
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2591,
+            "text_sha256": "35963af6eadcec7e4b78f9fdda08b18ad97bedd39119c24547e320fde88830c0"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 737,
+            "text_sha256": "602a0e74f06ee42d5a10799640830597d94c3663fd3979d9623a79f22d71659f"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:9",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3756,
+            "text_sha256": "e67ebe400a0f1f1a8674990e2f533c3c9298a8a1b4cf608fa573389178cfd17e"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:11",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 469,
+            "text_sha256": "263db321d3d9b07501e986bd269f8d8ae8ff557f63fb440180a9a54f5a845df4"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 826,
+            "text_sha256": "e8be9ba436def43813ea5723cf8d0492fb0dee78c1b685de1cee08fdd2e53483"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:12:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 606,
+            "text_sha256": "e85ed46b10dc9d8ee7aeeacfd37753d56b0badd0ebffde5e3fbd66c20b61f53f"
+          },
+          {
+            "source": {
+              "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 488,
+            "text_sha256": "eedff3dcd41731432d86e38dcdf7c7e1723c357779b1126b0f1cf64deef5b18d"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2544.93,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2560.42,
+          "estimated_input": 32768,
+          "external_call_count": 1,
+          "fixed_overhead": 3846,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11",
+            "ev-12",
+            "ev-13",
+            "ev-14",
+            "ev-15",
+            "ev-16"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 9689
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "论文给出的门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-4"
+          ],
+          "text": "在 Mixtral 中取 K = 2，专家函数 Ei(x) 采用 SwiGLU 架构，因此输入词元 x 的输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-10",
+            "ev-11"
+          ],
+          "text": "论文表 5 报告，在 ArXiv 上第 15 层连续词元被分配同一专家的比例为：首选专家相同 27.9%，第一或第二选择中出现同一专家 62.3%。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "所读证据仅来自 Mixtral 论文（arXiv:2401.04088v1），未包含配套实验的测量结果，因此无法确认实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟；上述 27.9% 是论文表 5 在 The Pile 的 ArXiv 子集上的结果，并非配套实验的测量，且证据中没有任何平均路由分发延迟的数值。",
+          "type": "notice"
+        }
+      ],
+      "reader": [
+        {
+          "evidence_id": "ev-2",
+          "source": {
+            "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "context_len 32768",
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),",
+            "where (TopK(ℓ))i",
+            "n and (TopK(ℓ))i"
+          ]
+        },
+        {
+          "evidence_id": "ev-4",
+          "source": {
+            "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+            "source_id": "page:3",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+          "scrolled_before_click": true,
+          "text_excerpt": [
+            "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+            "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+            "Softmax(Top2(x · Wg))i",
+            "· SwiGLUi(x)."
+          ]
+        },
+        {
+          "evidence_id": "ev-10",
+          "source": {
+            "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+            "source_id": "page:8",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "ArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%"
+          ]
+        },
+        {
+          "evidence_id": "ev-11",
+          "source": {
+            "document_id": "local_29986184d01e4fb6b9c4139b75b50ac4",
+            "source_id": "page:8:table:1",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |"
+          ]
+        }
+      ]
+    },
+    "mismatch": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 WikiText-103 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · public的全部资料",
+      "trace": {
+        "route": "generated_answer",
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 929.266,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 995.772,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 297
+        },
+        "saved_output_fallback": null,
+        "candidate_limit": 12,
+        "candidates": [
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "source": {
+              "document_id": "local_1a135f547984408fb2a2b46b23c43003",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "match_kind": "structural"
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "source": {
+              "document_id": "local_1a135f547984408fb2a2b46b23c43003",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "match_kind": "fts"
+          }
+        ],
+        "read_ranges": [
+          {
+            "source": {
+              "document_id": "local_1a135f547984408fb2a2b46b23c43003",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 238,
+            "text_sha256": "1140811606c8ee90c2964d7fd83ba0840233c7237e3cb7a7d5bc8a3fd1586c26"
+          },
+          {
+            "source": {
+              "document_id": "local_1a135f547984408fb2a2b46b23c43003",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 492,
+            "text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2730,
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3362,
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 235,
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3129,
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2783,
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 288,
+            "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 682,
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2591,
+            "text_sha256": "35963af6eadcec7e4b78f9fdda08b18ad97bedd39119c24547e320fde88830c0"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 737,
+            "text_sha256": "602a0e74f06ee42d5a10799640830597d94c3663fd3979d9623a79f22d71659f"
+          },
+          {
+            "source": {
+              "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 488,
+            "text_sha256": "eedff3dcd41731432d86e38dcdf7c7e1723c357779b1126b0f1cf64deef5b18d"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2670.785,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2686.877,
+          "estimated_input": 26073,
+          "external_call_count": 1,
+          "fixed_overhead": 3853,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11",
+            "ev-12"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 7590
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-4"
+          ],
+          "text": "论文给出的门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-6"
+          ],
+          "text": "在 Mixtral 中取 K = 2，专家函数 Ei(x) 采用 SwiGLU，输出为 y = Σ_{i=0}^{n−1} Softmax(Top2(x · Wg))i · SwiGLUi(x)。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-10",
+            "ev-11"
+          ],
+          "text": "论文 Table 5 中 ArXiv 数据第 15 层“First choice”连续词元首选专家重复率为 27.9%（随机基线 1/8 = 12.5%）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "配套实验（Mixtral-8x7B-ArXiv-Routing v1，num_experts=8、top_k_experts=2、dispatch_kernel=Megablocks-EP、32768 个 ArXiv 验证子集词元）测得第 15 层首选专家连续重复率为 27.9%（随机基线 12.5%），平均路由分发延迟为 0.42 ms/step（capacity_factor=1.25）。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "所给证据中没有在 WikiText-103 验证集上测得的第 15 层连续词元首选专家重复率和平均路由分发延迟：配套实验使用的是 ArXiv 验证子集，论文 Table 5 使用的是 The Pile 各子集（含 Wikipedia (en) 而非 WikiText-103），因此这两项在 WikiText-103 上的数值无法确认。",
+          "type": "notice"
+        }
+      ],
+      "reader": [
+        {
+          "evidence_id": "ev-4",
+          "source": {
+            "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "context_len 32768",
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),",
+            "where (TopK(ℓ))i",
+            "n and (TopK(ℓ))i"
+          ]
+        },
+        {
+          "evidence_id": "ev-6",
+          "source": {
+            "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+            "source_id": "page:3",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 3 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "feed-forward (FFN) sub-block of the transformer block. For Mixtral we use the same SwiGLU",
+            "SwiGLU sub-blocks with different sets of weights. Taking this all together, the output y for an input",
+            "Softmax(Top2(x · Wg))i",
+            "· SwiGLUi(x)."
+          ]
+        },
+        {
+          "evidence_id": "ev-10",
+          "source": {
+            "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+            "source_id": "page:8",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "ArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%"
+          ]
+        },
+        {
+          "evidence_id": "ev-11",
+          "source": {
+            "document_id": "local_a0f45bba3dee48908aaeb3c7fa4315f8",
+            "source_id": "page:8:table:1",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |"
+          ]
+        },
+        {
+          "evidence_id": "ev-2",
+          "source": {
+            "document_id": "local_1a135f547984408fb2a2b46b23c43003",
+            "source_id": "cell:0:output:0",
+            "version": 1
+          },
+          "image_width": null,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "Router config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP",
+            "Evaluated tokens: 32768 (ArXiv validation subset)",
+            "Layer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)",
+            "Mean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)"
+          ]
+        }
+      ]
+    },
+    "scoped": {
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "scope": "当前范围 · Mixtral-of-Experts-2401.04088v1.pdf",
+      "trace": {
+        "route": "generated_answer",
+        "rewrite": {
+          "attempts": [
+            {
+              "elapsed_ms": 1096.943,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "cache_hit": false,
+          "elapsed_ms": 1158.283,
+          "external_call_count": 1,
+          "model": "deepseek-flash",
+          "provider": "deepseek",
+          "status": "succeeded",
+          "target": "English",
+          "total_tokens": 293
+        },
+        "saved_output_fallback": null,
+        "candidate_limit": 12,
+        "candidates": [
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "match_kind": "structural"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:11",
+              "version": 1
+            },
+            "match_kind": "fts"
+          },
+          {
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "match_kind": "fts"
+          }
+        ],
+        "read_ranges": [
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2730,
+            "text_sha256": "d579d789518afb5edb6e58feb9352937711bd1b49ec583e38645caf4eb11e1f6"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3362,
+            "text_sha256": "d96c609a631dfa8eb63c3b54a34787e237a123c4886a0f54dbf3d9b49bdcca69"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:2:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 235,
+            "text_sha256": "dcad4331c2ffec31ee71d59479d476cede591aba39b824fd33b84b6326e2552d"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:3",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3129,
+            "text_sha256": "6d9a7f3563f507fa71e3dc10b6cfee91aa70cfffb24a5202f3ca2bd379252771"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:4",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 3006,
+            "text_sha256": "3ce8151d375a24ed24f9387837df0f94718ed4ebdf85e624cd0d28372595d5a4"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:4:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 706,
+            "text_sha256": "eff202aa19769324e98bb8dd21f3d46bb7f617f789c43d38c8ced711ff98bf7f"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2783,
+            "text_sha256": "912d8b5666aa24139e687643e386842c36506437f5804a8217141384c443f0cc"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 288,
+            "text_sha256": "54b51b1591b3f0d97a30aae30b5add9feec8147fc60970b47a921da90873ea1e"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7:table:2",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 264,
+            "text_sha256": "161dc9a6054954eebdeabee46f1cd34f6881251970f6ec92aa5c75da060baf06"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:7:table:3",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 682,
+            "text_sha256": "cbbf4c586cc9c8ea8d553bf38531a3518fcea796aede51a441300002a6af509e"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:8",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 2591,
+            "text_sha256": "35963af6eadcec7e4b78f9fdda08b18ad97bedd39119c24547e320fde88830c0"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 737,
+            "text_sha256": "602a0e74f06ee42d5a10799640830597d94c3663fd3979d9623a79f22d71659f"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:11",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 469,
+            "text_sha256": "263db321d3d9b07501e986bd269f8d8ae8ff557f63fb440180a9a54f5a845df4"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:12",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 826,
+            "text_sha256": "e8be9ba436def43813ea5723cf8d0492fb0dee78c1b685de1cee08fdd2e53483"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:12:table:1",
+              "version": 1
+            },
+            "method": "native_table",
+            "start": 0,
+            "end": 606,
+            "text_sha256": "e85ed46b10dc9d8ee7aeeacfd37753d56b0badd0ebffde5e3fbd66c20b61f53f"
+          },
+          {
+            "source": {
+              "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+              "source_id": "page:13",
+              "version": 1
+            },
+            "method": "native_text",
+            "start": 0,
+            "end": 488,
+            "text_sha256": "eedff3dcd41731432d86e38dcdf7c7e1723c357779b1126b0f1cf64deef5b18d"
+          }
+        ],
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2104.482,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2121.738,
+          "estimated_input": 32706,
+          "external_call_count": 1,
+          "fixed_overhead": 3846,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9",
+            "ev-10",
+            "ev-11",
+            "ev-12",
+            "ev-13",
+            "ev-14",
+            "ev-15",
+            "ev-16"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 10116,
+          "unsupported_literal_statements": 1
+        }
+      },
+      "answer": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "论文给出的门控网络定义为 G(x) := Softmax(TopK(x · Wg))，其中 (TopK(ℓ))i := ℓi（当 ℓi 属于 logits ℓ ∈ R^n 的前 K 个坐标时），否则 (TopK(ℓ))i := −∞。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-11",
+            "ev-12"
+          ],
+          "text": "论文表 5 中，ArXiv 在 layer 15 的连续词元专家分配重复率为：First choice 27.9%，First or second choice 62.3%。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-11"
+          ],
+          "text": "上述重复率是同一专家被分配给词元 i 及其后一个词元 i+1 的比例；随机分配下的参考值为 First choice 1/8 = 12.5%，First and second choice 1 − (6/8)(5/7) ≈ 46%。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "本轮仅查所选文件。未找到配套实验在 ArXiv 验证集上测出的第 15 层平均路由分发延迟数值；现有证据只有论文中的路由分析结果，没有配套实验的延迟测量。 部分结论缺少直接原文依据。",
+          "type": "notice"
+        }
+      ],
+      "reader": [
+        {
+          "evidence_id": "ev-2",
+          "source": {
+            "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 2 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "context_len 32768",
+            "top_k_experts 2",
+            "G(x) [6, 15, 35], but a simple and performant one is implemented by taking the softmax over the",
+            "G(x) := Softmax(TopK(x · Wg)),",
+            "where (TopK(ℓ))i",
+            "n and (TopK(ℓ))i"
+          ]
+        },
+        {
+          "evidence_id": "ev-11",
+          "source": {
+            "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+            "source_id": "page:8",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "ArXiv 14.0% 27.9% 22.7% 46.5% 62.3% 52.9%"
+          ]
+        },
+        {
+          "evidence_id": "ev-12",
+          "source": {
+            "document_id": "local_4595f99bfe4b47f591e671e22e497b54",
+            "source_id": "page:8:table:1",
+            "version": 1
+          },
+          "image_width": 1224,
+          "location": "当前版本",
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+          "scrolled_before_click": false,
+          "text_excerpt": [
+            "| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |"
+          ]
+        }
+      ]
+    }
+  }
+}
