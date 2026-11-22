@@ -1,0 +1,1985 @@
+{
+  "process_meta": {
+    "git_sha": "90cd99b8ec925c58cb7f291fae646d1eec69b94f",
+    "worktree_status": "?? docs/G/G-M2-joint-smoke/",
+    "module_files": {
+      "workspace": "/Users/Link/code/SRAG-g-m2-joint/app/rag/workspace.py",
+      "workspace_generation": "/Users/Link/code/SRAG-g-m2-joint/app/rag/workspace_generation.py",
+      "evidence_supplement": "/Users/Link/code/SRAG-g-m2-joint/app/rag/evidence_supplement.py"
+    },
+    "effective_config": {
+      "workspace_answer_enabled": true,
+      "workspace_retrieval_strategy": "fts",
+      "workspace_input_token_limit": 32768,
+      "source_vision_enabled": true,
+      "sqlite_path": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-gm2-smoke-_bh25zxr/library.sqlite3",
+      "data_dir": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-gm2-smoke-_bh25zxr/data",
+      "port": 56320
+    }
+  },
+  "provider_log": [
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "mode": null,
+      "evidence_ids": [],
+      "status_code": 200,
+      "elapsed_ms": 398.957
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "mode": "definition_and_experiment",
+      "evidence_ids": [
+        "ev-1",
+        "ev-2",
+        "ev-3",
+        "ev-4",
+        "ev-5",
+        "ev-6",
+        "ev-7",
+        "ev-8"
+      ],
+      "status_code": 200,
+      "elapsed_ms": 423.831
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "mode": "ask",
+      "evidence_ids": [
+        "ev-1",
+        "ev-2",
+        "ev-3",
+        "ev-4",
+        "ev-5",
+        "ev-6"
+      ],
+      "status_code": 200,
+      "elapsed_ms": 403.75
+    }
+  ],
+  "turns": {
+    "turn1_course_prime": {
+      "scope_summary": "当前范围 · g-m2-joint-smoke的全部资料",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+      "turn_status": "completed",
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Beacon-Sync-Log.ipynb",
+            "locator": {
+              "cell_id": "barrier-bench",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Log.ipynb",
+            "locator": {
+              "cell_id": "barrier-bench",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "parent_context",
+                "seed": {
+                  "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                  "source_id": "cell:0:output:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "source_id": "cell:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 6
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:6",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:2",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 4
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:4",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 3
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:3",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 5
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:5",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 10,
+          "checked_positions": [
+            "cell:0",
+            "page:2",
+            "page:1",
+            "page:6",
+            "page:4",
+            "page:5",
+            "page:3"
+          ],
+          "enumerated_source_count": 8,
+          "evidence_inspected_count": 8,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 6,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 4,
+          "returned_count": 8,
+          "searchable_source_count": 8,
+          "snapshot_document_count": 2,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g-m2-joint-smoke"
+          ],
+          "document_ids": [
+            "local_52ebf7a049fe4b0496840388e8cfdf6a",
+            "local_e6fb2a2532cf426abe4383cb2ef8c7b4"
+          ]
+        },
+        "external_call_count": 2,
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 1729.779,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 1744.274,
+          "estimated_input": 7147,
+          "external_call_count": 1,
+          "fixed_overhead": 3814,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "succeeded",
+          "total_tokens": 1836
+        },
+        "reading": {
+          "budget": 28954,
+          "estimated_input": 3333,
+          "estimated_message_input": 7147,
+          "full_text_scope": false,
+          "input_budget": 32768,
+          "location": null,
+          "mode": "ask",
+          "next_cursor": null,
+          "outline": [
+            {
+              "kind": "cell",
+              "locator": {
+                "cell_index": 0,
+                "section_path": []
+              },
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "title": "Code cell 1"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 1
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "title": "Overview"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "title": "Barrier Latch"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 3
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "title": "Peer Isolation"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 4
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "title": "Cooldown Guard"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 5
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "title": "Slot Dispatch"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 6
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "title": "Experiment Notes"
+            }
+          ],
+          "outline_total": 7,
+          "preferred": [
+            {
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:6",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:2",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:4",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:3",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:5",
+              "version": 1
+            }
+          ],
+          "prioritized": false,
+          "prompt_reserve": 3814,
+          "read_ranges": [
+            {
+              "end": 143,
+              "kind": "cell",
+              "locator": {
+                "cell_index": 0,
+                "section_path": []
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "81fa4e3e4a4ad244111880edb77265e15c4aaeddb52a81add386a08b5d25f8b0",
+              "title": "Code cell 1"
+            },
+            {
+              "end": 69,
+              "kind": "notebook_output",
+              "locator": {
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "583080d36f8f7aee383c325b0de8b9498eed51795471be49296c675766325fc1",
+              "title": "Code cell 1 · output 1"
+            },
+            {
+              "end": 87,
+              "kind": "page",
+              "locator": {
+                "page": 1
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "bf3edd093d5141e9dab55c9b911c3126f5ddac7689bba2184113336d3966d044",
+              "title": "Overview"
+            },
+            {
+              "end": 209,
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "31a82e9409ec294ab5d869f56e372a8fa1165b28e570524aea98e85cd93959e7",
+              "title": "Barrier Latch"
+            },
+            {
+              "end": 93,
+              "kind": "page",
+              "locator": {
+                "page": 3
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "27e527762de115560a5fff8c0982ad5cc58d69338d15f5cf965b095a9191bad7",
+              "title": "Peer Isolation"
+            },
+            {
+              "end": 178,
+              "kind": "page",
+              "locator": {
+                "page": 4
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "163f0c2f56f8c224dd77e108a42def67ef12d6eb025c8d67c74ca9769513617d",
+              "title": "Cooldown Guard"
+            },
+            {
+              "end": 133,
+              "kind": "page",
+              "locator": {
+                "page": 5
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "0135e8772018dc8546e99885194242f42af8ecb0cee3ef8b84886cf8bb207c87",
+              "title": "Slot Dispatch"
+            },
+            {
+              "end": 100,
+              "kind": "page",
+              "locator": {
+                "page": 6
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "bcc005e50453429e01e863bb3c42bb8768c6b8ef4e51f11ff4ce159b691d5865",
+              "title": "Experiment Notes"
+            }
+          ],
+          "skipped": [],
+          "skipped_total": 0,
+          "unread_visual": [],
+          "unread_visual_total": 0,
+          "visual_read_status": "not_attempted"
+        },
+        "retrieval": {
+          "alternate_pool": [
+            {
+              "candidate_id": "candidate_2b4b93ffb2577677a6d43f3e",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_53b53c04bd9c6e049e93e670",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_8e5b045379804df789374cc6",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "parent_context",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_35deda54f4da412674baf5a7",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_9e41a03ca3711355dd6cde1b",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_d21b17c99fd7bd4570fd04a9",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_0da6c9212900a8374d0113b2",
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_7f62a05eb01601dfc365a11a",
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              }
+            }
+          ],
+          "alternate_query": "How does the lecture notes define Barrier Latch? What is the mean sync delay in milliseconds measured by the accompanying experiment?",
+          "alternate_search_status": "ok",
+          "budget": 12,
+          "candidate_pool": [
+            {
+              "candidate_id": "candidate_53b53c04bd9c6e049e93e670",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_8e5b045379804df789374cc6",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "parent_context",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_2b4b93ffb2577677a6d43f3e",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_35deda54f4da412674baf5a7",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_9e41a03ca3711355dd6cde1b",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_d21b17c99fd7bd4570fd04a9",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_7f62a05eb01601dfc365a11a",
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_0da6c9212900a8374d0113b2",
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              }
+            }
+          ],
+          "effective_strategy": "bilingual",
+          "expansion": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "external_call_count": 1,
+          "jev": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "original_pool": [
+            {
+              "candidate_id": "candidate_53b53c04bd9c6e049e93e670",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_8e5b045379804df789374cc6",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "parent_context",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                    "source_id": "cell:0:output:0",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+                "source_id": "cell:0",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_35deda54f4da412674baf5a7",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_9e41a03ca3711355dd6cde1b",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_2b4b93ffb2577677a6d43f3e",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_d21b17c99fd7bd4570fd04a9",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_7f62a05eb01601dfc365a11a",
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_0da6c9212900a8374d0113b2",
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              }
+            }
+          ],
+          "original_query": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+          "original_search_status": "ok",
+          "pins": [
+            {
+              "content_sha256": "c7441743c077c2c5b89e91ad5f12dd034d2b8f23336f4e47fc96c6a05cd3e513",
+              "course_id": "g-m2-joint-smoke",
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "publication_epoch": 1,
+              "version": 1
+            },
+            {
+              "content_sha256": "fcbfa8a221705ed972ce809dc5f61333584f2ac13ea6dfcac219aaff59bf0a02",
+              "course_id": "g-m2-joint-smoke",
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 768.609,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "elapsed_ms": 826.11,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English",
+            "total_tokens": 223
+          },
+          "search_query": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+          "selected": [
+            {
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_52ebf7a049fe4b0496840388e8cfdf6a",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:6",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:2",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:4",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:3",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:5",
+              "version": 1
+            }
+          ],
+          "strategy": "bilingual",
+          "visual_candidates": []
+        },
+        "route": "generated_answer",
+        "search_status": "ok"
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-4"
+          ],
+          "text": "讲义将 Barrier Latch 定义为：只有当两个不同对等方在 tick 4 之前确认同一 slot hash 时，准入才成功；同一对等方重复确认，或确认在 tick 4 或之后到达，都会重置该 latch。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "配套基准笔记本的输出显示，在 3 个 admitted slots 的条件下，Mean sync delay 为 12.0 ms。",
+          "type": "text"
+        },
+        {
+          "caption": "Beacon-Sync-Manual.pdf · v1 · 第 6 页 · Experiment Notes",
+          "display_id": "0de745f1e5d445b48f766f7a8cec7deb",
+          "display_source": {
+            "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+            "source_id": "page:6",
+            "version": 1
+          },
+          "evidence_id": "ev-9",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/b8b300c7698b437a823fe79221a0042c/messages/ea4f9a33d430494c9f3cad4d09b72e30/media/0de745f1e5d445b48f766f7a8cec7deb?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        }
+      ],
+      "visible_text": "课程助手\n\n讲义将 Barrier Latch 定义为：只有当两个不同对等方在 tick 4 之前确认同一 slot hash 时，准入才成功；同一对等方重复确认，或确认在 tick 4 或之后到达，都会重置该 latch。\n\n依据 · Beacon-Sync-Manual.pdf · v1 · 第 2 页\n\n配套基准笔记本的输出显示，在 3 个 admitted slots 的条件下，Mean sync delay 为 12.0 ms。\n\n依据 · Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0\n\n图 1 · Beacon-Sync-Manual.pdf · v1 · 第 6 页 · Experiment Notes\n\nBeacon-Sync-Manual.pdf · v1 · 第 6 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "citations": [
+        "ev-4",
+        "ev-2"
+      ],
+      "clicked_citations": {
+        "ev-4": {
+          "head": "放大\n\nBarrier Latch\nBarrier Latch: admission succeeds only when two distinct peers confirm the same slot hash\nbefore tick 4.\nA confirmation from the same peer twice, or arriving at tick 4 or later, resets the latch.",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Beacon-Sync-Manual.pdf · v1 · 第 2 页"
+        },
+        "ev-2": {
+          "head": "Barrier Latch benchmark: 3 admitted slots.\nMean sync delay: 12.0 ms.\n",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        }
+      }
+    },
+    "turn2_scoped_comma_followup": {
+      "scope_summary": "当前范围 · Beacon-Sync-Manual.pdf",
+      "question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？",
+      "turn_status": "completed",
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:2",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 1
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 4
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:4",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 3
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:3",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Beacon-Sync-Manual.pdf",
+            "locator": {
+              "page": 5
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:5",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 5,
+          "checked_positions": [
+            "page:2",
+            "page:1",
+            "page:4",
+            "page:3",
+            "page:5"
+          ],
+          "enumerated_source_count": 6,
+          "evidence_inspected_count": 5,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 3,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 4,
+          "returned_count": 5,
+          "searchable_source_count": 6,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "definition_topic": "Barrier Latch",
+        "effective_scope": {
+          "course_ids": [
+            "g-m2-joint-smoke"
+          ],
+          "document_ids": [
+            "local_e6fb2a2532cf426abe4383cb2ef8c7b4"
+          ]
+        },
+        "external_call_count": 1,
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2073.513,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2086.775,
+          "estimated_input": 5120,
+          "experiment_missing": true,
+          "external_call_count": 1,
+          "fixed_overhead": 2649,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 1469
+        },
+        "reading": {
+          "budget": 30119,
+          "estimated_input": 2471,
+          "estimated_message_input": 5120,
+          "full_text_scope": true,
+          "input_budget": 32768,
+          "location": null,
+          "mode": "ask",
+          "next_cursor": null,
+          "outline": [
+            {
+              "kind": "page",
+              "locator": {
+                "page": 1
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "title": "Overview"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "title": "Barrier Latch"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 3
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "title": "Peer Isolation"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 4
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "title": "Cooldown Guard"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 5
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "title": "Slot Dispatch"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 6
+              },
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "title": "Experiment Notes"
+            }
+          ],
+          "outline_total": 6,
+          "preferred": [
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:2",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:4",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:3",
+              "version": 1
+            },
+            {
+              "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+              "source_id": "page:5",
+              "version": 1
+            }
+          ],
+          "prioritized": false,
+          "prompt_reserve": 2649,
+          "read_ranges": [
+            {
+              "end": 87,
+              "kind": "page",
+              "locator": {
+                "page": 1
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "bf3edd093d5141e9dab55c9b911c3126f5ddac7689bba2184113336d3966d044",
+              "title": "Overview"
+            },
+            {
+              "end": 209,
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "31a82e9409ec294ab5d869f56e372a8fa1165b28e570524aea98e85cd93959e7",
+              "title": "Barrier Latch"
+            },
+            {
+              "end": 93,
+              "kind": "page",
+              "locator": {
+                "page": 3
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "27e527762de115560a5fff8c0982ad5cc58d69338d15f5cf965b095a9191bad7",
+              "title": "Peer Isolation"
+            },
+            {
+              "end": 178,
+              "kind": "page",
+              "locator": {
+                "page": 4
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "163f0c2f56f8c224dd77e108a42def67ef12d6eb025c8d67c74ca9769513617d",
+              "title": "Cooldown Guard"
+            },
+            {
+              "end": 133,
+              "kind": "page",
+              "locator": {
+                "page": 5
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "0135e8772018dc8546e99885194242f42af8ecb0cee3ef8b84886cf8bb207c87",
+              "title": "Slot Dispatch"
+            },
+            {
+              "end": 100,
+              "kind": "page",
+              "locator": {
+                "page": 6
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "bcc005e50453429e01e863bb3c42bb8768c6b8ef4e51f11ff4ce159b691d5865",
+              "title": "Experiment Notes"
+            }
+          ],
+          "skipped": [],
+          "skipped_total": 0,
+          "unread_visual": [],
+          "unread_visual_total": 0,
+          "visual_read_status": "not_attempted"
+        },
+        "route": "generated_answer",
+        "search_status": "ok"
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Barrier Latch 的准入条件：必须有两个不同对等节点在 tick 4 之前确认同一个 slot hash，准入才成功。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "同一对等节点重复确认，或确认在 tick 4 或之后到达，都会重置该 latch。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-4"
+          ],
+          "text": "Cooldown Guard 在重置后让发送方暂停 6 个 tick 再发送新的 slot hash；它只控制重试节奏，从不开启 barrier 准入。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-5"
+          ],
+          "text": "Slot Dispatch 的顺序是：入站 slot 先进入 staging，再通过 hash 校验，最后追加到 slot log。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-6"
+          ],
+          "text": "配套实验的同步延迟实测数据只存放在 benchmark notebook 中，不在本讲义里，因此无法用当前证据核对实验结果。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "讲义未给出 Barrier Latch 的实测同步延迟或任何实验数值；这些数据仅在 benchmark notebook 中，当前证据未包含该 notebook。",
+          "type": "notice"
+        },
+        {
+          "code": "experiment_outside_scope",
+          "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+          "type": "notice"
+        },
+        {
+          "caption": "Beacon-Sync-Manual.pdf · v1 · 第 2 页 · Barrier Latch",
+          "display_id": "a9fb54295ddd442fa7533ed137621c4f",
+          "display_source": {
+            "document_id": "local_e6fb2a2532cf426abe4383cb2ef8c7b4",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "evidence_id": "ev-7",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/b8b300c7698b437a823fe79221a0042c/messages/298703f7f04d46e99bb626642e1a9023/media/a9fb54295ddd442fa7533ed137621c4f?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        }
+      ],
+      "visible_text": "课程助手\n\nBarrier Latch 的准入条件：必须有两个不同对等节点在 tick 4 之前确认同一个 slot hash，准入才成功。\n\n依据 · Beacon-Sync-Manual.pdf · v1 · 第 2 页\n\n同一对等节点重复确认，或确认在 tick 4 或之后到达，都会重置该 latch。\n\n依据 · Beacon-Sync-Manual.pdf · v1 · 第 2 页\n\nCooldown Guard 在重置后让发送方暂停 6 个 tick 再发送新的 slot hash；它只控制重试节奏，从不开启 barrier 准入。\n\n依据 · Beacon-Sync-Manual.pdf · v1 · 第 4 页\n\nSlot Dispatch 的顺序是：入站 slot 先进入 staging，再通过 hash 校验，最后追加到 slot log。\n\n依据 · Beacon-Sync-Manual.pdf · v1 · 第 5 页\n\n配套实验的同步延迟实测数据只存放在 benchmark notebook 中，不在本讲义里，因此无法用当前证据核对实验结果。\n\n依据 · Beacon-Sync-Manual.pdf · v1 · 第 6 页\n\n讲义未给出 Barrier Latch 的实测同步延迟或任何实验数值；这些数据仅在 benchmark notebook 中，当前证据未包含该 notebook。\n\n本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。\n\n图 1 · Beacon-Sync-Manual.pdf · v1 · 第 2 页 · Barrier Latch\n\nBeacon-Sync-Manual.pdf · v1 · 第 2 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "citations": [
+        "ev-2",
+        "ev-4",
+        "ev-5",
+        "ev-6"
+      ],
+      "clicked_citations": {
+        "ev-2": {
+          "head": "放大\n\nBarrier Latch\nBarrier Latch: admission succeeds only when two distinct peers confirm the same slot hash\nbefore tick 4.\nA confirmation from the same peer twice, or arriving at tick 4 or later, resets the latch.",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Beacon-Sync-Manual.pdf · v1 · 第 2 页"
+        },
+        "ev-4": {
+          "head": "放大\n\nCooldown Guard\nCooldown Guard: after a reset, the sender pauses for 6 ticks before sending a fresh slot\nhash.\nCooldown Guard only paces retries; it never opens barrier admission.",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Beacon-Sync-Manual.pdf · v1 · 第 4 页"
+        },
+        "ev-5": {
+          "head": "放大\n\nSlot Dispatch\nSlot Dispatch order: incoming slots first enter staging, then pass hash validation, and\nfinally append to the slot log.",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Beacon-Sync-Manual.pdf · v1 · 第 5 页"
+        },
+        "ev-6": {
+          "head": "放大\n\nExperiment Notes\nMeasured sync delays are stored only in the benchmark notebook, not in this manual.",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Beacon-Sync-Manual.pdf · v1 · 第 6 页"
+        }
+      }
+    }
+  }
+}

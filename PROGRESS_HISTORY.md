@@ -568,3 +568,10 @@
 - 合成一页上方横线表、下方网格表，复现了旧库同字节重导将下表重复登记并漏掉上表。修复后下表沿用旧键，新表取得独立键，两库均按上、下顺序选择。重复导入一次后发布代次稳定。[兼容回归](tests/test_pdf_table_id_compat.py)
 - 使用现有 LibreOffice 运行整合树全量测试，620 项通过、0 跳过，1 条 Starlette 测试客户端弃用提示。Ruff 核对生产、测试及三份网页回放脚本均通过；整合者再次从空库验证两轮网页的路由、原生读取、回答和引用。
 - 独审另造一页三表 PDF，从 HTTP 导入并读目录，在升级库与新库分别问第 1、2、3 张表。两库均依次选中 `table:3`、`table:1`、`table:2`，升级前消息引用的旧表预览在升级后字节一致。
+
+## 2026-11-22 · G28 + M2 联合验收候选生成（独审待完成，A03 未启动）
+
+- 从远端 `main`（`54fbd9e9daf97d6aa9f28d6ef0bdc0431f41c8fd`）在独立干净工作树建立 `codex/g-m2-joint-candidate`，无冲突整合 `codex/g28-dev`（`18fb8929e6aaaa41de40dd34d933d34741c661e6`，产品修复提交 `d63447a99178bfc5c55a8edadbc62a9604951420`）与 `feat/m2-condition-gen-fix`（`e55a9b4a9281d127c78f6fe28f7511c064312884`，产品修复提交 `8d530e4887330f422364375f897b29da5e97a224`），并验证三者均为主祖先，产品合并提交为 `90cd99b8ec925c58cb7f291fae646d1eec69b94f`。
+- 联合树检查结果：`ruff check --no-cache app evals tools tests` 通过；`PYTHONPATH=. ../SRAG/.venv/bin/pytest -q -rs -p no:cacheprovider` 通过 **640 passed, 3 skipped**（1 warning `StarletteDeprecationWarning`）；3 项跳过原因：`tests/test_source_evidence.py:747` 与 `tests/test_workspace.py:1019` 为 `SRAG_SOFFICE not configured`，`tests/test_workspace_preview.py:118` 为 `Set SRAG_SOFFICE to exercise genuine PPTX page rendering`。
+- 正常网页入口公开冒烟（[smoke.py](./docs/G/G-M2-joint-smoke/smoke.py) · [smoke.json](./docs/G/G-M2-joint-smoke/smoke.json)）：空库导入公开 `Beacon-Sync-Manual.pdf` 与 `Beacon-Sync-Log.ipynb` 后，课程范围首问完整回答 `Barrier Latch` 定义与 `12.0 ms`（`3 个 admitted slots`）；收窄到 `Beacon-Sync-Manual.pdf` 后发送逗号连接自然追问，实测 `trace.definition_topic == "Barrier Latch"`、点击定义引用打开 `Beacon-Sync-Manual.pdf · v1 · 第 2 页`、触发 `experiment_outside_scope` 与 `missing_evidence` 范围提示，旧实验数值（`12.0 ms` / `3 个 admitted slots`）零泄漏，3 次 DeepSeek 调用均 HTTP 200。
+- 如实保留已知 `M2` 路真实网页回归的两处假性 `partial` 波动（`3_same_cell_fwd.ask_a` 与 `5_original_six.held_out`，`deepseek-flash` 额外要求具体验证步骤/如何直接验证定义而未命中固定模板，正文数值 `0.26`/`0.19` 与可点击引用均准确，固定输出回放均 `succeeded`）。状态定格为：**联合候选已生成、独审待完成、A03 未启动**，停止于 `codex/g-m2-joint-candidate`（不合入 `main`）。[联合交接](./docs/G/G-M2-joint-smoke/README.md)
