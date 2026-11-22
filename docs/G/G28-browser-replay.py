@@ -136,6 +136,11 @@ def replay(url, session, folder, manifest, log, record, save):
                     f"document.querySelector('#scope-summary').textContent.includes({json.dumps(scope)})"
                 )
             row["visible_scope"] = js("document.querySelector('#scope-summary').innerText")
+            row["session_id"] = js("document.querySelector('#sessions').value")
+            row["scope_restore_control"] = js(
+                "(() => { const b = document.querySelector('#clear-file'); "
+                "return {text: b.innerText, visible: !b.hidden, enabled: !b.disabled}; })()"
+            )
             count = js("document.querySelectorAll('article.message-user').length")
             ab("find", "label", "输入问题", "fill", case["question"])
             ab("click", "#send")
