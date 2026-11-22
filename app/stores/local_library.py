@@ -575,15 +575,24 @@ def _save_sources(
 def _append_missing_pdf_images(
     db: Connection, document_id: str, version: int, sources: list[SourceDraft]
 ) -> bool:
-    images = [
+    candidates = [
         item
         for item in sources
         if item.kind == "page_object"
-        and not item.text.strip()
-        and item.locator.get("object_type") == "image"
-        and item.locator.get("position_basis") == "pdfium_native_image_extents_v1"
+        and (
+            (
+                not item.text.strip()
+                and item.locator.get("object_type") == "image"
+                and item.locator.get("position_basis") == "pdfium_native_image_extents_v1"
+            )
+            or (
+                item.text.strip()
+                and item.locator.get("object_type") == "table"
+                and item.locator.get("position_basis") == "axis_aligned_native_rule_grid_v1"
+            )
+        )
     ]
-    if not images:
+    if not candidates:
         return False
 
     rows = db.execute(
@@ -598,14 +607,14 @@ def _append_missing_pdf_images(
     start = max((row["ordinal"] for row in rows), default=-1) + 1
     missing = (
         item
-        for item in images
+        for item in candidates
         if item.source_id not in existing
         and item.parent_id in pages
         and pages[item.parent_id] == item.locator.get("page")
     )
     additions = [
-        image.model_copy(update={"ordinal": ordinal})
-        for ordinal, image in enumerate(missing, start)
+        candidate.model_copy(update={"ordinal": ordinal})
+        for ordinal, candidate in enumerate(missing, start)
     ]
     _save_sources(db, document_id, version, additions)
     return bool(additions)

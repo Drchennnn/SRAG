@@ -8,6 +8,7 @@ from pathlib import Path
 from threading import Lock
 from typing import Any
 
+from app.rag.parsers.pdf_tables import extract_horizontal_rule_tables
 from app.rag.pdf_coordinates import Rect, pdf_visible_matrix, transform_rect
 from app.schemas.local import ParsedSource, SourceDraft
 
@@ -117,6 +118,11 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
                                     "native_content_order": table["native_content_order"],
                                     "columns": table["rows"][0],
                                     "rows": table["rows"],
+                                    **(
+                                        {"table_rule_style": table["table_rule_style"]}
+                                        if "table_rule_style" in table
+                                        else {}
+                                    ),
                                 },
                             )
                         )
@@ -436,22 +442,36 @@ def _confirmed_pdf_tables(
             horizontal.append((left, right, (bottom + top) / 2, native_order))
         elif height >= 12 and width <= _PDF_POSITION_EPSILON:
             vertical.append(((left + right) / 2, bottom, top, native_order))
-    if len(horizontal) < 3 or len(vertical) < 3:
+    if len(horizontal) < 3:
         return []
 
-    tables = [
-        table
-        for component_horizontal, component_vertical in _pdf_grid_components(horizontal, vertical)
-        if (
-            table := _pdf_table_from_grid(
-                component_horizontal,
-                component_vertical,
-                text_page,
-                page_bbox,
+    tables: list[dict[str, Any]] = []
+    if len(vertical) >= 3:
+        tables = [
+            table
+            for component_horizontal, component_vertical in _pdf_grid_components(
+                horizontal, vertical
             )
+            if (
+                table := _pdf_table_from_grid(
+                    component_horizontal,
+                    component_vertical,
+                    text_page,
+                    page_bbox,
+                )
+            )
+            is not None
+        ]
+    tables.extend(
+        extract_horizontal_rule_tables(
+            horizontal,
+            vertical,
+            text_page,
+            page_bbox,
+            [tuple(table["native_bbox"]) for table in tables],
+            _pdf_bbox_to_visible,
         )
-        is not None
-    ]
+    )
     return sorted(
         tables,
         key=lambda table: (
