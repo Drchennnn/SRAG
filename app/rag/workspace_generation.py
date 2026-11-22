@@ -40,6 +40,14 @@ _COVERAGE_FIELDS = {
     "clipped",
 }
 _INLINE_EVIDENCE_ID = re.compile(r"[\[【（(]\s*ev-[\w-]+", re.IGNORECASE)
+_NUMBER_TOKEN = re.compile(r"\d+(?:\.\d+)?")
+_EXTRA_VERIFICATION_DEMAND = re.compile(
+    r"独立验证流程|额外实验说明|如何验证[^。；\n]*定义|触发条件[^。；\n]*关系"
+    r"|实验条件与[^。；\n]*关系|(?:现有证据)?(?:仅|只)(?:给出|提供)[^。；\n]*(?:指标|数值)"
+)
+_QUESTION_ASKS_EXTRA_VERIFICATION = re.compile(
+    r"独立验证|验证流程|验证步骤|触发条件|因果|机制|机理"
+)
 
 _TECHNICAL_CLAIM = re.compile(
     r"(?<![a-zA-Z0-9_])(?:[a-zA-Z][a-zA-Z0-9]+(?=\s*[（(])"
@@ -330,8 +338,81 @@ def generate_response(
                 statements = filtered
             if not supported_exp_ids and not missing:
                 missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+        missing = _sanitize_missing_numbers(
+            missing,
+            statements=statements,
+            evidence=evidence_data,
+            question=question,
+            rejected_exp_ids=rejected_exp_reasons,
+            has_supported_exp=bool(supported_exp_ids),
+        )
+        if (
+            missing
+            and supported_exp_ids
+            and any(cid in supported_exp_ids for s in statements for cid in s.citations)
+            and not rejected_exp_reasons
+            and not trace.get("unsupported_literal_statements")
+            and not trace.get("unverified_experiment_statements")
+            and _EXTRA_VERIFICATION_DEMAND.search(missing)
+            and not _QUESTION_ASKS_EXTRA_VERIFICATION.search(question)
+        ):
+            kept_missing = [
+                part.strip()
+                for part in re.split(r"[。；;\n]+", missing)
+                if part.strip() and not _EXTRA_VERIFICATION_DEMAND.search(part)
+            ]
+            missing = ("；".join(kept_missing) + "。") if kept_missing else ""
     status = "insufficient" if not statements else ("partial" if missing else "succeeded")
     return finish(status, statements, missing, valid_evidence)
+
+
+def _evidence_numbers(evidence: Mapping[str, dict[str, Any]], ids: Any) -> set[str]:
+    nums: set[str] = set()
+    for eid in ids:
+        entry = evidence.get(eid)
+        if not entry:
+            continue
+        for read in entry.get("reads", ()):
+            nums.update(_NUMBER_TOKEN.findall(read.get("text", "")))
+    return nums
+
+
+def _sanitize_missing_numbers(
+    missing: str,
+    *,
+    statements: tuple[GeneratedStatement, ...],
+    evidence: Mapping[str, dict[str, Any]],
+    question: str,
+    rejected_exp_ids: Mapping[str, str],
+    has_supported_exp: bool,
+) -> str:
+    if not missing:
+        return missing
+    kept_cids = {cid for s in statements for cid in s.citations}
+    supported_nums = _evidence_numbers(evidence, kept_cids) | set(_NUMBER_TOKEN.findall(question))
+    uncited_ids = set(rejected_exp_ids) | (set(evidence) - kept_cids)
+    forbidden = _evidence_numbers(evidence, uncited_ids) - supported_nums
+    if not forbidden:
+        return missing
+    kept_parts: list[str] = []
+    for sent in re.split(r"[。；;\n]+", missing):
+        sent = sent.strip()
+        if not sent:
+            continue
+        sent_nums = set(_NUMBER_TOKEN.findall(sent))
+        if not (sent_nums & forbidden):
+            kept_parts.append(sent)
+            continue
+        if re.search(r"缺少|未提供|没有|无法确认|不足", sent):
+            for clause in re.split(r"[，,]+", sent):
+                clause = clause.strip()
+                if clause and not (set(_NUMBER_TOKEN.findall(clause)) & forbidden):
+                    kept_parts.append(clause)
+    if kept_parts:
+        return "；".join(kept_parts) + "。"
+    if not has_supported_exp:
+        return "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+    return ""
 
 
 def _supported_technical_statements(
@@ -350,7 +431,13 @@ def _supported_technical_statements(
         key: words(" ".join(read["text"] for read in entry["reads"]))
         for key, entry in evidence.items()
     }
+    source_nums = {
+        key: set(_NUMBER_TOKEN.findall(" ".join(read["text"] for read in entry["reads"])))
+        for key, entry in evidence.items()
+    }
+    all_source_nums = set().union(*source_nums.values()) if source_nums else set()
     question_only = words(question).difference(*source_words.values())
+    question_nums = set(_NUMBER_TOKEN.findall(question))
     supported = []
     for statement in statements:
         literals = {
@@ -358,7 +445,9 @@ def _supported_technical_statements(
             for match in _TECHNICAL_CLAIM.findall(statement.text)
         }
         cited = question_only.union(*(source_words[key] for key in statement.citations))
-        if literals <= cited:
+        stmt_nums = set(_NUMBER_TOKEN.findall(statement.text)) & all_source_nums
+        cited_nums = question_nums.union(*(source_nums[key] for key in statement.citations))
+        if literals <= cited and stmt_nums <= cited_nums:
             supported.append(statement)
     return tuple(supported)
 

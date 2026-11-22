@@ -385,3 +385,150 @@ def test_split_equivalence_attribution_rejects_other_experiment_and_preserves_or
         {"ev-ga": def_a, "ev-lab": ev_shared}, q_basalt
     )
     assert sup_s == set() and rej_s == {"ev-lab": "experiment_split_mismatch"}
+
+
+def test_rejected_experiment_numbers_stripped_from_missing_and_uncited_statements(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Replay public different_metric output: MAE 0.26/0.19 must not leak without citations."""
+    settings = _settings(tmp_path)
+    ev1 = _ev(
+        "ev-1",
+        "doc-guide",
+        "Basalt-Latch-Guide.pdf",
+        "page:1",
+        "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\n"
+        "Experiment-ID: SlateTrialB6.",
+        page=1,
+    )
+    ev5 = _ev(
+        "ev-5",
+        "doc-lab",
+        "Latch-Trial.ipynb",
+        "cell:0",
+        "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4.",
+        cell_index=0,
+    )
+
+    async def fake_answer(self, messages, **kwargs):
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [
+                        {
+                            "text": "Basalt latch 的定义是：连续三次读数严格高于 8 V 时开启。",
+                            "citations": ["ev-1"],
+                        },
+                        {
+                            "text": "现有证据只给出 MAE（基线 0.26、试验 0.19）。",
+                            "citations": ["ev-1"],
+                        },
+                    ],
+                    "missing": (
+                        "缺少留出集实验的 RMSE 数值；"
+                        "现有证据只给出 MAE（基线 0.26、试验 0.19，单位 amplitude）。"
+                    ),
+                }
+            )
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_answer)
+    res = generate_response(
+        settings,
+        "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？请给出 RMSE。",
+        {"ev-1": ev1, "ev-5": ev5},
+        mode="definition_and_experiment",
+    )
+    assert res.status == "partial"
+    assert res.trace["rejected_experiment_reasons"] == {"ev-5": "experiment_metric_mismatch"}
+    assert res.trace["unsupported_literal_statements"] == 1
+    assert [s.citations for s in res.statements] == [("ev-1",)]
+    assert "0.26" not in res.missing and "0.19" not in res.missing
+    assert "RMSE" in res.missing
+    for s in res.statements:
+        assert "0.26" not in s.text and "0.19" not in s.text
+
+
+def test_extra_verification_demand_cleared_when_answered_but_kept_when_asked(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    """Replay public same_cell_rev/held_out false-partial outputs and counter-example."""
+    settings = _settings(tmp_path)
+    ev1 = _ev(
+        "ev-1",
+        "doc-guide",
+        "Basalt-Latch-Guide.pdf",
+        "page:1",
+        "Definition: A basalt latch opens on three consecutive readings strictly above 8 V.\n"
+        "Experiment-ID: SlateTrialB6.",
+        page=1,
+    )
+    ev4 = _ev(
+        "ev-4",
+        "doc-lab",
+        "Latch-Trial.ipynb",
+        "cell:0",
+        "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. "
+        "Baseline: 0.26. Trial: 0.19. Samples: 4.",
+        cell_index=0,
+    )
+
+    replays = iter(
+        [
+            (
+                "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+                "现有证据未说明该留出集实验如何验证 basalt latch 的定义，"
+                "也未说明实验条件与“连续三次读数严格高于 8 V”这一触发条件之间的关系。",
+                "succeeded",
+            ),
+            (
+                "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？",
+                "未找到讲义中针对 Basalt latch 的独立验证流程或额外实验说明；"
+                "现有证据仅给出 TrialA 的 held-out 指标数值。",
+                "succeeded",
+            ),
+            (
+                "Basalt latch 的定义是什么？讲义所对应的留出集实验如何验证？"
+                "请给出针对定义阈值的独立验证流程。",
+                "未找到讲义中针对 Basalt latch 的独立验证流程或额外实验说明。",
+                "partial",
+            ),
+        ]
+    )
+
+    for question, missing_text, expected_status in replays:
+        async def fake_answer(self, messages, _m=missing_text, **kwargs):
+            return {
+                "content": json.dumps(
+                    {
+                        "statements": [
+                            {
+                                "text": "Basalt latch 的定义是：连续三次读数严格高于 8 V 时开启。",
+                                "citations": ["ev-1"],
+                            },
+                            {
+                                "text": (
+                                    "留出集实验 SlateTrialB6 的指标为 MAE，"
+                                    "基线 0.26，试验 0.19。"
+                                ),
+                                "citations": ["ev-4"],
+                            },
+                        ],
+                        "missing": _m,
+                    }
+                )
+            }
+
+        monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_answer)
+        res = generate_response(
+            settings,
+            question,
+            {"ev-1": ev1, "ev-4": ev4},
+            mode="definition_and_experiment",
+        )
+        assert res.status == expected_status
+        if expected_status == "succeeded":
+            assert res.missing == ""
+        else:
+            assert "独立验证流程" in res.missing
