@@ -1,5 +1,5 @@
 {
-  "git_sha": "f6d2c238ee76c8ba91c92f136da325262b8d2c75",
+  "git_sha": "0f5c93ca7aabc5631c728f49fccee986f70c878f",
   "config": {
     "workspace_retrieval_strategy": "fts",
     "workspace_input_token_limit": 32768,
@@ -10,7 +10,7 @@
     "problem2_multi_output_focus": {
       "img_question": {
         "case_id": "p2_img_q",
-        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "focus_id_sent": "node-5be707ecb2c5c5f271a2aaa1edbe0a2e",
         "turn_status": "clarification",
         "turn_error": null,
         "route": null,
@@ -18,12 +18,12 @@
         "candidates_count": 0,
         "options": [
           {
-            "option_id": "6c7e218284204302ac38b9ae1da760ff",
+            "option_id": "b2f103e0c22f42c4ab07725fd1c3ac09",
             "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 0（图像）",
             "kind": "document"
           },
           {
-            "option_id": "acf531a6d3e14bfc9171759be210f740",
+            "option_id": "8bd15cbe3b084d85a6b2959126d6f11d",
             "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 1（图像）",
             "kind": "document"
           }
@@ -45,7 +45,7 @@
       },
       "img_selected": {
         "case_id": "p2_img_pick",
-        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "focus_id_sent": "node-5be707ecb2c5c5f271a2aaa1edbe0a2e",
         "turn_status": "completed",
         "turn_error": null,
         "route": "target_object",
@@ -54,7 +54,7 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+            "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
             "source_id": "cell:1:output:1",
             "version": 1
           },
@@ -63,23 +63,23 @@
         },
         "display_order": [
           {
-            "display_id": "09b239e8bdff429b8a36150936d3ae8b",
+            "display_id": "48e63f4794e34d47a48e2081ec71bb6c",
             "evidence_id": "ev-1",
             "display_source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "09b239e8bdff429b8a36150936d3ae8b"
+          "48e63f4794e34d47a48e2081ec71bb6c"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -88,7 +88,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+                  "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
                   "source_id": "cell:1:output:1",
                   "version": 1
                 },
@@ -105,7 +105,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -113,7 +113,7 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+            "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
             "source_id": "cell:1:output:1",
             "version": 1
           }
@@ -121,7 +121,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -132,7 +132,7 @@
       },
       "out_question": {
         "case_id": "p2_out_q",
-        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "focus_id_sent": "node-5be707ecb2c5c5f271a2aaa1edbe0a2e",
         "turn_status": "clarification",
         "turn_error": null,
         "route": null,
@@ -140,17 +140,17 @@
         "candidates_count": 0,
         "options": [
           {
-            "option_id": "1f9e888844264d91af3a81cb4f1dd85f",
+            "option_id": "c239eff9d464415ea283530e52778bc1",
             "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 0（图像）",
             "kind": "document"
           },
           {
-            "option_id": "8ef3cb57cb0f425d84772fe03cf15918",
+            "option_id": "3ad0d482a9f248f88a9d7a3215118270",
             "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 1（图像）",
             "kind": "document"
           },
           {
-            "option_id": "c4d814f61aca459082b8313407692082",
+            "option_id": "514041f7aec14e63b533b4837cb1ed99",
             "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 2（v1 summary: Curve A peak）",
             "kind": "document"
           }
@@ -172,7 +172,7 @@
       },
       "out_selected": {
         "case_id": "p2_out_pick",
-        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "focus_id_sent": "node-5be707ecb2c5c5f271a2aaa1edbe0a2e",
         "turn_status": "completed",
         "turn_error": null,
         "route": "clarification_choice",
@@ -186,7 +186,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -195,7 +195,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+                  "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -217,7 +217,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -227,7 +227,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -240,7 +240,7 @@
     "p1_read_new_counterpart": {
       "turn1_show": {
         "case_id": "turn1_show",
-        "focus_id_sent": "node-8eabfcc9b319f852c3e643eabe48dc85",
+        "focus_id_sent": "node-fc0a828024bfdf57f95534d8798efd87",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -250,33 +250,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "2b844a266b54447abf344c7592525cf7",
+            "display_id": "9a56d2a77e53453cbdf9841f60abc886",
             "evidence_id": "ev-3",
             "display_source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "67f7209ce9cc496da08bb8bb3be96207",
+            "display_id": "8c0e93d65c6f4c3a8ed7d4776cb4e578",
             "evidence_id": "ev-4",
             "display_source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "2b844a266b54447abf344c7592525cf7",
-          "67f7209ce9cc496da08bb8bb3be96207"
+          "9a56d2a77e53453cbdf9841f60abc886",
+          "8c0e93d65c6f4c3a8ed7d4776cb4e578"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1",
               "version": 1
             },
@@ -285,7 +285,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -296,7 +296,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -305,7 +305,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -316,7 +316,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -325,7 +325,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -346,7 +346,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1",
               "version": 1
             }
@@ -354,7 +354,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -362,7 +362,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -370,7 +370,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -378,12 +378,12 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
             "source_id": "cell:1:output:0",
             "version": 1
           },
           {
-            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
             "source_id": "cell:1:output:1",
             "version": 1
           }
@@ -391,7 +391,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1",
               "version": 1
             },
@@ -400,7 +400,7 @@
           },
           {
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -411,7 +411,7 @@
       },
       "turn1_read": {
         "case_id": "turn1_read",
-        "focus_id_sent": "node-8eabfcc9b319f852c3e643eabe48dc85",
+        "focus_id_sent": "node-fc0a828024bfdf57f95534d8798efd87",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -420,12 +420,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "2b844a266b54447abf344c7592525cf7",
-          "message_id": "9dcdc1030c994453b1ad5ebccb74b14b",
+          "display_id": "9a56d2a77e53453cbdf9841f60abc886",
+          "message_id": "d906b86a14b2426fa68cb66e83eb3de0",
           "method": "visible_ordinal",
           "ordinal": 1,
           "resolution": "visible_ordinal"
@@ -436,7 +436,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -445,24 +445,24 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
-                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
               }
             ]
           }
         ],
         "notices": [],
         "texts": [
-          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+          "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
         ],
         "citations": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -472,7 +472,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -483,7 +483,7 @@
       },
       "turn2_after_v2": {
         "case_id": "read_new_counterpart",
-        "focus_id_sent": "node-8eabfcc9b319f852c3e643eabe48dc85",
+        "focus_id_sent": "node-fc0a828024bfdf57f95534d8798efd87",
         "turn_status": "completed",
         "turn_error": null,
         "route": "target_object",
@@ -492,7 +492,7 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
             "source_id": "cell:1:output:0",
             "version": 2
           },
@@ -501,23 +501,23 @@
         },
         "display_order": [
           {
-            "display_id": "9a26c9e73cf042958bab26ef254093d2",
+            "display_id": "c7fadf619f914dfb8e7b6fd54be9ddbd",
             "evidence_id": "ev-1",
             "display_source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 2
             }
           }
         ],
         "visible_display_ids": [
-          "9a26c9e73cf042958bab26ef254093d2"
+          "c7fadf619f914dfb8e7b6fd54be9ddbd"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 2
             },
@@ -526,7 +526,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
                   "source_id": "cell:1:output:0",
                   "version": 2
                 },
@@ -543,7 +543,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 2
             }
@@ -551,7 +551,7 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
             "source_id": "cell:1:output:0",
             "version": 2
           }
@@ -559,7 +559,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
               "source_id": "cell:1:output:0",
               "version": 2
             },
@@ -572,7 +572,7 @@
     "p1_recall_old_read": {
       "turn1_show": {
         "case_id": "turn1_show",
-        "focus_id_sent": "node-e6cb3ef073e0b82e227b52239b4e7608",
+        "focus_id_sent": "node-2af04a7798aa5363ad62eb077e9f15c5",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -582,33 +582,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "3a426a0aa9974870ab57ea6d01620be7",
+            "display_id": "08a48c792c604d039a3098cfeedbe8d2",
             "evidence_id": "ev-3",
             "display_source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "c3162078e98344d789ac4feeb81b3d40",
+            "display_id": "a53f285580ec4d3e8c460c01c986887a",
             "evidence_id": "ev-4",
             "display_source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "3a426a0aa9974870ab57ea6d01620be7",
-          "c3162078e98344d789ac4feeb81b3d40"
+          "08a48c792c604d039a3098cfeedbe8d2",
+          "a53f285580ec4d3e8c460c01c986887a"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1",
               "version": 1
             },
@@ -617,7 +617,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -628,7 +628,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -637,7 +637,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -648,7 +648,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -657,7 +657,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -678,7 +678,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1",
               "version": 1
             }
@@ -686,7 +686,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -694,7 +694,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -702,7 +702,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -710,12 +710,12 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
             "source_id": "cell:1:output:0",
             "version": 1
           },
           {
-            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
             "source_id": "cell:1:output:1",
             "version": 1
           }
@@ -723,7 +723,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1",
               "version": 1
             },
@@ -732,7 +732,7 @@
           },
           {
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -743,7 +743,7 @@
       },
       "turn1_read": {
         "case_id": "turn1_read",
-        "focus_id_sent": "node-e6cb3ef073e0b82e227b52239b4e7608",
+        "focus_id_sent": "node-2af04a7798aa5363ad62eb077e9f15c5",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -752,12 +752,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "3a426a0aa9974870ab57ea6d01620be7",
-          "message_id": "3200a61ecf9a4d47807d0e69a344a3fc",
+          "display_id": "08a48c792c604d039a3098cfeedbe8d2",
+          "message_id": "447f70c6dd9546bb9d8b032ca1b8f583",
           "method": "visible_ordinal",
           "ordinal": 1,
           "resolution": "visible_ordinal"
@@ -768,7 +768,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -777,7 +777,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
@@ -794,7 +794,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -804,7 +804,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -815,7 +815,7 @@
       },
       "turn2_after_v2": {
         "case_id": "recall_old_read",
-        "focus_id_sent": "node-e6cb3ef073e0b82e227b52239b4e7608",
+        "focus_id_sent": "node-2af04a7798aa5363ad62eb077e9f15c5",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -824,12 +824,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "3a426a0aa9974870ab57ea6d01620be7",
-          "message_id": "3200a61ecf9a4d47807d0e69a344a3fc",
+          "display_id": "08a48c792c604d039a3098cfeedbe8d2",
+          "message_id": "447f70c6dd9546bb9d8b032ca1b8f583",
           "method": "visible_read_history",
           "ordinal": 1,
           "resolution": "visible_read_history"
@@ -840,7 +840,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -849,7 +849,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
@@ -871,7 +871,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -881,7 +881,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -894,7 +894,7 @@
     "p1_compare_both_versions": {
       "turn1_show": {
         "case_id": "turn1_show",
-        "focus_id_sent": "node-c7be9e1c33e2018bbac608fa4a728b68",
+        "focus_id_sent": "node-1032c0adcb5cd5522cc578c430bf35bb",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -904,33 +904,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "b5c92d8276b644168c7a5aad118d7122",
+            "display_id": "c4e8cdea19bf4779a64bc407ac98b6c0",
             "evidence_id": "ev-3",
             "display_source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "510c34b95fa142e7913a74d7d9c26d10",
+            "display_id": "5d0013d3bc784b99b838573764360a7a",
             "evidence_id": "ev-4",
             "display_source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "b5c92d8276b644168c7a5aad118d7122",
-          "510c34b95fa142e7913a74d7d9c26d10"
+          "c4e8cdea19bf4779a64bc407ac98b6c0",
+          "5d0013d3bc784b99b838573764360a7a"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1",
               "version": 1
             },
@@ -939,7 +939,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -950,7 +950,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -959,7 +959,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -970,7 +970,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -979,7 +979,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -1000,7 +1000,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1",
               "version": 1
             }
@@ -1008,7 +1008,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -1016,7 +1016,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1024,7 +1024,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -1032,12 +1032,12 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
             "source_id": "cell:1:output:0",
             "version": 1
           },
           {
-            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
             "source_id": "cell:1:output:1",
             "version": 1
           }
@@ -1045,7 +1045,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1",
               "version": 1
             },
@@ -1054,7 +1054,7 @@
           },
           {
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -1065,7 +1065,7 @@
       },
       "turn1_read": {
         "case_id": "turn1_read",
-        "focus_id_sent": "node-c7be9e1c33e2018bbac608fa4a728b68",
+        "focus_id_sent": "node-1032c0adcb5cd5522cc578c430bf35bb",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -1074,12 +1074,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "b5c92d8276b644168c7a5aad118d7122",
-          "message_id": "6a5bdb4dd5054428862b0b884b3551a9",
+          "display_id": "c4e8cdea19bf4779a64bc407ac98b6c0",
+          "message_id": "ace68de0eae840439c77f355f8f1a272",
           "method": "visible_ordinal",
           "ordinal": 1,
           "resolution": "visible_ordinal"
@@ -1090,7 +1090,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1099,7 +1099,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
@@ -1116,7 +1116,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1126,7 +1126,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1137,7 +1137,7 @@
       },
       "turn2_after_v2": {
         "case_id": "compare_both_versions",
-        "focus_id_sent": "node-c7be9e1c33e2018bbac608fa4a728b68",
+        "focus_id_sent": "node-1032c0adcb5cd5522cc578c430bf35bb",
         "turn_status": "completed",
         "turn_error": null,
         "route": "version_comparison",
@@ -1147,33 +1147,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "5528dba8e37a4c059a685d181ba3ccd3",
+            "display_id": "48eebbab530f46b7aa0e9b37e2d61280",
             "evidence_id": "ev-1",
             "display_source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "80784d13d4b34ab1b1ab51baf3ac06d1",
+            "display_id": "6080a4a68be24401ad73c82036bfc480",
             "evidence_id": "ev-2",
             "display_source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 2
             }
           }
         ],
         "visible_display_ids": [
-          "5528dba8e37a4c059a685d181ba3ccd3",
-          "80784d13d4b34ab1b1ab51baf3ac06d1"
+          "48eebbab530f46b7aa0e9b37e2d61280",
+          "6080a4a68be24401ad73c82036bfc480"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1182,7 +1182,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
@@ -1193,7 +1193,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 2
             },
@@ -1202,7 +1202,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
                   "source_id": "cell:1:output:0",
                   "version": 2
                 },
@@ -1221,7 +1221,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1229,7 +1229,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 2
             }
@@ -1237,12 +1237,12 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
             "source_id": "cell:1:output:0",
             "version": 1
           },
           {
-            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
             "source_id": "cell:1:output:0",
             "version": 2
           }
@@ -1250,7 +1250,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1259,7 +1259,7 @@
           },
           {
             "source": {
-              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
               "source_id": "cell:1:output:0",
               "version": 2
             },
@@ -1272,7 +1272,7 @@
     "p1_only_old_control": {
       "turn1_show": {
         "case_id": "turn1_show",
-        "focus_id_sent": "node-c7e316b4e957b4c2e804991286c80eea",
+        "focus_id_sent": "node-cdf4c9f234737889cbc70f0eccfcb520",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -1282,33 +1282,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "e90bd1ce2901498cac3d74c090f91d44",
+            "display_id": "8137bd7940df4d6a9548800c9162fda6",
             "evidence_id": "ev-3",
             "display_source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "ac7f40b432b34991804fc1309dc7c4c2",
+            "display_id": "48ac52f24b73413e8f53295791d6da5d",
             "evidence_id": "ev-4",
             "display_source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "e90bd1ce2901498cac3d74c090f91d44",
-          "ac7f40b432b34991804fc1309dc7c4c2"
+          "8137bd7940df4d6a9548800c9162fda6",
+          "48ac52f24b73413e8f53295791d6da5d"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1",
               "version": 1
             },
@@ -1317,7 +1317,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -1328,7 +1328,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -1337,7 +1337,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -1348,7 +1348,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1357,7 +1357,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -1378,7 +1378,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1",
               "version": 1
             }
@@ -1386,7 +1386,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -1394,7 +1394,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1402,7 +1402,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -1410,12 +1410,12 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
             "source_id": "cell:1:output:0",
             "version": 1
           },
           {
-            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
             "source_id": "cell:1:output:1",
             "version": 1
           }
@@ -1423,7 +1423,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1",
               "version": 1
             },
@@ -1432,7 +1432,7 @@
           },
           {
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -1443,7 +1443,7 @@
       },
       "turn1_read": {
         "case_id": "turn1_read",
-        "focus_id_sent": "node-c7e316b4e957b4c2e804991286c80eea",
+        "focus_id_sent": "node-cdf4c9f234737889cbc70f0eccfcb520",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -1452,12 +1452,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "e90bd1ce2901498cac3d74c090f91d44",
-          "message_id": "15fb9ae81b8f404d95cbfcc8492eacab",
+          "display_id": "8137bd7940df4d6a9548800c9162fda6",
+          "message_id": "4954b1c090cc46eaaaaecd940488c38b",
           "method": "visible_ordinal",
           "ordinal": 1,
           "resolution": "visible_ordinal"
@@ -1468,7 +1468,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1477,24 +1477,24 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
-                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
               }
             ]
           }
         ],
         "notices": [],
         "texts": [
-          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+          "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
         ],
         "citations": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1504,7 +1504,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1515,7 +1515,7 @@
       },
       "turn2_after_v2": {
         "case_id": "only_old_control",
-        "focus_id_sent": "node-c7e316b4e957b4c2e804991286c80eea",
+        "focus_id_sent": "node-cdf4c9f234737889cbc70f0eccfcb520",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -1524,12 +1524,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "e90bd1ce2901498cac3d74c090f91d44",
-          "message_id": "15fb9ae81b8f404d95cbfcc8492eacab",
+          "display_id": "8137bd7940df4d6a9548800c9162fda6",
+          "message_id": "4954b1c090cc46eaaaaecd940488c38b",
           "method": "visible_ordinal",
           "ordinal": 1,
           "resolution": "visible_ordinal"
@@ -1540,7 +1540,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1549,11 +1549,11 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
-                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
               }
             ]
           }
@@ -1565,13 +1565,13 @@
           }
         ],
         "texts": [
-          "旧版 v1 已读取内容：\n一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+          "旧版 v1 已读取内容：\n一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
         ],
         "citations": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1581,7 +1581,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1594,7 +1594,7 @@
     "p1_ordinary_stale_focus": {
       "turn1_show": {
         "case_id": "turn1_show",
-        "focus_id_sent": "node-d086cd96bb3da7680b330324e61fadff",
+        "focus_id_sent": "node-34c4d01fec5ca7f54fede324220e303e",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -1604,33 +1604,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "18b4bcd09c674917acd2b4b9849c9287",
+            "display_id": "9d6ae828a7ca47b4b5a8bfdb6f2dcad6",
             "evidence_id": "ev-3",
             "display_source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "8213fb5f2e3545caa4babdbbf04561ae",
+            "display_id": "6ecf1073a6cb464c879d417bfb15e7cc",
             "evidence_id": "ev-4",
             "display_source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "18b4bcd09c674917acd2b4b9849c9287",
-          "8213fb5f2e3545caa4babdbbf04561ae"
+          "9d6ae828a7ca47b4b5a8bfdb6f2dcad6",
+          "6ecf1073a6cb464c879d417bfb15e7cc"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1",
               "version": 1
             },
@@ -1639,7 +1639,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+                  "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -1650,7 +1650,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -1659,7 +1659,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+                  "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -1670,7 +1670,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1679,7 +1679,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -1700,7 +1700,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1",
               "version": 1
             }
@@ -1708,7 +1708,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -1716,7 +1716,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1724,7 +1724,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -1732,12 +1732,12 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+            "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
             "source_id": "cell:1:output:0",
             "version": 1
           },
           {
-            "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+            "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
             "source_id": "cell:1:output:1",
             "version": 1
           }
@@ -1745,7 +1745,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1",
               "version": 1
             },
@@ -1754,7 +1754,7 @@
           },
           {
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -1765,7 +1765,7 @@
       },
       "turn1_read": {
         "case_id": "turn1_read",
-        "focus_id_sent": "node-d086cd96bb3da7680b330324e61fadff",
+        "focus_id_sent": "node-34c4d01fec5ca7f54fede324220e303e",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -1774,12 +1774,12 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+            "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
             "source_id": "cell:1:output:0",
             "version": 1
           },
-          "display_id": "18b4bcd09c674917acd2b4b9849c9287",
-          "message_id": "25b14cf16b164d9488f8e51bbb890144",
+          "display_id": "9d6ae828a7ca47b4b5a8bfdb6f2dcad6",
+          "message_id": "23647a43789649ec8c64c448d215ea84",
           "method": "visible_ordinal",
           "ordinal": 1,
           "resolution": "visible_ordinal"
@@ -1790,7 +1790,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1799,24 +1799,24 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+                  "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
                   "source_id": "cell:1:output:0",
                   "version": 1
                 },
-                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
               }
             ]
           }
         ],
         "notices": [],
         "texts": [
-          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+          "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
         ],
         "citations": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -1826,7 +1826,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -1837,7 +1837,7 @@
       },
       "turn2_after_v2": {
         "case_id": "ordinary_stale_focus",
-        "focus_id_sent": "node-d086cd96bb3da7680b330324e61fadff",
+        "focus_id_sent": "node-34c4d01fec5ca7f54fede324220e303e",
         "turn_status": "failed",
         "turn_error": "stale_reference",
         "route": null,
@@ -1858,7 +1858,7 @@
     "p1_reordered_v2": {
       "clarification": {
         "case_id": "reordered_v2",
-        "focus_id_sent": "node-62481d9300d6123796de2e83af6ec188",
+        "focus_id_sent": "node-902dc4262874c1c871181d8429f27043",
         "turn_status": "clarification",
         "turn_error": null,
         "route": null,
@@ -1866,12 +1866,12 @@
         "candidates_count": 0,
         "options": [
           {
-            "option_id": "a099b05e06bd465391f1eefc7e840390",
+            "option_id": "9dd78bec3c8040dc86f628bc97e01669",
             "label": "Bench-reordered_v2.ipynb · v2 · 输出 0",
             "kind": "document"
           },
           {
-            "option_id": "70781ed3922f4958ac84e7408106a40a",
+            "option_id": "6f878dacf0b64b078af7fd87ea8af846",
             "label": "Bench-reordered_v2.ipynb · v2 · 输出 1",
             "kind": "document"
           }
@@ -1893,7 +1893,7 @@
       },
       "picked": {
         "case_id": "reordered_v2_picked",
-        "focus_id_sent": "node-62481d9300d6123796de2e83af6ec188",
+        "focus_id_sent": "node-902dc4262874c1c871181d8429f27043",
         "turn_status": "completed",
         "turn_error": null,
         "route": "target_object",
@@ -1902,7 +1902,7 @@
         "options": [],
         "resolution": {
           "actual_source": {
-            "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+            "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
             "source_id": "cell:1:output:1",
             "version": 2
           },
@@ -1911,23 +1911,23 @@
         },
         "display_order": [
           {
-            "display_id": "ac5ff53ec3ba495fb3722f51307f0a68",
+            "display_id": "c43c6863360d4d2daba361fb394e6091",
             "evidence_id": "ev-1",
             "display_source": {
-              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
               "source_id": "cell:1:output:1",
               "version": 2
             }
           }
         ],
         "visible_display_ids": [
-          "ac5ff53ec3ba495fb3722f51307f0a68"
+          "c43c6863360d4d2daba361fb394e6091"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
               "source_id": "cell:1:output:1",
               "version": 2
             },
@@ -1936,7 +1936,7 @@
                 "method": "vision",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+                  "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
                   "source_id": "cell:1:output:1",
                   "version": 2
                 },
@@ -1953,7 +1953,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
               "source_id": "cell:1:output:1",
               "version": 2
             }
@@ -1961,7 +1961,7 @@
         ],
         "displayed_objects": [
           {
-            "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+            "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
             "source_id": "cell:1:output:1",
             "version": 2
           }
@@ -1969,7 +1969,7 @@
         "actually_read_objects": [
           {
             "source": {
-              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
               "source_id": "cell:1:output:1",
               "version": 2
             },
@@ -1982,7 +1982,7 @@
     "p1_deleted_v2": {
       "clarification": {
         "case_id": "deleted_v2",
-        "focus_id_sent": "node-76b91e7cffe99057a9d80eaff5f7c508",
+        "focus_id_sent": "node-4957595cb76fa6d2b043dc9802ae42a0",
         "turn_status": "clarification",
         "turn_error": null,
         "route": null,
@@ -2008,7 +2008,7 @@
     "p1_multi_display_no_read_compare": {
       "turn1_show": {
         "case_id": "combo_show",
-        "focus_id_sent": "node-19eaf29ed5f0ef42558c5453f293301a",
+        "focus_id_sent": "node-7a4895833e995ff49214bc1b6dec0972",
         "turn_status": "completed",
         "turn_error": null,
         "route": null,
@@ -2018,33 +2018,33 @@
         "resolution": null,
         "display_order": [
           {
-            "display_id": "78c545b780274dc3bc4c400522707647",
+            "display_id": "530cc2201bb8490d8b0d0a2e0f90ff4e",
             "evidence_id": "ev-3",
             "display_source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:0",
               "version": 1
             }
           },
           {
-            "display_id": "774ad2bd40b64822b3f326b2ae9bb7e4",
+            "display_id": "8b2323575b144fc384454ac7e5abbb7a",
             "evidence_id": "ev-4",
             "display_source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:1",
               "version": 1
             }
           }
         ],
         "visible_display_ids": [
-          "78c545b780274dc3bc4c400522707647",
-          "774ad2bd40b64822b3f326b2ae9bb7e4"
+          "530cc2201bb8490d8b0d0a2e0f90ff4e",
+          "8b2323575b144fc384454ac7e5abbb7a"
         ],
         "actual_reads": [
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1",
               "version": 1
             },
@@ -2053,7 +2053,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -2064,7 +2064,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -2073,7 +2073,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -2084,7 +2084,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:0",
               "version": 1
             },
@@ -2093,7 +2093,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:1",
               "version": 1
             },
@@ -2114,7 +2114,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1",
               "version": 1
             }
@@ -2122,7 +2122,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -2130,7 +2130,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:0",
               "version": 1
             }
@@ -2138,7 +2138,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:1",
               "version": 1
             }
@@ -2147,7 +2147,7 @@
       },
       "turn2_cmp": {
         "case_id": "combo_cmp",
-        "focus_id_sent": "node-19eaf29ed5f0ef42558c5453f293301a",
+        "focus_id_sent": "node-7a4895833e995ff49214bc1b6dec0972",
         "turn_status": "completed",
         "turn_error": null,
         "route": "version_comparison",
@@ -2161,7 +2161,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1",
               "version": 1
             },
@@ -2170,7 +2170,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
                   "source_id": "cell:1",
                   "version": 1
                 },
@@ -2181,7 +2181,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1",
               "version": 2
             },
@@ -2190,7 +2190,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
                   "source_id": "cell:1",
                   "version": 2
                 },
@@ -2201,7 +2201,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:2",
               "version": 1
             },
@@ -2210,7 +2210,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
                   "source_id": "cell:1:output:2",
                   "version": 1
                 },
@@ -2221,7 +2221,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:2",
               "version": 2
             },
@@ -2230,7 +2230,7 @@
                 "method": "native_text",
                 "status": "succeeded",
                 "actual_source": {
-                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
                   "source_id": "cell:1:output:2",
                   "version": 2
                 },
@@ -2250,7 +2250,7 @@
           {
             "evidence_id": "ev-1",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1",
               "version": 1
             }
@@ -2258,7 +2258,7 @@
           {
             "evidence_id": "ev-2",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1",
               "version": 2
             }
@@ -2266,7 +2266,7 @@
           {
             "evidence_id": "ev-3",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:2",
               "version": 1
             }
@@ -2274,7 +2274,7 @@
           {
             "evidence_id": "ev-4",
             "source": {
-              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "document_id": "local_78ca8a18b9a047748d1202c7ba25621e",
               "source_id": "cell:1:output:2",
               "version": 2
             }
@@ -2286,7 +2286,7 @@
   "vision_calls": [
     {
       "source": {
-        "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+        "document_id": "local_a7b6af1b6e1946cd92a0277ad2735c9d",
         "version": 1,
         "source_id": "cell:1:output:1"
       },
@@ -2297,18 +2297,18 @@
     },
     {
       "source": {
-        "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+        "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
         "version": 1,
         "source_id": "cell:1:output:0"
       },
       "question": "刚才第一张图是什么？",
       "status": "available",
       "external_call_count": 1,
-      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+      "read_text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
     },
     {
       "source": {
-        "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+        "document_id": "local_7853d4b60d2a4ce19c9450f0f7f6b319",
         "version": 2,
         "source_id": "cell:1:output:0"
       },
@@ -2319,7 +2319,7 @@
     },
     {
       "source": {
-        "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+        "document_id": "local_2b8a4c85f88240ccaf11b04f83578744",
         "version": 1,
         "source_id": "cell:1:output:0"
       },
@@ -2330,7 +2330,7 @@
     },
     {
       "source": {
-        "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+        "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
         "version": 1,
         "source_id": "cell:1:output:0"
       },
@@ -2341,7 +2341,7 @@
     },
     {
       "source": {
-        "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+        "document_id": "local_6530699a72a544dc9d0d90073e2d5941",
         "version": 2,
         "source_id": "cell:1:output:0"
       },
@@ -2352,29 +2352,7 @@
     },
     {
       "source": {
-        "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
-        "version": 1,
-        "source_id": "cell:1:output:0"
-      },
-      "question": "刚才第一张图是什么？",
-      "status": "available",
-      "external_call_count": 1,
-      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
-    },
-    {
-      "source": {
-        "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
-        "version": 1,
-        "source_id": "cell:1:output:0"
-      },
-      "question": "刚才第一张图是什么？",
-      "status": "available",
-      "external_call_count": 1,
-      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
-    },
-    {
-      "source": {
-        "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+        "document_id": "local_4c808672bf2f4265b5fd419293ae526e",
         "version": 1,
         "source_id": "cell:1:output:0"
       },
@@ -2385,7 +2363,29 @@
     },
     {
       "source": {
-        "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+        "document_id": "local_aec2ac8a413d4674835ea5f5d6752a8c",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+    },
+    {
+      "source": {
+        "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张包含标题“Curve A Throughput”、单位“ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+    },
+    {
+      "source": {
+        "document_id": "local_f89d10ed627b496e9555b9f4ec6b77e3",
         "version": 2,
         "source_id": "cell:1:output:1"
       },
@@ -2396,14 +2396,14 @@
     },
     {
       "source": {
-        "document_id": "local_c6788eeeb5444d7d8b6a011a408f2db2",
+        "document_id": "local_1c37d283e6454a8d8fd0ab237e9909fb",
         "version": 1,
         "source_id": "cell:1:output:0"
       },
       "question": "刚才第一张图是什么？",
       "status": "available",
       "external_call_count": 1,
-      "read_text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+      "read_text": "一张包含标题“Curve A Throughput”、单位“ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
     }
   ]
 }
