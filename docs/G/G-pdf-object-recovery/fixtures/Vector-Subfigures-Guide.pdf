@@ -1,0 +1,187 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Length 1470 >>
+stream
+0.080 0.100 0.140 rg
+BT /F2 16.00 Tf 1 0 0 1 60.00 736.00 Tm (Benchtop Waveform & Calibration Guide) Tj ET
+BT /F1 10.00 Tf 1 0 0 1 60.00 714.00 Tm (Public Synthetic Fixture \(CC BY 4.0\) - Vector-Subfigures-Guide.pdf) Tj ET
+0.200 0.250 0.320 RG
+1.00 w
+60.00 704.00 m 552.00 704.00 l S
+0.100 0.120 0.160 rg
+BT /F2 12.50 Tf 1 0 0 1 60.00 676.00 Tm (Section 1: Overview) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 60.00 654.00 Tm (This public synthetic calibration guide documents two-channel benchtop acquisition.) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 60.00 636.00 Tm (Default sampling interval is fixed at 0.25 ms with a 50-ohm termination impedance.) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 60.00 618.00 Tm (All measurements are recorded at an ambient reference temperature of 23.0 C after) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 60.00 602.00 Tm (a 15-minute warm-up period.) Tj ET
+0.080 0.100 0.140 rg
+BT /F2 11.00 Tf 1 0 0 1 65.20 538.40 Tm (Table 1: Channel Calibration Parameters) Tj ET
+0.100 0.120 0.160 RG
+1.40 w
+61.20 528.40 m 550.80 528.40 l S
+0.90 w
+61.20 504.40 m 550.80 504.40 l S
+1.40 w
+61.20 421.84 m 550.80 421.84 l S
+BT /F2 10.50 Tf 1 0 0 1 71.20 512.40 Tm (Channel) Tj ET
+BT /F2 10.50 Tf 1 0 0 1 281.20 512.40 Tm (Nominal Range) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 71.20 486.40 Tm (CH-A \(Step\)) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 281.20 486.40 Tm (0.0 V to 5.0 V) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 71.20 462.40 Tm (CH-B \(Decay\)) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 281.20 462.40 Tm (-12.0 dB to +6.0 dB) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 3764 >>
+stream
+0.080 0.100 0.140 rg
+BT /F2 13.50 Tf 1 0 0 1 60.00 736.00 Tm (Section 2: Dual-Panel Benchtop Waveforms) Tj ET
+BT /F1 10.00 Tf 1 0 0 1 60.00 716.00 Tm (Side-by-side pure vector subfigures sharing Figure 1 caption below.) Tj ET
+0.750 0.780 0.820 RG
+0.985 0.985 0.975 rg
+1.00 w
+36.72 300.96 257.04 332.64 re B
+0.080 0.100 0.140 rg
+BT /F2 10.50 Tf 1 0 0 1 50.72 611.60 Tm (\(a\) Left Panel: Step Response) Tj ET
+0.880 0.900 0.920 RG
+0.60 w
+88.72 342.96 m 88.72 595.60 l S
+183.24 342.96 m 183.24 595.60 l S
+277.76 342.96 m 277.76 595.60 l S
+88.72 342.96 m 277.76 342.96 l S
+88.72 469.28 m 277.76 469.28 l S
+88.72 595.60 m 277.76 595.60 l S
+0.550 0.580 0.620 RG
+0.80 w
+[3 3] 0 d
+183.24 342.96 m 183.24 595.60 l S
+[] 0 d
+0.150 0.180 0.220 RG
+1.40 w
+88.72 342.96 m 88.72 595.60 l S
+88.72 342.96 m 277.76 342.96 l S
+0.150 0.180 0.220 rg
+88.72 339.46 m 88.72 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 84.72 328.96 Tm (0) Tj ET
+183.24 339.46 m 183.24 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 179.24 328.96 Tm (4) Tj ET
+277.76 339.46 m 277.76 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 273.76 328.96 Tm (8) Tj ET
+85.22 342.96 m 88.72 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 62.72 339.96 Tm (0) Tj ET
+85.22 469.28 m 88.72 469.28 l S
+BT /F1 8.50 Tf 1 0 0 1 62.72 466.28 Tm (2.5) Tj ET
+85.22 595.60 m 88.72 595.60 l S
+BT /F1 8.50 Tf 1 0 0 1 62.72 592.60 Tm (5.0) Tj ET
+0.100 0.120 0.160 rg
+BT /F2 9.00 Tf 1 0 0 1 152.99 311.96 Tm (Time [ms]) Tj ET
+BT /F2 8.50 Tf 1 0 0 1 44.72 601.60 Tm (Amplitude [V]) Tj ET
+0.100 0.350 0.750 RG
+0.100 0.350 0.750 rg
+2.00 w
+88.72 368.22 m 135.98 368.22 l 160.56 494.54 l 183.24 595.60 l 230.50 560.23 l 277.76 555.18 l S
+0.80 w
+86.42 365.92 4.60 4.60 re B
+133.68 365.92 4.60 4.60 re B
+158.26 492.24 4.60 4.60 re B
+180.94 593.30 4.60 4.60 re B
+228.20 557.93 4.60 4.60 re B
+275.46 552.88 4.60 4.60 re B
+0.750 0.780 0.820 RG
+0.985 0.985 0.975 rg
+1.00 w
+318.24 300.96 257.04 332.64 re B
+0.080 0.100 0.140 rg
+BT /F2 10.50 Tf 1 0 0 1 332.24 611.60 Tm (\(b\) Right Panel: Damped Decay) Tj ET
+0.880 0.900 0.920 RG
+0.60 w
+370.24 342.96 m 370.24 595.60 l S
+433.19 342.96 m 433.19 595.60 l S
+496.33 342.96 m 496.33 595.60 l S
+559.28 342.96 m 559.28 595.60 l S
+370.24 342.96 m 559.28 342.96 l S
+370.24 469.28 m 559.28 469.28 l S
+370.24 595.60 m 559.28 595.60 l S
+0.550 0.580 0.620 RG
+0.80 w
+[3 3] 0 d
+496.33 342.96 m 496.33 595.60 l S
+[] 0 d
+0.150 0.180 0.220 RG
+1.40 w
+370.24 342.96 m 370.24 595.60 l S
+370.24 342.96 m 559.28 342.96 l S
+0.150 0.180 0.220 rg
+370.24 339.46 m 370.24 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 366.24 328.96 Tm (0) Tj ET
+433.19 339.46 m 433.19 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 429.19 328.96 Tm (4) Tj ET
+496.33 339.46 m 496.33 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 492.33 328.96 Tm (8) Tj ET
+559.28 339.46 m 559.28 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 555.28 328.96 Tm (12) Tj ET
+366.74 342.96 m 370.24 342.96 l S
+BT /F1 8.50 Tf 1 0 0 1 344.24 339.96 Tm (-12) Tj ET
+366.74 469.28 m 370.24 469.28 l S
+BT /F1 8.50 Tf 1 0 0 1 344.24 466.28 Tm (-3) Tj ET
+366.74 595.60 m 370.24 595.60 l S
+BT /F1 8.50 Tf 1 0 0 1 344.24 592.60 Tm (+6) Tj ET
+0.100 0.120 0.160 rg
+BT /F2 9.00 Tf 1 0 0 1 434.51 311.96 Tm (Time [ms]) Tj ET
+BT /F2 8.50 Tf 1 0 0 1 326.24 601.60 Tm (Gain [dB]) Tj ET
+0.780 0.180 0.180 RG
+0.780 0.180 0.180 rg
+2.00 w
+370.24 512.23 m 402.38 449.07 l 433.19 385.91 l 474.21 373.28 l 496.33 595.60 l 527.14 406.12 l 559.28 342.96 l S
+0.80 w
+367.94 509.93 4.60 4.60 re B
+400.08 446.77 4.60 4.60 re B
+430.89 383.61 4.60 4.60 re B
+471.91 370.98 4.60 4.60 re B
+494.03 593.30 4.60 4.60 re B
+524.84 403.82 4.60 4.60 re B
+556.98 340.66 4.60 4.60 re B
+0.100 0.120 0.160 rg
+BT /F2 10.50 Tf 1 0 0 1 52.96 270.12 Tm (Figure 1: Qualitative bench waveforms. Only a schematic illustration;) Tj ET
+BT /F2 10.50 Tf 1 0 0 1 52.96 254.12 Tm (does not support causal delay claims.) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000197 00000 n 
+0000000272 00000 n 
+0000000340 00000 n 
+0000001861 00000 n 
+0000002007 00000 n 
+0000005822 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+5968
+%%EOF

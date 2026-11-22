@@ -1,0 +1,857 @@
+{
+  "git_sha": "ed616f2606fe5dd331fea77993e8b05c5157201f",
+  "config": {
+    "workspace_answer_enabled": false,
+    "source_vision_enabled": true,
+    "vision_model": "qwen3-vl-plus",
+    "workspace_retrieval_strategy": "fts"
+  },
+  "registered_objects": {
+    "Vector-Subfigures-Guide.pdf": [
+      {
+        "source_id": "page:1",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Benchtop Waveform & Calibration Guide",
+        "text_head": "Benchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Over",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      },
+      {
+        "source_id": "page:1:table:1",
+        "kind": "page_object",
+        "parent_id": "page:1",
+        "title": "Channel | Nominal Range",
+        "text_head": "| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |",
+        "object_type": "table",
+        "bbox": [
+          0.097712,
+          0.332828,
+          0.902288,
+          0.467374
+        ],
+        "position_basis": "axis_aligned_native_rule_grid_v1"
+      },
+      {
+        "source_id": "page:2",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Section 2: Dual-Panel Benchtop Waveforms",
+        "text_head": "Section 2: Dual-Panel Benchtop Waveforms\nSide-by-side pure vector subfigures sharing Figure 1 caption below.\n(a) Left Pa",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      },
+      {
+        "source_id": "page:2:image:1",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "(a) Left Panel: Step Response",
+        "text_head": "",
+        "object_type": "image",
+        "bbox": [
+          0.058366,
+          0.198737,
+          0.481634,
+          0.621263
+        ],
+        "position_basis": "pdfium_native_vector_extents_v1"
+      },
+      {
+        "source_id": "page:2:image:2",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "(b) Right Panel: Damped Decay",
+        "text_head": "",
+        "object_type": "image",
+        "bbox": [
+          0.518366,
+          0.198737,
+          0.941634,
+          0.621263
+        ],
+        "position_basis": "pdfium_native_vector_extents_v1"
+      },
+      {
+        "source_id": "page:2:caption:1",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "Figure 1: Qualitative bench waveforms. Only a schematic illustration;",
+        "text_head": "",
+        "object_type": "caption",
+        "bbox": [
+          0.083971,
+          0.646763,
+          0.651554,
+          0.684438
+        ],
+        "position_basis": "pdfium_native_text_block_v1"
+      }
+    ],
+    "Formula-And-Notes.pdf": [
+      {
+        "source_id": "page:1",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Signal Windowing & Thermal Notes",
+        "text_head": "Signal Windowing & Thermal Notes\nPublic Synthetic Fixture (CC BY 4.0) - Formula-And-Notes.pdf\nSection 1: Background\nBenc",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      },
+      {
+        "source_id": "page:2",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Section 2: Discrete Window Delay & Envelope",
+        "text_head": "Section 2: Discrete Window Delay & Envelope\nDistinct formulas are separated vertically; Figure 3 shows the peak-hold env",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      },
+      {
+        "source_id": "page:2:image:1",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "Peak-Hold Envelope Trace",
+        "text_head": "",
+        "object_type": "image",
+        "bbox": [
+          0.178366,
+          0.518737,
+          0.821634,
+          0.761263
+        ],
+        "position_basis": "pdfium_native_vector_extents_v1"
+      },
+      {
+        "source_id": "page:1:caption:1",
+        "kind": "page_object",
+        "parent_id": "page:1",
+        "title": "Figure 2: Thermal drift baseline.",
+        "text_head": "",
+        "object_type": "caption",
+        "bbox": [
+          0.17774,
+          0.588833,
+          0.442109,
+          0.606306
+        ],
+        "position_basis": "pdfium_native_text_block_v1"
+      },
+      {
+        "source_id": "page:1:formula:1",
+        "kind": "page_object",
+        "parent_id": "page:1",
+        "title": "E_loss = 0.5 * k * x^2",
+        "text_head": "",
+        "object_type": "formula",
+        "bbox": [
+          0.119281,
+          0.251263,
+          0.880719,
+          0.344697
+        ],
+        "position_basis": "pdfium_native_text_block_v1"
+      },
+      {
+        "source_id": "page:2:caption:1",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "Figure 3: Peak-hold envelope under dry bench conditions.",
+        "text_head": "",
+        "object_type": "caption",
+        "bbox": [
+          0.124538,
+          0.793195,
+          0.602458,
+          0.810549
+        ],
+        "position_basis": "pdfium_native_text_block_v1"
+      },
+      {
+        "source_id": "page:2:formula:1",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "Effective Group Delay (Standalone Formula):",
+        "text_head": "",
+        "object_type": "formula",
+        "bbox": [
+          0.118039,
+          0.158485,
+          0.881961,
+          0.281515
+        ],
+        "position_basis": "pdfium_native_text_block_v1"
+      },
+      {
+        "source_id": "page:2:formula:2",
+        "kind": "page_object",
+        "parent_id": "page:2",
+        "title": "Smoothing Factor (Auxiliary Note):",
+        "text_head": "",
+        "object_type": "formula",
+        "bbox": [
+          0.118366,
+          0.358737,
+          0.881634,
+          0.461263
+        ],
+        "position_basis": "pdfium_native_text_block_v1"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "question_id": "Q01_vector_subfigure",
+      "category": "vector_subfigure",
+      "question": "In Vector-Subfigures-Guide.pdf on page 2, what does the right subfigure (b) show, including its axis quantities, spike time in ms, and peak gain in dB?",
+      "turn_status": "completed",
+      "route": "target_object",
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": {
+        "capability_reason": null,
+        "elapsed_ms": 2077.4482500273734,
+        "reads": [
+          {
+            "cache_hit": false,
+            "execution": "real_provider",
+            "external_call": true,
+            "missing_or_error": [],
+            "model": "qwen3-vl-plus",
+            "prompt_version": "source-directed-v1",
+            "provider": "dashscope-native",
+            "usage": {
+              "image_tokens": 416,
+              "input_tokens": 531,
+              "output_tokens": 63,
+              "total_tokens": 594
+            }
+          }
+        ],
+        "status": "succeeded"
+      },
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:2:image:2",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": [
+            0.518366,
+            0.198737,
+            0.941634,
+            0.621263
+          ],
+          "reads": [
+            {
+              "method": "vision",
+              "status": "succeeded",
+              "text_head": "The right subfigure (b) shows a damped decay plot with Gain [dB] on the y-axis and Time [ms] on the x-axis. The spike occurs at 8 ms, and the peak gain is +6 dB"
+            }
+          ]
+        }
+      },
+      "blocks": [
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 图片 · (b) Right Panel: Damped Decay",
+          "display_id": "c88553fad3e14396ab4057ef3c2791c2",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:2:image:2",
+            "version": 1
+          },
+          "evidence_id": "ev-1",
+          "fallback_reason": null,
+          "height": 733,
+          "media_url": "/api/workspace/sessions/3d7748576b1c4e9aa28d0397c70c167e/messages/606c521ab36d47d3ae23650dccf50149/media/c88553fad3e14396ab4057ef3c2791c2?view=inline",
+          "read_status": "succeeded",
+          "rect_visible_norm": [
+            0.498366,
+            0.178737,
+            0.961634,
+            0.641263
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 569
+        },
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "The right subfigure (b) shows a damped decay plot with Gain [dB] on the y-axis and Time [ms] on the x-axis. The spike occurs at 8 ms, and the peak gain is +6 dB.",
+          "type": "text"
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 404,
+          "file_name": null,
+          "source": null,
+          "locator": null,
+          "has_preview": null,
+          "text_head": ""
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:2:image:2",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.498366,
+            0.178737,
+            0.961634,
+            0.641263
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "succeeded",
+          "media_http_status": 200,
+          "media_bytes": 31683
+        }
+      ]
+    },
+    {
+      "question_id": "Q02_figure_caption",
+      "category": "figure_caption",
+      "question": "What does the Figure 1 caption on page 2 of Vector-Subfigures-Guide.pdf state about causal delay claims?",
+      "turn_status": "completed",
+      "route": "target_object",
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:2:caption:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": [
+            0.083971,
+            0.646763,
+            0.651554,
+            0.684438
+          ],
+          "reads": [
+            {
+              "method": "native_text",
+              "status": "succeeded",
+              "text_head": "Figure 1: Qualitative bench waveforms. Only a schematic illustration;\ndoes not support causal delay claims."
+            }
+          ]
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Vector-Subfigures-Guide.pdf · v1 · 图注 · Figure 1: Qualitative bench waveforms. Only a schematic illustration;\nFigure 1: Qualitative bench waveforms. Only a schematic illustration;\ndoes not support causal delay claims.",
+          "type": "text"
+        },
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 图注 · Figure 1: Qualitative bench waveforms. Only a schematic illustration;",
+          "display_id": "5e9f8f2bb6eb4b70a0e390a6d024f2d8",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:2:caption:1",
+            "version": 1
+          },
+          "evidence_id": "ev-1",
+          "fallback_reason": null,
+          "height": 124,
+          "media_url": "/api/workspace/sessions/2148db43def94445be767a811c4ea999/messages/bfeba144b6e94e7eb8b2add437bd24ab/media/5e9f8f2bb6eb4b70a0e390a6d024f2d8?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": [
+            0.063971,
+            0.626763,
+            0.671554,
+            0.704438
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 744
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 409,
+          "file_name": null,
+          "source": null,
+          "locator": null,
+          "has_preview": null,
+          "text_head": ""
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:2:caption:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.063971,
+            0.626763,
+            0.671554,
+            0.704438
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 19483
+        }
+      ]
+    },
+    {
+      "question_id": "Q03_standalone_formula",
+      "category": "standalone_formula_with_nearby_distractor",
+      "question": "In Formula-And-Notes.pdf on page 2, what is the formula for tau_eff and its applicability condition?",
+      "turn_status": "completed",
+      "route": "target_object",
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_7858db21b6b34edba10c21f3b0c1e2d4",
+            "source_id": "page:2:formula:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": [
+            0.118039,
+            0.158485,
+            0.881961,
+            0.281515
+          ],
+          "reads": [
+            {
+              "method": "native_text",
+              "status": "succeeded",
+              "text_head": "Effective Group Delay (Standalone Formula):\ntau_eff = (W - 1) / 2\nCondition: for odd W >= 3 only"
+            }
+          ]
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Formula-And-Notes.pdf · v1 · 公式 · Effective Group Delay (Standalone Formula):\nEffective Group Delay (Standalone Formula):\ntau_eff = (W - 1) / 2\nCondition: for odd W >= 3 only",
+          "type": "text"
+        },
+        {
+          "caption": "Formula-And-Notes.pdf · v1 · 公式 · Effective Group Delay (Standalone Formula):",
+          "display_id": "70fd7596e37849ba8e49a9e004343e62",
+          "display_source": {
+            "document_id": "local_7858db21b6b34edba10c21f3b0c1e2d4",
+            "source_id": "page:2:formula:1",
+            "version": 1
+          },
+          "evidence_id": "ev-1",
+          "fallback_reason": null,
+          "height": 259,
+          "media_url": "/api/workspace/sessions/2b6b0fcf84474eed8a0d32064ee5d4ca/messages/cb9c5edf05564f32a6e447314476bf10/media/70fd7596e37849ba8e49a9e004343e62?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": [
+            0.098039,
+            0.138485,
+            0.901961,
+            0.30151500000000003
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 986
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 409,
+          "file_name": null,
+          "source": null,
+          "locator": null,
+          "has_preview": null,
+          "text_head": ""
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_7858db21b6b34edba10c21f3b0c1e2d4",
+            "source_id": "page:2:formula:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.098039,
+            0.138485,
+            0.901961,
+            0.30151500000000003
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 21392
+        }
+      ]
+    },
+    {
+      "question_id": "Q04_ambiguity_counterexample",
+      "category": "ambiguity_counterexample",
+      "question": "这张图里的曲线趋势是什么？",
+      "turn_status": "clarification",
+      "route": null,
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {},
+      "blocks": [
+        {
+          "code": "clarification",
+          "text": "请明确要读取的当前文件或图片。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {},
+      "displays": []
+    },
+    {
+      "question_id": "Q05_table_regression",
+      "category": "existing_table_regression",
+      "question": "In Table 1 of Vector-Subfigures-Guide.pdf on page 1, what are the nominal ranges for CH-A and CH-B?",
+      "turn_status": "completed",
+      "route": "target_object",
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": [
+            0.097712,
+            0.332828,
+            0.902288,
+            0.467374
+          ],
+          "reads": [
+            {
+              "method": "native_table",
+              "status": "succeeded",
+              "text_head": "| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |"
+            }
+          ]
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |",
+          "type": "text"
+        },
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range",
+          "display_id": "f874c503939b4758b4e2ca67461029ed",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "evidence_id": "ev-1",
+          "fallback_reason": null,
+          "height": 278,
+          "media_url": "/api/workspace/sessions/b30e63fa2d75476d919aaf9f9a7cf304/messages/ec26b642f04c47a8ab352783981a7c71/media/f874c503939b4758b4e2ca67461029ed?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": [
+            0.07771199999999999,
+            0.312828,
+            0.922288,
+            0.48737400000000003
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 1034
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 200,
+          "file_name": "Vector-Subfigures-Guide.pdf",
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "version": 1,
+            "source_id": "page:1:table:1"
+          },
+          "locator": {
+            "page": 1,
+            "bbox": [
+              0.097712,
+              0.332828,
+              0.902288,
+              0.467374
+            ]
+          },
+          "has_preview": true,
+          "text_head": "| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.07771199999999999,
+            0.312828,
+            0.922288,
+            0.48737400000000003
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 26188
+        }
+      ]
+    },
+    {
+      "question_id": "Q06_page_citation_regression",
+      "category": "existing_page_citation_regression",
+      "question": "According to Section 1 of Vector-Subfigures-Guide.pdf on page 1, what are the default sampling interval, termination impedance, and ambient reference temperature?",
+      "turn_status": "completed",
+      "route": null,
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": [
+            {
+              "method": "native_text",
+              "status": "succeeded",
+              "text_head": "Benchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration g"
+            }
+          ]
+        },
+        "ev-2": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": [
+            0.097712,
+            0.332828,
+            0.902288,
+            0.467374
+          ],
+          "reads": [
+            {
+              "method": "native_table",
+              "status": "succeeded",
+              "text_head": "| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |"
+            }
+          ]
+        },
+        "ev-3": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": []
+        },
+        "ev-4": {
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": [
+            0.097712,
+            0.332828,
+            0.902288,
+            0.467374
+          ],
+          "reads": []
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Vector-Subfigures-Guide.pdf · v1 · 第 1 页 · Benchtop Waveform & Calibration Guide\nBenchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration guide documents two-channel benchtop acquisition.\nDefault sampling interval is fixed at 0.25 ms with a 50-ohm termination impedance.\nAll measurements are recorded at an ambient reference temperature of 23.0 C after\na 15-minute warm-up period.\nTable 1: Channel Calibration Parameters\nChannel Nominal Range\nCH-A (Step) 0.0 V to 5.0 V\nCH-B (Decay) -12.0 dB to +6.0 dB",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |",
+          "type": "text"
+        },
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 第 1 页 · Benchtop Waveform & Calibration Guide",
+          "display_id": "72f15219e3c04d92bc104b0454f71815",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/bafd0ca70b444734b909a0b741470513/messages/f17d42a4a76b49b39696e21e0977c702/media/72f15219e3c04d92bc104b0454f71815?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range",
+          "display_id": "0cf649337d90421fb5a11485edb418b5",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "evidence_id": "ev-4",
+          "fallback_reason": null,
+          "height": 278,
+          "media_url": "/api/workspace/sessions/bafd0ca70b444734b909a0b741470513/messages/f17d42a4a76b49b39696e21e0977c702/media/0cf649337d90421fb5a11485edb418b5?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": [
+            0.07771199999999999,
+            0.312828,
+            0.922288,
+            0.48737400000000003
+          ],
+          "rendition_kind": "object_crop",
+          "type": "source_image",
+          "width": 1034
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 200,
+          "file_name": "Vector-Subfigures-Guide.pdf",
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "locator": {
+            "page": 1
+          },
+          "has_preview": true,
+          "text_head": "Benchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration g"
+        },
+        "ev-2": {
+          "http_status": 200,
+          "file_name": "Vector-Subfigures-Guide.pdf",
+          "source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "version": 1,
+            "source_id": "page:1:table:1"
+          },
+          "locator": {
+            "page": 1,
+            "bbox": [
+              0.097712,
+              0.332828,
+              0.902288,
+              0.467374
+            ]
+          },
+          "has_preview": true,
+          "text_head": "| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 108680
+        },
+        {
+          "evidence_id": "ev-4",
+          "display_source": {
+            "document_id": "local_4510820cd7604f55bfd90739be229d8f",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.07771199999999999,
+            0.312828,
+            0.922288,
+            0.48737400000000003
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 26188
+        }
+      ]
+    }
+  ]
+}

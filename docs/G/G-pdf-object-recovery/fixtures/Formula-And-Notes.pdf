@@ -1,0 +1,140 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R] /Count 2 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Length 1164 >>
+stream
+0.080 0.100 0.140 rg
+BT /F2 16.00 Tf 1 0 0 1 60.00 736.00 Tm (Signal Windowing & Thermal Notes) Tj ET
+BT /F1 10.00 Tf 1 0 0 1 60.00 714.00 Tm (Public Synthetic Fixture \(CC BY 4.0\) - Formula-And-Notes.pdf) Tj ET
+0.200 0.250 0.320 RG
+1.00 w
+60.00 704.00 m 552.00 704.00 l S
+0.100 0.120 0.160 rg
+BT /F2 12.50 Tf 1 0 0 1 60.00 676.00 Tm (Section 1: Background) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 60.00 654.00 Tm (Benchtop thermal drift is monitored over a 30-minute stabilization window.) Tj ET
+BT /F1 10.50 Tf 1 0 0 1 60.00 636.00 Tm (Mechanical spring losses are modeled separately from discrete-time filter delay.) Tj ET
+0.650 0.680 0.720 RG
+0.960 0.970 0.980 rg
+74.00 520.00 464.00 72.00 re B
+0.080 0.100 0.140 rg
+BT /F3 13.00 Tf 1 0 0 1 92.00 566.00 Tm (E_loss = 0.5 * k * x^2) Tj ET
+BT /F1 10.00 Tf 1 0 0 1 92.00 540.00 Tm (where k is spring stiffness [N/m] and x is displacement [m].) Tj ET
+0.750 0.780 0.820 RG
+0.985 0.985 0.975 rg
+110.00 340.00 392.00 110.00 re B
+0.200 0.500 0.350 RG
+1.80 w
+140.00 365.00 m 240.00 380.00 l 340.00 395.00 l 460.00 415.00 l S
+0.100 0.120 0.160 rg
+BT /F2 10.50 Tf 1 0 0 1 110.00 316.00 Tm (Figure 2: Thermal drift baseline.) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 2589 >>
+stream
+0.080 0.100 0.140 rg
+BT /F2 13.50 Tf 1 0 0 1 60.00 736.00 Tm (Section 2: Discrete Window Delay & Envelope) Tj ET
+BT /F1 10.00 Tf 1 0 0 1 60.00 716.00 Tm (Distinct formulas are separated vertically; Figure 3 shows the peak-hold envelope.) Tj ET
+0.180 0.350 0.650 RG
+0.950 0.970 1.000 rg
+1.20 w
+73.44 570.24 465.12 95.04 re B
+0.080 0.100 0.140 rg
+BT /F2 10.50 Tf 1 0 0 1 91.44 641.28 Tm (Effective Group Delay \(Standalone Formula\):) Tj ET
+BT /F3 14.00 Tf 1 0 0 1 91.44 615.28 Tm (tau_eff = \(W - 1\) / 2) Tj ET
+BT /F2 11.00 Tf 1 0 0 1 91.44 591.28 Tm (Condition: for odd W >= 3 only) Tj ET
+0.650 0.680 0.720 RG
+0.970 0.970 0.970 rg
+1.00 w
+73.44 427.68 465.12 79.20 re B
+0.100 0.120 0.160 rg
+BT /F2 10.00 Tf 1 0 0 1 91.44 484.88 Tm (Smoothing Factor \(Auxiliary Note\):) Tj ET
+BT /F3 13.00 Tf 1 0 0 1 91.44 462.88 Tm (alpha_max = 1 / \(N + 1\)) Tj ET
+BT /F1 9.50 Tf 1 0 0 1 91.44 442.88 Tm (Applies to exponential moving average window length N.) Tj ET
+0.750 0.780 0.820 RG
+0.985 0.985 0.975 rg
+1.00 w
+110.16 190.08 391.68 190.08 re B
+0.080 0.100 0.140 rg
+BT /F2 10.50 Tf 1 0 0 1 124.16 358.16 Tm (Peak-Hold Envelope Trace) Tj ET
+0.880 0.900 0.920 RG
+0.60 w
+162.16 232.08 m 162.16 342.16 l S
+324.00 232.08 m 324.00 342.16 l S
+485.84 232.08 m 485.84 342.16 l S
+162.16 232.08 m 485.84 232.08 l S
+162.16 287.12 m 485.84 287.12 l S
+162.16 342.16 m 485.84 342.16 l S
+0.150 0.180 0.220 RG
+1.40 w
+162.16 232.08 m 162.16 342.16 l S
+162.16 232.08 m 485.84 232.08 l S
+0.150 0.180 0.220 rg
+162.16 228.58 m 162.16 232.08 l S
+BT /F1 8.50 Tf 1 0 0 1 158.16 218.08 Tm (0) Tj ET
+324.00 228.58 m 324.00 232.08 l S
+BT /F1 8.50 Tf 1 0 0 1 320.00 218.08 Tm (50) Tj ET
+485.84 228.58 m 485.84 232.08 l S
+BT /F1 8.50 Tf 1 0 0 1 481.84 218.08 Tm (100) Tj ET
+158.66 232.08 m 162.16 232.08 l S
+BT /F1 8.50 Tf 1 0 0 1 136.16 229.08 Tm (0.0) Tj ET
+158.66 287.12 m 162.16 287.12 l S
+BT /F1 8.50 Tf 1 0 0 1 136.16 284.12 Tm (1.5) Tj ET
+158.66 342.16 m 162.16 342.16 l S
+BT /F1 8.50 Tf 1 0 0 1 136.16 339.16 Tm (3.0) Tj ET
+0.100 0.120 0.160 rg
+BT /F2 9.00 Tf 1 0 0 1 272.21 201.08 Tm (Sample Index [n]) Tj ET
+BT /F2 8.50 Tf 1 0 0 1 118.16 348.16 Tm (Level [V]) Tj ET
+0.120 0.480 0.380 RG
+0.120 0.480 0.380 rg
+2.00 w
+162.16 248.59 m 226.90 325.65 l 307.82 325.65 l 356.37 298.13 l 421.10 298.13 l 485.84 270.61 l S
+0.80 w
+159.86 246.29 4.60 4.60 re B
+224.60 323.35 4.60 4.60 re B
+305.52 323.35 4.60 4.60 re B
+354.07 295.83 4.60 4.60 re B
+418.80 295.83 4.60 4.60 re B
+483.54 268.31 4.60 4.60 re B
+0.100 0.120 0.160 rg
+BT /F2 10.50 Tf 1 0 0 1 77.44 154.24 Tm (Figure 3: Peak-hold envelope under dry bench conditions.) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+xref
+0 10
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000127 00000 n 
+0000000197 00000 n 
+0000000272 00000 n 
+0000000340 00000 n 
+0000001555 00000 n 
+0000001701 00000 n 
+0000004341 00000 n 
+trailer
+<< /Size 10 /Root 1 0 R >>
+startxref
+4487
+%%EOF
