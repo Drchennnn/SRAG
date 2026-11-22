@@ -1,0 +1,164 @@
+{
+  "task_id": "G26",
+  "phase": "1_pre_implementation_freeze",
+  "frozen_at": "2026-11-22T15:39:00+08:00",
+  "frozen_by": "g26_gate",
+  "baseline_commit": "956991253221c2fe4fd63284514f6034c72d9d26",
+  "branch": "feat/g26-table-question-routing",
+  "material": {
+    "file_name": "FOCCUS-D2.2-CCBY4.pdf",
+    "repo_path": "docs/G/G26-fixtures/FOCCUS-D2.2-CCBY4.pdf",
+    "title": "D2.2: First Version of Data or Development",
+    "creators": ["Federico Falcini", "Emma Reyes", "Antonio Bonaduce"],
+    "origin_html": "https://zenodo.org/records/14931862",
+    "origin_pdf": "https://zenodo.org/api/records/14931862/files/D2.2_1st%20version%20of%20data%20or%20development.pdf/content",
+    "doi": "10.5281/zenodo.14931862",
+    "license": "CC-BY-4.0",
+    "bytes": 628031,
+    "sha256": "a5808a67ab9d0ca069af590240db73e428171a037898a0ec9cf679bd94878a0f",
+    "page_count": 8,
+    "total_native_page_chars": 13231,
+    "registered_tables": 2,
+    "never_used_in_srag_prior_to_g26": true,
+    "parsed_tables": [
+      {
+        "source_id": "page:4:table:1",
+        "page": 4,
+        "table_index": 1,
+        "rows_count": 7,
+        "columns": ["#", "Task", "Data product", "Lead", "Coverage (area of interest)", "Format", "Data version", "Data access link (DOI)"]
+      },
+      {
+        "source_id": "page:5:table:1",
+        "page": 5,
+        "table_index": 1,
+        "rows_count": 8,
+        "note": "Cross-page continuation of Table 1 (rows 7-14) without repeated header row in PDF"
+      }
+    ]
+  },
+  "questions": [
+    {
+      "question_id": "Q01",
+      "category": "第 1 类：问表内事实或比较",
+      "turns": [
+        "表格里海平面高度（Sea level）这项数据产品由哪个机构牵头负责，覆盖哪些海域，目前的数据版本和文件格式分别是什么？"
+      ],
+      "expected_route": "qa_retrieval_and_reading",
+      "expect_clarification": false,
+      "expected_source_ids": ["page:4", "page:4:table:1"],
+      "source_basis": "page:4:table:1 row[1]: #=1., Task=2.1.1, Data product=Sea level, Lead=CLS, Coverage=European seas (Mediterranean, Black Sea, Atlantic up to 66°N, Baltic), Format=netCDF, Data version=v0.1",
+      "pass_criteria": [
+        "走普通检索问答（检索+阅读+回答），不触发多余澄清",
+        "准确答出牵头机构 CLS、覆盖海域（地中海、黑海、北纬66度以南大西洋、波罗的海等欧洲海域）、版本 v0.1、格式 netCDF"
+      ]
+    },
+    {
+      "question_id": "Q02",
+      "category": "第 1 类：问表内事实或比较",
+      "turns": [
+        "对比表格里的海岸观测数据产品，哪些产品同时使用了 netCDF 和 shapefile 两种格式，哪些产品只提供 csv 格式？"
+      ],
+      "expected_route": "qa_retrieval_and_reading",
+      "expect_clarification": false,
+      "expected_source_ids": ["page:5", "page:5:table:1"],
+      "source_basis": "page:5:table:1 row[0]: #=7. Beach monitoring products (Format=netCDF and shapefile); row[3]: #=10. Inland-marine water connectivity (Format=csv); row[5]: #=12. is Csv netCDF",
+      "pass_criteria": [
+        "走普通检索问答（检索+阅读+回答），不触发多余澄清",
+        "准确答出同时使用 netCDF 和 shapefile 的为 Beach monitoring products（#7），只提供 csv 的为 Inland-marine water connectivity（#10）"
+      ]
+    },
+    {
+      "question_id": "Q03",
+      "category": "第 2 类：点名打开/查看明确表对象",
+      "turns": [
+        "打开第 4 页的表 1"
+      ],
+      "expected_route": "exact_object_location",
+      "expect_clarification": false,
+      "expected_target_source_id": "page:4:table:1",
+      "source_basis": "page:4:table:1 (explicit page 4, table 1)",
+      "pass_criteria": [
+        "走精确对象定位",
+        "准确指向 page:4:table:1"
+      ]
+    },
+    {
+      "question_id": "Q04",
+      "category": "第 2 类：点名打开/查看明确表对象",
+      "turns": [
+        "查看第 5 页第 1 张表格的原表"
+      ],
+      "expected_route": "exact_object_location",
+      "expect_clarification": false,
+      "expected_target_source_id": "page:5:table:1",
+      "source_basis": "page:5:table:1 (explicit page 5, table 1)",
+      "pass_criteria": [
+        "走精确对象定位",
+        "准确指向 page:5:table:1"
+      ]
+    },
+    {
+      "question_id": "Q05",
+      "category": "第 3 类：承接会话已展示表对象",
+      "turns": [
+        "打开第 4 页的表 1",
+        "刚才那张表里，第 6 行（Seagrass and macroalgae maps）是由哪家机构牵头、覆盖哪些海域的？"
+      ],
+      "expected_route": "session_object_followup",
+      "expect_clarification": false,
+      "expected_target_source_id": "page:4:table:1",
+      "source_basis": "page:4:table:1 row[6]: #=6., Task=2.1.3, Data product=Seagrass and macroalgae maps, Lead=BC, Coverage=German Bight, Western Mediterranean (Balearic Sea)",
+      "pass_criteria": [
+        "复用会话中 Turn 1 已展示的 page:4:table:1 及其当前版本",
+        "准确答出 Lead=BC、Coverage=German Bight 与 Western Mediterranean (Balearic Sea)"
+      ]
+    },
+    {
+      "question_id": "Q06",
+      "category": "第 3 类：承接会话已展示表对象",
+      "turns": [
+        "查看第 5 页第 1 张表格的原表",
+        "刚才那张表里，第 2 列（Task）和第 6 列（Format）对应第 9 项（HABs probability maps）的值分别是什么？"
+      ],
+      "expected_route": "session_object_followup",
+      "expect_clarification": false,
+      "expected_target_source_id": "page:5:table:1",
+      "source_basis": "page:5:table:1 row[2]: #=9., Task=2.2.1, Data product=HABs probability maps, Lead=NERSC, Format=netCDF",
+      "pass_criteria": [
+        "复用会话中 Turn 1 已展示的 page:5:table:1 及其当前版本",
+        "准确答出 Task=2.2.1、Format=netCDF"
+      ]
+    },
+    {
+      "question_id": "Q07",
+      "category": "第 4 类：真正有歧义",
+      "turns": [
+        "打开那张表"
+      ],
+      "expected_route": "ambiguity_clarification",
+      "expect_clarification": true,
+      "candidate_source_ids": ["page:4:table:1", "page:5:table:1"],
+      "source_basis": "Document has 2 table objects (page:4:table:1 and page:5:table:1, cross-page Table 1) with no distinguishing context in query or session",
+      "pass_criteria": [
+        "识别存在多张候选表且无法区分，进入澄清分支",
+        "提出能消除歧义的具体问题（例如请用户明确第 4 页的表 1 还是第 5 页的表 1）"
+      ]
+    },
+    {
+      "question_id": "Q08",
+      "category": "第 4 类：可区分场景（避免多问一轮）",
+      "turns": [
+        "打开包含海冰变化（Sea ice changes）的那张表"
+      ],
+      "expected_route": "exact_object_location",
+      "expect_clarification": false,
+      "expected_target_source_id": "page:4:table:1",
+      "source_basis": "Sea ice changes appears only in page:4:table:1 row[3] (#=3., Task=2.1.1, NERSC, Arctic Ocean), not in page:5:table:1",
+      "pass_criteria": [
+        "利用题面唯一线索区分 page:4:table:1 与 page:5:table:1",
+        "直接走精确对象定位到 page:4:table:1，不产生多余澄清"
+      ]
+    }
+  ]
+}

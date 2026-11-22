@@ -30,10 +30,22 @@ _OUTPUT_NUMBER = re.compile(
 )
 _TABLE_NUMBER = re.compile(
     rf"第\s*(?P<chinese>{_NUMBER})\s*(?:张|个)\s*(?:表格|表)"
-    r"|\btable\s*#?\s*(?P<english>[0-9]{1,4})\b",
+    r"|\btable\s*#?\s*(?P<english>[0-9]{1,4})\b"
+    r"|(?<![第图])表\s*#?\s*(?P<trailing>[0-9]{1,4})(?![0-9.])",
     re.IGNORECASE,
 )
 _COORDINATED_ORDINAL = re.compile(rf"第\s*(?:{_NUMBER})\s*(?:张|幅|个)\s*(?:和|及|与|、)\s*第")
+_EXPLICIT_TABLE_REF = re.compile(
+    r"原表|(?:这|那)张\s*(?:表格|原表|表)"
+    r"|(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述)\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:表格|原表|表)"
+)
+_EXPLICIT_LOCATION = re.compile(
+    rf"第?\s*(?:{_NUMBER})\s*(?:页|张幻灯片|个?\s*cell)"
+    r"|\b(?:page|slide)\s+#?[1-9][0-9]{0,3}\b"
+    r"|\bcell\s+[1-9][0-9]{0,3}\b",
+    re.IGNORECASE,
+)
+_DEMONSTRATIVE_TABLE = re.compile(r"(?:这|那)张\s*(?:表格|原表|表)")
 _IMAGE = re.compile(
     r"子图|图片|图像|插图|图表|原图|什么图|[左右上下]图|图[中上内]|图里的"
     r"|[左右上下](?:侧|边|方|半)(?:的|[那这][张幅个])?\s*图"
@@ -118,21 +130,47 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
     outputs = _ordinals(_OUTPUT_NUMBER, question)
     images = _ordinals(_IMAGE_NUMBER, question)
     tables = _ordinals(_TABLE_NUMBER, question)
-    if not _FACT.search(question) and (
-        _PREVIEW.search(question)
-        or not (re.search(r"[?？]", question) or (include_reference and (images or tables)))
-    ):
-        return None
+    has_fact = bool(_FACT.search(question))
+    has_preview = bool(_PREVIEW.search(question))
     has_image = bool(images or _IMAGE.search(question) or (outputs and _AXIS.search(question)))
     has_table = bool(
         tables or _TABLE.search(question) or (not has_image and _COLUMN.search(question))
     )
     if not (has_image or has_table):
         return None
+    directions = [name for name, pattern in _DIRECTIONS if pattern.search(question)]
+    if has_table and not has_image:
+        explicit_table = bool(
+            tables
+            or directions
+            or _COLUMN.search(question)
+            or _EXPLICIT_TABLE_REF.search(question)
+            or _EXPLICIT_LOCATION.search(question)
+        )
+        if not explicit_table:
+            return None
+        if not has_fact:
+            has_actionable_target = bool(
+                tables
+                or directions
+                or _EXPLICIT_LOCATION.search(question)
+                or _DEMONSTRATIVE_TABLE.search(question)
+            )
+            if has_preview and not has_actionable_target:
+                return None
+            if not (
+                has_actionable_target
+                or re.search(r"[?？]", question)
+                or (include_reference and tables)
+            ):
+                return None
+    elif not has_fact and (
+        has_preview or not (re.search(r"[?？]", question) or (include_reference and images))
+    ):
+        return None
     kind: ObjectKind = "table" if has_table else "image"
     order: ObjectOrder = "tables" if has_table else ("outputs" if outputs else "images")
     numbers = tables if has_table else (outputs or images)
-    directions = [name for name, pattern in _DIRECTIONS if pattern.search(question)]
     ordinal = next(iter(numbers)) if len(numbers) == 1 else None
     direction = directions[0] if len(directions) == 1 else None
     unresolved = (
@@ -191,7 +229,10 @@ def object_choices(
 
 def _ordinals(pattern: re.Pattern[str], question: str) -> set[int]:
     return {
-        _parse_ordinal(match["chinese"] or match["english"]) for match in pattern.finditer(question)
+        _parse_ordinal(
+            match["chinese"] or match["english"] or match.groupdict().get("trailing") or ""
+        )
+        for match in pattern.finditer(question)
     }
 
 

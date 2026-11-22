@@ -39,7 +39,17 @@ from app.rag.workspace_generation import (
     generate_response,
 )
 from app.rag.workspace_initial_focus import answer_current_image, resolve_current_image
-from app.rag.workspace_objects import ObjectIntent, object_choices, object_intent
+from app.rag.workspace_objects import (
+    _FACT as _OBJECT_FACT,
+)
+from app.rag.workspace_objects import (
+    _PREVIEW as _OBJECT_PREVIEW,
+)
+from app.rag.workspace_objects import (
+    ObjectIntent,
+    object_choices,
+    object_intent,
+)
 from app.rag.workspace_reading import (
     ReadingCursor,
     _has_visual,
@@ -73,6 +83,10 @@ _HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上
 _IMAGE_REFERENCE = re.compile(
     r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这|哪)"
     r"\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:图片|图像|图)"
+)
+_TABLE_REFERENCE = re.compile(
+    r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这)"
+    r"\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:表格|原表|表)"
 )
 _CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*cell", re.IGNORECASE)
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
@@ -508,6 +522,14 @@ class WorkspaceService:
                 and (not located or _PREVIOUS_TURN.search(turn.request.text))
             ):
                 return self._resolve_reference(owner, turn, session, ordinal)
+            if (
+                turn.request.kind == "ask"
+                and _TABLE_REFERENCE.search(turn.request.text)
+                and (not located or _PREVIOUS_TURN.search(turn.request.text))
+            ):
+                resolved = self._resolve_table_reference(owner, turn, session)
+                if resolved is not None:
+                    return resolved
             return self._retrieve(turn, session, turn.request.text, owner=owner)
         except WorkspaceError as error:
             # Authorized absence of a stored reference is a turn failure, with no source metadata.
@@ -1604,6 +1626,8 @@ class WorkspaceService:
                 ):
                     region_rects[key] = region.target_rect
         choices = object_choices(target, sources, focus=focus, region_rects=region_rects)
+        if target.kind == "table" and len(choices) > 1:
+            choices = _disambiguate_table_choices(text, choices, narrowed.sources)
         trace: dict[str, Any] = {
             "route": "target_object",
             "effective_scope": _effective(docs),
@@ -1611,45 +1635,180 @@ class WorkspaceService:
             "external_call_count": 0,
         }
         if len(choices) != 1:
-            note = (
-                "有多个可能的对象，请指定原件位置或图序。"
-                if choices
-                else "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
-            )
+            if choices and target.kind == "table":
+                note = _format_table_ambiguity(choices, docs)
+            elif choices:
+                note = "有多个可能的对象，请指定原件位置或图序。"
+            else:
+                note = "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
             draft.notice("object_ambiguous" if choices else "object_not_found", note)
             return self._complete(turn, draft, refs=refs, trace=trace)
         source = choices[0]
         trace["selected_source"] = _key(source).model_dump()
         if target.kind == "table":
-            failures = self._read_text(turn, draft, docs, choices, 1)
-            if failures or not draft.sources:
-                draft.notice("object_unreadable", "已定位表格，未读到可核对的原生表格内容。")
-            else:
-                item = next(iter(draft.sources.values()))
-                doc = docs[source.document_id]
-                # Use the native table bounds so the requested column keeps its headers and units.
-                request = self._render_request(doc, source).model_copy(
-                    update={"registered_region_id": None}
-                )
-                result = self.evidence.render_current(request)
-                if result.status in {"stale_reference", "not_accessible"}:
-                    raise WorkspaceError(result.status)
-                display = result.display
-                if (
-                    display is not None
-                    and display.actual_source == item.revision.source
-                    and display.rendition_kind == "object_crop"
-                ):
-                    label = f"{doc.file_name} · v{doc.version} · {_label(source)}"
-                    draft.add_image(item, result, request, label)
-                else:
-                    draft.notice("table_crop_unavailable", "表格裁图不可用，可从依据打开原表。")
+            self._render_table_crop(turn, draft, docs, source)
         else:
             error = self._read_selected_image(
                 turn, draft, docs[source.document_id], source, text, trace
             )
             if error:
                 return self._finish_invalid_read(turn, error, trace)
+        return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _render_table_crop(
+        self,
+        turn: Turn,
+        draft: Draft,
+        docs: Mapping[str, SnapshotDocument],
+        source: SnapshotSource,
+    ) -> None:
+        failures = self._read_text(turn, draft, docs, [source], 1)
+        if failures or not draft.sources:
+            draft.notice("object_unreadable", "已定位表格，未读到可核对的原生表格内容。")
+            return
+        item = next(iter(draft.sources.values()))
+        doc = docs[source.document_id]
+        # Use the native table bounds so the requested column keeps its headers and units.
+        request = self._render_request(doc, source).model_copy(
+            update={"registered_region_id": None}
+        )
+        result = self.evidence.render_current(request)
+        if result.status in {"stale_reference", "not_accessible"}:
+            raise WorkspaceError(result.status)
+        display = result.display
+        if (
+            display is not None
+            and display.actual_source == item.revision.source
+            and display.rendition_kind == "object_crop"
+        ):
+            label = f"{doc.file_name} · v{doc.version} · {_label(source)}"
+            draft.add_image(item, result, request, label)
+        else:
+            draft.notice("table_crop_unavailable", "表格裁图不可用，可从依据打开原表。")
+
+    def _resolve_table_reference(self, owner: str, turn: Turn, session: Session) -> Turn | None:
+        _, turns, messages = self.store.timeline(owner, session.session_id)
+        completed = {item.turn_id for item in turns if item.status == "completed"}
+        boundary = next(
+            message["ordinal"]
+            for message in messages
+            if message["turn_id"] == turn.turn_id and message["role"] == "user"
+        )
+        previous = None
+        table_entries: list[dict[str, Any]] = []
+        for message in reversed(messages):
+            if (
+                message["role"] != "assistant"
+                or message["turn_id"] not in completed
+                or message["ordinal"] >= boundary
+            ):
+                continue
+            entries = [
+                item
+                for item in (message.get("sources") or {}).values()
+                if _is_table_evidence(item)
+            ]
+            if entries:
+                previous = message
+                table_entries = entries
+                break
+        if previous is None:
+            if _HISTORY_IMAGE.search(turn.request.text):
+                return self._clarify(
+                    turn, "找不到带表格的已完成回答，请从原件目录选择表格。", [], []
+                )
+            return None
+        unique: dict[tuple[str, int, str], dict[str, Any]] = {}
+        for item in table_entries:
+            src = item["revision"]["source"]
+            unique[(src["document_id"], src["version"], src["source_id"])] = item
+        if len(unique) != 1:
+            labels = "、".join(
+                f"{item['file_name']} 第 {item.get('locator', {}).get('page', '?')} 页的表"
+                for item in unique.values()
+            )
+            return self._clarify(
+                turn, f"上一轮涉及多张表格，请说明你要继续问哪一张：{labels}。", [], []
+            )
+        entry = next(iter(unique.values()))
+        rev = entry["revision"]
+        key = SourceKey.model_validate(rev["source"])
+        ref = {
+            "course_id": rev["course_id"],
+            "document_id": key.document_id,
+            "version": key.version,
+            "publication_epoch": rev["publication_epoch"],
+            "content_sha256": rev["content_sha256"],
+            "file_name": entry["file_name"],
+        }
+        draft = Draft(session.session_id)
+        if ref["course_id"] not in session.course_ids or (
+            session.document_ids and key.document_id not in session.document_ids
+        ):
+            draft.notice("outside_current_scope", "表格在当前范围之外。请切到该文件后再追问。")
+            return self._complete(turn, draft, historical=[ref])
+        snapshot = self.snapshots.read(
+            SnapshotRequest(tuple(session.course_ids), (key.document_id,))
+        )
+        doc = next((d for d in snapshot.documents if d.document_id == key.document_id), None)
+        source = next(
+            (
+                s
+                for s in snapshot.sources
+                if s.document_id == key.document_id
+                and s.version == key.version
+                and s.source_id == key.source_id
+            ),
+            None,
+        )
+        if (
+            snapshot.resolution_status != "resolved"
+            or doc is None
+            or source is None
+            or doc.version != key.version
+            or doc.publication_epoch != rev["publication_epoch"]
+            or doc.content_sha256 != rev["content_sha256"]
+        ):
+            draft.notice(
+                "historical_only",
+                "这是先前回答中的原表。可以回看旧表，或从目录另选当前版本。",
+            )
+            return self._complete(turn, draft, historical=[ref])
+        docs = {doc.document_id: doc}
+        refs = [_doc_ref(doc)]
+        trace: dict[str, Any] = {
+            "route": "followup_table",
+            "effective_scope": _effective(docs),
+            "topic_document_id": doc.document_id,
+            "selected_source": _key(source).model_dump(),
+            "external_call_count": 0,
+        }
+        if self.settings.workspace_answer_enabled and (
+            _OBJECT_FACT.search(turn.request.text) or not _OBJECT_PREVIEW.search(turn.request.text)
+        ):
+            raw = self.library.store.read_source(_key(source), course_ids=[doc.course_id])
+            if (
+                not raw.is_current
+                or raw.content_sha256 != doc.content_sha256
+                or raw.publication_epoch != doc.publication_epoch
+            ):
+                raise WorkspaceError("stale_reference")
+            if raw.status != "available" or raw.source is None or not raw.source.text.strip():
+                draft.notice("object_unreadable", "已定位表格，未读到可核对的原生表格内容。")
+            else:
+                table_text = raw.source.text.strip()
+                read = TurnRead(
+                    actual_source=_key(source),
+                    method="native_table",
+                    status="succeeded",
+                    text=table_text,
+                )
+                item = draft.add_evidence(doc, source, [read])
+                item.locator["text_span"] = [0, len(table_text)]
+                draft.text(table_text, item.evidence_id)
+                self._generate_draft(turn, draft, trace, "ask", refs=refs)
+        else:
+            self._render_table_crop(turn, draft, docs, source)
         return self._complete(turn, draft, refs=refs, trace=trace)
 
     def _finish_invalid_read(self, turn: Turn, error: str, trace: dict[str, Any]) -> Turn:
@@ -2503,3 +2662,64 @@ def _number(word: str) -> int:
         left, right = word.split("十")
         return 10 * numerals.get(left, 1) + numerals.get(right, 0)
     return numerals.get(word, 0)
+
+
+_TABLE_STOPWORDS = re.compile(
+    r"打开|查看|展示|显示|预览|核对|请|帮我|包含|含有|关于|里面|中的|里的|那张|这张|原表|表格|表|的"
+)
+
+
+def _is_table_evidence(item: Mapping[str, Any]) -> bool:
+    locator = item.get("locator") or {}
+    if locator.get("object_type") == "table":
+        return True
+    source_id = ((item.get("revision") or {}).get("source") or {}).get("source_id", "")
+    if ":table:" in source_id:
+        return True
+    return any(read.get("method") == "native_table" for read in (item.get("reads") or ()))
+
+
+def _disambiguate_table_choices(
+    question: str,
+    choices: list[SnapshotSource],
+    all_sources: Sequence[SnapshotSource],
+) -> list[SnapshotSource]:
+    cleaned = _TABLE_STOPWORDS.sub(" ", question)
+    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9][A-Za-z0-9._-]{1,}", cleaned)]
+    cjk_terms = [tok for tok in re.findall(r"[\u3400-\u9fff]{2,}", cleaned)]
+    terms = [*latin_terms, *cjk_terms]
+    if not terms:
+        return choices
+    parent_text = {
+        (src.document_id, src.version, src.source_id): src.text
+        for src in all_sources
+        if src.kind in _BASE_KINDS
+    }
+    scored: list[tuple[int, SnapshotSource]] = []
+    for choice in choices:
+        haystack = choice.text.casefold()
+        if choice.parent_id:
+            haystack += "\n" + parent_text.get(
+                (choice.document_id, choice.version, choice.parent_id), ""
+            ).casefold()
+        score = sum(1 for term in terms if term in haystack)
+        scored.append((score, choice))
+    best = max(score for score, _ in scored)
+    if best <= 0:
+        return choices
+    winners = [choice for score, choice in scored if score == best]
+    return winners if len(winners) == 1 else choices
+
+
+def _format_table_ambiguity(
+    choices: Sequence[SnapshotSource], docs: Mapping[str, SnapshotDocument]
+) -> str:
+    labels: list[str] = []
+    for choice in choices[:4]:
+        doc = docs.get(choice.document_id)
+        name = doc.file_name if doc else choice.document_id
+        page = choice.locator.get("page")
+        loc = f"第 {page} 页" if page is not None else choice.source_id
+        labels.append(f"{name} {loc}（{_label(choice)}）")
+    suffix = " 等" if len(choices) > 4 else ""
+    return f"找到多张可能的表格，请说明你要打开哪一张：{'、'.join(labels)}{suffix}。"

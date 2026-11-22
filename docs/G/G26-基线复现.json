@@ -1,0 +1,2691 @@
+{
+  "baseline": "956991253221c2fe4fd63284514f6034c72d9d26",
+  "cases": {
+    "G_Q02": {
+      "question": "在文末附录补充的显存与吞吐量实测表中，在两百五十六个词元批大小下，未启用与启用逐层权重更新时，八位投影法与八位基准优化器各自占用的显存、每秒词元吞吐量以及每秒样本吞吐量分别是多少？",
+      "elapsed_ms": 321.5,
+      "dom_text": "课程助手\n\n有多个可能的对象，请指定原件位置或图序。",
+      "turn_status": "completed",
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g26-repro-course"
+          ],
+          "document_ids": [
+            "local_382044ec37d740d9a5372e1fa734e003"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [
+          {
+            "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+            "source_id": "page:9:table:1",
+            "version": 1
+          },
+          {
+            "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+            "source_id": "page:21:table:1",
+            "version": 1
+          }
+        ],
+        "route": "target_object"
+      },
+      "outcome": null,
+      "blocks": [
+        {
+          "code": "object_ambiguous",
+          "text": "有多个可能的对象，请指定原件位置或图序。",
+          "type": "notice"
+        }
+      ]
+    },
+    "ctrl_appendix_256_8bit": {
+      "question": "在文末附录补充的显存与吞吐量对比中，在两百五十六个词元批大小下，未启用与启用逐层权重更新时，八位投影法与八位基准优化器各自占用的显存、每秒词元吞吐量以及每秒样本吞吐量分别是多少？",
+      "elapsed_ms": 5326.5,
+      "dom_text": "课程助手\n\n在附录表11（LLaMA 1B模型、词元批大小256）中，未启用逐层权重更新（Layer Wise ✘）时：8-bit GaLore 显存7.95、吞吐量1109.38 tokens/s、5.59 samples/s；Adam8bit 显存9.54、吞吐量1569.89 tokens/s、7.90 samples/s。\n\n依据 · GaLore-2403.03507v2.pdf · v1 · 第 23 页\n\n启用逐层权重更新（Layer Wise ✔）时：8-bit GaLore 显存5.63、吞吐量1019.63 tokens/s、5.13 samples/s；Adam8bit 显存6.93、吞吐量1205.31 tokens/s、6.07 samples/s。\n\n依据 · GaLore-2403.03507v2.pdf · v1 · 第 23 页\n\n表11未标注显存单位；正文其他处显存以G（GB）计，但表11本身未给出单位，故不能据表确认其单位。\n\n依据 · GaLore-2403.03507v2.pdf · v1 · 第 23 页GaLore-2403.03507v2.pdf · v1 · 第 8 页\n\n表11中Memory Cost列的单位未在表内标明，无法确认是GB还是其他单位。\n\n图 1 · GaLore-2403.03507v2.pdf · v1 · 第 8 页 · GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection\n\nGaLore-2403.03507v2.pdf · v1 · 第 8 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "turn_status": "completed",
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 8
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:8",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 9
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              },
+              {
+                "code": "parent_context",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:10",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:9",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 23
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:23",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:22",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:23",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 22
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:22",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:23",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:21",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:21:table:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:22",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 6
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:6",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 7
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:7",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:8",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:7",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 20
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:20",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:21",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:21:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:19",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:20",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 2
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:2",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 3
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:3",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:3",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 5
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:4",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:5",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "bbox": [
+                0.448986,
+                0.744321,
+                0.776976,
+                0.946088
+              ],
+              "page": 9
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9:table:1",
+                  "version": 1
+                }
+              },
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:9:table:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "GaLore-2403.03507v2.pdf",
+            "locator": {
+              "page": 10
+            },
+            "match_kind": "fts",
+            "reasons": [
+              {
+                "code": "fts_native",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:10",
+                  "version": 1
+                }
+              },
+              {
+                "code": "previous_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:11",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9",
+                  "version": 1
+                }
+              },
+              {
+                "code": "next_position",
+                "seed": {
+                  "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                  "source_id": "page:9:table:1",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:10",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 0,
+          "checked_positions": [
+            "page:1",
+            "page:2",
+            "page:3",
+            "page:4",
+            "page:5",
+            "page:6",
+            "page:7",
+            "page:8",
+            "page:9",
+            "page:10",
+            "page:11",
+            "page:12",
+            "page:13",
+            "page:14",
+            "page:15",
+            "page:16",
+            "page:17",
+            "page:18",
+            "page:19",
+            "page:20",
+            "page:21",
+            "page:22",
+            "page:23"
+          ],
+          "enumerated_source_count": 25,
+          "evidence_inspected_count": 23,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": false,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 12,
+          "searchable_source_count": 25,
+          "snapshot_document_count": 1,
+          "truncated": true,
+          "truncated_by_reason": {
+            "page_browse_fallback": 11
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g26-repro-course"
+          ],
+          "document_ids": [
+            "local_382044ec37d740d9a5372e1fa734e003"
+          ]
+        },
+        "external_call_count": 2,
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 3096.949,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 3112.396,
+          "estimated_input": 32664,
+          "external_call_count": 1,
+          "fixed_overhead": 2383,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2",
+            "ev-3",
+            "ev-4",
+            "ev-5",
+            "ev-6",
+            "ev-7",
+            "ev-8",
+            "ev-9"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 9684
+        },
+        "reading": {
+          "budget": 30385,
+          "estimated_input": 30281,
+          "estimated_message_input": 32664,
+          "full_text_scope": false,
+          "input_budget": 32768,
+          "location": null,
+          "mode": "ask",
+          "next_cursor": {
+            "offset": 2742,
+            "prioritized": true,
+            "scope_sha256": "3ad34474cda7a9cec668a21a6add210c8b694e2b936a2bc923b02cf1375df6d4",
+            "source_index": 8
+          },
+          "outline": [
+            {
+              "kind": "page",
+              "locator": {
+                "page": 1
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 3
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 4
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 5
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 6
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 7
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 8
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:8",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 9
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 10
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:10",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 11
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:11",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 12
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 13
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:13",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 14
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:14",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 15
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:15",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 16
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:16",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 17
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:17",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 18
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:18",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 19
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:19",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 20
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:20",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 21
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:21",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 22
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:22",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 23
+              },
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:23",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            }
+          ],
+          "outline_total": 23,
+          "preferred": [
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:8",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:9",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:23",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:22",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:6",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:7",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:20",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:2",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:3",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:5",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:9:table:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:10",
+              "version": 1
+            }
+          ],
+          "prioritized": true,
+          "prompt_reserve": 2383,
+          "read_ranges": [
+            {
+              "end": 2742,
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "deb3248bae5867aa73b0b40df7f58a3c4430bc4cd2b0e0fa51e6f3140a0ceb98",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 4296,
+              "kind": "page",
+              "locator": {
+                "page": 6
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:6",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "4e26f403d44bb1f6f39084f3adabf480aa377de50ae0897204758da021269de4",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 3544,
+              "kind": "page",
+              "locator": {
+                "page": 7
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:7",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "cc2cfc239780c360d582003e3a1a3596cab97c00004130ad4bc31e2b341d5c7e",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 5058,
+              "kind": "page",
+              "locator": {
+                "page": 8
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:8",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "2197b56abf79f90c148fc6f0eec7c48a7a33cbe53e1870faf8ee78f8f48e8ddb",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 4062,
+              "kind": "page",
+              "locator": {
+                "page": 9
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "31d6be31aca2736739e14a4c584ef14e041c987606e0c22b1cdf1472dc5d3e83",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 588,
+              "kind": "page_object",
+              "locator": {
+                "bbox": [
+                  0.448986,
+                  0.744321,
+                  0.776976,
+                  0.946088
+                ],
+                "page": 9
+              },
+              "method": "native_table",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9:table:1",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "f9a293071d9cd942fcddae620aa0ef3d7a1b6210334788a202a0d5596896126d",
+              "title": "e to ace, sub\u0002 | ing m tion m data d | memory effic matrices, an distributed tr | (, ), ciency by employing lo nd (3) exploring the fe raining on low-bandwid | () w- eas dth"
+            },
+            {
+              "end": 3037,
+              "kind": "page",
+              "locator": {
+                "page": 20
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:20",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "fa845c168829a299b532f1d37eb92994d1a86f82c3be72befa02b9b90ed99226",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 2108,
+              "kind": "page",
+              "locator": {
+                "page": 22
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:22",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "16a48538d0c8d34cce20def3b864effd01642d5c85fc46651587f06f2979dd0e",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "end": 1046,
+              "kind": "page",
+              "locator": {
+                "page": 23
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:23",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "0cdf1d4f43b48c9ba6577aa0f4ede1d06ad2fd44e900477187639e7cf0f21ae0",
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            }
+          ],
+          "skipped": [
+            {
+              "kind": "page",
+              "locator": {
+                "page": 2
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:2",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 3
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 5
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:5",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 10
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:10",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 1
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:1",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 4
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 11
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:11",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 12
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:12",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 13
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:13",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 14
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:14",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 15
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:15",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 16
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:16",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 17
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:17",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 18
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:18",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 19
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:19",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page",
+              "locator": {
+                "page": 21
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:21",
+                "version": 1
+              },
+              "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection"
+            },
+            {
+              "kind": "page_object",
+              "locator": {
+                "bbox": [
+                  0.076563,
+                  0.359533,
+                  0.571224,
+                  0.608523
+                ],
+                "page": 21
+              },
+              "reason": "window_budget",
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:21:table:1",
+                "version": 1
+              },
+              "title": "y | 25 y | Baseline LoRA GaLore y | 22 24"
+            }
+          ],
+          "skipped_total": 17,
+          "unread_visual": [],
+          "unread_visual_total": 0,
+          "visual_read_status": "not_attempted"
+        },
+        "retrieval": {
+          "alternate_pool": [
+            {
+              "candidate_id": "candidate_d84f98f75548b1aaa2e5e7b5",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:8",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f22a83d18b6cac307541d9a1",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:23",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:22",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:23",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_2d12acdc8c0c66853a9df571",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:5",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_a67e5698cf0ec27397ce6c1b",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "parent_context",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:10",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_eb3f57a0a10b591ad1486fb7",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:7",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f02fb7a61634b7043b402b93",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:20",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:19",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:20",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f58a089c4595a161c93bfc7e",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_e2d13ae5ece25e18308add89",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:3",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_3150760db28960d90fdccca6",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:22",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:23",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21:table:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:22",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_1a7a0b474bc44068ce71c8fb",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:5",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:5",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_0b8dd6085aa16f6820b0a3b3",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9:table:1",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_9c685c80e176963af6094529",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:10",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:11",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:10",
+                "version": 1
+              }
+            }
+          ],
+          "alternate_query": "In the GPU memory and throughput comparison added in the appendix at the end of the document, at a batch size of two hundred fifty-six tokens, when layer-wise weight updates are not enabled versus enabled, what are the GPU memory usage, tokens per second throughput, and samples per second throughput of the eight-bit projection method and the eight-bit baseline optimizer respectively?",
+          "alternate_search_status": "ok",
+          "budget": 12,
+          "candidate_pool": [
+            {
+              "candidate_id": "candidate_d84f98f75548b1aaa2e5e7b5",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:8",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_a67e5698cf0ec27397ce6c1b",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "parent_context",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:10",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f22a83d18b6cac307541d9a1",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:23",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:22",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:23",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_3150760db28960d90fdccca6",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:22",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:23",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21:table:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:22",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_2d12acdc8c0c66853a9df571",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:5",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_eb3f57a0a10b591ad1486fb7",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:7",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f02fb7a61634b7043b402b93",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:20",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:21:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:19",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:20",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f58a089c4595a161c93bfc7e",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_e2d13ae5ece25e18308add89",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:3",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_1a7a0b474bc44068ce71c8fb",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:5",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:5",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_0b8dd6085aa16f6820b0a3b3",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9:table:1",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_9c685c80e176963af6094529",
+              "match_kind": "fts",
+              "reasons": [
+                {
+                  "code": "fts_native",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:10",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "previous_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:11",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "next_position",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9:table:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:10",
+                "version": 1
+              }
+            }
+          ],
+          "effective_strategy": "bilingual",
+          "expansion": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "external_call_count": 1,
+          "jev": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "original_pool": [
+            {
+              "candidate_id": "candidate_93e0b56fa67d00ab3a45d7c2",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:1",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_f58a089c4595a161c93bfc7e",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:2",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:2",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_e2d13ae5ece25e18308add89",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:3",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_cfd082cd3cc6cf3f969dc8a3",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:4",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_1a7a0b474bc44068ce71c8fb",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:5",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:5",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_2d12acdc8c0c66853a9df571",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_eb3f57a0a10b591ad1486fb7",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:7",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:7",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_d84f98f75548b1aaa2e5e7b5",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:8",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:8",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_a67e5698cf0ec27397ce6c1b",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:9",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:9",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_9c685c80e176963af6094529",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:10",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:10",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_59a8a90a47732ca2b6f160a1",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:11",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:11",
+                "version": 1
+              }
+            },
+            {
+              "candidate_id": "candidate_6382468bdb7ba54ac4998c9a",
+              "match_kind": "browse",
+              "reasons": [
+                {
+                  "code": "page_browse_fallback",
+                  "seed": {
+                    "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                    "source_id": "page:12",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+                "source_id": "page:12",
+                "version": 1
+              }
+            }
+          ],
+          "original_query": "在文末附录补充的显存与吞吐量对比中，在两百五十六个词元批大小下，未启用与启用逐层权重更新时，八位投影法与八位基准优化器各自占用的显存、每秒词元吞吐量以及每秒样本吞吐量分别是多少？",
+          "original_search_status": "no_text_anchor",
+          "pins": [
+            {
+              "content_sha256": "5179e9c9b08362398ac0b0508415d78ff426e1b32cfc82d589b36e2eb60ffcbf",
+              "course_id": "g26-repro-course",
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "publication_epoch": 1,
+              "version": 1
+            }
+          ],
+          "rewrite": {
+            "attempts": [
+              {
+                "elapsed_ms": 1774.956,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "cache_hit": false,
+            "elapsed_ms": 1837.687,
+            "external_call_count": 1,
+            "model": "deepseek-flash",
+            "provider": "deepseek",
+            "status": "succeeded",
+            "target": "English",
+            "total_tokens": 314
+          },
+          "search_query": "在文末附录补充的显存与吞吐量对比中，在两百五十六个词元批大小下，未启用与启用逐层权重更新时，八位投影法与八位基准优化器各自占用的显存、每秒词元吞吐量以及每秒样本吞吐量分别是多少？",
+          "selected": [
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:8",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:9",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:23",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:22",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:6",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:7",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:20",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:2",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:3",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:5",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:9:table:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+              "source_id": "page:10",
+              "version": 1
+            }
+          ],
+          "strategy": "bilingual",
+          "visual_candidates": []
+        },
+        "route": "generated_answer",
+        "search_status": "no_text_anchor"
+      },
+      "outcome": null,
+      "blocks": [
+        {
+          "citations": [
+            "ev-9"
+          ],
+          "text": "在附录表11（LLaMA 1B模型、词元批大小256）中，未启用逐层权重更新（Layer Wise ✘）时：8-bit GaLore 显存7.95、吞吐量1109.38 tokens/s、5.59 samples/s；Adam8bit 显存9.54、吞吐量1569.89 tokens/s、7.90 samples/s。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-9"
+          ],
+          "text": "启用逐层权重更新（Layer Wise ✔）时：8-bit GaLore 显存5.63、吞吐量1019.63 tokens/s、5.13 samples/s；Adam8bit 显存6.93、吞吐量1205.31 tokens/s、6.07 samples/s。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-9",
+            "ev-4"
+          ],
+          "text": "表11未标注显存单位；正文其他处显存以G（GB）计，但表11本身未给出单位，故不能据表确认其单位。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "表11中Memory Cost列的单位未在表内标明，无法确认是GB还是其他单位。",
+          "type": "notice"
+        },
+        {
+          "caption": "GaLore-2403.03507v2.pdf · v1 · 第 8 页 · GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection",
+          "display_id": "3ab61562ff4d41298556ab427abfc3fd",
+          "display_source": {
+            "document_id": "local_382044ec37d740d9a5372e1fa734e003",
+            "source_id": "page:8",
+            "version": 1
+          },
+          "evidence_id": "ev-10",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/ae01b62ea6e0452d96a55cd2148146ef/messages/f767dcc3d3a54434a9487d625fe8ded3/media/3ab61562ff4d41298556ab427abfc3fd?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        }
+      ]
+    }
+  }
+}
