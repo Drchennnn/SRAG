@@ -1,0 +1,105 @@
+{
+  "schema": 1,
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "Beacon-Sync-Manual.pdf": {
+      "version": 1,
+      "sha256": "fcbfa8a221705ed972ce809dc5f61333584f2ac13ea6dfcac219aaff59bf0a02"
+    },
+    "Beacon-Sync-Log.ipynb": {
+      "version": 1,
+      "sha256": "c7441743c077c2c5b89e91ad5f12dd034d2b8f23336f4e47fc96c6a05cd3e513"
+    }
+  },
+  "turns": [
+    {
+      "id": "P_prime_1",
+      "new": false,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "F02_comma",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？"
+    },
+    {
+      "id": "P_prime_2",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "F02_conjunction",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，顺便看下配套实验还能核对吗？"
+    },
+    {
+      "id": "P_prime_3",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "M01_pure_measure_comma",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "只看我选中的讲义，刚才那次实验的延迟结果还能核对吗？"
+    },
+    {
+      "id": "P_prime_4",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "F02_semicolon",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍；配套实验还能核对吗？"
+    },
+    {
+      "id": "P_prime_5",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "F05_measurement_only",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "接着前一问说明其测量结果。配套实验现在还能核对吗？"
+    },
+    {
+      "id": "P_prime_6",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "E01_explicit_switch",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "Cooldown Guard 怎么定义？"
+    },
+    {
+      "id": "A01_ambig_prime",
+      "new": true,
+      "scope": "course",
+      "question": "讲义怎么定义 Barrier Latch 和 Cooldown Guard？配套实验测得的 mean sync delay 是多少毫秒？"
+    },
+    {
+      "id": "A02_ambig_comma",
+      "new": false,
+      "scope": "Beacon-Sync-Manual.pdf",
+      "question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？"
+    }
+  ]
+}
