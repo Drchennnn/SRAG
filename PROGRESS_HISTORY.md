@@ -547,3 +547,9 @@
 ## 2026-11-22 · 架构接受 G22 并签发 G23
 
 核对 6858977 独立报告及改写校验代码。按需双语检索继续作为默认长文策略，仅开放 G23 数量等价校验，生产修复与独立复核待执行。M2 仍返工。
+
+## 2026-11-22 · G23 双语检索改写的数量约束 · 独审通过（G23 完成并交回）
+
+- 执行者 `g23_exec`（主会话 `6a4dad8c-66bd-482c-8211-cd0e444516d2`）在授权提交 `75a0c6b21f1af028d17c8889cb41a92e2d09dbf5`（生产基线 `6858977c0dcbbf1d5419e07d45c148dab84006c7`）领取 G23，保持默认 `workspace_retrieval_strategy="fts"` 按需双语检索、`Jev` 默认关闭、向量关闭、预算与范围契约、A03 封存及 21 项既有本地改动不变，仅修改 `app/rag/workspace_retrieval.py` 与 `tests/test_workspace_retrieval.py`。
+- 实现确定性数量等价校验（`_validate_rewrite_constraints` / `_valid_rewrite`）及 `trace["constraint_reason"]` 观测：基于 `Decimal` 解析显式中文数词与量级（万/亿/兆/万亿及分数“千分之一”等）、英文数词/量级/缩写（`K/M/B/T`、`one-thousandth`）、单位、百分数、比较方向（含先剥离“不超过/不少于/no more than/no less than”再查否定）、版本号/代码标识符与分句对象-数值绑定，显式拦截模糊中文数词（`vague_numeral`）并过滤中文非数量惯用语（`_ZH_IDIOMS`）。
+- 独立审核者 `g23_gate`（子代理 `2adb85bb-b51b-4322-a4ba-cfcf6508366d`）在开发前冻结 40 组正反例与 23 页公开未见论文 `GaLore-2403.03507v2.pdf`（CC BY 4.0）并完成 Phase 2 独立复跑签认：Ruff `All checks passed!`、`pytest` `602 passed, 3 skipped`、40 组冻结正反例 **`40 / 40` 通过（`0` 错误放行、`0` 错误拦截）**；真实 Chromium `/workspace/` 从空库复跑，救回基线 `6858977` 被 `constraints_unverified` 误拦的 `ReAct H_Q03`（`page:14` #1，`gen=succeeded`，引用点击核验正确）与 `GaLore G_Q03`（`page:20` #1），并通过 `G_Q01`、`G_Q04`、`G_Q05`（缺证诚实声明）、`G_Q06`（显式页码 0 改写外调）、`ctrl_appendix_256_8bit`（`page:23`）、`ctrl_vague_fallback`（`vague_numeral` 安全回退）、`ctrl_no_numbers` 及改写 HTTP 503 安全回退对照；如实披露 `G_Q02` 因含“表”字触发既有 `object_intent` 澄清（非改写故障）及 `18G` vs `18 GB` 单位正则排序保守拒收边界。停在 G23 并交回架构负责人（M2 保持返工）。[G23 报告](./docs/G/G23-双语改写数量约束与盲验.md) · [独立裁决](./docs/G/G23-独立裁决.md) · [独立实测 JSON](./docs/G/G23-独立终验实测.json)

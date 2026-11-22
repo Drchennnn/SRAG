@@ -544,3 +544,235 @@ def test_bilingual_places_anchor_next_position_before_tail_noise():
         "page:15",
         "page:2",
     ]
+
+
+@pytest.mark.parametrize(
+    ("original", "candidate", "target", "expected", "expected_reason"),
+    [
+        # Chinese numerals + billion/million/thousand & hyphenation
+        (
+            "五千四百亿参数模型在推理任务上的表现如何？",
+            "How does the 540-billion-parameter model perform on reasoning tasks?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "五千四百亿参数模型在推理任务上的表现如何？",
+            "How does the 540-million-parameter model perform on reasoning tasks?",
+            "English",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+        (
+            "一点五亿参数模型在两点五万亿词元上训练的困惑度是多少？",
+            "What is the perplexity of a 150 million parameter model "
+            "trained on 2.5 trillion tokens?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "在两千四百零五万条样本上微调零点二五比例的收敛效果如何？",
+            "How is the convergence when fine-tuning on 24,050,000 samples with a ratio of 0.25?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "在两千四百零五万条样本上微调零点二五比例的收敛效果如何？",
+            "How is the convergence when fine-tuning on 24,500,000 samples with a ratio of 0.25?",
+            "English",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+        # Units & percentages
+        (
+            "每日八百毫克剂量下，响应延迟三十毫秒时的误差是多少？",
+            "What is the error at a daily dose of 800 mg and a response latency of 30 ms?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "每日八百毫克剂量下，响应延迟三十毫秒时的误差是多少？",
+            "What is the error at a daily dose of 800 g and a response latency of 30 us?",
+            "English",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+        (
+            "当单步延迟上限设为 500 毫秒时系统吞吐量如何？",
+            "How is system throughput when the per-step latency cap is set to 500 us?",
+            "English",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+        (
+            "按百分之五的显著性阈值计算有多少神经元不服从正态分布，超出预期假阳性率多少？",
+            "At a 5% significance threshold, how many neurons are non-normal, "
+            "exceeding the expected false positive rate by how much?",
+            "English",
+            True,
+            None,
+        ),
+        # Comparison directions & fractions
+        (
+            "在至少 5 个任务上准确率大于 10% 且全秩学习率不超过千分之一的配置有哪些？",
+            "Which configurations achieve accuracy greater than 10% on at least 5 tasks "
+            "with full-rank learning rate at most 0.001?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "与全秩基线通常采用不超过千分之一的学习率相比是多少？",
+            "What is it compared with the full-rank baseline using "
+            "no more than one-thousandth learning rate?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "与全秩基线通常采用不超过千分之一的学习率相比是多少？",
+            "What is it compared with the full-rank baseline using "
+            "no more than one-hundredth learning rate?",
+            "English",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+        (
+            "与全秩基线通常采用不超过千分之一的学习率相比是多少？",
+            "What is it compared with the full-rank baseline using "
+            "more than one-thousandth learning rate?",
+            "English",
+            False,
+            "comparison_mismatch",
+        ),
+        (
+            "在至少 5 个任务上准确率大于 10% 的配置有哪些？",
+            "Which configurations achieve accuracy less than 10% on at least 5 tasks?",
+            "English",
+            False,
+            "comparison_mismatch",
+        ),
+        (
+            "在至少 5 个任务上准确率大于 10% 的配置有哪些？",
+            "Which configurations achieve accuracy greater than 10% on at most 5 tasks?",
+            "English",
+            False,
+            "comparison_mismatch",
+        ),
+        # Versions & code identifiers + two-object swap + add/delete
+        (
+            "在 v2.1 中设置 top_k=5 和 batch_size=64 对比 v1.0 在 llama-7b 与 gpt-4 上表现如何？",
+            "How does v2.1 with top_k=5 and batch_size=64 compare against v1.0 "
+            "on llama-7b and gpt-4?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "在 v2.1 中设置 top_k=5 和 batch_size=64 对比 v1.0 在 llama-7b 与 gpt-4 上表现如何？",
+            "How does v2.0 with top_k=5 and batch_size=64 compare against v1.0 "
+            "on llama-7b and gpt-4?",
+            "English",
+            False,
+            "literal_missing",
+        ),
+        (
+            "7B 用 16 批大小、65B 用 64 批大小时显存分别是多少？",
+            "What is the memory usage when 7B uses batch size 16 and 65B uses batch size 64?",
+            "English",
+            True,
+            None,
+        ),
+        (
+            "7B 用 16 批大小、65B 用 64 批大小时显存分别是多少？",
+            "What is the memory usage when 7B uses batch size 64 and 65B uses batch size 16?",
+            "English",
+            False,
+            "binding_mismatch",
+        ),
+        (
+            "五千四百亿参数模型在推理任务上的表现如何？",
+            "How does the 540-billion-parameter model perform on 3 reasoning tasks?",
+            "English",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+        # Vague Chinese numerals must fail safely + non-numeric idioms must pass
+        (
+            "在几亿参数规模下该优化器的内存开销如何？",
+            "What is the memory cost of this optimizer at several hundred million parameters?",
+            "English",
+            False,
+            "vague_numeral",
+        ),
+        (
+            "每隔上百次迭代切换一次子空间会带来多少额外开销？",
+            "How much extra overhead is incurred by switching subspaces every 100 iterations?",
+            "English",
+            False,
+            "vague_numeral",
+        ),
+        (
+            "在十分有限的显存下，该方法在一般训练条件下与全秩训练的收敛是否一致？",
+            "Under very limited VRAM, is the convergence consistent with general conditions?",
+            "English",
+            True,
+            None,
+        ),
+        # English -> Chinese symmetry
+        (
+            "How does the 540-billion-parameter model compare "
+            "at least 5 benchmarks under 10% budget?",
+            "五千四百亿参数模型在百分之十预算下对比至少 5 个基准表现如何？",
+            "Chinese",
+            True,
+            None,
+        ),
+        (
+            "How does the 540-billion-parameter model compare "
+            "at least 5 benchmarks under 10% budget?",
+            "五百四十万参数模型在百分之十预算下对比至少 5 个基准表现如何？",
+            "Chinese",
+            False,
+            "numeric_or_unit_mismatch",
+        ),
+    ],
+)
+def test_g23_paired_numeric_unit_comparison_and_binding_constraints(
+    original, candidate, target, expected, expected_reason
+):
+    from app.rag.workspace_retrieval import _validate_rewrite_constraints
+
+    reason = _validate_rewrite_constraints(original, candidate, target)
+    assert (reason is None) is expected
+    assert reason == expected_reason
+
+
+def test_g23_rewriter_records_constraint_reason_and_falls_back_cleanly(settings):
+    def fake(request):
+        return httpx.Response(
+            200,
+            json={
+                "choices": [
+                    {
+                        "message": {
+                            "content": json.dumps(
+                                {"query": "What about 540 million parameter model?"}
+                            )
+                        }
+                    }
+                ],
+                "usage": {"total_tokens": 42},
+            },
+        )
+
+    rewriter = BilingualRewriter(settings, transport=httpx.MockTransport(fake))
+    result = rewriter("五千四百亿参数模型的性能如何？")
+    assert result.query is None
+    assert result.trace["status"] == "constraints_unverified"
+    assert result.trace["constraint_reason"] == "numeric_or_unit_mismatch"
+    assert result.trace["total_tokens"] == 42

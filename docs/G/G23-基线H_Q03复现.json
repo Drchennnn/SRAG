@@ -1,0 +1,149 @@
+{
+  "baseline_commit": "6858977c0dcbbf1d5419e07d45c148dab84006c7",
+  "original_question": "在后文补充的跨模型对比实验中，作者采用贪心解码在多大样本量的问答验证集与交互式任务验证集上测试了另一款闭源商业大模型？它在这两项任务上的得分与五千四百亿参数模型相比分别是多少？",
+  "raw_bilingual_rewrite": {
+    "query": "In the cross-model comparison experiment added later in the paper, on how large a sample size of the question-answering validation set and the interactive task validation set did the authors test another closed-source commercial large model using greedy decoding? What were its scores on these two tasks compared with the 540-billion-parameter model, respectively?",
+    "usage": {
+      "prompt_tokens": 229,
+      "completion_tokens": 72,
+      "total_tokens": 301,
+      "prompt_tokens_details": {
+        "cached_tokens": 0
+      },
+      "prompt_cache_hit_tokens": 0,
+      "prompt_cache_miss_tokens": 229
+    }
+  },
+  "rewrite_trace": {
+    "attempts": [
+      {
+        "elapsed_ms": 1870.985,
+        "outcome": "response",
+        "status": 200
+      }
+    ],
+    "cache_hit": false,
+    "elapsed_ms": 1932.767,
+    "external_call_count": 1,
+    "model": "deepseek-flash",
+    "provider": "deepseek",
+    "status": "constraints_unverified",
+    "target": "English",
+    "total_tokens": 301
+  },
+  "search_status": "no_text_anchor",
+  "fallback_candidates": [
+    "page:1",
+    "page:2",
+    "page:3",
+    "page:4",
+    "page:5",
+    "page:6",
+    "page:7",
+    "page:8",
+    "page:9",
+    "page:10",
+    "page:11",
+    "page:12"
+  ],
+  "read_ranges": [
+    [
+      "page:1",
+      0,
+      3604
+    ],
+    [
+      "page:2",
+      0,
+      5186
+    ],
+    [
+      "page:3",
+      0,
+      5213
+    ],
+    [
+      "page:4",
+      0,
+      4295
+    ],
+    [
+      "page:5",
+      0,
+      3686
+    ],
+    [
+      "page:6",
+      0,
+      4401
+    ]
+  ],
+  "answer_text": "本轮已读证据（第1至6页）只覆盖引言、方法概述、HotpotQA/Fever 的提示实验结果及失败模式分析，未包含后文补充的跨模型对比实验，因此无法确认作者采用贪心解码时所用的问答验证集与交互式任务验证集样本量，也无法确认所测试的另一款闭源商业大模型名称。 | 已确认的对照基线是 PaLM-540B：在 HotpotQA 上 ReAct 的 EM 为 27.4、CoT 为 29.4；在 Fever 上 ReAct 的 Acc 为 60.9、CoT 为 56.3。",
+  "isolated_search_if_allowed": {
+    "status": "ok",
+    "fts_seed_count": 33,
+    "page_14_rank": 1,
+    "top_12": [
+      [
+        1,
+        "page:14",
+        "fts"
+      ],
+      [
+        2,
+        "page:7",
+        "fts"
+      ],
+      [
+        3,
+        "page:9",
+        "fts"
+      ],
+      [
+        4,
+        "page:31",
+        "fts"
+      ],
+      [
+        5,
+        "page:11",
+        "fts"
+      ],
+      [
+        6,
+        "page:8",
+        "fts"
+      ],
+      [
+        7,
+        "page:2",
+        "fts"
+      ],
+      [
+        8,
+        "page:1",
+        "fts"
+      ],
+      [
+        9,
+        "page:13",
+        "fts"
+      ],
+      [
+        10,
+        "page:15",
+        "fts"
+      ],
+      [
+        11,
+        "page:6",
+        "fts"
+      ],
+      [
+        12,
+        "page:10",
+        "fts"
+      ]
+    ]
+  }
+}

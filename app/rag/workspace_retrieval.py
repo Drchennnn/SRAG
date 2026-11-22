@@ -10,6 +10,7 @@ import unicodedata
 from collections import Counter, OrderedDict
 from collections.abc import Callable, Sequence
 from dataclasses import dataclass
+from decimal import Decimal, InvalidOperation
 from time import perf_counter
 from typing import Any, Literal
 
@@ -34,11 +35,11 @@ RetrievalStrategy = Literal["fts", "bilingual", "jev", "expanded"]
 _Identity = tuple[str, int, str]
 _SCOPED_FAILURES = {"ambiguous_scope", "scope_not_found", "location_not_found"}
 _HAN = re.compile(r"[\u3400-\u9fff]")
-_NUMBER = r"[+-]?\d+(?:\.\d+)?(?:e[+-]?\d+)?"
+_NUMBER = r"[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:e[+-]?\d+)?"
 _NUMBERS = re.compile(rf"{_NUMBER}(?:\s*%)?", re.IGNORECASE)
 _OPERATORS = re.compile(r"<=|>=|==|!=|<|>|=")
 _NEGATION = re.compile(
-    r"排除|不(?:要|含|包括|使用|能|可|是|考虑|比较|属于)|无(?:需|法)|未|没有|非(?!常)|"
+    r"排除|不(?!(?:同|仅|但|只|过|论|管|止|妨|少于|低于|高于|大于|小于|超过))|无(?:需|法)|未|没有|非(?!常)|"
     r"\b(?:no|not|never|without|excluding|exclude|neither|none|cannot|don't|doesn't|"
     r"didn't|isn't|mustn't|non-)\b",
     re.IGNORECASE,
@@ -46,32 +47,116 @@ _NEGATION = re.compile(
 _LITERAL = re.compile(
     r"`([^`\n]{1,160})`|[\"“]([^\"”\n]{1,160})[\"”]|"
     r"(?<![\w.])(?:[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+|[A-Za-z]\w*_\w+|"
-    r"[A-Z][A-Z0-9]*-\w+|[vV]\d+(?:\.\d+)*)(?![\w.])"
+    r"[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]*\d[A-Za-z0-9]*)+|[A-Z][A-Z0-9]*-\w+|"
+    r"[vV]\d+(?:\.\d+)*)(?![\w.])"
 )
 _ANCHOR = re.compile(
     r"(?<![\w.-])(?:[A-Z]{2,}(?:[-_.][A-Za-z0-9]+)+|[A-Z]+\d[A-Za-z0-9_-]*|"
     r"[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)+)(?![\w-]|\.[A-Za-z0-9_])"
 )
 _UNIT_FORMS = {
+    "pct": r"percent(?:age)?|%",
     "ms": r"milliseconds?|毫秒|ms",
     "us": r"microseconds?|微秒|[μµu]s",
+    "ns": r"nanoseconds?|纳秒|ns",
     "s": r"seconds?|秒|s",
     "hz": r"hertz|赫兹|hz",
     "khz": r"kilohertz|千赫(?:兹)?|khz",
     "mhz": r"megahertz|兆赫(?:兹)?|mhz",
     "mm": r"millimeters?|毫米|mm",
     "cm": r"centimeters?|厘米|cm",
+    "mg": r"milligrams?|毫克|mg",
+    "kg": r"kilograms?|千克|公斤|kg",
+    "g": r"grams?|克|(?<![\w])g(?![A-Za-z])",
+    "gb": r"gigabytes?|gb|(?<=\d)G(?![A-Za-z])",
+    "mb": r"megabytes?|mb",
+    "kb": r"kilobytes?|kb",
+    "tb": r"terabytes?|tb",
     "db": r"decibels?|分贝|db",
     "deg": r"degrees?|度|deg|°",
-    "samples": r"个采样点|个样本|采样点|样本|samples?",
-    "pct": r"percent(?:age)?|%",
+    "samples": r"[个条]?\s*采样点|[个条]?\s*样本|samples?|examples?",
+    "bit": r"bits?|比特|位",
 }
-_UNIT = re.compile(
-    rf"({_NUMBER})\s*(?:"
-    + "|".join(f"(?P<{unit}>{forms})" for unit, forms in _UNIT_FORMS.items())
-    + r")(?![A-Za-z])",
+_UNIT_BODY = "|".join(f"(?P<{unit}>{forms})" for unit, forms in _UNIT_FORMS.items())
+_UNIT_AFTER = re.compile(rf"^(?:[\s-]*)(?:{_UNIT_BODY})(?![A-Za-z])", re.IGNORECASE)
+_VAGUE_NUMERAL = re.compile(
+    r"几(?:[十百千万亿兆]|(?:[多余来])?(?:个|次|步|条|倍|轮|层|张|页|项))|"
+    r"(?:好|大)几[十百千万亿]|"
+    r"数[十百千万亿兆]+|"
+    r"(?:成[百千]上[千万]|上[百千万亿])|"
+    r"[零一二两三四五六七八九十百千万亿]+\s*[来多余]\s*[个次步条倍轮层张页万亿]"
+)
+_VAGUE_ENGLISH = re.compile(
+    r"\b(?:several\s+(?:hundred|thousand|million|billion|trillion)|"
+    r"(?:hundreds|thousands|millions|billions)\s+of)\b",
     re.IGNORECASE,
 )
+_ZH_IDIOMS = re.compile(
+    r"十分(?!之)|一般|一致|一直|一起|一些|一样|一定|一再|一切|一并|一共|一律|"
+    r"统一|唯一|单一|万一|万分|千万(?:别|不要|不)|"
+    r"(?:另|同|这|那|每|某)一(?=[个款项种份类步轮次])|"
+    r"第[零一二两三四五六七八九十百千万\d]+(?=[阶段页章节点维阶位层轮步])?|"
+    r"[零一二两三四]阶|[一二三]维"
+)
+_ZH_DIGITS = {
+    "零": 0,
+    "〇": 0,
+    "一": 1,
+    "二": 2,
+    "两": 2,
+    "三": 3,
+    "四": 4,
+    "五": 5,
+    "六": 6,
+    "七": 7,
+    "八": 8,
+    "九": 9,
+}
+_ZH_UNITS = {"十": 10, "百": 100, "千": 1_000}
+_ZH_SCALES = {"万": 10**4, "亿": 10**8, "兆": 10**12}
+_EN_SCALE_WORDS = {
+    "hundred": Decimal("100"),
+    "thousand": Decimal("1000"),
+    "million": Decimal("1000000"),
+    "billion": Decimal("1000000000"),
+    "trillion": Decimal("1000000000000"),
+}
+_EN_SUFFIX_SCALES = {
+    "K": Decimal("1000"),
+    "M": Decimal("1000000"),
+    "B": Decimal("1000000000"),
+    "T": Decimal("1000000000000"),
+}
+_EN_SMALL_WORDS = {
+    "zero": 0,
+    "one": 1,
+    "two": 2,
+    "three": 3,
+    "four": 4,
+    "five": 5,
+    "six": 6,
+    "seven": 7,
+    "eight": 8,
+    "nine": 9,
+    "ten": 10,
+    "eleven": 11,
+    "twelve": 12,
+    "thirteen": 13,
+    "fourteen": 14,
+    "fifteen": 15,
+    "sixteen": 16,
+    "seventeen": 17,
+    "eighteen": 18,
+    "nineteen": 19,
+    "twenty": 20,
+    "thirty": 30,
+    "forty": 40,
+    "fifty": 50,
+    "sixty": 60,
+    "seventy": 70,
+    "eighty": 80,
+    "ninety": 90,
+}
 
 
 @dataclass(frozen=True)
@@ -136,7 +221,8 @@ class BilingualRewriter:
             if type(tokens) is int and tokens >= 0:
                 trace["total_tokens"] = tokens
         alternate = reply["query"]
-        if not _valid_rewrite(query, alternate, target):
+        if reason := _validate_rewrite_constraints(query, alternate, target):
+            trace["constraint_reason"] = reason
             return finish("constraints_unverified")
         self._cache[cache_key] = alternate
         if len(self._cache) > 128:
@@ -516,41 +602,515 @@ def _literal_term(term: str, value: str) -> bool:
     return re.search(pattern, value, re.IGNORECASE) is not None
 
 
-def _valid_rewrite(original: str, candidate: str, target: str) -> bool:
+_ASSIGN_PAIR = re.compile(r"\b([A-Za-z_]\w*)\s*=\s*([+-]?\d+(?:\.\d+)?)\b")
+_CLAUSE_SPLIT = re.compile(
+    r"[,，、；;。?!？！]|\s+\b(?:and|while|whereas|versus|vs\.?)\b\s+|与"
+)
+_CLAUSE_ANCHOR = re.compile(
+    r"(?<![A-Za-z0-9.])(?:[vV]\d+(?:\.\d+)*|[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+|"
+    r"[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]*\d[A-Za-z0-9]*)+|[A-Za-z]\w*_\w+|"
+    r"\d+(?:\.\d+)?[BMKT]\b)(?![\w.])"
+)
+_MASK_VERBATIM = re.compile(
+    r"(?<![A-Za-z0-9.])(?:[vV]\d+(?:\.\d+)*|[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+|"
+    r"[A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]*\d[A-Za-z0-9]*)+)(?![\w.])"
+)
+_ZH_PERCENT = re.compile(
+    r"百分之\s*([+-]?(?:\d+(?:\.\d+)?|[零一二两三四五六七八九十百千万点]+))"
+)
+_ZH_FRACTION = re.compile(
+    r"([零一二两三四五六七八九十百千万亿]+)\s*分之\s*"
+    r"([+-]?(?:\d+(?:\.\d+)?|[零一二两三四五六七八九十百千万点]+))"
+)
+_ARABIC_QTY = re.compile(
+    rf"(?<![\w.])({_NUMBER})(?:\s*-\s*|\s+)?"
+    r"(thousand|million|billion|trillion|[KMGTB](?![A-Za-z])|"
+    r"[万亿兆]|(?:milligrams?|microseconds?|milliseconds?|nanoseconds?|kilograms?|"
+    r"megabytes?|gigabytes?|kilobytes?|terabytes?|percent(?:age)?|decibels?|"
+    r"kilohertz|megahertz|millimeters?|centimeters?|degrees?|samples?|examples?|seconds?|grams?|"
+    r"hertz|bits?|毫克|千克|公斤|微秒|毫秒|纳秒|千赫兹?|兆赫兹?|毫米|厘米|分贝|秒|"
+    r"赫兹|克|比特|位|个采样点|条采样点|个样本|条样本|采样点|样本|%|[μµu]s|ms|ns|mg|kg|"
+    r"mb|gb|kb|tb|db|hz|khz|mhz|mm|cm|deg|°|s|g)\b|"
+    r"(?<=[\d.])%|[μµu]s|[毫秒微纳克位%°])?",
+    re.IGNORECASE,
+)
+_EN_WORD_PART = (
+    r"(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|"
+    r"thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|"
+    r"forty|fifty|sixty|seventy|eighty|ninety|hundred|thousand|million|billion|"
+    r"trillion|point)"
+)
+_EN_WORD_QTY = re.compile(
+    rf"\b({_EN_WORD_PART}(?:[\s-]+{_EN_WORD_PART})*)\b",
+    re.IGNORECASE,
+)
+_EN_FRACTION_DENOMS = {
+    "half": Decimal("2"),
+    "halves": Decimal("2"),
+    "quarter": Decimal("4"),
+    "quarters": Decimal("4"),
+    "fifth": Decimal("5"),
+    "fifths": Decimal("5"),
+    "eighth": Decimal("8"),
+    "eighths": Decimal("8"),
+    "tenth": Decimal("10"),
+    "tenths": Decimal("10"),
+    "hundredth": Decimal("100"),
+    "hundredths": Decimal("100"),
+    "thousandth": Decimal("1000"),
+    "thousandths": Decimal("1000"),
+    "millionth": Decimal("1000000"),
+    "millionths": Decimal("1000000"),
+}
+_EN_FRACTION = re.compile(
+    rf"\b(a|an|{_EN_WORD_PART}(?:[\s-]+{_EN_WORD_PART})*|\d+(?:\.\d+)?)"
+    r"[\s-]+(half|halves|quarter|quarters|fifths?|eighths?|tenths?|hundredths?|"
+    r"thousandths?|millionths?)\b",
+    re.IGNORECASE,
+)
+_ZH_COMPOUND_OR_UNIT_QTY = re.compile(
+    r"(?:(?:[零一二两三四五六七八九十百千万亿兆点]{2,})|"
+    r"(?<=[取为=于及或和与到比在])\s*[零一二两三四五六七八九十百千万亿]|"
+    r"[零一二两三四五六七八九十百千](?=\s*(?:个|项|种|份|次|轮|层|步|张|条|位|比特|"
+    r"毫克|千克|公斤|毫秒|微秒|纳秒|秒|赫兹|千赫|兆赫|毫米|厘米|分贝|度|倍|%|percent)))"
+)
+_COMP_SPECS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "<=",
+        re.compile(
+            r"<=|不超过|至多|最多|不高于|不大于|小于等于|"
+            r"(?<=[\d零一二两三四五六七八九十百千万亿万])\s*(?:及)?以下|"
+            r"\b(?:at\s+most|no\s+more\s+than|not\s+more\s+than|"
+            r"less\s+than\s+or\s+equal\s+to|up\s+to|maximum\s+of)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        ">=",
+        re.compile(
+            r">=|至少|不少于|不低于|不小于|大于等于|"
+            r"(?<=[\d零一二两三四五六七八九十百千万亿万])\s*(?:及)?以上|"
+            r"\b(?:at\s+least|no\s+less\s+than|not\s+less\s+than|"
+            r"greater\s+than\s+or\s+equal\s+to|minimum\s+of)\b",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        "!=",
+        re.compile(r"!=|不等于", re.IGNORECASE),
+    ),
+    (
+        "<",
+        re.compile(
+            r"<|小于|少于|低于|\b(?:less\s+than|fewer\s+than|lower\s+than|smaller\s+than)\b|"
+            r"\bbelow\b(?=\s*(?:\d|zero|one|two|three|four|five|six|seven|eight|nine|ten))",
+            re.IGNORECASE,
+        ),
+    ),
+    (
+        ">",
+        re.compile(
+            r">|大于|多于|高于|超过|超出|"
+            r"\b(?:greater\s+than|more\s+than|higher\s+than|larger\s+than)\b|"
+            r"\b(?:above|over|exceeds?|exceeding)\b"
+            r"(?=\s*(?:\d|zero|one|two|three|four|five|six|seven|eight|nine|ten))",
+            re.IGNORECASE,
+        ),
+    ),
+)
+_NEGATION_COMPARISON_STRIP = re.compile(
+    r"不超过|不少于|不低于|不高于|不小于|不大于|"
+    r"\b(?:no\s+more\s+than|no\s+less\s+than|not\s+more\s+than|not\s+less\s+than)\b",
+    re.IGNORECASE,
+)
+
+
+@dataclass(frozen=True)
+class _QtySpan:
+    start: int
+    end: int
+    value: Decimal
+    unit: str | None
+
+
+def _norm_dec(value: Decimal) -> Decimal:
+    normalized = value.normalize()
+    return Decimal("0") if normalized == 0 else normalized
+
+
+def _parse_zh_number(token: str, *, allow_bare_unit: bool = False) -> Decimal | None:
+    raw = token.strip()
+    if not raw:
+        return None
+    if re.fullmatch(r"[+-]?(?:\d+(?:\.\d+)?)", raw):
+        try:
+            return _norm_dec(Decimal(raw))
+        except InvalidOperation:
+            return None
+    if "点" in raw:
+        parts = raw.split("点")
+        if len(parts) != 2 or not parts[1]:
+            return None
+        int_part = Decimal("0") if not parts[0] else _parse_zh_number(parts[0])
+        if int_part is None:
+            return None
+        frac_digits: list[str] = []
+        for ch in parts[1]:
+            if ch.isdigit():
+                frac_digits.append(ch)
+            elif ch in _ZH_DIGITS:
+                frac_digits.append(str(_ZH_DIGITS[ch]))
+            else:
+                # Handle decimal with trailing scale like 一点五亿 or 两点五万亿
+                break
+        tail = parts[1][len(frac_digits) :]
+        if not frac_digits:
+            return None
+        base = int_part + Decimal(f"0.{''.join(frac_digits)}")
+        scale_val = Decimal("1")
+        if tail:
+            if all(ch in _ZH_SCALES for ch in tail):
+                for ch in tail:
+                    scale_val *= Decimal(_ZH_SCALES[ch])
+            else:
+                return None
+        return _norm_dec(base * scale_val)
+    # Mixed Arabic + trailing Chinese scale like 540亿 / 1.5万
+    mixed = re.fullmatch(r"([+-]?\d+(?:\.\d+)?)([万亿兆]+)", raw)
+    if mixed:
+        scale_val = Decimal("1")
+        for ch in mixed[2]:
+            scale_val *= Decimal(_ZH_SCALES[ch])
+        return _norm_dec(Decimal(mixed[1]) * scale_val)
+    if raw == "两":
+        return Decimal("2")
+    total = Decimal("0")
+    section = Decimal("0")
+    current = Decimal("0")
+    has_digit = False
+    for index, ch in enumerate(raw):
+        if ch in _ZH_DIGITS:
+            current = Decimal(_ZH_DIGITS[ch])
+            has_digit = True
+        elif ch in _ZH_UNITS:
+            unit = Decimal(_ZH_UNITS[ch])
+            if not has_digit:
+                if index == 0 and (ch == "十" or allow_bare_unit):
+                    current = Decimal("1")
+                else:
+                    return None
+            section += current * unit
+            current = Decimal("0")
+            has_digit = False
+        elif ch in _ZH_SCALES:
+            scale = Decimal(_ZH_SCALES[ch])
+            section += current
+            if section == 0 and total == 0:
+                if index == 0 and allow_bare_unit:
+                    section = Decimal("1")
+                else:
+                    return None
+            # Support trailing 万亿 (`万` then `亿`) -> multiply total+section
+            if scale > Decimal("10000") and total > 0 and section == 0:
+                total *= scale
+            else:
+                if ch == "亿" and "万" in raw[index + 1 :]:
+                    total = (total + section) * scale
+                else:
+                    total = total + section * scale
+            section = Decimal("0")
+            current = Decimal("0")
+            has_digit = False
+        else:
+            return None
+    return _norm_dec(total + section + current)
+
+
+def _parse_en_words(phrase: str) -> Decimal | None:
+    words = [w.casefold() for w in re.split(r"[\s-]+", phrase.strip()) if w.strip()]
+    if not words:
+        return None
+    if len(words) == 1 and words[0] == "one":
+        return None
+    if "point" in words:
+        idx = words.index("point")
+        left, right = words[:idx], words[idx + 1 :]
+        if not left or not right:
+            return None
+        int_val = _parse_en_int_words(left)
+        if int_val is None:
+            return None
+        frac_str: list[str] = []
+        scale_idx = len(right)
+        for pos, word in enumerate(right):
+            if word in _EN_SMALL_WORDS and _EN_SMALL_WORDS[word] < 10:
+                frac_str.append(str(_EN_SMALL_WORDS[word]))
+            elif word in _EN_SCALE_WORDS and pos > 0:
+                scale_idx = pos
+                break
+            else:
+                return None
+        if not frac_str:
+            return None
+        val = int_val + Decimal(f"0.{''.join(frac_str)}")
+        for s_word in right[scale_idx:]:
+            if s_word not in _EN_SCALE_WORDS:
+                return None
+            val *= _EN_SCALE_WORDS[s_word]
+        return _norm_dec(val)
+    return _parse_en_int_words(words)
+
+
+def _parse_en_int_words(words: list[str]) -> Decimal | None:
+    total = Decimal("0")
+    current = Decimal("0")
+    for word in words:
+        if word in _EN_SMALL_WORDS:
+            current += Decimal(_EN_SMALL_WORDS[word])
+        elif word == "hundred":
+            current = (current or Decimal("1")) * Decimal("100")
+        elif word in _EN_SCALE_WORDS:
+            scale = _EN_SCALE_WORDS[word]
+            total += (current or Decimal("1")) * scale
+            current = Decimal("0")
+        else:
+            return None
+    return _norm_dec(total + current)
+
+
+def _match_unit(tail: str) -> tuple[str | None, int]:
+    match = _UNIT_AFTER.match(tail)
+    if not match or not match.lastgroup:
+        return None, 0
+    return match.lastgroup, match.end()
+
+
+def _extract_quantities(text: str) -> list[_QtySpan]:
+    masked = _MASK_VERBATIM.sub(lambda m: " " * len(m[0]), text)
+    spans: list[_QtySpan] = []
+
+    def add_if_free(start: int, end: int, value: Decimal, unit: str | None) -> None:
+        if any(not (end <= s.start or start >= s.end) for s in spans):
+            return
+        spans.append(_QtySpan(start, end, _norm_dec(value), unit))
+
+    # 1. Chinese percentages & fractions
+    for match in _ZH_PERCENT.finditer(masked):
+        val = _parse_zh_number(match[1])
+        if val is not None:
+            add_if_free(match.start(), match.end(), val, "pct")
+    for match in _ZH_FRACTION.finditer(masked):
+        denom = _parse_zh_number(match[1], allow_bare_unit=True)
+        numer = _parse_zh_number(match[2])
+        if denom and numer is not None and denom != 0:
+            # Verify terminating base-10 fraction
+            d_check = denom
+            for factor in (2, 5):
+                while d_check % factor == 0:
+                    d_check //= factor
+            if d_check == 1:
+                add_if_free(match.start(), match.end(), numer / denom, None)
+    for match in _EN_FRACTION.finditer(masked):
+        denom = _EN_FRACTION_DENOMS.get(match[2].casefold())
+        raw_num = match[1].strip().casefold()
+        if raw_num in {"a", "an", "one"}:
+            numer = Decimal("1")
+        elif re.fullmatch(r"\d+(?:\.\d+)?", raw_num):
+            numer = Decimal(raw_num)
+        else:
+            numer = _parse_en_words(raw_num)
+        if denom and numer is not None:
+            add_if_free(match.start(), match.end(), numer / denom, None)
+
+    # 2. Arabic quantities with optional scale / unit
+    for match in _ARABIC_QTY.finditer(masked):
+        num_str = match[1].replace(",", "")
+        try:
+            base = Decimal(num_str)
+        except InvalidOperation:
+            continue
+        suffix = (match[2] or "").strip()
+        end_pos = match.end()
+        unit: str | None = None
+        if suffix.casefold() in _EN_SCALE_WORDS:
+            base *= _EN_SCALE_WORDS[suffix.casefold()]
+        elif suffix in _EN_SUFFIX_SCALES and (
+            match.group(0)[len(match[1]) : len(match[1]) + 1] == suffix
+        ):
+            base *= _EN_SUFFIX_SCALES[suffix]
+        elif suffix and all(ch in _ZH_SCALES for ch in suffix):
+            for ch in suffix:
+                base *= Decimal(_ZH_SCALES[ch])
+        elif suffix:
+            u_name, u_len = _match_unit(suffix)
+            if u_name:
+                unit = u_name
+                end_pos = match.start(2) + u_len
+            else:
+                end_pos = match.end(1)
+        if unit is None:
+            u_name, u_len = _match_unit(masked[end_pos:])
+            if u_name:
+                unit = u_name
+                end_pos += u_len
+        add_if_free(match.start(1), end_pos, base, unit)
+
+    # 3. Spelled-out English number words
+    for match in _EN_WORD_QTY.finditer(masked):
+        val = _parse_en_words(match[1])
+        end_pos = match.end()
+        unit = None
+        if val is None and match[1].casefold() == "one":
+            u_name, u_len = _match_unit(masked[end_pos:])
+            if u_name:
+                val = Decimal("1")
+                unit = u_name
+                end_pos += u_len
+        if val is None:
+            continue
+        if unit is None:
+            u_name, u_len = _match_unit(masked[end_pos:])
+            if u_name:
+                unit = u_name
+                end_pos += u_len
+        add_if_free(match.start(), end_pos, val, unit)
+
+    # 4. Pure Chinese numerals (with idioms neutralized)
+    cleaned = _ZH_IDIOMS.sub(lambda m: " " * len(m[0]), masked)
+    for match in _ZH_COMPOUND_OR_UNIT_QTY.finditer(cleaned):
+        if any(not (match.end() <= s.start or match.start() >= s.end) for s in spans):
+            continue
+        val = _parse_zh_number(match[0])
+        if val is None:
+            continue
+        end_pos = match.end()
+        u_name, u_len = _match_unit(cleaned[end_pos:])
+        if u_name:
+            end_pos += u_len
+        add_if_free(match.start(), end_pos, val, u_name)
+
+    spans.sort(key=lambda item: item.start)
+    return spans
+
+
+def _extract_comparisons(
+    text: str, quantities: Sequence[_QtySpan]
+) -> tuple[Counter[tuple[str, Decimal | None, str | None]], int] | None:
+    masked = _MASK_VERBATIM.sub(lambda m: " " * len(m[0]), text)
+    found: list[tuple[int, int, str, str]] = []
+    for canon_op, pattern in _COMP_SPECS:
+        for match in pattern.finditer(masked):
+            if any(not (match.end() <= s or match.start() >= e) for s, e, _, _ in found):
+                continue
+            found.append((match.start(), match.end(), canon_op, match[0]))
+    bindings: Counter[tuple[str, Decimal | None, str | None]] = Counter()
+    for start, end, canon_op, raw_op in found:
+        after = next((q for q in quantities if 0 <= q.start - end <= 32), None)
+        before = (
+            next((q for q in reversed(quantities) if 0 <= start - q.end <= 12), None)
+            if after is None and raw_op.endswith(("以上", "以下"))
+            else None
+        )
+        target = after or before
+        if target is None:
+            if raw_op in {"<=", ">=", "<", ">", "!="}:
+                bindings[(canon_op, None, None)] += 1
+        else:
+            bindings[(canon_op, target.value, target.unit)] += 1
+    non_assign_text = _ASSIGN_PAIR.sub(" ", text)
+    eq_count = len(re.findall(r"==|(?<![<>!=])=(?!=)", non_assign_text))
+    return bindings, eq_count
+
+
+def _extract_clause_bindings(
+    text: str,
+) -> tuple[dict[str, Counter[tuple[Decimal, str | None]]], Counter[tuple[str, Decimal]]]:
+    assigns: Counter[tuple[str, Decimal]] = Counter(
+        (m[1].casefold(), _norm_dec(Decimal(m[2]))) for m in _ASSIGN_PAIR.finditer(text)
+    )
+    clauses = [part.strip() for part in _CLAUSE_SPLIT.split(text) if part.strip()]
+    anchor_map: dict[str, Counter[tuple[Decimal, str | None]]] = {}
+    if len(clauses) < 2:
+        return anchor_map, assigns
+    for clause in clauses:
+        anchors = [m[0].casefold() for m in _CLAUSE_ANCHOR.finditer(clause)]
+        if not anchors:
+            continue
+        clause_clean = _ASSIGN_PAIR.sub(" ", clause)
+        qtys = _extract_quantities(clause_clean)
+        companion: Counter[tuple[Decimal, str | None]] = Counter()
+        for q in qtys:
+            q_slice = clause_clean[q.start : q.end].strip().casefold()
+            if q_slice in anchors:
+                continue
+            companion[(q.value, q.unit)] += 1
+        for anchor in anchors:
+            anchor_map.setdefault(anchor, Counter()).update(companion)
+    return anchor_map, assigns
+
+
+def _validate_rewrite_constraints(original: str, candidate: str, target: str) -> str | None:
     if not candidate or len(candidate) > min(4_000, max(160, len(original) * 8)):
-        return False
+        return "length_or_empty"
     if candidate.casefold() == original.casefold() or (
         target == "Chinese" and not _HAN.search(candidate)
     ):
-        return False
+        return "language_mismatch"
     if target == "English" and not re.search(r"[A-Za-z]{3}", candidate):
-        return False
-    for match in _LITERAL.finditer(original):
-        literal = match[1] or match[2] or match[0]
-        if target == "English" and _HAN.search(literal):
-            for token in re.findall(r"[A-Za-z0-9][A-Za-z0-9_./-]*", literal):
-                if token.casefold() not in candidate.casefold():
-                    return False
-            continue
-        if literal not in candidate:
-            return False
+        return "language_mismatch"
+
     translation = str.maketrans({"≤": "<=", "≥": ">=", "≠": "!=", "−": "-"})
     old, new = (
         unicodedata.normalize("NFKC", value).translate(translation)
         for value in (original, candidate)
     )
-    if Counter(_OPERATORS.findall(old)) != Counter(_OPERATORS.findall(new)):
-        return False
-    if bool(_NEGATION.search(old)) != bool(_NEGATION.search(new)):
-        return False
-    return _numeric_constraints(old) == _numeric_constraints(new)
+
+    for match in _LITERAL.finditer(original):
+        literal = match[1] or match[2] or match[0]
+        if target == "English" and _HAN.search(literal):
+            for token in re.findall(r"[A-Za-z0-9][A-Za-z0-9_./-]*", literal):
+                if token.casefold() not in new.casefold():
+                    return "literal_missing"
+            continue
+        if match[1] or match[2]:
+            if literal not in candidate:
+                return "literal_missing"
+        elif not _literal_term(literal, new):
+            return "literal_missing"
+
+    if _VAGUE_NUMERAL.search(old):
+        return "vague_numeral"
+    old_neg = bool(_NEGATION.search(_NEGATION_COMPARISON_STRIP.sub(" ", old)))
+    new_neg = bool(_NEGATION.search(_NEGATION_COMPARISON_STRIP.sub(" ", new)))
+    if old_neg != new_neg:
+        return "negation_mismatch"
+
+    old_qty = _extract_quantities(old)
+    new_qty = _extract_quantities(new)
+    if _VAGUE_ENGLISH.search(old) != _VAGUE_ENGLISH.search(new) or (
+        (_VAGUE_ENGLISH.search(old) or _VAGUE_ENGLISH.search(new))
+        and (old_qty or new_qty)
+    ):
+        return "vague_numeral"
+
+    if Counter((q.value, q.unit) for q in old_qty) != Counter((q.value, q.unit) for q in new_qty):
+        return "numeric_or_unit_mismatch"
+
+    if _extract_comparisons(old, old_qty) != _extract_comparisons(new, new_qty):
+        return "comparison_mismatch"
+
+    old_bind, old_assign = _extract_clause_bindings(old)
+    new_bind, new_assign = _extract_clause_bindings(new)
+    if old_assign != new_assign:
+        return "binding_mismatch"
+    shared_anchors = set(old_bind) & set(new_bind)
+    if len(shared_anchors) >= 2 and any(old_bind[a] != new_bind[a] for a in shared_anchors):
+        return "binding_mismatch"
+    return None
 
 
-def _numeric_constraints(query: str):
-    units = [(match[1].casefold(), match.lastgroup) for match in _UNIT.finditer(query)]
-    # Percent may be written as a word, but its normalized unit must still agree.
-    numbers = Counter(value.rstrip("% ").casefold() for value in _NUMBERS.findall(query))
-    return numbers, Counter(units)
+def _valid_rewrite(original: str, candidate: str, target: str) -> bool:
+    return _validate_rewrite_constraints(original, candidate, target) is None
 
 
 def _identity(source) -> _Identity:

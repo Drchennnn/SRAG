@@ -1,0 +1,698 @@
+{
+  "task_id": "G23",
+  "step": "1_pre_development_freeze",
+  "frozen_at": "2026-11-22T14:55:00+08:00",
+  "frozen_by": "g23_gate",
+  "baseline_commit": "6858977c0dcbbf1d5419e07d45c148dab84006c7",
+  "authorization_commit": "75a0c6b21f1af028d17c8889cb41a92e2d09dbf5",
+  "course_id": "g23-blind-course",
+  "runtime_config": {
+    "WORKSPACE_COURSE_IDS": "g23-blind-course",
+    "WORKSPACE_ANSWER_ENABLED": true,
+    "WORKSPACE_RETRIEVAL_STRATEGY": "fts",
+    "WORKSPACE_INPUT_TOKEN_LIMIT": 32768,
+    "OUTPUT_RESERVE": 8192,
+    "ANSWER_CONTEXT_TOKENS": 1048576,
+    "CEILING_TOKENS": 40960,
+    "DEEPSEEK_CHAT_MODEL": "deepseek-flash",
+    "DEEPSEEK_QUERY_MODEL": "deepseek-flash"
+  },
+  "paired_cases_summary": {
+    "total_count": 40,
+    "positive_count": 15,
+    "negative_count": 25,
+    "note": "All pairs test the deterministic rewrite equivalence contract without depending on any specific LLM phrasing."
+  },
+  "paired_rewrite_validation_cases": [
+    {
+      "case_id": "V01_pos_hyphenated_billion",
+      "pair_group": "V01_large_chinese_billion",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "五千四百亿参数模型在推理任务上的表现如何？",
+      "candidate": "How does the 540-billion-parameter model perform on reasoning tasks?",
+      "rationale": "五千四百亿 == 540 billion (540e9), hyphenated form 540-billion-parameter."
+    },
+    {
+      "case_id": "V01_pos_spaced_billion",
+      "pair_group": "V01_large_chinese_billion",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "五千四百亿参数模型在推理任务上的表现如何？",
+      "candidate": "How does the 540 billion parameter model perform on reasoning tasks?",
+      "rationale": "五千四百亿 == 540 billion (540e9), space-separated form."
+    },
+    {
+      "case_id": "V01_neg_wrong_magnitude_million",
+      "pair_group": "V01_large_chinese_billion",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "五千四百亿参数模型在推理任务上的表现如何？",
+      "candidate": "How does the 540-million-parameter model perform on reasoning tasks?",
+      "rationale": "540e9 != 540e6; must reject million/billion magnitude mismatch."
+    },
+    {
+      "case_id": "V01_neg_wrong_value_54_billion",
+      "pair_group": "V01_large_chinese_billion",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "五千四百亿参数模型在推理任务上的表现如何？",
+      "candidate": "How does the 54 billion parameter model perform on reasoning tasks?",
+      "rationale": "540e9 != 54e9; must reject dropped zero."
+    },
+    {
+      "case_id": "V02_pos_thirteen_hundred_million",
+      "pair_group": "V02_shisanyi_1_3_billion",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "该模型在十三亿词元的语料上训练了多少步？",
+      "candidate": "How many steps was the model trained on a 1.3 billion token corpus?",
+      "rationale": "十三亿 == 1.3e9 == 1.3 billion."
+    },
+    {
+      "case_id": "V02_neg_13_billion",
+      "pair_group": "V02_shisanyi_1_3_billion",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "该模型在十三亿词元的语料上训练了多少步？",
+      "candidate": "How many steps was the model trained on a 13 billion token corpus?",
+      "rationale": "1.3e9 != 13e9; must reject tenfold magnitude error."
+    },
+    {
+      "case_id": "V03_pos_wan_comma_arabic",
+      "pair_group": "V03_sanshierwan_320000",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "将训练数据限制在三十二万条样本时的验证准确率是多少？",
+      "candidate": "What is the validation accuracy when restricting training data to 320,000 examples?",
+      "rationale": "三十二万 == 320,000 (comma-grouped Arabic)."
+    },
+    {
+      "case_id": "V03_neg_32000",
+      "pair_group": "V03_sanshierwan_320000",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "将训练数据限制在三十二万条样本时的验证准确率是多少？",
+      "candidate": "What is the validation accuracy when restricting training data to 32,000 examples?",
+      "rationale": "320,000 != 32,000."
+    },
+    {
+      "case_id": "V04_pos_decimal_yi_and_trillion",
+      "pair_group": "V04_decimal_and_trillion",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "一点五亿参数模型在两点五万亿词元上训练的困惑度是多少？",
+      "candidate": "What is the perplexity of a 150 million parameter model trained on 2.5 trillion tokens?",
+      "rationale": "一点五亿 == 1.5e8 == 150 million; 两点五万亿 == 2.5e12 == 2.5 trillion (uses 点 and 两)."
+    },
+    {
+      "case_id": "V04_neg_swapped_magnitudes",
+      "pair_group": "V04_decimal_and_trillion",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "一点五亿参数模型在两点五万亿词元上训练的困惑度是多少？",
+      "candidate": "What is the perplexity of a 150 billion parameter model trained on 2.5 billion tokens?",
+      "rationale": "150e6 != 150e9 and 2.5e12 != 2.5e9."
+    },
+    {
+      "case_id": "V05_pos_ling_internal_zero",
+      "pair_group": "V05_ling_internal_zero",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "在两千四百零五万条样本上微调零点二五比例的收敛效果如何？",
+      "candidate": "How is the convergence when fine-tuning on 24,050,000 samples with a ratio of 0.25?",
+      "rationale": "两千四百零五万 == 24,050,000 and 零点二五 == 0.25."
+    },
+    {
+      "case_id": "V05_neg_ling_misplaced_zero",
+      "pair_group": "V05_ling_internal_zero",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在两千四百零五万条样本上微调零点二五比例的收敛效果如何？",
+      "candidate": "How is the convergence when fine-tuning on 24,500,000 samples with a ratio of 0.25?",
+      "rationale": "24,050,000 != 24,500,000."
+    },
+    {
+      "case_id": "V06_pos_english_number_words",
+      "pair_group": "V06_english_number_words",
+      "category": "explicit_chinese_numeral_magnitude",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "在七十亿参数模型上训练十五万步的困惑度是多少？",
+      "candidate": "What is the perplexity on a seven billion parameter model trained for one hundred fifty thousand steps?",
+      "rationale": "Spelled-out English number words seven billion (7e9) and one hundred fifty thousand (150,000) match 七十亿 and 十五万."
+    },
+    {
+      "case_id": "V06_neg_english_number_words_wrong",
+      "pair_group": "V06_english_number_words",
+      "category": "wrong_magnitude",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在七十亿参数模型上训练十五万步的困惑度是多少？",
+      "candidate": "What is the perplexity on a seven million parameter model trained for one hundred fifty thousand steps?",
+      "rationale": "seven million (7e6) != seven billion (7e9)."
+    },
+    {
+      "case_id": "V07_pos_chinese_units_mg_ms",
+      "pair_group": "V07_units_chinese_to_english",
+      "category": "units",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "每日八百毫克剂量下，响应延迟三十毫秒时的误差是多少？",
+      "candidate": "What is the error at a daily dose of 800 mg and a response latency of 30 ms?",
+      "rationale": "八百毫克 == 800 mg and 三十毫秒 == 30 ms."
+    },
+    {
+      "case_id": "V07_neg_wrong_unit_g_us",
+      "pair_group": "V07_units_chinese_to_english",
+      "category": "wrong_unit",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "每日八百毫克剂量下，响应延迟三十毫秒时的误差是多少？",
+      "candidate": "What is the error at a daily dose of 800 g and a response latency of 30 us?",
+      "rationale": "mg != g and ms != us."
+    },
+    {
+      "case_id": "V08_neg_ms_vs_us",
+      "pair_group": "V08_unit_ms_vs_us",
+      "category": "wrong_unit",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "当单步延迟上限设为 500 毫秒时系统吞吐量如何？",
+      "candidate": "How is system throughput when the per-step latency cap is set to 500 us?",
+      "rationale": "500 ms != 500 us."
+    },
+    {
+      "case_id": "V09_pos_percentage_baifenzhi",
+      "pair_group": "V09_percentages",
+      "category": "percentages",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "按百分之五的显著性阈值计算有多少神经元不服从正态分布，以及百分之六十五点五的内存节省是怎么得到的？",
+      "candidate": "At a 5% significance threshold, how many neurons are non-normal, and how is the 65.5 percent memory reduction achieved?",
+      "rationale": "百分之五 == 5% and 百分之六十五点五 == 65.5 percent."
+    },
+    {
+      "case_id": "V09_neg_percentage_wrong_value",
+      "pair_group": "V09_percentages",
+      "category": "percentages",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "按百分之五的显著性阈值计算有多少神经元不服从正态分布，以及百分之六十五点五的内存节省是怎么得到的？",
+      "candidate": "At a 50% significance threshold, how many neurons are non-normal, and how is the 6.55% memory reduction achieved?",
+      "rationale": "5% != 50% and 65.5% != 6.55%."
+    },
+    {
+      "case_id": "V10_pos_versions_and_identifiers",
+      "pair_group": "V10_versions_identifiers",
+      "category": "versions_and_code_identifiers",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "在 v2.1 中设置 top_k=5 和 batch_size=64 对比 v1.0 在 llama-7b 与 gpt-4 上表现如何？",
+      "candidate": "How does v2.1 with top_k=5 and batch_size=64 compare against v1.0 on llama-7b and gpt-4?",
+      "rationale": "All versions (v2.1, v1.0) and identifiers (top_k=5, batch_size=64, llama-7b, gpt-4) preserved verbatim."
+    },
+    {
+      "case_id": "V10_neg_altered_version",
+      "pair_group": "V10_versions_identifiers",
+      "category": "versions_and_code_identifiers",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在 v2.1 中设置 top_k=5 和 batch_size=64 对比 v1.0 在 llama-7b 与 gpt-4 上表现如何？",
+      "candidate": "How does v2.0 with top_k=5 and batch_size=64 compare against v1.0 on llama-7b and gpt-4?",
+      "rationale": "v2.1 mutated to v2.0."
+    },
+    {
+      "case_id": "V10_neg_altered_identifier",
+      "pair_group": "V10_versions_identifiers",
+      "category": "versions_and_code_identifiers",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在 v2.1 中设置 top_k=5 和 batch_size=64 对比 v1.0 在 llama-7b 与 gpt-4 上表现如何？",
+      "candidate": "How does v2.1 with top_k=10 and batch_size=64 compare against v1.0 on llama-13b and gpt-4?",
+      "rationale": "top_k=5 mutated to top_k=10 and llama-7b mutated to llama-13b."
+    },
+    {
+      "case_id": "V11_pos_comparison_directions",
+      "pair_group": "V11_comparison_directions",
+      "category": "comparison_directions",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "在至少 5 个任务上准确率大于 10% 且延迟不超过 5 个时间步的配置有哪些？",
+      "candidate": "Which configurations achieve accuracy greater than 10% on at least 5 tasks with latency at most 5 steps?",
+      "rationale": "至少 5 -> at least 5; 大于 10% -> greater than 10%; 不超过 5 -> at most 5."
+    },
+    {
+      "case_id": "V11_neg_flip_at_least_to_at_most",
+      "pair_group": "V11_comparison_directions",
+      "category": "comparison_directions",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在至少 5 个任务上准确率大于 10% 的配置有哪些？",
+      "candidate": "Which configurations achieve accuracy greater than 10% on at most 5 tasks?",
+      "rationale": "至少 (>=) inverted to at most (<=)."
+    },
+    {
+      "case_id": "V11_neg_flip_gt_to_lt",
+      "pair_group": "V11_comparison_directions",
+      "category": "comparison_directions",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在至少 5 个任务上准确率大于 10% 的配置有哪些？",
+      "candidate": "Which configurations achieve accuracy less than 10% on at least 5 tasks?",
+      "rationale": "大于 (>) inverted to less than (<)."
+    },
+    {
+      "case_id": "V11_neg_flip_no_more_than_to_more_than",
+      "pair_group": "V11_comparison_directions",
+      "category": "comparison_directions",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "延迟不超过 5 个时间步且学习率小于 0.001 的实验有哪些？",
+      "candidate": "Which experiments have latency more than 5 steps and learning rate less than 0.001?",
+      "rationale": "不超过 (<=) inverted to more than (>)."
+    },
+    {
+      "case_id": "V11_neg_flip_symbolic_inequality",
+      "pair_group": "V11_comparison_directions",
+      "category": "comparison_directions",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "当 rank <= 128 且 loss > 2.5 时收敛速度如何？",
+      "candidate": "How fast is convergence when rank >= 128 and loss > 2.5?",
+      "rationale": "Symbolic <= inverted to >=."
+    },
+    {
+      "case_id": "V12_pos_negation_preserved",
+      "pair_group": "V12_negation",
+      "category": "negation",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "为何该方案不使用激活检查点且未测试 3-bit 量化？",
+      "candidate": "Why does this approach not use activation checkpointing and did not evaluate 3-bit quantization?",
+      "rationale": "Negations 不/未 preserved."
+    },
+    {
+      "case_id": "V12_neg_negation_dropped",
+      "pair_group": "V12_negation",
+      "category": "negation",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "为何该方案不使用激活检查点且未测试 3-bit 量化？",
+      "candidate": "Why does this approach use activation checkpointing and evaluate 3-bit quantization?",
+      "rationale": "Dropped negation flips meaning."
+    },
+    {
+      "case_id": "V13_pos_two_object_ordered",
+      "pair_group": "V13_two_object_swap",
+      "category": "two_object_quantity_swap",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "7B 用 16 批大小、65B 用 64 批大小时显存分别是多少？",
+      "candidate": "What is the memory usage when 7B uses batch size 16 and 65B uses batch size 64?",
+      "rationale": "Pair bindings (7B->16, 65B->64) preserved."
+    },
+    {
+      "case_id": "V13_neg_two_object_swapped",
+      "pair_group": "V13_two_object_swap",
+      "category": "two_object_quantity_swap",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "7B 用 16 批大小、65B 用 64 批大小时显存分别是多少？",
+      "candidate": "What is the memory usage when 7B uses batch size 64 and 65B uses batch size 16?",
+      "rationale": "Same numeric multiset {7,16,65,64}, but 7B and 65B batch sizes are swapped; must reject."
+    },
+    {
+      "case_id": "V14_neg_added_quantity",
+      "pair_group": "V14_add_delete_quantity",
+      "category": "added_or_deleted_quantity",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "五千四百亿参数模型在推理任务上的表现如何？",
+      "candidate": "How does the 540-billion-parameter model perform on 3 reasoning tasks?",
+      "rationale": "Added quantity 3 not present in original query."
+    },
+    {
+      "case_id": "V14_neg_deleted_quantity",
+      "pair_group": "V14_add_delete_quantity",
+      "category": "added_or_deleted_quantity",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在四万步和十五万步时 7B 模型的困惑度分别是多少？",
+      "candidate": "What is the perplexity of the 7B model at 150,000 steps?",
+      "rationale": "Deleted quantity 四万 (40,000) from original query."
+    },
+    {
+      "case_id": "V15_neg_vague_jiyi",
+      "pair_group": "V15_vague_chinese_numerals",
+      "category": "vague_ambiguous_numeral",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在几亿参数规模下该优化器的内存开销如何？",
+      "candidate": "What is the memory cost of this optimizer at several hundred million parameters?",
+      "rationale": "Vague/ambiguous Chinese numeral 几亿 must safely reject and fall back to FTS."
+    },
+    {
+      "case_id": "V15_neg_vague_shushiwan",
+      "pair_group": "V15_vague_chinese_numerals",
+      "category": "vague_ambiguous_numeral",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "在数十万条样本上微调后模型准确率提高了多少？",
+      "candidate": "How much does model accuracy improve after fine-tuning on hundreds of thousands of samples?",
+      "rationale": "Vague/ambiguous Chinese numeral 数十万 must safely reject and fall back."
+    },
+    {
+      "case_id": "V15_neg_vague_yueshilaige",
+      "pair_group": "V15_vague_chinese_numerals",
+      "category": "vague_ambiguous_numeral",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "经过约十来个回合的训练后损失是否收敛？",
+      "candidate": "Does the loss converge after about 10 epochs of training?",
+      "rationale": "Vague/approximate Chinese numeral 约十来个 must safely reject and fall back."
+    },
+    {
+      "case_id": "V15_neg_vague_shangbaici",
+      "pair_group": "V15_vague_chinese_numerals",
+      "category": "vague_ambiguous_numeral",
+      "target": "English",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "每隔上百次迭代切换一次子空间会带来多少额外开销？",
+      "candidate": "How much extra overhead is incurred by switching subspaces every 100 iterations?",
+      "rationale": "Vague Chinese numeral 上百次 must NOT be silently coerced into exact 100; must safely reject/fallback."
+    },
+    {
+      "case_id": "V16_pos_non_numeric_hanzi_idioms",
+      "pair_group": "V16_non_numeric_idioms_false_reject_guard",
+      "category": "non_numeric_idiom_control",
+      "target": "English",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "在十分有限的显存下，该方法在一般训练条件下与全秩训练的收敛是否一致？",
+      "candidate": "Under very limited VRAM, is the convergence of this method consistent with full-rank training under general conditions?",
+      "rationale": "十分 (very), 一般 (general), 一致 (consistent) contain 十/一 as non-numeric lexical words; must NOT be misparsed as 10 or 1."
+    },
+    {
+      "case_id": "V17_pos_en_to_zh_billion",
+      "pair_group": "V17_en_to_zh_symmetry",
+      "category": "english_to_chinese_symmetry",
+      "target": "Chinese",
+      "expected_valid": true,
+      "failure_mode_if_wrong": "false_reject",
+      "original": "How does the 540-billion-parameter model compare at least 5 benchmarks under 10% budget?",
+      "candidate": "五千四百亿参数模型在百分之十预算下对比至少 5 个基准表现如何？",
+      "rationale": "English->Chinese direction: 540-billion == 五千四百亿, at least 5 == 至少 5, 10% == 百分之十."
+    },
+    {
+      "case_id": "V17_neg_en_to_zh_wrong_magnitude",
+      "pair_group": "V17_en_to_zh_symmetry",
+      "category": "english_to_chinese_symmetry",
+      "target": "Chinese",
+      "expected_valid": false,
+      "failure_mode_if_wrong": "false_accept",
+      "original": "How does the 540-billion-parameter model compare at least 5 benchmarks under 10% budget?",
+      "candidate": "五百四十万参数模型在百分之十预算下对比至少 5 个基准表现如何？",
+      "rationale": "English->Chinese wrong magnitude: 540 billion != 五百四十万 (5.4 million)."
+    }
+  ],
+  "material": {
+    "file_name": "GaLore-2403.03507v2.pdf",
+    "repo_path": "docs/G/G23-fixtures/GaLore-2403.03507v2.pdf",
+    "title": "GaLore: Memory-Efficient LLM Training by Gradient Low-Rank Projection",
+    "authors": "Jiawei Zhao, Zhenyu Zhang, Beidi Chen, Zhangyang Wang, Anima Anandkumar, Yuandong Tian",
+    "origin_abs": "https://arxiv.org/abs/2403.03507",
+    "origin_pdf": "https://arxiv.org/pdf/2403.03507v2.pdf",
+    "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+    "bytes": 918314,
+    "sha256": "5179e9c9b08362398ac0b0508415d78ff426e1b32cfc82d589b36e2eb60ffcbf",
+    "page_count": 23,
+    "total_native_page_chars": 75699,
+    "registered_tables": 0,
+    "registered_images": 2,
+    "never_used_in_srag_prior_to_g23": true
+  },
+  "reading_budget_proof_on_6858977": {
+    "parser": "app.rag.parsers.local_slides.parse_local_slides",
+    "window_fn": "app.rag.workspace_reading.read_window",
+    "reserve_fn": "app.rag.workspace_generation.estimate_prompt_reserve",
+    "sample_question": "用中文总结这份课件的主要内容。",
+    "prompt_reserve_true": 2137,
+    "prompt_reserve_false": 2138,
+    "window_budget": 30630,
+    "window_estimated_input": 30628,
+    "estimated_message_input": 32766,
+    "full_text_scope": false,
+    "next_cursor": {
+      "scope_sha256": "dc644bbfac63ac83181128763d1a12e477b0dffefdd2dd5220a3e6372e3d712c",
+      "source_index": 5,
+      "offset": 3781,
+      "prioritized": false
+    },
+    "single_window_fit_segments_count": 6,
+    "single_window_fit_pages": [
+      {"source_id": "page:1", "page": 1, "start": 0, "end": 3894, "full_len": 3894},
+      {"source_id": "page:2", "page": 2, "start": 0, "end": 5447, "full_len": 5447},
+      {"source_id": "page:3", "page": 3, "start": 0, "end": 4651, "full_len": 4651},
+      {"source_id": "page:4", "page": 4, "start": 0, "end": 4442, "full_len": 4442},
+      {"source_id": "page:5", "page": 5, "start": 0, "end": 4592, "full_len": 4592},
+      {"source_id": "page:6", "page": 6, "start": 0, "end": 3781, "full_len": 4296}
+    ],
+    "single_window_fit_chars": 26807,
+    "skipped_total": 20,
+    "unread_tail_pages": "page:6[3781..4296] and page:7..page:23 (17 full back pages + page:6 remainder)"
+  },
+  "questions": [
+    {
+      "question_id": "G_Q01",
+      "category": "后段纯中文·显式大数量级与多数量对照",
+      "question": "在后文扩展到七十亿参数规模模型的预训练实验中，作者共使用多少张计算卡并行训练、设定了多少层、多大嵌入维度以及多少秩？在训练十五万步、处理一百九十七亿词元后，八位投影法与八位基准优化器各自占用的估算显存和最终困惑度分别是多少？",
+      "contains_english_terms": false,
+      "explicit_page_reference": false,
+      "expected_pages": [7, 8],
+      "supporting_context_pages": [20],
+      "chinese_numeric_constraints": ["七十亿 (7B)", "十五万 (150K)", "一百九十七亿 (19.7B)", "八位 (8-bit)"],
+      "source_anchors": [
+        {
+          "page": 8,
+          "section": "Section 5.3 Scaling up to LLaMA 7B Architecture",
+          "anchor_quote": "We evaluate GaLore on an LLaMA 7B architecture with an embedding size of 4096 and total layers of 32. We train the model for 150K steps with 19.7B tokens, using 8-node training in parallel with a total of 64 A100 GPUs. ... we compare 8-bit GaLore (r = 1024) with 8-bit Adam ... after 150K steps, 8-bit GaLore achieves a perplexity of 14.65, comparable to 8-bit Adam with a perplexity of 14.61."
+        },
+        {
+          "page": 7,
+          "section": "Table 3: Pre-training LLaMA 7B on C4 dataset for 150K steps",
+          "anchor_quote": "Mem 40K 80K 120K 150K | 8-bit GaLore 18G 17.94 15.39 14.95 14.65 | 8-bit Adam 26G 18.09 15.47 14.83 14.61 | Tokens (B) 5.2 10.5 15.7 19.7"
+        }
+      ],
+      "pass_criteria": [
+        "双语改写通过校验（不因七十亿/十五万/一百九十七亿/八位等中文数词或英文单词/数字表达被误拦）",
+        "正确页 page:7 与 page:8 进入候选并被实际送入模型读取，引用可点开对应页码",
+        "准确答出并行规模 64 张 A100 GPU（8 节点）、32 层、嵌入维度 4096、秩 r = 1024",
+        "准确给出 150K 步 / 19.7B 词元后：8-bit GaLore 估算显存 18G、最终困惑度 14.65；8-bit Adam 估算显存 26G、最终困惑度 14.61"
+      ],
+      "baseline_6858977_observation": {
+        "initial_fts_status": "no_text_anchor",
+        "rewrite_status": "succeeded (deepseek-flash emitted English words 'seven billion', 'one hundred fifty thousand', 'nineteen point seven billion', 'eight-bit' with no digits, so 6858977 failed to enforce numeric constraints even though retrieval succeeded)",
+        "selected_top_pages": ["page:8", "page:9", "page:7"]
+      }
+    },
+    {
+      "question_id": "G_Q02",
+      "category": "后段纯中文·文末附录多条件切换对照",
+      "question": "在文末附录补充的显存与吞吐量实测表中，在两百五十六个词元批大小下，未启用与启用逐层权重更新时，八位投影法与八位基准优化器各自占用的显存、每秒词元吞吐量以及每秒样本吞吐量分别是多少？",
+      "contains_english_terms": false,
+      "explicit_page_reference": false,
+      "expected_pages": [23],
+      "supporting_context_pages": [9],
+      "chinese_numeric_constraints": ["两百五十六 (256)", "八位 (8-bit)"],
+      "source_anchors": [
+        {
+          "page": 23,
+          "section": "Appendix E Table 11: Measuring memory and throughput on LLaMA 1B model",
+          "anchor_quote": "1B ✘: Adam8bit 256 | 9.54 | 1569.89 | 7.90; 8-bit GaLore 256 | 7.95 | 1109.38 | 5.59. 1B ✔: Adam8bit 256 | 6.93 | 1205.31 | 6.07; 8-bit GaLore 256 | 5.63 | 1019.63 | 5.13."
+        }
+      ],
+      "pass_criteria": [
+        "正确页 page:23 进入候选并被实际送入模型读取，最终引用可点开第 23 页",
+        "准确给出未启用逐层权重更新（✘）时：8-bit GaLore 显存 7.95（GB）、1109.38 tokens/s、5.59 samples/s；Adam8bit 显存 9.54（GB）、1569.89 tokens/s、7.90 samples/s",
+        "准确给出启用逐层权重更新（✔）时：8-bit GaLore 显存 5.63（GB）、1019.63 tokens/s、5.13 samples/s；Adam8bit 显存 6.93（GB）、1205.31 tokens/s、6.07 samples/s"
+      ],
+      "baseline_6858977_observation": {
+        "initial_fts_status": "no_text_anchor",
+        "rewrite_status": "succeeded (or constraints_unverified depending on whether deepseek-flash outputs 8-bit/256 vs eight-bit/two hundred fifty-six)",
+        "selected_top_pages": ["page:8", "page:9", "page:23"]
+      }
+    },
+    {
+      "question_id": "G_Q03",
+      "category": "后段纯中文·万亿量级与比较方向约束",
+      "question": "在后文附录的预训练超参数细节中，针对六千万和三亿五千万参数模型分别训练了多少步以及多少词元的数据量？在全部实验中学习率预热比例与余弦衰减终点比例各是多少？与全秩基线通常采用不超过千分之一的学习率相比，本文方法的全局学习率与模块实际学习率各是多少？",
+      "contains_english_terms": false,
+      "explicit_page_reference": false,
+      "expected_pages": [20],
+      "supporting_context_pages": [7],
+      "chinese_numeric_constraints": ["六千万 (60M)", "三亿五千万 (350M)", "不超过千分之一 (<= 0.001)"],
+      "source_anchors": [
+        {
+          "page": 20,
+          "section": "Appendix C.1 & Table 5: Hyperparameters of LLaMA models for evaluation",
+          "anchor_quote": "For all experiments, we adopt learning rate warmup for the first 10% of the training steps, and use cosine annealing for the learning rate schedule, decaying to 10% of the initial learning rate. Table 5: 60M -> Steps 10K, Data amount 1.3 B; 350M -> Steps 60K, Data amount 7.8 B. For all models, GaLore use ... learning rate of 0.01, scale factor α of 0.25, and ... T of 200 ... actual learning rate of 0.0025. This is, still, a relatively large stable learning rate compared to the full-rank baseline, which usually uses a learning rate ≤ 0.001 to avoid spikes in the training loss."
+        }
+      ],
+      "pass_criteria": [
+        "双语改写通过校验（六千万 -> 60M/60 million，三亿五千万 -> 350M/350 million，不超过千分之一 -> <= 0.001 / at most 0.001 / no more than 0.001 均不得误拦）",
+        "正确页 page:20 进入候选并被实际送入模型读取，最终引用可点开第 20 页",
+        "准确给出 60M 训练 10K 步 / 1.3B 词元、350M 训练 60K 步 / 7.8B 词元",
+        "准确给出预热占前 10% 训练步数、余弦退火衰减至初始学习率的 10%",
+        "准确给出 GaLore 全局学习率 0.01（α=0.25）、模块实际学习率 0.0025（对比全秩基线 ≤ 0.001）"
+      ],
+      "baseline_6858977_observation": {
+        "initial_fts_status": "no_text_anchor",
+        "rewrite_status": "constraints_unverified (blocked by 6858977 _valid_rewrite because Chinese 六千万/三亿五千万/千分之一 became Arabic 60 million/350 million/0.001)",
+        "selected_top_pages": ["page:1", "page:2", "page:3", "page:4", "page:5", "page:6"],
+        "expected_baseline_outcome": "FAIL (page:20 missed)"
+      }
+    },
+    {
+      "question_id": "G_Q04",
+      "category": "后段纯中文·多数量例外条件与微调指标",
+      "question": "在文末附录的语言理解微调实验中，模型共训练了多少轮、最大序列长度设为多少、除语言可接受性任务用三十二的批大小外其余任务设为多少？当秩取四和取八时对应的缩放因子分别是多少？在问答任务上秩取十六时本文方法与低秩适配各自的精确匹配和综合得分是多少？",
+      "contains_english_terms": false,
+      "explicit_page_reference": false,
+      "expected_pages": [22],
+      "supporting_context_pages": [],
+      "chinese_numeric_constraints": ["三十二 (32)", "四 (4)", "八 (8)", "十六 (16)"],
+      "source_anchors": [
+        {
+          "page": 22,
+          "section": "Appendix D.1 Table 7 & D.2 Table 8",
+          "anchor_quote": "We trained the model for 30 epochs with a batch size of 16 for all tasks except for CoLA, which uses a batch size of 32. ... Max Seq. Len. 512. Rank Config. r = 4 -> GaLore α = 4; Rank Config. r = 8 -> GaLore α = 2. Table 8 (SQuAD, rank 16): GaLore Exact Match 80.52, F1 88.29; LoRA Exact Match 77.99, F1 86.11."
+        }
+      ],
+      "pass_criteria": [
+        "双语改写通过校验（不因三十二/四/八/十六或英文单词/数字表达被误拦）",
+        "正确页 page:22 进入候选并被实际送入模型读取，最终引用可点开第 22 页",
+        "准确给出 GLUE 微调共 30 epochs、Max Seq. Len. 512、CoLA 批大小 32 而其余任务为 16；r=4 时 α=4、r=8 时 α=2",
+        "准确给出 SQuAD (rank=16) 下 GaLore EM=80.52 / F1=88.29，LoRA EM=77.99 / F1=86.11"
+      ],
+      "baseline_6858977_observation": {
+        "initial_fts_status": "no_text_anchor",
+        "rewrite_status": "succeeded (deepseek-flash emitted English words thirty-two/four/eight/sixteen)",
+        "selected_top_pages": ["page:22", "page:23"]
+      }
+    },
+    {
+      "question_id": "G_Q05",
+      "category": "资料缺失对照题（防幻觉与未测声明）",
+      "question": "作者在论文中对七百亿参数大模型和视觉变换器或扩散模型做了哪些实验，它们的验证困惑度或内存节省百分比是多少？另外，作者是否实测了对投影矩阵本身进行四比特量化的显存开销？",
+      "contains_english_terms": false,
+      "explicit_page_reference": false,
+      "expected_pages": [6, 7, 9],
+      "supporting_context_pages": [],
+      "chinese_numeric_constraints": ["七百亿 (70B)", "四比特 (4-bit)"],
+      "source_anchors": [
+        {
+          "page": 6,
+          "section": "Section 4.2",
+          "anchor_quote": "we can further reduce the memory cost of projection matrices by quantization and efficient parameterization, which we leave for future work."
+        },
+        {
+          "page": 7,
+          "section": "Section 5",
+          "anchor_quote": "across a range of model sizes up to 7 Billion parameters."
+        },
+        {
+          "page": 9,
+          "section": "Section 7 Conclusion",
+          "anchor_quote": "We identify several open problems for GaLore, which include (1) applying GaLore on training of various models such as vision transformers (Dosovitskiy et al., 2021) and diffusion models (Ho et al., 2020), (2) further enhancing memory efficiency by employing low-memory projection matrices..."
+        }
+      ],
+      "pass_criteria": [
+        "诚实指出论文未对 70B（七百亿参数）大模型做实验（预训练最大规模为 7B）",
+        "诚实指出论文未给出 Vision Transformers 与扩散模型的实测困惑度或内存节省数据，第 9 页结论明确将其列为未来开放问题（open problems）",
+        "诚实指出论文未实测投影矩阵本身的 4-bit 量化（第 6 页与第 9 页明确将投影矩阵量化/低内存化留作未来工作，本文只测试了 8-bit 优化器）",
+        "严禁编造任何 70B、ViT、扩散模型或 4-bit 投影矩阵的实验数值"
+      ],
+      "baseline_6858977_observation": {
+        "initial_fts_status": "no_text_anchor",
+        "rewrite_status": "succeeded",
+        "selected_top_pages": ["page:7", "page:8", "page:9"]
+      }
+    },
+    {
+      "question_id": "G_Q06",
+      "category": "显式页码直读与无正文数字对照题",
+      "question": "第 13 页的补充相关工作部分，如何区分本文方法与 Adafactor 在低秩分解对象上的不同？该页对 LOMO 和 AdaLOMO 在大规模从头预训练上的局限性是如何分析的？",
+      "contains_english_terms": true,
+      "explicit_page_reference": true,
+      "expected_pages": [13],
+      "supporting_context_pages": [],
+      "chinese_numeric_constraints": [],
+      "source_anchors": [
+        {
+          "page": 13,
+          "section": "Appendix A. Additional Related Works",
+          "anchor_quote": "GaLore focuses on the low-rank structure of the gradients, while Adafactor focuses on the low-rank structure of the second-order statistics. GaLore can reduce the memory cost for both first-order and second-order statistics ... While LOMO and AdaLOMO represent significant advancements in memory-efficient optimization for fine-tuning or continual pre-training, they might not be directly applicable to pre-training from scratch at larger scales. For example, the vanilla Adafactor, adopted by AdaLOMO, has been demonstrated to lead to increased training instabilities at larger scales..."
+        }
+      ],
+      "pass_criteria": [
+        "保持显式页码直读契约：route 为显式位置直读（retrieval=None，0 次改写外调），直接读取 page:13 全文",
+        "准确指出分解对象区别：GaLore 针对梯度的低秩结构（可同时降低一阶与二阶统计量显存），而 Adafactor 针对二阶统计量的低秩结构",
+        "准确指出 LOMO/AdaLOMO 局限：适用于微调或继续预训练，但难以直接用于更大规模的从头预训练（AdaLOMO 采用的原版 Adafactor 在大尺度下会增加训练不稳定性），引用可点开第 13 页"
+      ],
+      "baseline_6858977_observation": {
+        "explicit_page_direct_read": true,
+        "rewrite_external_calls": 0
+      }
+    }
+  ]
+}
