@@ -1,0 +1,1445 @@
+{
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "fixture_sha256": {
+    "PagedAttention-2309.06180v1.pdf": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+    "Mixtral-of-Experts-2401.04088v1.pdf": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+    "Mamba-2312.00752v1.pdf": "83044ebdd02276f922b6d0915a344f0c501fc7c214d1b88622c33971bb149199"
+  },
+  "cases": {
+    "h02_paged_attention_p9_table1": {
+      "question": "第 9 页表格里，13B、66B 和 175B 三种模型配置分别使用了多少张什么型号的 GPU？它们留给 KV 缓存的内存大小和最大 KV 缓存槽位数（slots）分别是多少？",
+      "elapsed_ms": 161.7,
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "id": "62c744029077469da861463bd0514a68",
+        "images": [
+          {
+            "complete": true,
+            "naturalHeight": 211,
+            "naturalWidth": 436,
+            "src": "/api/workspace/sessions/ee20ae369c9c4574875982fb89cafdd3/messages/62c744029077469da861463bd0514a68/media/5c115b1ee6314b6ab66d3a2359c1e859?view=inline"
+          }
+        ],
+        "text": "课程助手\n\nPagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B\n| Model size | 13B | 66B | 175B |\n| --- | --- | --- | --- |\n| GPUs | A100 | 4×A100 | 8×A100-80GB |\n| Total GPU memory | 40 GB | 160 GB | 640 GB |\n| Parameter size | 26 GB | 132 GB | 346 GB |\n| Memory for KV cache | 12 GB | 21 GB | 264 GB |\n| Max. # KV cache slots | 15.7K | 9.7K | 60.1K |\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B\n\n图 1 · PagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B\n\nPagedAttention-2309.06180v1.pdf · v1 · 第 9 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大",
+            "has_highlight": false,
+            "location": "PagedAttention-2309.06180v1.pdf · v1 · 第 9 页",
+            "open": true,
+            "status": "图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "27c8677f-0872-477c-9ce9-d8d1231857b1",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 9 页表格里，13B、66B 和 175B 三种模型配置分别使用了多少张什么型号的 GPU？它们留给 KV 缓存的内存大小和最大 KV 缓存槽位数（slots）分别是多少？",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g27-table-course"
+            ],
+            "document_ids": [
+              "local_0230fed1b096497ca195e529fa7cef78"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+              "source_id": "page:9:table:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+            "source_id": "page:9:table:1",
+            "version": 1
+          }
+        },
+        "turn_id": "3c213e730a1b4412803aaa2a8fcc70d3"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "PagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B\n| Model size | 13B | 66B | 175B |\n| --- | --- | --- | --- |\n| GPUs | A100 | 4×A100 | 8×A100-80GB |\n| Total GPU memory | 40 GB | 160 GB | 640 GB |\n| Parameter size | 26 GB | 132 GB | 346 GB |\n| Memory for KV cache | 12 GB | 21 GB | 264 GB |\n| Max. # KV cache slots | 15.7K | 9.7K | 60.1K |",
+            "type": "text"
+          },
+          {
+            "caption": "PagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B",
+            "display_id": "5c115b1ee6314b6ab66d3a2359c1e859",
+            "display_source": {
+              "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+              "source_id": "page:9:table:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 211,
+            "media_url": "/api/workspace/sessions/ee20ae369c9c4574875982fb89cafdd3/messages/62c744029077469da861463bd0514a68/media/5c115b1ee6314b6ab66d3a2359c1e859?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.104842,
+              0.088973,
+              0.460197,
+              0.221084
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 436
+          }
+        ],
+        "message_id": "62c744029077469da861463bd0514a68",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "locator": {
+              "bbox": [
+                0.124842,
+                0.108973,
+                0.440197,
+                0.201084
+              ],
+              "page": 9
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                  "source_id": "page:9:table:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Model size | 13B | 66B | 175B |\n| --- | --- | --- | --- |\n| GPUs | A100 | 4×A100 | 8×A100-80GB |\n| Total GPU memory | 40 GB | 160 GB | 640 GB |\n| Parameter size | 26 GB | 132 GB | 346 GB |\n| Memory for KV cache | 12 GB | 21 GB | 264 GB |\n| Max. # KV cache slots | 15.7K | 9.7K | 60.1K |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                "source_id": "page:9:table:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "3c213e730a1b4412803aaa2a8fcc70d3",
+        "visible_display_ids": [
+          "5c115b1ee6314b6ab66d3a2359c1e859"
+        ]
+      }
+    },
+    "mixtral_p8_table5": {
+      "question": "第 8 页表格里的 ArXiv 和 DM Mathematics 数据集，在第 0 层、第 15 层和第 31 层（First choice）连续两个词元选到同一个专家的重复比例分别是多少？",
+      "elapsed_ms": 145.8,
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "id": "c204cd74b3774aeebaba13efa6aa96b0",
+        "images": [
+          {
+            "complete": true,
+            "naturalHeight": 285,
+            "naturalWidth": 834,
+            "src": "/api/workspace/sessions/cb2b1d40969f44fb90517a60f78cb5c6/messages/c204cd74b3774aeebaba13efa6aa96b0/media/5bfeedf25a1b48f8aefb5787b73cc406?view=inline"
+          }
+        ],
+        "text": "课程助手\n\nMixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31\n|  | First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31 |\n| --- | --- | --- | --- | --- | --- | --- |\n| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |\n| DM Mathematics | 14.1% | 28.4% | 19.7% | 44.9% | 67.0% | 44.5% |\n| Github | 14.9% | 28.1% | 19.7% | 49.9% | 66.9% | 49.2% |\n| Gutenberg | 13.9% | 26.1% | 26.3% | 49.5% | 63.1% | 52.2% |\n| PhilPapers | 13.6% | 25.3% | 22.1% | 46.9% | 61.9% | 51.3% |\n| PubMed Abstracts | 14.2% | 24.6% | 22.0% | 48.6% | 61.6% | 51.8% |\n| StackExchange | 13.6% | 27.2% | 23.6% | 48.2% | 64.6% | 53.6% |\n| Wikipedia (en) | 14.4% | 23.6% | 25.3% | 49.8% | 62.1% | 51.8% |\n\n依据 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31\n\n图 1 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31\n\nMixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大",
+            "has_highlight": false,
+            "location": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 8 页",
+            "open": true,
+            "status": "图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "33d24b4d-4280-43d4-8d22-07119dc280a2",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 8 页表格里的 ArXiv 和 DM Mathematics 数据集，在第 0 层、第 15 层和第 31 层（First choice）连续两个词元选到同一个专家的重复比例分别是多少？",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g27-table-course"
+            ],
+            "document_ids": [
+              "local_fa50a9fda53b4d39b08aae7c9447b128"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+              "source_id": "page:8:table:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+            "source_id": "page:8:table:1",
+            "version": 1
+          }
+        },
+        "turn_id": "e66fc9d5bc6647629186321c5f5fced6"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31\n|  | First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31 |\n| --- | --- | --- | --- | --- | --- | --- |\n| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |\n| DM Mathematics | 14.1% | 28.4% | 19.7% | 44.9% | 67.0% | 44.5% |\n| Github | 14.9% | 28.1% | 19.7% | 49.9% | 66.9% | 49.2% |\n| Gutenberg | 13.9% | 26.1% | 26.3% | 49.5% | 63.1% | 52.2% |\n| PhilPapers | 13.6% | 25.3% | 22.1% | 46.9% | 61.9% | 51.3% |\n| PubMed Abstracts | 14.2% | 24.6% | 22.0% | 48.6% | 61.6% | 51.8% |\n| StackExchange | 13.6% | 27.2% | 23.6% | 48.2% | 64.6% | 53.6% |\n| Wikipedia (en) | 14.4% | 23.6% | 25.3% | 49.8% | 62.1% | 51.8% |",
+            "type": "text"
+          },
+          {
+            "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31",
+            "display_id": "5bfeedf25a1b48f8aefb5787b73cc406",
+            "display_source": {
+              "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+              "source_id": "page:8:table:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 285,
+            "media_url": "/api/workspace/sessions/cb2b1d40969f44fb90517a60f78cb5c6/messages/c204cd74b3774aeebaba13efa6aa96b0/media/5bfeedf25a1b48f8aefb5787b73cc406?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.15965700000000002,
+              0.07141299999999999,
+              0.8403430000000001,
+              0.250726
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 834
+          }
+        ],
+        "message_id": "c204cd74b3774aeebaba13efa6aa96b0",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.179657,
+                0.091413,
+                0.820343,
+                0.230726
+              ],
+              "page": 8
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:8:table:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "|  | First choice: Layer 0 | First choice: Layer 15 | First choice: Layer 31 | First or second choice: Layer 0 | First or second choice: Layer 15 | First or second choice: Layer 31 |\n| --- | --- | --- | --- | --- | --- | --- |\n| ArXiv | 14.0% | 27.9% | 22.7% | 46.5% | 62.3% | 52.9% |\n| DM Mathematics | 14.1% | 28.4% | 19.7% | 44.9% | 67.0% | 44.5% |\n| Github | 14.9% | 28.1% | 19.7% | 49.9% | 66.9% | 49.2% |\n| Gutenberg | 13.9% | 26.1% | 26.3% | 49.5% | 63.1% | 52.2% |\n| PhilPapers | 13.6% | 25.3% | 22.1% | 46.9% | 61.9% | 51.3% |\n| PubMed Abstracts | 14.2% | 24.6% | 22.0% | 48.6% | 61.6% | 51.8% |\n| StackExchange | 13.6% | 27.2% | 23.6% | 48.2% | 64.6% | 53.6% |\n| Wikipedia (en) | 14.4% | 23.6% | 25.3% | 49.8% | 62.1% | 51.8% |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:8:table:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "e66fc9d5bc6647629186321c5f5fced6",
+        "visible_display_ids": [
+          "5bfeedf25a1b48f8aefb5787b73cc406"
+        ]
+      }
+    },
+    "mamba_p11_table": {
+      "question": "第 11 页表格里 Mamba 模型对应的 Arch.、Layer 和 Acc. 分别是多少？",
+      "elapsed_ms": 156.7,
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "id": "794c71dc6a744292964c5dff19a28ccf",
+        "images": [
+          {
+            "complete": true,
+            "naturalHeight": 306,
+            "naturalWidth": 323,
+            "src": "/api/workspace/sessions/467ee5c79f2945669edbc414e521420a/messages/794c71dc6a744292964c5dff19a28ccf/media/1d542949174d4320aa36f0862440d34e?view=inline"
+          }
+        ],
+        "text": "课程助手\n\nMamba-2312.00752v1.pdf · v1 · 表格 · Model | Arch. | Layer | Acc.\n| Model | Arch. | Layer | Acc. |\n| --- | --- | --- | --- |\n| S4 | No gate | S4 | 18.3 |\n| - | No gate | S6 | 97.0 |\n| H3 | H3 | S4 | 57.0 |\n| Hyena | H3 | Hyena | 30.1 |\n| - | H3 | S6 | 99.7 |\n| - | Mamba | S4 | 56.4 |\n| - | Mamba | Hyena | 28.4 |\n| Mamba | Mamba | S6 | 99.8 |\n\n依据 · Mamba-2312.00752v1.pdf · v1 · 表格 · Model | Arch. | Layer | Acc.\n\n图 1 · Mamba-2312.00752v1.pdf · v1 · 表格 · Model | Arch. | Layer | Acc.\n\nMamba-2312.00752v1.pdf · v1 · 第 11 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大",
+            "has_highlight": false,
+            "location": "Mamba-2312.00752v1.pdf · v1 · 第 11 页",
+            "open": true,
+            "status": "图像未读取",
+            "title": "Mamba-2312.00752v1.pdf · v1 · 表格 · Model | Arch. | Layer | Acc."
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "b83779b9-9f62-4654-a175-53e2ea0ed2b7",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 11 页表格里 Mamba 模型对应的 Arch.、Layer 和 Acc. 分别是多少？",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g27-table-course"
+            ],
+            "document_ids": [
+              "local_18e9d0bd921147f7b94c868bf15d9a19"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_18e9d0bd921147f7b94c868bf15d9a19",
+              "source_id": "page:11:table:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_18e9d0bd921147f7b94c868bf15d9a19",
+            "source_id": "page:11:table:1",
+            "version": 1
+          }
+        },
+        "turn_id": "9685e09327b444e99251cb5884230c05"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "Mamba-2312.00752v1.pdf · v1 · 表格 · Model | Arch. | Layer | Acc.\n| Model | Arch. | Layer | Acc. |\n| --- | --- | --- | --- |\n| S4 | No gate | S4 | 18.3 |\n| - | No gate | S6 | 97.0 |\n| H3 | H3 | S4 | 57.0 |\n| Hyena | H3 | Hyena | 30.1 |\n| - | H3 | S6 | 99.7 |\n| - | Mamba | S4 | 56.4 |\n| - | Mamba | Hyena | 28.4 |\n| Mamba | Mamba | S6 | 99.8 |",
+            "type": "text"
+          },
+          {
+            "caption": "Mamba-2312.00752v1.pdf · v1 · 表格 · Model | Arch. | Layer | Acc.",
+            "display_id": "1d542949174d4320aa36f0862440d34e",
+            "display_source": {
+              "document_id": "local_18e9d0bd921147f7b94c868bf15d9a19",
+              "source_id": "page:11:table:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 306,
+            "media_url": "/api/workspace/sessions/467ee5c79f2945669edbc414e521420a/messages/794c71dc6a744292964c5dff19a28ccf/media/1d542949174d4320aa36f0862440d34e?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.114441,
+              0.0725,
+              0.377967,
+              0.264915
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 323
+          }
+        ],
+        "message_id": "794c71dc6a744292964c5dff19a28ccf",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Mamba-2312.00752v1.pdf",
+            "locator": {
+              "bbox": [
+                0.134441,
+                0.0925,
+                0.357967,
+                0.244915
+              ],
+              "page": 11
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_18e9d0bd921147f7b94c868bf15d9a19",
+                  "source_id": "page:11:table:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "| Model | Arch. | Layer | Acc. |\n| --- | --- | --- | --- |\n| S4 | No gate | S4 | 18.3 |\n| - | No gate | S6 | 97.0 |\n| H3 | H3 | S4 | 57.0 |\n| Hyena | H3 | Hyena | 30.1 |\n| - | H3 | S6 | 99.7 |\n| - | Mamba | S4 | 56.4 |\n| - | Mamba | Hyena | 28.4 |\n| Mamba | Mamba | S6 | 99.8 |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "83044ebdd02276f922b6d0915a344f0c501fc7c214d1b88622c33971bb149199",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_18e9d0bd921147f7b94c868bf15d9a19",
+                "source_id": "page:11:table:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "9685e09327b444e99251cb5884230c05",
+        "visible_display_ids": [
+          "1d542949174d4320aa36f0862440d34e"
+        ]
+      }
+    },
+    "paged_attention_p5_no_false_table": {
+      "question": "第 5 页表格里写了什么？",
+      "elapsed_ms": 157.4,
+      "dom": {
+        "citations": [],
+        "id": "7b76cd9358a04a8eb0ceb7651643b678",
+        "images": [],
+        "text": "课程助手\n\n找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+        "opened_citations": {}
+      },
+      "turn": {
+        "client_turn_id": "43ed9488-794b-4b3f-b7dc-d0da2160ee44",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 5 页表格里写了什么？",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g27-table-course"
+            ],
+            "document_ids": [
+              "local_0230fed1b096497ca195e529fa7cef78"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [],
+          "route": "target_object"
+        },
+        "turn_id": "bf7294bcc45a42359c331f13754b0d0d"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "code": "object_not_found",
+            "text": "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "7b76cd9358a04a8eb0ceb7651643b678",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "bf7294bcc45a42359c331f13754b0d0d",
+        "visible_display_ids": []
+      }
+    },
+    "paged_attention_p5_page_text": {
+      "question": "请说明第 5 页关于 PagedAttention 的内容。",
+      "elapsed_ms": 4794.3,
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "id": "1164f292b4ab4fc282393e420cd8b07f",
+        "images": [
+          {
+            "complete": true,
+            "naturalHeight": 1584,
+            "naturalWidth": 1224,
+            "src": "/api/workspace/sessions/cc366cab89af4babb4deabff78312500/messages/1164f292b4ab4fc282393e420cd8b07f/media/d413a66d88be4d139b3fc70ec42f8a23?view=inline"
+          }
+        ],
+        "text": "课程助手\n\n第 5 页介绍，PagedAttention 是一种受操作系统经典分页思想启发的注意力算法，用于应对 §3 所述的内存挑战。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\n与传统注意力算法不同，PagedAttention 允许把连续的键和值存储在非连续的内存空间中。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\nPagedAttention 把每个序列的 KV cache 划分为 KV 块；每个块包含固定数量 token 的键向量和值向量，这个固定数量称为 KV 块大小（B）。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\n该页给出块级注意力计算式：A_ij = exp(q_i^T K_j / √d) / Σ_{t=1}^{⌈i/B⌉} exp(q_i^T K_t / √d)，o_i = Σ_{j=1}^{⌈i/B⌉} V_j A_ij^T；其中 A_ij 是第 j 个 KV 块上的注意力分数行向量。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\n计算时，PagedAttention 内核会分别定位并获取不同的 KV 块；图 5 的例子中，键和值向量分布在三个物理内存上不连续的块中，内核用查询 token（“forth”）的查询向量 q_i 与块内键向量 K_j 相乘得到注意力分数 A_ij，再与块内值向量 V_j 相乘得到最终注意力输出 o_i。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\n该页总结：PagedAttention 允许 KV 块存放在非连续的物理内存中，从而使 vLLM 能进行更灵活的分页内存管理；vLLM 的 KV cache manager 借助 PagedAttention 以分页方式管理 KV cache，并通过集中式调度器下发的指令管理 GPU worker 上的物理 KV cache 内存。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\n该页还说明，PagedAttention 的详细设计在 §4.1，KV cache manager 的设计在 §4.2，PagedAttention 如何配合该设计在 §4.3，对多种解码方法的内存管理在 §4.4，变长输入输出序列的处理在 §4.5，分布式系统设计在 §4.6。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页\n\n证据只覆盖第 5 页的原生文字，未读取该页图像；图 4、图 5 的具体图形细节无法确认。§4.2 及之后各节的正文内容不在本轮证据范围内。\n\n图 1 · PagedAttention-2309.06180v1.pdf · v1 · 第 5 页 · KV Cache Manager\n\nPagedAttention-2309.06180v1.pdf · v1 · 第 5 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大\n\n正在加载原件…\n\nKV Cache Manager\nScheduler\nCPU Block\nAllocator\nGPU Block\nAllocator\nBlock tables\nWorker 0\nModel\nShard 0\nCache\nEngine\nWorker 1\nModel\nShard 1\nCache\nEngine\nWorker N - 1\nModel\nShard N - 1\nCache\nEngine\n…\nFigure 4. vLLM system overview.\nAlthough compacti",
+            "has_highlight": false,
+            "location": "当前版本",
+            "open": true,
+            "status": "文字已交给回答模型 · 图像未读取",
+            "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 5 页"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "b75e8177-482f-403a-982f-5ecea62efad3",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "请说明第 5 页关于 PagedAttention 的内容。",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "PagedAttention-2309.06180v1.pdf",
+              "locator": {
+                "page": 5
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                    "source_id": "page:5",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                "source_id": "page:5",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 0,
+            "checked_positions": [
+              "page:5"
+            ],
+            "enumerated_source_count": 20,
+            "evidence_inspected_count": 1,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 1,
+            "searchable_source_count": 20,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g27-table-course"
+            ],
+            "document_ids": [
+              "local_0230fed1b096497ca195e529fa7cef78"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 4581.971,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 4627.083,
+            "estimated_input": 7953,
+            "external_call_count": 1,
+            "fixed_overhead": 2168,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 2454
+          },
+          "reading": {
+            "budget": 30600,
+            "estimated_input": 5785,
+            "estimated_message_input": 7953,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": null,
+              "cell_range": null,
+              "page": 5,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 5
+                },
+                "source": {
+                  "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                  "source_id": "page:5",
+                  "version": 1
+                },
+                "title": "KV Cache Manager"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                "source_id": "page:5",
+                "version": 1
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2168,
+            "read_ranges": [
+              {
+                "end": 4958,
+                "kind": "page",
+                "locator": {
+                  "page": 5
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                  "source_id": "page:5",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "7a1305b557f71bbd330e57b9e58d96ec261a87dbbbae673120c83e76372e4396",
+                "title": "KV Cache Manager"
+              }
+            ],
+            "skipped": [],
+            "skipped_total": 0,
+            "unread_visual": [],
+            "unread_visual_total": 0,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "5c22b202b8ce4015aa0d1728f13fecc9"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "第 5 页介绍，PagedAttention 是一种受操作系统经典分页思想启发的注意力算法，用于应对 §3 所述的内存挑战。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "与传统注意力算法不同，PagedAttention 允许把连续的键和值存储在非连续的内存空间中。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "PagedAttention 把每个序列的 KV cache 划分为 KV 块；每个块包含固定数量 token 的键向量和值向量，这个固定数量称为 KV 块大小（B）。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "该页给出块级注意力计算式：A_ij = exp(q_i^T K_j / √d) / Σ_{t=1}^{⌈i/B⌉} exp(q_i^T K_t / √d)，o_i = Σ_{j=1}^{⌈i/B⌉} V_j A_ij^T；其中 A_ij 是第 j 个 KV 块上的注意力分数行向量。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "计算时，PagedAttention 内核会分别定位并获取不同的 KV 块；图 5 的例子中，键和值向量分布在三个物理内存上不连续的块中，内核用查询 token（“forth”）的查询向量 q_i 与块内键向量 K_j 相乘得到注意力分数 A_ij，再与块内值向量 V_j 相乘得到最终注意力输出 o_i。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "该页总结：PagedAttention 允许 KV 块存放在非连续的物理内存中，从而使 vLLM 能进行更灵活的分页内存管理；vLLM 的 KV cache manager 借助 PagedAttention 以分页方式管理 KV cache，并通过集中式调度器下发的指令管理 GPU worker 上的物理 KV cache 内存。",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "该页还说明，PagedAttention 的详细设计在 §4.1，KV cache manager 的设计在 §4.2，PagedAttention 如何配合该设计在 §4.3，对多种解码方法的内存管理在 §4.4，变长输入输出序列的处理在 §4.5，分布式系统设计在 §4.6。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "证据只覆盖第 5 页的原生文字，未读取该页图像；图 4、图 5 的具体图形细节无法确认。§4.2 及之后各节的正文内容不在本轮证据范围内。",
+            "type": "notice"
+          },
+          {
+            "caption": "PagedAttention-2309.06180v1.pdf · v1 · 第 5 页 · KV Cache Manager",
+            "display_id": "d413a66d88be4d139b3fc70ec42f8a23",
+            "display_source": {
+              "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+              "source_id": "page:5",
+              "version": 1
+            },
+            "evidence_id": "ev-2",
+            "fallback_reason": null,
+            "height": 1584,
+            "media_url": "/api/workspace/sessions/cc366cab89af4babb4deabff78312500/messages/1164f292b4ab4fc282393e420cd8b07f/media/d413a66d88be4d139b3fc70ec42f8a23?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "original_page",
+            "type": "source_image",
+            "width": 1224
+          }
+        ],
+        "message_id": "1164f292b4ab4fc282393e420cd8b07f",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "locator": {
+              "page": 5,
+              "text_span": [
+                0,
+                4958
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                  "source_id": "page:5",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "KV Cache Manager\nScheduler\nCPU Block\nAllocator\nGPU Block\nAllocator\nBlock tables\nWorker 0\nModel\nShard 0\nCache\nEngine\nWorker 1\nModel\nShard 1\nCache\nEngine\nWorker N - 1\nModel\nShard N - 1\nCache\nEngine\n…\nFigure 4. vLLM system overview.\nAlthough compaction [54] has been proposed as a poten￾tial solution to fragmentation, performing compaction in a\nperformance-sensitive LLM serving system is impractical\ndue to the massive KV cache. Even with compaction, the\npre-allocated chunk space for each request prevents memory\nsharing specific to decoding algorithms in existing memory\nmanagement systems.\n4 Method\nIn this work, we develop a new attention algorithm, Page￾dAttention, and build an LLM serving engine, vLLM, to tackle\nthe challenges outlined in §3. The architecture of vLLM is\nshown in Fig. 4. vLLM adopts a centralized scheduler to\ncoordinate the execution of distributed GPU workers. The\nKV cache manager effectively manages the KV cache in a\npaged fashion, enabled by PagedAttention. Specifically, the\nKV cache manager manages the physical KV cache memory\non the GPU workers through the instructions sent by the\ncentralized scheduler.\nNext, We describe the PagedAttention algorithm in §4.1.\nWith that, we show the design of the KV cache manager in\n§4.2 and how it facilitates PagedAttention in §4.3, respec￾tively. Then, we show how this design facilitates effective\nmemory management for various decoding methods (§4.4)\nand handles the variable length input and output sequences\n(§4.5). Finally, we show how the system design of vLLM\nworks in a distributed setting (§4.6).\n4.1 PagedAttention\nTo address the memory challenges in §3, we introduce Page￾dAttention, an attention algorithm inspired by the classic idea\nof paging [25] in operating systems. Unlike the traditional\nattention algorithms, PagedAttention allows storing continu￾ous keys and values in non-contiguous memory space. Specif￾ically, PagedAttention partitions the KV cache of each se￾quence into KV blocks. Each block contains the key and value\nvectors for a fixed number of tokens,1 which we denote as KV\n1\nIn Transformer, each token has a set of key and value vectors across layers\nand attention heads within a layer. All the key and value vectors can be\nmanaged together within a single KV block, or the key and value vectors at\ndifferent heads and layers can each have a separate block and be managed\nin separate block tables. The two designs have no performance difference\nand we choose the second one for easy implementation.\nforth Query\nvector\nyears ago our fathers\nbrought forth\nFour score and seven\nKey and value vectors\nBlock 1\nBlock 2\nBlock 0\nFigure 5. Illustration of the PagedAttention algorithm,\nwhere the attention key and values vectors are stored as\nnon-contiguous blocks in the memory.\nblock size (𝐵). Denote the key block 𝐾𝑗 = (𝑘(𝑗−1)𝐵+1, . . . , 𝑘𝑗𝐵)\nand value block 𝑉𝑗 = (𝑣(𝑗−1)𝐵+1, . . . , 𝑣𝑗𝐵). The attention com￾putation in Eq. 4 can be transformed into the following block￾wise computation:\n𝐴𝑖𝑗 =\nexp(𝑞\n⊤\n𝑖 𝐾𝑗 /\n√\n𝑑)\nÍ⌈𝑖/𝐵⌉\n𝑡=1\nexp(𝑞\n⊤\n𝑖\n𝐾𝑡 1/\n√\n𝑑)\n, 𝑜𝑖 =\n⌈\n∑︁\n𝑖/𝐵⌉\n𝑗=1\n𝑉𝑗𝐴\n⊤\n𝑖𝑗, (4)\nwhere 𝐴𝑖𝑗 = (𝑎𝑖,(𝑗−1)𝐵+1, . . . , 𝑎𝑖,𝑗𝐵) is the row vector of atten￾tion score on 𝑗-th KV block.\nDuring the attention computation, the PagedAttention\nkernel identifies and fetches different KV blocks separately.\nWe show an example of PagedAttention in Fig. 5: The key\nand value vectors are spread across three blocks, and the\nthree blocks are not contiguous on the physical memory. At\neach time, the kernel multiplies the query vector 𝑞𝑖 of the\nquery token (“forth”) and the key vectors 𝐾𝑗\nin a block (e.g.,\nkey vectors of “Four score and seven” for block 0) to compute\nthe attention score𝐴𝑖𝑗, and later multiplies𝐴𝑖𝑗 with the value\nvectors 𝑉𝑗\nin a block to derive the final attention output 𝑜𝑖\n.\nIn summary, the PagedAttention algorithm allows the\nKV blocks to be stored in non-contiguous physical memory,\nwhich enables more flexible paged memory management in\nvLLM.\n4.2 KV Cache Manager\nThe key idea behind vLLM’s memory manager is analogous\nto the virtual memory [25] in operating systems. OS parti￾tions memory into fixed-sized pages and maps user programs’\nlogical pages to physical pages. Contiguous logical pages can\ncorrespond to non-contiguous physical memory pages, al￾lowing user programs to access memory as though it were\ncontiguous. Moreover, physical memory space needs not to\nbe fully reserved in advance, enabling the OS to dynamically\nallocate physical pages as needed. vLLM uses the ideas be￾hind virtual memory to manage the KV cache in an LLM\nservice. Enabled by PagedAttention, we organize the KV\ncache as fixed-size KV blocks, like pages in virtual memory.\nA request’s KV cache is represented as a series of logical\nKV blocks, filled from left to right as new tokens and their KV\ncache are generated. The last KV block’s unfilled positions\nare reserved for future generations. On GPU workers, a block\nengine allocates a contiguous chunk of GPU DRAM and\n5",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                "source_id": "page:5",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "locator": {
+              "page": 5
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_0230fed1b096497ca195e529fa7cef78",
+                "source_id": "page:5",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "5c22b202b8ce4015aa0d1728f13fecc9",
+        "visible_display_ids": [
+          "d413a66d88be4d139b3fc70ec42f8a23"
+        ]
+      }
+    },
+    "mixtral_p6_real_vision": {
+      "question": "第 6 页的排行榜图里，Mixtral-8x7b-Instruct-v0.1 的 Arena Elo 评分是多少？",
+      "elapsed_ms": 2629.6,
+      "dom": {
+        "citations": [
+          "ev-1"
+        ],
+        "id": "1c81f6c14c644b70bd6514bdbe08842a",
+        "images": [
+          {
+            "complete": true,
+            "naturalHeight": 1584,
+            "naturalWidth": 1224,
+            "src": "/api/workspace/sessions/7d9a1656a6db48e49c93ba356bd81624/messages/1c81f6c14c644b70bd6514bdbe08842a/media/762b797a69ec4db9a4f248ad655b9e8a?view=inline"
+          },
+          {
+            "complete": true,
+            "naturalHeight": 269,
+            "naturalWidth": 476,
+            "src": "/api/workspace/sessions/7d9a1656a6db48e49c93ba356bd81624/messages/1c81f6c14c644b70bd6514bdbe08842a/media/e758d0d691c8407caa270b172a9316e0?view=inline"
+          },
+          {
+            "complete": true,
+            "naturalHeight": 458,
+            "naturalWidth": 762,
+            "src": "/api/workspace/sessions/7d9a1656a6db48e49c93ba356bd81624/messages/1c81f6c14c644b70bd6514bdbe08842a/media/4f2ab1ab3948488f817b12f2bca55721?view=inline"
+          }
+        ],
+        "text": "课程助手\n\n第 6 页的图注写明：Mixtral 8x7B Instruct v0.1 的 Arena Elo 评分为 1121。\n\n依据 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页\n\n排行榜图本身是图片，本轮只读到图注文字，未读取图中数值；因此无法核对图中标注是否与图注一致。\n\n图 1 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 3.3 Bias Benchmarks\n\nMixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 图像未读取\n\n问这张图\n查看图片\n回原件\n\n图 2 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · Llama 2 70B | Mixtral 8x7B\n\nMixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 图像未读取\n\n问这张图\n查看图片\n回原件\n\n图 3 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片\n\nMixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+        "opened_citations": {
+          "ev-1": {
+            "body_head": "放大\n\n3.3 Bias Benchmarks\nLlama 2 70B Mixtral 8x7B\nBBQ accuracy 51.5% 56.0%\nBOLD sentiment score (avg ± std)\ngender 0.293 ± 0.073 0.323 ±0.045\nprofession 0.218 ± 0.073 0.243 ± 0.087\nreligious_ideology 0.188 ± 0.133 0.144 ± 0.089\npolitical_ideology 0.149 ± 0.140 ",
+            "has_highlight": false,
+            "location": "当前版本 · 资料目录",
+            "open": true,
+            "status": "仅展示 · 图像未读取",
+            "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页"
+          }
+        }
+      },
+      "turn": {
+        "client_turn_id": "fe83a969-e0e1-45a3-b5a8-c882c5ae4f96",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 6 页的排行榜图里，Mixtral-8x7b-Instruct-v0.1 的 Arena Elo 评分是多少？",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "locator": {
+                "page": 6
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "locator": {
+                "bbox": [
+                  0.473227,
+                  0.127366,
+                  0.820761,
+                  0.256899
+                ],
+                "page": 6
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:table:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+              "locator": {
+                "bbox": [
+                  0.208828,
+                  0.561018,
+                  0.791163,
+                  0.809371
+                ],
+                "page": 6
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                    "source_id": "page:6",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:image:1",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 4,
+            "checked_positions": [
+              "page:6"
+            ],
+            "enumerated_source_count": 31,
+            "evidence_inspected_count": 3,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 3,
+            "searchable_source_count": 23,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g27-table-course"
+            ],
+            "document_ids": [
+              "local_fa50a9fda53b4d39b08aae7c9447b128"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2300.963,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2314.394,
+            "estimated_input": 5812,
+            "external_call_count": 1,
+            "fixed_overhead": 2205,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1702
+          },
+          "reading": {
+            "budget": 30563,
+            "estimated_input": 3607,
+            "estimated_message_input": 5812,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": null,
+              "cell_range": null,
+              "page": 6,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 6
+                },
+                "source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6",
+                  "version": 1
+                },
+                "title": "3.3 Bias Benchmarks"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6",
+                "version": 1
+              },
+              {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:table:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:image:1",
+                "version": 1
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2205,
+            "read_ranges": [
+              {
+                "end": 2471,
+                "kind": "page",
+                "locator": {
+                  "page": 6
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "29bea43cc0d1e2c4284c58ce2e81bf885c93063bb0acb03ff387380a741f29af",
+                "title": "3.3 Bias Benchmarks"
+              },
+              {
+                "end": 369,
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.473227,
+                    0.127366,
+                    0.820761,
+                    0.256899
+                  ],
+                  "page": 6
+                },
+                "method": "native_table",
+                "source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6:table:1",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "17fbecc2d4cd8366e9c87f939e5dc447876ed5b161f1f9aca0a92a23e982e87c",
+                "title": "Llama 2 70B | Mixtral 8x7B"
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.208828,
+                    0.561018,
+                    0.791163,
+                    0.809371
+                  ],
+                  "page": 6
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6:image:1",
+                  "version": 1
+                },
+                "title": ""
+              }
+            ],
+            "skipped_total": 1,
+            "unread_visual": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.208828,
+                    0.561018,
+                    0.791163,
+                    0.809371
+                  ],
+                  "page": 6
+                },
+                "source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6:image:1",
+                  "version": 1
+                },
+                "title": ""
+              }
+            ],
+            "unread_visual_total": 1,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "turn_id": "9d97023ed7c74484941c42ef6eac06af"
+      },
+      "message_meta": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "第 6 页的图注写明：Mixtral 8x7B Instruct v0.1 的 Arena Elo 评分为 1121。",
+            "type": "text"
+          },
+          {
+            "code": "missing_evidence",
+            "text": "排行榜图本身是图片，本轮只读到图注文字，未读取图中数值；因此无法核对图中标注是否与图注一致。",
+            "type": "notice"
+          },
+          {
+            "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 6 页 · 3.3 Bias Benchmarks",
+            "display_id": "762b797a69ec4db9a4f248ad655b9e8a",
+            "display_source": {
+              "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+              "source_id": "page:6",
+              "version": 1
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 1584,
+            "media_url": "/api/workspace/sessions/7d9a1656a6db48e49c93ba356bd81624/messages/1c81f6c14c644b70bd6514bdbe08842a/media/762b797a69ec4db9a4f248ad655b9e8a?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "original_page",
+            "type": "source_image",
+            "width": 1224
+          },
+          {
+            "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 表格 · Llama 2 70B | Mixtral 8x7B",
+            "display_id": "e758d0d691c8407caa270b172a9316e0",
+            "display_source": {
+              "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+              "source_id": "page:6:table:1",
+              "version": 1
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 269,
+            "media_url": "/api/workspace/sessions/7d9a1656a6db48e49c93ba356bd81624/messages/1c81f6c14c644b70bd6514bdbe08842a/media/e758d0d691c8407caa270b172a9316e0?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.453227,
+              0.107366,
+              0.840761,
+              0.276899
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 476
+          },
+          {
+            "caption": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+            "display_id": "4f2ab1ab3948488f817b12f2bca55721",
+            "display_source": {
+              "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+              "source_id": "page:6:image:1",
+              "version": 1
+            },
+            "evidence_id": "ev-5",
+            "fallback_reason": null,
+            "height": 458,
+            "media_url": "/api/workspace/sessions/7d9a1656a6db48e49c93ba356bd81624/messages/1c81f6c14c644b70bd6514bdbe08842a/media/4f2ab1ab3948488f817b12f2bca55721?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": [
+              0.188828,
+              0.541018,
+              0.811163,
+              0.829371
+            ],
+            "rendition_kind": "object_crop",
+            "type": "source_image",
+            "width": 762
+          }
+        ],
+        "message_id": "1c81f6c14c644b70bd6514bdbe08842a",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 6,
+              "text_span": [
+                0,
+                2471
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "3.3 Bias Benchmarks\nLlama 2 70B Mixtral 8x7B\nBBQ accuracy 51.5% 56.0%\nBOLD sentiment score (avg ± std)\ngender 0.293 ± 0.073 0.323 ±0.045\nprofession 0.218 ± 0.073 0.243 ± 0.087\nreligious_ideology 0.188 ± 0.133 0.144 ± 0.089\npolitical_ideology 0.149 ± 0.140 0.186 ± 0.146\nrace 0.232 ± 0.049 0.232 ± 0.052\nFigure 5: Bias Benchmarks. Compared Llama 2 70B,\nMixtral presents less bias (higher accuracy on BBQ, lower\nstd on BOLD) and displays more positive sentiment (higher\navg on BOLD).\nTo identify possible flaws to be corrected\nby fine-tuning / preference modeling, we\nmeasure the base model performance on\nBias Benchmark for QA (BBQ) [24] and\nBias in Open-Ended Language Generation\nDataset (BOLD) [10]. BBQ is a dataset\nof hand-written question sets that target\nattested social biases against nine differ￾ent socially-relevant categories: age, dis￾ability status, gender identity, nationality,\nphysical appearance, race/ethnicity, religion,\nsocio-economic status, sexual orientation.\nBOLD is a large-scale dataset that consists\nof 23,679 English text generation prompts\nfor bias benchmarking across five domains.\nWe benchmark Llama 2 and Mixtral on BBQ and BOLD with our evaluation framework and report\nthe results in Table 5. Compared to Llama 2, Mixtral presents less bias on the BBQ benchmark\n(56.0% vs 51.5%). For each group in BOLD, a higher average sentiment score means more positive\nsentiments and a lower standard deviation indicates less bias within the group. Overall, Mixtral\ndisplays more positive sentiments than Llama 2, with similar variances within each group.\n4 Instruction Fine-tuning\nWe train Mixtral – Instruct using supervised fine-tuning (SFT) on an instruction dataset followed by\nDirect Preference Optimization (DPO) [25] on a paired feedback dataset. Mixtral – Instruct reaches a\nscore of 8.30 on MT-Bench [33] (see Table 2), making it the best open-weights model as of December\n2023. Independent human evaluation conducted by LMSys is reported in Figure 6\n3\nand shows that\nMixtral – Instruct outperforms GPT-3.5-Turbo, Gemini Pro, Claude-2.1, and Llama 2 70B chat.\nFigure 6: LMSys Leaderboard. (Screenshot from Dec 22, 2023) Mixtral 8x7B Instruct v0.1 achieves an Arena\nElo rating of 1121 outperforming Claude-2.1 (1117), all versions of GPT-3.5-Turbo (1117 best), Gemini Pro\n(1111), and Llama-2-70b-chat (1077). Mixtral is currently the best open-weights model by a large margin.\n3\nhttps://huggingface.co/spaces/lmsys/chatbot-arena-leaderboard\n6",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.473227,
+                0.127366,
+                0.820761,
+                0.256899
+              ],
+              "page": 6,
+              "text_span": [
+                0,
+                369
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                  "source_id": "page:6:table:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_table",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "|  | Llama 2 70B | Mixtral 8x7B |\n| --- | --- | --- |\n| BBQ accuracy | 51.5% | 56.0% |\n| BOLD sentiment score (avg ± std) |  |  |\n| gender | 0.293 ± 0.073 | 0.323 ±0.045 |\n| profession | 0.218 ± 0.073 | 0.243 ± 0.087 |\n| religious_ideology | 0.188 ± 0.133 | 0.144 ± 0.089 |\n| political_ideology | 0.149 ± 0.140 | 0.186 ± 0.146 |\n| race | 0.232 ± 0.049 | 0.232 ± 0.052 |",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:table:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "page": 6
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6",
+                "version": 1
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.473227,
+                0.127366,
+                0.820761,
+                0.256899
+              ],
+              "page": 6
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:table:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-5": {
+            "evidence_id": "ev-5",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "locator": {
+              "bbox": [
+                0.208828,
+                0.561018,
+                0.791163,
+                0.809371
+              ],
+              "page": 6
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+              "course_id": "g27-table-course",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_fa50a9fda53b4d39b08aae7c9447b128",
+                "source_id": "page:6:image:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "9d97023ed7c74484941c42ef6eac06af",
+        "visible_display_ids": [
+          "762b797a69ec4db9a4f248ad655b9e8a",
+          "e758d0d691c8407caa270b172a9316e0",
+          "4f2ab1ab3948488f817b12f2bca55721"
+        ]
+      }
+    }
+  },
+  "provider_calls": [
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "kind": "async",
+      "status_code": 200,
+      "elapsed_ms": 1305.2
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "kind": "async",
+      "status_code": 200,
+      "elapsed_ms": 1357.2
+    }
+  ]
+}
