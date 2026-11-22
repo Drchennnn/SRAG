@@ -1,0 +1,2409 @@
+{
+  "git_sha": "f6d2c238ee76c8ba91c92f136da325262b8d2c75",
+  "config": {
+    "workspace_retrieval_strategy": "fts",
+    "workspace_input_token_limit": 32768,
+    "workspace_answer_enabled": false,
+    "source_vision_enabled": true
+  },
+  "scenarios": {
+    "problem2_multi_output_focus": {
+      "img_question": {
+        "case_id": "p2_img_q",
+        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "turn_status": "clarification",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [
+          {
+            "option_id": "6c7e218284204302ac38b9ae1da760ff",
+            "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 0（图像）",
+            "kind": "document"
+          },
+          {
+            "option_id": "acf531a6d3e14bfc9171759be210f740",
+            "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 1（图像）",
+            "kind": "document"
+          }
+        ],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [],
+        "notices": [
+          {
+            "code": "clarification",
+            "text": "当前聚焦 Cell 包含多个保存输出，请选择你要读取的具体输出。"
+          }
+        ],
+        "texts": [],
+        "citations": [],
+        "displayed_objects": [],
+        "actually_read_objects": []
+      },
+      "img_selected": {
+        "case_id": "p2_img_pick",
+        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": "target_object",
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "method": "current_choice",
+          "resolution": "current_choice"
+        },
+        "display_order": [
+          {
+            "display_id": "09b239e8bdff429b8a36150936d3ae8b",
+            "evidence_id": "ev-1",
+            "display_source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "09b239e8bdff429b8a36150936d3ae8b"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "text": "batch_size (item)"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "batch_size (item)"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "out_question": {
+        "case_id": "p2_out_q",
+        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "turn_status": "clarification",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [
+          {
+            "option_id": "1f9e888844264d91af3a81cb4f1dd85f",
+            "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 0（图像）",
+            "kind": "document"
+          },
+          {
+            "option_id": "8ef3cb57cb0f425d84772fe03cf15918",
+            "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 1（图像）",
+            "kind": "document"
+          },
+          {
+            "option_id": "c4d814f61aca459082b8313407692082",
+            "label": "Bench-P2.ipynb · v1 · Cell 2 · 输出 2（v1 summary: Curve A peak）",
+            "kind": "document"
+          }
+        ],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [],
+        "notices": [
+          {
+            "code": "clarification",
+            "text": "当前聚焦 Cell 包含多个保存输出，请选择你要读取的具体输出。"
+          }
+        ],
+        "texts": [],
+        "citations": [],
+        "displayed_objects": [],
+        "actually_read_objects": []
+      },
+      "out_selected": {
+        "case_id": "p2_out_pick",
+        "focus_id_sent": "node-e28d3a9d5b78dfcd1dcc44d9fb26df24",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": "clarification_choice",
+        "external_call_count": 0,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P2.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          }
+        ]
+      }
+    },
+    "p1_read_new_counterpart": {
+      "turn1_show": {
+        "case_id": "turn1_show",
+        "focus_id_sent": "node-8eabfcc9b319f852c3e643eabe48dc85",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 4,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "2b844a266b54447abf344c7592525cf7",
+            "evidence_id": "ev-3",
+            "display_source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "67f7209ce9cc496da08bb8bb3be96207",
+            "evidence_id": "ev-4",
+            "display_source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "2b844a266b54447abf344c7592525cf7",
+          "67f7209ce9cc496da08bb8bb3be96207"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": []
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P1-read_new_counterpart.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+          "Bench-P1-read_new_counterpart.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          },
+          {
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn1_read": {
+        "case_id": "turn1_read",
+        "focus_id_sent": "node-8eabfcc9b319f852c3e643eabe48dc85",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "2b844a266b54447abf344c7592525cf7",
+          "message_id": "9dcdc1030c994453b1ad5ebccb74b14b",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn2_after_v2": {
+        "case_id": "read_new_counterpart",
+        "focus_id_sent": "node-8eabfcc9b319f852c3e643eabe48dc85",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": "target_object",
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "source_id": "cell:1:output:0",
+            "version": 2
+          },
+          "method": "current_version_counterpart",
+          "resolution": "current_version_counterpart"
+        },
+        "display_order": [
+          {
+            "display_id": "9a26c9e73cf042958bab26ef254093d2",
+            "evidence_id": "ev-1",
+            "display_source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "9a26c9e73cf042958bab26ef254093d2"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+                  "source_id": "cell:1:output:0",
+                  "version": 2
+                },
+                "text": "240 ops/s"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "240 ops/s"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+            "source_id": "cell:1:output:0",
+            "version": 2
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      }
+    },
+    "p1_recall_old_read": {
+      "turn1_show": {
+        "case_id": "turn1_show",
+        "focus_id_sent": "node-e6cb3ef073e0b82e227b52239b4e7608",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 4,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "3a426a0aa9974870ab57ea6d01620be7",
+            "evidence_id": "ev-3",
+            "display_source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "c3162078e98344d789ac4feeb81b3d40",
+            "evidence_id": "ev-4",
+            "display_source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "3a426a0aa9974870ab57ea6d01620be7",
+          "c3162078e98344d789ac4feeb81b3d40"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": []
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P1-recall_old_read.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+          "Bench-P1-recall_old_read.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          },
+          {
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn1_read": {
+        "case_id": "turn1_read",
+        "focus_id_sent": "node-e6cb3ef073e0b82e227b52239b4e7608",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "3a426a0aa9974870ab57ea6d01620be7",
+          "message_id": "3200a61ecf9a4d47807d0e69a344a3fc",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn2_after_v2": {
+        "case_id": "recall_old_read",
+        "focus_id_sent": "node-e6cb3ef073e0b82e227b52239b4e7608",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "3a426a0aa9974870ab57ea6d01620be7",
+          "message_id": "3200a61ecf9a4d47807d0e69a344a3fc",
+          "method": "visible_read_history",
+          "ordinal": 1,
+          "resolution": "visible_read_history"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+              }
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "historical_only",
+            "text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。"
+          }
+        ],
+        "texts": [
+          "旧版 v1 已读取内容：\n一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      }
+    },
+    "p1_compare_both_versions": {
+      "turn1_show": {
+        "case_id": "turn1_show",
+        "focus_id_sent": "node-c7be9e1c33e2018bbac608fa4a728b68",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 4,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "b5c92d8276b644168c7a5aad118d7122",
+            "evidence_id": "ev-3",
+            "display_source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "510c34b95fa142e7913a74d7d9c26d10",
+            "evidence_id": "ev-4",
+            "display_source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "b5c92d8276b644168c7a5aad118d7122",
+          "510c34b95fa142e7913a74d7d9c26d10"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": []
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P1-compare_both_versions.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+          "Bench-P1-compare_both_versions.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          },
+          {
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn1_read": {
+        "case_id": "turn1_read",
+        "focus_id_sent": "node-c7be9e1c33e2018bbac608fa4a728b68",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "b5c92d8276b644168c7a5aad118d7122",
+          "message_id": "6a5bdb4dd5054428862b0b884b3551a9",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn2_after_v2": {
+        "case_id": "compare_both_versions",
+        "focus_id_sent": "node-c7be9e1c33e2018bbac608fa4a728b68",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": "version_comparison",
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "5528dba8e37a4c059a685d181ba3ccd3",
+            "evidence_id": "ev-1",
+            "display_source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "80784d13d4b34ab1b1ab51baf3ac06d1",
+            "evidence_id": "ev-2",
+            "display_source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "5528dba8e37a4c059a685d181ba3ccd3",
+          "80784d13d4b34ab1b1ab51baf3ac06d1"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+                  "source_id": "cell:1:output:0",
+                  "version": 2
+                },
+                "text": "指标名称：Throughput；单位：ops/s (v2)；核心数值：Peak throughput: 240 ops/s"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "旧版 v1 已读取内容 · 一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”",
+          "当前版 v2 · 内容与关键数值",
+          "指标名称：Throughput；单位：ops/s (v2)；核心数值：Peak throughput: 240 ops/s"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+            "source_id": "cell:1:output:0",
+            "version": 2
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          },
+          {
+            "source": {
+              "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      }
+    },
+    "p1_only_old_control": {
+      "turn1_show": {
+        "case_id": "turn1_show",
+        "focus_id_sent": "node-c7e316b4e957b4c2e804991286c80eea",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 4,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "e90bd1ce2901498cac3d74c090f91d44",
+            "evidence_id": "ev-3",
+            "display_source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "ac7f40b432b34991804fc1309dc7c4c2",
+            "evidence_id": "ev-4",
+            "display_source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "e90bd1ce2901498cac3d74c090f91d44",
+          "ac7f40b432b34991804fc1309dc7c4c2"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": []
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P1-only_old_control.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+          "Bench-P1-only_old_control.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          },
+          {
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn1_read": {
+        "case_id": "turn1_read",
+        "focus_id_sent": "node-c7e316b4e957b4c2e804991286c80eea",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "e90bd1ce2901498cac3d74c090f91d44",
+          "message_id": "15fb9ae81b8f404d95cbfcc8492eacab",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn2_after_v2": {
+        "case_id": "only_old_control",
+        "focus_id_sent": "node-c7e316b4e957b4c2e804991286c80eea",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "e90bd1ce2901498cac3d74c090f91d44",
+          "message_id": "15fb9ae81b8f404d95cbfcc8492eacab",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+              }
+            ]
+          }
+        ],
+        "notices": [
+          {
+            "code": "historical_only",
+            "text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。"
+          }
+        ],
+        "texts": [
+          "旧版 v1 已读取内容：\n一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      }
+    },
+    "p1_ordinary_stale_focus": {
+      "turn1_show": {
+        "case_id": "turn1_show",
+        "focus_id_sent": "node-d086cd96bb3da7680b330324e61fadff",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 4,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "18b4bcd09c674917acd2b4b9849c9287",
+            "evidence_id": "ev-3",
+            "display_source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "8213fb5f2e3545caa4babdbbf04561ae",
+            "evidence_id": "ev-4",
+            "display_source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "18b4bcd09c674917acd2b4b9849c9287",
+          "8213fb5f2e3545caa4babdbbf04561ae"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": []
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P1-ordinary_stale_focus.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+          "Bench-P1-ordinary_stale_focus.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          {
+            "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          },
+          {
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "method": "native_text",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn1_read": {
+        "case_id": "turn1_read",
+        "focus_id_sent": "node-d086cd96bb3da7680b330324e61fadff",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "18b4bcd09c674917acd2b4b9849c9287",
+          "message_id": "25b14cf16b164d9488f8e51bbb890144",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          }
+        ],
+        "displayed_objects": [],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      },
+      "turn2_after_v2": {
+        "case_id": "ordinary_stale_focus",
+        "focus_id_sent": "node-d086cd96bb3da7680b330324e61fadff",
+        "turn_status": "failed",
+        "turn_error": "stale_reference",
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [],
+        "notices": [],
+        "texts": [],
+        "citations": [],
+        "displayed_objects": [],
+        "actually_read_objects": []
+      }
+    },
+    "p1_reordered_v2": {
+      "clarification": {
+        "case_id": "reordered_v2",
+        "focus_id_sent": "node-62481d9300d6123796de2e83af6ec188",
+        "turn_status": "clarification",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [
+          {
+            "option_id": "a099b05e06bd465391f1eefc7e840390",
+            "label": "Bench-reordered_v2.ipynb · v2 · 输出 0",
+            "kind": "document"
+          },
+          {
+            "option_id": "70781ed3922f4958ac84e7408106a40a",
+            "label": "Bench-reordered_v2.ipynb · v2 · 输出 1",
+            "kind": "document"
+          }
+        ],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [],
+        "notices": [
+          {
+            "code": "clarification",
+            "text": "新版与旧版对象无法唯一对应（可能已重排或存在多个候选），请选择当前版本中的对象。"
+          }
+        ],
+        "texts": [],
+        "citations": [],
+        "displayed_objects": [],
+        "actually_read_objects": []
+      },
+      "picked": {
+        "case_id": "reordered_v2_picked",
+        "focus_id_sent": "node-62481d9300d6123796de2e83af6ec188",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": "target_object",
+        "external_call_count": 1,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+            "source_id": "cell:1:output:1",
+            "version": 2
+          },
+          "method": "current_choice",
+          "resolution": "current_choice"
+        },
+        "display_order": [
+          {
+            "display_id": "ac5ff53ec3ba495fb3722f51307f0a68",
+            "evidence_id": "ev-1",
+            "display_source": {
+              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "ac5ff53ec3ba495fb3722f51307f0a68"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            },
+            "reads": [
+              {
+                "method": "vision",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+                  "source_id": "cell:1:output:1",
+                  "version": 2
+                },
+                "text": "120 ops/s"
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "120 ops/s"
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            }
+          }
+        ],
+        "displayed_objects": [
+          {
+            "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+            "source_id": "cell:1:output:1",
+            "version": 2
+          }
+        ],
+        "actually_read_objects": [
+          {
+            "source": {
+              "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            },
+            "method": "vision",
+            "status": "succeeded"
+          }
+        ]
+      }
+    },
+    "p1_deleted_v2": {
+      "clarification": {
+        "case_id": "deleted_v2",
+        "focus_id_sent": "node-76b91e7cffe99057a9d80eaff5f7c508",
+        "turn_status": "clarification",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [],
+        "notices": [
+          {
+            "code": "clarification",
+            "text": "新版已删除或移除了上一轮读取的对应对象，请从目录重新选择当前版本。"
+          }
+        ],
+        "texts": [],
+        "citations": [],
+        "displayed_objects": [],
+        "actually_read_objects": []
+      }
+    },
+    "p1_multi_display_no_read_compare": {
+      "turn1_show": {
+        "case_id": "combo_show",
+        "focus_id_sent": "node-19eaf29ed5f0ef42558c5453f293301a",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": null,
+        "external_call_count": null,
+        "candidates_count": 4,
+        "options": [],
+        "resolution": null,
+        "display_order": [
+          {
+            "display_id": "78c545b780274dc3bc4c400522707647",
+            "evidence_id": "ev-3",
+            "display_source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "display_id": "774ad2bd40b64822b3f326b2ae9bb7e4",
+            "evidence_id": "ev-4",
+            "display_source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ],
+        "visible_display_ids": [
+          "78c545b780274dc3bc4c400522707647",
+          "774ad2bd40b64822b3f326b2ae9bb7e4"
+        ],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "reads": []
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "reads": []
+          }
+        ],
+        "notices": [
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+          }
+        ],
+        "texts": [
+          "Bench-P1-combo.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+          "Bench-P1-combo.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          }
+        ]
+      },
+      "turn2_cmp": {
+        "case_id": "combo_cmp",
+        "focus_id_sent": "node-19eaf29ed5f0ef42558c5453f293301a",
+        "turn_status": "completed",
+        "turn_error": null,
+        "route": "version_comparison",
+        "external_call_count": 0,
+        "candidates_count": 0,
+        "options": [],
+        "resolution": null,
+        "display_order": [],
+        "visible_display_ids": [],
+        "actual_reads": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "text": "plot_bench_curves(version=1)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1",
+              "version": 2
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "source_id": "cell:1",
+                  "version": 2
+                },
+                "text": "plot_bench_curves(version=2)"
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms."
+              }
+            ]
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:2",
+              "version": 2
+            },
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "actual_source": {
+                  "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+                  "source_id": "cell:1:output:2",
+                  "version": 2
+                },
+                "text": "v2 summary: Curve A peak=240 ops/s; Curve B p95=9 ms."
+              }
+            ]
+          }
+        ],
+        "notices": [],
+        "texts": [
+          "旧版 v1\nplot_bench_curves(version=1)",
+          "当前版 v2\nplot_bench_curves(version=2)",
+          "旧版 v1\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms.",
+          "当前版 v2\nv2 summary: Curve A peak=240 ops/s; Curve B p95=9 ms."
+        ],
+        "citations": [
+          {
+            "evidence_id": "ev-1",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-2",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1",
+              "version": 2
+            }
+          },
+          {
+            "evidence_id": "ev-3",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            }
+          },
+          {
+            "evidence_id": "ev-4",
+            "source": {
+              "document_id": "local_461f5e81566b43c9a9d8c58f66e65487",
+              "source_id": "cell:1:output:2",
+              "version": 2
+            }
+          }
+        ]
+      }
+    }
+  },
+  "vision_calls": [
+    {
+      "source": {
+        "document_id": "local_392282dd2aeb459e9d886d9f40fbc76f",
+        "version": 1,
+        "source_id": "cell:1:output:1"
+      },
+      "question": "当前这个 Cell 的输出图像横轴是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "batch_size (item)"
+    },
+    {
+      "source": {
+        "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+    },
+    {
+      "source": {
+        "document_id": "local_8b6369fab8ee442082f7a047aed6a453",
+        "version": 2,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "最新版里刚才读过的那张图现在的峰值是多少？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "240 ops/s"
+    },
+    {
+      "source": {
+        "document_id": "local_42a78a55243e4f4b83654b322e8c3e2f",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+    },
+    {
+      "source": {
+        "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+    },
+    {
+      "source": {
+        "document_id": "local_5036cf96f4b74185ba8789b0c947ea97",
+        "version": 2,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "请描述当前图中可见的指标名称、单位和核心数值。",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "指标名称：Throughput；单位：ops/s (v2)；核心数值：Peak throughput: 240 ops/s"
+    },
+    {
+      "source": {
+        "document_id": "local_c40ce0197f364ef18b9e87e8e0372144",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形框内文字为“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+    },
+    {
+      "source": {
+        "document_id": "local_759a587ad4cd47ad8dfbda3fdc65efc3",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张包含标题“Curve A Throughput”、单位“Unit ops/s (v1)”、一个蓝色矩形标注“Peak throughput 120 ops/s”、以及坐标轴说明“X-axis batch_size (items) | Y-axis metric”的图表截图。"
+    },
+    {
+      "source": {
+        "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+    },
+    {
+      "source": {
+        "document_id": "local_c5e8cf99acd6483aa452d350f96e64dc",
+        "version": 2,
+        "source_id": "cell:1:output:1"
+      },
+      "question": "最新版里刚才读过的那张图现在的峰值是多少？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "120 ops/s"
+    },
+    {
+      "source": {
+        "document_id": "local_c6788eeeb5444d7d8b6a011a408f2db2",
+        "version": 1,
+        "source_id": "cell:1:output:0"
+      },
+      "question": "刚才第一张图是什么？",
+      "status": "available",
+      "external_call_count": 1,
+      "read_text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”"
+    }
+  ]
+}

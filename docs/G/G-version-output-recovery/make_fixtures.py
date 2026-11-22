@@ -86,17 +86,12 @@ def write_bench_v2_same_order(path: Path) -> None:
 
 
 def write_bench_v2_reordered(path: Path) -> None:
+    # Genuine structural output reorder: v1 Curve B moves to output:0, Curve A moves to output:1.
     img_a = _render_chart(
-        "Curve A: Throughput",
-        "Unit: ops/s (v2 reordered)",
-        "Peak throughput: 240 ops/s",
-        (25, 130, 80),
+        "Curve A: Throughput", "Unit: ops/s (v1)", "Peak throughput: 120 ops/s", (30, 90, 180)
     )
     img_b = _render_chart(
-        "Curve B: Queue Latency",
-        "Unit: ms (v2 reordered)",
-        "P95 queue latency: 9 ms",
-        (140, 50, 140),
+        "Curve B: Queue Latency", "Unit: ms (v1)", "P95 queue latency: 18 ms", (160, 70, 50)
     )
     cells = [
         nbformat.v4.new_markdown_cell(
@@ -114,7 +109,7 @@ def write_bench_v2_reordered(path: Path) -> None:
                 nbformat.v4.new_output(
                     "stream",
                     name="stdout",
-                    text="v2 reordered: Curve B p95=9 ms; Curve A peak=240 ops/s.\n",
+                    text="v2 reordered: Curve B p95=18 ms; Curve A peak=120 ops/s.\n",
                 ),
             ],
         ),
