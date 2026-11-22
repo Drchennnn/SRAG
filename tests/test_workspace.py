@@ -1676,6 +1676,10 @@ def test_changed_scope_resolves_unique_pinned_definition_topic(system, tmp_path,
     result = ask(explicit)
     assert "definition_topic" not in result["turn"]["trace"]
     assert calls[-1]["question"] == explicit and calls[-1]["previous_context"] == {}
+    same_scope_new_topic = explicit.replace("Quiet Window", "Acceptance Grid")
+    same_scope = ask(same_scope_new_topic)
+    assert "definition_topic" not in same_scope["turn"]["trace"]
+    assert calls[-1]["question"] == same_scope_new_topic and calls[-1]["previous_context"] == {}
 
     for question, selected, replace_version in (
         (opened.replace("Acceptance Grid", "Acceptance Grid 和 Quiet Window"), guide_id, False),

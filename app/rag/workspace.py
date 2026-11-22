@@ -893,13 +893,13 @@ class WorkspaceService:
         switching = bool(mode == "ask" and _FILE_MENTION.search(text) and _affirmed_switch(text))
         explicit_location = _location(text, None)
         whole_file = _WHOLE_FILE.search(text)
-        definition_reference = (
-            _DEFINITION_REFERENCE.search(text) if not _definition_topics(text) else None
-        )
+        named_definition = bool(_definition_topics(text))
+        definition_reference = _DEFINITION_REFERENCE.search(text) if not named_definition else None
         followup = bool(
             self.settings.workspace_answer_enabled
             and owner
             and mode == "ask"
+            and not named_definition
             and not explicit_location
             and not whole_file
             and (definition_reference or not _FILE_MENTION.search(text))
