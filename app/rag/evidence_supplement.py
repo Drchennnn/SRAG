@@ -124,6 +124,24 @@ _QUESTION_WORDS = frozenset(
         "compare",
     }
 )
+# Grammar of a request for the linked native comparison. Content outside this grammar
+# needs a matching record field; it must never be silently treated as an absent condition.
+_COMPARISON_REQUEST_WORDS = re.compile(
+    r"讲义|课件|论文|配套|所对应|对应|请问|请|分别|给出|说明|解释|验证|如何|怎么|"
+    r"是什么|什么|多少|结果|实测|实验编号|实验代号|实验|基线|试验|评价|指标|采用|使用|"
+    r"条件下|情况下|条件|指定|虽有|只查|仅|只|本|其|它|该|用|和|与|的|为|在|下|时|是"
+    r"|\b(?:a|an|the|and|is|was|did|how|what|why|of|its|it|using|use|uses|for|on|in|"
+    r"with|explain|show|report|results?|measured|measures?|experiments?|validate|"
+    r"validated|validation|compare|comparison|baseline|trial)\b",
+    re.IGNORECASE,
+)
+_WORKSPACE_FILENAME = re.compile(r"[\w.-]+\.(?:pdf|pptx|ipynb)(?![a-z0-9_])", re.IGNORECASE)
+_DEFINITION_CONDITION = re.compile(
+    r"(?:在|于|当)[^。！？?!；;，,\n]{1,80}(?:下|时)|条件下|情况下"
+    r"|[\u3400-\u9fff]{2,}下(?:的)?(?=[ \t]*[a-z])"
+    r"|\b(?:under|during|before|after)\b",
+    re.IGNORECASE,
+)
 _MAX_EXCERPT = 16_000
 _LOCATOR_FIELDS = {
     "page",
@@ -437,7 +455,7 @@ class _Turn:
         for evidence in self.report.final_evidence:
             if evidence.evidence_id == definition.evidence.evidence_id:
                 continue
-            support, reason = _experiment_in(evidence, definition, self.request.query)
+            support, reason = _requested_experiment_in(evidence, definition, self.request.query)
             if support:
                 _add_unique_support(supports, support)
             elif reason != "no_experiment_marker":
@@ -520,7 +538,7 @@ class _Turn:
             evidence = self._read(trace, pin)
             if evidence is None:
                 continue
-            support, reason = _experiment_in(evidence, definition, self.request.query)
+            support, reason = _requested_experiment_in(evidence, definition, self.request.query)
             if support is None:
                 trace.disposition = (
                     "mismatched" if reason.endswith("_mismatch") else "still_missing"
@@ -774,6 +792,40 @@ def _experiment_in(
     )
 
 
+def _requested_experiment_in(
+    evidence: TurnEvidence, definition: _Definition, question: str
+) -> tuple[EvidenceSupport | None, str]:
+    support, reason = _experiment_in(evidence, definition, question)
+    if support is None or support.experiment is None:
+        return support, reason
+    if _has_unverified_qualifier(question, support.experiment):
+        return None, "experiment_condition_unverified"
+    return support, ""
+
+
+def _has_unverified_qualifier(question: str, values: ExperimentValues) -> bool:
+    normalized = unicodedata.normalize("NFKC", question).casefold()
+    topic = _explicit_definition_topic(normalized)
+    if topic is None or _DEFINITION_CONDITION.search(topic[1]):
+        return True
+    request = normalized[: topic.start()] + " " + normalized[topic.end() :]
+    request = _WORKSPACE_FILENAME.sub(" ", request)
+    subject = _ZH_TOPIC_PREFIX.sub("", topic[1]).strip().removesuffix("的").strip()
+    subject = re.sub(r"^(?:the|an?)\s+", "", subject)
+    for label in (subject, values.experiment_id, values.split, values.metric):
+        label = unicodedata.normalize("NFKC", label).casefold().strip()
+        if not label:
+            continue
+        pattern = re.escape(label)
+        if label.isascii():
+            pattern = rf"(?<![a-z0-9_-]){pattern}(?![a-z0-9_-])"
+        request = re.sub(pattern, " ", request)
+    for aliases in (_SPLITS, _METRICS):
+        for pattern in aliases.values():
+            request = pattern.sub(" ", request)
+    return _WORD.search(_COMPARISON_REQUEST_WORDS.sub(" ", request)) is not None
+
+
 def _block_bounds(text: str, offset: int) -> tuple[int, int]:
     start = 0
     for boundary in _BLOCK_BREAK.finditer(text):
@@ -833,17 +885,20 @@ def _already_used(word: str, queries: list[str]) -> bool:
     )
 
 
-def _mentions_definition_topic(quote: str, question: str) -> bool:
-    normalized = unicodedata.normalize("NFKC", question)
-    topics = [
+def _explicit_definition_topic(question: str) -> re.Match[str] | None:
+    topics = (
         match
         for pattern in (_EXPLICIT_TOPIC, _ZH_EXPLICIT_TOPIC)
-        if (match := pattern.search(normalized)) is not None
-    ]
-    if not topics:
+        if (match := pattern.search(question)) is not None
+    )
+    return min(topics, key=lambda match: match.start(1), default=None)
+
+
+def _mentions_definition_topic(quote: str, question: str) -> bool:
+    match = _explicit_definition_topic(unicodedata.normalize("NFKC", question))
+    if match is None:
         return False
-    topic = min(topics, key=lambda match: match.start(1))[1].strip()
-    topic = _ZH_TOPIC_PREFIX.sub("", topic).casefold()
+    topic = _ZH_TOPIC_PREFIX.sub("", match[1].strip()).casefold()
     if _UNRESOLVED_TOPIC.search(topic):
         return False
     phrases = set(_TOPIC_PARTS.findall(topic))

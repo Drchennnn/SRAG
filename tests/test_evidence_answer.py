@@ -138,6 +138,75 @@ def test_duplicate_mismatch_or_missing_field_never_creates_experiment_claim(loca
 
 
 @pytest.mark.parametrize(
+    ("question", "experiment_state", "rejection"),
+    [
+        (QUESTION, "supported", None),
+        (QUESTION.replace("留出集", "盐雾"), "missing", "experiment_condition_unverified"),
+        (
+            QUESTION.replace("留出集", "低温循环后的留出集"),
+            "missing",
+            "experiment_condition_unverified",
+        ),
+        (
+            QUESTION.replace("留出集", "均值滤波的留出集"),
+            "missing",
+            "experiment_condition_unverified",
+        ),
+        (QUESTION.replace("留出集", "测试集"), "missing", "experiment_split_mismatch"),
+        (QUESTION + "请给出 RMSE。", "missing", "experiment_metric_mismatch"),
+        (QUESTION + "请给出尾部延迟。", "missing", "experiment_condition_unverified"),
+        (
+            "Define a median filter and explain its underwater held-out experiment using MAE.",
+            "missing",
+            "experiment_condition_unverified",
+        ),
+        (QUESTION.replace("留出集", "中值滤波 median filter 的留出集"), "supported", None),
+    ],
+)
+def test_experiment_only_supports_the_requested_conditions(
+    local, question, experiment_state, rejection
+):
+    _, library, _, answerer = local
+    lecture, _ = first_pair(library)
+    lab = publish(library, "lab")
+    run = answerer.answer(request(question=question), allowed_course_ids=ALLOWED)
+
+    assert _flat_states(run.answer) == {"definition": "supported", "experiment": experiment_state}
+    _assert_citations(run)
+    facts = _facts(run.answer)
+    assert facts[0].citation.actual_source.document_id == lecture.document_id
+    if experiment_state == "supported":
+        assert facts[1].citation.actual_source.document_id == lab.document_id
+        assert "0.18" in facts[1].text
+    else:
+        assert len(facts) == 1
+        assert "所问对象、条件和指标" in run.answer.sections[1].message
+        assert rejection in [
+            candidate.reason
+            for hop in run.retrieval.hops
+            for candidate in hop.candidates
+            if candidate.source.document_id == lab.document_id
+        ]
+
+
+def test_experiment_accepts_recorded_split_and_metric_literals(local):
+    _, library, _, answerer = local
+    first_pair(library)
+    lab = publish(
+        library,
+        "lab",
+        text=FILES["lab"]["text"].replace("held-out", "CinderBatch").replace("MAE", "tail_ratio"),
+    )
+    question = QUESTION.replace("留出集", "CinderBatch") + "请给出 tail_ratio。"
+    run = answerer.answer(request(question=question), allowed_course_ids=ALLOWED)
+    assert _flat_states(run.answer) == {"definition": "supported", "experiment": "supported"}
+    fact = _facts(run.answer)[1]
+    assert fact.citation.actual_source.document_id == lab.document_id
+    assert "CinderBatch" in fact.text and "tail_ratio" in fact.text
+    _assert_citations(run)
+
+
+@pytest.mark.parametrize(
     ("change", "expected", "question"),
     [
         ("alias", "conflicting", QUESTION),

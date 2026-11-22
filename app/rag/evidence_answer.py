@@ -24,9 +24,9 @@ from app.rag.evidence_supplement import (
     SupplementRetriever,
     _Definition,
     _definition_in,
-    _experiment_in,
     _identity,
     _locator,
+    _requested_experiment_in,
     _requirements,
     _same_snapshot,
 )
@@ -40,7 +40,7 @@ SectionStatus = Literal["supported", "missing", "conflicting"]
 
 _MISSING = {
     "definition": "本轮可核对的原文不足以确认定义。",
-    "experiment": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+    "experiment": "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
 }
 
 
@@ -334,7 +334,7 @@ def _confirmed_experiments(
     for row in rows:
         if row.requirement != "experiment" or row.quote in seen_quotes:
             continue
-        validated, _ = _experiment_in(evidence[row.evidence_id], definition, question)
+        validated, _ = _requested_experiment_in(evidence[row.evidence_id], definition, question)
         if validated == row:
             confirmed.append(row)
             seen_quotes.add(row.quote)
