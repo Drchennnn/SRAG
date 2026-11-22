@@ -259,8 +259,27 @@ def _bind_definition_topic(text: str, topic: str, reference: tuple[int, int, str
     return bound
 
 
+_CLAUSE_SPLIT = re.compile(
+    r"[。！？!?；;\n，,]+|"
+    r"(?:以及|并且|而且|另外|同时|顺便|顺带|再问一下|还有)(?:看下|问一下|确认一下)?"
+)
+_SCOPE_OR_DISCOURSE_PREFACE = re.compile(
+    r"^(?:请问|请|顺便|另外|还有|同时|并且|而且)?\s*"
+    r"(?:(?:只(?:看|在|查(?:看)?|用)|仅(?:看|在|查(?:看)?|用)|在|按|据)\s*"
+    r"(?:我)?(?:刚)?(?:选中的?|所选|当前|这[份个]?|那[份个]?)*"
+    r"(?:讲义|课件|文件|资料|论文|文档|范围)(?:里|中|内)?|"
+    r"(?:接着|承接|沿用|继续|按)\s*"
+    r"(?:刚才(?:的)?(?:问题|一问)?|前一问|上一问|上一个问题|上一轮(?:的)?问题?|上回|上面)"
+    r")[\s的]*$"
+)
+
+
 def _is_measurement_only_followup(text: str) -> bool:
-    clauses = [clause.strip() for clause in re.split(r"[。！？!?；;\n]", text) if clause.strip()]
+    clauses = [
+        clause.strip()
+        for clause in _CLAUSE_SPLIT.split(text)
+        if clause.strip() and not _SCOPE_OR_DISCOURSE_PREFACE.fullmatch(clause.strip())
+    ]
     if not clauses:
         return False
     measurement_only = re.compile(r"测量(?:结果|值|数据)|实测(?:结果|值|数据)|数值|耗时|延迟")

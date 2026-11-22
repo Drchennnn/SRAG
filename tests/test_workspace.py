@@ -1835,3 +1835,29 @@ def test_general_anaphora_and_unrelated_question_boundaries(system, tmp_path, mo
     ambig_q = "只看我选中的讲义，把刚才问过的部分重新梳理一遍。"
     assert ask(ambig_q)["turn"]["status"] == "clarification"
     assert len(calls) == before
+
+    # Punctuation variants (comma & conjunction) vs pure-measurement-with-comma counterexample.
+    from app.rag.workspace import _is_measurement_only_followup
+
+    pure_measure_comma = "只看我选中的讲义，刚才那次实验的延迟结果还能核对吗？"
+    assert _is_measurement_only_followup(pure_measure_comma) is True
+    for variant in (
+        "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？",
+        "只看我选中的讲义，把刚才问过的部分重新梳理一遍，顺便看下配套实验还能核对吗？",
+    ):
+        assert _is_measurement_only_followup(variant) is False
+        scope([])
+        ask(opened)
+        scope([guide_id])
+        result = ask(variant)
+        assert result["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+        assert "Acceptance Grid" in calls[-1]["question"]
+        assert calls[-1]["previous_context"] == {}
+        assert "19 ms" not in str(calls[-1])
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    measure_only = ask(pure_measure_comma)
+    assert "definition_topic" not in measure_only["turn"]["trace"]
+    assert calls[-1]["question"] == pure_measure_comma
