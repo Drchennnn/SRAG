@@ -1721,3 +1721,93 @@ def test_changed_scope_resolves_unique_pinned_definition_topic(system, tmp_path,
 
     fresh = _create(client, course_ids=[_COURSE], document_ids=[guide_id])
     assert _ask(client, fresh, follow)["turn"]["status"] == "clarification"
+
+
+def test_general_anaphora_and_unrelated_question_boundaries(system, tmp_path, monkeypatch):
+    import nbformat
+
+    from app.clients.deepseek import DeepSeekClient
+    from app.rag.workspace_retrieval import RewriteResult
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-anaphora-probe"
+    session = _create(client)
+
+    guide = tmp_path / "Relay-Guide.ipynb"
+    lab = tmp_path / "Relay-Lab.ipynb"
+    text = "Acceptance Grid: both readings must exceed 23. Quiet Window: mute after an alert."
+    nbformat.write(nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text)]), guide)
+    cell = nbformat.v4.new_code_cell(
+        "print('Lab replay latency: 19 ms')",
+        outputs=[nbformat.v4.new_output(output_type="stream", text="Lab replay latency: 19 ms")],
+    )
+    nbformat.write(nbformat.v4.new_notebook(cells=[cell]), lab)
+    guide_id = _upload(client, session, guide)["document_id"]
+    _upload(client, session, lab)
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(None, {"status": "constraints_unverified", "external_call_count": 0})
+
+    monkeypatch.setattr(service, "rewriter", reject)
+    calls = []
+
+    async def respond(self, messages, **kwargs):
+        wire = json.loads(messages[-1]["content"])
+        calls.append(wire)
+        reads = {item["source"]["document_id"]: item["id"] for item in wire["evidence"]}
+        guide_key = reads[guide_id]
+        answer = {
+            "statements": [{"text": "当前讲义的定义。", "citations": [guide_key]}],
+            "missing": "",
+        }
+        if "布尔字段 experiment_missing" in messages[0]["content"]:
+            answer["experiment_missing"] = False
+        return {"content": json.dumps(answer)}
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", respond)
+    opened = "讲义怎么定义 Acceptance Grid？配套实验的延迟是多少？"
+    revision = 1
+
+    def ask(text):
+        return _ask(client, session, text, revision, client_id=f"anaphora-{len(calls)}-{revision}")
+
+    def scope(ids):
+        nonlocal revision
+        response = client.patch(
+            session + "/scope",
+            json={"course_ids": [_COURSE], "document_ids": ids, "scope_revision": revision},
+        )
+        assert response.status_code == 200, response.text
+        revision = response.json()["scope_revision"]
+
+    for followup in (
+        "只看我刚选的这份讲义，上面到底是怎么界定刚才那个要求的？配套实验现在还能核对吗？",
+        "只看这份讲义，前面提到的门槛有哪些条件？",
+        "接着上回，说说条件。",
+        "它有哪些前提条件？",
+    ):
+        scope([])
+        ask(opened)
+        scope([guide_id])
+        result = ask(followup)
+        assert result["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+        assert "Acceptance Grid" in calls[-1]["question"]
+        assert calls[-1]["previous_context"] == {}
+        assert "19 ms" not in str(calls[-1])
+        assert {item["source"]["document_id"] for item in calls[-1]["evidence"]} == {guide_id}
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    unrelated = ask("这份讲义里，批次在流水线阶段按什么顺序处理？")
+    assert "definition_topic" not in unrelated["turn"]["trace"]
+    assert calls[-1]["question"] == "这份讲义里，批次在流水线阶段按什么顺序处理？"
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    explicit_switch = ask("Quiet Window 是怎么规定的？")
+    assert "definition_topic" not in explicit_switch["turn"]["trace"]
+    assert calls[-1]["question"] == "Quiet Window 是怎么规定的？"

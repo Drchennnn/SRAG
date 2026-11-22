@@ -81,28 +81,52 @@ _ORDINAL = re.compile(r"第\s*([0-9]+|[一二两三四五六七八九十]+)\s*�
 _PREVIOUS_TURN = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次")
 _EXPERIMENT_TEXT = re.compile(r"实验|实测|试验|\b(?:experiments?|measurements?)\b", re.I)
 _EXPERIMENT_REFERENCE = re.compile(
-    r"(?:同一|那项|那次|上述)(?:配套)?(?:实验|实测|试验)"
+    r"(?:同一|那项|那次|上述|配套)(?:的)?(?:配套)?(?:实验|实测|试验)"
 )
 _EXPERIMENT_FILLER = re.compile(
     r"配套|实验|实测|试验|现在|还能|能否|可以|如何|核对|确认|结果|数据|记录|"
     r"分别|处理|测出的?|测得的?|是多少|多少|几次"
 )
+_CONCEPT_NOUN = (
+    r"(?:判定规则|判定条件|判定标准|规则|概念|门槛|机制|方法|窗口|"
+    r"定义|条件|要求|标准|准则|约束|限制|规范|条款|规定|设定|东西)"
+)
+_ANAPHORA_PHRASE = (
+    rf"(?:(?:刚才|上[一]?[轮问条次]|前[一]?[轮问条次]|前面|上回)"
+    rf"(?:提到|问过|说过|讲过|涉及)?(?:的)?)?"
+    rf"(?:那|这|该|此)(?:一)?(?:条|个|项|种)?{_CONCEPT_NOUN}"
+    rf"|(?:刚才|上[一]?[轮问条次]|前[一]?[轮问条次]|前面|上回)"
+    rf"(?:提到|问过|说过|讲过|涉及)?的(?:那个|这个|那项|这项)?{_CONCEPT_NOUN}?"
+    rf"|它|它们|其|前者|后者|这个|那个|该项|此项|该|此"
+)
+_DEFINITION_PREDICATE_AFTER = (
+    r"(?:的?\s*(?:定义|含义|意思|规则|条件|要求|标准|前提|限制|约束|边界|规定)"
+    r"|(?:是|到底)?(?:怎么|如何|怎样)(?:定义|界定|规定|要求|判断|判定|触发|成立|算|计算|理解|解释)的?"
+    r"|(?:具体)?(?:指什么|是什么意思|是什么|有哪些(?:条件|要求|前提|限制|规定|规则)"
+    r"|需要(?:满足)?什么(?:条件|要求|前提)|怎么才算|如何才算))"
+)
+_DEFINITION_PREDICATE_BEFORE = (
+    r"(?:(?:怎么|如何|怎样)(?:定义|界定|规定|解释|理解)"
+    r"|(?:说明|解释|重述|给出|说说|讲清楚|界定|确认)(?:一下)?)\s*"
+)
 _DEFINITION_REFERENCE = re.compile(
-    r"(?P<reference>(?:那|这|该|此)(?:一)?(?:条|个|项|种)?"
-    r"(?:判定规则|规则|概念|门槛|机制|方法|窗口)|"
-    r"它|其|前者|后者|这个|那个|该项|此项|该|此)"
-    r"(?=\s*(?:的?\s*定义|是?怎么定义|是?如何定义|指什么|是什么意思|是什么))"
+    rf"(?P<reference>{_ANAPHORA_PHRASE})(?=\s*{_DEFINITION_PREDICATE_AFTER})"
+)
+_DEFINITION_OBJECT_REFERENCE = re.compile(
+    rf"{_DEFINITION_PREDICATE_BEFORE}(?P<reference>{_ANAPHORA_PHRASE})"
+    rf"(?=(?:\s*的)?[。！？?!；;，,\n\s]|$)"
 )
 _DEFINITION_ELISION = re.compile(
     r"(?:接着|承接|沿用|继续|按)\s*"
-    r"(?:刚才(?:的)?(?:问题|一问)|前一问|上一问|上一个问题|上一轮(?:的)?问题)"
-    r"[，,\s]*(?:请|再)?(?:说明|解释|重述|给出|说说)\s*(?P<definition>定义)"
+    r"(?:刚才(?:的)?(?:问题|一问)?|前一问|上一问|上一个问题|上一轮(?:的)?问题?|上回|上面)"
+    r"[，,\s]*(?:请|再)?(?:说明|解释|重述|给出|说说|讲清楚)(?:一下)?\s*"
+    r"(?P<definition>定义|条件|要求|规则|标准|规定)"
     r"(?=[。！？?!；;，,\n\s]|$)"
 )
 _DEFINITION_REQUEST = re.compile(
-    r"(?:怎么定义|如何定义|请定义|什么是)\s*(?P<after>.+)$"
-    r"|(?:说明|解释|重述|给出)\s*(?P<nominal>.+?)的定义$"
-    r"|(?P<before>.+?)(?:的定义(?:是)?什么|是?怎么定义的?|是?如何定义的?|是什么意思)$"
+    r"(?:(?:怎么|如何|怎样)(?:定义|界定|规定)|请定义|什么是)\s*(?P<after>.+)$"
+    r"|(?:说明|解释|重述|给出|界定)\s*(?P<nominal>.+?)的定义$"
+    r"|(?P<before>.+?)(?:的定义(?:是)?什么|是?(?:怎么|如何|怎样)(?:定义|界定|规定)的?|是什么意思)$"
 )
 _DEFINITION_PREFACE = re.compile(
     r"^(?:请问|请|在|据|按|这份|上面|讲义|课件|论文|资料|中|里|的|把|给出|说明|一下|\s)+"
@@ -218,10 +242,21 @@ def _definition_reference(text: str) -> tuple[int, int, str] | None:
         start, end = match.span("reference")
         suffix = "的" if text[end:].lstrip().startswith("定义") else ""
         return start, end, suffix
+    if match := _DEFINITION_OBJECT_REFERENCE.search(text):
+        start, end = match.span("reference")
+        return start, end, ""
     if match := _DEFINITION_ELISION.search(text):
         start = match.start("definition")
         return start, start, "的"
     return None
+
+
+def _bind_definition_topic(text: str, topic: str, reference: tuple[int, int, str]) -> str:
+    start, end, suffix = reference
+    bound = f"{text[:start]}{topic}{suffix}{text[end:]}"
+    if not _contains_topic(bound, topic):
+        bound = f"{bound}（当前追问指向：{topic}）"
+    return bound
 
 
 def _contains_topic(text: str, name: str) -> bool:
@@ -1045,14 +1080,12 @@ class WorkspaceService:
             if same_scope:
                 previous = self._scoped_previous(latest, current_documents)
             if definition_reference and previous is None:
-                if not same_scope:
-                    resolved_topic = self._resolve_definition_topic(latest, current_documents)
+                resolved_topic = self._resolve_definition_topic(latest, current_documents)
                 if resolved_topic is None:
                     return self._clarify(
                         turn, "无法确定你指的是哪个定义。请写出概念或规则名称。", [], refs,
                     )
-                start, end, suffix = definition_reference
-                text = f"{text[:start]}{resolved_topic}{suffix}{text[end:]}"
+                text = _bind_definition_topic(text, resolved_topic, definition_reference)
             if _REWRITE_PRIOR.search(text):
                 if previous:
                     return self._rewrite_previous(turn, previous, refs, topic_document)
@@ -1323,6 +1356,10 @@ class WorkspaceService:
         if not latest:
             return None
         topics = _definition_topics(latest[0].request.text)
+        if not topics:
+            prior_topic = (latest[0].outcome.get("trace") or {}).get("definition_topic")
+            if isinstance(prior_topic, str) and prior_topic.strip():
+                topics = {prior_topic.strip()}
         if not topics:
             return None
         current = self._scoped_previous(latest, documents, allow_subset=True)
