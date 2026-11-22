@@ -1,0 +1,73 @@
+{
+  "candidate": "37a8b811f3a9b5be58aa6ea1c3e57e59df95a6cc",
+  "verdict": "返工",
+  "gate_blocker": "P04 答案通过，但隐式定义没有在实际出站请求中锚定",
+  "config": {
+    "strategy": "fts",
+    "model": "deepseek-flash",
+    "input_limit": 32768,
+    "output_reserve": 8192,
+    "vision_enabled": true,
+    "answer_enabled": true,
+    "viewport_px": [1280, 577]
+  },
+  "frozen_groups": {
+    "original_five": {
+      "answer_passed": 5,
+      "turns": 5,
+      "first_clicks_ok": 25,
+      "model_requests_http_200": 9,
+      "p04": {
+        "prior_output_clicked": true,
+        "unique_target_anchor_on_wire": false,
+        "wire_question_unchanged": true,
+        "wire_previous_context_empty": true,
+        "wire_has_target_read_same_revision": true,
+        "old_experiment_candidates_reads_wire_citations_restatements": [0, 0, 0, 0, 0],
+        "answer_has_target_definition_with_direct_clicked_citation": true,
+        "range_and_restore_notice": true
+      }
+    },
+    "prior_four": {
+      "answer_passed": 4,
+      "turns": 4,
+      "first_clicks_ok": 10,
+      "model_requests_http_200": 7,
+      "n04": {
+        "prior_output_clicked": true,
+        "named_topic_kept_on_wire": true,
+        "wire_previous_context_empty": true,
+        "old_experiment_candidates_reads_wire_citations_restatements": [0, 0, 0, 0, 0],
+        "answer_has_target_definition_with_direct_clicked_citation": true,
+        "range_and_restore_notice": true
+      }
+    },
+    "latest_scope_scenario": {
+      "answer_passed": 4,
+      "turns": 4,
+      "first_clicks_ok": 8,
+      "model_requests_http_200": 5,
+      "s02_old_experiment_candidates_reads_wire_citations_restatements": [0, 0, 0, 0, 0],
+      "s03_full_scope_restores_output_with_no_stale_notice": true,
+      "s04_new_session_does_not_inherit_output_or_scope_notice": true
+    }
+  },
+  "public_controls": {
+    "manifest_sha256": "2ff4737c0945651c1cd36bc4fd1c84149dab15bec2d070b9f576778212272733",
+    "first_clicks_ok": 16,
+    "citations_opened": 17,
+    "model_requests_http_200": 8,
+    "d02_single_candidate": {"wire_anchor_correct": true, "answer_correct": true},
+    "d03_explicit_new_topic": {"wire_old_context_empty": true, "answer_correct": true},
+    "d05_omitted_topic": {"wire_anchor_correct": false, "same_revision_target_read_on_wire": true, "answer_correct": false},
+    "d07_multiple_candidates": {"clarifies": true, "model_calls": 0},
+    "d08_fresh_session": {"clarifies": true, "model_calls": 0}
+  },
+  "first_trace_sha256": {
+    "original_primary": "58c93ae064133a350b06d4e8b4ca38fa9b355bfe6c58685fa708d8b01b4c0a5b",
+    "original_supplement": "176d9192562bb4d4e239fe8ca6658abc6a5d60e2f8de2926de9eca8b3c0c9039",
+    "prior_four": "f0dade08666f3d1b8442298dfb2803f9a3db5a7ef367f88fb4995a7cf80e8fa6",
+    "latest_scope_scenario": "23efefad172dccaae9e25042d11fb1446ab083efa037601c427e9cbbf7cf8f01",
+    "public_controls": "48210c1e3537f20907d7b844f0a84abf2ed3e989efe9d661f011904532829139"
+  }
+}
