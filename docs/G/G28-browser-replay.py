@@ -171,7 +171,8 @@ def replay(url, session, folder, manifest, log, record, save):
                     wait(
                         "document.querySelector('#reader').open && ("
                         "document.querySelector('#reader img')?.naturalWidth > 0 || "
-                        "(!document.querySelector('#reader img') && "
+                        "((!document.querySelector('#reader img') || "
+                        "document.querySelector('#reader img').complete) && "
                         "document.querySelector('#reader-body .text-block')?.textContent.trim()))",
                         12_000,
                     )
@@ -181,6 +182,9 @@ def replay(url, session, folder, manifest, log, record, save):
                         return {title: document.querySelector('#reader-title').innerText,
                             location: document.querySelector('#reader-location').innerText,
                             text: reader.querySelector('#reader-body .text-block')?.innerText,
+                            status: document.querySelector('#reader-status').innerText,
+                            preview_notice: reader.querySelector(
+                                '#reader-body [role=status]')?.innerText,
                             pixels: reader.querySelector('img')?.naturalWidth};
                     })()""")
                     )
