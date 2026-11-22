@@ -1,0 +1,60 @@
+{
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "HarborGate-Guide.pdf": {
+      "sha256": "0e5d86b017e64e795060b915e188afd30246d48230d73c75c86ceb1e8ccaace1"
+    },
+    "Dock-Replay.ipynb": {
+      "sha256": "1c45fbf3d78d553207ab94fb1e25361210e5055e6f4cee0a50fff3ff0f922e45"
+    }
+  },
+  "turns": [
+    {
+      "id": "with_experiment",
+      "new": false,
+      "scope": "course",
+      "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？"
+    },
+    {
+      "id": "narrowed",
+      "new": false,
+      "scope": "HarborGate-Guide.pdf",
+      "question": "HarborGate 是怎么定义的？现在还能核对刚才干燥回放实验的平均分发延迟吗？"
+    },
+    {
+      "id": "unchanged_scope",
+      "new": false,
+      "scope": "HarborGate-Guide.pdf",
+      "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？"
+    },
+    {
+      "id": "restored",
+      "new": false,
+      "scope": "course",
+      "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？"
+    },
+    {
+      "id": "sufficient_in_scope",
+      "new": false,
+      "scope": "HarborGate-Guide.pdf",
+      "question": "HarborGate 的开启条件怎么定义？干燥回放实验处理二十三个输入脉冲时记录了几次开启？"
+    },
+    {
+      "id": "new_session",
+      "new": true,
+      "scope": "HarborGate-Guide.pdf",
+      "question": "HarborGate 的开启条件怎么定义？配套实验在干燥回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？"
+    },
+    {
+      "id": "ordinary_gap",
+      "new": true,
+      "scope": "course",
+      "question": "HarborGate 的开启条件怎么定义？配套实验在潮湿回放处理二十三个输入脉冲时，平均分发延迟是多少毫秒？"
+    }
+  ]
+}

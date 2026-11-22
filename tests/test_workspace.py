@@ -1478,3 +1478,115 @@ def test_g22_on_demand_bilingual_controls_and_fallback(system, tmp_path, monkeyp
     assert fallback["turn"]["trace"]["retrieval"]["strategy"] == "bilingual"
     assert fallback["turn"]["trace"]["retrieval"]["rewrite"]["status"] == "provider_error"
     assert fallback["turn"]["trace"]["generation"]["status"] == "succeeded"
+
+
+def test_scope_explanation_uses_previous_citation_identity_without_reusing_its_text(
+    system, monkeypatch
+):
+    from app.clients.deepseek import DeepSeekClient
+    from app.rag.workspace_retrieval import RewriteResult
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-test-marker"
+    fixture = Path("docs/G/G28-scope")
+    session = _create(client)
+    guide = _upload(client, session, fixture / "HarborGate-Guide.pdf")["document_id"]
+    experiment = _upload(client, session, fixture / "Dock-Replay.ipynb")["document_id"]
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(None, {"status": "constraints_unverified", "external_call_count": 0})
+
+    monkeypatch.setattr(service, "rewriter", reject)
+    assessments = []
+
+    async def answer(self, messages, **kwargs):
+        wire = json.loads(messages[1]["content"])
+        evidence = {item["source"]["document_id"]: item["id"] for item in wire["evidence"]}
+        assessed = "布尔字段 experiment_missing" in messages[0]["content"]
+        assessments.append(assessed)
+        have_output = experiment in evidence
+        has_current_result = "几次开启" in wire["question"]
+        model_response = {
+            "statements": [
+                {"text": "连续 3 个采样高于 4 V 才开启。", "citations": [evidence[guide]]}
+            ],
+            "missing": "",
+        }
+        if have_output:
+            model_response["statements"].append(
+                {"text": "保存输出记录平均延迟 3.4 ms。", "citations": [evidence[experiment]]}
+            )
+        else:
+            assert "3.4 ms" not in messages[1]["content"]
+            assert not wire["previous_context"]
+            if has_current_result:
+                model_response["statements"].append({"text": "记录了 6 次开启。",
+                                                     "citations": [evidence[guide]]})
+            else:
+                model_response["missing"] = "当前文件未测得分发延迟。"
+        if assessed:
+            model_response["experiment_missing"] = bool(model_response["missing"])
+        return {"content": json.dumps(model_response)}
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", answer)
+    question = "HarborGate 的开启条件怎么定义？配套实验的平均分发延迟是多少毫秒？"
+    assert "3.4 ms" in str(_ask(client, session, question, client_id="wide")["message"]["blocks"])
+
+    def change_scope(document_ids, revision):
+        response = client.patch(
+            session + "/scope",
+            json={
+                "course_ids": [_COURSE], "document_ids": document_ids, "scope_revision": revision,
+            },
+        )
+        assert response.status_code == 200, response.text
+        return response.json()["scope_revision"]
+
+    original_historical_source = service._historical_source
+
+    def no_outside_read(ref, key):
+        assert key.document_id != experiment
+        return original_historical_source(ref, key)
+
+    revision = change_scope([guide], 1)
+    monkeypatch.setattr(service, "_historical_source", no_outside_read)
+    narrowed = _ask(client, session, question, revision, client_id="narrowed")
+    assert {block.get("code") for block in narrowed["message"]["blocks"]} >= {
+        "experiment_outside_scope", "missing_evidence",
+    }
+    assert "3.4 ms" not in str(narrowed["message"])
+    assert {item["revision"]["source"]["document_id"]
+            for item in narrowed["message"]["sources"].values()} == {guide}
+    steady = _ask(client, session, question, revision, client_id="same")
+    assert "experiment_outside_scope" not in str(steady["message"]["blocks"])
+
+    revision = change_scope([], revision)
+    restored = _ask(client, session, question, revision, client_id="restored")
+    assert "experiment_outside_scope" not in str(restored["message"]["blocks"])
+    assert "3.4 ms" in str(restored["message"]["blocks"])
+
+    revision = change_scope([guide], revision)
+    sufficient = _ask(
+        client, session, "HarborGate 怎么定义？刚才干燥回放实验记录了几次开启？",
+        revision, client_id="sufficient",
+    )
+    assert "experiment_outside_scope" not in str(sufficient["message"]["blocks"])
+    assert assessments == [False, True, False, False, True]
+    assert sufficient["turn"]["trace"]["generation"]["experiment_missing"] is False
+
+    revision = change_scope([], revision)
+    _ask(client, session, question, revision, client_id="wide-again")
+    revision = change_scope([guide], revision)
+    unrelated = _ask(
+        client, session, "HarborGate 怎么定义？耐腐蚀实验使用了哪种盐水？",
+        revision, client_id="unrelated",
+    )
+    assert "experiment_outside_scope" not in str(unrelated["message"]["blocks"])
+    assert assessments[-2:] == [False, False]
+
+    other = _create(client, course_ids=[_COURSE], document_ids=[guide])
+    fresh = _ask(client, other, question)
+    assert "experiment_outside_scope" not in str(fresh["message"]["blocks"])
+    assert assessments[-1] is False

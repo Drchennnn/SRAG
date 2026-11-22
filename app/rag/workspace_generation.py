@@ -68,7 +68,8 @@ missing 只写具体尚不能确认的事项，没有缺项时为空字符串。
 _DEFINITION_EXPERIMENT_INSTRUCTIONS = """
 分开陈述定义与实验结果，分别引用直接支撑各自结论的原件。
 每条只写一个可由引文直接核对的事实及其必要条件。给公式引用实际列出该公式的正文，
-参数表里的设置值不能支撑公式或架构。用户未问的架构、推导和伪代码省略。
+参数表里的设置值不能支撑公式或架构。省略与所问无关的附带结论。
+原文只描述特定条件、例子或最坏情形时，保留该范围，不能概括成普遍规律。
 实验只报告原文中对应对象、数据集或负载、比较基线、条件、指标和单位的结果。
 条件不符时只指出差异并说明缺项，省略其他条件下的数值。
 保留原文对吞吐量、可维持请求速率和延迟等不同指标的区分。倍数写作“为基线的 X 倍”。
@@ -81,6 +82,13 @@ _DEFINITION_EXPERIMENT_INSTRUCTIONS = """
 只陈述所问的结论和与其直接相关的条件。保留已确认的定义或实验项。
 missing 仅列用户所问且缺乏匹配证据的项，不在其中重复已回答结论。
 请把所有证据 ID 仅放在 citations 数组中。"""
+
+_EXPERIMENT_COVERAGE_INSTRUCTIONS = """
+这次的 JSON 还须有布尔字段 experiment_missing。只根据当前 evidence 判断：
+所问实验结果全部可核对时填 false；有任何所问实验项在当前证据中缺失或条件不符时填 true。
+若只有定义或未被问及的实验值，不能视为所问实验已覆盖。其他非实验缺项不影响此字段。
+照常把具体缺项写入 missing。"""
+
 
 _COMPOSITION_INSTRUCTIONS = """
 按 evidence_role 分清讲义条件、原生表格、保存输出。对照同一对象、实验条件、指标、单位。
@@ -150,6 +158,8 @@ def _build_messages(
         instructions += _COMPOSITION_INSTRUCTIONS
     elif mode == "definition_and_experiment":
         instructions += _DEFINITION_EXPERIMENT_INSTRUCTIONS
+    if coverage and coverage.get("assess_experiment_coverage"):
+        instructions += _EXPERIMENT_COVERAGE_INSTRUCTIONS
     return [
         {"role": "system", "content": instructions},
         {
@@ -290,9 +300,14 @@ def generate_response(
     if type(tokens) is int and tokens >= 0:
         trace["total_tokens"] = tokens
     try:
-        statements, missing = _parse_answer(reply.get("content"), evidence_data.keys())
+        assess_experiment = bool(coverage and coverage.get("assess_experiment_coverage"))
+        statements, missing, experiment_missing = _parse_answer(
+            reply.get("content"), evidence_data.keys(), assess_experiment=assess_experiment
+        )
     except (ValueError, TypeError, RecursionError):
         return finish("invalid_response")
+    if experiment_missing is not None:
+        trace["experiment_missing"] = experiment_missing
     if mode == "definition_and_experiment":
         supported = _supported_technical_statements(statements, evidence_data, question)
         if len(supported) != len(statements):
@@ -454,11 +469,16 @@ def _trim_turn_evidence(item: TurnEvidence, shrunk_text: str, end: int) -> TurnE
     )
 
 
-def _parse_answer(content: object, allowed) -> tuple[tuple[GeneratedStatement, ...], str]:
+def _parse_answer(
+    content: object, allowed, *, assess_experiment: bool = False
+) -> tuple[tuple[GeneratedStatement, ...], str, bool | None]:
     if not isinstance(content, str):
         raise ValueError("expected generated JSON text")
     parsed = json.loads(content, object_pairs_hook=_unique_object)
-    if not isinstance(parsed, dict) or set(parsed) != {"statements", "missing"}:
+    if not isinstance(parsed, dict):
+        raise ValueError("invalid generated answer shape")
+    experiment_missing = parsed.pop("experiment_missing", None) if assess_experiment else None
+    if set(parsed) != {"statements", "missing"}:
         raise ValueError("invalid generated answer shape")
     claims, missing = parsed["statements"], parsed["missing"]
     if (
@@ -484,7 +504,10 @@ def _parse_answer(content: object, allowed) -> tuple[tuple[GeneratedStatement, .
         result.append(GeneratedStatement(text.strip(), tuple(citations)))
     if not result and not missing.strip():
         raise ValueError("empty generated answer")
-    return tuple(result), missing.strip()
+    return (
+        tuple(result), missing.strip(),
+        experiment_missing if type(experiment_missing) is bool else None,
+    )
 
 
 def _unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:

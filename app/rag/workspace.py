@@ -79,6 +79,14 @@ from app.stores.workspace import Attachment, Session, Turn, WorkspaceStore, json
 
 _ORDINAL = re.compile(r"第\s*([0-9]+|[一二两三四五六七八九十]+)\s*张(?:图|图片)")
 _PREVIOUS_TURN = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次")
+_EXPERIMENT_TEXT = re.compile(r"实验|实测|试验|\b(?:experiments?|measurements?)\b", re.I)
+_EXPERIMENT_REFERENCE = re.compile(
+    r"(?:同一|那项|那次|上述)(?:配套)?(?:实验|实测|试验)"
+)
+_EXPERIMENT_FILLER = re.compile(
+    r"配套|实验|实测|试验|现在|还能|能否|可以|如何|核对|确认|结果|数据|记录|"
+    r"分别|处理|测出的?|测得的?|是多少|多少|几次"
+)
 _HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述")
 _IMAGE_REFERENCE = re.compile(
     r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这|哪)"
@@ -129,7 +137,38 @@ _SUPPLEMENT_BUDGET = 2
 _SUMMARY_SOURCE_LIMIT = 6
 _BASE_KINDS = {"page", "cell"}
 _HAN_QUERY = re.compile(r"[\u3400-\u9fff]")
+_HAN_QUERY_RUN = re.compile(r"[\u3400-\u9fff]+")
 _LATIN_WORD = re.compile(r"[A-Za-z]+")
+
+
+def _related_experiment_question(previous: str, current: str) -> bool:
+    def clauses(text):
+        if not asks_for_definition_and_experiment(f"定义。{_EXPERIMENT_TEXT.sub('实验', text)}"):
+            return []
+        return [
+            clause for clause in re.split(r"[。！？!?；;\n]", text)
+            if _EXPERIMENT_TEXT.search(clause)
+        ]
+
+    old_clauses, new_clauses = clauses(previous), clauses(current)
+    if not old_clauses or not new_clauses:
+        return False
+    if any(_PREVIOUS_TURN.search(c) or _EXPERIMENT_REFERENCE.search(c) for c in new_clauses):
+        return True
+
+    def terms(items):
+        source = _EXPERIMENT_FILLER.sub(" ", " ".join(items)).casefold()
+        latin = set(re.findall(r"[a-z][a-z0-9_-]{2,}", source))
+        han = {
+            word[index:index + 3]
+            for word in _HAN_QUERY_RUN.findall(source)
+            for index in range(len(word) - 2)
+        }
+        return latin, han
+
+    old_latin, old_han = terms(old_clauses)
+    new_latin, new_han = terms(new_clauses)
+    return bool(old_latin & new_latin or len(old_han & new_han) >= 2)
 
 
 def _has_latin_corpus(sources: Sequence[SnapshotSource]) -> bool:
@@ -826,9 +865,19 @@ class WorkspaceService:
                 or (len(text) <= 28 and _REWRITE_PRIOR.search(text))
             )
         )
-        latest = self._latest_reply(owner, turn) if owner and followup else None
+        check_experiment_scope = (
+            self.settings.workspace_answer_enabled
+            and mode == "ask"
+            and bool(session.document_ids)
+            and bool(_EXPERIMENT_TEXT.search(text))
+        )
+        latest = (
+            self._latest_reply(owner, turn)
+            if owner and (followup or check_experiment_scope)
+            else None
+        )
         topic_document = None
-        if latest and latest[0].request.scope_revision == turn.request.scope_revision:
+        if followup and latest and latest[0].request.scope_revision == turn.request.scope_revision:
             topic_document = (latest[0].outcome.get("trace") or {}).get("topic_document_id")
         if (
             node is None
@@ -1027,6 +1076,7 @@ class WorkspaceService:
                     question=text,
                     extra_media=visual_ranked if mode == "ask" else (),
                     selected_file_scope=bool(session.document_ids or file_names),
+                    preceding_reply=latest if check_experiment_scope else None,
                 )
         draft = Draft(session.session_id)
         if mode == "summary":
@@ -1197,6 +1247,34 @@ class WorkspaceService:
             return None
         return previous, message
 
+    @staticmethod
+    def _excluded_previous_experiment(turn, preceding_reply, document_ids, question) -> bool:
+        if not preceding_reply:
+            return False
+        previous, message = preceding_reply
+        if (
+            previous.request.scope_revision == turn.request.scope_revision
+            or not _related_experiment_question(previous.request.text, question)
+        ):
+            return False
+        # Only use the persisted identities of citations from the visible answer.
+        for block in message["blocks"]:
+            if block["type"] != "text":
+                continue
+            for key in block.get("citations", []):
+                item = message["sources"].get(key)
+                if not item or not isinstance(item["locator"].get("output_index"), int):
+                    continue
+                identity = item["revision"]["source"]
+                if identity["document_id"] not in document_ids and any(
+                    read["actual_source"] == identity
+                    and read["method"] == "native_text"
+                    and read["status"] in {"succeeded", "partial"}
+                    for read in item["reads"]
+                ):
+                    return True
+        return False
+
     def _scoped_previous(
         self, latest: tuple[Turn, dict[str, Any]], documents: dict[str, SnapshotDocument]
     ) -> tuple[Turn, dict[str, Any], dict[str, TurnEvidence]] | None:
@@ -1277,6 +1355,7 @@ class WorkspaceService:
         question,
         extra_media=(),
         selected_file_scope=False,
+        preceding_reply=None,
     ):
         if names:
             allowed = {name.casefold() for name in names}
@@ -1323,17 +1402,20 @@ class WorkspaceService:
         context = self._prior_context(previous) if previous else None
         prompt_mode = self._prompt_mode(mode, question, location)
         unread_visual_total = sum(1 for source in snapshot.sources if _has_visual(source))
+        coverage = {"unread_visual_total": unread_visual_total}
+        if self._excluded_previous_experiment(turn, preceding_reply, identifiers, question):
+            coverage["assess_experiment_coverage"] = True
         reserve_false = estimate_prompt_reserve(
             question,
             mode=prompt_mode,
             context=context,
-            coverage={"full_text_scope": False, "unread_visual_total": unread_visual_total},
+            coverage={**coverage, "full_text_scope": False},
         )
         reserve_true = estimate_prompt_reserve(
             question,
             mode=prompt_mode,
             context=context,
-            coverage={"full_text_scope": True, "unread_visual_total": unread_visual_total},
+            coverage={**coverage, "full_text_scope": True},
         )
         reserve = reserve_false
         ceiling = min(
@@ -1439,6 +1521,7 @@ class WorkspaceService:
             question=question,
             context=context,
             coverage={
+                **coverage,
                 "full_text_scope": full_text_scope,
                 "unread_visual_total": len(window.unread_visual),
                 "selected_file_scope": (
@@ -1505,11 +1588,25 @@ class WorkspaceService:
             draft.blocks = [block for block in draft.blocks if block["type"] != "text"]
             for statement in result.statements:
                 draft.text(statement.text, *statement.citations)
+            excluded_experiment = (
+                coverage
+                and coverage.get("assess_experiment_coverage")
+                and result.trace.get("experiment_missing") is True
+                and result.missing
+            )
             if result.missing:
                 missing = result.missing
-                if coverage and coverage.get("selected_file_scope"):
+                if coverage and coverage.get("selected_file_scope") and not excluded_experiment:
                     missing = f"本轮仅查所选文件。{missing}"
                 draft.notice("missing_evidence", missing)
+            if excluded_experiment:
+                draft.notice(
+                    "experiment_outside_scope",
+                    "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。"
+                    "本轮能核对的内容以上述当前文件的回答和引用为准。"
+                    "如需核对该实验，请在资料目录重新选择实验文件，"
+                    "或切回课程全部资料后再提问。",
+                )
         else:
             draft.notice("excerpt_fallback", "回答模型未能生成可核对的答案。本条保留已读原文摘录。")
 
