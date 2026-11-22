@@ -5,7 +5,7 @@ from __future__ import annotations
 import hashlib
 import re
 import unicodedata
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from sqlite3 import Error as SQLiteError
 from time import perf_counter
@@ -127,7 +127,7 @@ _QUESTION_WORDS = frozenset(
 # Grammar of a request for the linked native comparison. Content outside this grammar
 # needs a matching record field; it must never be silently treated as an absent condition.
 _COMPARISON_REQUEST_WORDS = re.compile(
-    r"讲义|课件|论文|配套|所对应|对应|请问|请|分别|给出|说明|解释|验证|如何|怎么|"
+    r"讲义|课件|论文|配套|所对应|对应|请问|请|分别|给出|说明|解释|验证|核对|如何|怎么|"
     r"是什么|什么|多少|结果|实测|实验编号|实验代号|实验|基线|试验|评价|指标|采用|使用|"
     r"条件下|情况下|条件|指定|虽有|只查|仅|只|本|其|它|该|用|和|与|的|为|在|下|时|是"
     r"|\b(?:a|an|the|and|is|was|did|how|what|why|of|its|it|using|use|uses|for|on|in|"
@@ -141,6 +141,34 @@ _DEFINITION_CONDITION = re.compile(
     r"|[\u3400-\u9fff]{2,}下(?:的)?(?=[ \t]*[a-z])"
     r"|\b(?:under|during|before|after)\b",
     re.IGNORECASE,
+)
+_EXPLICIT_HELDOUT_TEST_PATTERNS = (
+    re.compile(
+        r"\b(?:held|hold)[- ]?out\b(?:\s+(?:set|split|data))?\s*"
+        r"(?:is\s+(?:used\s+|treated\s+)?as|serves?\s+as|=|即|作为|用作|就是)"
+        r"\s*(?:the\s+)?(?:\btest[- ]?(?:set|split|data)\b|测试集)",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"(?:\btest[- ]?(?:set|split|data)\b|测试集)\s*"
+        r"(?:is\s+(?:the\s+)?|为|即|使用|采用)\s*"
+        r"\b(?:held|hold)[- ]?out\b",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"\b(?:held|hold)[- ]?out\b\s*[（(]\s*(?:the\s+)?"
+        r"(?:\btest[- ]?(?:set|split|data)\b|测试集)\s*[)）]",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"(?:\btest[- ]?(?:set|split|data)\b|测试集)\s*[（(]\s*(?:the\s+)?"
+        r"\b(?:held|hold)[- ]?out\b\s*[)）]",
+        re.IGNORECASE,
+    ),
+    re.compile(
+        r"留出(?:集)?\s*(?:即|作为|用作|就是|为)\s*(?:该实验的\s*)?测试集",
+        re.IGNORECASE,
+    ),
 )
 _MAX_EXCERPT = 16_000
 _LOCATOR_FIELDS = {
@@ -766,7 +794,9 @@ def _experiment_in(
         fields.get(name) for name in ("split", "metric", "unit", "baseline", "trial", "samples")
     ):
         return None, "experiment_fields_missing"
-    if problem := _condition_problem(question, fields):
+    if problem := _condition_problem(
+        question, fields, context_texts=(read.text, definition.evidence.reads[0].text)
+    ):
         return None, problem
     if not all(_NUMBER.fullmatch(fields[name]) for name in ("baseline", "trial")):
         return None, "experiment_values_missing"
@@ -852,7 +882,30 @@ def _experiment_fields(segment: str) -> tuple[dict[str, str], int, str | None]:
     return fields, field_end, None
 
 
-def _condition_problem(question: str, fields: dict[str, str]) -> str | None:
+def _explicit_split_equivalence(
+    context_texts: Sequence[str], actual: str, requested: str
+) -> bool:
+    pair = {actual.casefold().strip(), requested.casefold().strip()}
+    if pair != {"held-out", "test"} and not (
+        requested == "test" and _SPLITS["held-out"].fullmatch(actual)
+    ):
+        return False
+    for raw in context_texts:
+        normalized = unicodedata.normalize("NFKC", raw)
+        for pattern in _EXPLICIT_HELDOUT_TEST_PATTERNS:
+            for match in pattern.finditer(normalized):
+                prefix = normalized[max(0, match.start() - 32) : match.start()]
+                if not _NEGATES_CONDITION.search(prefix):
+                    return True
+    return False
+
+
+def _condition_problem(
+    question: str,
+    fields: dict[str, str],
+    *,
+    context_texts: Sequence[str] = (),
+) -> str | None:
     for field, aliases in (("split", _SPLITS), ("metric", _METRICS)):
         named = {
             label: list(pattern.finditer(question))
@@ -869,8 +922,57 @@ def _condition_problem(question: str, fields: dict[str, str]) -> str | None:
             requested = next(iter(named))
             actual = fields[field]
             if actual.casefold() != requested and not aliases[requested].fullmatch(actual):
+                if field == "split" and _explicit_split_equivalence(
+                    context_texts, actual, requested
+                ):
+                    continue
                 return f"experiment_{field}_mismatch"
     return None
+
+
+def classify_experiment_evidence(
+    evidence: Mapping[str, TurnEvidence], question: str
+) -> tuple[set[str], dict[str, str]]:
+    """Classify structured experiment items as supported or rejected for the question."""
+    definition = next(
+        (
+            found
+            for item in evidence.values()
+            if (found := _definition_in(item, question)) is not None
+        ),
+        None,
+    )
+    supported_ids: set[str] = set()
+    rejected_reasons: dict[str, str] = {}
+    for ev_id, item in evidence.items():
+        if definition is not None and item is definition.evidence:
+            continue
+        if definition is not None:
+            support, reason = _requested_experiment_in(item, definition, question)
+            if support is not None:
+                supported_ids.add(ev_id)
+            elif reason != "no_experiment_marker":
+                rejected_reasons[ev_id] = reason
+            continue
+        if not item.reads:
+            continue
+        read = item.reads[0]
+        markers = list(_EXPERIMENT.finditer(read.text))
+        if not markers:
+            continue
+        if len(markers) != 1:
+            rejected_reasons[ev_id] = "experiment_record_ambiguous"
+            continue
+        _, block_end = _block_bounds(read.text, markers[0].start())
+        fields, _, problem = _experiment_fields(read.text[markers[0].end() : block_end])
+        if problem or not all(
+            fields.get(name) for name in ("split", "metric", "unit", "baseline", "trial", "samples")
+        ):
+            rejected_reasons[ev_id] = problem or "experiment_fields_missing"
+            continue
+        if cond_problem := _condition_problem(question, fields, context_texts=(read.text,)):
+            rejected_reasons[ev_id] = cond_problem
+    return supported_ids, rejected_reasons
 
 
 def _add_unique_support(items: list[EvidenceSupport], new: EvidenceSupport) -> None:

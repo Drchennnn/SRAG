@@ -14,6 +14,7 @@ import httpx
 
 from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
+from app.rag.evidence_supplement import classify_experiment_evidence
 from app.rag.workspace_reading import (
     _fit,
     estimate_embedded_json_budget,
@@ -314,6 +315,21 @@ def generate_response(
             trace["unsupported_literal_statements"] = len(statements) - len(supported)
             statements = supported
             missing = " ".join(filter(None, (missing, "部分结论缺少直接原文依据。")))
+        supported_exp_ids, rejected_exp_reasons = classify_experiment_evidence(
+            valid_evidence, question
+        )
+        if rejected_exp_reasons:
+            trace["rejected_experiment_reasons"] = rejected_exp_reasons
+            filtered = tuple(
+                statement
+                for statement in statements
+                if not any(cid in rejected_exp_reasons for cid in statement.citations)
+            )
+            if len(filtered) != len(statements):
+                trace["unverified_experiment_statements"] = len(statements) - len(filtered)
+                statements = filtered
+            if not supported_exp_ids and not missing:
+                missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
     status = "insufficient" if not statements else ("partial" if missing else "succeeded")
     return finish(status, statements, missing, valid_evidence)
 
