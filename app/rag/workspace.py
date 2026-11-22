@@ -87,6 +87,19 @@ _EXPERIMENT_FILLER = re.compile(
     r"配套|实验|实测|试验|现在|还能|能否|可以|如何|核对|确认|结果|数据|记录|"
     r"分别|处理|测出的?|测得的?|是多少|多少|几次"
 )
+_DEFINITION_REFERENCE = re.compile(
+    r"(?P<reference>(?:那|这|该)(?:一)?(?:条|个|项|种)?"
+    r"(?:判定规则|规则|概念|门槛|机制|方法|窗口)|它|前者|后者)"
+    r"\s*(?=(?:的定义|是?怎么定义|是?如何定义|指什么|是什么意思|是什么))"
+)
+_DEFINITION_REQUEST = re.compile(
+    r"(?:怎么定义|如何定义|请定义|什么是)\s*(?P<after>.+)$"
+    r"|(?P<before>.+?)(?:的定义(?:是)?什么|是?怎么定义的?|是?如何定义的?|是什么意思)$"
+)
+_DEFINITION_PREFACE = re.compile(
+    r"^(?:请问|请|在|据|按|这份|上面|讲义|课件|论文|资料|中|里|的|把|给出|说明|一下|\s)+"
+)
+_TOPIC_SEPARATOR = re.compile(r"和|与|及|、|或|\band\b|\bor\b", re.I)
 _HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述")
 _IMAGE_REFERENCE = re.compile(
     r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这|哪)"
@@ -169,6 +182,34 @@ def _related_experiment_question(previous: str, current: str) -> bool:
     old_latin, old_han = terms(old_clauses)
     new_latin, new_han = terms(new_clauses)
     return bool(old_latin & new_latin or len(old_han & new_han) >= 2)
+
+
+def _definition_topics(question: str) -> set[str]:
+    topics = set()
+    for clause in re.split(r"[，,。！？?!；;：:\n]", question):
+        match = _DEFINITION_REQUEST.search(clause.strip())
+        if not match:
+            continue
+        names = _DEFINITION_PREFACE.sub("", match["after"] or match["before"])
+        for name in _TOPIC_SEPARATOR.split(names):
+            name = name.strip(" \t`‘’“”'\"「」《》")
+            if (
+                2 <= len(name) <= 80
+                and not _PREVIOUS_TURN.search(name)
+                and not _DEFINITION_REFERENCE.search(name + "怎么定义")
+                and re.fullmatch(r"[\w ()+./×-]+", name)
+            ):
+                topics.add(name)
+    return topics
+
+
+def _contains_topic(text: str, name: str) -> bool:
+    name = " ".join(name.split())
+    text = " ".join(text.split())
+    if name.isascii():
+        pattern = rf"(?<![a-z0-9_-]){re.escape(name)}(?![a-z0-9_-])"
+        return re.search(pattern, text, re.I) is not None
+    return name.casefold() in text.casefold()
 
 
 def _has_latin_corpus(sources: Sequence[SnapshotSource]) -> bool:
@@ -852,15 +893,19 @@ class WorkspaceService:
         switching = bool(mode == "ask" and _FILE_MENTION.search(text) and _affirmed_switch(text))
         explicit_location = _location(text, None)
         whole_file = _WHOLE_FILE.search(text)
+        definition_reference = (
+            _DEFINITION_REFERENCE.search(text) if not _definition_topics(text) else None
+        )
         followup = bool(
             self.settings.workspace_answer_enabled
             and owner
             and mode == "ask"
             and not explicit_location
             and not whole_file
-            and not _FILE_MENTION.search(text)
+            and (definition_reference or not _FILE_MENTION.search(text))
             and (
-                _PREVIOUS_TURN.search(text)
+                definition_reference
+                or _PREVIOUS_TURN.search(text)
                 or _CONTINUE_TEXT.fullmatch(text)
                 or (len(text) <= 28 and _REWRITE_PRIOR.search(text))
             )
@@ -967,8 +1012,26 @@ class WorkspaceService:
         if mode == "ask" and (target := object_intent(text)):
             return self._answer_object(turn, session, text, target, documents, node, location)
         previous = None
+        resolved_topic = None
         if followup:
-            previous = self._scoped_previous(latest, documents) if latest else None
+            current_documents = {
+                key: doc for key, doc in documents.items()
+                if not file_names or doc.file_name in file_names
+            }
+            same_scope = bool(
+                latest and latest[0].request.scope_revision == turn.request.scope_revision
+            )
+            if same_scope:
+                previous = self._scoped_previous(latest, current_documents)
+            if definition_reference and previous is None:
+                if not same_scope:
+                    resolved_topic = self._resolve_definition_topic(latest, current_documents)
+                if resolved_topic is None:
+                    return self._clarify(
+                        turn, "无法确定你指的是哪个定义。请写出概念或规则名称。", [], refs,
+                    )
+                start, end = definition_reference.span("reference")
+                text = f"{text[:start]}{resolved_topic}{text[end:]}"
             if _REWRITE_PRIOR.search(text):
                 if previous:
                     return self._rewrite_previous(turn, previous, refs, topic_document)
@@ -1061,6 +1124,8 @@ class WorkspaceService:
                 trace["external_call_count"] = plan.trace.get("external_call_count", 0)
         if topic_document:
             trace["topic_document_id"] = topic_document
+        if resolved_topic:
+            trace["definition_topic"] = resolved_topic
         if mode in {"ask", "summary"} and self.settings.workspace_answer_enabled:
             if self.settings.deepseek_api_key.strip():
                 answer_mode = "summary" if whole_file and _SUMMARY_FILE.search(text) else mode
@@ -1230,22 +1295,24 @@ class WorkspaceService:
         return original.startswith(excerpt) or original.strip().startswith(excerpt)
 
     def _latest_reply(self, owner: str, turn: Turn) -> tuple[Turn, dict[str, Any]] | None:
-        _, turns, messages = self.store.timeline(owner, turn.session_id)
-        previous_turns = {row.turn_id: row for row in turns if row.status == "completed"}
-        boundary = next(item["ordinal"] for item in messages if item["turn_id"] == turn.turn_id)
-        message = next(
-            (
-                item
-                for item in reversed(messages)
-                if item["ordinal"] < boundary and item["role"] == "assistant"
-            ),
-            None,
-        )
-        if not message or not (previous := previous_turns.get(message["turn_id"])):
+        latest = self.store.previous_reply(owner, turn)
+        return latest if latest and self._turn_access(latest[0]) else None
+
+    def _resolve_definition_topic(self, latest, documents) -> str | None:
+        if not latest:
             return None
-        if not self._turn_access(previous):
+        topics = _definition_topics(latest[0].request.text)
+        if not topics:
             return None
-        return previous, message
+        current = self._scoped_previous(latest, documents, allow_subset=True)
+        if not current:
+            return None
+        confirmed = {
+            name for name in topics
+            if any(_contains_topic(read.text, name)
+                   for item in current[2].values() for read in item.reads)
+        }
+        return next(iter(confirmed)) if len(confirmed) == 1 else None
 
     @staticmethod
     def _excluded_previous_experiment(turn, preceding_reply, document_ids, question) -> bool:
@@ -1276,7 +1343,8 @@ class WorkspaceService:
         return False
 
     def _scoped_previous(
-        self, latest: tuple[Turn, dict[str, Any]], documents: dict[str, SnapshotDocument]
+        self, latest: tuple[Turn, dict[str, Any]], documents: dict[str, SnapshotDocument],
+        *, allow_subset: bool = False,
     ) -> tuple[Turn, dict[str, Any], dict[str, TurnEvidence]] | None:
         previous, message = latest
         identifiers = {
@@ -1290,9 +1358,18 @@ class WorkspaceService:
             if key not in identifiers:
                 continue
             item = TurnEvidence.model_validate(message["sources"][key])
+            if allow_subset and isinstance(item.locator.get("output_index"), int):
+                continue
             identity = item.revision.source
             doc = documents.get(identity.document_id)
-            if doc is None or doc.version != identity.version:
+            if (
+                doc is None
+                or doc.version != identity.version
+                or doc.publication_epoch != item.revision.publication_epoch
+                or doc.content_sha256 != item.revision.content_sha256
+            ):
+                if allow_subset:
+                    continue
                 return None
             raw = self._historical_source(_doc_ref(doc), identity)
             reads = [

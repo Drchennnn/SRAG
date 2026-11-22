@@ -1590,3 +1590,111 @@ def test_scope_explanation_uses_previous_citation_identity_without_reusing_its_t
     fresh = _ask(client, other, question)
     assert "experiment_outside_scope" not in str(fresh["message"]["blocks"])
     assert assessments[-1] is False
+
+
+def test_changed_scope_resolves_unique_pinned_definition_topic(system, tmp_path, monkeypatch):
+    import nbformat
+
+    from app.clients.deepseek import DeepSeekClient
+    from app.rag.workspace_retrieval import RewriteResult
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-topic-probe"
+    session = _create(client)
+
+    guide = tmp_path / "Cue-Guide.ipynb"
+    lab = tmp_path / "Replay-Log.ipynb"
+    other = tmp_path / "Other-Guide.ipynb"
+    text = "Acceptance Grid: both readings must exceed 23. Quiet Window: mute after an alert."
+    nbformat.write(nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text)]), guide)
+    nbformat.write(nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text)]), other)
+    cell = nbformat.v4.new_code_cell(
+        "print('Lab replay latency: 19 ms')",
+        outputs=[nbformat.v4.new_output(output_type="stream", text="Lab replay latency: 19 ms")],
+    )
+    nbformat.write(nbformat.v4.new_notebook(cells=[cell]), lab)
+    guide_id = _upload(client, session, guide)["document_id"]
+    lab_id = _upload(client, session, lab)["document_id"]
+    other_id = _upload(client, session, other)["document_id"]
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(None, {"status": "constraints_unverified", "external_call_count": 0})
+
+    monkeypatch.setattr(service, "rewriter", reject)
+    calls = []
+
+    async def respond(self, messages, **kwargs):
+        wire = json.loads(messages[-1]["content"])
+        calls.append(wire)
+        reads = {item["source"]["document_id"]: item["id"] for item in wire["evidence"]}
+        # The previously selected guide is the source used when the course is open.
+        guide_key = reads.get(guide_id, reads.get(other_id))
+        statements = [{"text": "当前讲义的定义。", "citations": [guide_key]}]
+        missing = "本轮没有实验读数。"
+        if lab_id in reads:
+            statements.append({"text": "旧实验数值 19 ms。", "citations": [reads[lab_id]]})
+            missing = ""
+        answer = {"statements": statements, "missing": missing}
+        if "布尔字段 experiment_missing" in messages[0]["content"]:
+            answer["experiment_missing"] = bool(missing)
+        return {"content": json.dumps(answer)}
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", respond)
+    opened = "讲义怎么定义 Acceptance Grid？配套回放实验的延迟是多少？"
+    follow = "按刚才的问题，那条规则怎么定义？刚才回放实验的延迟是多少？"
+    revision = 1
+
+    def ask(text):
+        return _ask(client, session, text, revision, client_id=f"turn-{len(calls)}-{revision}")
+
+    def scope(ids):
+        nonlocal revision
+        response = client.patch(
+            session + "/scope",
+            json={"course_ids": [_COURSE], "document_ids": ids, "scope_revision": revision},
+        )
+        assert response.status_code == 200, response.text
+        revision = response.json()["scope_revision"]
+
+    assert "19 ms" in str(ask(opened)["message"]["blocks"])
+    scope([guide_id])
+    current = ask(follow)
+    assert current["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+    assert "Acceptance Grid怎么定义" in calls[-1]["question"]
+    assert calls[-1]["previous_context"] == {}
+    assert "19 ms" not in str(calls[-1])
+    assert {item["source"]["document_id"] for item in calls[-1]["evidence"]} == {guide_id}
+    assert any(block.get("code") == "experiment_outside_scope"
+               for block in current["message"]["blocks"])
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    explicit = follow.replace("那条规则", "Quiet Window")
+    result = ask(explicit)
+    assert "definition_topic" not in result["turn"]["trace"]
+    assert calls[-1]["question"] == explicit and calls[-1]["previous_context"] == {}
+
+    for question, selected, replace_version in (
+        (opened.replace("Acceptance Grid", "Acceptance Grid 和 Quiet Window"), guide_id, False),
+        (opened, other_id, False),
+        (opened, guide_id, True),
+    ):
+        scope([])
+        ask(question)
+        scope([selected])
+        if replace_version:
+            nbformat.write(
+                nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text + "\nNew v2.")]),
+                guide,
+            )
+            assert _upload(client, session, guide, document_id=guide_id)["version"] == 2
+            revision = client.get(session).json()["scope_revision"]
+        before = len(calls)
+        assert ask(follow)["turn"]["status"] == "clarification"
+        assert len(calls) == before
+
+    fresh = _create(client, course_ids=[_COURSE], document_ids=[guide_id])
+    assert _ask(client, fresh, follow)["turn"]["status"] == "clarification"
