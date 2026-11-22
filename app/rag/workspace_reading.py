@@ -165,7 +165,14 @@ def read_window(
     )
     if prioritized:
         anchor_names = _expand_priority(candidates, anchor_names)
-        candidates.sort(key=lambda item: _key(item.source) not in anchor_names)
+        group_rank = _preferred_group_ranks(preferred_sources, candidates)
+        candidates.sort(
+            key=lambda item: (
+                _key(item.source) not in anchor_names,
+                group_rank.get(_group_key(item.source), len(preferred_sources)),
+                _position(item.source),
+            )
+        )
     signature = _sha(
         json.dumps(
             [
@@ -322,26 +329,29 @@ def _readable_sources(store, sources, documents, available, preferred):
     return result, skipped, unread
 
 
+def _group_key(source: SnapshotSource) -> tuple[str, int, str]:
+    return (
+        source.document_id,
+        source.version,
+        source.parent_id or source.source_id,
+    )
+
+
+def _preferred_group_ranks(
+    preferred_sources: Sequence[SourceKey], candidates: Sequence[_Readable]
+) -> dict[tuple[str, int, str], int]:
+    source_groups = {_key(item.source): _group_key(item.source) for item in candidates}
+    ranks: dict[tuple[str, int, str], int] = {}
+    for index, preferred in enumerate(preferred_sources):
+        group = source_groups.get(_key(preferred))
+        if group is not None and group not in ranks:
+            ranks[group] = index
+    return ranks
+
+
 def _expand_priority(candidates: Sequence[_Readable], anchors: set[_Key]) -> set[_Key]:
-    groups = {
-        (
-            item.source.document_id,
-            item.source.version,
-            item.source.parent_id or item.source.source_id,
-        )
-        for item in candidates
-        if _key(item.source) in anchors
-    }
-    return {
-        _key(item.source)
-        for item in candidates
-        if (
-            item.source.document_id,
-            item.source.version,
-            item.source.parent_id or item.source.source_id,
-        )
-        in groups
-    }
+    groups = {_group_key(item.source) for item in candidates if _key(item.source) in anchors}
+    return {_key(item.source) for item in candidates if _group_key(item.source) in groups}
 
 
 def _resume(candidates, cursor, signature):

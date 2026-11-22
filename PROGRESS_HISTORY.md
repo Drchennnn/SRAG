@@ -537,3 +537,9 @@
 ## 2026-11-22 · G22 设计放行
 
 架构负责人接受 G21 预算修复，基于 eba76b4 放行长课件按需双语检索与同池 Jev 对照。工程与公开盲验交执行组，G22 待领取，M2 保持返工。
+
+## 2026-11-22 · G22 中文提问检索英文长课件 · 独审通过（G22 完成并交回）
+
+- 执行者 `g22_exec`（主会话 `6a4dad8c-66bd-482c-8211-cd0e444516d2`）在授权提交 `d14499bb9874653355a47c9e79ac715de213aa60`（受测产品基线 `eba76b4`）领取 G22，保留 21 项既有本地修改/未跟踪文件与 A03 封存。在开发前由独立审核者 `g22_gate`（子代理 `57728ce7-1c40-4413-94aa-3451599f2be2`）冻结公开盲测长课件 `QLoRA-2305.14314v1.pdf`（26 页、87,760 字符，CC BY 4.0）与 6 题判据及隔离未见终验课件 `ReAct-2210.03629v3.pdf`（33 页、108,730 字符，CC BY 4.0）。
+- 完成生产修复并实现无硬编码通用机制：`app/rag/workspace.py` 在默认 `fts`、有足够预算容纳最小证据且超单文件完整阅读预算时，仅对“中文提问 + 英文为主文档（`_has_latin_corpus`）”按需触发 `bilingual` 并透传 `visual_candidates` 至 `_media_candidates`；`app/clients/deepseek.py` 强化否定与科学符号按字保留提示；`app/rag/workspace_retrieval.py` 修正 `"非(?!常)"` 与 `"不同"` 否定误判及含汉字引号短语内嵌 ASCII 校验，分离有字候选与空白图像池，并用 `_prioritize_continuations` 使顶部锚点直连后继页随行入选；`app/rag/structure_search.py` 过滤英文高频停用词 `_EN_STOPWORDS` 并按 `(空 child_object 置后, 种子排名, 边优先级)` 保留邻接槽；`app/rag/workspace_reading.py` 在 `prioritized=True` 时按 `preferred_sources` 排名顺序优先装入阅读窗并保持同组页序输出。
+- 验证结果：全库离线测试 `576 passed, 3 skipped`、Ruff `All checks passed!`。开发对照重现 `eba76b4` 上 `G20 Q05`（未进候选）与 `Q06`（漏进/截断）并在新版恢复 2/2；`QLoRA` 转为回归（真实 Chromium 上 `g22_bilingual` 正确页与整题 8/8 通过，`g22_gate` 复跑正确页 8/8、整题 7/8 含 1 次生成 `invalid_response` 降级）。`g22_gate` 在完全未见 `ReAct-2210.03629v3.pdf` 真实 Chromium 终验对比默认网页配置：`eba76b4` 正确页完整实读 2/6、后段纯中文 0/3、整题 3/6；当前 HEAD 正确页入选与实读升至 **5/6 (83.3%)**、后段纯中文 **2/3 (66.7%)**、整题 **5/6 (83.3%)**（0 严重错误，11 次 DeepSeek 调用 / `14,442.8 ms`），唯一未过 `H_Q03` 因中文“五千四百亿”与 `540`-billion 在 `_numeric_constraints` 拦截而安全回退 `fts`。同池对照证实 `strategy="jev"` 在稠密论文池超 48 KB 触发 `input_limit`（`QLoRA` 3/5、`ReAct` 5/5）且 `budget=4` 致 `QLoRA Q02` / `ReAct H_Q01` 退化失败，同意默认不开启 `Jev` 且暂不接入离线 Qdrant/隔离向量路径。按规则停在 G22 并交回架构负责人（M2 保持返工）。[G22 报告](./docs/G/G22-长课件双语检索与盲验.md) · [独立裁决](./docs/G/G22-独立裁决.md) · [未见终验 JSON](./docs/G/G22-独立终验实测.json)

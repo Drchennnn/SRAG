@@ -34,6 +34,18 @@ _GLOSSARY = (
 )
 _DOTTED_IDENTIFIER = re.compile(r"[A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+")
 _NEGATION = re.compile(r"(?:不是|不要|没有|\bnot\b|\bwithout\b)", re.IGNORECASE)
+_EN_STOPWORDS = frozenset(
+    {
+        "a", "an", "and", "are", "as", "at", "be", "been", "being", "between", "both", "by",
+        "can", "could", "did", "do", "does", "doing", "done", "during", "each", "for", "from",
+        "had", "has", "have", "having", "how", "if", "in", "into", "is", "it", "its", "may",
+        "might", "more", "most", "no", "not", "of", "on", "or", "our", "out", "respectively",
+        "should", "so", "such", "than", "that", "the", "their", "them", "then", "there",
+        "these", "they", "this", "those", "to", "two", "under", "used", "using", "was", "we",
+        "were", "what", "when", "where", "which", "who", "why", "will", "with", "without",
+        "would",
+    }
+)
 _FTS_REASON_CODES = {
     "native_text": "fts_native",
     "legacy_text": "fts_legacy",
@@ -370,7 +382,9 @@ def _query_plan(raw_query: str) -> _QueryPlan:
     for variant in deduped:
         terms.extend(re.findall(r"[^\W_]+", variant.text, flags=re.UNICODE))
     unique_terms = tuple(dict.fromkeys(term.casefold() for term in terms if term.strip()))
-    match = " OR ".join(f'"{term.replace(chr(34), chr(34) * 2)}"' for term in unique_terms)
+    content_terms = tuple(term for term in unique_terms if term not in _EN_STOPWORDS)
+    bm25_terms = content_terms or unique_terms
+    match = " OR ".join(f'"{term.replace(chr(34), chr(34) * 2)}"' for term in bm25_terms)
     trace = QueryTrace(
         raw_query=raw_query,
         variants=deduped,
@@ -680,7 +694,27 @@ def _select_with_reserved_edges(seed_candidates, edges, *, documents, top_k):
         by_key[_candidate_tuple(candidate)] for candidate in seed_candidates[: top_k - reserved]
     ]
     selected_keys = {_candidate_tuple(candidate) for candidate in selected}
-    edge_keys = list(dict.fromkeys(_source_tuple(target) for _, target, _ in edges))
+    seed_ranks = {
+        _source_tuple(candidate.source): index
+        for index, candidate in enumerate(seed_candidates)
+    }
+    reason_order = {
+        "parent_context": 0,
+        "caption_target": 1,
+        "same_position_object": 2,
+        "previous_position": 3,
+        "next_position": 4,
+        "child_object": 5,
+    }
+    ordered_edges = sorted(
+        edges,
+        key=lambda edge: (
+            edge[0] == "child_object" and not bool(edge[1].text.strip()),
+            seed_ranks.get(_source_tuple(edge[2]), len(seed_candidates)),
+            reason_order.get(edge[0], len(reason_order)),
+        ),
+    )
+    edge_keys = list(dict.fromkeys(_source_tuple(target) for _, target, _ in ordered_edges))
     used_edges = 0
     for key in edge_keys:
         if key in selected_keys:

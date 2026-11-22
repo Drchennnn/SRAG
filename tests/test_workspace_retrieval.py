@@ -386,3 +386,161 @@ def test_jev_does_not_retry_after_snapshot_guard_fails(settings):
     with pytest.raises(WorkspaceError, match="stale_reference"):
         client.score("question", [JevCandidate("known", "title", "point")], verify=verify)
     assert len(attempts) == 1
+
+
+def test_negation_symmetry_ignores_feichang_and_preserves_real_negation():
+    from app.rag.workspace_retrieval import _valid_rewrite
+
+    assert _valid_rewrite(
+        "这个优化器非常稳定吗？",
+        "Is this optimizer very stable?",
+        "English",
+    )
+    assert _valid_rewrite(
+        "不同参数规模模型的“随机失活”比例分别是多少？",
+        'What are the "dropout" ratios for models of different parameter scales?',
+        "English",
+    )
+    assert not _valid_rewrite(
+        "使用“MMLU 基准”做了哪些消融对比？",
+        "What ablations were run on benchmarks?",
+        "English",
+    )
+    assert not _valid_rewrite(
+        "不要使用非线性层",
+        "Use linear layers",
+        "English",
+    )
+    assert _valid_rewrite(
+        "不要使用非线性层",
+        "Do not use non-linear layers",
+        "English",
+    )
+
+
+def test_plan_retrieval_separates_text_pool_from_empty_visual_candidates(settings, tmp_path):
+    library = LocalLibrary(settings)
+    pages = [
+        SourceDraft(
+            source_id=f"page:{p}",
+            kind="page",
+            ordinal=p - 1,
+            title=f"Page {p}",
+            text=(
+                f"Intro section anchor term on page {p}."
+                if p <= 8
+                else (
+                    "Appendix B uses RMSprop with learning rate 1e-6."
+                    if p == 20
+                    else f"Page {p}"
+                )
+            ),
+            locator={"format": "pdf", "page": p},
+        )
+        for p in range(1, 22)
+    ]
+    shapes = [
+        SourceDraft(
+            source_id=f"page:{p}:image:1",
+            kind="page_object",
+            parent_id=f"page:{p}",
+            ordinal=30 + p,
+            title=f"Figure on page {p}",
+            text="",
+            locator={"format": "pdf", "page": p, "object_type": "image"},
+        )
+        for p in range(1, 6)
+    ]
+    path = library.course_root / "main" / "LongPaper.pdf"
+    original = b"%PDF-1.4\nlong-paper\n"
+    plan = library.store.prepare("main", path)
+    doc = library.store.publish(
+        plan,
+        ParsedSource(title="LongPaper", sources=[*pages, *shapes]),
+        original=original,
+        content_sha256=hashlib.sha256(original).hexdigest(),
+        document_format="pdf",
+    )
+    store = StructureSnapshotStore(settings)
+    snap = store.read(SnapshotRequest(("main",)))
+    searcher = StructureSearcher(store)
+    req = StructureSearchRequest(
+        query="请介绍 anchor 优化器",
+        top_k=12,
+        scope={"course_ids": ["main"], "document_ids": [doc.document_id]},
+    )
+
+    def _rewrite(_query, *, verify=lambda: None):
+        return RewriteResult(
+            "Please introduce anchor RMSprop optimizer",
+            {"status": "succeeded", "external_call_count": 1, "cache_hit": False},
+        )
+
+    plan_res = plan_retrieval(
+        settings,
+        searcher,
+        snap,
+        req,
+        _COURSES,
+        strategy="bilingual",
+        budget=12,
+        library=library.store,
+        rewrite=_rewrite,
+    )
+    selected_ids = [item.source.source_id for item in plan_res.selected]
+    assert "page:20" in selected_ids
+    assert all(
+        item.text.strip() and "image" not in item.source.source_id for item in plan_res.selected
+    )
+    assert all(not item.text.strip() for item in plan_res.visual_candidates)
+
+
+def test_bilingual_places_anchor_next_position_before_tail_noise():
+    from app.rag.structure_search import CandidateReason, StructureCandidate
+    from app.schemas.local import SourceKey
+
+    def _cand(page_no: int, *, seed_page: int | None = None) -> StructureCandidate:
+        src = SourceKey(document_id="doc-1", version=1, source_id=f"page:{page_no}")
+        reasons = (
+            [
+                CandidateReason(
+                    code="next_position",
+                    seed=SourceKey(document_id="doc-1", version=1, source_id=f"page:{seed_page}"),
+                )
+            ]
+            if seed_page is not None
+            else [CandidateReason(code="fts_native", seed=src)]
+        )
+        return StructureCandidate(
+            source=src,
+            course_id="c1",
+            file_name="paper.pdf",
+            kind="page",
+            title=f"Page {page_no}",
+            locator={"format": "pdf", "page": page_no},
+            text=f"Page {page_no} body",
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=reasons,
+        )
+
+    from app.rag.workspace_retrieval import _prioritize_continuations
+
+    pool = [
+        _cand(5),
+        _cand(23),
+        _cand(14),
+        _cand(15),
+        _cand(2),
+        _cand(24, seed_page=23),
+    ]
+    reordered = _prioritize_continuations(pool)
+    assert [c.source.source_id for c in reordered] == [
+        "page:5",
+        "page:23",
+        "page:24",
+        "page:14",
+        "page:15",
+        "page:2",
+    ]

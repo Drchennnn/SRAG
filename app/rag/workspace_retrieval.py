@@ -38,7 +38,7 @@ _NUMBER = r"[+-]?\d+(?:\.\d+)?(?:e[+-]?\d+)?"
 _NUMBERS = re.compile(rf"{_NUMBER}(?:\s*%)?", re.IGNORECASE)
 _OPERATORS = re.compile(r"<=|>=|==|!=|<|>|=")
 _NEGATION = re.compile(
-    r"排除|不(?:要|含|包括|使用|能|可|是|同|考虑|比较|属于)|无(?:需|法)|未|没有|"
+    r"排除|不(?:要|含|包括|使用|能|可|是|考虑|比较|属于)|无(?:需|法)|未|没有|非(?!常)|"
     r"\b(?:no|not|never|without|excluding|exclude|neither|none|cannot|don't|doesn't|"
     r"didn't|isn't|mustn't|non-)\b",
     re.IGNORECASE,
@@ -149,6 +149,7 @@ class RetrievalPlan:
     initial: StructureSearchResponse
     selected: tuple[StructureCandidate, ...]
     trace: dict[str, Any]
+    visual_candidates: tuple[StructureCandidate, ...] = ()
 
 
 def plan_retrieval(
@@ -176,17 +177,22 @@ def plan_retrieval(
     scope = _PinnedScope(searcher, snapshot, request, allowed_courses, active)
     initial = searcher.search(request, allowed_course_ids=allowed_courses)
     scope.accept_initial(initial)
-    pool = list(initial.candidates)
+    text_initial = [candidate for candidate in initial.candidates if _has_readable_text(candidate)]
+    visual_candidates = [
+        candidate for candidate in initial.candidates if not _has_readable_text(candidate)
+    ]
+    pool = list(text_initial)
     trace: dict[str, Any] = {
         "strategy": strategy,
         "effective_strategy": "fts",
         "budget": budget,
         "original_query": question,
         "search_query": request.query,
-        "original_search_status": initial.status,
         "alternate_query": None,
+        "original_search_status": initial.status,
         "pins": [_pin_trace(doc) for doc in initial.snapshot],
-        "original_pool": [_candidate_trace(candidate) for candidate in pool],
+        "original_pool": [_candidate_trace(candidate) for candidate in text_initial],
+        "visual_candidates": [_candidate_trace(candidate) for candidate in visual_candidates],
         "rewrite": {"status": "not_requested", "external_call_count": 0},
         "jev": {"status": "not_requested", "external_call_count": 0},
         "expansion": {"status": "not_requested", "external_call_count": 0},
@@ -195,11 +201,14 @@ def plan_retrieval(
     def finish(selected: Sequence[StructureCandidate]) -> RetrievalPlan:
         scope.check_active()
         trace["candidate_pool"] = [_candidate_trace(candidate) for candidate in pool]
+        trace["visual_candidates"] = [
+            _candidate_trace(candidate) for candidate in visual_candidates
+        ]
         trace["selected"] = [candidate.source.model_dump() for candidate in selected[:budget]]
         trace["external_call_count"] = sum(
             trace[name]["external_call_count"] for name in ("rewrite", "jev", "expansion")
         )
-        return RetrievalPlan(initial, tuple(selected[:budget]), trace)
+        return RetrievalPlan(initial, tuple(selected[:budget]), trace, tuple(visual_candidates))
 
     if strategy == "fts" or request.location is not None or initial.status in _SCOPED_FAILURES:
         return finish(pool)
@@ -213,10 +222,19 @@ def plan_retrieval(
         trace["alternate_query"] = rewritten.query
         alternate = scope.search(rewritten.query)
         trace["alternate_search_status"] = alternate.status
-        trace["alternate_pool"] = [
-            _candidate_trace(candidate) for candidate in alternate.candidates
+        text_alternate = [
+            candidate for candidate in alternate.candidates if _has_readable_text(candidate)
         ]
-        pool = _fuse(initial.candidates, alternate.candidates, request.top_k)
+        visual_candidates = _merge_visual(
+            visual_candidates,
+            [candidate for candidate in alternate.candidates if not _has_readable_text(candidate)],
+            request.top_k,
+        )
+        trace["alternate_pool"] = [
+            _candidate_trace(candidate) for candidate in text_alternate
+        ]
+        pool = _fuse(text_initial, text_alternate, request.top_k)
+        pool = _prioritize_continuations(pool)
         trace["effective_strategy"] = "bilingual"
     if strategy == "bilingual":
         return finish(pool)
@@ -316,6 +334,23 @@ class _PinnedScope:
                 raise WorkspaceError("stale_reference")
 
 
+def _has_readable_text(candidate: StructureCandidate) -> bool:
+    return bool(candidate.text.strip())
+
+
+def _merge_visual(
+    existing: Sequence[StructureCandidate],
+    incoming: Sequence[StructureCandidate],
+    cap: int,
+) -> list[StructureCandidate]:
+    merged: dict[_Identity, StructureCandidate] = {}
+    for item in (*existing, *incoming):
+        key = _identity(item.source)
+        if key not in merged:
+            merged[key] = item
+    return list(merged.values())[:cap]
+
+
 def _fuse(original, alternate, pool_cap: int) -> list[StructureCandidate]:
     sources: dict[_Identity, StructureCandidate] = {}
     ranks: dict[_Identity, float] = {}
@@ -324,10 +359,56 @@ def _fuse(original, alternate, pool_cap: int) -> list[StructureCandidate]:
         for rank, item in enumerate(candidates, start=1):
             if has_text_anchor and item.match_kind == "browse":
                 continue
+            if not _has_readable_text(item):
+                continue
             key = _identity(item.source)
             sources.setdefault(key, item)
             ranks[key] = ranks.get(key, 0) + 1 / (60 + rank)
     return [sources[key] for key in sorted(ranks, key=ranks.get, reverse=True)[:pool_cap]]
+
+
+def _prioritize_continuations(
+    pool: Sequence[StructureCandidate], *, anchors: int = 2
+) -> list[StructureCandidate]:
+    """Place direct structural continuations of top-ranked anchors right after each anchor."""
+    if len(pool) <= 2:
+        return list(pool)
+    anchor_items = list(pool[:anchors])
+    anchor_ids = {_identity(item.source) for item in anchor_items}
+    followers: dict[_Identity, list[StructureCandidate]] = {}
+    moved: set[_Identity] = set()
+    preferred_codes = ("next_position", "previous_position", "parent_context", "caption_target")
+    for anchor in anchor_items:
+        anchor_id = _identity(anchor.source)
+        linked: list[tuple[int, int, StructureCandidate]] = []
+        for rank, item in enumerate(pool):
+            item_id = _identity(item.source)
+            if item_id == anchor_id or item_id in anchor_ids or item_id in moved:
+                continue
+            codes = [
+                reason.code
+                for reason in item.reasons
+                if reason.seed is not None and _identity(reason.seed) == anchor_id
+            ]
+            best = min(
+                (preferred_codes.index(code) for code in codes if code in preferred_codes),
+                default=None,
+            )
+            if best is not None:
+                linked.append((best, rank, item))
+        linked.sort(key=lambda pair: (pair[0], pair[1]))
+        if linked:
+            chosen = linked[0][2]
+            moved.add(_identity(chosen.source))
+            followers[anchor_id] = [chosen]
+    ordered: list[StructureCandidate] = []
+    for item in pool:
+        item_id = _identity(item.source)
+        if item_id in moved:
+            continue
+        ordered.append(item)
+        ordered.extend(followers.get(item_id, ()))
+    return ordered
 
 
 def _score(scorer, question, pool, verify, *, evidence=()):
@@ -445,7 +526,13 @@ def _valid_rewrite(original: str, candidate: str, target: str) -> bool:
     if target == "English" and not re.search(r"[A-Za-z]{3}", candidate):
         return False
     for match in _LITERAL.finditer(original):
-        if (match[1] or match[2] or match[0]) not in candidate:
+        literal = match[1] or match[2] or match[0]
+        if target == "English" and _HAN.search(literal):
+            for token in re.findall(r"[A-Za-z0-9][A-Za-z0-9_./-]*", literal):
+                if token.casefold() not in candidate.casefold():
+                    return False
+            continue
+        if literal not in candidate:
             return False
     translation = str.maketrans({"≤": "<=", "≥": ">=", "≠": "!=", "−": "-"})
     old, new = (

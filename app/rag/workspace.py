@@ -43,7 +43,6 @@ from app.rag.workspace_objects import ObjectIntent, object_choices, object_inten
 from app.rag.workspace_reading import (
     ReadingCursor,
     _has_visual,
-    estimate_input_budget,
     read_window,
 )
 from app.rag.workspace_versions import compare_versions, is_version_comparison
@@ -115,6 +114,25 @@ _IMAGE_ATTEMPT_LIMIT = 12
 _SUPPLEMENT_BUDGET = 2
 _SUMMARY_SOURCE_LIMIT = 6
 _BASE_KINDS = {"page", "cell"}
+_HAN_QUERY = re.compile(r"[\u3400-\u9fff]")
+_LATIN_WORD = re.compile(r"[A-Za-z]+")
+
+
+def _has_latin_corpus(sources: Sequence[SnapshotSource]) -> bool:
+    han_by_doc: dict[str, int] = {}
+    latin_by_doc: dict[str, int] = {}
+    for source in sources:
+        if not source.text.strip():
+            continue
+        han_by_doc[source.document_id] = han_by_doc.get(source.document_id, 0) + len(
+            _HAN_QUERY.findall(source.text)
+        )
+        latin_by_doc[source.document_id] = latin_by_doc.get(source.document_id, 0) + sum(
+            len(word) for word in _LATIN_WORD.findall(source.text)
+        )
+    return any(
+        latin_by_doc[doc_id] > han_by_doc.get(doc_id, 0) for doc_id in latin_by_doc
+    )
 
 
 @dataclass(frozen=True)
@@ -282,6 +300,11 @@ class WorkspaceService:
         self.evidence = vision.evidence
         self.allowed_courses = allowed_courses
         self.region_ids = region_ids
+        from app.clients.jev import JevClient
+        from app.rag.workspace_retrieval import BilingualRewriter
+
+        self.rewriter = BilingualRewriter(settings)
+        self.scorer = JevClient(settings)
 
     def create(self, owner: str | None, request: CreateSession) -> tuple[dict[str, Any], str]:
         courses, documents = self._scope(
@@ -903,7 +926,11 @@ class WorkspaceService:
                 and not _CONTINUE_TEXT.fullmatch(text)
                 and not (whole_file and _SUMMARY_FILE.search(text))
             )
-            plan = self._plan_search(turn, snapshot, request) if use_retrieval else None
+            plan = (
+                self._plan_search(turn, snapshot, request, previous=previous, file_names=file_names)
+                if use_retrieval
+                else None
+            )
             search = (
                 plan.initial
                 if plan
@@ -930,6 +957,11 @@ class WorkspaceService:
             ranked = [
                 sources[(hit.source.document_id, hit.source.source_id)]
                 for hit in chosen
+                if (hit.source.document_id, hit.source.source_id) in sources
+            ]
+            visual_ranked = [
+                sources[(hit.source.document_id, hit.source.source_id)]
+                for hit in (getattr(plan, "visual_candidates", ()) if plan else ())
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
             trace = {
@@ -965,6 +997,7 @@ class WorkspaceService:
                     names=file_names,
                     previous=previous,
                     question=text,
+                    extra_media=visual_ranked if mode == "ask" else (),
                 )
         draft = Draft(session.session_id)
         if mode == "summary":
@@ -990,13 +1023,18 @@ class WorkspaceService:
         return self._complete(turn, draft, refs=refs, trace=trace)
 
     def _plan_search(
-        self, turn: Turn, snapshot: StructureSnapshot, request: StructureSearchRequest
+        self,
+        turn: Turn,
+        snapshot: StructureSnapshot,
+        request: StructureSearchRequest,
+        *,
+        previous=None,
+        file_names: Sequence[str] = (),
     ):
         settings = self.settings
         strategy = settings.workspace_retrieval_strategy
         if (
-            strategy == "fts"
-            or request.location is not None
+            request.location is not None
             or not settings.workspace_answer_enabled
             or not settings.deepseek_api_key.strip()
         ):
@@ -1006,12 +1044,85 @@ class WorkspaceService:
         )
         if budget <= 0:
             return None
-        if len(snapshot.documents) == 1:
-            bodies = [source.text for source in snapshot.sources if source.text.strip()]
-            if estimate_input_budget(bodies) + 320 * len(bodies) + 4096 <= budget:
+        if file_names:
+            allowed = {name.casefold() for name in file_names}
+            target_docs = tuple(
+                doc for doc in snapshot.documents if doc.file_name.casefold() in allowed
+            )
+            doc_ids = {doc.document_id for doc in target_docs}
+            target_sources = tuple(
+                src for src in snapshot.sources if src.document_id in doc_ids
+            )
+        else:
+            target_docs = snapshot.documents
+            target_sources = snapshot.sources
+        if not target_docs:
+            return None
+        docs_by_id = {doc.document_id: doc for doc in target_docs}
+        readable_sources = [src for src in target_sources if src.text.strip()]
+        if not readable_sources:
+            return None
+        context = self._prior_context(previous) if previous else None
+        unread_visual = sum(1 for src in target_sources if _has_visual(src))
+        fixed_reserve = estimate_prompt_reserve(
+            request.query,
+            mode="ask",
+            context=context,
+            coverage={"full_text_scope": False, "unread_visual_total": unread_visual},
+        )
+        if budget <= fixed_reserve:
+            return None
+        from app.rag.workspace_reading import (
+            estimate_embedded_json_budget,
+            estimate_embedded_text_budget,
+        )
+
+        def _skel(idx: int, src: SnapshotSource) -> dict[str, Any]:
+            method = (
+                "native_table" if src.locator.get("object_type") == "table" else "native_text"
+            )
+            return {
+                "id": f"ev-{idx}",
+                "source": _key(src).model_dump(),
+                "file_name": docs_by_id[src.document_id].file_name,
+                "locator": {
+                    k: src.locator[k]
+                    for k in ("page", "cell_index", "output_index", "section_path", "bbox")
+                    if k in src.locator
+                },
+                "reads": [{"method": method, "status": "succeeded", "text": ""}],
+            }
+
+        min_source_bytes = min(
+            estimate_embedded_json_budget(_skel(1, src)) for src in readable_sources
+        )
+        if budget - fixed_reserve <= min_source_bytes:
+            return None
+        if len(target_docs) == 1:
+            reserve_true = estimate_prompt_reserve(
+                request.query,
+                mode="ask",
+                context=context,
+                coverage={"full_text_scope": True, "unread_visual_total": unread_visual},
+            )
+            total_single_bytes = reserve_true
+            for text_idx, src in enumerate(readable_sources, 1):
+                total_single_bytes += (
+                    estimate_embedded_json_budget(_skel(text_idx, src))
+                    + (1 if text_idx > 1 else 0)
+                    + estimate_embedded_text_budget(src.text)
+                )
+                if total_single_bytes > budget:
+                    break
+            if total_single_bytes <= budget:
                 return None  # Full-text reading already covers this selected short document.
+        if strategy == "fts":
+            if not _HAN_QUERY.search(request.query) or not _has_latin_corpus(target_sources):
+                return None
+            strategy = "bilingual"
         from app.rag.workspace_retrieval import plan_retrieval
 
+        candidate_budget = request.top_k if strategy == "bilingual" else 4
         return plan_retrieval(
             settings,
             self.searcher,
@@ -1019,9 +1130,11 @@ class WorkspaceService:
             request,
             self.allowed_courses,
             strategy=strategy,
-            budget=4,
+            budget=candidate_budget,
             library=self.library.store,
             active=lambda: self.store.active(turn),
+            rewrite=self.rewriter,
+            scorer=self.scorer,
         )
 
     def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
@@ -1114,7 +1227,18 @@ class WorkspaceService:
         return self._complete(turn, draft, refs=refs, trace=trace)
 
     def _generate_snapshot(
-        self, turn, snapshot, ranked, trace, *, mode, location, names, previous, question
+        self,
+        turn,
+        snapshot,
+        ranked,
+        trace,
+        *,
+        mode,
+        location,
+        names,
+        previous,
+        question,
+        extra_media=(),
     ):
         if names:
             allowed = {name.casefold() for name in names}
@@ -1281,8 +1405,15 @@ class WorkspaceService:
             },
         )
         selected = ranked or [segment.source for segment in window.segments]
-        if mode == "ask" and selected:
-            media = _media_candidates(selected, snapshot.sources, None)
+        media_seeds = list(selected)
+        seen_media = {(item.document_id, item.source_id) for item in media_seeds}
+        for item in extra_media:
+            key = (item.document_id, item.source_id)
+            if item.document_id in identifiers and key not in seen_media:
+                seen_media.add(key)
+                media_seeds.append(item)
+        if mode == "ask" and media_seeds:
+            media = _media_candidates(media_seeds, snapshot.sources, None)
             self._attach_images(turn, draft, {doc.document_id: doc for doc in docs}, media)
         return self._complete(turn, draft, refs=refs, trace=trace)
 

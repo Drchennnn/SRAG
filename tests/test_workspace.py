@@ -1275,3 +1275,151 @@ def test_workspace_budget_paths_short_question_over_limit_and_provider_failure(
         ).status_code
         == 200
     )
+
+
+def test_g22_on_demand_bilingual_controls_and_fallback(system, tmp_path, monkeypatch):
+    from app.clients.deepseek import DeepSeekClient
+    from app.schemas.local import ParsedSource, SourceDraft
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.workspace_retrieval_strategy = "fts"
+    settings.deepseek_api_key = "synthetic-key"
+    settings.workspace_input_token_limit = 12_000
+
+    # Long English PDF exceeding 12,000-byte single-turn budget
+    en_pages = [
+        SourceDraft(
+            source_id=f"page:{p}",
+            kind="page",
+            ordinal=p - 1,
+            title=f"Page {p}",
+            text=(
+                "Appendix B implementation uses RMSprop optimizer with beta 0.5 on TL;DR tasks.\n"
+                + ("filler " * 140)
+                if p == 20
+                else (
+                    f"Introductory section {p}: background overview and motivation.\n"
+                    + ("word " * 140)
+                )
+            ),
+            locator={"format": "pdf", "page": p},
+        )
+        for p in range(1, 22)
+    ]
+
+    en_path = settings.course_root / _COURSE / "Long-English.pdf"
+    en_original = b"%PDF-1.4\nlong-en\n"
+    en_plan = service.library.store.prepare(_COURSE, en_path)
+    en_doc = service.library.store.publish(
+        en_plan,
+        ParsedSource(title="Long English", sources=en_pages),
+        original=en_original,
+        content_sha256=_sha(en_original),
+        document_format="pdf",
+    )
+
+    # Short English PDF fitting inside budget
+    fixtures = runpy.run_path("docs/G/G14-fixtures.py")
+    short_file = tmp_path / fixtures["FILENAME"]
+    fixtures["make_pdf"](short_file)
+
+    # Long Chinese notebook with inline ASCII names
+    zh_cells = [
+        {
+            "cell_type": "markdown",
+            "id": f"zh-{i}",
+            "metadata": {},
+            "source": [
+                f"## 第 {i} 节\n中文课程讲解与 Softmax(TopK(x)) 说明。"
+                + ("详细推导过程。" * 25)
+            ],
+        }
+        for i in range(1, 16)
+    ]
+    zh_path = tmp_path / "中文长课件.ipynb"
+    zh_path.write_text(
+        json.dumps({"nbformat": 4, "nbformat_minor": 5, "metadata": {}, "cells": zh_cells}),
+        encoding="utf-8",
+    )
+
+    session = _create(client)
+    short_doc = _upload(client, session, short_file)
+    zh_doc = _upload(client, session, zh_path)
+
+    rewrite_calls = []
+
+    async def fake_rewrite(self, query, target_language):
+        rewrite_calls.append((query, target_language))
+        return {
+            "query": "Appendix B implementation RMSprop optimizer beta TL;DR",
+            "usage": {"total_tokens": 20},
+        }
+
+    async def fake_answer(self, messages, **kwargs):
+        if self.on_attempt:
+            self.on_attempt({"status": 200, "outcome": "succeeded"})
+        prompt = json.loads(messages[-1]["content"])
+        ids = [item["id"] for item in prompt["evidence"]]
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [{"text": "已找到附录实现细节。", "citations": [ids[0]]}],
+                    "missing": "",
+                }
+            ),
+            "usage": {"total_tokens": 50},
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "bilingual_query", fake_rewrite)
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_answer)
+
+    def _scoped_ask(doc_id, question, cid, *, focus_page=None):
+        s = _create(client, course_ids=[_COURSE], document_ids=[doc_id])
+        rev = 1
+        if focus_page is not None:
+            node = _node(client, s, doc_id, "page", page=focus_page)
+            rev = _focus(client, s, node, rev)
+        return _ask(client, s, question, rev, client_id=cid)
+
+    # 1. Chinese query on long English PDF triggers bilingual & selects+reads page:20
+    hit = _scoped_ask(en_doc.document_id, "附录实现细节里用了什么优化器？", "g22-en-zh")
+    assert hit["turn"]["trace"]["retrieval"]["strategy"] == "bilingual"
+    assert hit["turn"]["trace"]["reading"]["preferred"][0]["source_id"] == "page:20"
+    assert "page:20" in [
+        r["source"]["source_id"] for r in hit["turn"]["trace"]["reading"]["read_ranges"]
+    ]
+    assert len(rewrite_calls) == 1
+
+    # 2. Pure English query on long English PDF skips rewrite
+    en_only = _scoped_ask(en_doc.document_id, "What optimizer is used in Appendix B?", "g22-en-en")
+    assert "retrieval" not in en_only["turn"]["trace"]
+    assert len(rewrite_calls) == 1
+
+    # 3. Explicit focused page skips rewrite
+    focused = _scoped_ask(en_doc.document_id, "这一页写了什么？", "g22-focus", focus_page=1)
+    assert "retrieval" not in focused["turn"]["trace"]
+    assert len(rewrite_calls) == 1
+
+    # 4. Short PDF fits full-text budget -> skips rewrite
+    short_turn = _scoped_ask(short_doc["document_id"], "有哪些结业时间？", "g22-short")
+    assert short_turn["turn"]["trace"]["reading"]["full_text_scope"] is True
+    assert "retrieval" not in short_turn["turn"]["trace"]
+    assert len(rewrite_calls) == 1
+
+    # 5. Long Chinese notebook with inline English tokens skips rewrite
+    zh_turn = _scoped_ask(zh_doc["document_id"], "第10节讲了什么？", "g22-zh")
+    assert "retrieval" not in zh_turn["turn"]["trace"]
+    assert len(rewrite_calls) == 1
+
+    # 6. Rewrite provider outage degrades cleanly to FTS
+    async def fail_rewrite(self, query, target_language):
+        if self.on_attempt:
+            self.on_attempt({"status": 503, "outcome": "http_error"})
+        raise RuntimeError("rewrite 503")
+
+    monkeypatch.setattr(DeepSeekClient, "bilingual_query", fail_rewrite)
+    fallback = _scoped_ask(en_doc.document_id, "找不到关键词时的降级表现？", "g22-fallback")
+    assert fallback["turn"]["trace"]["retrieval"]["strategy"] == "bilingual"
+    assert fallback["turn"]["trace"]["retrieval"]["rewrite"]["status"] == "provider_error"
+    assert fallback["turn"]["trace"]["generation"]["status"] == "succeeded"
