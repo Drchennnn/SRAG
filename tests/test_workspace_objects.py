@@ -171,3 +171,141 @@ def test_defer_unresolvable_object_descriptions(question):
     intent = object_intent(question)
     assert intent is not None and intent.unresolved
     assert object_choices(intent, [_output(0), _output(1)]) == []
+
+
+def test_vertical_direction_intent_preserves_history_and_context_phrases():
+    assert object_intent("第 4 页上图的横轴是什么？") == ObjectIntent(
+        kind="image", direction="top"
+    )
+    assert object_intent("第 4 页下图的纵轴是什么？") == ObjectIntent(
+        kind="image", direction="bottom"
+    )
+    assert object_intent("第 4 页上方的图表刻度是多少？") == ObjectIntent(
+        kind="image", direction="top"
+    )
+    assert object_intent("第 4 页下方的图趋势如何？") == ObjectIntent(
+        kind="image", direction="bottom"
+    )
+    history_intent = object_intent("上面的第二张图的横轴单位是什么？")
+    assert history_intent is not None and history_intent.direction is None
+    assert object_intent("上一张图的横轴单位是什么？") is None
+    assert object_intent("上一张图片的横轴单位是什么？") == ObjectIntent(kind="image")
+    assert object_intent("如下图所示的曲线随上下文长度变化如何？") == ObjectIntent(kind="image")
+    diagonal = object_intent("第 1 页右上图的横轴是什么？")
+    assert diagonal is not None and diagonal.unresolved
+
+
+def _page_image(
+    page: int,
+    number: int,
+    rect: list[float] | None,
+    *,
+    object_type: str = "image",
+    reliable: bool = True,
+) -> SnapshotSource:
+    return _source(
+        f"page:{page}:image:{number}",
+        "page_object",
+        page * 10 + number,
+        {
+            "page": page,
+            "object_type": object_type,
+            "bbox": rect,
+            "coordinate_frame": "visible_page_norm_v1",
+            "position_basis": "pdfium_native_image_extents_v1"
+            if reliable
+            else "group_transform_unverified",
+        },
+        parent_id=f"page:{page}",
+    )
+
+
+def test_g25_same_page_relative_positions_and_ambiguity():
+    # 1. Right subplot axis label crossing page midline (G20 Q03 shape) + Q10 ambiguity
+    q03_right = _page_image(5, 1, [0.444992, 0.688088, 0.800889, 0.863947])
+    q03_left = _page_image(5, 2, [0.176471, 0.688093, 0.422344, 0.856755])
+    assert object_choices(ObjectIntent(kind="image", direction="right"), [q03_right, q03_left]) == [
+        q03_right
+    ]
+    assert object_choices(ObjectIntent(kind="image", direction="left"), [q03_right, q03_left]) == [
+        q03_left
+    ]
+    assert object_choices(ObjectIntent(kind="image"), [q03_right, q03_left]) == [
+        q03_right,
+        q03_left,
+    ]
+
+    # 2. Left-right mirrored: left figure right label/legend crosses midline
+    mirrored_left = _page_image(3, 1, [0.12, 0.28, 0.57, 0.64])
+    mirrored_right = _page_image(3, 2, [0.60, 0.28, 0.93, 0.64])
+    assert object_choices(
+        ObjectIntent(kind="image", direction="left"), [mirrored_left, mirrored_right]
+    ) == [mirrored_left]
+    assert object_choices(
+        ObjectIntent(kind="image", direction="right"), [mirrored_left, mirrored_right]
+    ) == [mirrored_right]
+
+    # 3. Top-bottom stacked (including minor y-midline crossing, and refusal for left/right)
+    top = _page_image(4, 1, [0.20, 0.14, 0.80, 0.53])
+    bottom = _page_image(4, 2, [0.20, 0.55, 0.80, 0.86])
+    assert object_choices(ObjectIntent(kind="image", direction="top"), [top, bottom]) == [top]
+    assert object_choices(ObjectIntent(kind="image", direction="bottom"), [top, bottom]) == [bottom]
+    assert object_choices(ObjectIntent(kind="image", direction="right"), [top, bottom]) == []
+    assert object_choices(ObjectIntent(kind="image", direction="left"), [top, bottom]) == []
+
+    # 4. Single centered figure rejects directional queries, accepts non-directional
+    centered = _page_image(5, 1, [0.20, 0.28, 0.80, 0.68])
+    for direction in ("left", "right", "top", "bottom"):
+        assert object_choices(ObjectIntent(kind="image", direction=direction), [centered]) == []
+    assert object_choices(ObjectIntent(kind="image"), [centered]) == [centered]
+
+    # 5. Single genuinely right-side figure with minor label crossing still resolves
+    single_right = _page_image(6, 1, [0.45, 0.20, 0.86, 0.70])
+    assert object_choices(ObjectIntent(kind="image", direction="right"), [single_right]) == [
+        single_right
+    ]
+
+    # 6. Clearly overlapping candidates (2D overlap, nested inset, and midline-crossing 1D overlap)
+    overlap_a = _page_image(7, 1, [0.15, 0.22, 0.65, 0.72])
+    overlap_b = _page_image(7, 2, [0.38, 0.25, 0.88, 0.75])
+    assert object_choices(
+        ObjectIntent(kind="image", direction="right"), [overlap_a, overlap_b]
+    ) == [overlap_a, overlap_b]
+
+    inset_outer = _page_image(8, 1, [0.10, 0.15, 0.90, 0.85])
+    inset_inner = _page_image(8, 2, [0.55, 0.25, 0.85, 0.55])
+    assert object_choices(
+        ObjectIntent(kind="image", direction="right"), [inset_outer, inset_inner]
+    ) == [inset_outer, inset_inner]
+
+    stacked_a = _page_image(9, 1, [0.25, 0.10, 0.75, 0.45])
+    stacked_b = _page_image(9, 2, [0.35, 0.55, 0.85, 0.90])
+    assert object_choices(
+        ObjectIntent(kind="image", direction="right"), [stacked_a, stacked_b]
+    ) == [stacked_a, stacked_b]
+
+
+def test_g25_multipage_and_registered_region_rects_and_tables():
+    # Multi-page grouping keeps page-relative decisions independent per page
+    p1_center = _page_image(1, 1, [0.20, 0.25, 0.80, 0.75])
+    p2_left = _page_image(2, 1, [0.08, 0.25, 0.40, 0.65])
+    p2_right = _page_image(2, 2, [0.44, 0.25, 0.86, 0.65])
+    assert object_choices(
+        ObjectIntent(kind="image", direction="right"), [p1_center, p2_left, p2_right]
+    ) == [p2_right]
+
+    # Registered visible region overrides raw bbox for overlap/crossing checks
+    left_tbl = _page_image(1, 1, [0.08, 0.20, 0.44, 0.60], object_type="table")
+    right_tbl = _page_image(1, 2, [0.52, 0.20, 0.88, 0.60], object_type="table")
+    regions = {("public-doc", 1, "page:1:image:2"): (0.43, 0.20, 0.88, 0.60)}
+    assert object_choices(
+        ObjectIntent(kind="table", direction="right"),
+        [left_tbl, right_tbl],
+        region_rects=regions,
+    ) == [right_tbl]
+    overlap_regions = {("public-doc", 1, "page:1:image:1"): (0.12, 0.20, 0.68, 0.60)}
+    assert object_choices(
+        ObjectIntent(kind="table", direction="right"),
+        [left_tbl, right_tbl],
+        region_rects=overlap_regions,
+    ) == [left_tbl, right_tbl]
