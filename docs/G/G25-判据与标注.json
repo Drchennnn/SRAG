@@ -1,0 +1,272 @@
+{
+  "license": "CC BY 4.0",
+  "pdf": {
+    "file": "docs/G/G25-fixtures/SensorLab-Layouts-CCBY4.pdf",
+    "sha256": "6b1f10913bc4beacb89c43261a4b342f7ec4bc6ea04502f774e89da485bbb824",
+    "bytes": 486186,
+    "pages": [
+      {
+        "page": 1,
+        "layout": "normal_dual",
+        "objects": [
+          {
+            "expected_source_id": "page:1:image:1",
+            "side": "left",
+            "bbox": [
+              0.07,
+              0.28,
+              0.45,
+              0.64
+            ],
+            "title": "Thermal Drift A",
+            "x_label": "Elapsed Time [min]",
+            "y_label": "Core Temp [C]",
+            "x_ticks": [
+              "0",
+              "30",
+              "60"
+            ],
+            "y_ticks": [
+              "25",
+              "35",
+              "45"
+            ]
+          },
+          {
+            "expected_source_id": "page:1:image:2",
+            "side": "right",
+            "bbox": [
+              0.55,
+              0.28,
+              0.93,
+              0.64
+            ],
+            "title": "Voltage Ripple B",
+            "x_label": "Load Current [A]",
+            "y_label": "Ripple [mV]",
+            "x_ticks": [
+              "0",
+              "6",
+              "12"
+            ],
+            "y_ticks": [
+              "10",
+              "50",
+              "90"
+            ]
+          }
+        ]
+      },
+      {
+        "page": 2,
+        "layout": "right_label_crossing",
+        "objects": [
+          {
+            "expected_source_id": "page:2:image:1",
+            "side": "left",
+            "bbox": [
+              0.07,
+              0.28,
+              0.4,
+              0.64
+            ],
+            "title": "Latency Histogram",
+            "x_label": "Queue Depth [req]",
+            "y_label": "Wait [ms]",
+            "x_ticks": [
+              "4",
+              "16",
+              "32"
+            ],
+            "y_ticks": [
+              "0",
+              "10",
+              "20"
+            ]
+          },
+          {
+            "expected_source_id": "page:2:image:2",
+            "side": "right",
+            "bbox": [
+              0.43,
+              0.28,
+              0.88,
+              0.64
+            ],
+            "title": "Throughput Scaling",
+            "x_label": "Batch Window [us]",
+            "y_label": "Throughput [Gbps]",
+            "x_ticks": [
+              "10",
+              "50",
+              "100"
+            ],
+            "y_ticks": [
+              "1.2",
+              "3.0",
+              "4.8"
+            ]
+          }
+        ]
+      },
+      {
+        "page": 3,
+        "layout": "left_right_mirrored",
+        "objects": [
+          {
+            "expected_source_id": "page:3:image:1",
+            "side": "left",
+            "bbox": [
+              0.12,
+              0.28,
+              0.57,
+              0.64
+            ],
+            "title": "Mirror Signal Left",
+            "x_label": "Carrier Freq [MHz]",
+            "y_label": "Gain [dB]",
+            "x_ticks": [
+              "100",
+              "300",
+              "500"
+            ],
+            "y_ticks": [
+              "-20",
+              "-10",
+              "0"
+            ]
+          },
+          {
+            "expected_source_id": "page:3:image:2",
+            "side": "right",
+            "bbox": [
+              0.6,
+              0.28,
+              0.93,
+              0.64
+            ],
+            "title": "Mirror Noise Right",
+            "x_label": "Bias [V]",
+            "y_label": "Floor [uV]",
+            "x_ticks": [
+              "0",
+              "2.5",
+              "5.0"
+            ],
+            "y_ticks": [
+              "5",
+              "20",
+              "35"
+            ]
+          }
+        ]
+      },
+      {
+        "page": 4,
+        "layout": "top_bottom_stacked",
+        "objects": [
+          {
+            "expected_source_id": "page:4:image:1",
+            "side": "top",
+            "bbox": [
+              0.2,
+              0.14,
+              0.8,
+              0.45
+            ],
+            "title": "Upper Spectral Trace",
+            "x_label": "Wavenumber [cm-1]",
+            "y_label": "Absorbance [AU]",
+            "x_ticks": [
+              "400",
+              "1000",
+              "1600"
+            ],
+            "y_ticks": [
+              "0.0",
+              "0.5",
+              "1.0"
+            ]
+          },
+          {
+            "expected_source_id": "page:4:image:2",
+            "side": "bottom",
+            "bbox": [
+              0.2,
+              0.54,
+              0.8,
+              0.85
+            ],
+            "title": "Lower Phase Error",
+            "x_label": "Sample Index [k]",
+            "y_label": "Phase Error [deg]",
+            "x_ticks": [
+              "0",
+              "100",
+              "200"
+            ],
+            "y_ticks": [
+              "-15",
+              "0",
+              "+15"
+            ]
+          }
+        ]
+      },
+      {
+        "page": 5,
+        "layout": "single_centered",
+        "objects": [
+          {
+            "expected_source_id": "page:5:image:1",
+            "side": "center",
+            "bbox": [
+              0.2,
+              0.28,
+              0.8,
+              0.68
+            ],
+            "title": "Centered Calibration Curve",
+            "x_label": "Step Count [N]",
+            "y_label": "Residual [ppm]",
+            "x_ticks": [
+              "0",
+              "250",
+              "500"
+            ],
+            "y_ticks": [
+              "2",
+              "10",
+              "18"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "pptx_overlap": {
+    "file": "docs/G/G25-fixtures/SensorLab-Overlap-CCBY4.pptx",
+    "sha256": "4f59a0343f968106af58a69fd58330d65a760550f28b13d82f027278b2eb6348",
+    "bytes": 56341,
+    "shapes": [
+      {
+        "side": "left_overlapping",
+        "bbox": [
+          0.15,
+          0.22,
+          0.65,
+          0.72
+        ]
+      },
+      {
+        "side": "right_overlapping",
+        "bbox": [
+          0.38,
+          0.25,
+          0.88,
+          0.75
+        ]
+      }
+    ]
+  }
+}

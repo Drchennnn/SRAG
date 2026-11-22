@@ -1,0 +1,1044 @@
+{
+  "code_dir": "/Users/Link/code/SRAG-g25",
+  "port": 64634,
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "total_cases": 12,
+  "passed_cases": 12,
+  "all_passed": true,
+  "cases": [
+    {
+      "case_id": "G20_Q03_right_cross",
+      "question": "第 5 页右侧图的横轴和纵轴分别表示什么？图中纵轴的刻度范围大约从多少到多少，曲线随上下文长度增加呈现什么趋势？",
+      "expect_source_id": "page:5:image:1",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "1e8d0fa54a236380013b6795f10de4996f69c33e202bbe56abfb9bfe01320f85",
+          "fallback_reason": null,
+          "rect": [
+            0.424992,
+            0.668088,
+            0.820889,
+            0.883947
+          ],
+          "source": {
+            "document_id": "local_4d0baa731500416882ff5b86abe22b90",
+            "source_id": "page:5:image:1",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_4d0baa731500416882ff5b86abe22b90"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_4d0baa731500416882ff5b86abe22b90",
+            "source_id": "page:5:image:1",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_4d0baa731500416882ff5b86abe22b90",
+          "source_id": "page:5:image:1",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 2622.156959027052,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 167,
+                "input_tokens": 284,
+                "output_tokens": 79,
+                "total_tokens": 363
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 34631,
+          "wire_image_sha256": "1e8d0fa54a236380013b6795f10de4996f69c33e202bbe56abfb9bfe01320f85",
+          "prompt_tail": "少，曲线随上下文长度增加呈现什么趋势？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 2549.836
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片\n\nMixtral-of-Experts-2401.04088v1.pdf · v1 · 第 5 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴表示 Context length（上下文长度），纵轴表示 Perplexity（困惑度）；纵轴刻度范围大约从 2.0 到 3.8；曲线随上下文长度增加先急剧下降，之后趋于平缓并稳定在约 2.0 左右。\n\n依据 · Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 34631,
+          "sha256": "1e8d0fa54a236380013b6795f10de4996f69c33e202bbe56abfb9bfe01320f85",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/301faefaa1104a3387ab8d07ce31b0fa/media/e8b021cb9a664a0cb25aff2459c712c7?view=inline",
+          "location": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 5 页",
+          "natural_h": 343,
+          "natural_w": 485,
+          "open": true,
+          "status": "图像已读取",
+          "title": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "21.5859%",
+            "left": "42.4992%",
+            "top": "66.8088%",
+            "width": "39.5897%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/301faefaa1104a3387ab8d07ce31b0fa/media/e8b021cb9a664a0cb25aff2459c712c7?view=page",
+          "location": "Mixtral-of-Experts-2401.04088v1.pdf · v1 · 第 5 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "G20_Q10_ambiguous",
+      "question": "第 5 页的插图里具体展示了什么结果？",
+      "expect_source_id": null,
+      "expect_notice": "object_ambiguous",
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_4d0baa731500416882ff5b86abe22b90"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [
+          {
+            "document_id": "local_4d0baa731500416882ff5b86abe22b90",
+            "source_id": "page:5:image:1",
+            "version": 1
+          },
+          {
+            "document_id": "local_4d0baa731500416882ff5b86abe22b90",
+            "source_id": "page:5:image:2",
+            "version": 1
+          }
+        ],
+        "route": "target_object"
+      },
+      "provider_calls": [],
+      "answer_text": "课程助手\n\n有多个可能的对象，请指定原件位置或图序。",
+      "citations": [],
+      "preview_checks": {}
+    },
+    {
+      "case_id": "NewPDF_P1_normal_right",
+      "question": "第 1 页右图的横轴和纵轴分别是什么？",
+      "expect_source_id": "page:1:image:2",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "dc2cb0288920c19b2ef2fc7697e6611736087c0edb75d5479934029ea525c127",
+          "fallback_reason": null,
+          "rect": [
+            0.53,
+            0.26,
+            0.95,
+            0.66
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:1:image:2",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:1:image:2",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:1:image:2",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1418.8755410723388,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 322,
+                "input_tokens": 414,
+                "output_tokens": 31,
+                "total_tokens": 445
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 46609,
+          "wire_image_sha256": "dc2cb0288920c19b2ef2fc7697e6611736087c0edb75d5479934029ea525c127",
+          "prompt_tail": "第 1 页右图的横轴和纵轴分别是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 1385.884
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴是 Load Current [A]，纵轴是 Ripple [mV]\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 46609,
+          "sha256": "dc2cb0288920c19b2ef2fc7697e6611736087c0edb75d5479934029ea525c127",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/b7afa8160ffd4d28ac9ae6ae1dbdd44f/media/93e86fe65dc7415f89ff366b0f245ee9?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 1 页",
+          "natural_h": 635,
+          "natural_w": 515,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "40%",
+            "left": "53%",
+            "top": "26%",
+            "width": "42%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/b7afa8160ffd4d28ac9ae6ae1dbdd44f/media/93e86fe65dc7415f89ff366b0f245ee9?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 1 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPDF_P2_right_label_cross",
+      "question": "第 2 页右图的横轴、纵轴及刻度范围是什么？",
+      "expect_source_id": "page:2:image:2",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "0c8db8cad2b37f4518bbd34b64a0f9e31f36c254b9aa5fe7bddc067ceb4a8e4a",
+          "fallback_reason": null,
+          "rect": [
+            0.41,
+            0.26,
+            0.9,
+            0.66
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:2:image:2",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:2:image:2",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:2:image:2",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1735.1722089806572,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 382,
+                "input_tokens": 477,
+                "output_tokens": 56,
+                "total_tokens": 533
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 60586,
+          "wire_image_sha256": "0c8db8cad2b37f4518bbd34b64a0f9e31f36c254b9aa5fe7bddc067ceb4a8e4a",
+          "prompt_tail": " 页右图的横轴、纵轴及刻度范围是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 1705.233
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 2 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴：Batch Window [us]，刻度范围从10到100；纵轴：Throughput [Gbps]，刻度范围从1.2到4.8。\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 60586,
+          "sha256": "0c8db8cad2b37f4518bbd34b64a0f9e31f36c254b9aa5fe7bddc067ceb4a8e4a",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/1bd4cef7f24d425bbde23cb553c0c589/media/7ada26c90cf04ae7b78740504bf9ddfe?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 2 页",
+          "natural_h": 635,
+          "natural_w": 601,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "40%",
+            "left": "41%",
+            "top": "26%",
+            "width": "49%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/1bd4cef7f24d425bbde23cb553c0c589/media/7ada26c90cf04ae7b78740504bf9ddfe?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 2 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPDF_P3_mirrored_left",
+      "question": "第 3 页左图的横轴和纵轴分别是什么？",
+      "expect_source_id": "page:3:image:1",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "0b59603fe64750e7be7798e7d805696531c7935ca7a5ab736e7c2e97cdffd8c3",
+          "fallback_reason": null,
+          "rect": [
+            0.1,
+            0.26,
+            0.59,
+            0.66
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:3:image:1",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:3:image:1",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:3:image:1",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1746.950166998431,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 382,
+                "input_tokens": 474,
+                "output_tokens": 31,
+                "total_tokens": 505
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 57527,
+          "wire_image_sha256": "0b59603fe64750e7be7798e7d805696531c7935ca7a5ab736e7c2e97cdffd8c3",
+          "prompt_tail": "第 3 页左图的横轴和纵轴分别是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 1712.155
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 3 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴是 Carrier Freq [MHz]，纵轴是 Gain [dB]\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 57527,
+          "sha256": "0b59603fe64750e7be7798e7d805696531c7935ca7a5ab736e7c2e97cdffd8c3",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/9d52648c346d4d168d2a95283db1e8db/media/bfbaecef867e4169a5d0079f7d9fc938?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 3 页",
+          "natural_h": 635,
+          "natural_w": 601,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "40%",
+            "left": "10%",
+            "top": "26%",
+            "width": "49%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/9d52648c346d4d168d2a95283db1e8db/media/bfbaecef867e4169a5d0079f7d9fc938?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 3 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPDF_P3_mirrored_right",
+      "question": "第 3 页右图的横轴和纵轴分别是什么？",
+      "expect_source_id": "page:3:image:2",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "2470fb63a68a32be88294dbd4296de57f551f51036b479c1b9a2c4d8bad10da7",
+          "fallback_reason": null,
+          "rect": [
+            0.58,
+            0.26,
+            0.95,
+            0.66
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:3:image:2",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:3:image:2",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:3:image:2",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 2299.9627499375492,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 282,
+                "input_tokens": 374,
+                "output_tokens": 30,
+                "total_tokens": 404
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 35502,
+          "wire_image_sha256": "2470fb63a68a32be88294dbd4296de57f551f51036b479c1b9a2c4d8bad10da7",
+          "prompt_tail": "第 3 页右图的横轴和纵轴分别是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 2263.311
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 3 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴是 Bias [V]，纵轴是 Floor [uV]\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 35502,
+          "sha256": "2470fb63a68a32be88294dbd4296de57f551f51036b479c1b9a2c4d8bad10da7",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/9e48f0a14fcf443b879dd0ff794de4e3/media/ddf18ad685494d4eaf5c173ad7585cd7?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 3 页",
+          "natural_h": 635,
+          "natural_w": 454,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "40%",
+            "left": "58%",
+            "top": "26%",
+            "width": "37%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/9e48f0a14fcf443b879dd0ff794de4e3/media/ddf18ad685494d4eaf5c173ad7585cd7?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 3 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPDF_P4_stacked_top",
+      "question": "第 4 页上图的横轴和纵轴分别是什么？",
+      "expect_source_id": "page:4:image:1",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "dbb186b86dd5d62f4ec9698ce32d17f6c0c148014b00e0d978a2094d46b223e2",
+          "fallback_reason": null,
+          "rect": [
+            0.18000000000000002,
+            0.12,
+            0.8200000000000001,
+            0.47
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:4:image:1",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:4:image:1",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:4:image:1",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1561.7643339792266,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 410,
+                "input_tokens": 502,
+                "output_tokens": 35,
+                "total_tokens": 537
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 81732,
+          "wire_image_sha256": "dbb186b86dd5d62f4ec9698ce32d17f6c0c148014b00e0d978a2094d46b223e2",
+          "prompt_tail": "第 4 页上图的横轴和纵轴分别是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 1528.882
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 4 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴是 Wavenumber [cm-1]，纵轴是 Absorbance [AU]\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 81732,
+          "sha256": "dbb186b86dd5d62f4ec9698ce32d17f6c0c148014b00e0d978a2094d46b223e2",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/f4e5226e3f074ed5b472dcb681e52ef2/media/cbb610cd121e44e381536f33e3fbed43?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 4 页",
+          "natural_h": 555,
+          "natural_w": 784,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "35%",
+            "left": "18%",
+            "top": "12%",
+            "width": "64%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/f4e5226e3f074ed5b472dcb681e52ef2/media/cbb610cd121e44e381536f33e3fbed43?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 4 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPDF_P4_stacked_bottom",
+      "question": "第 4 页下图的横轴和纵轴分别是什么？",
+      "expect_source_id": "page:4:image:2",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "0818ccb284b84ba02e236a790d07cc6e52f61cf333abcf2e114a6bf433570cb9",
+          "fallback_reason": null,
+          "rect": [
+            0.18000000000000002,
+            0.52,
+            0.8200000000000001,
+            0.87
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:4:image:2",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:4:image:2",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:4:image:2",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1577.559709083289,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 410,
+                "input_tokens": 502,
+                "output_tokens": 31,
+                "total_tokens": 533
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 75012,
+          "wire_image_sha256": "0818ccb284b84ba02e236a790d07cc6e52f61cf333abcf2e114a6bf433570cb9",
+          "prompt_tail": "第 4 页下图的横轴和纵轴分别是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 1542.408
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 4 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴是 Sample Index [k]，纵轴是 Phase Error [deg]\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 75012,
+          "sha256": "0818ccb284b84ba02e236a790d07cc6e52f61cf333abcf2e114a6bf433570cb9",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/08b2a43edcb246609719a365b9793d5b/media/337720605b494387bb823d36b0d803ea?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 4 页",
+          "natural_h": 556,
+          "natural_w": 784,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "35%",
+            "left": "18%",
+            "top": "52%",
+            "width": "64%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/08b2a43edcb246609719a365b9793d5b/media/337720605b494387bb823d36b0d803ea?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 4 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPDF_P4_stacked_ask_right_refused",
+      "question": "第 4 页右侧图的纵轴是什么？",
+      "expect_source_id": null,
+      "expect_notice": "object_not_found",
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [],
+        "route": "target_object"
+      },
+      "provider_calls": [],
+      "answer_text": "课程助手\n\n找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+      "citations": [],
+      "preview_checks": {}
+    },
+    {
+      "case_id": "NewPDF_P5_centered_ask_right_refused",
+      "question": "第 5 页右图的纵轴是什么？",
+      "expect_source_id": null,
+      "expect_notice": "object_not_found",
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [],
+        "route": "target_object"
+      },
+      "provider_calls": [],
+      "answer_text": "课程助手\n\n找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+      "citations": [],
+      "preview_checks": {}
+    },
+    {
+      "case_id": "NewPDF_P5_centered_plain_read",
+      "question": "第 5 页的插图里横轴和纵轴分别是什么？",
+      "expect_source_id": "page:5:image:1",
+      "expect_notice": null,
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "display": {
+          "byte_sha256": "c5aa7c3f423f42b2634f5c7b7c1e2c1c45c853d5054abf3b063754abb59ccc0b",
+          "fallback_reason": null,
+          "rect": [
+            0.18000000000000002,
+            0.26,
+            0.8200000000000001,
+            0.7000000000000001
+          ],
+          "source": {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:5:image:1",
+            "version": 1
+          }
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_c0ba3dee06764c5aa83dbd54772cd41b"
+          ]
+        },
+        "external_call_count": 1,
+        "object_candidates": [
+          {
+            "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+            "source_id": "page:5:image:1",
+            "version": 1
+          }
+        ],
+        "read_status": "succeeded",
+        "route": "target_object",
+        "selected_source": {
+          "document_id": "local_c0ba3dee06764c5aa83dbd54772cd41b",
+          "source_id": "page:5:image:1",
+          "version": 1
+        },
+        "vision": {
+          "capability_reason": null,
+          "elapsed_ms": 1669.3042910192162,
+          "reads": [
+            {
+              "cache_hit": false,
+              "execution": "real_provider",
+              "external_call": true,
+              "missing_or_error": [],
+              "model": "qwen3-vl-plus",
+              "prompt_version": "source-directed-v1",
+              "provider": "dashscope-native",
+              "usage": {
+                "image_tokens": 530,
+                "input_tokens": 623,
+                "output_tokens": 32,
+                "total_tokens": 655
+              }
+            }
+          ],
+          "status": "succeeded"
+        }
+      },
+      "provider_calls": [
+        {
+          "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+          "method": "POST",
+          "model": "qwen3-vl-plus",
+          "wire_image_bytes": 84310,
+          "wire_image_sha256": "c5aa7c3f423f42b2634f5c7b7c1e2c1c45c853d5054abf3b063754abb59ccc0b",
+          "prompt_tail": " 5 页的插图里横轴和纵轴分别是什么？. Return one JSON object and no other text with fields answer (string) and uncertain (array of strings). Mark unsupported details uncertain rather than guessing.",
+          "status_code": 200,
+          "elapsed_ms": 1635.03
+        }
+      ],
+      "answer_text": "课程助手\n\n图 1 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片\n\nSensorLab-Layouts-CCBY4.pdf · v1 · 第 5 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n横轴是 Step Count [N]，纵轴是 Residual [ppm]\n\n依据 · SensorLab-Layouts-CCBY4.pdf · v1 · 图片",
+      "citations": [
+        "ev-1"
+      ],
+      "preview_checks": {
+        "media_fetch": {
+          "bytes": 84310,
+          "sha256": "c5aa7c3f423f42b2634f5c7b7c1e2c1c45c853d5054abf3b063754abb59ccc0b",
+          "status": 200
+        },
+        "citation_reader": {
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/f5402835d7ae43cdab6c1c29d451d83b/media/443f1e7193904772bac564508923ef29?view=inline",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 5 页",
+          "natural_h": 698,
+          "natural_w": 784,
+          "open": true,
+          "status": "图像已读取",
+          "title": "SensorLab-Layouts-CCBY4.pdf · v1 · 图片"
+        },
+        "original_page_reader": {
+          "highlight_style": {
+            "height": "44%",
+            "left": "18%",
+            "top": "26%",
+            "width": "64%"
+          },
+          "img_src": "/api/workspace/sessions/a9eb92d792cc4d188a6c9f717b8e1e04/messages/f5402835d7ae43cdab6c1c29d451d83b/media/443f1e7193904772bac564508923ef29?view=page",
+          "location": "SensorLab-Layouts-CCBY4.pdf · v1 · 第 5 页",
+          "open": true,
+          "status": "图像已读取 · 实际读图范围为裁区"
+        }
+      }
+    },
+    {
+      "case_id": "NewPPTX_overlap_ask_right_ambiguous",
+      "question": "第 1 页右侧图的纵轴是什么？",
+      "expect_source_id": null,
+      "expect_notice": "object_ambiguous",
+      "invariants_ok": true,
+      "failures": [],
+      "trace": {
+        "effective_scope": {
+          "course_ids": [
+            "g25-browser-course"
+          ],
+          "document_ids": [
+            "local_81c80265077240b4915e9d77827235a4"
+          ]
+        },
+        "external_call_count": 0,
+        "object_candidates": [
+          {
+            "document_id": "local_81c80265077240b4915e9d77827235a4",
+            "source_id": "page:1:shape:3",
+            "version": 1
+          },
+          {
+            "document_id": "local_81c80265077240b4915e9d77827235a4",
+            "source_id": "page:1:shape:4",
+            "version": 1
+          }
+        ],
+        "route": "target_object"
+      },
+      "provider_calls": [],
+      "answer_text": "课程助手\n\n有多个可能的对象，请指定原件位置或图序。",
+      "citations": [],
+      "preview_checks": {}
+    }
+  ]
+}

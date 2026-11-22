@@ -78,8 +78,20 @@ def _direction_pattern(chinese: str, english: str) -> re.Pattern[str]:
 _DIRECTIONS: tuple[tuple[Direction, re.Pattern[str]], ...] = (
     ("left", _direction_pattern(r"左(?:侧|边|半)?", r"(?:leftmost|left(?:[- ]hand)?)")),
     ("right", _direction_pattern(r"右(?:侧|边|半)?", r"(?:rightmost|right(?:[- ]hand)?)")),
-    ("top", _direction_pattern(r"上(?:侧|方|半)", r"(?:upper|topmost|top)")),
-    ("bottom", _direction_pattern(r"下(?:侧|方|半)", r"(?:lower|bottommost|bottom)")),
+    (
+        "top",
+        _direction_pattern(
+            r"上(?:侧|方|半|边)|顶部|(?<![如以])上(?=(?:子图|图表|表格|图|表))",
+            r"(?:upper|topmost|top)",
+        ),
+    ),
+    (
+        "bottom",
+        _direction_pattern(
+            r"下(?:侧|方|半|边)|底部|(?<![如以])下(?=(?:子图|图表|表格|图|表))",
+            r"(?:lower|bottommost|bottom)",
+        ),
+    ),
 )
 _NATIVE_POSITION_BASES = (
     "native_shape_extents_v1",
@@ -87,6 +99,8 @@ _NATIVE_POSITION_BASES = (
     "pdfium_native_image_extents_v1",
 )
 _NATIVE_IMAGE_TYPES = {"picture", "image", "chart"}
+_CLEAR_OVERLAP_AREA_RATIO = 0.20
+_CROSS_AXIS_OVERLAP_RATIO = 0.30
 
 
 @dataclass(frozen=True)
@@ -165,16 +179,13 @@ def object_choices(
     if intent.ordinal is not None:
         candidates = _numbered(candidates, intent.ordinal, intent.order)
     if intent.direction:
-        positioned = [(source, _rectangle(source, regions)) for source in candidates]
-        definite = [
-            source
-            for source, rect in positioned
-            if rect is not None and _on_side(rect, intent.direction)
-        ]
-        if not definite:
-            return []
-        # Unlocated siblings can also match, so a single located candidate is ambiguous.
-        return definite + [source for source, rect in positioned if rect is None]
+        groups: dict[tuple[str, int, str], list[SnapshotSource]] = {}
+        for source in candidates:
+            groups.setdefault(_page_group_key(source), []).append(source)
+        selected: list[SnapshotSource] = []
+        for group in groups.values():
+            selected.extend(_select_group_direction(group, intent.direction, regions))
+        return selected
     return candidates
 
 
@@ -283,12 +294,89 @@ def _rectangle(
     return (x0, y0, x1, y1) if x1 > x0 and y1 > y0 else None
 
 
-def _on_side(rect: Rectangle, direction: Direction) -> bool:
+def _page_group_key(source: SnapshotSource) -> tuple[str, int, str]:
+    if source.parent_id is not None:
+        group_id = source.parent_id
+    elif source.kind == "page":
+        group_id = source.source_id
+    elif isinstance(page := source.locator.get("page"), int) and not isinstance(page, bool):
+        group_id = f"page:{page}"
+    else:
+        group_id = source.source_id
+    return (source.document_id, source.version, group_id)
+
+
+def _project_for_direction(
+    rect: Rectangle, direction: Direction
+) -> tuple[float, float, float, float]:
+    """Reflect coords so [0.5, 1.0] on the primary axis is the requested side."""
     x0, y0, x1, y1 = rect
-    if direction == "left":
-        return x1 <= 0.5
     if direction == "right":
-        return x0 >= 0.5
-    if direction == "top":
-        return y1 <= 0.5
-    return y0 >= 0.5
+        return (x0, x1, y0, y1)
+    if direction == "left":
+        return (1.0 - x1, 1.0 - x0, y0, y1)
+    if direction == "bottom":
+        return (y0, y1, x0, x1)
+    return (1.0 - y1, 1.0 - y0, x0, x1)
+
+
+def _on_side(rect: Rectangle, direction: Direction, *, single: bool = False) -> bool:
+    a0, a1, _, _ = _project_for_direction(rect, direction)
+    if a0 >= 0.5:
+        return True
+    span = a1 - a0
+    center = (a0 + a1) / 2
+    on_side_fraction = max(0.0, a1 - max(0.5, a0)) / span
+    if single:
+        return center >= 0.58 and on_side_fraction >= 0.75 and a0 >= 0.40
+    return center >= 0.55 and on_side_fraction >= 0.65
+
+
+def _overlap_metrics(
+    rect_a: Rectangle, rect_b: Rectangle, direction: Direction
+) -> tuple[float, float]:
+    a0, a1, b0, b1 = _project_for_direction(rect_a, direction)
+    u0, u1, v0, v1 = _project_for_direction(rect_b, direction)
+    inter_a = max(0.0, min(a1, u1) - max(a0, u0))
+    inter_b = max(0.0, min(b1, v1) - max(b0, v0))
+    area_a = (a1 - a0) * (b1 - b0)
+    area_b = (u1 - u0) * (v1 - v0)
+    min_area = min(area_a, area_b)
+    min_axis = min(a1 - a0, u1 - u0)
+    area_ratio = (inter_a * inter_b) / min_area if min_area > 0 else 0.0
+    axis_ratio = inter_a / min_axis if min_axis > 0 else 0.0
+    return area_ratio, axis_ratio
+
+
+def _select_group_direction(
+    group: Sequence[SnapshotSource],
+    direction: Direction,
+    regions: Mapping[SourceIdentity, Rectangle],
+) -> list[SnapshotSource]:
+    positioned = [(source, _rectangle(source, regions)) for source in group]
+    located = [(source, rect) for source, rect in positioned if rect is not None]
+    unlocated = [source for source, rect in positioned if rect is None]
+    if not located:
+        return []
+    single_located = len(located) == 1
+    selected_indices = {
+        idx
+        for idx, (_, rect) in enumerate(located)
+        if _on_side(rect, direction, single=single_located)
+    }
+    if not selected_indices:
+        return []
+    ambiguous_indices = set(selected_indices)
+    for idx in selected_indices:
+        a0, _, _, _ = _project_for_direction(located[idx][1], direction)
+        crosses_midline = a0 < 0.5
+        for peer_idx, (_, peer_rect) in enumerate(located):
+            if peer_idx in ambiguous_indices:
+                continue
+            area_ratio, axis_ratio = _overlap_metrics(located[idx][1], peer_rect, direction)
+            if area_ratio >= _CLEAR_OVERLAP_AREA_RATIO or (
+                crosses_midline and axis_ratio >= _CROSS_AXIS_OVERLAP_RATIO
+            ):
+                ambiguous_indices.add(peer_idx)
+    # Unlocated siblings can also match, so keep them alongside located candidates.
+    return [located[idx][0] for idx in sorted(ambiguous_indices)] + unlocated
