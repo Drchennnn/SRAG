@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import json
 import re
+from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any
 
@@ -217,6 +218,17 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         focus = service._catalog(session.session_id).nodes.get(session.focus_id)
         if focus is not None:
             names = [focus.document.file_name]
+        else:
+            doc_map = {doc.document_id: doc.file_name for doc in snapshot.documents}
+            for _, msg in _completed_history(service, owner, turn, session):
+                msg_docs = {
+                    ev["revision"]["source"]["document_id"]
+                    for ev in msg["sources"].values()
+                    if ev["revision"]["source"]["document_id"] in doc_map
+                }
+                if len(msg_docs) == 1:
+                    names = [doc_map[next(iter(msg_docs))]]
+                    break
     if names:
         snapshot = service.snapshots.read(
             SnapshotRequest(
@@ -270,16 +282,37 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
     history = _completed_history(service, owner, turn, session)
     attribute = _image_attribute(question)
     inherited_image = False
-    if implicit and history:
+    if history and (
+        implicit
+        or (
+            not intent
+            and re.search(
+                r"张图|幅图|那图|这图|刚才|读过|看过|图片|图像|图表|原图",
+                request_text,
+            )
+        )
+        or (image and attribute is None)
+    ):
         previous_turn, message = history[0]
         prior_intent = object_intent(previous_turn.request.text, include_reference=True)
-        if prior_intent and prior_intent.kind == "image":
-            attribute = _image_attribute(previous_turn.request.text)
-            if len(message["visible_display_ids"]) != 1 or not attribute:
+        read_visual_ids = [
+            eid
+            for eid, ev in message["sources"].items()
+            if any(
+                r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
+                for r in ev.get("reads", [])
+            )
+        ]
+        if len(read_visual_ids) == 1 or (
+            implicit and prior_intent and prior_intent.kind == "image"
+        ):
+            attribute = attribute or _image_attribute(previous_turn.request.text)
+            single_display = len(message["visible_display_ids"]) == 1
+            if implicit and len(read_visual_ids) != 1 and (not single_display or not attribute):
                 draft.notice("comparison_ambiguous", "请指定要比较的图，以及轴标签或单位。")
                 return service._complete(turn, draft, trace=trace)
             history = history[:1]
-            intent = prior_intent
+            intent = intent or prior_intent or ObjectIntent(kind="image")
             image = inherited_image = True
     current = [
         source
@@ -304,11 +337,20 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
                 regions[identity] = region.target_rect
         current = object_choices(intent, current, region_rects=regions)
     old = _old_candidates(service, session, history, docs, versions, request_text, image)
+    doc_sources_by_doc: dict[str, list[SnapshotSource]] = {}
+    for src in snapshot.sources:
+        doc_sources_by_doc.setdefault(src.document_id, []).append(src)
     paired = [
         (past, candidate)
         for past in old
         for candidate in current
-        if _counterpart(past, candidate, location, intent)
+        if _counterpart(
+            past,
+            candidate,
+            location,
+            intent,
+            current_sources=doc_sources_by_doc.get(candidate.document_id),
+        )
     ]
     if location is None and not image and not intent and len(paired) > 1:
         latest = paired[0][0].message_id
@@ -322,6 +364,15 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
             if len(paired) > 1:
                 return _compare_native_group(service, turn, draft, docs, paired, trace)
     if len(paired) != 1:
+        reordered_options = _reordered_comparison_options(service, session, old, current, docs)
+        if reordered_options is not None:
+            options, refs = reordered_options
+            return service._clarify(
+                turn,
+                "新版输出顺序已变化，无法自动对齐两版对象。请选择当前版本中要对比的输出。",
+                options,
+                refs,
+            )
         code = "comparison_missing_history" if not old else "comparison_ambiguous"
         text = (
             "本会话没有范围内、可核对的旧版引用。请从旧回答定位原件后再比较。"
@@ -381,6 +432,63 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         historical=[history_ref],
         trace=trace,
     )
+
+
+def _reordered_comparison_options(
+    service: WorkspaceService,
+    session: Session,
+    old: list[_Previous],
+    current: list[SnapshotSource],
+    docs: dict[str, SnapshotDocument],
+) -> tuple[list[dict[str, Any]], list[dict[str, Any]]] | None:
+    from uuid import uuid4
+
+    from app.rag.workspace import _can_display, _doc_ref, _label
+
+    if len(old) != 1 or old[0].source.kind != "notebook_output":
+        return None
+    past = old[0]
+    old_cell_id = past.source.locator.get("cell_id")
+    same_cell = [
+        src
+        for src in current
+        if src.document_id == past.source.document_id
+        and src.kind == "notebook_output"
+        and (
+            (old_cell_id and src.locator.get("cell_id") == old_cell_id)
+            or (
+                not old_cell_id
+                and src.locator.get("cell_index") == past.source.locator.get("cell_index")
+            )
+        )
+    ]
+    if not same_cell:
+        return None
+    catalog = service._catalog(session.session_id)
+    nodes_by_key = {
+        (entry.source.document_id, entry.source.version, entry.source.source_id): entry
+        for entry in catalog.nodes.values()
+        if entry.source is not None
+    }
+    options = []
+    for cand in same_cell[:8]:
+        entry = nodes_by_key.get((cand.document_id, cand.version, cand.source_id))
+        doc = docs.get(cand.document_id)
+        if entry is None or doc is None:
+            continue
+        options.append(
+            {
+                "option_id": uuid4().hex,
+                "label": f"{doc.file_name} · v{doc.version} · {_label(cand)}",
+                "kind": "document",
+                "node_id": entry.entry["node_id"],
+                "current_object": _can_display(cand),
+            }
+        )
+    if not options:
+        return None
+    refs = [_doc_ref(doc) for doc in docs.values()]
+    return options, refs
 
 
 def _completed_history(
@@ -449,14 +557,40 @@ def _old_candidates(
     image: bool,
 ) -> list[_Previous]:
     records = {}
-    for _, message in history:
+    for prev_turn, message in history:
         if image:
             visible = set(message["visible_display_ids"])
-            admitted = {
-                b["evidence_id"]: b["display_id"]
+            admitted: dict[str, tuple[str, str] | None] = {
+                b["evidence_id"]: (message["message_id"], b["display_id"])
                 for b in message["blocks"]
                 if b.get("type") == "source_image" and b["display_id"] in visible
             }
+            if not admitted:
+                res = prev_turn.outcome.get("resolution") or {}
+                if (
+                    isinstance(res.get("message_id"), str)
+                    and isinstance(res.get("display_id"), str)
+                ):
+                    for eid, ev in message["sources"].items():
+                        if any(
+                            r.get("method") == "vision"
+                            and r.get("status") in {"succeeded", "partial"}
+                            and r.get("actual_source") == ev["revision"]["source"]
+                            for r in ev.get("reads", [])
+                        ):
+                            admitted[eid] = (res["message_id"], res["display_id"])
+            else:
+                # Prefer the single visually read display when multiple displays appeared together.
+                read_only = {
+                    eid: val
+                    for eid, val in admitted.items()
+                    if any(
+                        r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
+                        for r in message["sources"].get(eid, {}).get("reads", [])
+                    )
+                }
+                if len(read_only) == 1:
+                    admitted = read_only
         else:
             admitted = {
                 cited: None
@@ -464,7 +598,8 @@ def _old_candidates(
                 if b.get("type") == "text"
                 for cited in b.get("citations", [])
             }
-        for evidence_id, display_id in admitted.items():
+        added_this_turn = 0
+        for evidence_id, display_ref in admitted.items():
             evidence = TurnEvidence.model_validate(message["sources"][evidence_id])
             revision = evidence.revision
             key = revision.source
@@ -493,11 +628,11 @@ def _old_candidates(
                 for read in evidence.reads
             ):
                 continue
-            attachment = (
-                service._attachment(session.session_id, message["message_id"], display_id)
-                if display_id
-                else None
-            )
+            attachment = None
+            attach_msg_id = message["message_id"]
+            if display_ref:
+                attach_msg_id, disp_id = display_ref
+                attachment = service._attachment(session.session_id, attach_msg_id, disp_id)
             if attachment and (
                 attachment.description.get("fallback_reason") is not None
                 or SourceKey.model_validate(attachment.description["display_source"]) != key
@@ -509,8 +644,15 @@ def _old_candidates(
             assert original.source is not None
             source = _as_snapshot(original.source, revision.course_id, key)
             records[identity] = _Previous(
-                message["message_id"], evidence, source, original, attachment
+                attach_msg_id, evidence, source, original, attachment
             )
+            added_this_turn += 1
+        if image and added_this_turn == 1 and any(
+            r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
+            for ev in message["sources"].values()
+            for r in ev.get("reads", [])
+        ):
+            break
     return list(records.values())
 
 
@@ -521,11 +663,103 @@ def _at_location(source: SnapshotSource, location: StructureLocation | None) -> 
     )
 
 
+def _output_image_mimes(representations: Any) -> tuple[str, ...]:
+    if not isinstance(representations, list):
+        return ()
+    return tuple(
+        sorted(
+            item["mime_type"]
+            for item in representations
+            if isinstance(item, dict)
+            and isinstance(item.get("mime_type"), str)
+            and item["mime_type"].startswith("image/")
+        )
+    )
+
+
+def _raw_output_image_hashes(raw_output: dict[str, Any]) -> tuple[tuple[str, ...], set[str]]:
+    data = raw_output.get("data")
+    if not isinstance(data, dict):
+        return (), set()
+    mimes = tuple(sorted(k for k in data if isinstance(k, str) and k.startswith("image/")))
+    digests: set[str] = set()
+    for mime in mimes:
+        raw_val = data.get(mime)
+        raw_text = "".join(raw_val) if isinstance(raw_val, list) else raw_val
+        if isinstance(raw_text, str):
+            import base64
+
+            try:
+                decoded = base64.b64decode(raw_text, validate=False)
+                digests.add(hashlib.sha256(decoded).hexdigest())
+            except Exception:
+                pass
+    return mimes, digests
+
+
+def _cell_outputs_reliable(
+    old: _Previous,
+    current: SnapshotSource,
+    current_sources: Sequence[SnapshotSource] | None,
+) -> bool:
+    if old.source.kind != "notebook_output" or current_sources is None:
+        return True
+    old_cell_idx = old.source.locator.get("cell_index")
+    new_cell_idx = current.locator.get("cell_index")
+    if not isinstance(old_cell_idx, int) or not isinstance(new_cell_idx, int):
+        return True
+    try:
+        old_nb = json.loads(old.original.original)
+        old_outputs = old_nb["cells"][old_cell_idx]["outputs"]
+    except (KeyError, IndexError, TypeError, ValueError):
+        return True
+    if not isinstance(old_outputs, list):
+        return True
+    new_outputs = sorted(
+        (
+            src
+            for src in current_sources
+            if src.document_id == current.document_id
+            and src.kind == "notebook_output"
+            and src.locator.get("cell_index") == new_cell_idx
+        ),
+        key=lambda s: int(s.locator.get("output_index", -1)),
+    )
+    if len(old_outputs) != len(new_outputs):
+        return False
+    old_hash_to_indices: dict[str, set[int]] = {}
+    for idx, (o_raw, n_src) in enumerate(zip(old_outputs, new_outputs, strict=True)):
+        if not isinstance(o_raw, dict):
+            return False
+        o_type = o_raw.get("output_type")
+        o_stream = o_raw.get("name") if o_type == "stream" else None
+        o_mimes, o_hashes = _raw_output_image_hashes(o_raw)
+        for h in o_hashes:
+            old_hash_to_indices.setdefault(h, set()).add(idx)
+        n_type = n_src.locator.get("output_type")
+        n_stream = n_src.locator.get("stream_name")
+        n_mimes = _output_image_mimes(n_src.locator.get("representations"))
+        if (o_type, o_stream, o_mimes) != (n_type, n_stream, n_mimes):
+            return False
+    for n_idx, n_src in enumerate(new_outputs):
+        reps = n_src.locator.get("representations") or []
+        for rep in reps:
+            if not isinstance(rep, dict):
+                continue
+            sha = rep.get("sha256")
+            if isinstance(sha, str) and sha in old_hash_to_indices:
+                if n_idx not in old_hash_to_indices[sha]:
+                    return False
+    return True
+
+
 def _counterpart(
     old: _Previous,
     current: SnapshotSource,
     location: StructureLocation | None,
     intent: ObjectIntent | None,
+    *,
+    current_sources: Sequence[SnapshotSource] | None = None,
 ) -> bool:
     source = old.source
     if source.document_id != current.document_id or source.kind != current.kind:
@@ -547,6 +781,8 @@ def _counterpart(
         if any(
             prev.get(key) != now.get(key) for key in ("output_index", "output_type", "stream_name")
         ):
+            return False
+        if not _cell_outputs_reliable(old, current, current_sources):
             return False
         if intent and intent.order == "images" and intent.ordinal is not None:
             return _old_notebook_image_order(old) == intent.ordinal
@@ -690,11 +926,13 @@ def _previous_visual_read(
     history: list[tuple[Turn, dict[str, Any]]],
     attribute: str | None,
     display: DisplayRecord,
+    *,
+    allow_general: bool = False,
 ) -> TurnRead | None:
-    if attribute is None:
+    if attribute is None and not allow_general:
         return None
     for turn, message in history:
-        if _image_attribute(turn.request.text) != attribute:
+        if attribute is not None and _image_attribute(turn.request.text) != attribute:
             continue
         question_digest = hashlib.sha256(turn.request.text.strip().encode()).hexdigest()
         for payload in message["sources"].values():
@@ -770,14 +1008,17 @@ def _compare_images(
         and display.fallback_reason is None
         and display.byte_sha256 == desc["byte_sha256"]
     ):
-        old_read = _previous_visual_read(past, history, attribute, display)
+        old_read = _previous_visual_read(
+            past, history, attribute, display, allow_general=inherited_image
+        )
         item = _include_old(draft, past, old_read)
         draft.add_image(
             item, rendered, request, f"{past.evidence.file_name} · 旧版 v{past.source.version}"
         )
         if old_read:
+            label = attribute or "已读取内容"
             draft.text(
-                f"旧版 v{past.source.version} {attribute} · {old_read.text}", item.evidence_id
+                f"旧版 v{past.source.version} {label} · {old_read.text}", item.evidence_id
             )
     if not old_read:
         draft.notice(
@@ -787,7 +1028,7 @@ def _compare_images(
     if inherited_image and not old_read:
         return None
 
-    if attribute is None:
+    if attribute is None and not (inherited_image and old_read):
         current_request = service._render_request(document, selected)
         display_only = service.evidence.render_current(current_request)
         if display_only.status in {"stale_reference", "not_accessible"}:
@@ -803,10 +1044,63 @@ def _compare_images(
         trace["current_read_status"] = "not_attempted"
         return None
 
-    draft.text(f"当前版 v{document.version} · {attribute}")
-    trace["directed_attribute"] = attribute
-    error = service._read_selected_image(
-        turn, draft, document, selected, f"当前图中的{attribute}是什么？", trace
+    target_attr = attribute or "内容与关键数值"
+    draft.text(f"当前版 v{document.version} · {target_attr}")
+    trace["directed_attribute"] = target_attr
+    prompt_q = (
+        f"当前图中的{attribute}是什么？"
+        if attribute
+        else "请描述当前图中可见的指标名称、单位和核心数值。"
     )
+    error = service._read_selected_image(turn, draft, document, selected, prompt_q, trace)
     trace["current_read_status"] = trace.get("read_status", "not_attempted")
     return error
+
+
+def resolve_current_counterpart(
+    service: WorkspaceService,
+    owner: str,
+    turn: Turn,
+    session: Session,
+    *,
+    question: str,
+) -> tuple[str, list[SnapshotSource], SnapshotDocument | None, _Previous | None]:
+    """Map the single previously-read historical visual object to its current version."""
+
+    if not set(session.course_ids) <= service.allowed_courses:
+        raise inaccessible()
+    history = _completed_history(service, owner, turn, session)
+    if not history:
+        return "none", [], None, None
+    scope = tuple(session.course_ids)
+    snapshot = service.snapshots.read(SnapshotRequest(scope, tuple(session.document_ids)))
+    if snapshot.resolution_status != "resolved" or not snapshot.documents:
+        return "none", [], None, None
+    docs = {doc.document_id: doc for doc in snapshot.documents}
+    old_list = _old_candidates(service, session, history, docs, set(), question, True)
+    if not old_list:
+        return "none", [], None, None
+    if len(old_list) > 1:
+        return "ambiguous", [], None, None
+    past = old_list[0]
+    document = docs.get(past.source.document_id)
+    if document is None or document.version <= past.source.version:
+        return "none", [], None, past
+    doc_sources = [src for src in snapshot.sources if src.document_id == document.document_id]
+    current_cell_matches = [
+        src
+        for src in doc_sources
+        if _counterpart(past, src, None, None, current_sources=doc_sources)
+    ]
+    if len(current_cell_matches) == 1:
+        return "resolved", current_cell_matches, document, past
+    same_cell_candidates = [
+        src
+        for src in doc_sources
+        if src.kind == past.source.kind
+        and src.locator.get("cell_id") == past.source.locator.get("cell_id")
+        and _output_image_mimes(src.locator.get("representations"))
+    ]
+    if not same_cell_candidates:
+        return "deleted", [], document, past
+    return "ambiguous", same_cell_candidates, document, past
