@@ -1688,13 +1688,12 @@ class WorkspaceService:
 
     def _resolve_table_reference(self, owner: str, turn: Turn, session: Session) -> Turn | None:
         _, turns, messages = self.store.timeline(owner, session.session_id)
-        completed = {item.turn_id for item in turns if item.status == "completed"}
+        completed = {item.turn_id: item for item in turns if item.status == "completed"}
         boundary = next(
             message["ordinal"]
             for message in messages
             if message["turn_id"] == turn.turn_id and message["role"] == "user"
         )
-        previous = None
         table_entries: list[dict[str, Any]] = []
         for message in reversed(messages):
             if (
@@ -1703,50 +1702,69 @@ class WorkspaceService:
                 or message["ordinal"] >= boundary
             ):
                 continue
+            sources = message["sources"]
+            visible_ids = {key for block in message["blocks"] for key in block.get("citations", ())}
+            for block in message["blocks"]:
+                if block["type"] != "source_image":
+                    continue
+                key = block["evidence_id"]
+                if (
+                    block["display_id"] in message["visible_display_ids"]
+                    and key in sources
+                    and block["display_source"] == sources[key]["revision"]["source"]
+                ):
+                    visible_ids.add(key)
             entries = [
                 item
-                for item in (message.get("sources") or {}).values()
-                if _is_table_evidence(item)
+                for key, item in sources.items()
+                if key in visible_ids and _is_table_evidence(item)
             ]
-            if entries:
-                previous = message
+            if entries and self._turn_access(completed[message["turn_id"]]):
                 table_entries = entries
                 break
-        if previous is None:
+        if not table_entries:
             if _HISTORY_IMAGE.search(turn.request.text):
                 return self._clarify(
                     turn, "找不到带表格的已完成回答，请从原件目录选择表格。", [], []
                 )
             return None
-        unique: dict[tuple[str, int, str], dict[str, Any]] = {}
+        unique = {}
+        refs = {}
         for item in table_entries:
-            src = item["revision"]["source"]
+            rev = item["revision"]
+            src = rev["source"]
+            if rev["course_id"] not in session.course_ids or (
+                session.document_ids and src["document_id"] not in session.document_ids
+            ):
+                continue
             unique[(src["document_id"], src["version"], src["source_id"])] = item
-        if len(unique) != 1:
+            refs[(src["document_id"], src["version"])] = {
+                "course_id": rev["course_id"],
+                "document_id": src["document_id"],
+                "version": src["version"],
+                "publication_epoch": rev["publication_epoch"],
+                "content_sha256": rev["content_sha256"],
+            }
+        draft = Draft(session.session_id)
+        if not unique:
+            draft.notice("outside_current_scope", "表格在当前范围之外。请切到该文件后再追问。")
+            return self._complete(turn, draft)
+        if len(unique) > 1:
             labels = "、".join(
                 f"{item['file_name']} 第 {item.get('locator', {}).get('page', '?')} 页的表"
                 for item in unique.values()
             )
             return self._clarify(
-                turn, f"上一轮涉及多张表格，请说明你要继续问哪一张：{labels}。", [], []
+                turn,
+                f"上一轮涉及多张表格，请说明你要继续问哪一张：{labels}。",
+                [],
+                list(refs.values()),
+                historical=True,
             )
         entry = next(iter(unique.values()))
         rev = entry["revision"]
         key = SourceKey.model_validate(rev["source"])
-        ref = {
-            "course_id": rev["course_id"],
-            "document_id": key.document_id,
-            "version": key.version,
-            "publication_epoch": rev["publication_epoch"],
-            "content_sha256": rev["content_sha256"],
-            "file_name": entry["file_name"],
-        }
-        draft = Draft(session.session_id)
-        if ref["course_id"] not in session.course_ids or (
-            session.document_ids and key.document_id not in session.document_ids
-        ):
-            draft.notice("outside_current_scope", "表格在当前范围之外。请切到该文件后再追问。")
-            return self._complete(turn, draft, historical=[ref])
+        ref = refs[(key.document_id, key.version)]
         snapshot = self.snapshots.read(
             SnapshotRequest(tuple(session.course_ids), (key.document_id,))
         )

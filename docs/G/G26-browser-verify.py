@@ -106,7 +106,12 @@ uvicorn.run(app, host="127.0.0.1", port={port}, log_level="warning")
         try:
             url = f"http://127.0.0.1:{port}/workspace/"
             for _ in range(40):
-                if subprocess.run(["curl", "--silent", "--fail", url], capture_output=True, timeout=2).returncode == 0:
+                if (
+                    subprocess.run(
+                        ["curl", "--silent", "--fail", url], capture_output=True, timeout=2
+                    ).returncode
+                    == 0
+                ):
                     break
                 time.sleep(0.25)
 
@@ -115,7 +120,9 @@ uvicorn.run(app, host="127.0.0.1", port={port}, log_level="warning")
             _ab(session, "wait", "--text", "暂无资料")
 
             def upload_doc(pdf_path: Path) -> None:
-                if not json.loads(_ab(session, "eval", 'document.querySelector("#import-panel").open')):
+                if not json.loads(
+                    _ab(session, "eval", 'document.querySelector("#import-panel").open')
+                ):
                     _ab(session, "find", "text", "导入资料", "click", "--exact")
                 _ab(session, "select", "#import-course", "g26-verify-course")
                 _ab(session, "upload", "#import-files", str(pdf_path))
@@ -135,32 +142,39 @@ uvicorn.run(app, host="127.0.0.1", port={port}, log_level="warning")
                     f"document.querySelector('#sessions')?.value && "
                     f"document.querySelector('#sessions')?.value !== {prev_sid}",
                 )
+                buttons = "[...document.querySelectorAll('#catalog button')]"
+                match = f"b => b.textContent.includes({file_name!r})"
                 _ab(
                     session,
                     "eval",
-                    '(() => { const cb = document.querySelector("#catalog button[data-kind=\'course\']"); '
+                    "(() => { "
+                    "const cb = document.querySelector(\"#catalog button[data-kind='course']\"); "
                     'if (cb && cb.getAttribute("aria-expanded") !== "true") cb.click(); })()',
                 )
                 _wait_js(
                     session,
-                    f"[...document.querySelectorAll('#catalog button')].some(b => b.textContent.includes({file_name!r}))",
+                    f"{buttons}.some({match})",
                 )
                 _ab(
                     session,
                     "eval",
-                    f"[...document.querySelectorAll('#catalog button')].find(b => b.textContent.includes({file_name!r})).click()",
+                    f"{buttons}.find({match}).click()",
                 )
-                _wait_js(session, f"document.querySelector('#scope-summary')?.textContent.includes({file_name!r})")
+                _wait_js(
+                    session,
+                    f"document.querySelector('#scope-summary')?.textContent.includes({file_name!r})",
+                )
 
             def ask_turn(question: str, expected_user_count: int) -> dict[str, Any]:
+                users = "document.querySelectorAll('#messages article.message-user')"
                 t0 = time.perf_counter()
                 _ab(session, "find", "label", "输入问题", "fill", question)
                 _wait_js(session, '!document.querySelector("#send").disabled')
                 _ab(session, "find", "role", "button", "click", "--name", "发送", "--exact")
                 _wait_js(
                     session,
-                    f"document.querySelectorAll('#messages article.message-user').length === {expected_user_count} && ("
-                    f"document.querySelectorAll('#messages article.message-user').item({expected_user_count - 1})"
+                    f"{users}.length === {expected_user_count} && ("
+                    f"{users}.item({expected_user_count - 1})"
                     ".nextElementSibling?.matches('article:not(.message-user)') || "
                     "document.querySelector('#turn-status')?.textContent.includes('处理失败') || "
                     "document.querySelector('#turn-status')?.textContent.includes('需要澄清'))",
@@ -174,7 +188,8 @@ uvicorn.run(app, host="127.0.0.1", port={port}, log_level="warning")
                             const m = document.querySelectorAll('#messages article.message-user')
                                 .item({expected_user_count - 1})?.nextElementSibling;
                             if (!m?.matches('article:not(.message-user)')) {{
-                                return {{missing: true, status: document.querySelector('#turn-status')?.textContent}};
+                                const status = document.querySelector('#turn-status')?.textContent;
+                                return {{missing: true, status}};
                             }}
                             const btns = [...m.querySelectorAll('button[data-evidence-id]')];
                             return {{
@@ -190,7 +205,8 @@ uvicorn.run(app, host="127.0.0.1", port={port}, log_level="warning")
                     _ab(
                         session,
                         "eval",
-                        f"document.querySelector('article[data-message-id=\"{msg_info['id']}\"] button[data-evidence-id=\"{ev_id}\"]').click()",
+                        f'document.querySelector(\'article[data-message-id="{msg_info["id"]}"] '
+                        f'button[data-evidence-id="{ev_id}"]\').click()',
                     )
                     _wait_js(session, "!document.querySelector('#reader')?.hidden")
                     opened[ev_id] = json.loads(
@@ -245,7 +261,9 @@ uvicorn.run(app, host="127.0.0.1", port={port}, log_level="warning")
                 item = v["turn_2"] if "turn_2" in v else v
                 tr = item.get("trace") or {}
                 notices = [b.get("code") for b in (item.get("blocks") or []) if b.get("code")]
-                opened = {ek: ev.get("title") for ek, ev in (item.get("opened_citations") or {}).items()}
+                opened = {
+                    ek: ev.get("title") for ek, ev in (item.get("opened_citations") or {}).items()
+                }
                 print(
                     f"{k}: status={item.get('turn_status')} route={tr.get('route')} "
                     f"sel={(tr.get('selected_source') or {}).get('source_id')} "

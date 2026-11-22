@@ -93,9 +93,8 @@ def _parse_pdf_locked(path: Path) -> ParsedSource:
                     )
                     if page_rotation != 0:
                         continue
-                    for table_index, table in enumerate(
-                        _confirmed_pdf_tables(page, text_page, page_bbox, pdfium), start=1
-                    ):
+                    for table in _confirmed_pdf_tables(page, text_page, page_bbox, pdfium):
+                        table_index = table["source_index"]
                         sources.append(
                             SourceDraft(
                                 source_id=f"page:{page_no}:table:{table_index}",
@@ -472,14 +471,18 @@ def _confirmed_pdf_tables(
             _pdf_bbox_to_visible,
         )
     )
-    return sorted(
-        tables,
+    tables.sort(
         key=lambda table: (
             -table["native_bbox"][3],
             table["native_bbox"][0],
             table["native_content_order"],
         ),
     )
+    # Grid tables already have public source keys. Allocate new keys after those,
+    # even when the new tables occur earlier on the page.
+    for index, table in enumerate(sorted(tables, key=lambda t: "table_rule_style" in t), start=1):
+        table["source_index"] = index
+    return tables
 
 
 def _pdf_grid_components(

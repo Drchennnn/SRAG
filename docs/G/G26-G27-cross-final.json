@@ -1,0 +1,188 @@
+{
+  "pdf_sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+  "turns": [
+    {
+      "answer": [
+        "Table 1 给出三种模型规模的服务器配置：13B 使用 A100（总 GPU 显存 40 GB），66B 使用 4×A100（160 GB），175B 使用 8×A100-80GB（640 GB）。",
+        "对应的最大 KV cache slots 分别为：13B 为 15.7K，66B 为 9.7K，175B 为 60.1K。",
+        "表中同一配置下还列出参数占用与 KV cache 内存：13B 参数 26 GB、KV cache 12 GB；66B 参数 132 GB、KV cache 21 GB；175B 参数 346 GB、KV cache 264 GB。"
+      ],
+      "attempts": [
+        {
+          "elapsed_ms": 1753.328,
+          "outcome": "response",
+          "status": 200
+        }
+      ],
+      "buttons": [
+        "ev-3",
+        "ev-4"
+      ],
+      "displayed": [
+        {
+          "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+          "source_id": "page:9:table:1",
+          "version": 1
+        }
+      ],
+      "generation": "succeeded",
+      "model": "deepseek-flash",
+      "route": "generated_answer",
+      "sources": [
+        {
+          "id": "ev-10",
+          "key": {
+            "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+            "source_id": "page:9:table:1",
+            "version": 1
+          },
+          "reads": []
+        },
+        {
+          "id": "ev-4",
+          "key": {
+            "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+            "source_id": "page:9:table:1",
+            "version": 1
+          },
+          "reads": [
+            {
+              "method": "native_table",
+              "source": {
+                "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+                "source_id": "page:9:table:1",
+                "version": 1
+              },
+              "status": "succeeded",
+              "text": "| Model size | 13B | 66B | 175B |\n| --- | --- | --- | --- |\n| GPUs | A100 | 4×A100 | 8×A100-80GB |\n| Total GPU memory | 40 GB | 160 GB | 640 GB |\n| Parameter size | 26 GB | 132 GB | 346 GB |\n| Memory for KV cache | 12 GB | 21 GB | 264 GB |\n| Max. # KV cache slots | 15.7K | 9.7K | 60.1K |"
+            }
+          ]
+        },
+        {
+          "id": "ev-6",
+          "key": {
+            "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+            "source_id": "page:10:table:1",
+            "version": 1
+          },
+          "reads": [
+            {
+              "method": "native_table",
+              "source": {
+                "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+                "source_id": "page:10:table:1",
+                "version": 1
+              },
+              "status": "succeeded"
+            }
+          ]
+        },
+        {
+          "id": "ev-8",
+          "key": {
+            "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+            "source_id": "page:11:table:1",
+            "version": 1
+          },
+          "reads": [
+            {
+              "method": "native_table",
+              "source": {
+                "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+                "source_id": "page:11:table:1",
+                "version": 1
+              },
+              "status": "succeeded"
+            }
+          ]
+        }
+      ],
+      "status": "completed",
+      "visible": "课程助手\n\nTable 1 给出三种模型规模的服务器配置：13B 使用 A100（总 GPU 显存 40 GB），66B 使用 4×A100（160 GB），175B 使用 8×A100-80GB（640 GB）。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 9 页PagedAttention-2309.06180v1.pdf · v1 · 第 9 页\n\n对应的最大 KV cache slots 分别为：13B 为 15.7K，66B 为 9.7K，175B 为 60.1K。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 9 页PagedAttention-2309.06180v1.pdf · v1 · 第 9 页\n\n表中同一配置下还列出参数占用与 KV cache 内存：13B 参数 26 GB、KV cache 12 GB；66B 参数 132 GB、KV cache 21 GB；175B 参数 346 GB、KV cache 264 GB。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 9 页PagedAttention-2309.06180v1.pdf · v1 · 第 9 页\n\n图 1 · PagedAttention-2309.06180v1.pdf · v1 · 表格 · Model size | 13B | 66B | 175B\n\nPagedAttention-2309.06180v1.pdf · v1 · 第 9 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "question": "PagedAttention 里 13B、66B、175B 三种配置分别用什么型号、多少张 GPU，最大 KV cache slots 各是多少？",
+      "reader": [
+        {
+          "evidence_id": "ev-4",
+          "highlighted": true,
+          "location": "当前版本",
+          "size": [
+            1224,
+            1584
+          ],
+          "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 9 页"
+        }
+      ]
+    },
+    {
+      "answer": [
+        "表中 66B 模型留给 KV 缓存的显存是 21 GB。"
+      ],
+      "attempts": [
+        {
+          "elapsed_ms": 994.252,
+          "outcome": "response",
+          "status": 200
+        }
+      ],
+      "buttons": [
+        "ev-1"
+      ],
+      "displayed": [],
+      "generation": "succeeded",
+      "model": "deepseek-flash",
+      "route": "followup_table",
+      "sources": [
+        {
+          "id": "ev-1",
+          "key": {
+            "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+            "source_id": "page:9:table:1",
+            "version": 1
+          },
+          "reads": [
+            {
+              "method": "native_table",
+              "source": {
+                "document_id": "local_015cfa16de474fd5a3cbe36934d483c4",
+                "source_id": "page:9:table:1",
+                "version": 1
+              },
+              "status": "succeeded",
+              "text": "| Model size | 13B | 66B | 175B |\n| --- | --- | --- | --- |\n| GPUs | A100 | 4×A100 | 8×A100-80GB |\n| Total GPU memory | 40 GB | 160 GB | 640 GB |\n| Parameter size | 26 GB | 132 GB | 346 GB |\n| Memory for KV cache | 12 GB | 21 GB | 264 GB |\n| Max. # KV cache slots | 15.7K | 9.7K | 60.1K |"
+            }
+          ]
+        }
+      ],
+      "status": "completed",
+      "visible": "课程助手\n\n表中 66B 模型留给 KV 缓存的显存是 21 GB。\n\n依据 · PagedAttention-2309.06180v1.pdf · v1 · 第 9 页",
+      "question": "刚才那张表里，66B 留给 KV 缓存的显存是多少 GB？",
+      "reader": [
+        {
+          "evidence_id": "ev-1",
+          "highlighted": true,
+          "location": "当前版本",
+          "size": [
+            1224,
+            1584
+          ],
+          "title": "PagedAttention-2309.06180v1.pdf · v1 · 第 9 页"
+        }
+      ]
+    }
+  ],
+  "checks": [
+    {
+      "expected_route": true,
+      "native_rows": true,
+      "answer_terms": true,
+      "clicked_table": true
+    },
+    {
+      "expected_route": true,
+      "native_rows": true,
+      "answer_terms": true,
+      "clicked_table": true
+    }
+  ],
+  "same_table_across_turns": true
+}

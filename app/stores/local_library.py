@@ -617,6 +617,26 @@ def _append_missing_pdf_images(
         for ordinal, candidate in enumerate(missing, start)
     ]
     _save_sources(db, document_id, version, additions)
+    if any(item.locator.get("object_type") == "table" for item in additions):
+        # Appending a newly recognized table can place it behind later tables. Reuse
+        # only the tables' ordinal slots; page, image and FTS records stay intact.
+        ordinals = {row["source_id"]: row["ordinal"] for row in rows}
+        ordinals.update((item.source_id, item.ordinal) for item in additions)
+        table_ids = [
+            item.source_id
+            for item in candidates
+            if item.locator.get("object_type") == "table" and item.source_id in ordinals
+        ]
+        slots = sorted(ordinals[source_id] for source_id in table_ids)
+        db.executemany(
+            "UPDATE local_sources SET ordinal = ? "
+            "WHERE document_id = ? AND version = ? AND source_id = ?",
+            (
+                (slot, document_id, version, source_id)
+                for source_id, slot in zip(table_ids, slots, strict=True)
+                if slot != ordinals[source_id]
+            ),
+        )
     return bool(additions)
 
 
