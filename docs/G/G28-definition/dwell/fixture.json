@@ -1,0 +1,54 @@
+{
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "Reentry-Guide.pdf": {
+      "sha256": "381586a028d8a1a48760e166c21b18f12630235b893296dde8a05f53461d8fb6"
+    },
+    "Replay-Record.ipynb": {
+      "sha256": "7be1c8265c152cfa2a495763412438c702ad4945e885705bfa810cb1ddea2358"
+    }
+  },
+  "turns": [
+    {
+      "id": "open_A",
+      "new": false,
+      "scope": "course",
+      "question": "讲义里的再入驻留门槛怎么定义？配套台架回放实验的平均再入分发延迟是多少？"
+    },
+    {
+      "id": "narrow_A",
+      "new": false,
+      "scope": "Reentry-Guide.pdf",
+      "question": "讲义里的再入驻留门槛怎么定义？刚才台架回放实验的平均再入分发延迟是多少？"
+    },
+    {
+      "id": "open_B",
+      "new": false,
+      "scope": "course",
+      "question": "讲义里的再入消抖窗怎么定义？配套台架回放实验的平均再入分发延迟是多少？"
+    },
+    {
+      "id": "narrow_B",
+      "new": false,
+      "scope": "Reentry-Guide.pdf",
+      "question": "讲义里的再入消抖窗怎么定义？刚才台架回放实验的平均再入分发延迟是多少？"
+    },
+    {
+      "id": "open_missing",
+      "new": false,
+      "scope": "course",
+      "question": "讲义里的再入不应期预算怎么定义？配套台架回放实验的平均再入分发延迟是多少？"
+    },
+    {
+      "id": "narrow_missing",
+      "new": false,
+      "scope": "Reentry-Guide.pdf",
+      "question": "讲义里的再入不应期预算怎么定义？刚才台架回放实验的平均再入分发延迟是多少？"
+    }
+  ]
+}
