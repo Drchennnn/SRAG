@@ -182,7 +182,7 @@ def test_compare_two_images_reopens_exact_bytes_and_never_reads_old_image(
         assert _sha(client.get(image["media_url"]).content) == _sha(expected)
 
 
-@pytest.mark.parametrize("attribute", ["横轴单位", "横轴标签"])
+@pytest.mark.parametrize("attribute", ["横轴单位", "横轴标签", None])
 def test_historical_visual_result_is_reused_only_for_verified_matching_attribute(
     system, public_object_files, monkeypatch, attribute
 ):
@@ -228,13 +228,15 @@ def test_historical_visual_result_is_reused_only_for_verified_matching_attribute
         session,
         second_path,
         first,
-        f"比较 HarborTrace.ipynb 上一版与当前版 Cell 2 第 2 张图的{attribute}。",
+        f"比较 HarborTrace.ipynb 上一版与当前版 Cell 2 第 2 张图的{attribute}。"
+        if attribute
+        else "跟上一版比呢？",
     )
     assert requested == [1, 2]  # The historical image was never sent during the comparison.
     sides = _sides(compared["message"])
     previous = sides[1][1]
     assert sides[2][1]["reads"][0]["text"] == "minutes"
-    if attribute == "横轴单位":
+    if attribute in {"横轴单位", None}:
         assert previous["read_status"] == "succeeded"
         assert previous["reads"][0]["text"] == "seconds"
     else:
@@ -295,3 +297,24 @@ def test_filename_edition_is_not_a_version_or_a_historical_role(system, tmp_path
     ):
         explicit = _ask(client, session, question)
         assert set(_sides(explicit["message"])) == {1, 3}
+
+
+def test_implicit_visual_comparison_does_not_infer_an_unverified_historical_value(
+    system, public_object_files, monkeypatch
+):
+    _, service, _, client = system
+    originals, _ = public_object_files
+    session = _create(client)
+    first = _upload(client, session, originals / "v1" / "HarborTrace.ipynb")
+    preview = _ask(client, session, "HarborTrace.ipynb Cell 2 第 2 张图的横轴单位是什么？")
+    assert len(preview["message"]["visible_display_ids"]) == 1
+
+    def no_visual_call(*args, **kwargs):
+        pytest.fail("Display-only history cannot establish the comparison attribute.")
+
+    monkeypatch.setattr(service.vision, "process_current", no_visual_call)
+    result = _version_turn(
+        client, session, originals / "v2" / "HarborTrace.ipynb", first, "跟上一版比呢？"
+    )
+    assert result["turn"]["trace"]["historical_read_status"] == "not_attempted"
+    assert any(b.get("code") == "historical_image_unread" for b in result["message"]["blocks"])

@@ -1,0 +1,350 @@
+{
+  "before_brief": [
+    {
+      "question": "第1页右图的横轴单位是什么？",
+      "route": "target_object",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · v1 · 图片\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nFrequency [Hz]\n\n依据 · Directional-Spectrum.pdf · v1 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v1 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_d1075b6aa0b54f65a38a9f70fb3faae5",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_d1075b6aa0b54f65a38a9f70fb3faae5",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "跟上一版比呢？",
+      "route": "version_comparison",
+      "answer": "课程助手\n\n本会话没有范围内、可核对的旧版引用。请从旧回答定位原件后再比较。",
+      "citations": [],
+      "source_reads": []
+    }
+  ],
+  "before_explicit": [
+    {
+      "question": "第1页右图的横轴单位是什么？",
+      "route": "target_object",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · v1 · 图片\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nFrequency [Hz]\n\n依据 · Directional-Spectrum.pdf · v1 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v1 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_fa06d2abbd80439c912852e405949fe6",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_fa06d2abbd80439c912852e405949fe6",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "跟上一版相比，第1页右图的横轴单位有什么变化？",
+      "route": "version_comparison",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · 旧版 v1\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n旧版 v1 横轴单位 · Frequency [Hz]\n\n依据 · Directional-Spectrum.pdf · 旧版 v1\n\n当前版 v2 · 横轴单位\n\n图 2 · Directional-Spectrum.pdf · v2 · 图片\n\nDirectional-Spectrum.pdf · v2 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nkHz\n\n依据 · Directional-Spectrum.pdf · v2 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · 旧版 v1"
+        },
+        {
+          "digest": "9ea5a6c56c32105e35c85e7739c35afae8a125b85a2a4edf0e3435070acfd37a",
+          "location": "Directional-Spectrum.pdf · v2 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v2 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_fa06d2abbd80439c912852e405949fe6",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_fa06d2abbd80439c912852e405949fe6",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        },
+        {
+          "key": {
+            "document_id": "local_fa06d2abbd80439c912852e405949fe6",
+            "source_id": "page:1:image:2",
+            "version": 2
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "9ea5a6c56c32105e35c85e7739c35afae8a125b85a2a4edf0e3435070acfd37a",
+              "actual_source": {
+                "document_id": "local_fa06d2abbd80439c912852e405949fe6",
+                "source_id": "page:1:image:2",
+                "version": 2
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "after_brief": [
+    {
+      "question": "第1页右图的横轴单位是什么？",
+      "route": "target_object",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · v1 · 图片\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nFrequency [Hz]\n\n依据 · Directional-Spectrum.pdf · v1 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v1 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_df2564c8278f46bfafecacfbf12248d0",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_df2564c8278f46bfafecacfbf12248d0",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "跟上一版比呢？",
+      "route": "version_comparison",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · 旧版 v1\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n旧版 v1 横轴单位 · Frequency [Hz]\n\n依据 · Directional-Spectrum.pdf · 旧版 v1\n\n当前版 v2 · 横轴单位\n\n图 2 · Directional-Spectrum.pdf · v2 · 图片\n\nDirectional-Spectrum.pdf · v2 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nkHz\n\n依据 · Directional-Spectrum.pdf · v2 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · 旧版 v1"
+        },
+        {
+          "digest": "9ea5a6c56c32105e35c85e7739c35afae8a125b85a2a4edf0e3435070acfd37a",
+          "location": "Directional-Spectrum.pdf · v2 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v2 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_df2564c8278f46bfafecacfbf12248d0",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_df2564c8278f46bfafecacfbf12248d0",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        },
+        {
+          "key": {
+            "document_id": "local_df2564c8278f46bfafecacfbf12248d0",
+            "source_id": "page:1:image:2",
+            "version": 2
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "9ea5a6c56c32105e35c85e7739c35afae8a125b85a2a4edf0e3435070acfd37a",
+              "actual_source": {
+                "document_id": "local_df2564c8278f46bfafecacfbf12248d0",
+                "source_id": "page:1:image:2",
+                "version": 2
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "after_explicit": [
+    {
+      "question": "第1页右图的横轴单位是什么？",
+      "route": "target_object",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · v1 · 图片\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nHz\n\n依据 · Directional-Spectrum.pdf · v1 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v1 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_57cb553928834275b55f416dfa4fbaeb",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_57cb553928834275b55f416dfa4fbaeb",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "question": "跟上一版相比，第1页右图的横轴单位有什么变化？",
+      "route": "version_comparison",
+      "answer": "课程助手\n\n图 1 · Directional-Spectrum.pdf · 旧版 v1\n\nDirectional-Spectrum.pdf · v1 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\n旧版 v1 横轴单位 · Hz\n\n依据 · Directional-Spectrum.pdf · 旧版 v1\n\n当前版 v2 · 横轴单位\n\n图 2 · Directional-Spectrum.pdf · v2 · 图片\n\nDirectional-Spectrum.pdf · v2 · 第 1 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nkHz\n\n依据 · Directional-Spectrum.pdf · v2 · 图片",
+      "citations": [
+        {
+          "digest": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+          "location": "Directional-Spectrum.pdf · v1 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · 旧版 v1"
+        },
+        {
+          "digest": "9ea5a6c56c32105e35c85e7739c35afae8a125b85a2a4edf0e3435070acfd37a",
+          "location": "Directional-Spectrum.pdf · v2 · 第 1 页",
+          "status": "图像已读取",
+          "title": "Directional-Spectrum.pdf · v2 · 图片"
+        }
+      ],
+      "source_reads": [
+        {
+          "key": {
+            "document_id": "local_57cb553928834275b55f416dfa4fbaeb",
+            "source_id": "page:1:image:2",
+            "version": 1
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "dd7dce0a502f9cc126974b4e7e1324ed0b836dd974e4b59aeea5056632dd365a",
+              "actual_source": {
+                "document_id": "local_57cb553928834275b55f416dfa4fbaeb",
+                "source_id": "page:1:image:2",
+                "version": 1
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        },
+        {
+          "key": {
+            "document_id": "local_57cb553928834275b55f416dfa4fbaeb",
+            "source_id": "page:1:image:2",
+            "version": 2
+          },
+          "reads": [
+            {
+              "actual_input_sha256": "9ea5a6c56c32105e35c85e7739c35afae8a125b85a2a4edf0e3435070acfd37a",
+              "actual_source": {
+                "document_id": "local_57cb553928834275b55f416dfa4fbaeb",
+                "source_id": "page:1:image:2",
+                "version": 2
+              },
+              "execution": "real_provider",
+              "method": "vision",
+              "origin_execution": "real_provider",
+              "status": "succeeded"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

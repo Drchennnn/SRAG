@@ -553,3 +553,9 @@
 - 执行者 `g23_exec`（主会话 `6a4dad8c-66bd-482c-8211-cd0e444516d2`）在授权提交 `75a0c6b21f1af028d17c8889cb41a92e2d09dbf5`（生产基线 `6858977c0dcbbf1d5419e07d45c148dab84006c7`）领取 G23，保持默认 `workspace_retrieval_strategy="fts"` 按需双语检索、`Jev` 默认关闭、向量关闭、预算与范围契约、A03 封存及 21 项既有本地改动不变，仅修改 `app/rag/workspace_retrieval.py` 与 `tests/test_workspace_retrieval.py`。
 - 实现确定性数量等价校验（`_validate_rewrite_constraints` / `_valid_rewrite`）及 `trace["constraint_reason"]` 观测：基于 `Decimal` 解析显式中文数词与量级（万/亿/兆/万亿及分数“千分之一”等）、英文数词/量级/缩写（`K/M/B/T`、`one-thousandth`）、单位、百分数、比较方向（含先剥离“不超过/不少于/no more than/no less than”再查否定）、版本号/代码标识符与分句对象-数值绑定，显式拦截模糊中文数词（`vague_numeral`）并过滤中文非数量惯用语（`_ZH_IDIOMS`）。
 - 独立审核者 `g23_gate`（子代理 `2adb85bb-b51b-4322-a4ba-cfcf6508366d`）在开发前冻结 40 组正反例与 23 页公开未见论文 `GaLore-2403.03507v2.pdf`（CC BY 4.0）并完成 Phase 2 独立复跑签认：Ruff `All checks passed!`、`pytest` `602 passed, 3 skipped`、40 组冻结正反例 **`40 / 40` 通过（`0` 错误放行、`0` 错误拦截）**；真实 Chromium `/workspace/` 从空库复跑，救回基线 `6858977` 被 `constraints_unverified` 误拦的 `ReAct H_Q03`（`page:14` #1，`gen=succeeded`，引用点击核验正确）与 `GaLore G_Q03`（`page:20` #1），并通过 `G_Q01`、`G_Q04`、`G_Q05`（缺证诚实声明）、`G_Q06`（显式页码 0 改写外调）、`ctrl_appendix_256_8bit`（`page:23`）、`ctrl_vague_fallback`（`vague_numeral` 安全回退）、`ctrl_no_numbers` 及改写 HTTP 503 安全回退对照；如实披露 `G_Q02` 因含“表”字触发既有 `object_intent` 澄清（非改写故障）及 `18G` vs `18 GB` 单位正则排序保守拒收边界。停在 G23 并交回架构负责人（M2 保持返工）。[G23 报告](./docs/G/G23-双语改写数量约束与盲验.md) · [独立裁决](./docs/G/G23-独立裁决.md) · [独立实测 JSON](./docs/G/G23-独立终验实测.json)
+
+## 2026-11-22 · G23–G25 主线集成与独立浏览器复核
+
+- 基于 G23 主线 999e78b 串行合并 G24 的 77d60ec 与 G25 的 02eac6b。首次组合候选 d568a56 通过显式跨版右图问答，省略对象和属性的追问出现错误的历史缺失提示。
+- 执行者 integration_fix 限定最近相关视觉轮次、唯一显示对象与单一轴属性，继续核验旧版实读凭证。独立审核者 cross_gate 从空库重跑两种问法，均能读取并打开 v1 Hz 与 v2 kHz；整合者在最终文件上重复验证。详见[脚本、首败与签认](docs/G/G23-G25-cross.md)。
+- 在干净整合工作树用已有 LibreOffice 设置 SRAG_SOFFICE 后，全量 pytest 607 通过、0 跳过，1 条 Starlette 测试客户端弃用提示。Ruff 通过。M2 保持返工，本轮没有复跑 A03。

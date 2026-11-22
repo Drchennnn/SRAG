@@ -268,6 +268,19 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         )
         return service._complete(turn, draft, trace=trace)
     history = _completed_history(service, owner, turn, session)
+    attribute = _image_attribute(question)
+    inherited_image = False
+    if implicit and history:
+        previous_turn, message = history[0]
+        prior_intent = object_intent(previous_turn.request.text, include_reference=True)
+        if prior_intent and prior_intent.kind == "image":
+            attribute = _image_attribute(previous_turn.request.text)
+            if len(message["visible_display_ids"]) != 1 or not attribute:
+                draft.notice("comparison_ambiguous", "请指定要比较的图，以及轴标签或单位。")
+                return service._complete(turn, draft, trace=trace)
+            history = history[:1]
+            intent = prior_intent
+            image = inherited_image = True
     current = [
         source
         for source in snapshot.sources
@@ -336,7 +349,18 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
     if not service.store.active(turn):
         raise WorkspaceError("interrupted")
     if image:
-        error = _compare_images(service, turn, draft, past, document, selected, history, trace)
+        error = _compare_images(
+            service,
+            turn,
+            draft,
+            past,
+            document,
+            selected,
+            history,
+            trace,
+            attribute,
+            inherited_image=inherited_image,
+        )
         if error:
             return service._finish_invalid_read(turn, error, trace)
     else:
@@ -703,6 +727,9 @@ def _compare_images(
     selected: SnapshotSource,
     history: list[tuple[Turn, dict[str, Any]]],
     trace: dict[str, Any],
+    attribute: str | None,
+    *,
+    inherited_image: bool,
 ) -> str | None:
     assert past.attachment is not None
     revision = past.evidence.revision
@@ -736,7 +763,6 @@ def _compare_images(
         ):
             draft.notice("comparison_ambiguous", "两版页内裁区无法可靠对应。")
             return None
-    attribute = _image_attribute(turn.request.text)
     old_read = None
     if (
         display is not None
@@ -758,6 +784,8 @@ def _compare_images(
             "historical_image_unread", "旧版该图没有已核对的同属性读取，暂不能断言其内容。"
         )
     trace["historical_read_status"] = old_read.status if old_read else "not_attempted"
+    if inherited_image and not old_read:
+        return None
 
     if attribute is None:
         current_request = service._render_request(document, selected)
