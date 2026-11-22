@@ -21,16 +21,82 @@ if TYPE_CHECKING:
     from app.stores.local_library import HistoricalSource
     from app.stores.workspace import Attachment, Session, Turn
 
-_OLD = re.compile(
-    r"(?:旧|历史|上一|前一)版(?:本)?|\b(?:old|older|previous|prior|historical|archived)\b", re.I
+_OLD_STEM = (
+    r"(?:旧|历史|老|先前|此前|早先|早前|以前|之前|上一|前一|上个|前个|上一个|前一个)"
+    r"(?:的|那个?|这个?)?版(?:本)?"
 )
-_PREVIOUS = re.compile(r"(?:上一|前一)版(?:本)?|\b(?:previous|prior)\b", re.I)
-_CURRENT = re.compile(r"(?:当前|现行|新|最新|现在这)版(?:本)?|\b(?:current|latest|new)\b", re.I)
+_OLD = re.compile(
+    _OLD_STEM + r"|\b(?:old|older|previous|prior|historical|archived|earlier)\b",
+    re.I,
+)
+_OLD_CHINESE = re.compile(_OLD_STEM)
+_OLD_VERSION_EN = re.compile(
+    r"\b(?:old|older|previous|prior|historical|archived|earlier)\s+"
+    r"(?:versions?|editions?|revisions?|releases?|v[1-9][0-9]*)\b",
+    re.I,
+)
+_OLD_COMPARATIVE_PREFIX = re.compile(
+    rf"(?:和|跟|与|同|(?<!比)较|(?<![相对])比(?:起)?|相比于?)\s*{_OLD_STEM}"
+    r"|\b(?:compar(?:e|ed|ing)\s+(?:with|to|against)|against|from)\s+(?:the\s+)?"
+    r"(?:old|older|previous|prior|historical|archived|earlier)\s+"
+    r"(?:versions?|editions?|revisions?|releases?|v[1-9][0-9]*)\b",
+    re.I,
+)
+_OLD_LOCATIVE = re.compile(
+    rf"{_OLD_STEM}\s*(?:里|中|内|里面|之中|当中)"
+    r"|\bin\s+(?:the\s+)?(?:old|older|previous|prior|historical|archived|earlier)\s+"
+    r"(?:versions?|editions?|revisions?|releases?)\b",
+    re.I,
+)
+_PLURAL_OBJECT = re.compile(
+    r"(?:这两|那两|这二|那二|两|2|双|多)(?:张|幅|个|份|种|组|条|项)?(?:图片|图像|子图|插图|图表|图|表格|表|输出|Cell|公式)"
+    r"|(?:图|表|输出|Cell)\s*[0-9一二三四五六七八九十]+\s*(?:和|与|及|跟|vs\.?)\s*(?:图|表|输出|Cell)\s*[0-9一二三四五六七八九十]+"
+    r"|\b(?:two|both|multiple|several)\s+(?:figures?|images?|plots?|subplots?|charts?|tables?|outputs?|cells?|panels?)\b",
+    re.I,
+)
+_PREVIOUS = re.compile(
+    r"(?:上一|前一|上个|前个|上一个|前一个)(?:的|那个?|这个?)?版(?:本)?|\b(?:previous|prior)\b",
+    re.I,
+)
+_CURRENT = re.compile(
+    r"(?:当前|现行|新|最新|现在这|这一)版(?:本)?|\b(?:current|latest|new)\b",
+    re.I,
+)
+_TWO_VERSIONS = re.compile(
+    r"(?:前后|新旧)?(?:两|两个|2\s*个)版(?:本)?"
+    r"|\b(?:two|both)\s+(?:versions?|editions?|revisions?|releases?)\b",
+    re.I,
+)
+_NON_COMPARATIVE = re.compile(
+    r"(?<![和跟与同])比较\s*(?:重要|关键|核心|常见|典型|明显|突出|主要|详细|完整|基础|简单|复杂|大|小|多|少|高|低|快|慢|早|晚|好|差|准确|稳定|显著)"
+    r"|变化(?:趋势|曲线|规律|过程|情况(?!(?:如何|怎样|怎么|[？?]|$)))"
+    r"|不同(?:的)?(?:版本|参数|配置|条件|情况|场景|阶段|设置|实验|数据集|类型|方式|方法|指标|结果|方面|时)"
+)
+_NEGATED_COMPARE = re.compile(
+    rf"(?:不用|不要|无需|不必|无须|勿|别|不再|不需|不作|不做|并非|不是(?:要|问|在)?|忽略|跳过|抛开)"
+    rf"(?:再|去)?"
+    rf"(?:(?:和|跟|与|同)?\s*(?:[^，。！？?\n]{{0,14}}?{_OLD_STEM}|(?:和|跟|与|同)\s*[^，。！？?\n]{{0,12}}?))?"
+    r"(?:比较|对比|相比|比对|对照|差异|区别|变化|不同|比)"
+    r"|\b(?:don['’]t|do not|never|without|not|skip|ignore)\s+"
+    r"(?:compar(?:e|ing)|contrast(?:ing)?|diff(?:erences?)?)\b",
+    re.I,
+)
 _COMPARE = re.compile(
-    r"比较|对比|相比|差异|区别|变化|不同|\b(?:compare|differ\w*|chang\w*)\b", re.I
+    rf"比较|对比|相比|比对|对照|差异|区别|异同|变化|变动|改动|改变|出入|不同|怎么变了?|变了(?:多少|什么|吗)"
+    r"|(?:和|跟|与|同)[^，。！？?\n]{0,18}?比(?![如例特重较])"
+    rf"|(?:比|较)(?:起)?\s*(?:{_OLD_STEM}|v(?:ersion\s*)?[1-9][0-9]{{0,5}}|第\s*[1-9][0-9]{{0,5}}\s*版)"
+    r"|\b(?:compar(?:e|es|ed|ing|ison)|differ(?:s|ed|ing|ence|ences|ent)?|chang(?:e|ed|es|ing)|versus|vs\.?)\b",
+    re.I,
+)
+_VERSION_COMPARE = re.compile(
+    r"(?:和|跟|与|同|(?<!比)较|相比|对比|(?<!对)比(?:起)?)\s*(?:v(?:ersion\s*)?[1-9][0-9]{0,5}|第\s*[1-9][0-9]{0,5}\s*版)"
+    r"|(?:v(?:ersion\s*)?[1-9][0-9]{0,5}|第\s*[1-9][0-9]{0,5}\s*版)\s*(?:和|跟|与|同)?\s*(?:相比|对比|比)"
+    r"|\b(?:compared?\s+(?:with|to|against)|against|from)\s+v(?:ersion\s*)?[1-9][0-9]{0,5}\b",
+    re.I,
 )
 _BARE_COMPARISON = re.compile(
-    r"^(?:和|跟|与)旧版(?:本)?(?:相比|比较|对比)(?:呢|怎样|如何)?[？?。\s]*$"
+    rf"^(?:和|跟|与|同)?{_OLD_STEM}"
+    r"(?:(?:相比|比较|对比|比)(?:起来)?(?:呢|怎样|如何|有什么变化)?|有什么变化)[？?。\s]*$"
 )
 _VERSION = re.compile(
     r"(?<![A-Za-z0-9])v(?:ersion\s*)?([1-9][0-9]{0,5})(?![A-Za-z0-9])"
@@ -39,7 +105,8 @@ _VERSION = re.compile(
 )
 _FILE_TOKEN = re.compile(
     r"""["'“‘「『][^"'”’」』\n]+\.(?:pdf|pptx|ipynb)["'”’」』]"""
-    r"|(?<![\w.-])[\w.-]+\.(?:pdf|pptx|ipynb)(?![a-z0-9_-])"
+    r"|(?<![A-Za-z0-9_.-])[A-Za-z0-9_.-]+\.(?:pdf|pptx|ipynb)(?![a-z0-9_-])"
+    r"|(?:(?<=^)(?!(?:请)?(?:比较|对比|相比))|(?<=[\s\"'“‘「『(（:：,，、和与及]))[\w.-]+\.(?:pdf|pptx|ipynb)(?![a-z0-9_-])"
     r"|(?:第\s*)?[1-9][0-9]{0,5}\s*版\.(?:pdf|pptx|ipynb)(?![a-z0-9_-])",
     re.I,
 )
@@ -64,14 +131,38 @@ class _Previous:
 
 def is_version_comparison(text: str) -> bool:
     request_text = _FILE_TOKEN.sub(" ", text)
-    return bool(
-        _BARE_COMPARISON.fullmatch(text)
-        or _COMPARE.search(text)
-        and (
-            (_OLD.search(request_text) and _CURRENT.search(request_text))
-            or len(_versions(request_text)) > 1
-        )
+    if _BARE_COMPARISON.fullmatch(request_text.strip()):
+        return True
+    if _NEGATED_COMPARE.search(request_text):
+        return False
+    comparative_text = _NON_COMPARATIVE.sub(" ", request_text)
+    if not _COMPARE.search(comparative_text):
+        return False
+    versions = _versions(request_text)
+    has_current = bool(_CURRENT.search(request_text))
+    has_old = bool(_OLD_CHINESE.search(request_text) or _OLD_VERSION_EN.search(request_text))
+    has_old_pair = bool(_OLD.search(request_text) and has_current)
+    has_single_version_compare = len(versions) == 1 and bool(
+        has_current or _VERSION_COMPARE.search(request_text)
     )
+    if not (
+        has_old_pair
+        or has_old
+        or len(versions) > 1
+        or has_single_version_compare
+        or _TWO_VERSIONS.search(request_text)
+    ):
+        return False
+    if (
+        not has_current
+        and len(versions) < 2
+        and not _TWO_VERSIONS.search(request_text)
+        and not _OLD_COMPARATIVE_PREFIX.search(request_text)
+        and _OLD_LOCATIVE.search(request_text)
+        and _PLURAL_OBJECT.search(request_text)
+    ):
+        return False
+    return True
 
 
 def _versions(text: str) -> set[int]:
@@ -124,9 +215,6 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
     focus = None
     if not names and session.focus_id:
         focus = service._catalog(session.session_id).nodes.get(session.focus_id)
-        if focus is None and not implicit:
-            draft.notice("comparison_scope", "先前定位已随版本变更，请明确要比较的文件及对象。")
-            return service._complete(turn, draft, trace=trace)
         if focus is not None:
             names = [focus.document.file_name]
     if names:
@@ -135,8 +223,13 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
                 scope, tuple(doc.document_id for doc in snapshot.documents), tuple(names)
             )
         )
-    if snapshot.resolution_status != "resolved":
-        draft.notice("comparison_scope", "请先选定范围内可以比较的一份资料。")
+    if snapshot.resolution_status != "resolved" or len(snapshot.documents) != 1:
+        note = (
+            "先前定位已随版本变更，请明确要比较的文件及对象。"
+            if not names and session.focus_id and focus is None and not implicit
+            else "请先选定范围内可以比较的一份资料。"
+        )
+        draft.notice("comparison_scope", note)
         return service._complete(turn, draft, trace=trace)
 
     request_text = question
@@ -161,7 +254,14 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         and doc.version not in old_labels
         and (len(versions) < 2 or doc.version in versions)
     }
-    if len(old_labels) > 1 or len(current_labels) > 1 or not docs:
+    single_baseline_conflict = (
+        len(versions) == 1
+        and not old_labels
+        and not current_labels
+        and not _OLD.search(request_text)
+        and all(doc.version in versions for doc in docs.values())
+    )
+    if len(old_labels) > 1 or len(current_labels) > 1 or not docs or single_baseline_conflict:
         draft.notice(
             "comparison_version_mismatch",
             "标明的旧版与当前版不符合当前发布状态，请核对两个版本。",
@@ -197,7 +297,7 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         for candidate in current
         if _counterpart(past, candidate, location, intent)
     ]
-    if implicit and location is None and not image and len(paired) > 1:
+    if location is None and not image and not intent and len(paired) > 1:
         latest = paired[0][0].message_id
         recent = [(older, newer) for older, newer in paired if older.message_id == latest]
         keys = {

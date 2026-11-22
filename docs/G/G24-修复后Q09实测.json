@@ -1,0 +1,796 @@
+{
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "q08a": {
+    "elapsed_ms": 2726.9,
+    "dom": {
+      "citations": [
+        "ev-2"
+      ],
+      "id": "e1619b9fe0a9413ab9fca178b421bca3",
+      "notices": [],
+      "text": "课程助手\n\n第 1 个 Cell 的保存输出为：Experiment: Mixtral-8x7B-ArXiv-Routing (v1)；Router config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP；Evaluated tokens: 32768 (ArXiv validation subset)；Layer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)；Layer 15 first-or-second consecutive repetition: 62.3% (random baseline: 46.4%)；Mean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)；Note: 64-GPU all-to-all communication latency under 128k context was not measured in this run。\n\n依据 · Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0\n\n实测的平均路由分发延迟为 0.42 ms / step，对应 capacity_factor=1.25。\n\n依据 · Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0\n\n容量因子为 1.25，评估词元数为 32768（ArXiv validation subset）。\n\n依据 · Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0\n\n该次运行未测量 128k 上下文下 64-GPU all-to-all 通信延迟。\n\n图 1 · Mixtral-Router-Verification.ipynb · v1 · 输出 1\n\nMixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 1 · 图像未读取\n\n问这张图\n查看原件\n\n图 2 · Mixtral-Router-Verification.ipynb · v1 · 输出 2\n\nMixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 2 · 图像未读取\n\n问这张图\n查看原件",
+      "opened_citations": {
+        "ev-2": {
+          "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nExperiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random basel",
+          "location": "当前版本",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0"
+        }
+      }
+    },
+    "turn": {
+      "client_turn_id": "a9801e63-e1c7-4292-baca-69b7415f742c",
+      "error": null,
+      "kind": "ask",
+      "options": [],
+      "resolution": null,
+      "retryable": false,
+      "status": "completed",
+      "text": "请展示第 1 个 Cell 的保存输出，并说明实测的平均路由分发延迟、容量因子以及评估词元数分别是多少？",
+      "trace": {
+        "candidates": [
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "section_path": []
+            },
+            "match_kind": "direct",
+            "reasons": [
+              {
+                "code": "direct_location",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 0,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 1,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            }
+          },
+          {
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "locator": {
+              "cell_id": "router-eval-run",
+              "cell_index": 0,
+              "output_index": 2,
+              "section_path": []
+            },
+            "match_kind": "structural",
+            "reasons": [
+              {
+                "code": "child_object",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              },
+              {
+                "code": "same_position_object",
+                "seed": {
+                  "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                  "source_id": "cell:0",
+                  "version": 1
+                }
+              }
+            ],
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            }
+          }
+        ],
+        "coverage": {
+          "checked_adjacency_edges": 6,
+          "checked_positions": [
+            "cell:0"
+          ],
+          "enumerated_source_count": 4,
+          "evidence_inspected_count": 4,
+          "fts_candidate_cap": 36,
+          "fts_scan_truncated": false,
+          "fts_seed_count": 0,
+          "full_file_read": true,
+          "reserved_adjacency_slots": 0,
+          "returned_count": 4,
+          "searchable_source_count": 2,
+          "snapshot_document_count": 1,
+          "truncated": false,
+          "truncated_by_reason": {}
+        },
+        "effective_scope": {
+          "course_ids": [
+            "g24-repro-course"
+          ],
+          "document_ids": [
+            "local_f344efc4d7da42208eb4b576a77f552e"
+          ]
+        },
+        "external_call_count": 1,
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2463.49,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2515.205,
+          "estimated_input": 3655,
+          "external_call_count": 1,
+          "fixed_overhead": 2254,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "partial",
+          "total_tokens": 1156
+        },
+        "reading": {
+          "budget": 30514,
+          "estimated_input": 1401,
+          "estimated_message_input": 3655,
+          "full_text_scope": false,
+          "input_budget": 32768,
+          "location": {
+            "cell_id": null,
+            "cell_index": 0,
+            "cell_range": null,
+            "page": null,
+            "page_range": null
+          },
+          "mode": "ask",
+          "next_cursor": null,
+          "outline": [
+            {
+              "kind": "cell",
+              "locator": {
+                "cell_index": 0,
+                "section_path": []
+              },
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "title": "Code cell 1"
+            }
+          ],
+          "outline_total": 1,
+          "preferred": [
+            {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            }
+          ],
+          "prioritized": false,
+          "prompt_reserve": 2254,
+          "read_ranges": [
+            {
+              "end": 238,
+              "kind": "cell",
+              "locator": {
+                "cell_index": 0,
+                "section_path": []
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "1140811606c8ee90c2964d7fd83ba0840233c7237e3cb7a7d5bc8a3fd1586c26",
+              "title": "Code cell 1"
+            },
+            {
+              "end": 492,
+              "kind": "notebook_output",
+              "locator": {
+                "cell_index": 0,
+                "output_index": 0,
+                "section_path": []
+              },
+              "method": "native_text",
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "start": 0,
+              "text_sha256": "b51fb9204aff9c24ee52f3405aeda8a2891f32600c8afe3775a8d1274f95d0df",
+              "title": "Code cell 1 · output 1"
+            }
+          ],
+          "skipped": [
+            {
+              "kind": "notebook_output",
+              "locator": {
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "reason": "image_only",
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              "title": "Code cell 1 · output 2"
+            },
+            {
+              "kind": "notebook_output",
+              "locator": {
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "reason": "image_only",
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:2",
+                "version": 1
+              },
+              "title": "Code cell 1 · output 3"
+            }
+          ],
+          "skipped_total": 2,
+          "unread_visual": [
+            {
+              "kind": "notebook_output",
+              "locator": {
+                "cell_index": 0,
+                "output_index": 1,
+                "section_path": []
+              },
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:1",
+                "version": 1
+              },
+              "title": "Code cell 1 · output 2"
+            },
+            {
+              "kind": "notebook_output",
+              "locator": {
+                "cell_index": 0,
+                "output_index": 2,
+                "section_path": []
+              },
+              "source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:2",
+                "version": 1
+              },
+              "title": "Code cell 1 · output 3"
+            }
+          ],
+          "unread_visual_total": 2,
+          "visual_read_status": "not_attempted"
+        },
+        "route": "generated_answer",
+        "search_status": "ok"
+      },
+      "turn_id": "f4a4bcf7b29647d1b821f1f2930358c8"
+    },
+    "message_meta": {
+      "blocks": [
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "第 1 个 Cell 的保存输出为：Experiment: Mixtral-8x7B-ArXiv-Routing (v1)；Router config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP；Evaluated tokens: 32768 (ArXiv validation subset)；Layer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)；Layer 15 first-or-second consecutive repetition: 62.3% (random baseline: 46.4%)；Mean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)；Note: 64-GPU all-to-all communication latency under 128k context was not measured in this run。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "实测的平均路由分发延迟为 0.42 ms / step，对应 capacity_factor=1.25。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "容量因子为 1.25，评估词元数为 32768（ArXiv validation subset）。",
+          "type": "text"
+        },
+        {
+          "code": "missing_evidence",
+          "text": "该次运行未测量 128k 上下文下 64-GPU all-to-all 通信延迟。",
+          "type": "notice"
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v1 · 输出 1",
+          "display_id": "5051d5c736b74dd58817527bef218c69",
+          "display_source": {
+            "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+            "source_id": "cell:0:output:1",
+            "version": 1
+          },
+          "evidence_id": "ev-3",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/559264147e1e4a26a5ed4e602262e140/messages/e1619b9fe0a9413ab9fca178b421bca3/media/5051d5c736b74dd58817527bef218c69?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        },
+        {
+          "caption": "Mixtral-Router-Verification.ipynb · v1 · 输出 2",
+          "display_id": "5ca5ac9f7d914d1db6807780d1f22699",
+          "display_source": {
+            "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+            "source_id": "cell:0:output:2",
+            "version": 1
+          },
+          "evidence_id": "ev-4",
+          "fallback_reason": null,
+          "height": 480,
+          "media_url": "/api/workspace/sessions/559264147e1e4a26a5ed4e602262e140/messages/e1619b9fe0a9413ab9fca178b421bca3/media/5ca5ac9f7d914d1db6807780d1f22699?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "notebook_output",
+          "type": "source_image",
+          "width": 840
+        }
+      ],
+      "message_id": "e1619b9fe0a9413ab9fca178b421bca3",
+      "ordinal": 2,
+      "role": "assistant",
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "section_path": [],
+            "text_span": [
+              0,
+              238
+            ]
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "# Mixtral 8x7B SMoE Router & Megablocks-EP Verification Benchmark\n# Evaluates ArXiv validation subset consecutive expert repetition and dispatch latency.\nrun_router_verification(num_experts=8, top_k=2, capacity_factor=1.25, tokens=32768)\n",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g24-repro-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0",
+              "version": 1
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": [],
+            "text_span": [
+              0,
+              492
+            ]
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "Experiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 62.3% (random baseline: 46.4%)\nMean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.\n",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g24-repro-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            }
+          }
+        },
+        "ev-3": {
+          "evidence_id": "ev-3",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 1,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g24-repro-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:1",
+              "version": 1
+            }
+          }
+        },
+        "ev-4": {
+          "evidence_id": "ev-4",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 2,
+            "section_path": []
+          },
+          "read_status": "not_attempted",
+          "reads": [],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g24-repro-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:2",
+              "version": 1
+            }
+          }
+        }
+      },
+      "turn_id": "f4a4bcf7b29647d1b821f1f2930358c8",
+      "visible_display_ids": [
+        "5051d5c736b74dd58817527bef218c69",
+        "5ca5ac9f7d914d1db6807780d1f22699"
+      ]
+    }
+  },
+  "q09": {
+    "elapsed_ms": 2099.7,
+    "dom": {
+      "citations": [
+        "ev-1",
+        "ev-2"
+      ],
+      "id": "18853862407845ecb80e820620ff0e26",
+      "notices": [],
+      "text": "课程助手\n\n历史版本（v1）第 1 个 Cell 保存输出显示：平均路由分发延迟为 0.42 ms / step，容量因子为 1.25，评估词元数为 32768（ArXiv validation subset）。\n\n依据 · Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0\n\n当前版本（v2）第 1 个 Cell 保存输出显示：平均路由分发延迟为 0.31 ms / step，容量因子为 1.50，评估词元数为 65536（ArXiv validation subset）。\n\n依据 · Mixtral-Router-Verification.ipynb · v2 · Cell 1 · 输出 0\n\n与 v1 相比，v2 的平均路由分发延迟由 0.42 ms / step 降至 0.31 ms / step，容量因子由 1.25 升至 1.50，评估词元数由 32768 增至 65536。\n\n依据 · Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0Mixtral-Router-Verification.ipynb · v2 · Cell 1 · 输出 0",
+      "opened_citations": {
+        "ev-1": {
+          "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nExperiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random basel",
+          "location": "历史版本",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v1 · Cell 1 · 输出 0"
+        },
+        "ev-2": {
+          "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nExperiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random basel",
+          "location": "当前版本",
+          "open": true,
+          "status": "文字已交给回答模型 · 图像未读取",
+          "title": "Mixtral-Router-Verification.ipynb · v2 · Cell 1 · 输出 0"
+        }
+      }
+    },
+    "turn": {
+      "client_turn_id": "dfce7bf3-7ff6-4918-8e99-7a9b290570f3",
+      "error": null,
+      "kind": "ask",
+      "options": [],
+      "resolution": null,
+      "retryable": false,
+      "status": "completed",
+      "text": "跟上一版相比，第 1 个 Cell 保存输出里的平均路由分发延迟、容量因子和评估词元数有什么变化？",
+      "trace": {
+        "current_read_status": "succeeded",
+        "current_source": {
+          "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+          "source_id": "cell:0:output:0",
+          "version": 2
+        },
+        "external_call_count": 1,
+        "generation": {
+          "attempts": [
+            {
+              "elapsed_ms": 2000.458,
+              "outcome": "response",
+              "status": 200
+            }
+          ],
+          "elapsed_ms": 2014.069,
+          "estimated_input": 3953,
+          "external_call_count": 1,
+          "fixed_overhead": 2207,
+          "input_budget": 32768,
+          "input_evidence_ids": [
+            "ev-1",
+            "ev-2"
+          ],
+          "model": "deepseek-flash",
+          "output_reserve": 8192,
+          "provider": "deepseek",
+          "status": "succeeded",
+          "total_tokens": 1185
+        },
+        "historical_message_id": "e1619b9fe0a9413ab9fca178b421bca3",
+        "historical_read_status": "succeeded",
+        "historical_source": {
+          "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+          "source_id": "cell:0:output:0",
+          "version": 1
+        },
+        "route": "version_comparison"
+      },
+      "turn_id": "3b4aa4e2131843dca7b909610e8cf108"
+    },
+    "message_meta": {
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "历史版本（v1）第 1 个 Cell 保存输出显示：平均路由分发延迟为 0.42 ms / step，容量因子为 1.25，评估词元数为 32768（ArXiv validation subset）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-2"
+          ],
+          "text": "当前版本（v2）第 1 个 Cell 保存输出显示：平均路由分发延迟为 0.31 ms / step，容量因子为 1.50，评估词元数为 65536（ArXiv validation subset）。",
+          "type": "text"
+        },
+        {
+          "citations": [
+            "ev-1",
+            "ev-2"
+          ],
+          "text": "与 v1 相比，v2 的平均路由分发延迟由 0.42 ms / step 降至 0.31 ms / step，容量因子由 1.25 升至 1.50，评估词元数由 32768 增至 65536。",
+          "type": "text"
+        }
+      ],
+      "message_id": "18853862407845ecb80e820620ff0e26",
+      "ordinal": 4,
+      "role": "assistant",
+      "sources": {
+        "ev-1": {
+          "evidence_id": "ev-1",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": [],
+            "version_role": "historical"
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:0",
+                "version": 1
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "Experiment: Mixtral-8x7B-ArXiv-Routing (v1)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 32768 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 27.9% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 62.3% (random baseline: 46.4%)\nMean routing dispatch latency: 0.42 ms / step (capacity_factor=1.25)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "g24-repro-course",
+            "publication_epoch": 1,
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:0",
+              "version": 1
+            }
+          }
+        },
+        "ev-2": {
+          "evidence_id": "ev-2",
+          "file_name": "Mixtral-Router-Verification.ipynb",
+          "locator": {
+            "cell_id": "router-eval-run",
+            "cell_index": 0,
+            "output_index": 0,
+            "section_path": [],
+            "version_role": "current"
+          },
+          "read_status": "succeeded",
+          "reads": [
+            {
+              "actual_input_media_type": null,
+              "actual_input_rect": null,
+              "actual_input_sha256": null,
+              "actual_source": {
+                "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+                "source_id": "cell:0:output:0",
+                "version": 2
+              },
+              "execution": null,
+              "method": "native_text",
+              "model": null,
+              "origin_execution": null,
+              "prompt_version": null,
+              "question_sha256": null,
+              "status": "succeeded",
+              "text": "Experiment: Mixtral-8x7B-ArXiv-Routing (v2)\nRouter config: num_experts=8, top_k_experts=2, dispatch_kernel=Megablocks-EP\nEvaluated tokens: 65536 (ArXiv validation subset)\nLayer 15 first-choice consecutive repetition: 28.4% (random baseline: 12.5%)\nLayer 15 first-or-second consecutive repetition: 63.1% (random baseline: 46.4%)\nMean routing dispatch latency: 0.31 ms / step (capacity_factor=1.50)\nNote: 64-GPU all-to-all communication latency under 128k context was not measured in this run.",
+              "warnings": []
+            }
+          ],
+          "revision": {
+            "content_sha256": "4d9aed07c7f8097cb05bb6471f7b32c824bd5c2bbb64b0d7e680ef673eee74e4",
+            "course_id": "g24-repro-course",
+            "publication_epoch": 2,
+            "source": {
+              "document_id": "local_f344efc4d7da42208eb4b576a77f552e",
+              "source_id": "cell:0:output:0",
+              "version": 2
+            }
+          }
+        }
+      },
+      "turn_id": "3b4aa4e2131843dca7b909610e8cf108",
+      "visible_display_ids": []
+    }
+  },
+  "provider_calls": [
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3671,
+      "status_code": 200,
+      "elapsed_ms": 1250.9
+    },
+    {
+      "url": "https://api.deepseek.com/v1/chat/completions",
+      "model": "deepseek-flash",
+      "request_bytes": 3969,
+      "status_code": 200,
+      "elapsed_ms": 1114.3
+    }
+  ]
+}
