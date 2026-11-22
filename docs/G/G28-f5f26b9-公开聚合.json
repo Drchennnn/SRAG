@@ -1,0 +1,254 @@
+{
+  "candidate": "f5f26b993a5c0608e958d64c33976a70d84ceb1e",
+  "previous_gate_report": "20eefc57eaf5b078bd03ea8b057ac5be40d27dbc",
+  "viewport_px": [
+    1280,
+    577
+  ],
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true,
+    "generation_output_reserve": 8192
+  },
+  "verdict": "返工",
+  "gate_blocker": "P04 未保留已实读的所问定义",
+  "groups": {
+    "regression_original_five": {
+      "passed": 4,
+      "total": 5,
+      "model_requests": 9,
+      "http_200": 9,
+      "rewrites": 4,
+      "generation": 5,
+      "rewrite_validation_fallbacks": 3,
+      "citation_clicks": 23,
+      "first_click_successes": 23,
+      "scope_notices": 1,
+      "turns": [
+        {
+          "id": "P01",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "定义和实验实测分别由正确的原页和保存输出支撑"
+        },
+        {
+          "id": "P04",
+          "target_candidate_selected_read": [
+            1,
+            1,
+            1
+          ],
+          "citation_clicks": 8,
+          "outside_scope_notice": true,
+          "verdict": "返工",
+          "finding": "范围提示和重新选取说明正确，目标定义原页已实读但未出现在答复或引用",
+          "outside_experiment_candidate_read_cited_repeated": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "P02",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 5,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "条件差异由精确实验输出支撑，未套用次数"
+        },
+        {
+          "id": "P03",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 4,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "保存输出证实缺少目标测量，未填造数值"
+        },
+        {
+          "id": "P05",
+          "target_candidate_selected_read": [
+            1,
+            1,
+            1
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "定义正确，相近实验有独立依据，未给未测结果",
+          "related_experiment_candidate_selected_read_cited": [
+            1,
+            1,
+            1,
+            1
+          ]
+        }
+      ]
+    },
+    "regression_prior_four": {
+      "passed": 4,
+      "total": 4,
+      "model_requests": 7,
+      "http_200": 7,
+      "rewrites": 3,
+      "generation": 4,
+      "rewrite_validation_fallbacks": 1,
+      "citation_clicks": 11,
+      "first_click_successes": 11,
+      "scope_notices": 1,
+      "turns": [
+        {
+          "id": "N01",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "定义和两个实测结果各有对应原件"
+        },
+        {
+          "id": "N04",
+          "target_candidate_selected_read": [
+            1,
+            1,
+            1
+          ],
+          "citation_clicks": 2,
+          "outside_scope_notice": true,
+          "verdict": "通过",
+          "finding": "保留所问定义和正确原页，明确解释范围变化及如何重新选取",
+          "outside_experiment_candidate_read_cited_repeated": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "N02",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "拒绝把不同条件下的实测当作目标条件结果"
+        },
+        {
+          "id": "N03",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "说明目标操作及计时未记录，附带复杂度措辞仍过宽"
+        }
+      ]
+    },
+    "new_scope_holdout": {
+      "passed": 4,
+      "total": 4,
+      "model_requests": 5,
+      "http_200": 5,
+      "rewrites": 1,
+      "generation": 4,
+      "rewrite_validation_fallbacks": 0,
+      "citation_clicks": 8,
+      "first_click_successes": 8,
+      "scope_notices": 1,
+      "turns": [
+        {
+          "id": "S01",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "全课程首问的两个事实均有实际打开的 v1 依据"
+        },
+        {
+          "id": "S02",
+          "target_candidate_selected_read": [
+            1,
+            1,
+            1
+          ],
+          "citation_clicks": 1,
+          "outside_scope_notice": true,
+          "verdict": "通过",
+          "finding": "同会话收窄保留所问定义，明确实验在范围外和恢复步骤",
+          "outside_experiment_candidate_read_cited_repeated": [
+            0,
+            0,
+            0,
+            0
+          ]
+        },
+        {
+          "id": "S03",
+          "target_candidate_selected_read": [
+            2,
+            2,
+            2
+          ],
+          "citation_clicks": 3,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "同会话实际切回全部资料，恢复实验原件及结果，无旧提示"
+        },
+        {
+          "id": "S04",
+          "target_candidate_selected_read": [
+            1,
+            1,
+            1
+          ],
+          "citation_clicks": 1,
+          "outside_scope_notice": false,
+          "verdict": "通过",
+          "finding": "新会话选同一文件，说明缺项，无旧引用失效误报",
+          "outside_experiment_candidate_read_cited_repeated": [
+            0,
+            0,
+            0,
+            0
+          ]
+        }
+      ]
+    }
+  },
+  "first_trace_sha256": {
+    "regression_original_primary": "5a927be8f8fafb210599712b6f97939a9f083fb1519b04f016a8cc0371f12bb6",
+    "regression_original_supplement": "bab734da9093131076badbc8b025cc62e02ee73308e5e79c424db4ac1f520281",
+    "regression_prior_four": "78de89425e9d2ca84ba969134214779679d0eb09ad371c9ef258983fb46be779",
+    "new_scope_holdout": "593731ead090ac95c45fdae32e3fbb1475e65f689f570906f363ea02eaefcd79"
+  },
+  "new_holdout_manifest_sha256": "91cd8789d5a5b311af16214171a479deb1e9eb843fc1ce628cc328c5f9e02566"
+}
