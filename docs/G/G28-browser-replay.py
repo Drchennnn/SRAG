@@ -167,6 +167,10 @@ def replay(url, session, folder, manifest, log, record, save):
                 clicked = {"evidence_id": eid}
                 row["reader"].append(clicked)
                 try:
+                    js(
+                        f"document.querySelector({json.dumps(selector)})"
+                        ".scrollIntoView({block: 'center', behavior: 'instant'}) ?? true"
+                    )
                     ab("click", selector)
                     wait(
                         "document.querySelector('#reader').open && ("
@@ -184,7 +188,7 @@ def replay(url, session, folder, manifest, log, record, save):
                             text: reader.querySelector('#reader-body .text-block')?.innerText,
                             status: document.querySelector('#reader-status').innerText,
                             preview_notice: reader.querySelector(
-                                '#reader-body [role=status]')?.innerText,
+                                '#reader-body [role=status]:not([hidden])')?.innerText,
                             pixels: reader.querySelector('img')?.naturalWidth};
                     })()""")
                     )
