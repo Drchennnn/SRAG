@@ -1669,6 +1669,25 @@ def test_changed_scope_resolves_unique_pinned_definition_topic(system, tmp_path,
     assert any(block.get("code") == "experiment_outside_scope"
                for block in current["message"]["blocks"])
 
+    for implicit in (
+        "只在选中的资料里，接着前一问说明其定义。",
+        "只在选中的资料里，接着前一问说明定义。",
+    ):
+        scope([])
+        ask(opened)
+        scope([guide_id])
+        result = ask(implicit + "刚才回放实验的延迟是多少？")
+        assert result["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+        assert "Acceptance Grid的定义" in calls[-1]["question"]
+        assert calls[-1]["previous_context"] == {} and "19 ms" not in str(calls[-1])
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    no_definition = ask("接着前一问说明其测量结果。刚才回放实验的延迟是多少？")
+    assert "definition_topic" not in no_definition["turn"]["trace"]
+    assert calls[-1]["question"].startswith("接着前一问说明其测量结果")
+
     scope([])
     ask(opened)
     scope([guide_id])

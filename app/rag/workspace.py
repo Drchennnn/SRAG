@@ -88,12 +88,20 @@ _EXPERIMENT_FILLER = re.compile(
     r"分别|处理|测出的?|测得的?|是多少|多少|几次"
 )
 _DEFINITION_REFERENCE = re.compile(
-    r"(?P<reference>(?:那|这|该)(?:一)?(?:条|个|项|种)?"
-    r"(?:判定规则|规则|概念|门槛|机制|方法|窗口)|它|前者|后者)"
-    r"\s*(?=(?:的定义|是?怎么定义|是?如何定义|指什么|是什么意思|是什么))"
+    r"(?P<reference>(?:那|这|该|此)(?:一)?(?:条|个|项|种)?"
+    r"(?:判定规则|规则|概念|门槛|机制|方法|窗口)|"
+    r"它|其|前者|后者|这个|那个|该项|此项|该|此)"
+    r"(?=\s*(?:的?\s*定义|是?怎么定义|是?如何定义|指什么|是什么意思|是什么))"
+)
+_DEFINITION_ELISION = re.compile(
+    r"(?:接着|承接|沿用|继续|按)\s*"
+    r"(?:刚才(?:的)?(?:问题|一问)|前一问|上一问|上一个问题|上一轮(?:的)?问题)"
+    r"[，,\s]*(?:请|再)?(?:说明|解释|重述|给出|说说)\s*(?P<definition>定义)"
+    r"(?=[。！？?!；;，,\n\s]|$)"
 )
 _DEFINITION_REQUEST = re.compile(
     r"(?:怎么定义|如何定义|请定义|什么是)\s*(?P<after>.+)$"
+    r"|(?:说明|解释|重述|给出)\s*(?P<nominal>.+?)的定义$"
     r"|(?P<before>.+?)(?:的定义(?:是)?什么|是?怎么定义的?|是?如何定义的?|是什么意思)$"
 )
 _DEFINITION_PREFACE = re.compile(
@@ -190,7 +198,9 @@ def _definition_topics(question: str) -> set[str]:
         match = _DEFINITION_REQUEST.search(clause.strip())
         if not match:
             continue
-        names = _DEFINITION_PREFACE.sub("", match["after"] or match["before"])
+        names = _DEFINITION_PREFACE.sub(
+            "", match["after"] or match["nominal"] or match["before"]
+        )
         for name in _TOPIC_SEPARATOR.split(names):
             name = name.strip(" \t`‘’“”'\"「」《》")
             if (
@@ -201,6 +211,17 @@ def _definition_topics(question: str) -> set[str]:
             ):
                 topics.add(name)
     return topics
+
+
+def _definition_reference(text: str) -> tuple[int, int, str] | None:
+    if match := _DEFINITION_REFERENCE.search(text):
+        start, end = match.span("reference")
+        suffix = "的" if text[end:].lstrip().startswith("定义") else ""
+        return start, end, suffix
+    if match := _DEFINITION_ELISION.search(text):
+        start = match.start("definition")
+        return start, start, "的"
+    return None
 
 
 def _contains_topic(text: str, name: str) -> bool:
@@ -894,7 +915,7 @@ class WorkspaceService:
         explicit_location = _location(text, None)
         whole_file = _WHOLE_FILE.search(text)
         named_definition = bool(_definition_topics(text))
-        definition_reference = _DEFINITION_REFERENCE.search(text) if not named_definition else None
+        definition_reference = _definition_reference(text) if not named_definition else None
         followup = bool(
             self.settings.workspace_answer_enabled
             and owner
@@ -1030,8 +1051,8 @@ class WorkspaceService:
                     return self._clarify(
                         turn, "无法确定你指的是哪个定义。请写出概念或规则名称。", [], refs,
                     )
-                start, end = definition_reference.span("reference")
-                text = f"{text[:start]}{resolved_topic}{text[end:]}"
+                start, end, suffix = definition_reference
+                text = f"{text[:start]}{resolved_topic}{suffix}{text[end:]}"
             if _REWRITE_PRIOR.search(text):
                 if previous:
                     return self._rewrite_previous(turn, previous, refs, topic_document)
