@@ -1,0 +1,740 @@
+{
+  "first": {
+    "subject": "f5f26b993a5c0608e958d64c33976a70d84ceb1e",
+    "manifest_sha256": "dfd6def5bcdd3ee0c524494c965d6e1dadd78aa99f1b89dbac0099f0b7a69850",
+    "raw_trace_sha256": "0c6fa856f8a7afbac7844089264b6cc5d5a3af3832046e9895d6a2c2f9e950d3",
+    "turns": [
+      {
+        "id": "I01",
+        "question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-7",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": null,
+        "wire_messages_match_generation_input": null,
+        "wire_parameter_max_tokens": null,
+        "provider_content": "{\"statements\":[{\"text\":\"讲义将 Acceptance Grid 定义为：在同一 epoch 内，两个传感器各自的读数都必须严格高于 23 units；任一传感器读数等于 23 即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-7\"]},{\"text\":\"配套 Latency replay 实验记录显示，在 dequeue 后有三个被接受的 bundle，其 mean release lag 为 19 ms。\",\"citations\":[\"ev-2\"]},{\"text\":\"该实验的输入 lag 列表为 [17, 21, 19]，代码按整数除法计算均值。\",\"citations\":[\"ev-1\"]},{\"text\":\"讲义说明 Latency replay 报告的是 dequeue 后的 mean release lag，而不是 fleet average。\",\"citations\":[\"ev-4\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 4,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-7",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-1",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200,
+          200
+        ]
+      },
+      {
+        "id": "I02",
+        "question": "按刚才的问题，那条规则怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 24,
+        "includes_notebook_output": false,
+        "target_fragments": [
+          {
+            "id": "ev-9",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": null,
+        "wire_messages_match_generation_input": null,
+        "wire_parameter_max_tokens": null,
+        "provider_content": "{\"statements\":[{\"text\":\"验收规则（Acceptance Grid）定义为：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器等于 23 即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-9\"]},{\"text\":\"回放延迟指标的定义是：Latency replay 报告的是出队后的平均释放延迟（mean release lag after dequeue），从不是车队平均值（fleet average）。\",\"citations\":[\"ev-6\"]},{\"text\":\"该指南只定义流程，测量结果由单独的实验室记录；因此本次证据中没有回放实验的平均释放延迟数值。\",\"citations\":[\"ev-15\"]}],\"missing\":\"缺少回放实验的平均释放延迟毫秒数：当前证据只有延迟指标的定义，没有对应的实验测量值。\",\"experiment_missing\":true}",
+        "strict_parser_retained_count": 3,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [
+          {
+            "code": "missing_evidence",
+            "text": "缺少回放实验的平均释放延迟毫秒数：当前证据只有延迟指标的定义，没有对应的实验测量值。",
+            "type": "notice"
+          },
+          {
+            "code": "experiment_outside_scope",
+            "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+            "type": "notice"
+          }
+        ],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-9",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-15",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 15 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "E01",
+        "question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-7",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": null,
+        "wire_messages_match_generation_input": null,
+        "wire_parameter_max_tokens": null,
+        "provider_content": "{\"statements\":[{\"text\":\"讲义将 Acceptance Grid 定义为：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器等于 23 都不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-7\"]},{\"text\":\"配套 Latency replay 记录显示，Acceptance Grid 的 mean release lag 为 19 ms；该指标指 dequeue 之后的平均释放滞后，而非车队平均值。\",\"citations\":[\"ev-2\",\"ev-4\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 2,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-7",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "E02",
+        "question": "按刚才的问题，Acceptance Grid怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 24,
+        "includes_notebook_output": false,
+        "target_fragments": [
+          {
+            "id": "ev-9",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": null,
+        "wire_messages_match_generation_input": null,
+        "wire_parameter_max_tokens": null,
+        "provider_content": "{\"statements\":[{\"text\":\"Acceptance Grid 的定义是：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器等于 23 都不通过，且绝不对两个读数取平均。\",\"citations\":[\"ev-9\"]},{\"text\":\"回放延迟报告的是出队后的平均释放延迟（mean release lag after dequeue），而非车队平均值。\",\"citations\":[\"ev-6\"]},{\"text\":\"该指南只定义流程，测量结果由单独的实验室记录。\",\"citations\":[\"ev-15\"]}],\"missing\":\"当前证据未给出那次回放实验的平均释放延迟数值（毫秒）；指南明确测量记录在单独的实验室资料中，本轮证据不含该测量结果。\",\"experiment_missing\":true}",
+        "strict_parser_retained_count": 3,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [
+          {
+            "code": "missing_evidence",
+            "text": "当前证据未给出那次回放实验的平均释放延迟数值（毫秒）；指南明确测量记录在单独的实验室资料中，本轮证据不含该测量结果。",
+            "type": "notice"
+          },
+          {
+            "code": "experiment_outside_scope",
+            "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+            "type": "notice"
+          }
+        ],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-9",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-15",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 15 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "C01",
+        "question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-7",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": null,
+        "wire_messages_match_generation_input": null,
+        "wire_parameter_max_tokens": null,
+        "provider_content": "{\"statements\":[{\"text\":\"讲义将 Acceptance Grid 定义为：在同一 epoch 内，两个传感器各自的读数都必须严格高于 23 units；任一传感器读数等于 23 即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-7\"]},{\"text\":\"配套 Latency replay 实验记录显示，在 dequeue 后有三个被接受的 bundle，其 mean release lag 为 19 ms。\",\"citations\":[\"ev-2\"]},{\"text\":\"该实验的输入 lag 为 17、21、19，代码按整数除法计算均值；保存输出给出的均值是 19 ms。\",\"citations\":[\"ev-1\",\"ev-2\"]},{\"text\":\"讲义说明 Latency replay 报告的是 dequeue 后的 mean release lag，而不是 fleet average。\",\"citations\":[\"ev-4\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 4,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-7",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-1",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "C02",
+        "question": "按刚才的问题，那条规则怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [
+          "previous_answer",
+          "previous_question"
+        ],
+        "previous_question_names_target": true,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-7",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": null,
+        "wire_messages_match_generation_input": null,
+        "wire_parameter_max_tokens": null,
+        "provider_content": "{\"statements\":[{\"text\":\"Acceptance Grid 的定义是：在同一 epoch 内，两个传感器各自的读数都必须严格高于 23 units；任一传感器读数等于 23 即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-7\"]},{\"text\":\"Latency replay 报告的是 dequeue 后的 mean release lag，而不是 fleet average。\",\"citations\":[\"ev-4\"]},{\"text\":\"配套 Latency replay 实验记录显示，在 dequeue 后有三个被接受的 bundle，其 mean release lag 为 19 ms。\",\"citations\":[\"ev-2\"]},{\"text\":\"该实验的输入 lag 为 17、21、19，代码按整数除法计算均值；保存输出给出的均值是 19 ms。\",\"citations\":[\"ev-1\",\"ev-2\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 4,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-7",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-1",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200,
+          200
+        ]
+      }
+    ]
+  },
+  "wire_supplement": {
+    "subject": "f5f26b993a5c0608e958d64c33976a70d84ceb1e",
+    "manifest_sha256": "dfd6def5bcdd3ee0c524494c965d6e1dadd78aa99f1b89dbac0099f0b7a69850",
+    "raw_trace_sha256": "d1643e2e9cae4afd4a71218eeafae2aa6ebfdde4ca24e3fec8b7c73d0d6030a1",
+    "turns": [
+      {
+        "id": "I01",
+        "question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-6",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": "b7a809f6db9f0179dc3d51a06d39b0717cd2d4eb4bbb30538c0e7dda9505f04d",
+        "wire_messages_match_generation_input": true,
+        "wire_parameter_max_tokens": 4096,
+        "provider_content": "{\"statements\":[{\"text\":\"讲义将 Acceptance Grid 定义为：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器等于 23 units 即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-6\"]},{\"text\":\"配套 Latency replay 实验记录显示，Acceptance Grid 的 mean release lag 为 19 ms；该指标指 dequeue 之后的平均释放滞后，而非车队平均值。\",\"citations\":[\"ev-2\",\"ev-4\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 2,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200,
+          200
+        ]
+      },
+      {
+        "id": "I02",
+        "question": "按刚才的问题，那条规则怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 24,
+        "includes_notebook_output": false,
+        "target_fragments": [
+          {
+            "id": "ev-9",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": "abfac4c613e2beba50cfebcd521ac1fad1c330ec8293b79c1bf6aa3707a7abed",
+        "wire_messages_match_generation_input": true,
+        "wire_parameter_max_tokens": 4096,
+        "provider_content": "{\"statements\":[{\"text\":\"验收规则（Acceptance Grid）定义为：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器等于 23 即不通过，且绝不对两个读数取平均。\",\"citations\":[\"ev-9\"]},{\"text\":\"回放延迟报告的是出队后的平均释放延迟（mean release lag after dequeue），而非车队平均值。\",\"citations\":[\"ev-6\"]},{\"text\":\"该指南只定义流程，测量结果由单独的实验室记录。\",\"citations\":[\"ev-15\"]}],\"missing\":\"当前证据未给出任何回放实验的平均释放延迟数值（毫秒）；指南明确测量记录在单独的实验室资料中，而该资料不在本轮证据内。\",\"experiment_missing\":true}",
+        "strict_parser_retained_count": 3,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [
+          {
+            "code": "missing_evidence",
+            "text": "当前证据未给出任何回放实验的平均释放延迟数值（毫秒）；指南明确测量记录在单独的实验室资料中，而该资料不在本轮证据内。",
+            "type": "notice"
+          },
+          {
+            "code": "experiment_outside_scope",
+            "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+            "type": "notice"
+          }
+        ],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-9",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-15",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 15 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "E01",
+        "question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-6",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": "b7a809f6db9f0179dc3d51a06d39b0717cd2d4eb4bbb30538c0e7dda9505f04d",
+        "wire_messages_match_generation_input": true,
+        "wire_parameter_max_tokens": 4096,
+        "provider_content": "{\"statements\":[{\"text\":\"讲义将 Acceptance Grid 定义为：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器等于 23 都不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-6\"]},{\"text\":\"配套 Latency replay 实验记录显示，Acceptance Grid 的 mean release lag 为 19 ms；该指标指 dequeue 之后的平均 release lag，而非 fleet average。\",\"citations\":[\"ev-2\",\"ev-4\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 2,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "E02",
+        "question": "按刚才的问题，Acceptance Grid怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 24,
+        "includes_notebook_output": false,
+        "target_fragments": [
+          {
+            "id": "ev-9",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": "51f1e91acc0445d8763ba50f301d941799ff66110153bc49aa7cfa38d69dc90d",
+        "wire_messages_match_generation_input": true,
+        "wire_parameter_max_tokens": 4096,
+        "provider_content": "{\"statements\":[{\"text\":\"Acceptance Grid 的定义是：在同一 epoch 内，两个传感器必须各自严格高于 23 units；任一传感器等于 23 即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-9\"]},{\"text\":\"关于回放实验的平均释放延迟，资料只说明延迟回放报告的是出队后的平均释放滞后（mean release lag after dequeue），并非车队平均值；未给出具体毫秒数值。\",\"citations\":[\"ev-6\"]},{\"text\":\"该指南说明其本身定义流程，测量由单独的实验室记录，因此回放实验的测量数值不在本指南中。\",\"citations\":[\"ev-15\"]}],\"missing\":\"回放实验的平均释放延迟具体毫秒数缺失：现有证据仅说明指标为出队后的平均释放滞后，未提供任何数值，且指南明确测量记录在单独的实验室资料中。\",\"experiment_missing\":true}",
+        "strict_parser_retained_count": 3,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [
+          {
+            "code": "missing_evidence",
+            "text": "回放实验的平均释放延迟具体毫秒数缺失：现有证据仅说明指标为出队后的平均释放滞后，未提供任何数值，且指南明确测量记录在单独的实验室资料中。",
+            "type": "notice"
+          },
+          {
+            "code": "experiment_outside_scope",
+            "text": "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。本轮能核对的内容以上述当前文件的回答和引用为准。如需核对该实验，请在资料目录重新选择实验文件，或切回课程全部资料后再提问。",
+            "type": "notice"
+          }
+        ],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-9",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-15",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 15 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "C01",
+        "question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [],
+        "previous_question_names_target": false,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-6",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": "b7a809f6db9f0179dc3d51a06d39b0717cd2d4eb4bbb30538c0e7dda9505f04d",
+        "wire_messages_match_generation_input": true,
+        "wire_parameter_max_tokens": 4096,
+        "provider_content": "{\"statements\":[{\"text\":\"讲义将 Acceptance Grid 定义为：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器取等号即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-6\"]},{\"text\":\"配套 Latency replay 实验记录显示，Acceptance Grid 的 mean release lag 为 19 ms；该指标是 dequeue 之后的平均释放滞后，不是车队平均值。\",\"citations\":[\"ev-2\",\"ev-4\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 2,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-4",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 6 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200
+        ]
+      },
+      {
+        "id": "C02",
+        "question": "按刚才的问题，那条规则怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "mode": "definition_and_experiment",
+        "previous_context_keys": [
+          "previous_answer",
+          "previous_question"
+        ],
+        "previous_question_names_target": true,
+        "source_count": 12,
+        "includes_notebook_output": true,
+        "target_fragments": [
+          {
+            "id": "ev-7",
+            "reads": [
+              {
+                "method": "native_text",
+                "status": "succeeded",
+                "text": "Acceptance Grid\nField Operations Guide | section 09\nAcceptance Grid: in the same epoch, both sensors must each be strictly above 23 units.\nEquality on either sensor fails. Never average the two readings.\nOperator review uses the defined condition for its own step. Do not transfer a rule\nbetween acceptance, dispatch and logging. Each section is an independent reference for a\nseparate review.\nReview order: identify the subject of the rule, then keep its event and boundary."
+              }
+            ]
+          }
+        ],
+        "wire_body_sha256": "7d4bc3cdb343b38e68d0d4414f62cfe469896ca8d850fee3460540e5db90e7af",
+        "wire_messages_match_generation_input": true,
+        "wire_parameter_max_tokens": 4096,
+        "provider_content": "{\"statements\":[{\"text\":\"Acceptance Grid 的定义是：在同一 epoch 内，两个传感器各自都必须严格高于 23 units；任一传感器取等号即不通过，且不得对两个读数取平均。\",\"citations\":[\"ev-7\"]},{\"text\":\"Latency replay 实验记录显示，Acceptance Grid 的 mean release lag 为 19 ms；该指标是 dequeue 之后的平均释放滞后，不是车队平均值。\",\"citations\":[\"ev-2\",\"ev-6\"]}],\"missing\":\"\"}",
+        "strict_parser_retained_count": 2,
+        "technical_filter_removed_count": 0,
+        "final_statements_match_postfilter": true,
+        "notices": [],
+        "actual_citation_clicks": [
+          {
+            "evidence_id": "ev-7",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 9 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-2",
+            "title": "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+            "location": "当前版本",
+            "first_click": "succeeded"
+          },
+          {
+            "evidence_id": "ev-6",
+            "title": "Field-Operations-Guide.pdf · v1 · 第 8 页",
+            "location": "当前版本",
+            "pixels": 1224,
+            "first_click": "succeeded"
+          }
+        ],
+        "provider_http_statuses": [
+          200,
+          200
+        ]
+      }
+    ]
+  }
+}
