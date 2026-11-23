@@ -229,6 +229,11 @@ def run_m1_and_lifecycle(archive_dir: Path, work_dir: Path, criteria: dict[str, 
 
     # Also verify no edge in MAIN_COURSE has document_id == other_doc_id.
     assert all(e.document_id != other_doc_id for e in edges_v1), "Cross-course edge leaked!"
+    assert not missing_v1, f"M1 missing expected v1 edges: {missing_v1}; got={edge_records_v1}"
+    assert not false_acceptances, f"M1 counterexample false acceptances: {false_acceptances}"
+    assert len(edge_records_v1) == len(expected_v1), (
+        f"M1 unexpected extra edges ({len(edge_records_v1)} != {len(expected_v1)}): {edge_records_v1}"
+    )
 
     # Test M4 lifecycle:
     # (a) Scheduled v2 does NOT prematurely leak into active v1 edges.
@@ -770,6 +775,37 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
             desc="historical v1 evidence opened in #reader",
         )
         _ab(bs_a, "screenshot", str(shots / "h03-m4-v1-history.png"))
+
+        # M4 Delete & Stale Historical Chip Graceful Degradation:
+        # Delete NoEdge-Notes.pdf via local library API -> reload -> click stale C6 chip -> graceful fallback, NO global error banner!
+        noedge_doc_info = _ab_eval(
+            bs_a,
+            f"(async () => {{ const r = await fetch('/api/workspace/sessions/{sess_a}/catalog'); "
+            f"const j = await r.json(); const c = j.courses.find(x => x.course_id === '{MAIN_COURSE}'); "
+            "return c.documents.find(d => d.file_name === 'NoEdge-Notes.pdf'); })()",
+        )
+        del_req = urllib.request.Request(
+            f"{base_url}/api/rag/local/documents/{noedge_doc_info['document_id']}",
+            method="DELETE",
+        )
+        with urllib.request.urlopen(del_req, timeout=5.0) as del_resp:
+            assert del_resp.status == 200
+        _ab(bs_a, "reload")
+        _wait_for_js(
+            bs_a,
+            f"document.querySelector('#messages .kg-concept-chip[data-concept-key=\"{c6_key}\"][data-stale=\"true\"]') !== null",
+            desc="C6 historical chip flagged stale after delete",
+        )
+        _ab(bs_a, "click", f"#messages .kg-concept-chip[data-concept-key='{c6_key}']")
+        _wait_for_js(
+            bs_a,
+            "(() => { const d = document.getElementById('kg-detail'); "
+            "const st = document.getElementById('workspace-status'); "
+            "return d && !d.hidden && d.querySelector('.kg-fallback-search') !== null "
+            "&& st && st.hidden === true; })()",
+            desc="deleted concept chip graceful in-panel fallback without global error banner",
+        )
+        _ab(bs_a, "screenshot", str(shots / "h03-m4-stale-chip-fallback.png"))
 
         # M5: Independent Browser Session B + unauth + cross-course 404 checks
         _ab(bs_b, "open", f"{base_url}/workspace/")
