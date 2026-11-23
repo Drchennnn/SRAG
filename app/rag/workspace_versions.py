@@ -292,10 +292,11 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
             "标明的旧版与当前版不符合当前发布状态，请核对两个版本。",
         )
         return service._complete(turn, draft, trace=trace)
-    history = _completed_history(service, owner, turn, session)
+    full_history = _completed_history(service, owner, turn, session)
+    candidate_history = full_history
     attribute = _image_attribute(question)
     inherited_image = False
-    if history and (
+    if full_history and (
         implicit
         or (
             not intent
@@ -306,27 +307,21 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         )
         or (image and attribute is None)
     ):
-        previous_turn, message = history[0]
-        prior_intent = object_intent(previous_turn.request.text, include_reference=True)
-        read_visual_ids = [
-            eid
-            for eid, ev in message["sources"].items()
-            if any(
-                r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
-                for r in ev.get("reads", [])
-            )
-        ]
-        if len(read_visual_ids) == 1 or (
-            implicit and prior_intent and prior_intent.kind == "image"
-        ):
-            attribute = attribute or _image_attribute(previous_turn.request.text)
-            single_display = len(message["visible_display_ids"]) == 1
-            if implicit and len(read_visual_ids) != 1 and (not single_display or not attribute):
-                draft.notice("comparison_ambiguous", "请指定要比较的图，以及轴标签或单位。")
-                return service._complete(turn, draft, trace=trace)
-            history = history[:1]
-            intent = intent or prior_intent or ObjectIntent(kind="image")
-            image = inherited_image = True
+        matched_old = _latest_old_visual_entry(full_history, docs, versions, request_text)
+        if matched_old is not None:
+            previous_turn, message, read_visual_ids, old_display_ids = matched_old
+            prior_intent = object_intent(previous_turn.request.text, include_reference=True)
+            if len(read_visual_ids) == 1 or (
+                implicit and prior_intent and prior_intent.kind == "image"
+            ):
+                attribute = attribute or _image_attribute(previous_turn.request.text)
+                single_display = len(old_display_ids) == 1
+                if implicit and len(read_visual_ids) != 1 and (not single_display or not attribute):
+                    draft.notice("comparison_ambiguous", "请指定要比较的图，以及轴标签或单位。")
+                    return service._complete(turn, draft, trace=trace)
+                candidate_history = [(previous_turn, message)]
+                intent = intent or prior_intent or ObjectIntent(kind="image")
+                image = inherited_image = True
     current = [
         source
         for source in snapshot.sources
@@ -349,7 +344,7 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
             ):
                 regions[identity] = region.target_rect
         current = object_choices(intent, current, region_rects=regions)
-    old = _old_candidates(service, session, history, docs, versions, request_text, image)
+    old = _old_candidates(service, session, candidate_history, docs, versions, request_text, image)
     doc_sources_by_doc: dict[str, list[SnapshotSource]] = {}
     for src in snapshot.sources:
         doc_sources_by_doc.setdefault(src.document_id, []).append(src)
@@ -422,12 +417,61 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
         past=past,
         document=document,
         selected=selected,
-        history=history,
+        history=full_history,
         question=question,
         is_image=image,
         attribute=attribute,
         inherited_image=inherited_image,
     )
+
+
+def _latest_old_visual_entry(
+    history: list[tuple[Turn, dict[str, Any]]],
+    docs: dict[str, SnapshotDocument],
+    versions: set[int],
+    request_text: str,
+) -> tuple[Turn, dict[str, Any], list[str], list[str]] | None:
+    """Walk completed history to find the most recent old-version visual read or display."""
+
+    def _is_old_source(src: dict[str, Any]) -> bool:
+        doc_id = src.get("document_id")
+        ver = src.get("version")
+        if not isinstance(doc_id, str) or not isinstance(ver, int):
+            return False
+        doc = docs.get(doc_id)
+        if doc is None or ver >= doc.version:
+            return False
+        old_target = versions - {doc.version}
+        if old_target and ver not in old_target:
+            return False
+        if not old_target and _PREVIOUS.search(request_text) and ver + 1 != doc.version:
+            return False
+        return True
+
+    fallback_display: tuple[Turn, dict[str, Any], list[str], list[str]] | None = None
+    for prev_turn, message in history:
+        visible_ids = set(message.get("visible_display_ids") or ())
+        old_display_ids = [
+            b["display_id"]
+            for b in message.get("blocks", [])
+            if b.get("type") == "source_image"
+            and b.get("display_id") in visible_ids
+            and _is_old_source(b.get("display_source") or {})
+        ]
+        old_read_ids = [
+            eid
+            for eid, ev in (message.get("sources") or {}).items()
+            if _is_old_source((ev.get("revision") or {}).get("source") or {})
+            and any(
+                r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
+                for r in ev.get("reads", [])
+            )
+        ]
+        if len(old_read_ids) == 1:
+            return prev_turn, message, old_read_ids, old_display_ids
+        if fallback_display is None and old_display_ids:
+            fallback_display = (prev_turn, message, old_read_ids, old_display_ids)
+    return fallback_display
 
 
 def execute_paired_comparison(

@@ -28,6 +28,12 @@ from app.rag.workspace_versions import (
     _CURRENT as _CURRENT_VERSION,
 )
 from app.rag.workspace_versions import (
+    _FILE_TOKEN as _VERSION_FILE_TOKEN,
+)
+from app.rag.workspace_versions import (
+    _NEGATED_COMPARE as _VERSION_NEGATED_COMPARE,
+)
+from app.rag.workspace_versions import (
     _OLD_CHINESE as _OLD_CH_VERSION,
 )
 from app.rag.workspace_versions import (
@@ -35,6 +41,9 @@ from app.rag.workspace_versions import (
 )
 from app.rag.workspace_versions import (
     _PLURAL_OBJECT as _VERSION_PLURAL_OBJECT,
+)
+from app.rag.workspace_versions import (
+    _versions as _extract_version_numbers,
 )
 from app.rag.workspace_versions import (
     is_version_comparison,
@@ -99,10 +108,19 @@ class CurrentVersionCounterpartRoute:
     document: SnapshotDocument | None
 
 
+_EXPLICIT_ONLY_OLD = re.compile(
+    r"(?:只看|仅看|只查|仅查|回看|回到|重看)\s*"
+    r"(?:旧|上一|前一|上个|前个|历史|老|先前|此前)版(?:本)?",
+    re.I,
+)
+
+
 @dataclass(frozen=True)
 class HistoryDisplayReferenceRoute:
     ordinal_match: re.Match[str] | None
     explicit_history: bool
+    old_version_only: bool = False
+    target_versions: frozenset[int] = frozenset()
 
 
 @dataclass(frozen=True)
@@ -218,10 +236,36 @@ def route_turn(service: WorkspaceService, ctx: TurnContext) -> RouteDecision:
 
     # Level 4: Explicit historical image/output references (never borrow current focus).
     explicit_history = bool(_HISTORY_IMAGE.search(text))
+    cleaned_ver_text = _VERSION_FILE_TOKEN.sub(" ", text)
+    explicit_versions = frozenset(_extract_version_numbers(cleaned_ver_text))
+    wants_old_version = bool(
+        _OLD_CH_VERSION.search(cleaned_ver_text) or _OLD_EN_VERSION.search(cleaned_ver_text)
+    )
+    explicit_old_num = bool(
+        explicit_versions
+        and not _CURRENT_VERSION.search(cleaned_ver_text)
+        and any(ver < doc.version for doc in ctx.documents.values() for ver in explicit_versions)
+    )
+    old_version_only = bool(
+        _EXPLICIT_ONLY_OLD.search(cleaned_ver_text)
+        or (
+            wants_old_version
+            and not _CURRENT_VERSION.search(cleaned_ver_text)
+            and not _VERSION_NEGATED_COMPARE.search(cleaned_ver_text)
+        )
+        or explicit_old_num
+    )
     if (
-        (explicit_history and image_reference) or output_anaphora
-    ) and (not located or _PREVIOUS_TURN.search(text)):
-        return HistoryDisplayReferenceRoute(ordinal_match=ordinal, explicit_history=True)
+        (explicit_history and image_reference)
+        or output_anaphora
+        or (old_version_only and (image_reference or output_anaphora))
+    ) and (not located or _PREVIOUS_TURN.search(text) or old_version_only):
+        return HistoryDisplayReferenceRoute(
+            ordinal_match=ordinal,
+            explicit_history=True,
+            old_version_only=old_version_only,
+            target_versions=explicit_versions if old_version_only else frozenset(),
+        )
 
     # Level 5: Focus-first disambiguation, stale-focus guard, and explicit object/table routing.
     switching = bool(_FILE_MENTION.search(text) and _affirmed_switch(text))

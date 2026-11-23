@@ -40,7 +40,11 @@ from app.rag.workspace_clarification import (
     resume_clarification,
 )
 from app.rag.workspace_composition import asks_for_composition, compose_evidence
-from app.rag.workspace_context import TurnContext, resolve_turn_context
+from app.rag.workspace_context import (
+    TurnContext,
+    find_filtered_history_displays,
+    resolve_turn_context,
+)
 from app.rag.workspace_evidence import readable_source_text
 from app.rag.workspace_generation import (
     OUTPUT_RESERVE,
@@ -753,6 +757,8 @@ class WorkspaceService:
                 session,
                 decision.ordinal_match,
                 explicit_history=decision.explicit_history,
+                old_version_only=decision.old_version_only,
+                target_versions=decision.target_versions,
                 ctx=ctx,
             )
         if isinstance(decision, CurrentImageRoute):
@@ -871,13 +877,51 @@ class WorkspaceService:
         match: re.Match[str] | None,
         *,
         explicit_history: bool | None = None,
+        old_version_only: bool = False,
+        target_versions: frozenset[int] = frozenset(),
         ctx: TurnContext | None = None,
     ) -> Turn:
         if explicit_history is None:
             explicit_history = bool(_HISTORY_IMAGE.search(turn.request.text))
-        if not explicit_history and _CURRENT_IMAGE.search(turn.request.text):
+        if not explicit_history and not old_version_only and _CURRENT_IMAGE.search(
+            turn.request.text
+        ):
             return resolve_current_image(self, turn, session)
-        if ctx is not None:
+        filtered_ids: list[str] | None = None
+        if old_version_only or target_versions:
+            if ctx is not None:
+                messages = ctx.history.messages
+                completed_turns = ctx.history.completed_turns
+                boundary = ctx.history.boundary
+                current_versions = {doc_id: doc.version for doc_id, doc in ctx.documents.items()}
+            else:
+                _, turns, messages = self.store.timeline(owner, session.session_id)
+                completed_turns = {
+                    item.turn_id: item
+                    for item in turns
+                    if item.status == "completed" and self._turn_access(item)
+                }
+                boundary = next(
+                    (
+                        message["ordinal"]
+                        for message in messages
+                        if message["turn_id"] == turn.turn_id and message["role"] == "user"
+                    ),
+                    len(messages) + 1,
+                )
+                snap = self.snapshots.read(
+                    SnapshotRequest(tuple(session.course_ids), tuple(session.document_ids))
+                )
+                current_versions = {doc.document_id: doc.version for doc in snap.documents}
+            single_read_anchor, previous, filtered_ids = find_filtered_history_displays(
+                messages,
+                completed_turns,
+                boundary,
+                current_versions,
+                old_version_only=old_version_only,
+                target_versions=target_versions,
+            )
+        elif ctx is not None:
             single_read_anchor = ctx.history.latest_single_vision_read
             previous = ctx.history.latest_visible_message
         else:
@@ -909,13 +953,25 @@ class WorkspaceService:
                 turn.request.text,
                 owner=owner,
             )
-        if previous is None:
+        if previous is None or (filtered_ids is not None and not filtered_ids):
+            if old_version_only or target_versions:
+                return build_clarification(
+                    self,
+                    turn,
+                    "本会话没有可核对的旧版图片记录，无法仅查看旧版原图。",
+                    [],
+                    trace={
+                        "route": "history_reference",
+                        "clarification_reason": "missing_old_version_history",
+                        "external_call_count": 0,
+                    },
+                )
             if not explicit_history:
                 return resolve_current_image(self, turn, session)
             return build_clarification(
                 self, turn, "找不到带图片的已完成回答，请从原件卡片选择。", []
             )
-        ids = previous["visible_display_ids"]
+        ids = filtered_ids if filtered_ids is not None else previous["visible_display_ids"]
         index = _number(match.group(1)) if match else (1 if len(ids) == 1 else 0)
         if not explicit_history and session.focus_id:
             catalog = ctx.catalog if ctx is not None else self._catalog(session.session_id)
@@ -2138,7 +2194,17 @@ class WorkspaceService:
                 ):
                     region_rects[key] = region.target_rect
         choices = object_choices(target, sources, focus=focus, region_rects=region_rects)
-        if target.kind in {"table", "caption", "formula"} and len(choices) > 1:
+        if target.kind == "table":
+            choices = _resolve_table_choices(
+                text,
+                target,
+                choices,
+                sources,
+                narrowed.sources,
+                focus=focus,
+                region_rects=region_rects,
+            )
+        elif target.kind in {"caption", "formula"} and len(choices) > 1:
             choices = _disambiguate_table_choices(text, choices, narrowed.sources)
         trace: dict[str, Any] = {
             "route": "target_object",
@@ -3291,6 +3357,149 @@ def _number(word: str) -> int:
 _TABLE_STOPWORDS = re.compile(
     r"打开|查看|展示|显示|预览|核对|请|帮我|包含|含有|关于|里面|中的|里的|那张|这张|原表|表格|表|的"
 )
+_EXPLICIT_TABLE_LABEL = re.compile(
+    r"\btable\s*#?\s*(?P<en>[1-9][0-9]{0,3})(?![0-9.])"
+    r"|(?<![第图])表\s*#?\s*(?P<zh>[1-9][0-9]{0,3})(?![0-9.])",
+    re.IGNORECASE,
+)
+_PAGE_TABLE_CAPTION = re.compile(
+    r"(?m)^\s*(?:table|表)\s*#?\s*([1-9][0-9]{0,3})\s*[:：.\-]",
+    re.IGNORECASE,
+)
+_NEXT_CAPTION_BOUNDARY = re.compile(
+    r"(?m)^\s*(?:table|figure|fig\.?|表|图)\s*#?\s*[1-9][0-9]{0,3}\s*[:：.\-]",
+    re.IGNORECASE,
+)
+
+
+def _resolve_table_choices(
+    question: str,
+    target: ObjectIntent,
+    initial_choices: list[SnapshotSource],
+    scoped_sources: Sequence[SnapshotSource],
+    all_sources: Sequence[SnapshotSource],
+    *,
+    focus: SnapshotSource | None,
+    region_rects: Mapping[tuple[str, int, str], tuple[float, float, float, float]],
+) -> list[SnapshotSource]:
+    """Resolve global Table M / 表 M labels on multi-table pages before falling back."""
+    label_nums = {
+        int(match["en"] or match["zh"]) for match in _EXPLICIT_TABLE_LABEL.finditer(question)
+    }
+    label_num = next(iter(label_nums)) if len(label_nums) == 1 else None
+    if label_num is None:
+        if len(initial_choices) > 1:
+            return _disambiguate_table_choices(question, initial_choices, all_sources)
+        return initial_choices
+
+    page_tables = object_choices(
+        ObjectIntent(kind="table", direction=target.direction),
+        scoped_sources,
+        focus=focus,
+        region_rects=region_rects,
+    )
+    if not page_tables:
+        return initial_choices
+
+    # Priority 1a: Explicit "Table M" / "表 M" directly inside the table title or cell text.
+    label_re = re.compile(rf"(?:\btable|表)\s*#?\s*{label_num}(?![0-9.])", re.IGNORECASE)
+    direct = [
+        tbl
+        for tbl in page_tables
+        if label_re.search(tbl.title or "") or label_re.search(readable_source_text(tbl))
+    ]
+    if len(direct) == 1:
+        return direct
+
+    # Priority 1b: Map Table K: captions on the same parent page to the page's tables.
+    parent_pages = {
+        (src.document_id, src.version, src.source_id): src
+        for src in all_sources
+        if src.kind in _BASE_KINDS
+    }
+    by_parent: dict[tuple[str, int, str], list[SnapshotSource]] = {}
+    for tbl in page_tables:
+        if tbl.parent_id:
+            by_parent.setdefault((tbl.document_id, tbl.version, tbl.parent_id), []).append(tbl)
+
+    caption_matches: list[SnapshotSource] = []
+    for parent_key, group in by_parent.items():
+        page_src = parent_pages.get(parent_key)
+        if page_src is None or not page_src.text:
+            continue
+        ordered_group = sorted(
+            group,
+            key=lambda s: (
+                s.locator["bbox"][1]
+                if isinstance(s.locator.get("bbox"), list) and len(s.locator["bbox"]) == 4
+                else 0.0,
+                s.ordinal,
+            ),
+        )
+        seen_nums: list[int] = []
+        spans: dict[int, tuple[int, int]] = {}
+        for m in _PAGE_TABLE_CAPTION.finditer(page_src.text):
+            num = int(m.group(1))
+            if num not in spans:
+                seen_nums.append(num)
+                spans[num] = (m.start(), m.end())
+        if label_num not in spans:
+            continue
+        if len(seen_nums) == len(ordered_group):
+            caption_matches.append(ordered_group[seen_nums.index(label_num)])
+            continue
+        # Score tables against the page text window immediately around "Table M:".
+        start_pos, end_pos = spans[label_num]
+        next_cap = _NEXT_CAPTION_BOUNDARY.search(page_src.text, end_pos)
+        window_end = min(next_cap.start() if next_cap else len(page_src.text), end_pos + 700)
+        window_text = page_src.text[max(0, start_pos - 220) : window_end].casefold()
+        scored = []
+        for tbl in ordered_group:
+            header_tokens = [
+                tok.casefold()
+                for tok in re.findall(r"[A-Za-z0-9_]{2,}|[\u3400-\u9fff]{2,}", tbl.title or "")
+            ]
+            score = sum(1 for tok in dict.fromkeys(header_tokens) if tok in window_text)
+            scored.append((score, tbl))
+        best = max(score for score, _ in scored)
+        if best > 0:
+            winners = [tbl for score, tbl in scored if score == best]
+            if len(winners) == 1:
+                caption_matches.append(winners[0])
+    if len(caption_matches) == 1:
+        return caption_matches
+
+    # Priority 2: Document-global table ordinal across all pages of the same document.
+    global_matches: list[SnapshotSource] = []
+    page_table_ids = {(t.document_id, t.version, t.source_id) for t in page_tables}
+    for doc_ver in dict.fromkeys((t.document_id, t.version) for t in page_tables):
+        doc_tables = sorted(
+            (
+                src
+                for src in all_sources
+                if (src.document_id, src.version) == doc_ver
+                and src.kind == "page_object"
+                and src.locator.get("object_type") == "table"
+            ),
+            key=lambda s: (
+                s.locator.get("page") if isinstance(s.locator.get("page"), int) else 0,
+                s.ordinal,
+            ),
+        )
+        if 1 <= label_num <= len(doc_tables):
+            cand = doc_tables[label_num - 1]
+            if (cand.document_id, cand.version, cand.source_id) in page_table_ids:
+                global_matches.append(cand)
+    if len(global_matches) == 1:
+        return global_matches
+
+    # Priority 3: Keep valid local match or disambiguate/clarify over page_tables when out-of-range.
+    if initial_choices:
+        if len(initial_choices) > 1:
+            return _disambiguate_table_choices(question, initial_choices, all_sources)
+        return initial_choices
+    disambiguated = _disambiguate_table_choices(question, page_tables, all_sources)
+    return disambiguated if disambiguated else page_tables
 
 
 def _is_table_evidence(item: Mapping[str, Any]) -> bool:

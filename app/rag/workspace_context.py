@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from typing import TYPE_CHECKING, Any, Literal
 
@@ -202,6 +203,133 @@ def _resolve_history(
         latest_visible_message=latest_visible,
         latest_single_vision_read=latest_single_read,
     )
+
+
+def source_matches_version_filter(
+    src: Mapping[str, Any],
+    current_versions: Mapping[str, int],
+    *,
+    old_version_only: bool = False,
+    target_versions: frozenset[int] = frozenset(),
+) -> bool:
+    doc_id = src.get("document_id")
+    ver = src.get("version")
+    if not isinstance(doc_id, str) or not isinstance(ver, int):
+        return False
+    if target_versions and ver not in target_versions:
+        return False
+    if old_version_only:
+        cur = current_versions.get(doc_id)
+        if cur is None or ver >= cur:
+            return False
+    return True
+
+
+def find_filtered_history_displays(
+    messages: Sequence[dict[str, Any]],
+    completed_turns: Mapping[str, Turn],
+    boundary: int,
+    current_versions: Mapping[str, int],
+    *,
+    old_version_only: bool = False,
+    target_versions: frozenset[int] = frozenset(),
+) -> tuple[DisplayAnchor | None, dict[str, Any] | None, list[str]]:
+    """Find latest single vision read and visible displays matching version constraints."""
+    single_anchor: DisplayAnchor | None = None
+    for item in reversed(messages):
+        if (
+            item["role"] != "assistant"
+            or item["turn_id"] not in completed_turns
+            or item["ordinal"] >= boundary
+        ):
+            continue
+        read_sources = [
+            (eid, ev)
+            for eid, ev in (item.get("sources") or {}).items()
+            if source_matches_version_filter(
+                (ev.get("revision") or {}).get("source") or {},
+                current_versions,
+                old_version_only=old_version_only,
+                target_versions=target_versions,
+            )
+            and any(
+                r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
+                for r in ev.get("reads", [])
+            )
+        ]
+        if len(read_sources) == 1:
+            eid, _ = read_sources[0]
+            block = next(
+                (
+                    b
+                    for b in item.get("blocks", [])
+                    if b.get("type") == "source_image" and b.get("evidence_id") == eid
+                ),
+                None,
+            )
+            if block and block.get("display_id") in item.get("visible_display_ids", []):
+                single_anchor = DisplayAnchor(
+                    type="display",
+                    message_id=item["message_id"],
+                    display_id=block["display_id"],
+                )
+                break
+            prev_turn = completed_turns.get(item["turn_id"])
+            res = (prev_turn.outcome.get("resolution") or {}) if prev_turn else {}
+            if isinstance(res.get("message_id"), str) and isinstance(res.get("display_id"), str):
+                single_anchor = DisplayAnchor(
+                    type="display",
+                    message_id=res["message_id"],
+                    display_id=res["display_id"],
+                )
+                break
+            break
+        if len(read_sources) > 1:
+            break
+        visible_ids = set(item.get("visible_display_ids") or ())
+        if visible_ids and any(
+            b.get("type") == "source_image"
+            and b.get("display_id") in visible_ids
+            and source_matches_version_filter(
+                b.get("display_source") or {},
+                current_versions,
+                old_version_only=old_version_only,
+                target_versions=target_versions,
+            )
+            for b in item.get("blocks", [])
+        ):
+            break
+
+    latest_msg: dict[str, Any] | None = None
+    filtered_ids: list[str] = []
+    for item in reversed(messages):
+        if (
+            item["role"] != "assistant"
+            or item["turn_id"] not in completed_turns
+            or item["ordinal"] >= boundary
+        ):
+            continue
+        visible_ids = list(item.get("visible_display_ids") or ())
+        if not visible_ids:
+            continue
+        matching_by_id = {
+            b["display_id"]
+            for b in item.get("blocks", [])
+            if b.get("type") == "source_image"
+            and b.get("display_id") in visible_ids
+            and source_matches_version_filter(
+                b.get("display_source") or {},
+                current_versions,
+                old_version_only=old_version_only,
+                target_versions=target_versions,
+            )
+        }
+        ordered_matching = [did for did in visible_ids if did in matching_by_id]
+        if ordered_matching:
+            latest_msg = item
+            filtered_ids = ordered_matching
+            break
+    return single_anchor, latest_msg, filtered_ids
 
 
 def _latest_single_read_anchor(

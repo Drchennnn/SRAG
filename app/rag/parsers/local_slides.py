@@ -726,12 +726,23 @@ _TABLE_OR_SECTION_PREFIX = re.compile(
 _FORMULA_EQ = re.compile(
     r"[A-Za-z_\\][A-Za-z0-9_()]*\s*(?:=|:=|≈|≤|≥|∝|→)\s*\S"
 )
-_FORMULA_RELATION = re.compile(r"(?:=|:=|≈|≤|≥|∝|→)")
+_FORMULA_RELATION = re.compile(r"(?:=|:=|≈|≤|≥|∝|→|≡|∼)")
+_RELATION_LHS_TOKEN = re.compile(r"[A-Za-z0-9\u0370-\u03ff)\]}]")
+_RELATION_RHS_TOKEN = re.compile(r"[A-Za-z0-9\u0370-\u03ff(\[{∑∫∏√+\-]")
 _ISOLATED_EQ_NUMBER = re.compile(
     r"^\s*(?:\([0-9]+(?:\.[0-9]+)*[a-z]?\)|\[[0-9]+(?:\.[0-9]+)*\])\s*$"
 )
 _TRAILING_EQ_NUMBER = re.compile(
     r"(?:\s+(?:\([0-9]+(?:\.[0-9]+)*[a-z]?\)|\[[0-9]+(?:\.[0-9]+)*\]))\s*$"
+)
+_ALGORITHM_HEADER_LINE = re.compile(
+    r"^\s*algorithm\s+[0-9]+(?:\s*[:.\-\s]|$)",
+    re.IGNORECASE,
+)
+_PSEUDOCODE_PREFIX = re.compile(
+    r"^\s*(?:algorithm\s+[0-9]+|require\s*:|ensure\s*:|input\s*:|output\s*:|"
+    r"[0-9]{1,3}\s*[:.)]\s+\S|(?:for|while|if|elif|else|return|end\s+(?:for|while|if))\b)",
+    re.IGNORECASE,
 )
 _CONDITION_LINE = re.compile(
     r"^(?:condition|where|for\s+all|for\s+any|for\s+odd|for\s+even|for\s+[A-Za-z]|"
@@ -743,12 +754,13 @@ _PROSE_STOPWORD = re.compile(
     r"\b(?:we|the|and|our|set|use|used|using|with|from|into|that|this|these|those|"
     r"have|has|was|were|are|can|will|may|in|on|of|to|by|for|at|as|an|be|been|being|"
     r"not|also|each|every|all|both|such|than|then|when|while|after|before|during|"
-    r"between|through|under|over|about|across)\b",
+    r"between|through|under|over|about|across|observe|shows|shown|figure|table|section)\b",
     re.IGNORECASE,
 )
 _PROSE_HAN_RUN = re.compile(r"[\u3400-\u9fff]{2,}")
 _HAN_CHAR = re.compile(r"[\u3400-\u9fff]")
-_MATH_TOKEN_RE = re.compile(r"[=+\-*/^_<>≤≥≈∝→∑∫∏√()\[\]{}|0-9]")
+_MATH_TOKEN_RE = re.compile(r"[=+\-*/^_<>≤≥≈∝→≡∼∑∫∏√()\[\]{}|0-9]")
+_PAREN_SNIPPET = re.compile(r"^\s*\([^()]{1,40}\)\s*[.,;:]?\s*$")
 _MAX_VECTOR_CLUSTERS_PER_PAGE = 12
 
 
@@ -1084,28 +1096,123 @@ def _pdf_vector_image_sources(
     ]
 
 
-def _detect_two_column_gutter(raw_boxes: list[Rect], page_bbox: Rect) -> float | None:
+def _detect_two_column_gutter_from_lines(
+    lines: list[_LineSegment], page_bbox: Rect
+) -> tuple[float, float, float] | None:
+    """Detect (gutter_x, left_edge, right_edge) ONLY after assembling full text lines."""
     page_left, _, page_right, _ = page_bbox
     page_w = max(1.0, page_right - page_left)
+    significant = [
+        seg
+        for seg in lines
+        if seg.width >= max(28.0, 0.08 * page_w) and not _ISOLATED_EQ_NUMBER.match(seg.text)
+    ]
+    if len(significant) < 8:
+        return None
     lo, hi = page_left + 0.44 * page_w, page_left + 0.56 * page_w
-    left_only = sum(1 for b in raw_boxes if b[2] <= hi)
-    right_only = sum(1 for b in raw_boxes if b[0] >= lo)
-    crossing = sum(1 for b in raw_boxes if b[0] < lo and b[2] > hi)
-    total = len(raw_boxes)
-    if left_only >= 4 and right_only >= 4 and crossing <= 0.15 * total:
-        return (page_left + page_right) / 2
-    return None
+    left_only = [seg for seg in significant if seg.right <= hi]
+    right_only = [seg for seg in significant if seg.left >= lo]
+    crossing = [seg for seg in significant if seg.left < lo and seg.right > hi]
+    if len(left_only) < 4 or len(right_only) < 4:
+        return None
+    if len(crossing) > 0.25 * len(significant):
+        return None
+    left_rights = sorted(seg.right for seg in left_only)
+    right_lefts = sorted(seg.left for seg in right_only)
+    left_edge = left_rights[int(0.85 * (len(left_rights) - 1))]
+    right_edge = right_lefts[int(0.15 * (len(right_lefts) - 1))]
+    if right_edge - left_edge < 8.0:
+        return None
+    return (left_edge + right_edge) / 2, left_edge, right_edge
 
 
 def _assign_column(box: Rect, gutter_x: float | None, page_bbox: Rect) -> tuple[str, float]:
     page_left, _, page_right, _ = page_bbox
     if gutter_x is None:
         return "full", page_right
+    if box[0] < gutter_x - 4.0 and box[2] > gutter_x + 4.0:
+        return "full", page_right
     if box[2] <= gutter_x + 4.0:
         return "left", gutter_x
     if box[0] >= gutter_x - 4.0:
         return "right", page_right
     return "full", page_right
+
+
+def _detect_algorithm_boxes(
+    lines: list[_LineSegment],
+    path_objs: list[Rect],
+    page_bbox: Rect,
+    median_h: float,
+) -> list[Rect]:
+    """Identify Algorithm pseudocode float regions so pseudocode assignments never emit formulas."""
+    page_w = max(1.0, page_bbox[2] - page_bbox[0])
+    h_rules = [
+        b
+        for b in path_objs
+        if all(isfinite(v) for v in b)
+        and (b[3] - b[1]) <= 3.0
+        and (b[2] - b[0]) >= 0.30 * page_w
+    ]
+    algo_boxes: list[Rect] = []
+    ordered = sorted(lines, key=lambda s: (-s.yc, s.left))
+    for idx, seg in enumerate(ordered):
+        if not _ALGORITHM_HEADER_LINE.match(seg.text):
+            continue
+        # Look for aligned horizontal rules enclosing the Algorithm float (top + bottom rule).
+        top_rules = [
+            r
+            for r in h_rules
+            if r[0] <= seg.left + 20.0
+            and r[2] >= seg.right - 20.0
+            and seg.top - 2.0 <= (r[1] + r[3]) / 2 <= seg.top + 24.0
+        ]
+        matched_box: Rect | None = None
+        if top_rules:
+            tr = min(top_rules, key=lambda r: abs((r[1] + r[3]) / 2 - seg.top))
+            aligned_below = sorted(
+                (
+                    r
+                    for r in h_rules
+                    if abs(r[0] - tr[0]) <= 12.0
+                    and abs(r[2] - tr[2]) <= 12.0
+                    and (r[1] + r[3]) / 2 < seg.bottom - 10.0
+                ),
+                key=lambda r: -(r[1] + r[3]) / 2,
+            )
+            if aligned_below:
+                # Algorithm floats typically have a header rule right below title and a bottom rule.
+                bottom_rule = aligned_below[1] if len(aligned_below) >= 2 else aligned_below[0]
+                matched_box = (
+                    min(tr[0], bottom_rule[0]) - 2.0,
+                    bottom_rule[1] - 2.0,
+                    max(tr[2], bottom_rule[2]) + 2.0,
+                    tr[3] + 2.0,
+                )
+        if matched_box is None:
+            # Fallback without rules: scan contiguous pseudocode/line-numbered rows below header.
+            bl, bb, br, bt = seg.left, seg.bottom, seg.right, seg.top
+            prev_bottom = seg.bottom
+            for nxt in ordered[idx + 1 :]:
+                if nxt.col != seg.col and seg.col != "full":
+                    continue
+                vgap = prev_bottom - nxt.top
+                if vgap > max(22.0, 2.4 * median_h):
+                    break
+                if _CAPTION_PREFIX.match(nxt.text) or _ALGORITHM_HEADER_LINE.match(nxt.text):
+                    break
+                if _PSEUDOCODE_PREFIX.match(nxt.text) or "←" in nxt.text or ":=" in nxt.text:
+                    bl = min(bl, nxt.left)
+                    bb = min(bb, nxt.bottom)
+                    br = max(br, nxt.right)
+                    prev_bottom = nxt.bottom
+                elif bb < seg.bottom:
+                    break
+            if bb < seg.bottom:
+                matched_box = (bl - 6.0, bb - 4.0, br + 6.0, bt + 4.0)
+        if matched_box is not None:
+            algo_boxes.append(matched_box)
+    return algo_boxes
 
 
 def _is_short_math_fragment(seg: _LineSegment, col_width: float) -> bool:
@@ -1121,22 +1228,35 @@ def _is_short_math_fragment(seg: _LineSegment, col_width: float) -> bool:
     return bool(_MATH_TOKEN_RE.search(txt) or len(txt) <= 24)
 
 
+def _has_complete_formula_relation(body_text: str) -> bool:
+    """Require at least one relation operator with non-empty valid LHS and RHS operands."""
+    cleaned = _TRAILING_EQ_NUMBER.sub("", body_text).strip()
+    for m in _FORMULA_RELATION.finditer(cleaned):
+        lhs = cleaned[: m.start()].strip()
+        rhs = cleaned[m.end() :].strip()
+        if (
+            lhs
+            and rhs
+            and _RELATION_LHS_TOKEN.search(lhs)
+            and _RELATION_RHS_TOKEN.search(rhs)
+        ):
+            return True
+    return False
+
+
 def _passes_standalone_formula_gate(
     blk: list[_LineSegment],
     text: str,
     containing_frame: Rect | None,
     *,
-    next_seg: _LineSegment | None = None,
+    prev_blk: list[_LineSegment] | None = None,
+    next_blk: list[_LineSegment] | None = None,
+    col_content_left: float = 0.0,
     median_h: float = 10.0,
 ) -> bool:
-    if not _FORMULA_RELATION.search(text):
+    if _CAPTION_PREFIX.match(text) or _TABLE_OR_SECTION_PREFIX.match(text):
         return False
-    if containing_frame is not None:
-        return True
-    has_eq_num = any(seg.has_eq_number for seg in blk) or bool(_TRAILING_EQ_NUMBER.search(text))
-    if has_eq_num:
-        return True
-    if len(blk) > 4:
+    if _PSEUDOCODE_PREFIX.match(text):
         return False
     body_lines = [
         line.strip()
@@ -1144,23 +1264,45 @@ def _passes_standalone_formula_gate(
         if line.strip() and not _CONDITION_LINE.match(line.strip())
     ]
     joined = " ".join(body_lines)
-    prose_words = len(_PROSE_ENGLISH_WORD.findall(joined)) + len(_PROSE_HAN_RUN.findall(joined))
-    if prose_words > 6:
+    if not _has_complete_formula_relation(joined):
         return False
-    if len(_PROSE_STOPWORD.findall(joined)) >= 3 or len(_HAN_CHAR.findall(joined)) >= 8:
+
+    prose_words = len(_PROSE_ENGLISH_WORD.findall(joined)) + len(_PROSE_HAN_RUN.findall(joined))
+    stop_count = len(_PROSE_STOPWORD.findall(joined))
+    han_count = len(_HAN_CHAR.findall(joined))
+    has_eq_num = any(seg.has_eq_number for seg in blk) or bool(_TRAILING_EQ_NUMBER.search(text))
+
+    # Tier 1: Explicit equation number (re-associated or trailing).
+    if has_eq_num:
+        return prose_words <= 8 and stop_count <= 4 and han_count < 14
+
+    # Tier 2: Explicit X4 formula frame box.
+    if containing_frame is not None:
+        return len(text) <= 1200 and prose_words <= 18
+
+    # Tier 3: Unframed, unnumbered standalone display formula (strict gate).
+    compact = re.sub(r"\s+", "", joined)
+    if len(compact) < 6 or _PAREN_SNIPPET.match(joined):
+        return False
+    if len(blk) > 4:
+        return False
+    if prose_words > 5 or stop_count >= 3 or han_count >= 8:
         return False
     first_non_cond = body_lines[0] if body_lines else ""
-    if (
-        prose_words >= 4
-        and first_non_cond.endswith((".", "。"))
-        and not _TRAILING_EQ_NUMBER.search(first_non_cond)
-    ):
+    if prose_words >= 3 and first_non_cond.endswith((".", "。")):
         return False
-    if len(blk) == 1 and next_seg is not None:
-        vgap = blk[0].bottom - next_seg.top
+
+    bl = min(seg.left for seg in blk)
+    bb = min(seg.bottom for seg in blk)
+    bt = max(seg.top for seg in blk)
+
+    # Reject wrapped body-prose lines embedded inside a flush-left paragraph.
+    if len(blk) == 1 and next_blk is not None:
+        next_seg = next_blk[0]
+        vgap_next = bb - next_seg.top
         if (
-            -4.0 <= vgap <= max(10.0, 1.5 * median_h)
-            and abs(next_seg.left - blk[0].left) <= 6.0
+            -4.0 <= vgap_next <= max(10.0, 1.5 * median_h)
+            and abs(next_seg.left - bl) <= 6.0
             and not _CONDITION_LINE.match(next_seg.text)
             and not _FORMULA_RELATION.search(next_seg.text)
             and (
@@ -1169,7 +1311,41 @@ def _passes_standalone_formula_gate(
             )
         ):
             return False
-    return True
+    if len(blk) == 1 and prev_blk is not None:
+        prev_seg = prev_blk[-1]
+        vgap_prev = prev_seg.bottom - bt
+        if (
+            -4.0 <= vgap_prev <= max(8.0, 1.35 * median_h)
+            and abs(prev_seg.left - bl) <= 6.0
+            and not _FORMULA_RELATION.search(prev_seg.text)
+            and len(_PROSE_ENGLISH_WORD.findall(prev_seg.text)) >= 5
+            and not prev_seg.text.rstrip().endswith((".", "。", ":", "："))
+        ):
+            return False
+
+    # Require standalone display positioning evidence (indented/centered, isolated, or multi-line).
+    indented = bl >= col_content_left + 10.0
+    gap_above = (prev_blk[-1].bottom - bt) if prev_blk is not None else 999.0
+    gap_below = (bb - next_blk[0].top) if next_blk is not None else 999.0
+    next_is_cond = bool(next_blk is not None and _CONDITION_LINE.match(next_blk[0].text))
+    isolated = gap_above >= max(5.0, 0.55 * median_h) and (
+        gap_below >= max(5.0, 0.55 * median_h) or next_is_cond
+    )
+    return indented or isolated or len(blk) >= 2
+
+
+def _dedupe_text_objects(
+    items: list[tuple[list[float], Rect, str]],
+) -> list[tuple[list[float], Rect, str]]:
+    kept: list[tuple[list[float], Rect, str]] = []
+    for visible, bounds, text in sorted(
+        items, key=lambda it: (-_rect_area(it[1]), it[0][1], it[0][0])
+    ):
+        if any(_overlap_ratio_min(bounds, ex_bounds) > 0.50 for _, ex_bounds, _ in kept):
+            continue
+        kept.append((visible, bounds, text))
+    kept.sort(key=lambda item: (item[0][1], item[0][0]))
+    return kept
 
 
 def _pdf_text_object_sources(
@@ -1215,113 +1391,201 @@ def _pdf_text_object_sources(
     if not raw_boxes:
         return []
 
-    # X1: Detect two-column gutter, split horizontally within each y-bucket & column, then
-    # re-associate right-aligned isolated equation numbers like (1) / (2.3) / [4].
-    gutter_x = _detect_two_column_gutter(raw_boxes, page_bbox)
-    heights = sorted(b[3] - b[1] for b in raw_boxes)
-    median_h = heights[len(heights) // 2] if heights else 10.0
-    h_split_thr = max(20.0, 2.2 * median_h)
+    body_heights = sorted(b[3] - b[1] for b in raw_boxes if (b[3] - b[1]) >= 4.0)
+    if not body_heights:
+        body_heights = sorted(b[3] - b[1] for b in raw_boxes)
+    median_h = max(6.0, min(24.0, body_heights[len(body_heights) // 2]))
 
-    col_buckets: dict[str, list[Rect]] = {"left": [], "right": [], "full": []}
-    for box in raw_boxes:
-        col, _ = _assign_column(box, gutter_x, page_bbox)
-        col_buckets[col].append(box)
-
-    segments_by_col: dict[str, list[_LineSegment]] = {}
-    for col, col_boxes in col_buckets.items():
-        if not col_boxes:
-            continue
-        col_right = gutter_x if col == "left" and gutter_x is not None else page_right
-        col_boxes.sort(key=lambda b: (-(b[1] + b[3]) / 2, b[0]))
-        y_buckets: list[list[Rect]] = []
-        for box in col_boxes:
-            yc = (box[1] + box[3]) / 2
-            if y_buckets:
-                ref = y_buckets[-1][0]
-                if abs(yc - (ref[1] + ref[3]) / 2) <= 4.0:
-                    y_buckets[-1].append(box)
-                    continue
-            y_buckets.append([box])
-
-        col_segs: list[_LineSegment] = []
-        for bucket in y_buckets:
-            bucket.sort(key=lambda b: b[0])
-            groups: list[list[Rect]] = [[bucket[0]]]
-            for box in bucket[1:]:
-                prev_right = max(item[2] for item in groups[-1])
-                if box[0] - prev_right > h_split_thr:
-                    groups.append([box])
-                else:
-                    groups[-1].append(box)
-            for grp in groups:
-                gl = min(x[0] for x in grp)
-                gb = min(x[1] for x in grp)
-                gr = max(x[2] for x in grp)
-                gt = max(x[3] for x in grp)
-                txt = _normalize_pdf_text(
-                    text_page.get_text_bounded(gl - 0.5, gb - 0.5, gr + 0.5, gt + 0.5)
-                )
-                if txt:
-                    col_segs.append(_LineSegment(gl, gb, gr, gt, col, col_right, txt))
-
-        # X1 Re-association pass for same-column right-aligned isolated equation numbers.
-        reassociated: list[_LineSegment] = []
-        consumed: set[int] = set()
-        for idx, seg in enumerate(col_segs):
-            if idx in consumed:
+    # Step 1 (Assembly-First): Assemble full horizontal lines across the page BEFORE column
+    # detection so LaTeX word-level tokens are never falsely split at x=0.50.
+    word_merge_thr = max(11.5, 1.35 * median_h)
+    y_bucket_thr = max(3.5, 0.42 * median_h)
+    sorted_raw = sorted(raw_boxes, key=lambda b: (-(b[1] + b[3]) / 2, b[0]))
+    y_buckets: list[list[Rect]] = []
+    for box in sorted_raw:
+        yc = (box[1] + box[3]) / 2
+        if y_buckets:
+            ref = y_buckets[-1][0]
+            if abs(yc - (ref[1] + ref[3]) / 2) <= y_bucket_thr:
+                y_buckets[-1].append(box)
                 continue
-            if _ISOLATED_EQ_NUMBER.match(seg.text) and seg.right >= col_right - 36.0:
-                partner_idx = next(
-                    (
-                        j
-                        for j, cand in enumerate(col_segs)
-                        if j != idx
-                        and j not in consumed
-                        and cand.right <= seg.left + 2.0
-                        and abs(seg.yc - cand.yc) <= max(6.0, 0.75 * cand.height)
-                        and (
-                            _FORMULA_RELATION.search(cand.text)
-                            or _MATH_TOKEN_RE.search(cand.text)
-                        )
-                    ),
-                    None,
-                )
-                if partner_idx is not None:
-                    # Merge into partner when partner is processed; skip standalone number now.
-                    continue
-            merged_num_idx = next(
+        y_buckets.append([box])
+
+    assembled: list[_LineSegment] = []
+    for bucket in y_buckets:
+        bucket.sort(key=lambda b: b[0])
+        groups: list[list[Rect]] = [[bucket[0]]]
+        for box in bucket[1:]:
+            prev_right = max(item[2] for item in groups[-1])
+            if box[0] - prev_right > word_merge_thr:
+                groups.append([box])
+            else:
+                groups[-1].append(box)
+        for grp in groups:
+            gl = min(x[0] for x in grp)
+            gb = min(x[1] for x in grp)
+            gr = max(x[2] for x in grp)
+            gt = max(x[3] for x in grp)
+            txt = _normalize_pdf_text(
+                text_page.get_text_bounded(gl - 0.5, gb - 0.5, gr + 0.5, gt + 0.5)
+            )
+            if txt:
+                assembled.append(_LineSegment(gl, gb, gr, gt, "full", page_right, txt))
+    if not assembled:
+        return []
+
+    # Step 2: Detect two-column gutter from assembled lines (never from word tokens).
+    gutter_info = _detect_two_column_gutter_from_lines(assembled, page_bbox)
+    gutter_x = gutter_info[0] if gutter_info is not None else None
+    gutter_left_edge = gutter_info[1] if gutter_info is not None else None
+    gutter_right_edge = gutter_info[2] if gutter_info is not None else None
+    page_content_right = max(s.right for s in assembled)
+    page_content_left = min(s.left for s in assembled)
+
+    # Promote entire spanning rows (whose ink intrudes into the empty gutter channel) to "full"
+    # so justified full-width captions/equations never split into "left" + "full" fragments.
+    spanning_ycs: list[float] = []
+    if (
+        gutter_x is not None
+        and gutter_left_edge is not None
+        and gutter_right_edge is not None
+    ):
+        for seg in assembled:
+            if _ISOLATED_EQ_NUMBER.match(seg.text):
+                continue
+            if seg.left < gutter_right_edge - 4.0 and seg.right > gutter_left_edge + 4.0:
+                spanning_ycs.append(seg.yc)
+
+    col_raw_segs: dict[str, list[_LineSegment]] = {"full": [], "left": [], "right": []}
+    for seg in assembled:
+        if any(abs(seg.yc - sy) <= max(4.5, 0.50 * median_h) for sy in spanning_ycs):
+            col, col_bound_right = "full", page_right
+        else:
+            col, col_bound_right = _assign_column(
+                (seg.left, seg.bottom, seg.right, seg.top), gutter_x, page_bbox
+            )
+        col_raw_segs[col].append(
+            _LineSegment(
+                seg.left, seg.bottom, seg.right, seg.top, col, col_bound_right, seg.text
+            )
+        )
+
+    # Compute actual content margins per column (critical for 1-inch LaTeX margins!).
+    col_content_bounds: dict[str, tuple[float, float]] = {}
+    for col, segs in col_raw_segs.items():
+        if segs:
+            col_content_bounds[col] = (
+                min(s.left for s in segs),
+                max(s.right for s in segs),
+            )
+        else:
+            col_content_bounds[col] = (page_content_left, page_content_right)
+
+    # Detect Algorithm pseudocode regions to exclude from formulas & captions.
+    algorithm_boxes = _detect_algorithm_boxes(assembled, path_objs, page_bbox, median_h)
+
+    # Hold aside isolated right-aligned equation numbers across columns so spanning ("full")
+    # equations can also re-associate with a right-margin (1)/(2.3)/[4] token!
+    all_tagged = [seg for segs in col_raw_segs.values() for seg in segs]
+    eq_num_pool: list[_LineSegment] = []
+    segments_by_col: dict[str, list[_LineSegment]] = {"full": [], "left": [], "right": []}
+    for col, segs in col_raw_segs.items():
+        _, c_right = col_content_bounds[col]
+        # Allow matching either the column's content right edge or the page's content right edge.
+        right_edge = max(c_right, page_content_right if col in {"full", "right"} else c_right)
+        # First pass: bucket by row BEFORE sorting left-to-right (descenders shift yc by 1-2 pt),
+        # then merge same-row segments separated by justified spaces or \quad/\qquad within the
+        # same column (never crossing gutter_x, and never swallowing right-margin (1)).
+        segs.sort(key=lambda s: (-s.yc, s.left))
+        col_row_buckets: list[list[_LineSegment]] = []
+        row_y_thr = max(4.5, 0.50 * median_h)
+        for seg in segs:
+            is_right_eq_num = bool(
+                _ISOLATED_EQ_NUMBER.match(seg.text) and seg.right >= right_edge - 42.0
+            )
+            if is_right_eq_num:
+                eq_num_pool.append(seg)
+                continue
+            if col_row_buckets and abs(seg.yc - col_row_buckets[-1][0].yc) <= row_y_thr:
+                col_row_buckets[-1].append(seg)
+            else:
+                col_row_buckets.append([seg])
+
+        row_merged: list[_LineSegment] = []
+        same_col_h_thr = max(20.0, 2.2 * median_h)
+        for bucket in col_row_buckets:
+            bucket.sort(key=lambda s: s.left)
+            merged_row: list[_LineSegment] = [bucket[0]]
+            for seg in bucket[1:]:
+                prev = merged_row[-1]
+                if seg.left - prev.right <= same_col_h_thr:
+                    gl = min(prev.left, seg.left)
+                    gb = min(prev.bottom, seg.bottom)
+                    gr = max(prev.right, seg.right)
+                    gt = max(prev.top, seg.top)
+                    txt = _normalize_pdf_text(
+                        text_page.get_text_bounded(gl - 0.5, gb - 0.5, gr + 0.5, gt + 0.5)
+                    )
+                    merged_row[-1] = _LineSegment(
+                        gl, gb, gr, gt, col, prev.col_right, txt or f"{prev.text} {seg.text}"
+                    )
+                else:
+                    merged_row.append(seg)
+            row_merged.extend(merged_row)
+        row_merged.sort(key=lambda s: (-s.yc, s.left))
+        segments_by_col[col] = row_merged
+
+    # Re-associate single-line right-aligned equation numbers where a direct same-row math partner
+    # exists (remaining numbers stay in eq_num_pool for post-block fraction matching).
+    used_eq_indices: set[int] = set()
+    for col in ("full", "left", "right"):
+        updated: list[_LineSegment] = []
+        for seg in segments_by_col[col]:
+            match_idx = next(
                 (
-                    j
-                    for j, cand in enumerate(col_segs)
-                    if j != idx
-                    and j not in consumed
-                    and _ISOLATED_EQ_NUMBER.match(cand.text)
-                    and cand.right >= col_right - 36.0
-                    and seg.right <= cand.left + 2.0
-                    and abs(cand.yc - seg.yc) <= max(6.0, 0.75 * seg.height)
-                    and (_FORMULA_RELATION.search(seg.text) or _MATH_TOKEN_RE.search(seg.text))
+                    i
+                    for i, num_seg in enumerate(eq_num_pool)
+                    if i not in used_eq_indices
+                    and (
+                        num_seg.col == col
+                        or (col == "full" and num_seg.col == "right")
+                    )
+                    and seg.right <= num_seg.left + 2.0
+                    and abs(num_seg.yc - seg.yc) <= max(6.0, 0.75 * seg.height)
+                    and (
+                        _FORMULA_RELATION.search(seg.text)
+                        or _MATH_TOKEN_RE.search(seg.text)
+                    )
                 ),
                 None,
             )
-            if merged_num_idx is not None:
-                num_seg = col_segs[merged_num_idx]
-                consumed.add(merged_num_idx)
-                reassociated.append(
+            if match_idx is not None:
+                num_seg = eq_num_pool[match_idx]
+                used_eq_indices.add(match_idx)
+                updated.append(
                     _LineSegment(
                         min(seg.left, num_seg.left),
                         min(seg.bottom, num_seg.bottom),
                         max(seg.right, num_seg.right),
                         max(seg.top, num_seg.top),
                         seg.col,
-                        seg.col_right,
+                        max(seg.col_right, num_seg.col_right),
                         f"{seg.text} {num_seg.text}".strip(),
                         has_eq_number=True,
                     )
                 )
             else:
-                reassociated.append(seg)
-        reassociated.sort(key=lambda s: (-s.yc, s.left))
-        segments_by_col[col] = reassociated
+                updated.append(seg)
+        segments_by_col[col] = updated
+
+    # Thin short horizontal fraction bars (for LaTeX fraction assembly).
+    frac_bars: list[Rect] = [
+        (b[0], b[1], b[2], b[3])
+        for b in path_objs
+        if all(isfinite(v) for v in b)
+        and (b[3] - b[1]) <= 2.5
+        and 6.0 <= (b[2] - b[0]) <= 0.45 * page_w
+    ]
 
     # X4: Formula frame boxes with explicit size/area upper bounds.
     frame_boxes: list[Rect] = [
@@ -1335,31 +1599,46 @@ def _pdf_text_object_sources(
         and _rect_area((box[0], box[1], box[2], box[3])) <= 0.35 * page_area
         and not any(
             _overlap_ratio_min((box[0], box[1], box[2], box[3]), ex) > 0.15
-            for ex in excluded_boxes
+            for ex in [*excluded_boxes, *algorithm_boxes]
         )
     ]
 
     captions: list[tuple[list[float], Rect, str]] = []
     formulas: list[tuple[list[float], Rect, str]] = []
+    _ = all_tagged
 
-    for col, col_segs in segments_by_col.items():
+    for col in ("full", "left", "right"):
+        col_segs = segments_by_col[col]
+        if not col_segs:
+            continue
+        col_content_left, col_content_right = col_content_bounds[col]
+        col_content_width = max(1.0, col_content_right - col_content_left)
         col_width = (
             (gutter_x - page_left)
             if col == "left" and gutter_x is not None
             else ((page_right - gutter_x) if col == "right" and gutter_x is not None else page_w)
         )
-        # X2 + X3: Group contiguous blocks per column with adaptive line gap, caption
-        # termination guardrails, and fraction/piecewise display-formula vertical merging.
+
+        # Step 3: Group contiguous blocks per column with fraction/piecewise math merging and
+        # mid-paragraph inline "Figure N." wrap protection.
         blocks: list[list[_LineSegment]] = []
         prev_vgap: float | None = None
         for seg in col_segs:
             if blocks:
                 prev_blk = blocks[-1]
                 prev = prev_blk[-1]
+                blk_l = min(x.left for x in prev_blk)
+                blk_b = min(x.bottom for x in prev_blk)
+                blk_r = max(x.right for x in prev_blk)
+                blk_t = max(x.top for x in prev_blk)
                 vgap = prev.bottom - seg.top
+                vgap_blk = blk_b - seg.top
                 min_w = max(1.0, min(prev.width, seg.width))
                 h_inter = max(0.0, min(prev.right, seg.right) - max(prev.left, seg.left))
                 h_overlap_ratio = h_inter / min_w
+                blk_h_inter = max(0.0, min(blk_r, seg.right) - max(blk_l, seg.left))
+                blk_h_overlap = blk_h_inter / max(1.0, min(blk_r - blk_l, seg.width))
+                blk_h_gap = max(0.0, seg.left - blk_r, blk_l - seg.right)
                 blk_is_caption = bool(_CAPTION_PREFIX.match(prev_blk[0].text))
                 blk_has_formula = any(
                     _FORMULA_RELATION.search(item.text) or item.has_eq_number for item in prev_blk
@@ -1368,23 +1647,59 @@ def _pdf_text_object_sources(
                 blk_is_short_math = all(
                     _is_short_math_fragment(item, col_width) for item in prev_blk
                 )
-
-                # Formula vertical merge (numerator/denominator/bounds/cases + trailing conditions).
                 seg_math_or_cond = _is_short_math_fragment(seg, col_width) or bool(
                     _CONDITION_LINE.match(seg.text)
                 )
-                center_dx = abs(((prev.left + prev.right) / 2) - ((seg.left + seg.right) / 2))
+                center_dx_blk = abs(((blk_l + blk_r) / 2) - ((seg.left + seg.right) / 2))
+
+                shares_frac_bar = any(
+                    (
+                        min(blk_b, seg.bottom) - 6.0
+                        <= (bar[1] + bar[3]) / 2
+                        <= max(blk_t, seg.top) + 6.0
+                    )
+                    and max(0.0, bar[0] - blk_r, blk_l - bar[2]) <= 18.0
+                    and max(0.0, bar[0] - seg.right, seg.left - bar[2]) <= 18.0
+                    for bar in frac_bars
+                )
                 formula_merge = (
                     not blk_is_caption
                     and not _CAPTION_PREFIX.match(seg.text)
-                    and -4.0 <= vgap <= max(8.0, 0.9 * median_h)
+                    and not _TABLE_OR_SECTION_PREFIX.match(seg.text)
+                    and -max(12.0, 1.4 * median_h) <= vgap_blk <= max(10.0, 1.15 * median_h)
                     and (
                         (blk_has_formula and seg_math_or_cond)
                         or (blk_is_short_math and seg_is_formula)
+                        or (
+                            shares_frac_bar
+                            and blk_is_short_math
+                            and _is_short_math_fragment(seg, col_width)
+                        )
                     )
-                    and (h_overlap_ratio >= 0.15 or center_dx <= 0.25 * col_width)
+                    and (
+                        shares_frac_bar
+                        or blk_h_overlap >= 0.12
+                        or (
+                            blk_h_gap <= max(24.0, 2.5 * median_h)
+                            and abs(prev.yc - seg.yc) <= max(18.0, 2.0 * median_h)
+                        )
+                        or center_dx_blk <= 0.25 * col_width
+                    )
                 )
-                # Standard caption / text block merge with adaptive gap & termination guardrails.
+
+                # Detect mid-paragraph wrapped prose starting with "Figure N." so it stays in prose.
+                is_inline_fig_wrap = (
+                    bool(_CAPTION_PREFIX.match(seg.text))
+                    and not blk_is_caption
+                    and not blk_has_formula
+                    and -2.0 <= vgap <= max(7.0, 1.15 * median_h)
+                    and (prev_vgap is None or vgap <= prev_vgap * 1.35 + 1.5)
+                    and abs(seg.left - prev.left) <= 6.0
+                    and prev.width >= 0.65 * col_content_width
+                    and not prev.text.rstrip().endswith(
+                        (".", "。", "!", "！", "?", "？", ":", "：")
+                    )
+                )
                 gap_jump = prev_vgap is not None and vgap > prev_vgap * 1.6 + 2.0
                 left_shift = abs(seg.left - prev.left) > 28.0
                 normal_merge = (
@@ -1392,8 +1707,8 @@ def _pdf_text_object_sources(
                     and h_overlap_ratio >= 0.35
                     and not gap_jump
                     and not (blk_is_caption and left_shift)
-                    and not _CAPTION_PREFIX.match(seg.text)
-                    and not _TABLE_OR_SECTION_PREFIX.match(seg.text)
+                    and (not _CAPTION_PREFIX.match(seg.text) or is_inline_fig_wrap)
+                    and (not _TABLE_OR_SECTION_PREFIX.match(seg.text) or is_inline_fig_wrap)
                     and not (seg_is_formula and not blk_is_caption)
                     and not (blk_has_formula and not _CONDITION_LINE.match(seg.text))
                 )
@@ -1404,18 +1719,60 @@ def _pdf_text_object_sources(
             blocks.append([seg])
             prev_vgap = None
 
+        # Post-block equation-number re-association for vertically centered fraction/multiline eqs.
+        for blk in blocks:
+            if any(seg.has_eq_number for seg in blk):
+                continue
+            if not any(_FORMULA_RELATION.search(seg.text) for seg in blk):
+                continue
+            bl_b = min(x.bottom for x in blk)
+            bl_r = max(x.right for x in blk)
+            bl_t = max(x.top for x in blk)
+            match_idx = next(
+                (
+                    i
+                    for i, num_seg in enumerate(eq_num_pool)
+                    if i not in used_eq_indices
+                    and (num_seg.col == col or (col == "full" and num_seg.col == "right"))
+                    and bl_r <= num_seg.left + 2.0
+                    and bl_b - 4.0 <= num_seg.yc <= bl_t + 4.0
+                ),
+                None,
+            )
+            if match_idx is not None:
+                num_seg = eq_num_pool[match_idx]
+                used_eq_indices.add(match_idx)
+                blk.append(
+                    _LineSegment(
+                        num_seg.left,
+                        num_seg.bottom,
+                        num_seg.right,
+                        num_seg.top,
+                        col,
+                        num_seg.col_right,
+                        num_seg.text,
+                        has_eq_number=True,
+                    )
+                )
+
         for blk_idx, blk in enumerate(blocks):
             bl = min(x.left for x in blk)
             bb = min(x.bottom for x in blk)
             br = max(x.right for x in blk)
             bt = max(x.top for x in blk)
+            blk_rect: Rect = (bl, bb, br, bt)
+            if any(_overlap_ratio_self(blk_rect, ab) > 0.35 for ab in algorithm_boxes):
+                continue
             text = _normalize_pdf_text(text_page.get_text_bounded(bl - 1, bb - 1, br + 1, bt + 1))
             if not text:
                 continue
-            if _CAPTION_PREFIX.match(text):
-                bounds = _clamp_box((bl - 2.0, bb - 2.0, br + 2.0, bt + 2.0), page_bbox)
-                visible = [_unit_interval(v) for v in transform_rect(bounds, matrix)]
-                captions.append((visible, bounds, text))
+            cap_m = _CAPTION_PREFIX.match(text)
+            if cap_m is not None:
+                remainder = re.sub(r"\s+", "", text[cap_m.end() :])
+                if len(remainder) >= 4:
+                    bounds = _clamp_box((bl - 2.0, bb - 2.0, br + 2.0, bt + 2.0), page_bbox)
+                    visible = [_unit_interval(v) for v in transform_rect(bounds, matrix)]
+                    captions.append((visible, bounds, text))
                 continue
 
             containing_frame = next(
@@ -1437,9 +1794,16 @@ def _pdf_text_object_sources(
                     containing_frame = None
                 else:
                     text = framed_text
-            next_seg = blocks[blk_idx + 1][0] if blk_idx + 1 < len(blocks) else None
+            prev_blk = blocks[blk_idx - 1] if blk_idx > 0 else None
+            next_blk = blocks[blk_idx + 1] if blk_idx + 1 < len(blocks) else None
             if _passes_standalone_formula_gate(
-                blk, text, containing_frame, next_seg=next_seg, median_h=median_h
+                blk,
+                text,
+                containing_frame,
+                prev_blk=prev_blk,
+                next_blk=next_blk,
+                col_content_left=col_content_left,
+                median_h=median_h,
             ):
                 if containing_frame is not None:
                     bounds = _clamp_box(containing_frame, page_bbox)
@@ -1450,9 +1814,11 @@ def _pdf_text_object_sources(
                 visible = [_unit_interval(v) for v in transform_rect(bounds, matrix)]
                 formulas.append((visible, bounds, text))
 
+    captions = _dedupe_text_objects(captions)
+    formulas = _dedupe_text_objects(formulas)
+
     drafts: list[SourceDraft] = []
     for kind, items in (("caption", captions), ("formula", formulas)):
-        items.sort(key=lambda item: (item[0][1], item[0][0]))
         for idx, (visible, bounds, text) in enumerate(items, start=1):
             drafts.append(
                 SourceDraft(
