@@ -619,6 +619,10 @@ def _should_split_before_d1(cur_lines: Sequence[str], next_line: str) -> bool:
                 return True
             return False
         return True
+    if next_m := _D1_HEADER_LINE.match(next_line):
+        next_rest = next_m.group("rest").strip()
+        if _split_d1_rest(next_rest, None) is not None:
+            return True
     return False
 
 
@@ -726,15 +730,18 @@ def _split_d1_rest(
             and _clean_term_and_aliases(left) is not None
         ):
             return left, right
-    if allow_body_prev_bind and prev_title and _has_min_def_body(stripped):
-        return prev_title, stripped
-    if (
+    is_standalone_title = (
         len(stripped) <= 96
         and not _has_unclosed_parens(stripped)
         and not _MATH_EXPR_HINT.search(stripped)
         and not re.search(r"[。！？.!?]$", stripped)
         and _clean_term_and_aliases(stripped) is not None
-    ):
+    )
+    if not prev_header_locked and is_standalone_title:
+        return stripped, ""
+    if allow_body_prev_bind and prev_title and _has_min_def_body(stripped):
+        return prev_title, stripped
+    if is_standalone_title:
         return stripped, ""
     return None
 

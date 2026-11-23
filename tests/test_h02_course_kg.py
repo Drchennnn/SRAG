@@ -1448,3 +1448,72 @@ def test_h02_rework_pdf_decimals_multiline_formal_def_formula_and_wrapped_alias(
             assert raw[edge.evidence_span_start : edge.evidence_span_end] == edge.evidence_excerpt
 
 
+def test_h02_cover_header_above_d1_concept_title_does_not_steal_concept_name(
+    tmp_path: Path,
+) -> None:
+    """Cover/course titles at page top must not override a following D1 concept title."""
+    settings, service, _ = _create_app(tmp_path)
+    cover_and_blank_sep = (
+        "EE310 现代控制与信号处理讲义\n"
+        "第一讲 状态估计\n\n"
+        "1. 核心概念定义：全维状态观测器 (Full-Order State Observer, FSO)\n\n"
+        "正式定义：利用系统输出与输入在线重构不可测内部状态向量的动态估算器。\n"
+        "配套实验调用 `state_observer_eval` 记录重构误差。"
+    )
+    cover_same_block = (
+        "信号分析导论\n"
+        "核心概念定义：短时谱熵 (Short-Time Spectral Entropy, STSE)\n"
+        "正式定义：用于刻画局部频域能量分布均匀程度的归一化信息熵指标。"
+    )
+    _publish_synthetic(
+        service.library,
+        _COURSE,
+        "Lecture-CoverHeader.pdf",
+        "pdf",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=1,
+                title="Page 1",
+                text=cover_and_blank_sep,
+                locator=Locator(page=1),
+            ),
+            SourceDraft(
+                source_id="page:2",
+                kind="page",
+                ordinal=2,
+                title="Page 2",
+                text=cover_same_block,
+                locator=Locator(page=2),
+            ),
+        ],
+    )
+
+    concepts, edges = service.kg_store.active_edges_for_courses([_COURSE])
+    by_name = {c.canonical_name: c for c in concepts}
+    assert all("讲义" not in name and "导论" not in name for name in by_name)
+    assert set(by_name) == {"全维状态观测器", "短时谱熵"}
+
+    fso = by_name["全维状态观测器"]
+    assert "Full-Order State Observer" in fso.aliases
+    assert "FSO" in fso.aliases
+    assert "state_observer_eval" in fso.anchor_terms
+
+    stse = by_name["短时谱熵"]
+    assert "Short-Time Spectral Entropy" in stse.aliases
+    assert "STSE" in stse.aliases
+
+    with sqlite3.connect(settings.sqlite_path) as conn:
+        for edge in edges:
+            row = conn.execute(
+                "SELECT text FROM local_sources "
+                "WHERE document_id = ? AND version = ? AND source_id = ?",
+                (edge.document_id, edge.version, edge.source_id),
+            ).fetchone()
+            assert row is not None
+            raw = row[0]
+            assert raw[edge.evidence_span_start : edge.evidence_span_end] == edge.evidence_excerpt
+
+
+
