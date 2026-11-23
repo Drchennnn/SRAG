@@ -1,0 +1,3259 @@
+{
+  "gate_phase": "H03_independent_blind_gate",
+  "executed_at": "2026-11-23T18:48:16.502654+00:00",
+  "archive_dir": "/private/tmp/srag-h03-archive",
+  "m1_m4_m5_offline": {
+    "m1_v1_accepted_count": 10,
+    "m1_v1_expected_count": 10,
+    "m1_v1_missing": [],
+    "m1_span_exact_verified": true,
+    "m1_false_acceptances": [],
+    "m1_v1_edges": [
+      {
+        "relation": "defined_in",
+        "concept": "预测时域滑模抗扰",
+        "concept_key": "c_1372efb45a2f",
+        "file_name": "Lecture-01-Core-Theory.pdf",
+        "source_id": "page:4",
+        "version": 1,
+        "rule": "explicit_definition_header",
+        "excerpt_head": "3. 核心概念定义：预测时域滑模抗扰 (Horizon Sliding-Mode Disturbance\nRejection)\n正式定义：预测时域滑模抗扰将有限"
+      },
+      {
+        "relation": "demonstrated_by",
+        "concept": "预测时域滑模抗扰",
+        "concept_key": "c_1372efb45a2f",
+        "file_name": "Lab-01-Experiments.ipynb",
+        "source_id": "cell:5",
+        "version": 1,
+        "rule": "cross_file_symbol_verified",
+        "excerpt_head": "def probe_band_law_m4(phi_band=0.12, q_rate=12.0, eps=2.5):"
+      },
+      {
+        "relation": "defined_in",
+        "concept": "双二阶自适应陷波滤波",
+        "concept_key": "c_1bc67ceac5b1",
+        "file_name": "Slides-02-Method-Walkthrough.pptx",
+        "source_id": "page:2",
+        "version": 1,
+        "rule": "explicit_definition_header",
+        "excerpt_head": "概念定义：双二阶自适应陷波滤波 (Biquad Adaptive Notch Filtering)\n正式定义：采用二阶 IIR 陷波传递函数 H(z) = (1"
+      },
+      {
+        "relation": "demonstrated_by",
+        "concept": "双二阶自适应陷波滤波",
+        "concept_key": "c_1bc67ceac5b1",
+        "file_name": "Lab-01-Experiments.ipynb",
+        "source_id": "cell:6",
+        "version": 1,
+        "rule": "cross_file_symbol_verified",
+        "excerpt_head": "def verify_iir_dip_b2(fs_hz=1000.0, f0_hz=120.0, bw_hz=15.0):"
+      },
+      {
+        "relation": "defined_in",
+        "concept": "条件积分抗饱和钳位",
+        "concept_key": "c_72c324c0a112",
+        "file_name": "Slides-02-Method-Walkthrough.pptx",
+        "source_id": "page:4",
+        "version": 1,
+        "rule": "explicit_definition_header",
+        "excerpt_head": "概念定义：条件积分抗饱和钳位 (Conditional Anti-Windup Clamping)\n正式定义：当控制器输出触及物理执行器饱和限幅 |u_cmd|"
+      },
+      {
+        "relation": "defined_in",
+        "concept": "极点配置滞后补偿",
+        "concept_key": "c_c42bb1d8be58",
+        "file_name": "Lecture-01-Core-Theory.pdf",
+        "source_id": "page:1",
+        "version": 1,
+        "rule": "explicit_definition_header",
+        "excerpt_head": "1. 核心概念定义：极点配置滞后补偿 (Pole-Placement Lag Compensation)\n正式定义：极点配置滞后补偿是指在离散线性定常状态空间模"
+      },
+      {
+        "relation": "demonstrated_by",
+        "concept": "极点配置滞后补偿",
+        "concept_key": "c_c42bb1d8be58",
+        "file_name": "Lab-01-Experiments.ipynb",
+        "source_id": "cell:1",
+        "version": 1,
+        "rule": "cross_file_symbol_verified",
+        "excerpt_head": "def run_loop_trim_p1(ts_sec=0.02, ki_gain=1.45):"
+      },
+      {
+        "relation": "defined_in",
+        "concept": "扩展卡尔曼协方差膨胀",
+        "concept_key": "c_df7a1b2f22dd",
+        "file_name": "Lecture-01-Core-Theory.pdf",
+        "source_id": "page:3",
+        "version": 1,
+        "rule": "explicit_definition_header",
+        "excerpt_head": "2. 核心概念定义：扩展卡尔曼协方差膨胀 (EKF Covariance Inflation)\n正式定义：扩展卡尔曼协方差膨胀是指在非线性离散观测滤波中，当雅可"
+      },
+      {
+        "relation": "demonstrated_by",
+        "concept": "扩展卡尔曼协方差膨胀",
+        "concept_key": "c_df7a1b2f22dd",
+        "file_name": "Lab-01-Experiments.ipynb",
+        "source_id": "cell:3",
+        "version": 1,
+        "rule": "cross_file_symbol_verified",
+        "excerpt_head": "def eval_res_scale_k7(chi2_gate=7.81):"
+      },
+      {
+        "relation": "defined_in",
+        "concept": "H∞ 混合灵敏度环路成形",
+        "concept_key": "h_9b420090aad3",
+        "file_name": "NoEdge-Notes.pdf",
+        "source_id": "page:1",
+        "version": 1,
+        "rule": "explicit_definition_header",
+        "excerpt_head": "1. 核心概念定义：H∞ 混合灵敏度环路成形 (H-infinity Mixed-Sensitivity Loop\nShaping)\n正式定义：H∞ 混合灵敏度"
+      }
+    ],
+    "m4_v2_accepted_count": 9,
+    "m4_v2_c2_removed": true,
+    "m4_v2_c3_shifted_cell3": true,
+    "m4_v2_c4_shifted_cell4": true,
+    "m4_promote_due_direct_qa_v2_edges": 3,
+    "m4_delete_zero_leak": true,
+    "m5_service_404": [
+      [
+        "owner_a_query_other_course",
+        404
+      ],
+      [
+        "owner_a_access_sess_b",
+        404
+      ],
+      [
+        "owner_b_query_main_concept",
+        404
+      ]
+    ]
+  },
+  "m2_m3_m4_m5_browser": {
+    "offline_zero_llm_nav": {
+      "concepts": [
+        "扩展卡尔曼协方差膨胀",
+        "极点配置滞后补偿",
+        "预测时域滑模抗扰"
+      ],
+      "passed": true
+    },
+    "online_browser_gate": {
+      "session_a": "38b6753395d14facbaef307795dcaf03",
+      "session_b": "b0d7ad5f30594e97a4cb33337002e9cb",
+      "entry1_concepts_count": 6,
+      "entry1_lecture_and_lab_png": true,
+      "m3_c6_no_edge_fallback_passed": true,
+      "m2_entry2_chip_passed": true,
+      "m4_v2_update_and_v1_history_passed": true,
+      "m4_v1_reader_len": 471,
+      "m5_cross_session_404": [
+        404,
+        404
+      ],
+      "m5_cross_course_404": [
+        404,
+        404
+      ],
+      "m5_unauth_404": 404
+    }
+  },
+  "m6_three_way_comparison": [
+    {
+      "arm": "S0_base",
+      "include_adjacency": false,
+      "kg_enabled": false,
+      "total_passed": 8,
+      "total_questions": 10,
+      "cross_zero_overlap_passed": 2,
+      "cross_zero_overlap_total": 4,
+      "expected_sources_read_passed": 7,
+      "severe_errors": 0,
+      "p50_latency_s": 3.021,
+      "p95_latency_s": 6.845,
+      "total_external_calls": 20,
+      "per_question": [
+        {
+          "question_id": "H_Q01",
+          "category": "cross_file_zero_overlap_dual_entry",
+          "snapshot": "v1",
+          "passed": false,
+          "severe_error": false,
+          "all_expected_read": false,
+          "all_expected_cited": false,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_controllable": true,
+            "cond_ts": true,
+            "cond_pole": true,
+            "fn_p1": true,
+            "ts_020": true,
+            "zeta_72": true,
+            "overshoot_415": true,
+            "settling_185": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.893,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "极点配置滞后补偿的数学成立条件包括：(1) 能控性条件：增广系统矩阵对 (A_aug, B_aug) 必须完全能控，即能控性矩阵满秩 rank(C_aug) = n + 1；(2) 采样周期约束：离散采样周期须满足 T_s <= 0.05 s，避免相位滞后侵蚀稳定裕度；(3) 极点扇区界：全部闭环特征根模长严格满足 |z_i| < 0.85。\n若采样周期超出 T_s <= 0.05 s 限制或 (A_aug, B_aug) 失去能控性，上述闭环配置条件不成立。\n实验函数 run_loop_trim_p1() 的默认参数为 ts_sec=0.02 s、ki_gain=1.45，对应基准配置档位（采样周期 0.020 s、积分增益 1.45、最大极点模长 < 0.85、稳态斜坡误差目标 0.000）。\n在该默认采样周期 0.02 s 下，实验实测结果为：阻尼比 zeta_ratio = 0.7"
+        },
+        {
+          "question_id": "H_Q02",
+          "category": "cross_file_zero_overlap_removed_in_v2",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_rk": true,
+            "cond_chi2": true,
+            "cond_3steps": true,
+            "fn_k7": true,
+            "rmse_unscaled": true,
+            "rmse_scaled": true,
+            "reject_rate": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.889,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "触发条件：新息归一化卡方统计量 d_k^2 = r_k^T S_k^{-1} r_k 须连续 3 步超过阈值 chi2_0.95 = 7.81 才激活膨胀；同时要求量测噪声协方差矩阵严格正定 (R_k > 0)，先验协方差保持对称半正定。\n膨胀因子为 lambda_k = max(1.0, tr(r_k r_k^T) / tr(H_k P_{k|k-1} H_k^T + R_k))，在时间更新后对先验预测协方差执行 P_{k|k-1} <- lambda_k P_{k|k-1}，其中 r_k = y_k - h(x_{k|k-1}) 为量测新息。\n实验 eval_res_scale_k7() 中（chi2_gate=7.81）：未膨胀 RMSE = 0.418 rad，开启膨胀后 RMSE = 0.064 rad，卡方拒收率 = 2.30%。\n该实验位于 Lab-01-Experiment"
+        },
+        {
+          "question_id": "H_Q03",
+          "category": "cross_file_zero_overlap_cell_shift",
+          "snapshot": "v1",
+          "passed": false,
+          "severe_error": false,
+          "all_expected_read": false,
+          "all_expected_cited": false,
+          "facts_passed": false,
+          "fact_checks": {
+            "cond_dist": false,
+            "cond_phi": true,
+            "fn_m4": true,
+            "osc_018": false,
+            "band_024": false,
+            "hz_142": false
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.274,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:4",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:4",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "预测时域滑模抗扰",
+              "concept_key": "c_1372efb45a2f",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "边界层厚度必须满足不等式 phi >= 2 * eps * T_s，否则无法消除离散步长内的穿越抖振。\n材料只说明不同边界层宽度下开关抖振幅值、稳态误差带与开关频率的定量实测由实验文件 Lab-01-Experiments.ipynb 中的实验函数 probe_band_law_m4() 演示，未给出具体测得的振荡幅值、稳态带和开关频率数值。\n实验测得的具体振荡幅值、稳态带和开关频率数值未在证据中给出。"
+        },
+        {
+          "question_id": "H_Q04",
+          "category": "pptx_plus_unit_table_plus_zero_overlap_lab",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "formula_r": true,
+            "r_09529": true,
+            "q_800": true,
+            "fn_b2": true,
+            "dip_314": true,
+            "ripple_018": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 10.051,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "双二阶自适应陷波滤波",
+              "concept_key": "c_1bc67ceac5b1",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "极点半径按 r = 1 - (pi * B_-3dB) / f_s 计算，并满足 r in (0.85, 0.995)；品质因数 Q = f0 / B_-3dB，中心数字频率 w0 = 2 * pi * f0 / f_s。\n课件参数表给出两组档位：Profile-A（对应 verify_iir_dip_b2）f_s=1000.0 Hz、f0=120.0 Hz、-3dB 带宽 15.0 Hz、r=0.9529、理论 Q=8.00；Profile-B（低频窄带）f_s=1000.0 Hz、f0=60.0 Hz、-3dB 带宽 10.0 Hz、r=0.9686、理论 Q=6.00。\n实测实验 verify_iir_dip_b2() 在 f0=120.0 Hz、bw=15.0 Hz 下给出 r_coeff=0.9529、q_factor=8.00、dip_attenuation_db=-31.4 "
+        },
+        {
+          "question_id": "H_Q05",
+          "category": "control_pptx_definition_and_unit_table",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_sat": true,
+            "cond_sign": true,
+            "clamp_48": true,
+            "clamp_190": true,
+            "bc_94": true,
+            "bc_265": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 6.845,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:4",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "条件积分抗饱和钳位在控制器输出触及物理执行器饱和限幅 |u_cmd| > u_max 且追踪误差与饱和输出同号 (e_k * u_sat > 0) 时冻结积分器状态 z_{k+1} = z_k；仅当指令退出饱和区 (|u_cmd| <= u_max) 或误差与饱和输出反号 (e_k * u_sat <= 0) 时恢复积分累加。\n课件对比表在固定阶跃给定与执行器限幅条件下（采样周期 20.0 ms、饱和限幅 ±12.0 V）给出：反计算追踪 (Back-Calc K_aw=4.0) 峰值超调 9.4 %、退饱和恢复时间 265.0 ms；条件积分钳位 (Conditional Clamp) 峰值超调 4.8 %、退饱和恢复时间 190.0 ms。"
+        },
+        {
+          "question_id": "H_Q06",
+          "category": "counterexample_comment_mention_trap",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "negated": true,
+            "fft": true,
+            "us_684": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.922,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "没有。measure_fft_wallclock_overhead 没有做过扩展卡尔曼协方差膨胀的性能或误差实验；代码注释明确警告不要把这个计时检查当作扩展卡尔曼协方差膨胀、双二阶自适应陷波滤波或极点配置滞后补偿，它只对 numpy.fft 的挂钟开销做基准测试。\n该函数实际只报告 FFT 的挂钟耗时：默认 n_pts=4096，返回并打印 mean_us=68.4 us、p99_us=92.1 us；实际输出为 [wallclock] n_pts=4096, mean_us=68.4 us, p99_us=92.1 us。\n扩展卡尔曼协方差膨胀的正式定义在 Lecture-01 中给出，其抑制非线性发散效果、开启前后 RMSE 对比及卡方拒收率统计由 Lab-01-Experiments.ipynb 中的 eval_res_scale_k7() 定量演示，而非 measure_fft_w"
+        },
+        {
+          "question_id": "H_Q07",
+          "category": "counterexample_unrun_and_undefined_mention",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "unrun": true,
+            "smith_mention": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.057,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "课程 Notebook 中未发现已运行并保存结果的“Smith 预估器”或“极点配置滞后补偿”消融实验数据；Lab-01-Experiments.ipynb 中相关消融函数标注为“未来计划 / 尚未运行，无保存输出”，函数体直接抛出 NotImplementedError('Planned future benchmark - not yet executed')。\nSlides-02 的参考文献页仅将 Smith 预估器作为背景文献提及，并明确“本课未定义亦无对应实验”；极点配置滞后补偿也仅作为延伸阅读提及，该页不提供实验代码验证。\nLecture-01 给出了极点配置滞后补偿的设计参数与采样裕度表（基准配置 T_s=0.020 s、k_i=1.45、|z|_max<0.85、稳态斜坡误差目标 0.000；紧致配置 T_s=0.010 s、k_i=1.95、|z|_max<0.78、稳态"
+        },
+        {
+          "question_id": "H_Q08",
+          "category": "no_edge_fallback_control",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": false,
+          "all_expected_cited": false,
+          "facts_passed": true,
+          "fact_checks": {
+            "norm_gamma": true,
+            "no_demo": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.471,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:1",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:1:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "H∞ 混合灵敏度环路成形",
+              "concept_key": "h_9b420090aad3",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "H∞ 混合灵敏度环路成形在频域内构造广义加权灵敏度传递矩阵 M(s) = [W_1(s)S(s); W_2(s)K(s)S(s); W_3(s)T(s)]，其中 S = (I + GK)^{-1} 刻画扰动抑制与指令追踪性能，T = GK(I + GK)^{-1} 刻画乘性模型不确定性鲁棒性，通过求解次优 H∞ 综合问题使闭环无穷范数满足 ||M(s)||_inf < gamma。\n其数学与频域约束条件为：(1) 低频性能权函数 W_1(s) 须在低频段提供足够大增益以压低追踪误差；(2) 高频鲁棒权函数 W_3(s) 在高频段须具备至少 20 dB/dec 的滚降斜率以抑制未建模高频动态；(3) 内部稳定性：控制器 K(s) 必须内部镇定标称广义被控对象。\n课程中没有对应的仿真实验输出：该概念在本门课程（cs-ctrl-h）中仅作理论推导与频域权函数说明，全课未安排任何配套仿真代码或 N"
+        },
+        {
+          "question_id": "H_Q10",
+          "category": "cross_course_isolation_negative",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "absent": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.986,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:1",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            },
+            {
+              "canonical_name": "H∞ 混合灵敏度环路成形",
+              "concept_key": "h_9b420090aad3",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "在已读证据中，没有出现名为 run_hinf_other_x9 的 Notebook 实测函数，也没有出现阻尼比 0.51 的滞后补偿实验。\n关于 H∞ 混合灵敏度环路成形，讲义明确说明：本概念在本门课程（cs-ctrl-h）中仅作理论推导与频域权函数说明，全课未安排任何配套仿真代码或 Notebook 实验演示。\n已读的 Notebook 内容属于 Lab 01 的 Bench 2 · Residual Scaling Run（k7），其输出为 chi2_gate=7.81、rmse_unscaled=0.418 rad、rmse_scaled=0.064 rad、chi2_reject_rate=2.30%，与 H∞ 混合灵敏度环路成形或阻尼比 0.51 的滞后补偿无关。\n课件第 4 页讨论的是条件积分抗饱和钳位，并说明该概念在课程 Notebook 中未单独安排代码演示，同样不涉及 "
+        },
+        {
+          "question_id": "H_Q09",
+          "category": "version_replacement_v2_accuracy",
+          "snapshot": "v2",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": false,
+          "facts_passed": true,
+          "fact_checks": {
+            "ts_010": true,
+            "ki_195": true,
+            "zeta_84": true,
+            "overshoot_142": true,
+            "settling_132": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.821,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:5",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              2
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              2
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "新版实验（Lab-01-Experiments-v2.ipynb）中 run_loop_trim_p1() 的默认参数为 ts_sec=0.01 s、ki_gain=1.95，实测输出为 zeta_ratio=0.84、overshoot_pct=1.42%、settling_ms=132.0、ramp_steady_err=0.000。\n因此极点配置滞后补偿在新版实验中的采样周期为 0.010 s，阻尼比 zeta 为 0.84，超调量为 1.42%，调节时间为 132.0 ms。\n理论讲义中的参数表把 0.010 s、k_i=1.95、|z|_max<0.78 列为“紧致配置 (Tight)”，并注明具体时域阶跃/斜坡指标需核对 run_loop_trim_p1() 的输出记录。\n未找到旧版实验文件（v1）中极点配置滞后补偿的采样周期、zeta、超调量和调节时间数据，因此无法给出新旧版"
+        }
+      ]
+    },
+    {
+      "arm": "S0_adj",
+      "include_adjacency": true,
+      "kg_enabled": false,
+      "total_passed": 8,
+      "total_questions": 10,
+      "cross_zero_overlap_passed": 2,
+      "cross_zero_overlap_total": 4,
+      "expected_sources_read_passed": 8,
+      "severe_errors": 0,
+      "p50_latency_s": 3.043,
+      "p95_latency_s": 8.765,
+      "total_external_calls": 20,
+      "per_question": [
+        {
+          "question_id": "H_Q01",
+          "category": "cross_file_zero_overlap_dual_entry",
+          "snapshot": "v1",
+          "passed": false,
+          "severe_error": false,
+          "all_expected_read": false,
+          "all_expected_cited": false,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_controllable": true,
+            "cond_ts": true,
+            "cond_pole": true,
+            "fn_p1": true,
+            "ts_020": true,
+            "zeta_72": true,
+            "overshoot_415": true,
+            "settling_185": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.676,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "极点配置滞后补偿的数学成立条件为：(1) 能控性条件：增广系统矩阵对 (A_aug, B_aug) 必须完全能控，即能控性矩阵满秩 rank(C_aug) = n + 1；(2) 采样周期约束：离散采样周期须满足 T_s <= 0.05 s，以避免相位滞后侵蚀稳定裕度；(3) 极点扇区界：全部闭环特征根模长严格满足 |z_i| < 0.85。\n若采样周期超出 T_s <= 0.05 s 的限制，或 (A_aug, B_aug) 失去能控性，则上述闭环配置条件不成立。\n实验函数 run_loop_trim_p1() 的默认参数为 ts_sec=0.02 s、ki_gain=1.45，其输出记录为 zeta_ratio=0.72、overshoot_pct=4.15%、settling_ms=185.0、ramp_steady_err=0.000。\n讲义表格给出的基准配置 (Nominal) "
+        },
+        {
+          "question_id": "H_Q02",
+          "category": "cross_file_zero_overlap_removed_in_v2",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_rk": true,
+            "cond_chi2": true,
+            "cond_3steps": true,
+            "fn_k7": true,
+            "rmse_unscaled": true,
+            "rmse_scaled": true,
+            "reject_rate": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.572,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:4",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "def eval_res_scale_k7(chi2_gate=7.81):\n    # Empirical residual trace bench k7 (v1 only)\n    rmse_unscaled = 0.418\n    rmse_scaled = 0.064\n    chi2_reject_rate = 2.30\n    print(f'[k7_v1] chi2_gate={chi2_gate:.2f} | rmse_unscaled={rmse_unscaled:.3f} rad, rmse_scaled={rmse_scaled:.3f} rad, chi2_reject_rate={chi2_reject_rate:.2f}%')\n    return rmse_unscaled, rmse_scaled, chi2_reject_rate\n\neval_res_sc"
+        },
+        {
+          "question_id": "H_Q03",
+          "category": "cross_file_zero_overlap_cell_shift",
+          "snapshot": "v1",
+          "passed": false,
+          "severe_error": false,
+          "all_expected_read": false,
+          "all_expected_cited": false,
+          "facts_passed": false,
+          "fact_checks": {
+            "cond_dist": true,
+            "cond_phi": true,
+            "fn_m4": true,
+            "osc_018": false,
+            "band_024": false,
+            "hz_142": false
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.164,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:4",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:5",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:4",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "预测时域滑模抗扰",
+              "concept_key": "c_1372efb45a2f",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "预测时域滑模抗扰的边界层厚度必须满足不等式 phi >= 2 * eps * T_s，否则无法消除离散步长内的穿越抖振。\n该概念还要求外部未知扰动满足无穷范数上界 ||d_k||_inf <= d_max。\n不同边界层宽度下开关抖振幅值、稳态误差带与开关频率的定量实测，由实验文件 Lab-01-Experiments.ipynb 中的实验函数 probe_band_law_m4() 演示。\n证据中未给出实验测得的振荡幅值、稳态带和开关频率的具体数值；仅说明这些量由 probe_band_law_m4() 演示，未列出结果。"
+        },
+        {
+          "question_id": "H_Q04",
+          "category": "pptx_plus_unit_table_plus_zero_overlap_lab",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "formula_r": true,
+            "r_09529": true,
+            "q_800": true,
+            "fn_b2": true,
+            "dip_314": true,
+            "ripple_018": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 8.93,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "双二阶自适应陷波滤波",
+              "concept_key": "c_1bc67ceac5b1",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "极点半径按 r = 1 - (pi * B_-3dB) / f_s 计算，并限定 r ∈ (0.85, 0.995)；品质因数 Q = f0 / B_-3dB，中心数字频率 w0 = 2 * pi * f0 / f_s。\n课件设计基准表给出两组档位：Profile-A（对应 verify_iir_dip_b2）f_s=1000.0 Hz、f0=120.0 Hz、-3dB 带宽 15.0 Hz、r=0.9529、理论 Q=8.00；Profile-B（低频窄带）f_s=1000.0 Hz、f0=60.0 Hz、-3dB 带宽 10.0 Hz、r=0.9686、理论 Q=6.00。\n实测实验 verify_iir_dip_b2() 在 f0=120.0 Hz、bw=15.0 Hz 下给出 r_coeff=0.9529、q_factor=8.00、dip_attenuation_db=-31.4"
+        },
+        {
+          "question_id": "H_Q05",
+          "category": "control_pptx_definition_and_unit_table",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_sat": true,
+            "cond_sign": true,
+            "clamp_48": true,
+            "clamp_190": true,
+            "bc_94": true,
+            "bc_265": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 8.765,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:4",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "条件积分抗饱和钳位在控制器输出触及物理执行器饱和限幅 |u_cmd| > u_max 且追踪误差与饱和输出同号 (e_k * u_sat > 0) 时冻结积分器状态 z_{k+1} = z_k；仅当指令退出饱和区 (|u_cmd| <= u_max) 或误差与饱和输出反号 (e_k * u_sat <= 0) 时恢复积分累加。\n在固定阶跃给定与执行器限幅（采样周期 20.0 ms、饱和限幅 ±12.0 V）条件下，条件积分钳位 (Conditional Clamp) 的峰值超调为 4.8 %，退饱和恢复时间为 190.0 ms。\n同一对比条件下，反计算追踪 (Back-Calc K_aw=4.0) 的峰值超调为 9.4 %，退饱和恢复时间为 265.0 ms。"
+        },
+        {
+          "question_id": "H_Q06",
+          "category": "counterexample_comment_mention_trap",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "negated": true,
+            "fft": true,
+            "us_684": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.967,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "双二阶自适应陷波滤波",
+              "concept_key": "c_1bc67ceac5b1",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "没有。measure_fft_wallclock_overhead 的代码注释明确警告：不要把这次计时检查当作扩展卡尔曼协方差膨胀（EKF Covariance Inflation）、双二阶自适应陷波滤波或极点配置滞后补偿，它只对 numpy.fft 的墙钟开销做基准测试。\n该函数实际只报告 FFT 的墙钟耗时：n_pts=4096 时 mean_us=68.4 us、p99_us=92.1 us，并返回这两个值；保存的输出与之一致。\n按讲义，扩展卡尔曼协方差膨胀的定量演示（抑制非线性发散、开启前后 RMSE 对比、卡方拒收率统计）对应实验文件中的 eval_res_scale_k7()，而非 measure_fft_wallclock_overhead。\n本轮证据未包含 eval_res_scale_k7() 的代码或运行输出，因此无法确认该函数是否实际运行、其 RMSE 与卡方拒收率的"
+        },
+        {
+          "question_id": "H_Q07",
+          "category": "counterexample_unrun_and_undefined_mention",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "unrun": true,
+            "smith_mention": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.934,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "课程 Notebook 中没有已运行并保存结果的“Smith 预估器”或“极点配置滞后补偿”消融实验数据：相关单元格明确标注为“未来计划 / 尚未运行，无保存输出”，函数体仅抛出 NotImplementedError('Planned future benchmark - not yet executed')。\nNotebook 中另一处出现“极点配置滞后补偿”的单元格只是术语提及警告，说明该计时检查不是极点配置滞后补偿等概念实验，仅用于基准测试 numpy.fft 的墙钟开销。\n课件参考文献页仅将 Smith 预估器与极点配置滞后补偿作为背景文献提及，并明确说明本课未定义亦无对应实验、不提供实验代码验证。\n证据为局部摘录（full_text_scope 为 false），无法确认 Notebook 其余未读单元格中是否还有其他相关内容；也未找到任何已保存的 Smith 预估器或极点配置"
+        },
+        {
+          "question_id": "H_Q08",
+          "category": "no_edge_fallback_control",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "norm_gamma": true,
+            "no_demo": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.119,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:1",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:1:shape:2",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "H∞ 混合灵敏度环路成形",
+              "concept_key": "h_9b420090aad3",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "H∞ 混合灵敏度环路成形通过构造广义加权灵敏度传递矩阵 M(s) = [W_1(s)S(s); W_2(s)K(s)S(s); W_3(s)T(s)]，求解次优 H∞ 综合问题，使闭环无穷范数满足 ||M(s)||_inf < gamma；其中 S = (I + GK)^{-1} 刻画扰动抑制与指令追踪性能，T = GK(I + GK)^{-1} 刻画乘性模型不确定性鲁棒性。\n频域约束条件为：(1) 低频性能权函数 W_1(s) 须在低频段提供足够大增益以压低追踪误差；(2) 高频鲁棒权函数 W_3(s) 在高频段须具备至少 20 dB/dec 的滚降斜率以抑制未建模高频动态；(3) 内部稳定性：控制器 K(s) 必须内部镇定标称广义被控对象。\n权函数设计折中参考表给出：W_1(s) 在 omega < 5.0 rad/s 时 |S(j*omega)| <= -26 dB（低频稳态精度与低"
+        },
+        {
+          "question_id": "H_Q10",
+          "category": "cross_course_isolation_negative",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "absent": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.133,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "H∞ 混合灵敏度环路成形",
+              "concept_key": "h_9b420090aad3",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "证据中未出现名为 run_hinf_other_x9 的 Notebook 实测函数，也未出现阻尼比 0.51 的滞后补偿实验。\n关于 H∞ 混合灵敏度环路成形，讲义明确说明：本概念在本门课程（cs-ctrl-h）中仅作理论推导与频域权函数说明，全课未安排任何配套仿真代码或 Notebook 实验演示。\n讲义给出的频域权函数设计折中参考表为：W_1(s) 在 omega < 5.0 rad/s 时 |S(j*omega)| <= -26 dB；W_2(s) 在全频段 |K(j*omega)S(j*omega)| <= 14 dB；W_3(s) 在 omega > 80.0 rad/s 时滚降 >= 20 dB/dec。\n现有 Notebook 证据只覆盖 Lab 01 的 Bench 2 · Residual Scaling Run（k7），未涉及 H∞ 环路成形或滞后补偿。\n证据为局部摘"
+        },
+        {
+          "question_id": "H_Q09",
+          "category": "version_replacement_v2_accuracy",
+          "snapshot": "v2",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": false,
+          "facts_passed": true,
+          "fact_checks": {
+            "ts_010": true,
+            "ki_195": true,
+            "zeta_84": true,
+            "overshoot_142": true,
+            "settling_132": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.565,
+          "external_call_count": 2,
+          "kg_trace": {
+            "external_call_count": 0,
+            "status": "not_requested"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              2
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              2
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "新版实验函数 run_loop_trim_p1 的默认参数为 ts_sec=0.01 s、ki_gain=1.95，输出记录为 ts=0.010 s、ki=1.95、zeta_ratio=0.84、overshoot_pct=1.42%、settling_ms=132.0、ramp_steady_err=0.000。\n因此，采样周期为 0.010 s，阻尼比 zeta 为 0.84，超调量为 1.42%，调节时间为 132.0 ms。\n讲义中的紧致配置档位同样给出采样周期 0.010 s、积分增益 1.95、最大极点模长 < 0.78、稳态斜坡误差目标 0.000，与实验默认参数一致。\n证据中未出现“极点配置滞后补偿”在新版实验中的专门命名条目，上述数值来自新版实验函数 run_loop_trim_p1 的默认运行输出；另有 1 个图形输出未读取，无法确认图中是否含其他指标。"
+        }
+      ]
+    },
+    {
+      "arm": "S0_kg",
+      "include_adjacency": true,
+      "kg_enabled": true,
+      "total_passed": 9,
+      "total_questions": 10,
+      "cross_zero_overlap_passed": 4,
+      "cross_zero_overlap_total": 4,
+      "expected_sources_read_passed": 9,
+      "severe_errors": 0,
+      "p50_latency_s": 3.02,
+      "p95_latency_s": 9.239,
+      "total_external_calls": 20,
+      "per_question": [
+        {
+          "question_id": "H_Q01",
+          "category": "cross_file_zero_overlap_dual_entry",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_controllable": true,
+            "cond_ts": true,
+            "cond_pole": true,
+            "fn_p1": true,
+            "ts_020": true,
+            "zeta_72": true,
+            "overshoot_415": true,
+            "settling_185": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 4.018,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_fd00e03baf0c4e0d89e53115305bb8d8",
+                "source_id": "page:1",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "极点配置滞后补偿",
+                "concept_key": "c_c42bb1d8be58",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 3,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "极点配置滞后补偿的数学成立条件为：(1) 能控性条件：增广系统矩阵对 (A_aug, B_aug) 必须完全能控，即能控性矩阵满秩 rank(C_aug) = n + 1；(2) 采样周期约束：离散采样周期须满足 T_s <= 0.05 s，以避免相位滞后侵蚀稳定裕度；(3) 极点扇区界：全部闭环特征根模长严格满足 |z_i| < 0.85。\n该机理的设定是：在离散线性定常模型 x_{k+1} = A x_k + B u_k, y_k = C x_k 中引入离散积分误差增广状态 z_{k+1} = z_k + (r_k - y_k)，构造状态反馈律 u_k = -K_x x_k + K_i z_k，将闭环特征多项式 det(zI - A_aug + B_aug K_aug) 的全部特征根配置在 z 平面单位圆内满足 |z_i| < 0.85 的扇区。\n讲义称该机理由 Lab-01-Expe"
+        },
+        {
+          "question_id": "H_Q02",
+          "category": "cross_file_zero_overlap_removed_in_v2",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_rk": true,
+            "cond_chi2": true,
+            "cond_3steps": true,
+            "fn_k7": true,
+            "rmse_unscaled": true,
+            "rmse_scaled": true,
+            "reject_rate": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.581,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_fd00e03baf0c4e0d89e53115305bb8d8",
+                "source_id": "page:3",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "扩展卡尔曼协方差膨胀",
+                "concept_key": "c_df7a1b2f22dd",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 3,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:6:shape:3",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "扩展卡尔曼协方差膨胀的触发门控条件：新息归一化卡方统计量 d_k^2 = r_k^T S_k^{-1} r_k 须连续 3 步超过阈值 chi2_0.95 = 7.81 才激活膨胀。\n膨胀的数学机制成立还要求正定性条件：量测噪声协方差矩阵必须严格正定 (R_k > 0)，先验协方差保持对称半正定。\n实验 eval_res_scale_k7() 中，未膨胀 RMSE 为 0.418 rad，开启膨胀后 RMSE 为 0.064 rad，卡方拒收率为 2.30%（chi2_gate=7.81）。\n证据未说明“卡方拒收率 2.30%”对应的是未膨胀还是开启膨胀后的状态，也未给出两种状态各自的拒收率；此外，未膨胀与开启膨胀后的 RMSE 和卡方拒收率的具体实验条件（如数据、参数设置）未在证据中展开。"
+        },
+        {
+          "question_id": "H_Q03",
+          "category": "cross_file_zero_overlap_cell_shift",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_dist": true,
+            "cond_phi": true,
+            "fn_m4": true,
+            "osc_018": true,
+            "band_024": true,
+            "hz_142": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.42,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:5",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:5:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "预测时域滑模抗扰",
+                "concept_key": "c_1372efb45a2f",
+                "course_id": "cs-ctrl-h"
+              },
+              {
+                "canonical_name": "扩展卡尔曼协方差膨胀",
+                "concept_key": "c_df7a1b2f22dd",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 2,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:5:output:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:5",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:5:output:0",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:3",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:4",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:5",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:5:output:0",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:4",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:5",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "预测时域滑模抗扰",
+              "concept_key": "c_1372efb45a2f",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "边界层厚度需满足不等式 phi >= 2 * eps * T_s；否则无法消除离散步长内的穿越抖振。\n实验函数 probe_band_law_m4() 的实测参数为 phi=0.12、d_max=0.35，测得振荡幅值 osc_amp=0.018 Nm、稳态带 steady_band=0.024 rad、开关频率 switch_hz=14.2 Hz。\n证据未给出该实验所用的 eps 与 T_s 具体数值，因此无法用实测参数核对 phi >= 2*eps*T_s 是否成立。"
+        },
+        {
+          "question_id": "H_Q04",
+          "category": "pptx_plus_unit_table_plus_zero_overlap_lab",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "formula_r": true,
+            "r_09529": true,
+            "q_800": true,
+            "fn_b2": true,
+            "dip_314": true,
+            "ripple_018": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 9.278,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:6",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:6:output:0",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "双二阶自适应陷波滤波",
+                "concept_key": "c_1bc67ceac5b1",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 3,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:6:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:6:output:0",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2:shape:3",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "双二阶自适应陷波滤波",
+              "concept_key": "c_1bc67ceac5b1",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "极点半径按 r = 1 - (pi * B_-3dB) / f_s 计算，并满足 r in (0.85, 0.995)；品质因数 Q = f0 / B_-3dB，中心数字频率 w0 = 2 * pi * f0 / f_s。\n课件设计基准表给出两组档位：Profile-A（对应 verify_iir_dip_b2）f_s=1000.0 Hz、f0=120.0 Hz、-3dB 带宽 15.0 Hz、r=0.9529、理论 Q=8.00；Profile-B（低频窄带）f_s=1000.0 Hz、f0=60.0 Hz、-3dB 带宽 10.0 Hz、r=0.9686、理论 Q=6.00。\n实测实验 verify_iir_dip_b2 使用 f_s=1000.0 Hz、f0=120.0 Hz、bw=15.0 Hz，得到 r_coeff=0.9529、q_factor=8.00、dip_attenua"
+        },
+        {
+          "question_id": "H_Q05",
+          "category": "control_pptx_definition_and_unit_table",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "cond_sat": true,
+            "cond_sign": true,
+            "clamp_48": true,
+            "clamp_190": true,
+            "bc_94": true,
+            "bc_265": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 9.239,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "matched_concepts": [
+              {
+                "canonical_name": "条件积分抗饱和钳位",
+                "concept_key": "c_72c324c0a112",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "status": "already_covered"
+          },
+          "read_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:4",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5:shape:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:5",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "条件积分抗饱和钳位在控制器输出触及物理执行器饱和限幅 |u_cmd| > u_max 且追踪误差与饱和输出同号 (e_k * u_sat > 0) 时冻结积分器状态 z_{k+1} = z_k；仅当指令退出饱和区 (|u_cmd| <= u_max) 或误差与饱和输出反号 (e_k * u_sat <= 0) 时恢复积分累加。\n在固定阶跃给定与执行器限幅条件下（采样周期 20.0 ms、饱和限幅 ±12.0 V），反计算追踪 (Back-Calc K_aw=4.0) 的峰值超调为 9.4 %，退饱和恢复时间为 265.0 ms。\n在相同条件下，条件积分钳位 (Conditional Clamp) 的峰值超调为 4.8 %，退饱和恢复时间为 190.0 ms。"
+        },
+        {
+          "question_id": "H_Q06",
+          "category": "counterexample_comment_mention_trap",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "negated": true,
+            "fft": true,
+            "us_684": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.627,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_a0148237020e477fb540a9384e3d7280",
+                "source_id": "page:2",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "扩展卡尔曼协方差膨胀",
+                "concept_key": "c_df7a1b2f22dd",
+                "course_id": "cs-ctrl-h"
+              },
+              {
+                "canonical_name": "双二阶自适应陷波滤波",
+                "concept_key": "c_1bc67ceac5b1",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 2,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3:output:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:6:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:2",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7:output:0",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "双二阶自适应陷波滤波",
+              "concept_key": "c_1bc67ceac5b1",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "没有。measure_fft_wallclock_overhead 的代码注释明确警告：不要把这次计时检查当作扩展卡尔曼协方差膨胀（EKF Covariance Inflation）、双二阶自适应陷波滤波或极点配置滞后补偿的概念实验；它只对 numpy.fft 的墙钟开销做基准测试。\n该函数实际测的是 FFT 的墙钟耗时：在 n_pts=4096 时，mean_us=68.4 us、p99_us=92.1 us，并返回这两个值；运行输出与之一致。\n因此，在已读到的这段代码中，没有针对扩展卡尔曼协方差膨胀的性能或误差实验数据。\n未找到任何关于扩展卡尔曼协方差膨胀的性能或误差实验记录；本次证据为局部摘录（full_text_scope=false），不能据此断定整份资料中完全没有相关实验。"
+        },
+        {
+          "question_id": "H_Q07",
+          "category": "counterexample_unrun_and_undefined_mention",
+          "snapshot": "v1",
+          "passed": false,
+          "severe_error": false,
+          "all_expected_read": false,
+          "all_expected_cited": false,
+          "facts_passed": false,
+          "fact_checks": {
+            "unrun": true,
+            "smith_mention": false
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.826,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_a0148237020e477fb540a9384e3d7280",
+                "source_id": "page:4",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "极点配置滞后补偿",
+                "concept_key": "c_c42bb1d8be58",
+                "course_id": "cs-ctrl-h"
+              },
+              {
+                "canonical_name": "条件积分抗饱和钳位",
+                "concept_key": "c_72c324c0a112",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 2,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:7",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:8",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "课程 Notebook 中没有已运行并保存结果的“Smith 预估器”或“极点配置滞后补偿”消融实验数据：相关单元格只是未来计划，明确标注“尚未运行，无保存输出”，函数体直接抛出 NotImplementedError('Planned future benchmark - not yet executed')。\nNotebook 中另一处出现“极点配置滞后补偿”的单元格只是术语提及的警告，明确说明不要把它当作该概念实验，它实际只测量 numpy.fft 的墙钟开销（n_pts=4096，mean_us=68.4，p99_us=92.1）。\nNotebook 中已运行并保存输出的实验是 sweep_v1 参数扫描（ts=0.020 s、ki=1.45、zeta_ratio=0.72、overshoot_pct=4.15%、settling_ms=185.0、ramp_steady_err="
+        },
+        {
+          "question_id": "H_Q08",
+          "category": "no_edge_fallback_control",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "norm_gamma": true,
+            "no_demo": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 4.557,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "H∞ 混合灵敏度环路成形",
+                "concept_key": "h_9b420090aad3",
+                "course_id": "cs-ctrl-h"
+              },
+              {
+                "canonical_name": "扩展卡尔曼协方差膨胀",
+                "concept_key": "c_df7a1b2f22dd",
+                "course_id": "cs-ctrl-h"
+              },
+              {
+                "canonical_name": "极点配置滞后补偿",
+                "concept_key": "c_c42bb1d8be58",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 2,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:3:output:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:1",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3:output:0",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:3",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            },
+            {
+              "canonical_name": "扩展卡尔曼协方差膨胀",
+              "concept_key": "c_df7a1b2f22dd",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "demonstrated_by"
+              ]
+            },
+            {
+              "canonical_name": "H∞ 混合灵敏度环路成形",
+              "concept_key": "h_9b420090aad3",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "H∞ 混合灵敏度环路成形通过构造广义加权灵敏度传递矩阵 M(s) = [W_1(s)S(s); W_2(s)K(s)S(s); W_3(s)T(s)]，并求解次优 H∞ 综合问题，使闭环无穷范数满足 ||M(s)||_inf < gamma；其中 S = (I + GK)^{-1}，T = GK(I + GK)^{-1}。\n数学与频域约束条件为：(1) 低频性能权函数 W_1(s) 须在低频段提供足够大增益以压低追踪误差；(2) 高频鲁棒权函数 W_3(s) 在高频段须具备至少 20 dB/dec 的滚降斜率以抑制未建模高频动态；(3) 内部稳定性：控制器 K(s) 必须内部镇定标称广义被控对象。\n频域权函数设计折中参考表给出：W_1(s) 在 omega < 5.0 rad/s 时 |S(j*omega)| <= -26 dB（低频稳态精度与低频扰动抑制）；W_2(s) 在全频段 |K("
+        },
+        {
+          "question_id": "H_Q10",
+          "category": "cross_course_isolation_negative",
+          "snapshot": "v1",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "absent": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 3.155,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "matched_concepts": [
+              {
+                "canonical_name": "H∞ 混合灵敏度环路成形",
+                "concept_key": "h_9b420090aad3",
+                "course_id": "cs-ctrl-h"
+              },
+              {
+                "canonical_name": "条件积分抗饱和钳位",
+                "concept_key": "c_72c324c0a112",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "status": "already_covered"
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4:shape:3",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:3",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              1
+            ],
+            [
+              "Slides-02-Method-Walkthrough.pptx",
+              "page:4",
+              1
+            ],
+            [
+              "NoEdge-Notes.pdf",
+              "page:1",
+              1
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "条件积分抗饱和钳位",
+              "concept_key": "c_72c324c0a112",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            },
+            {
+              "canonical_name": "H∞ 混合灵敏度环路成形",
+              "concept_key": "h_9b420090aad3",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": false,
+              "matched_relations": [
+                "defined_in"
+              ]
+            }
+          ],
+          "answer_preview": "关于 H∞ 混合灵敏度环路成形，讲义明确说明：本概念在本门课程（cs-ctrl-h）中仅作理论推导与频域权函数说明，全课未安排任何配套仿真代码或 Notebook 实验演示。\n因此，在已读到的课程资料范围内，没有出现名为 run_hinf_other_x9 的 Notebook 实测函数。\n已读到的 Lab 01 Notebook 只涉及“Bench 2 · Residual Scaling Run（k7）”，没有涉及 H∞ 混合灵敏度环路成形。\n已读到的资料中没有出现阻尼比 0.51 的滞后补偿实验；现有实验相关内容是双二阶自适应陷波滤波的 Profile-A 与 Profile-B 档位，以及条件积分抗饱和钳位，均与滞后补偿无关。\n本次证据为局部摘录（full_text_scope 为 false），未覆盖全部课程资料，因此不能排除其他未读页面或 Notebook 单元格中存在 run"
+        },
+        {
+          "question_id": "H_Q09",
+          "category": "version_replacement_v2_accuracy",
+          "snapshot": "v2",
+          "passed": true,
+          "severe_error": false,
+          "all_expected_read": true,
+          "all_expected_cited": true,
+          "facts_passed": true,
+          "fact_checks": {
+            "ts_010": true,
+            "ki_195": true,
+            "zeta_84": true,
+            "overshoot_142": true,
+            "settling_132": true
+          },
+          "forbidden_hits": [],
+          "latency_s": 2.884,
+          "external_call_count": 2,
+          "kg_trace": {
+            "added_sources": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:0",
+                "version": 2
+              },
+              {
+                "document_id": "local_fd00e03baf0c4e0d89e53115305bb8d8",
+                "source_id": "page:1",
+                "version": 1
+              }
+            ],
+            "external_call_count": 0,
+            "filtered_out_of_scope": 0,
+            "kg_reserve_cap": 3,
+            "matched_concepts": [
+              {
+                "canonical_name": "极点配置滞后补偿",
+                "concept_key": "c_c42bb1d8be58",
+                "course_id": "cs-ctrl-h"
+              }
+            ],
+            "per_concept_cap": 3,
+            "status": "succeeded",
+            "visual_added": [
+              {
+                "document_id": "local_1925a49100d84d7c83b5d34aaa9c7d9f",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            ]
+          },
+          "read_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:1",
+              2
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:2",
+              2
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:2",
+              1
+            ]
+          ],
+          "cited_sources": [
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1",
+              2
+            ],
+            [
+              "Lecture-01-Core-Theory.pdf",
+              "page:1",
+              1
+            ],
+            [
+              "Lab-01-Experiments.ipynb",
+              "cell:1:output:0",
+              2
+            ]
+          ],
+          "related_concepts": [
+            {
+              "canonical_name": "极点配置滞后补偿",
+              "concept_key": "c_c42bb1d8be58",
+              "course_id": "cs-ctrl-h",
+              "has_counterpart": true,
+              "matched_relations": [
+                "defined_in",
+                "demonstrated_by"
+              ]
+            }
+          ],
+          "answer_preview": "新版实验函数 run_loop_trim_p1 的默认参数为 ts_sec=0.01 s、ki_gain=1.95，输出记录显示采样周期 ts=0.010 s、zeta_ratio=0.84、overshoot_pct=1.42%、settling_ms=132.0。\n因此，采样周期为 0.010 s，阻尼比 zeta 为 0.84，超调量为 1.42%，调节时间为 132.0 ms。\n理论讲义将极点配置滞后补偿的实验演示对应到 Lab-01-Experiments.ipynb 中的 run_loop_trim_p1()，并要求采样周期满足 T_s <= 0.05 s；新版 0.010 s 满足该约束。\n证据未明确说明这些数值是否专属于“极点配置滞后补偿”在新版中的更新结果；讲义只把该实验函数列为对应演示，未给出新版数值。此外，cell 1 的第二个输出为图占位符，未读取其图像内容。"
+        }
+      ]
+    }
+  ]
+}

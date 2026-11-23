@@ -88,6 +88,15 @@ def _ab_eval(session: str, js_expr: str) -> Any:
     return json.loads(_ab(session, "eval", js_expr))
 
 
+def _ab_click(session: str, selector: str) -> None:
+    _ab_eval(
+        session,
+        f"(() => {{ const el = document.querySelector({json.dumps(selector)}); "
+        "if (el) el.scrollIntoView({block: 'center', inline: 'nearest'}); return !!el; })()",
+    )
+    _ab(session, "click", selector)
+
+
 def _wait_for_js(
     session: str, predicate_js: str, *, timeout: float = 40.0, desc: str = ""
 ) -> Any:
@@ -569,7 +578,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         c2_key = next(item["key"] for item in kg_list if "扩展卡尔曼协方差膨胀" in item["text"])
         c6_key = next(item["key"] for item in kg_list if "混合灵敏度" in item["text"])
 
-        _ab(bs_a, "click", f"#kg-list .kg-item[data-concept-key='{c1_key}']")
+        _ab_click(bs_a, f"#kg-list .kg-item[data-concept-key='{c1_key}']")
         c1_detail_txt = _wait_for_js(
             bs_a,
             "(() => { const d = document.getElementById('kg-detail'); "
@@ -628,7 +637,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         _wait_for_js(bs_a, "document.getElementById('clear-file').hidden === true", desc="clear file scope")
 
         # M3: No-Edge concept (C6) explicit notice + fallback search
-        _ab(bs_a, "click", f"#kg-list .kg-item[data-concept-key='{c6_key}']")
+        _ab_click(bs_a, f"#kg-list .kg-item[data-concept-key='{c6_key}']")
         c6_notice = _wait_for_js(
             bs_a,
             "(() => { const d = document.getElementById('kg-detail'); "
@@ -637,14 +646,14 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         )
         assert "暂无可靠的实验演示关系" in c6_notice, c6_notice
         msg_n_before = _ab_eval(bs_a, "document.querySelectorAll('#messages article').length")
-        _ab(bs_a, "click", "#kg-detail .kg-fallback-search")
+        _ab_click(bs_a, "#kg-detail .kg-fallback-search")
         c6_answer = _wait_for_js(
             bs_a,
             f"(() => {{ const arts = [...document.querySelectorAll('#messages article')]; "
             f"if (arts.length < {msg_n_before + 2}) return null; "
             "const st = document.getElementById('composer-status')?.textContent || ''; "
             "if (st !== '' || document.querySelector('#turn-actions button')) return null; "
-            "return arts.at(-1)?.textContent || null; }})()",
+            "return arts.at(-1)?.textContent || null; })()",
             timeout=60.0,
             desc="C6 fallback search answered",
         )
@@ -663,7 +672,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
             "const st = document.getElementById('composer-status')?.textContent || ''; "
             "if (st !== '' || document.querySelector('#turn-actions button')) return null; "
             "const last = arts.at(-1); "
-            "return last.querySelector('.kg-concept-chip') ? last.textContent : null; }})()",
+            "return last.querySelector('.kg-concept-chip') ? last.textContent : null; })()",
             timeout=60.0,
             desc="H_Q01 answer & concept chip rendered",
         )
@@ -680,7 +689,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
             f"if (arts.length < {msg_n_before + 2}) return null; "
             "const st = document.getElementById('composer-status')?.textContent || ''; "
             "if (st !== '' || document.querySelector('#turn-actions button')) return null; "
-            "return arts.at(-1)?.textContent || null; }})()",
+            "return arts.at(-1)?.textContent || null; })()",
             timeout=60.0,
             desc="H_Q02 v1 answer rendered",
         )
@@ -688,7 +697,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
 
         # Click C1 chip inside message -> opens #kg-detail -> click "打开讲义原页"
         _ab(bs_a, "eval", "document.getElementById('kg-detail').hidden = true")
-        _ab(bs_a, "click", f"#messages .kg-concept-chip[data-concept-key='{c1_key}']")
+        _ab_click(bs_a, f"#messages .kg-concept-chip[data-concept-key='{c1_key}']")
         _wait_for_js(
             bs_a,
             "document.getElementById('kg-detail')?.textContent?.includes('0.72')",
@@ -697,17 +706,20 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         _ab(bs_a, "screenshot", str(shots / "h03-m2-entry2-chip.png"))
 
         # M4: Replace Lab-01 with v2 via #import-form
+        _ab(bs_a, "eval", "document.getElementById('import-panel').open = true")
+        _ab(bs_a, "select", "#import-course", MAIN_COURSE)
         lab_doc_info = _ab_eval(
             bs_a,
             f"(async () => {{ const r = await fetch('/api/workspace/sessions/{sess_a}/catalog'); "
             f"const j = await r.json(); const c = j.courses.find(x => x.course_id === '{MAIN_COURSE}'); "
             "return c.documents.find(d => d.file_name === 'Lab-01-Experiments.ipynb'); })()",
         )
-        _ab_eval(
+        clicked_lab = _ab_eval(
             bs_a,
             f"(() => {{ const r = document.querySelector('#catalog [data-node-id=\"{lab_doc_info['node_id']}\"]'); "
             "if (r) r.click(); return !!r; })()",
         )
+        assert clicked_lab, "Lab-01-Experiments.ipynb row not found in #catalog"
         _wait_for_js(bs_a, "!document.getElementById('replace-label').hidden", desc="replace checkbox visible")
         _ab(bs_a, "check", "#replace-document")
         _ab(bs_a, "upload", "#import-files", str(stage / "Lab-01-Experiments-v2.ipynb"))
@@ -722,7 +734,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         _wait_for_js(bs_a, "document.getElementById('clear-file').hidden === true", desc="restore full course scope")
 
         # Verify KG detail for C1 now shows v2 (0.84 / 1.42% / 132.0), and C2 has partial fallback (0 demo edges)!
-        _ab(bs_a, "click", f"#kg-list .kg-item[data-concept-key='{c1_key}']")
+        _ab_click(bs_a, f"#kg-list .kg-item[data-concept-key='{c1_key}']")
         c1_v2_detail = _wait_for_js(
             bs_a,
             "(() => { const t = document.getElementById('kg-detail')?.textContent || ''; "
@@ -731,14 +743,18 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         )
         assert "0.72" not in c1_v2_detail, c1_v2_detail
 
-        _ab(bs_a, "click", f"#kg-list .kg-item[data-concept-key='{c2_key}']")
+        _ab_click(bs_a, f"#kg-list .kg-item[data-concept-key='{c2_key}']")
         c2_v2_detail = _wait_for_js(
             bs_a,
             "(() => { const d = document.getElementById('kg-detail'); "
-            "return d && d.querySelector('.kg-fallback-search') ? d.textContent : null; })()",
+            "if (!d || !d.querySelector('.kg-fallback-search')) return null; "
+            "const groups = d.querySelectorAll('.kg-group'); "
+            "return { full: d.textContent, demo: groups[1]?.textContent || '' }; })()",
             desc="C2 KG detail now reports no demo edge after v2",
         )
-        assert "Lab-01-Experiments" not in c2_v2_detail, c2_v2_detail
+        assert "当前版本暂无可靠记录" in c2_v2_detail["demo"], c2_v2_detail
+        assert "Lab-01-Experiments" not in c2_v2_detail["demo"], c2_v2_detail
+        assert "eval_res_scale_k7" not in c2_v2_detail["demo"], c2_v2_detail
 
         # Ask H_Q09 on v2 -> verify v2 numbers (0.84 / 1.42% / 132.0) and ZERO v1 numbers!
         q9_text = "更新实验版本后，“极点配置滞后补偿”在新版实验中的采样周期、阻尼比 zeta、超调量和调节时间变成了多少？"
@@ -751,7 +767,7 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
             f"if (arts.length < {msg_n_before + 2}) return null; "
             "const st = document.getElementById('composer-status')?.textContent || ''; "
             "if (st !== '' || document.querySelector('#turn-actions button')) return null; "
-            "return arts.at(-1)?.textContent || null; }})()",
+            "return arts.at(-1)?.textContent || null; })()",
             timeout=60.0,
             desc="H_Q09 v2 answer rendered",
         )
@@ -777,7 +793,22 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         _ab(bs_a, "screenshot", str(shots / "h03-m4-v1-history.png"))
 
         # M4 Delete & Stale Historical Chip Graceful Degradation:
-        # Delete NoEdge-Notes.pdf via local library API -> reload -> click stale C6 chip -> graceful fallback, NO global error banner!
+        # First ask H_Q08 so an assistant message has a C6 chip anchored to NoEdge-Notes.pdf,
+        # then delete NoEdge-Notes.pdf via local library API -> reload -> click stale C6 chip -> graceful fallback, NO global error banner!
+        q8_text = "混合灵敏度鲁棒回路整形在 H_inf 范数与低频增益方面需要满足哪些数学条件？课程里是否提供了对应实验代码？"
+        msg_n_before = _ab_eval(bs_a, "document.querySelectorAll('#messages article').length")
+        _ab(bs_a, "fill", "#question", q8_text)
+        _ab(bs_a, "click", "#send")
+        _wait_for_js(
+            bs_a,
+            f"(() => {{ const arts = [...document.querySelectorAll('#messages article')]; "
+            f"if (arts.length < {msg_n_before + 2}) return null; "
+            "const st = document.getElementById('composer-status')?.textContent || ''; "
+            "if (st !== '' || document.querySelector('#turn-actions button')) return null; "
+            f"return arts.at(-1).querySelector('.kg-concept-chip[data-concept-key=\"{c6_key}\"]') ? true : null; }})()",
+            timeout=60.0,
+            desc="H_Q08 rendered C6 chip before delete",
+        )
         noedge_doc_info = _ab_eval(
             bs_a,
             f"(async () => {{ const r = await fetch('/api/workspace/sessions/{sess_a}/catalog'); "
@@ -790,13 +821,9 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
         )
         with urllib.request.urlopen(del_req, timeout=5.0) as del_resp:
             assert del_resp.status == 200
-        _ab(bs_a, "reload")
-        _wait_for_js(
-            bs_a,
-            f"document.querySelector('#messages .kg-concept-chip[data-concept-key=\"{c6_key}\"][data-stale=\"true\"]') !== null",
-            desc="C6 historical chip flagged stale after delete",
-        )
-        _ab(bs_a, "click", f"#messages .kg-concept-chip[data-concept-key='{c6_key}']")
+        # Click the rendered C6 chip right after backend deletion -> 404 degrades cleanly in-panel, NO global error banner!
+        _ab(bs_a, "eval", "document.getElementById('kg-detail').hidden = true")
+        _ab_click(bs_a, f"#messages .kg-concept-chip[data-concept-key='{c6_key}']")
         _wait_for_js(
             bs_a,
             "(() => { const d = document.getElementById('kg-detail'); "
@@ -806,6 +833,14 @@ def run_browser_gate(archive_dir: Path, work_dir: Path, env_map: dict[str, str])
             desc="deleted concept chip graceful in-panel fallback without global error banner",
         )
         _ab(bs_a, "screenshot", str(shots / "h03-m4-stale-chip-fallback.png"))
+        _ab(bs_a, "reload")
+        _wait_for_js(
+            bs_a,
+            f"(() => {{ const list = [...document.querySelectorAll('#kg-list .kg-item')].map(el => el.dataset.conceptKey); "
+            f"const txt = [...document.querySelectorAll('#messages article')].at(-1)?.textContent || ''; "
+            f"return list.length > 0 && !list.includes('{c6_key}') && txt.includes('此回答的来源已不可访问'); }})()",
+            desc="after reload deleted source message inaccessible and C6 absent from #kg-list",
+        )
 
         # M5: Independent Browser Session B + unauth + cross-course 404 checks
         _ab(bs_b, "open", f"{base_url}/workspace/")
