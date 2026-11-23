@@ -583,12 +583,18 @@ def _append_missing_pdf_images(
             (
                 not item.text.strip()
                 and item.locator.get("object_type") == "image"
-                and item.locator.get("position_basis") == "pdfium_native_image_extents_v1"
+                and item.locator.get("position_basis")
+                in {"pdfium_native_image_extents_v1", "pdfium_native_vector_extents_v1"}
             )
             or (
                 item.text.strip()
                 and item.locator.get("object_type") == "table"
                 and item.locator.get("position_basis") == "axis_aligned_native_rule_grid_v1"
+            )
+            or (
+                not item.text.strip()
+                and item.locator.get("object_type") in {"caption", "formula"}
+                and item.locator.get("position_basis") == "pdfium_native_text_block_v1"
             )
         )
     ]
@@ -617,26 +623,33 @@ def _append_missing_pdf_images(
         for ordinal, candidate in enumerate(missing, start)
     ]
     _save_sources(db, document_id, version, additions)
-    if any(item.locator.get("object_type") == "table" for item in additions):
-        # Appending a newly recognized table can place it behind later tables. Reuse
-        # only the tables' ordinal slots; page, image and FTS records stay intact.
+    added_types = {
+        obj_type
+        for item in additions
+        if isinstance(obj_type := item.locator.get("object_type"), str)
+        and obj_type in {"table", "image", "caption", "formula"}
+    }
+    if added_types:
+        # Preserve existing source_id keys and FTS rows; reorder ordinals only within each
+        # object type's own slot pool so visual reading order matches a cold import.
         ordinals = {row["source_id"]: row["ordinal"] for row in rows}
         ordinals.update((item.source_id, item.ordinal) for item in additions)
-        table_ids = [
-            item.source_id
-            for item in candidates
-            if item.locator.get("object_type") == "table" and item.source_id in ordinals
-        ]
-        slots = sorted(ordinals[source_id] for source_id in table_ids)
-        db.executemany(
-            "UPDATE local_sources SET ordinal = ? "
-            "WHERE document_id = ? AND version = ? AND source_id = ?",
-            (
-                (slot, document_id, version, source_id)
-                for source_id, slot in zip(table_ids, slots, strict=True)
-                if slot != ordinals[source_id]
-            ),
-        )
+        for obj_type in sorted(added_types):
+            type_ids = [
+                item.source_id
+                for item in candidates
+                if item.locator.get("object_type") == obj_type and item.source_id in ordinals
+            ]
+            slots = sorted(ordinals[source_id] for source_id in type_ids)
+            db.executemany(
+                "UPDATE local_sources SET ordinal = ? "
+                "WHERE document_id = ? AND version = ? AND source_id = ?",
+                (
+                    (slot, document_id, version, source_id)
+                    for source_id, slot in zip(type_ids, slots, strict=True)
+                    if slot != ordinals[source_id]
+                ),
+            )
     return bool(additions)
 
 
