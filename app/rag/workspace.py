@@ -522,7 +522,9 @@ class WorkspaceService:
         from app.clients.jev import JevClient
         from app.rag.workspace_retrieval import BilingualRewriter
         from app.rag.workspace_vector import LocalVectorBridge
+        from app.stores.local_kg import LocalKgStore
 
+        self.kg_store = LocalKgStore(settings)
         self.rewriter = BilingualRewriter(settings)
         self.scorer = JevClient(settings)
         self.vector_bridge: LocalVectorBridge | None = (
@@ -562,12 +564,29 @@ class WorkspaceService:
         access = {turn.turn_id: self._turn_access(turn) for turn in turns}
         catalog = self._catalog(session_id) if session.focus_id else None
         focus = catalog.nodes.get(session.focus_id) if catalog and session.focus_id else None
+        effective_courses = tuple(
+            cid for cid in session.course_ids if cid in self.allowed_courses
+        )
+        active_kg_keys: set[tuple[str, str]] | None = None
+        if any(
+            m.get("role") == "assistant" and m.get("related_concepts")
+            for m in messages
+        ):
+            if effective_courses:
+                concepts, _ = self.kg_store.active_edges_for_courses(effective_courses)
+                active_kg_keys = {(c.course_id, c.concept_key) for c in concepts}
+            else:
+                active_kg_keys = set()
         return {
             **self._header(session),
             "focus": _focus_entry(focus) if focus else None,
             "turns": [self._turn_entry(turn, access[turn.turn_id]) for turn in turns],
             "messages": [
-                self._project_message(message, access[by_id[message["turn_id"]].turn_id])
+                self._project_message(
+                    message,
+                    access[by_id[message["turn_id"]].turn_id],
+                    active_kg_keys=active_kg_keys,
+                )
                 for message in messages
             ],
         }
@@ -603,6 +622,62 @@ class WorkspaceService:
             raise inaccessible()
         response = self.evidence.render_current(self._render_request(node.document, node.source))
         return _image_response(response)
+
+    def kg_concepts(
+        self,
+        owner: str,
+        session_id: str,
+        *,
+        course_id: str | None = None,
+        query: str | None = None,
+        respect_document_scope: bool = False,
+    ) -> dict[str, Any]:
+        from app.rag.workspace_kg import list_workspace_concepts
+
+        session = self.store.session(owner, session_id)
+        if not set(session.course_ids) <= self.allowed_courses:
+            raise inaccessible()
+        effective = tuple(cid for cid in session.course_ids if cid in self.allowed_courses)
+        if not effective:
+            raise inaccessible()
+        snapshot = self.snapshots.read(SnapshotRequest(effective))
+        return list_workspace_concepts(
+            self.kg_store,
+            session,
+            snapshot,
+            effective_courses=effective,
+            selected_course_id=course_id,
+            query=query,
+            respect_document_scope=respect_document_scope,
+        )
+
+    def kg_concept_detail(
+        self,
+        owner: str,
+        session_id: str,
+        concept_key: str,
+        *,
+        course_id: str | None = None,
+    ) -> dict[str, Any]:
+        from app.rag.workspace_kg import get_workspace_concept_detail
+
+        session = self.store.session(owner, session_id)
+        if not set(session.course_ids) <= self.allowed_courses:
+            raise inaccessible()
+        effective = tuple(cid for cid in session.course_ids if cid in self.allowed_courses)
+        if not effective:
+            raise inaccessible()
+        snapshot = self.snapshots.read(SnapshotRequest(effective))
+        catalog = self._catalog(session_id)
+        return get_workspace_concept_detail(
+            self.kg_store,
+            session,
+            snapshot,
+            catalog,
+            effective_courses=effective,
+            concept_key=concept_key,
+            selected_course_id=course_id,
+        )
 
     def authorize_import(
         self, owner: str, session_id: str, course_id: str, document_id: str | None
@@ -1474,6 +1549,7 @@ class WorkspaceService:
                     "prior_evidence_unavailable", "本范围没有可核对的上一轮回答。请重述问题。"
                 )
                 return self._complete(turn, draft, refs=refs)
+        offline_kg_trace: dict[str, Any] | None = None
         if (
             forced is not None
             and forced.source is not None
@@ -1509,6 +1585,7 @@ class WorkspaceService:
                 query=text,
                 location=location,
                 top_k=self.settings.workspace_retrieval_pool_cap,
+                include_adjacency=self.settings.workspace_retrieval_include_adjacency,
                 scope=StructureScope(
                     course_ids=session.course_ids,
                     document_ids=list(documents),
@@ -1548,15 +1625,62 @@ class WorkspaceService:
             if not file_names and {doc.document_id for doc in search.snapshot} != set(documents):
                 raise WorkspaceError("stale_reference")
             chosen = plan.selected if plan else search.candidates
+            offline_kg_visual: tuple[SnapshotSource, ...] = ()
+            if (
+                plan is None
+                and use_retrieval
+                and location is None
+                and self.settings.workspace_kg_retrieval_enabled
+                and search.status
+                not in {"ambiguous_scope", "scope_not_found", "location_not_found"}
+                and search.snapshot
+            ):
+                from app.rag.workspace_kg import expand_kg_one_hop
+
+                src_by_triple = {
+                    (src.document_id, src.version, src.source_id): src
+                    for src in snapshot.sources
+                    if src.document_id in documents
+                }
+                kg_budget = min(self.settings.workspace_retrieval_budget or 6, request.top_k)
+
+                def _verify_turn_active() -> None:
+                    if not self.store.active(turn):
+                        raise WorkspaceError("interrupted")
+
+                kg_res = expand_kg_one_hop(
+                    self.kg_store,
+                    course_ids=tuple(
+                        sorted({doc.course_id for doc in documents.values()})
+                    ),
+                    docs=documents,
+                    sources=src_by_triple,
+                    question=text,
+                    alternate_query=None,
+                    pool=chosen,
+                    budget=kg_budget,
+                    verify=_verify_turn_active,
+                )
+                offline_kg_trace = kg_res.trace
+                offline_kg_visual = tuple(
+                    src_by_triple[(c.source.document_id, c.source.version, c.source.source_id)]
+                    for c in kg_res.visual_candidates
+                    if (c.source.document_id, c.source.version, c.source.source_id) in src_by_triple
+                )
+                if kg_res.trace.get("status") == "succeeded":
+                    chosen = tuple(kg_res.pool[:kg_budget])
             ranked = [
                 sources[(hit.source.document_id, hit.source.source_id)]
                 for hit in chosen
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
             visual_ranked = [
-                sources[(hit.source.document_id, hit.source.source_id)]
-                for hit in (getattr(plan, "visual_candidates", ()) if plan else ())
-                if (hit.source.document_id, hit.source.source_id) in sources
+                *(
+                    sources[(hit.source.document_id, hit.source.source_id)]
+                    for hit in (getattr(plan, "visual_candidates", ()) if plan else ())
+                    if (hit.source.document_id, hit.source.source_id) in sources
+                ),
+                *offline_kg_visual,
             ]
             visual_read_targets = [
                 sources[(hit.source.document_id, hit.source.source_id)]
@@ -1578,6 +1702,8 @@ class WorkspaceService:
                     for hit in chosen
                 ],
             }
+            if offline_kg_trace is not None:
+                trace["kg"] = offline_kg_trace
             if plan:
                 trace["retrieval"] = plan.trace
                 trace["external_call_count"] = plan.trace.get("external_call_count", 0)
@@ -1609,9 +1735,17 @@ class WorkspaceService:
             read_order = ranked
         else:
             read_order = _prioritize_child_text_objects(ranked)
-        failures = self._read_text(
-            turn, draft, documents, read_order, _SUMMARY_SOURCE_LIMIT if mode == "summary" else 2
+        offline_kg_active = bool(
+            self.settings.workspace_kg_retrieval_enabled
+            and offline_kg_trace is not None
+            and offline_kg_trace.get("status") in {"succeeded", "already_covered"}
         )
+        read_limit = (
+            _SUMMARY_SOURCE_LIMIT
+            if mode == "summary"
+            else (min(len(read_order), 4) if offline_kg_active else 2)
+        )
+        failures = self._read_text(turn, draft, documents, read_order, read_limit)
         if mode == "summary":
             coverage = _summary_coverage(snapshot.sources, draft.sources, failures)
             trace.update(coverage)
@@ -1756,24 +1890,27 @@ class WorkspaceService:
                 return None  # Full-text reading already covers this selected short document.
         is_han_latin = bool(_HAN_QUERY.search(request.query) and _has_latin_corpus(target_sources))
         want_vector = settings.workspace_vector_retrieval_enabled or strategy == "vector"
+        want_kg = settings.workspace_kg_retrieval_enabled
         explicit_budget = settings.workspace_retrieval_budget
-        if strategy == "fts" and explicit_budget == 0 and not want_vector:
+        if strategy == "fts" and explicit_budget == 0 and not want_vector and not want_kg:
             if not is_han_latin:
                 return None
             plan_strategy = "bilingual"
         elif strategy in {"fts", "s0"}:
             if want_vector:
                 plan_strategy = "vector"
+            elif is_han_latin:
+                plan_strategy = "bilingual"
             else:
-                plan_strategy = "bilingual" if is_han_latin else "fts"
+                plan_strategy = "fts" if strategy == "fts" else "s0"
         else:
             plan_strategy = "vector" if want_vector and strategy != "vector" else strategy
         if explicit_budget > 0:
             candidate_budget = min(explicit_budget, request.top_k)
+        elif want_kg or plan_strategy in {"s0", "s2a", "s2b", "s2a_jev", "vector"}:
+            candidate_budget = min(6, request.top_k)
         elif plan_strategy == "bilingual":
             candidate_budget = request.top_k
-        elif plan_strategy in {"s0", "s2a", "s2b", "s2a_jev", "vector"}:
-            candidate_budget = min(6, request.top_k)
         else:
             candidate_budget = min(4, request.top_k)
         from app.rag.workspace_retrieval import plan_retrieval
@@ -1794,6 +1931,8 @@ class WorkspaceService:
             evidence_service=self.evidence,
             supplement_saved_outputs=prompt_mode == "definition_and_experiment",
             allow_bilingual=is_han_latin,
+            kg_enabled=want_kg,
+            kg_store=self.kg_store,
         )
 
     def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
@@ -3177,6 +3316,28 @@ class WorkspaceService:
         failed: bool = False,
     ) -> Turn:
         refs, historical = refs or [], historical or []
+        answer = draft.answer()
+        if not failed and draft.sources:
+            from app.rag.workspace_kg import project_answer_concepts
+
+            effective_courses = tuple(
+                dict.fromkeys(
+                    item.revision.course_id
+                    for item in draft.sources.values()
+                    if item.revision.course_id in self.allowed_courses
+                )
+            )
+            if effective_courses:
+                snapshot = self.snapshots.read(SnapshotRequest(effective_courses))
+                cited = [item.revision.source for item in draft.sources.values()]
+                related = project_answer_concepts(
+                    self.kg_store,
+                    snapshot,
+                    effective_courses=effective_courses,
+                    cited_sources=cited,
+                )
+                if related:
+                    answer["related_concepts"] = related
         outcome = {"dependencies": [*refs, *historical], "resolution": resolution, "trace": trace}
         if failed:
             outcome.update({"error": "vision_failed", "retryable": True})
@@ -3184,7 +3345,7 @@ class WorkspaceService:
             turn,
             "failed" if failed else "completed",
             outcome,
-            draft.answer(),
+            answer,
             draft.images,
             refs,
             self.allowed_courses,
@@ -3250,8 +3411,30 @@ class WorkspaceService:
         )
 
     @staticmethod
-    def _project_message(message: dict[str, Any], access: bool) -> dict[str, Any]:
+    def _project_message(
+        message: dict[str, Any],
+        access: bool,
+        *,
+        active_kg_keys: set[tuple[str, str]] | None = None,
+    ) -> dict[str, Any]:
         if access or message["role"] == "user":
+            if (
+                active_kg_keys is not None
+                and message.get("role") == "assistant"
+                and isinstance(message.get("related_concepts"), list)
+                and message["related_concepts"]
+            ):
+                return {
+                    **message,
+                    "related_concepts": [
+                        {
+                            **item,
+                            "is_stale": (item.get("course_id"), item.get("concept_key"))
+                            not in active_kg_keys,
+                        }
+                        for item in message["related_concepts"]
+                    ],
+                }
             return message
         return {
             **message,
@@ -3264,6 +3447,7 @@ class WorkspaceService:
             ],
             "sources": {},
             "visible_display_ids": [],
+            "related_concepts": [],
         }
 
     @staticmethod

@@ -4,7 +4,8 @@ const API = "/api/workspace";
 const byId = (id) => document.getElementById(id);
 const ui = Object.fromEntries([
   "sessions", "new-session", "catalog", "import-form", "import-course", "import-files",
-  "replace-label", "replace-document", "import-button", "import-results", "workspace-status",
+  "replace-label", "replace-document", "import-button", "import-results", "kg-panel",
+  "kg-count", "kg-filter", "kg-list", "kg-detail", "workspace-status",
   "scope-summary", "clear-file", "location", "location-kind", "location-title",
   "preview-location", "summary-file", "toggle-reader", "search-form", "search-query", "search-submit",
   "parent-location", "previous-location", "next-location", "messages",
@@ -20,6 +21,10 @@ const state = {
   courses: [],
   nodes: new Map(),
   documents: new Map(),
+  concepts: [],
+  activeConceptKey: null,
+  activeConceptCourseId: null,
+  conceptRequest: 0,
   expanded: new Set(),
   epoch: 0,
   snapshotSequence: 0,
@@ -222,6 +227,7 @@ async function loadSession(id) {
   state.loading = true;
   state.threadKey = "";
   state.expanded.clear();
+  resetKgPanel();
   indexCatalog([]);
   anchor();
   ui.question.value = "";
@@ -243,6 +249,7 @@ async function loadSession(id) {
     revealFocus(state.nodes.get(session.focus?.node_id));
     setSavedSession(id);
     setSession(session);
+    await reloadConcepts(captureSession());
   } catch (error) {
     if (state.epoch === epoch) setStatus(ui["workspace-status"], describeError(error));
   } finally {
@@ -259,6 +266,7 @@ async function reloadCatalog(capture) {
   if (!isCurrent(capture)) return;
   indexCatalog(output.courses ?? []);
   render();
+  await reloadConcepts(capture);
 }
 
 async function reloadSession(capture) {
@@ -397,6 +405,220 @@ async function updateScope(courseIds, documentIds) {
     anchor();
     closeReader({clear: true});
     setSession(payload);
+    void reloadConcepts(capture);
+  }
+}
+
+function resetKgPanel() {
+  state.concepts = [];
+  state.activeConceptKey = null;
+  state.activeConceptCourseId = null;
+  state.conceptRequest += 1;
+  ui["kg-filter"].value = "";
+  ui["kg-count"].textContent = "0";
+  ui["kg-detail"].hidden = true;
+  ui["kg-detail"].replaceChildren();
+  renderConcepts();
+}
+
+function formatKgLocator(locator, sourceId) {
+  if (locator?.page != null) return `第 ${locator.page} 页`;
+  if (Number.isInteger(locator?.cell_index)) return `Cell ${locator.cell_index + 1}`;
+  return sourceId || "";
+}
+
+function triggerConventionalSearch(queryText) {
+  const query = String(queryText ?? "").trim();
+  if (!query || !state.session) return;
+  if (ui["search-panel"]) ui["search-panel"].open = true;
+  ui["search-query"].value = query;
+  renderControls();
+  if (!ui["search-submit"].disabled) void submitTurn("search", ui["search-query"]);
+  else ui["search-query"].focus();
+}
+
+async function reloadConcepts(capture) {
+  if (!state.session || !isCurrent(capture)) return;
+  try {
+    const payload = await api(`${sessionPath(capture.id)}/kg/concepts`);
+    if (!isCurrent(capture)) return;
+    state.concepts = payload.concepts ?? [];
+  } catch {
+    if (!isCurrent(capture)) return;
+    state.concepts = [];
+  }
+  renderConcepts();
+}
+
+function renderConcepts() {
+  const total = state.concepts.length;
+  ui["kg-count"].textContent = String(total);
+  const needle = ui["kg-filter"].value.trim().toLowerCase();
+  const visible = !needle ? state.concepts : state.concepts.filter((item) => {
+    const haystack = [item.canonical_name, item.concept_key, ...(item.aliases ?? [])]
+      .join(" ").toLowerCase();
+    return haystack.includes(needle);
+  });
+  if (!total) {
+    ui["kg-list"].replaceChildren(node("li", "library-status", "当前课程暂无可溯源概念。"));
+    return;
+  }
+  if (!visible.length) {
+    ui["kg-list"].replaceChildren(node("li", "library-status", "没有匹配该关键词的概念。"));
+    return;
+  }
+  ui["kg-list"].replaceChildren(...visible.map((item) => {
+    const li = node("li", "kg-item-row");
+    const btn = button("", () => {
+      void openConceptDetail(item.concept_key, item.course_id, item.canonical_name);
+    }, "kg-item");
+    btn.dataset.conceptKey = item.concept_key;
+    btn.dataset.courseId = item.course_id;
+    const isActive = state.activeConceptKey === item.concept_key &&
+      (!state.activeConceptCourseId || state.activeConceptCourseId === item.course_id);
+    if (isActive) btn.setAttribute("aria-pressed", "true");
+    btn.append(
+      node("span", "kg-item-name", item.canonical_name),
+      node("span", "kg-item-meta",
+        `定义 ${item.defined_in_count} · 实验 ${item.demonstrated_by_count}` +
+        `${item.completeness === "partial" ? " · 待补" : ""}`),
+    );
+    li.append(btn);
+    return li;
+  }));
+}
+
+async function openKgNode(nodeId, capture) {
+  if (!nodeId || !isCurrent(capture)) return;
+  let entry = state.nodes.get(nodeId);
+  if (!entry) {
+    await reloadCatalog(capture);
+    if (!isCurrent(capture)) return;
+    entry = state.nodes.get(nodeId);
+  }
+  if (!entry) return;
+  revealFocus(entry);
+  await chooseNode(entry, state.session?.focus?.node_id !== entry.node_id);
+}
+
+function renderConceptDetailFallback(title, noticeText, queryText) {
+  const wrap = node("div", "kg-fallback-box");
+  wrap.append(
+    node("h4", "kg-detail-title", title),
+    node("p", "kg-notice", noticeText),
+    button("用常规检索查找", () => triggerConventionalSearch(queryText), "quiet kg-fallback-search"),
+  );
+  ui["kg-detail"].replaceChildren(wrap);
+  ui["kg-detail"].hidden = false;
+}
+
+function renderConceptDetail(detail, capture) {
+  const frag = document.createDocumentFragment();
+  const head = node("div", "kg-detail-head");
+  head.append(node("h4", "kg-detail-title", detail.canonical_name));
+  const closeBtn = button("收起", () => {
+    state.activeConceptKey = null;
+    state.activeConceptCourseId = null;
+    ui["kg-detail"].hidden = true;
+    ui["kg-detail"].replaceChildren();
+    renderConcepts();
+  }, "quiet kg-detail-close");
+  head.append(closeBtn);
+  frag.append(head);
+
+  const aliases = (detail.aliases ?? []).filter((a) => a && a !== detail.canonical_name);
+  if (aliases.length) {
+    frag.append(node("p", "kg-detail-aliases", `别名 · ${aliases.join(" / ")}`));
+  }
+  if (detail.fallback_to_search) {
+    const box = node("div", "kg-fallback-box");
+    box.append(
+      node("p", "kg-notice", detail.notice || "当前版本暂无可靠对端关系，可使用常规检索继续查找。"),
+      button("用常规检索查找", () => triggerConventionalSearch(detail.fallback_query || detail.canonical_name),
+        "quiet kg-fallback-search"),
+    );
+    frag.append(box);
+  }
+
+  function renderGroup(title, items, isDemo) {
+    const group = node("div", "kg-group");
+    group.append(node("h5", "kg-group-title", title));
+    if (!items.length) {
+      group.append(node("p", "kg-empty", "当前版本暂无可靠记录。"));
+      return group;
+    }
+    for (const item of items) {
+      const card = node("article", "kg-card");
+      card.append(
+        node("p", "kg-card-loc",
+          `${item.file_name} · v${item.version} · ${formatKgLocator(item.locator, item.source_id)}`),
+        node("blockquote", "kg-excerpt", item.evidence_excerpt),
+      );
+      const actions = node("div", "kg-card-actions");
+      const openBtn = button(isDemo ? "打开实验 Cell" : "打开讲义原页", () => {
+        if (item.node_id) void openKgNode(item.node_id, capture);
+        else triggerConventionalSearch(detail.fallback_query || detail.canonical_name);
+      });
+      actions.append(openBtn);
+      card.append(actions);
+      if (isDemo && Array.isArray(item.child_outputs) && item.child_outputs.length) {
+        const outList = node("div", "kg-child-outputs");
+        for (const out of item.child_outputs) {
+          const outItem = node("div", "kg-child-item");
+          if (out.text_excerpt) {
+            outItem.append(node("p", "kg-child-text", `输出 ${out.output_index} · ${out.text_excerpt}`));
+          }
+          if (out.node_id) {
+            outItem.append(button(out.has_media ? "查看输出图" : "查看输出",
+              () => void openKgNode(out.node_id, capture)));
+          }
+          outList.append(outItem);
+        }
+        card.append(outList);
+      }
+      group.append(card);
+    }
+    return group;
+  }
+
+  frag.append(
+    renderGroup("讲义定义（defined_in）", detail.defined_in ?? [], false),
+    renderGroup("实验演示（demonstrated_by）", detail.demonstrated_by ?? [], true),
+  );
+  ui["kg-detail"].replaceChildren(frag);
+  ui["kg-detail"].hidden = false;
+}
+
+async function openConceptDetail(conceptKey, courseId = null, fallbackLabel = "") {
+  if (!state.session || !conceptKey) return;
+  const capture = captureSession();
+  const reqSeq = ++state.conceptRequest;
+  ui["kg-panel"].open = true;
+  state.activeConceptKey = conceptKey;
+  state.activeConceptCourseId = courseId;
+  renderConcepts();
+  ui["kg-detail"].hidden = false;
+  ui["kg-detail"].replaceChildren(node("p", "library-status", "正在加载概念关系…"));
+  const qs = courseId ? `?${new URLSearchParams({course_id: courseId}).toString()}` : "";
+  try {
+    const detail = await api(`${currentPath()}/kg/concepts/${encodeURIComponent(conceptKey)}${qs}`);
+    if (!isCurrent(capture) || reqSeq !== state.conceptRequest) return;
+    renderConceptDetail(detail, capture);
+    ui["kg-detail"].scrollIntoView?.({block: "nearest"});
+  } catch (error) {
+    if (!isCurrent(capture) || reqSeq !== state.conceptRequest) return;
+    const label = fallbackLabel || conceptKey;
+    if (error.status === 404 || error.code === "not_accessible") {
+      // Stale/missing concept chip degrades cleanly in panel without global error banner.
+      renderConceptDetailFallback(
+        label,
+        `概念「${label}」在当前版本已变更或暂无可靠图谱关系，可使用常规检索继续查找。`,
+        label,
+      );
+      void reloadConcepts(capture);
+    } else {
+      renderConceptDetailFallback(label, describeError(error), label);
+    }
   }
 }
 
@@ -643,6 +865,23 @@ function renderMessages() {
         }
       }
     }
+    if (!isUser && Array.isArray(message.related_concepts) && message.related_concepts.length) {
+      const kgLine = node("p", "kg-message-concepts");
+      kgLine.append("概念导航 · ");
+      for (const concept of message.related_concepts) {
+        const label = concept.canonical_name || concept.concept_key;
+        const chip = button(
+          concept.is_stale ? `${label}（已变更）` : label,
+          () => void openConceptDetail(concept.concept_key, concept.course_id, label),
+          "quiet kg-concept-chip",
+        );
+        chip.dataset.conceptKey = concept.concept_key;
+        if (concept.course_id) chip.dataset.courseId = concept.course_id;
+        if (concept.is_stale) chip.dataset.stale = "true";
+        kgLine.append(chip);
+      }
+      content.append(kgLine);
+    }
     article.append(content);
     return article;
   }));
@@ -706,6 +945,7 @@ function renderControls() {
   ui.send.disabled = busy || (!ui.question.value.trim() && !localRetry);
   ui["search-query"].disabled = !session;
   ui["search-submit"].disabled = busy || localRetry || !ui["search-query"].value.trim();
+  ui["kg-filter"].disabled = !session;
   ui["summary-file"].disabled = busy || localRetry || !canSummary;
   ui.send.textContent = localRetry ? "重发本轮" : "发送";
   setStatus(ui["composer-status"], localRetry ? "提交结果尚未确认，可使用相同请求重发。" :
@@ -868,6 +1108,13 @@ async function importFiles(event) {
       }
       ui["import-files"].value = "";
       ui["replace-document"].checked = false;
+      if (!ui["kg-detail"].hidden && state.activeConceptKey) {
+        void openConceptDetail(
+          state.activeConceptKey,
+          state.activeConceptCourseId,
+          state.activeConceptKey,
+        );
+      }
     }
   } catch (error) {
     if (isCurrent(capture)) setStatus(ui["workspace-status"], describeError(error));
@@ -1068,6 +1315,7 @@ ui["search-form"].addEventListener("submit", (event) => {
 });
 ui.composer.addEventListener("input", renderControls);
 ui["search-form"].addEventListener("input", renderControls);
+ui["kg-filter"].addEventListener("input", renderConcepts);
 ui["close-reader"].addEventListener("click", () => closeReader());
 ui.reader.addEventListener("cancel", (event) => { event.preventDefault(); closeReader(); });
 document.addEventListener("keydown", (event) => {

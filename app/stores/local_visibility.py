@@ -7,9 +7,10 @@ def promote_due(connection: Connection, cutoff: float) -> None:
     """Promote ready local publications with the current writer's transaction."""
 
     due = "deleted = 0 AND pending_version IS NOT NULL AND pending_at <= ?"
-    if not connection.execute(
-        f"SELECT 1 FROM local_documents WHERE {due} LIMIT 1", (cutoff,)
-    ).fetchone():
+    promoted = connection.execute(
+        f"SELECT document_id FROM local_documents WHERE {due}", (cutoff,)
+    ).fetchall()
+    if not promoted:
         return
     owns_transaction = not connection.in_transaction
     if owns_transaction:
@@ -32,6 +33,11 @@ def promote_due(connection: Connection, cutoff: float) -> None:
         WHERE {due}
         """,
         (cutoff,),
+    )
+    from app.stores.local_kg import invalidate_stale_edges_on_promote_in_tx
+
+    invalidate_stale_edges_on_promote_in_tx(
+        connection, [row["document_id"] for row in promoted]
     )
     if owns_transaction:
         connection.commit()
@@ -68,6 +74,18 @@ def legacy_visibility_sql(connection: Connection, cutoff: float) -> str:
 
 def revoke_legacy_document(connection: Connection, legacy_document_id: str) -> None:
     if has_local_schema(connection):
+        owns_transaction = not connection.in_transaction
+        if owns_transaction:
+            connection.execute("BEGIN IMMEDIATE")
+        affected = connection.execute(
+            """
+            SELECT document_id, course_id FROM local_documents
+            WHERE deleted = 0 AND document_id IN (
+                SELECT document_id FROM local_legacy_versions WHERE legacy_document_id = ?
+            )
+            """,
+            (legacy_document_id,),
+        ).fetchall()
         connection.execute(
             """
             UPDATE local_documents
@@ -79,3 +97,14 @@ def revoke_legacy_document(connection: Connection, legacy_document_id: str) -> N
             """,
             (legacy_document_id,),
         )
+        if affected:
+            from app.stores.local_kg import invalidate_document_kg_in_tx, sync_course_kg_in_tx
+
+            for row in affected:
+                invalidate_document_kg_in_tx(
+                    connection, row["document_id"], reason="document_deleted"
+                )
+            for course_id in dict.fromkeys(row["course_id"] for row in affected):
+                sync_course_kg_in_tx(connection, course_id)
+        if owns_transaction:
+            connection.commit()

@@ -8,7 +8,7 @@ import json
 import re
 import unicodedata
 from collections import Counter, OrderedDict
-from collections.abc import Callable, Sequence
+from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass
 from decimal import Decimal, InvalidOperation
 from time import perf_counter
@@ -31,7 +31,11 @@ from app.rag.workspace_evidence import readable_source_text
 from app.schemas.local import SourceKey
 from app.schemas.workspace import WorkspaceError
 from app.stores.local_library import LocalLibraryStore
-from app.stores.structure_snapshot import SnapshotRequest, StructureSnapshot
+from app.stores.structure_snapshot import (
+    SnapshotRequest,
+    SnapshotSource,
+    StructureSnapshot,
+)
 
 RetrievalStrategy = Literal[
     "fts", "bilingual", "jev", "expanded", "s0", "s2a", "s2b", "s2a_jev", "vector"
@@ -368,6 +372,8 @@ def plan_retrieval(
     original_question: str | None = None,
     supplement_saved_outputs: bool = False,
     allow_bilingual: bool = True,
+    kg_enabled: bool = False,
+    kg_store: Any = None,
 ) -> RetrievalPlan:
     """Reuse a shared pool and enforce one final source budget across all strategies."""
 
@@ -390,6 +396,7 @@ def plan_retrieval(
         "effective_strategy": "fts",
         "budget": budget,
         "pool_cap": request.top_k,
+        "include_adjacency": request.include_adjacency,
         "original_query": question,
         "search_query": request.query,
         "alternate_query": None,
@@ -402,15 +409,50 @@ def plan_retrieval(
         "expansion": {"status": "not_requested", "external_call_count": 0},
         "planner": {"status": "not_requested", "external_call_count": 0},
         "vector": {"status": "not_requested", "external_call_count": 0},
+        "kg": {"status": "not_requested", "external_call_count": 0},
     }
 
     def finish(selected: Sequence[StructureCandidate]) -> RetrievalPlan:
+        nonlocal visual_candidates
+        selected_list = list(selected)
+        if (
+            kg_enabled
+            and kg_store is not None
+            and request.location is None
+            and initial.status not in _SCOPED_FAILURES
+            and initial.snapshot
+        ):
+            from app.rag.workspace_kg import expand_kg_one_hop
+
+            kg_res = expand_kg_one_hop(
+                kg_store,
+                course_ids=scope.snapshot_request.course_ids,
+                docs=scope.docs,
+                sources=scope.sources,
+                question=question,
+                alternate_query=trace["alternate_query"],
+                pool=selected_list,
+                budget=budget,
+                verify=scope.verify,
+            )
+            trace["kg"] = kg_res.trace
+            if kg_res.visual_candidates:
+                visual_candidates = _merge_visual(
+                    visual_candidates,
+                    kg_res.visual_candidates,
+                    max(request.top_k, len(visual_candidates) + len(kg_res.visual_candidates)),
+                )
+            if kg_res.trace.get("status") == "succeeded":
+                selected_list = kg_res.pool
+                combined_pool = {_identity(item.source): item for item in (*selected_list, *pool)}
+                pool[:] = list(combined_pool.values())[:request.top_k]
+                trace["effective_strategy"] = f"{trace['effective_strategy']}+kg"
         if supplement_saved_outputs and trace["rewrite"]["status"] == "constraints_unverified":
-            selected, trace["saved_output_fallback"] = _reserve_saved_outputs(
-                scope, selected, budget
+            selected_list, trace["saved_output_fallback"] = _reserve_saved_outputs(
+                scope, selected_list, budget
             )
             if trace["saved_output_fallback"]["status"] == "reserved":
-                combined = {_identity(item.source): item for item in (*selected, *pool)}
+                combined = {_identity(item.source): item for item in (*selected_list, *pool)}
                 pool[:] = list(combined.values())[:request.top_k]
         scope.check_active()
         trace["candidate_pool"] = [_candidate_trace(candidate) for candidate in pool]
@@ -420,26 +462,30 @@ def plan_retrieval(
         trace["visual_read_targets"] = [
             _candidate_trace(candidate) for candidate in visual_read_targets
         ]
-        trace["selected"] = [candidate.source.model_dump() for candidate in selected[:budget]]
+        trace["selected"] = [candidate.source.model_dump() for candidate in selected_list[:budget]]
         trace["external_call_count"] = sum(
             trace[name].get("external_call_count", 0)
-            for name in ("rewrite", "jev", "expansion", "planner", "vector")
+            for name in ("rewrite", "jev", "expansion", "planner", "vector", "kg")
         )
         return RetrievalPlan(
             initial,
-            tuple(selected[:budget]),
+            tuple(selected_list[:budget]),
             trace,
             tuple(visual_candidates),
             visual_read_targets,
         )
 
-    if strategy == "fts" or request.location is not None or initial.status in _SCOPED_FAILURES:
+    if (
+        (strategy == "fts" and not kg_enabled)
+        or request.location is not None
+        or initial.status in _SCOPED_FAILURES
+    ):
         return finish(pool)
     if not initial.snapshot:
         return finish(pool)
 
     # S0 / shared bilingual first-hop enrichment when query needs cross-lingual search.
-    if allow_bilingual:
+    if allow_bilingual and strategy != "fts":
         scope.verify()
         rewritten = (rewrite or BilingualRewriter(settings))(request.query, verify=scope.verify)
         scope.verify()
@@ -464,10 +510,15 @@ def plan_retrieval(
                 _candidate_trace(candidate) for candidate in text_alternate
             ]
             pool = _fuse(text_initial, text_alternate, request.top_k)
-            pool = _prioritize_continuations(pool)
+            pool = _prioritize_continuations(
+                pool, snapshot_sources=scope.sources, docs=scope.docs
+            )
             trace["effective_strategy"] = "bilingual"
 
-    if strategy in {"s0", "bilingual"}:
+    if strategy in {"fts", "s0", "bilingual"}:
+        pool = _prioritize_continuations(
+            pool, snapshot_sources=scope.sources, docs=scope.docs
+        )
         return finish(pool)
 
     # S3: Optional vector retrieval (text semantic supplement + visual page recall).
@@ -732,18 +783,77 @@ def _fuse(original, alternate, pool_cap: int) -> list[StructureCandidate]:
 
 
 def _prioritize_continuations(
-    pool: Sequence[StructureCandidate], *, anchors: int = 2
+    pool: Sequence[StructureCandidate],
+    *,
+    anchors: int = 2,
+    snapshot_sources: Mapping[_Identity, SnapshotSource] | None = None,
+    docs: Mapping[str, Any] | None = None,
 ) -> list[StructureCandidate]:
-    """Place direct structural continuations of top-ranked anchors right after each anchor."""
-    if len(pool) <= 2:
+    """Place direct structural continuations and Notebook child_output right after anchors."""
+    if not pool:
         return list(pool)
     anchor_items = list(pool[:anchors])
     anchor_ids = {_identity(item.source) for item in anchor_items}
     followers: dict[_Identity, list[StructureCandidate]] = {}
     moved: set[_Identity] = set()
-    preferred_codes = ("next_position", "previous_position", "parent_context", "caption_target")
+    preferred_codes = (
+        "child_object",
+        "next_position",
+        "previous_position",
+        "parent_context",
+        "caption_target",
+    )
     for anchor in anchor_items:
         anchor_id = _identity(anchor.source)
+        # J03 co-ranking: keep readable child_output paired directly after its parent code cell.
+        if anchor.kind == "cell":
+            cell_children: list[tuple[int, StructureCandidate]] = []
+            for rank, item in enumerate(pool):
+                item_id = _identity(item.source)
+                if item_id == anchor_id or item_id in anchor_ids or item_id in moved:
+                    continue
+                if (
+                    item.kind == "notebook_output"
+                    and item.source.document_id == anchor.source.document_id
+                    and item.source.version == anchor.source.version
+                    and item.locator.get("cell_index") == anchor.locator.get("cell_index")
+                    and _has_readable_text(item)
+                ):
+                    out_idx = int(item.locator.get("output_index", rank))
+                    cell_children.append((out_idx, item))
+            if cell_children:
+                cell_children.sort(key=lambda pair: pair[0])
+                chosen = cell_children[0][1]
+                moved.add(_identity(chosen.source))
+                followers[anchor_id] = [chosen]
+                continue
+            if snapshot_sources is not None and docs is not None:
+                anchor_src = snapshot_sources.get(anchor_id)
+                if anchor_src is not None:
+                    snap_children = sorted(
+                        (
+                            src
+                            for src in snapshot_sources.values()
+                            if src.kind == "notebook_output"
+                            and src.document_id == anchor_src.document_id
+                            and src.version == anchor_src.version
+                            and src.parent_id == anchor_src.source_id
+                            and src.text.strip()
+                        ),
+                        key=lambda s: (int(s.locator.get("output_index", s.ordinal)), s.ordinal),
+                    )
+                    if snap_children:
+                        child_src = snap_children[0]
+                        child_id = (child_src.document_id, child_src.version, child_src.source_id)
+                        if child_id not in anchor_ids and child_id not in moved:
+                            moved.add(child_id)
+                            followers[anchor_id] = [
+                                _structural_candidate(
+                                    child_src, anchor_src, "child_object", docs.values()
+                                )
+                            ]
+                            continue
+
         linked: list[tuple[int, int, StructureCandidate]] = []
         for rank, item in enumerate(pool):
             item_id = _identity(item.source)

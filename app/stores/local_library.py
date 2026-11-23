@@ -15,6 +15,11 @@ from uuid import uuid4
 
 from app.schemas.local import ImportResult, LocalHit, ParsedSource, SourceDraft, SourceKey
 from app.schemas.rag import SearchRequest
+from app.stores.local_kg import (
+    KG_SCHEMA,
+    invalidate_document_kg_in_tx,
+    sync_course_kg_in_tx,
+)
 from app.stores.local_visibility import promote_due
 from app.stores.sqlite import MetadataStore, _serialize_datetime
 
@@ -128,7 +133,7 @@ class LocalLibraryStore(MetadataStore):
     def initialize(self) -> None:
         super().initialize()
         with self._connect() as db:
-            db.executescript(_SCHEMA)
+            db.executescript(_SCHEMA + KG_SCHEMA)
 
     def prepare(self, course_id: str, path: Path, *, document_id: str | None = None) -> ImportPlan:
         course_id = course_id.strip()
@@ -215,6 +220,8 @@ class LocalLibraryStore(MetadataStore):
                     "WHERE document_id = ?",
                     (document_id,),
                 )
+            if result != "skipped" or added_images or plan.move:
+                sync_course_kg_in_tx(db, plan.course_id, now=cutoff)
             counts = db.execute(
                 """
                 SELECT count(*) AS source_count,
@@ -278,6 +285,13 @@ class LocalLibraryStore(MetadataStore):
 
     def delete_local(self, document_id: str) -> bool:
         with self._connect() as db:
+            db.execute("BEGIN IMMEDIATE")
+            row = db.execute(
+                "SELECT course_id FROM local_documents WHERE document_id = ? AND deleted = 0",
+                (document_id,),
+            ).fetchone()
+            if row is None:
+                return False
             cursor = db.execute(
                 """
                 UPDATE local_documents
@@ -287,7 +301,11 @@ class LocalLibraryStore(MetadataStore):
                 """,
                 (document_id,),
             )
-            return cursor.rowcount == 1
+            if cursor.rowcount == 1:
+                invalidate_document_kg_in_tx(db, document_id, reason="document_deleted")
+                sync_course_kg_in_tx(db, row["course_id"], now=_now())
+                return True
+            return False
 
     def current_sources(self, document_id: str, *, course_ids: Sequence[str]) -> list[SourceDraft]:
         if not course_ids:

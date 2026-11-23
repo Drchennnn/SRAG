@@ -37,6 +37,8 @@ class Settings(BaseSettings):
     workspace_retrieval_pool_cap: int = Field(default=12, ge=1, le=50)
     workspace_retrieval_budget: int = Field(default=0, ge=0, le=50)
     workspace_vector_retrieval_enabled: bool = False
+    workspace_kg_retrieval_enabled: bool = False
+    workspace_retrieval_include_adjacency: bool = True
     qdrant_local_path: Path | None = None
     workspace_s3_max_visual_reads: int = Field(default=2, ge=0, le=4)
 
