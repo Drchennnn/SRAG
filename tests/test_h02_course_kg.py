@@ -1307,3 +1307,144 @@ def test_h02_budget_parity_visual_child_output_legacy_revoke_and_doc_scope_filte
         revoke_legacy_document(conn, "legacy-42")
     assert service.kg_store.list_concepts([_COURSE]) == []
 
+
+def test_h02_rework_pdf_decimals_multiline_formal_def_formula_and_wrapped_alias(
+    tmp_path: Path,
+) -> None:
+    """Verify fixes for wrapped decimals, standalone header+formal-def, math minus, & aliases."""
+    settings, service, _ = _create_app(tmp_path)
+    # Mix of all 3 tricky real PDF/PPTX layout shapes:
+    # 1. Line-wrapped leading decimals (0.05 s, 0.85, 1.25 ms) before experimental anchor.
+    # 2. Standalone header "1. 核心概念定义：<Term> (Wrapped\nAlias)" + "正式定义：..."
+    #    followed by formula subtraction (must NOT create "核心概念" or formula concepts).
+    # 3. Blank-line separated standalone header + "正式定义：" + single-line wrapped alias.
+    page_1 = (
+        "1. 核心概念定义：控制器滑模观测器 (Sliding Mode\n"
+        "Observer, SMO)\n"
+        "正式定义：其传递函数记为：H(z) = (1 - 2 * r * z^-1) / (1 - z^-1)，当采样周期为\n"
+        "0.05 s 且阻尼比大于\n"
+        "0.85 时抑制高频颤振；延迟小于\n"
+        "1.25 ms。\n"
+        "实验脚本调用 `smo_step_probe` 记录稳态误差。\n\n"
+        "2. 概念定义：差分平滑滤波器 (Difference Smooth\n"
+        "Filter, DSF)\n\n"
+        "正式定义：用于对输入序列执行 y(n) = x(n) - a * x(n-1) 平滑处理。\n"
+        "实验中通过 `dsf_smooth_run` 验证均值。\n\n"
+        "3.1 Formal Definition: Spectral Envelope (Envelope\n"
+        "Estimator, SEE) — tracks spectral contour across overlapping windows.\n"
+        "Gain floor stays near\n"
+        "2.5 dB during steady operation.\n"
+        "Lab verification uses `envelope_track_fn`.\n\n"
+        "Harmonic Notch (Harmonic\n"
+        "Suppressor, HNS) is defined as a comb notch kernel attenuation factor (1 - k)."
+    )
+    _publish_synthetic(
+        service.library,
+        _COURSE,
+        "Lecture-Layout-EdgeCases.pdf",
+        "pdf",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=1,
+                title="Page 1",
+                text=page_1,
+                locator=Locator(page=1),
+            )
+        ],
+    )
+    _publish_synthetic(
+        service.library,
+        _COURSE,
+        "Lab-Layout-EdgeCases.ipynb",
+        "ipynb",
+        [
+            SourceDraft(
+                source_id="cell:0",
+                kind="cell",
+                ordinal=1,
+                title="Cell 0",
+                text="err = smo_step_probe(sig)\nprint(err)",
+                locator=Locator(cell_index=0, cell_type="code", outputs_state="available"),
+            ),
+            SourceDraft(
+                source_id="cell:0:output:0",
+                kind="notebook_output",
+                parent_id="cell:0",
+                ordinal=2,
+                title="Out 0",
+                text="steady_err=0.004",
+                locator=Locator(cell_index=0, output_index=0),
+            ),
+            SourceDraft(
+                source_id="cell:1",
+                kind="cell",
+                ordinal=3,
+                title="Cell 1",
+                text="avg = dsf_smooth_run(sig)\nprint(avg)",
+                locator=Locator(cell_index=1, cell_type="code", outputs_state="available"),
+            ),
+            SourceDraft(
+                source_id="cell:1:output:0",
+                kind="notebook_output",
+                parent_id="cell:1",
+                ordinal=4,
+                title="Out 1",
+                text="smooth_avg=1.02",
+                locator=Locator(cell_index=1, output_index=0),
+            ),
+        ],
+    )
+
+    concepts, edges = service.kg_store.active_edges_for_courses([_COURSE])
+    by_name = {c.canonical_name: c for c in concepts}
+
+    # No bogus label-word or formula-minus concepts!
+    assert "核心概念" not in by_name
+    assert "概念定义" not in by_name
+    assert "正式定义" not in by_name
+    assert all("(" not in name and "=" not in name for name in by_name)
+
+    assert set(by_name) == {
+        "控制器滑模观测器",
+        "差分平滑滤波器",
+        "Spectral Envelope",
+        "Harmonic Notch",
+    }
+
+    smo = by_name["控制器滑模观测器"]
+    assert "Sliding Mode Observer" in smo.aliases
+    assert "SMO" in smo.aliases
+    # Leading decimals 0.05 s / 0.85 / 1.25 ms must NOT truncate anchor scope!
+    assert "smo_step_probe" in smo.anchor_terms
+    assert smo.demonstrated_by_count == 1
+
+    dsf = by_name["差分平滑滤波器"]
+    assert "Difference Smooth Filter" in dsf.aliases
+    assert "DSF" in dsf.aliases
+    assert "dsf_smooth_run" in dsf.anchor_terms
+    assert dsf.demonstrated_by_count == 1
+
+    see = by_name["Spectral Envelope"]
+    assert "Envelope Estimator" in see.aliases
+    assert "SEE" in see.aliases
+    assert "envelope_track_fn" in see.anchor_terms
+
+    hn = by_name["Harmonic Notch"]
+    assert "Harmonic Suppressor" in hn.aliases
+    assert "HNS" in hn.aliases
+
+    # Verify exact character-for-character evidence_span alignment against SQLite source text.
+    with sqlite3.connect(settings.sqlite_path) as conn:
+        for edge in edges:
+            row = conn.execute(
+                "SELECT text FROM local_sources "
+                "WHERE document_id = ? AND version = ? AND source_id = ?",
+                (edge.document_id, edge.version, edge.source_id),
+            ).fetchone()
+            assert row is not None
+            raw = row[0]
+            assert raw[edge.evidence_span_start : edge.evidence_span_end] == edge.evidence_excerpt
+
+

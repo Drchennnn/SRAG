@@ -76,7 +76,7 @@ _DISPLAYABLE_MIMES = frozenset(
 
 _SEC_NUM_PREFIX = (
     r"(?:(?:§[ \t]*)?\d+(?:\.\d+)*[.)、]?[ \t]+"
-    r"|\(\d+\)[ \t]+|（[一二三四五六七八九十]+）[ \t]+)*"
+    r"|[（(]\d+[)）][ \t]+|（[一二三四五六七八九十]+）[ \t]+)*"
 )
 _D1_HEADER_LINE = re.compile(
     r"^[ \t]*(?:#+[ \t]+)?" + _SEC_NUM_PREFIX +
@@ -94,19 +94,27 @@ _D1_INLINE_RULE_LINE = re.compile(
     re.IGNORECASE,
 )
 _SECTION_BOUNDARY_LINE = re.compile(
-    r"^[ \t]*(?:#{1,6}[ \t]+\S|(?:§[ \t]*)?\d+(?:\.\d+)+[.)]?[ \t]+\S)",
+    r"^[ \t]*(?:#{1,6}[ \t]+\S|(?:§[ \t]*)?[1-9]\d*(?:\.\d+)+[.)]?[ \t]+(?P<after>\S[^\r\n]*))",
     re.MULTILINE,
+)
+_NUMERIC_UNIT_OR_CONT = re.compile(
+    r"^(?:(?:s|ms|us|ns|min|hr|h|hz|khz|mhz|ghz|db|k|m|b|g|mb|gb|tb|kb|px|em|cm|mm|rad|deg|"
+    r"v|mv|a|ma|w|mw|kv|ohm|mol|fps|x)(?:[\s,;，。、.)/]|$)"
+    r"|(?:秒|毫秒|微秒|赫兹|千赫|分贝|倍|次|个|条|项|页|行|的|时|处|中|上|下|内|外|后|前|"
+    r"之间|以上|以下|以内|左右|或|和|与|及|为|即|则|并|而|但|，|。|；|：|、)"
+    r"|[×*/=<>≤≥≈~±+%％])",
+    re.IGNORECASE,
 )
 
 _D2_ZH = re.compile(
-    r"(?P<name>[\u3400-\u9fffA-Za-z0-9_.\-（）() \t\n]{2,68}?)"
+    r"(?P<name>[\u3400-\u9fffA-Za-z0-9_.\- ]{2,56}?(?:[ \t\r\n]*[（(][^()（）]{2,72}[)）])?)"
     r"[ \t]*(?:\r?\n[ \t]*)?"
     r"(?:定义为|是指|指的是|的判定规则为|的定义为|即是指)"
     r"[ \t]*(?:\r?\n[ \t]*)?"
     r"(?P<body>(?:[^。！？；]|\r?\n(?!\s*\r?\n)){10,}[。！？；]?)"
 )
 _D2_EN = re.compile(
-    r"(?P<name>[A-Za-z][A-Za-z0-9_\-（）() \t\n]{2,68}?)"
+    r"(?P<name>[A-Za-z][A-Za-z0-9_\- \t\r\n]{2,64}?(?:[ \t\r\n]*[（(][^()（）]{2,72}[)）])?)"
     r"[ \t]*(?:\r?\n[ \t]*)?"
     r"\b(?:is[ \t]+defined[ \t]+as|refers[ \t]+to|denotes|is[ \t]+formulated[ \t]+as)\b"
     r"[ \t]*(?:\r?\n[ \t]*)?"
@@ -117,6 +125,15 @@ _D1_CONDITION_START = re.compile(
     r"^(?:当|如果|若|在|对于|按|通过|由|根据|when|if|where|given|for|a\s+|an\s+|the\s+)",
     re.IGNORECASE,
 )
+_D1_BODY_START = re.compile(
+    r"^(?:是指|定义为|指的是|用于|表示|即|采用|使用|利用|设为|令|假设|已知|若设|"
+    r"将|把|把输入|对输入|计算|度量|衡量|抑制|衰减|实现|满足|"
+    r"is\s+|are\s+|refers\s+to|denotes|uses|measures|computes|suppresses|"
+    r"attenuates|routes|controls|limits|triggers|scales|"
+    r"[A-Za-z_][A-Za-z0-9_]*\s*\([^)]*\)\s*=|"
+    r"[A-Za-zα-ωΑ-Ω_\\]+\s*=|[$\\])",
+    re.IGNORECASE,
+)
 _D1_BODY_VERB_SPLIT = re.compile(
     r"^(?P<name>[\u3400-\u9fffA-Za-z0-9_.\-（）() ]{2,64}?)"
     r"(?:\s+(?:is\s+defined\s+as|is\s+a|is\s+an|refers\s+to|denotes|"
@@ -125,6 +142,9 @@ _D1_BODY_VERB_SPLIT = re.compile(
     re.IGNORECASE,
 )
 _D1_INLINE_SEP = re.compile(r"[：:]|\s+[—–-]{1,2}\s+")
+_MATH_EXPR_HINT = re.compile(r"[=+*/<>≤≥≈~±∑∫→\\^]")
+_SUBTRACT_LEFT_END = re.compile(r"(?:\d|[A-Za-z]\([^)]*\)|[A-Za-z])$")
+_SUBTRACT_RIGHT_START = re.compile(r"^(?:\d|[A-Za-z]\([^)]*\)|[A-Za-z](?:[\s*/+^()\-=]|$))")
 _LEADING_FILLER_ZH = re.compile(
     r"^(?:其中|所谓|这里|因此|此外|具体地|本课程中|在本课程中|通常|一般地)[，,、\s]*"
 )
@@ -150,6 +170,17 @@ _GENERIC_CONCEPT_NAMES = frozenset(
         "算法",
         "概念",
         "定义",
+        "核心概念",
+        "概念定义",
+        "核心概念定义",
+        "正式定义",
+        "基本定义",
+        "定义与触发条件",
+        "判定规则",
+        "判定条件",
+        "分发规则",
+        "分配规则",
+        "核心原理",
         "规则",
         "系统",
         "实验",
@@ -170,7 +201,11 @@ _GENERIC_CONCEPT_NAMES = frozenset(
         "the model",
         "algorithm",
         "concept",
+        "core concept",
         "definition",
+        "formal definition",
+        "def.",
+        "theorem",
         "rule",
         "system",
         "experiment",
@@ -182,6 +217,16 @@ _GENERIC_CONCEPT_NAMES = frozenset(
         "summary",
         "references",
     }
+)
+_PAGE_OR_LOC_TITLE = re.compile(
+    r"^(?:page|slide|cell)\s+\d+$|^第\s*\d+\s*页$",
+    re.IGNORECASE,
+)
+_D1_BODY_LABEL = re.compile(
+    r"^(?:Formal[ \t]+Definition|Core[ \t]+Concept|Definition|Def\.|Rule|Theorem|Concept|"
+    r"核心概念定义|概念定义|核心概念|正式定义|基本定义|定义与触发条件|判定规则|判定条件|核心原理|"
+    r"定义|概念)$",
+    re.IGNORECASE,
 )
 _OUTLINE_TITLE = re.compile(
     r"^(?:agenda|outline|table\s+of\s+contents|contents|topics|overview|references|"
@@ -236,7 +281,7 @@ _R4_DEMO_NEGATION = re.compile(
 
 _EXP_CUE = re.compile(
     r"实验|验证|演示|实现|测试|复现|函数|接口|代码|脚本|数据|算子|审计|遥测|日志|仿真|模拟|评估|参见|见|"
-    r"notebook|ipynb|experiment|exp|demo|verify|validation|implement|code|script|"
+    r"notebook|ipynb|experiment|exp|demo|verif|validat|\blab\b|implement|code|script|"
     r"benchmark|dataset|trace|metric|run|probe|audit|kernel|simulat|evaluat|function|routine|helper",
     re.IGNORECASE,
 )
@@ -425,6 +470,8 @@ def _clean_term_and_aliases(raw_name: str) -> tuple[str, tuple[str, ...]] | None
     cleaned = _LEADING_FILLER_ZH.sub("", cleaned)
     cleaned = _LEADING_FILLER_EN.sub("", cleaned)
     cleaned = _LEADING_ARTICLE_EN.sub("", cleaned)
+    cleaned = re.sub(r"([（(])[ \t]+", r"\1", cleaned)
+    cleaned = re.sub(r"[ \t]+([)）])", r"\1", cleaned)
     cleaned = cleaned.strip(" \t:：—–-·•\"'“”‘’「」『』,，。.")
     if not cleaned:
         return None
@@ -444,6 +491,8 @@ def _clean_term_and_aliases(raw_name: str) -> tuple[str, tuple[str, ...]] | None
         return None
     if primary.casefold() in _GENERIC_CONCEPT_NAMES or _OUTLINE_TITLE.match(primary):
         return None
+    if _PAGE_OR_LOC_TITLE.match(primary) or _D1_BODY_LABEL.match(primary):
+        return None
     if re.fullmatch(r"[\d\W_]+", primary):
         return None
     deduped = tuple(dict.fromkeys([primary, *aliases]))
@@ -461,6 +510,50 @@ def _make_concept_key(primary_name: str) -> str:
     return f"{ascii_bits}_{digest}" if ascii_bits else f"c_{digest}"
 
 
+def _has_unclosed_parens(text: str) -> bool:
+    return text.count("(") > text.count(")") or text.count("（") > text.count("）")
+
+
+def _find_section_boundary_pos(raw_text: str, pos: int) -> int:
+    """Return index of next genuine section boundary >= pos, skipping wrapped decimals."""
+    scan = pos
+    length = len(raw_text)
+    while scan < length:
+        match = _SECTION_BOUNDARY_LINE.search(raw_text, pos=scan)
+        if match is None:
+            return length
+        after = match.groupdict().get("after")
+        if after is None or not _NUMERIC_UNIT_OR_CONT.match(after.strip()):
+            return match.start()
+        scan = match.end()
+    return length
+
+
+def _is_section_boundary_line(line: str) -> bool:
+    match = _SECTION_BOUNDARY_LINE.match(line)
+    if match is None:
+        return False
+    after = match.groupdict().get("after")
+    if after is None:
+        return True
+    return not _NUMERIC_UNIT_OR_CONT.match(after.strip())
+
+
+def _strip_prev_title_prefix(raw_prev: str) -> str | None:
+    collapsed = _collapse_pdf_breaks(raw_prev)
+    if not collapsed or _OUTLINE_TITLE.match(collapsed) or _PAGE_OR_LOC_TITLE.match(collapsed):
+        return None
+    if m := _D1_HEADER_LINE.match(collapsed):
+        candidate = m.group("rest").strip()
+    else:
+        candidate = _LEADING_SECTION_NUM.sub("", collapsed).strip()
+    if len(candidate) < 2 or len(candidate) > 96:
+        return None
+    if _clean_term_and_aliases(candidate) is None:
+        return None
+    return candidate
+
+
 def _split_logical_blocks(text: str) -> list[tuple[int, int]]:
     """Split text into logical paragraphs preserving single hard line breaks."""
     blocks: list[tuple[int, int]] = []
@@ -468,25 +561,31 @@ def _split_logical_blocks(text: str) -> list[tuple[int, int]]:
     pos = 0
     cur_start: int | None = None
     cur_end = 0
-    for idx, line in enumerate(lines):
+    cur_lines: list[str] = []
+    for line in lines:
         line_len = len(line)
         stripped = line.strip()
         if not stripped:
             if cur_start is not None:
                 blocks.append((cur_start, cur_end))
                 cur_start = None
+                cur_lines = []
             pos += line_len
             continue
         is_new_d1 = bool(_D1_HEADER_LINE.match(line) or _D1_INLINE_RULE_LINE.match(line))
-        is_sec = bool(_SECTION_BOUNDARY_LINE.match(line))
+        is_sec = _is_section_boundary_line(line)
         should_split = cur_start is not None and (
-            is_sec or (is_new_d1 and idx > 0 and _is_non_title_prev(lines[idx - 1]))
+            is_sec or (is_new_d1 and _should_split_before_d1(cur_lines, line))
         )
         if should_split:
             blocks.append((cur_start, cur_end))
             cur_start = pos
+            cur_lines = [line]
         elif cur_start is None:
             cur_start = pos
+            cur_lines = [line]
+        else:
+            cur_lines.append(line)
         cur_end = pos + line_len
         pos += line_len
     if cur_start is not None:
@@ -494,16 +593,33 @@ def _split_logical_blocks(text: str) -> list[tuple[int, int]]:
     return blocks
 
 
-def _is_non_title_prev(prev_line: str) -> bool:
-    s = prev_line.strip()
-    if not s:
+def _should_split_before_d1(cur_lines: Sequence[str], next_line: str) -> bool:
+    if not cur_lines:
         return True
-    if _D1_HEADER_LINE.match(s) or _D1_INLINE_RULE_LINE.match(s):
+    prev_collapsed = _collapse_pdf_breaks("".join(cur_lines))
+    if not prev_collapsed or len(cur_lines) > 3 or len(prev_collapsed) > 120:
         return True
-    # Single concise title line immediately above "定义与触发条件：" stays in same block.
-    if len(s) <= 84 and not re.search(r"[。！？；.!?]$", s):
+    if _has_unclosed_parens(prev_collapsed):
         return False
-    return True
+    # If next line carries its own section numbering, treat it as a separate definition block.
+    if _LEADING_SECTION_NUM.match(next_line.lstrip()):
+        return True
+    if re.search(r"[。！？；!?]$|(?<!Def)\.$", prev_collapsed):
+        return True
+    if _D1_INLINE_RULE_LINE.match(prev_collapsed) and not _D1_HEADER_LINE.match(prev_collapsed):
+        return True
+    if prev_m := _D1_HEADER_LINE.match(prev_collapsed):
+        # Standalone header-only line (e.g. "1. 核心概念定义：<Concept>") binds to "正式定义：..."
+        split_prev = _split_d1_rest(prev_m.group("rest"), None)
+        if split_prev is None or split_prev[1] != "":
+            return True
+        if next_m := _D1_HEADER_LINE.match(next_line):
+            next_rest = next_m.group("rest").strip()
+            if re.search(r"\s+[—–]\s+|\s+--\s+", next_rest):
+                return True
+            return False
+        return True
+    return False
 
 
 def _split_sentences_in_block(raw_text: str, start: int, end: int) -> list[tuple[int, int]]:
@@ -564,26 +680,61 @@ def _extract_companion_anchors(
     return tuple(anchors)
 
 
+def _find_valid_inline_sep(stripped: str) -> tuple[str, str] | None:
+    for sep in _D1_INLINE_SEP.finditer(stripped):
+        left = stripped[: sep.start()].strip()
+        right = stripped[sep.end() :].strip()
+        if len(left) < 2 or len(right) < 6:
+            continue
+        if left.count("(") != left.count(")") or left.count("（") != left.count("）"):
+            continue
+        if _MATH_EXPR_HINT.search(left):
+            continue
+        if sep.group(0).strip() == "-" and (
+            _SUBTRACT_LEFT_END.search(left) or _SUBTRACT_RIGHT_START.match(right)
+        ):
+            continue
+        if _clean_term_and_aliases(left) is None:
+            continue
+        return left, right
+    return None
+
+
 def _split_d1_rest(
     rest: str,
     prev_title: str | None,
+    *,
+    allow_body_prev_bind: bool = False,
+    prev_header_locked: bool = False,
 ) -> tuple[str, str] | None:
     stripped = rest.strip()
     if not stripped:
         return None
-    if sep := _D1_INLINE_SEP.search(stripped):
-        left = stripped[: sep.start()].strip()
-        right = stripped[sep.end() :].strip()
-        if len(left) >= 2 and len(right) >= 6:
-            return left, right
-    if _D1_CONDITION_START.match(stripped) and prev_title:
+    if prev_header_locked and prev_title and _has_min_def_body(stripped):
         return prev_title, stripped
+    if prev_title and (_D1_CONDITION_START.match(stripped) or _D1_BODY_START.match(stripped)):
+        return prev_title, stripped
+    if inline_pair := _find_valid_inline_sep(stripped):
+        return inline_pair
     if verb_match := _D1_BODY_VERB_SPLIT.match(stripped):
         left = verb_match.group("name").strip()
         right = stripped[len(left) :].strip()
-        if len(left) >= 2 and len(right) >= 8:
+        if (
+            len(left) >= 2
+            and len(right) >= 8
+            and not _MATH_EXPR_HINT.search(left)
+            and _clean_term_and_aliases(left) is not None
+        ):
             return left, right
-    if len(stripped) <= 72 and not re.search(r"[。！？.!?]$", stripped):
+    if allow_body_prev_bind and prev_title and _has_min_def_body(stripped):
+        return prev_title, stripped
+    if (
+        len(stripped) <= 96
+        and not _has_unclosed_parens(stripped)
+        and not _MATH_EXPR_HINT.search(stripped)
+        and not re.search(r"[。！？.!?]$", stripped)
+        and _clean_term_and_aliases(stripped) is not None
+    ):
         return stripped, ""
     return None
 
@@ -637,49 +788,101 @@ def _extract_definitions_from_source(
 
     raw_candidates: list[tuple[int, int, str, str, str]] = []
     blocks = _split_logical_blocks(raw_text)
+    pending_header: tuple[int, str, bool] | None = None
     for b_start, b_end in blocks:
         block = raw_text[b_start:b_end]
         lines = block.splitlines(keepends=True)
         rel = 0
         matched_d1 = False
-        for idx, line in enumerate(lines):
+        idx = 0
+        while idx < len(lines):
+            line = lines[idx]
             line_abs = b_start + rel
-            rel += len(line)
+            line_rel_end = rel + len(line)
             prev_title = None
             prev_abs = line_abs
-            if idx == 1:
-                candidate_prev = _collapse_pdf_breaks(lines[0])
-                if 2 <= len(candidate_prev) <= 84 and not _OUTLINE_TITLE.match(candidate_prev):
+            prev_from_block = False
+            prev_header_locked = False
+            if idx >= 1:
+                prev_raw = "".join(lines[:idx])
+                if candidate_prev := _strip_prev_title_prefix(prev_raw):
                     prev_title = candidate_prev
                     prev_abs = b_start
-            elif idx == 0 and title.strip() and not _OUTLINE_TITLE.match(title.strip()):
-                prev_title = title.strip()
+                    prev_from_block = True
+                    prev_header_locked = bool(
+                        _D1_HEADER_LINE.match(_collapse_pdf_breaks(prev_raw))
+                    )
+            elif idx == 0 and pending_header is not None:
+                prev_abs, prev_title, prev_header_locked = pending_header
+                prev_from_block = True
+            elif idx == 0:
+                if candidate_doc_title := _strip_prev_title_prefix(title):
+                    prev_title = candidate_doc_title
 
-            if m := _D1_HEADER_LINE.match(line):
-                split_res = _split_d1_rest(m.group("rest"), prev_title)
+            # Merge wrapped parenthesized alias lines (e.g., "(Adaptive Notch\nFilter, ANF)")
+            header_lines = [line]
+            end_idx = idx + 1
+            header_rel_end = line_rel_end
+            header_line_text = _collapse_pdf_breaks(line)
+            while (
+                _D1_HEADER_LINE.match(header_line_text)
+                and _has_unclosed_parens(header_line_text)
+                and end_idx < len(lines)
+                and (end_idx - idx) < 4
+            ):
+                nxt = lines[end_idx]
+                header_lines.append(nxt)
+                header_rel_end += len(nxt)
+                end_idx += 1
+                header_line_text = _collapse_pdf_breaks("".join(header_lines))
+                if not _has_unclosed_parens(header_line_text):
+                    break
+
+            if m := _D1_HEADER_LINE.match(header_line_text):
+                split_res = _split_d1_rest(
+                    m.group("rest"),
+                    prev_title,
+                    allow_body_prev_bind=prev_from_block,
+                    prev_header_locked=prev_header_locked,
+                )
                 if split_res is not None:
                     term_raw, body_inline = split_res
-                    following = block[rel:].strip() if not body_inline else block[rel:]
-                    body_full = f"{body_inline} {following}".strip() if following else body_inline
+                    following = (
+                        block[header_rel_end:].strip()
+                        if not body_inline
+                        else block[header_rel_end:]
+                    )
+                    body_full = (
+                        f"{body_inline} {following}".strip() if following else body_inline
+                    )
                     if _has_min_def_body(body_full):
-                        span_start = prev_abs if (term_raw == prev_title and idx == 1) else line_abs
+                        span_start = (
+                            prev_abs if (term_raw == prev_title and prev_from_block) else line_abs
+                        )
+                        ctx = raw_text[span_start:b_end]
                         raw_candidates.append(
-                            (span_start, b_end, term_raw, "explicit_definition_header", block)
+                            (span_start, b_end, term_raw, "explicit_definition_header", ctx)
                         )
                         matched_d1 = True
+                        pending_header = None
                         break
-            if m := _D1_INLINE_RULE_LINE.match(line):
-                body_full = f"{m.group('body')} {block[rel:]}".strip()
-                if _has_min_def_body(body_full):
-                    raw_candidates.append(
-                        (line_abs, b_end, m.group("name"), "explicit_rule_header", block)
-                    )
-                    matched_d1 = True
-                    break
+            elif m := _D1_INLINE_RULE_LINE.match(line):
+                if _clean_term_and_aliases(m.group("name")) is not None:
+                    body_full = f"{m.group('body')} {block[line_rel_end:]}".strip()
+                    if _has_min_def_body(body_full):
+                        raw_candidates.append(
+                            (line_abs, b_end, m.group("name"), "explicit_rule_header", block)
+                        )
+                        matched_d1 = True
+                        pending_header = None
+                        break
+            rel = line_rel_end
+            idx += 1
 
         if matched_d1:
             continue
 
+        found_d2 = False
         for s_start, s_end in _split_sentences_in_block(raw_text, b_start, b_end):
             sentence = raw_text[s_start:s_end]
             for pattern, rule_name in ((_D2_ZH, "normative_zh"), (_D2_EN, "normative_en")):
@@ -693,7 +896,24 @@ def _extract_definitions_from_source(
                             sentence,
                         )
                     )
+                    found_d2 = True
                     break
+        if found_d2:
+            pending_header = None
+        else:
+            collapsed_block = _collapse_pdf_breaks(block)
+            if (
+                len(collapsed_block) <= 120
+                and not re.search(r"[。！？；!?]$|(?<!Def)\.$", collapsed_block)
+                and (cand := _strip_prev_title_prefix(block)) is not None
+            ):
+                pending_header = (
+                    b_start,
+                    cand,
+                    bool(_D1_HEADER_LINE.match(collapsed_block)),
+                )
+            else:
+                pending_header = None
 
     if not raw_candidates:
         return []
@@ -712,9 +932,8 @@ def _extract_definitions_from_source(
         next_def_start = (
             raw_candidates[idx + 1][0] if idx + 1 < len(raw_candidates) else len(raw_text)
         )
-        sec_match = _SECTION_BOUNDARY_LINE.search(raw_text, pos=min(s_end, len(raw_text)))
-        boundary_end = min(next_def_start, sec_match.start() if sec_match else len(raw_text))
-        boundary_end = max(boundary_end, s_end)
+        sec_pos = _find_section_boundary_pos(raw_text, min(s_end, len(raw_text)))
+        boundary_end = max(min(next_def_start, sec_pos), s_end)
 
         ctx_norm = _collapse_pdf_breaks(ctx_text)
         status: Literal["accepted", "rejected"] = "accepted"
