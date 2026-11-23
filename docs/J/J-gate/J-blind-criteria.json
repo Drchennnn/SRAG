@@ -1,0 +1,390 @@
+{
+  "gate_phase": "J01_pre_development_freeze",
+  "frozen_by": "j_gate",
+  "frozen_at": "2026-11-23T22:45:00+08:00",
+  "workspace": "/Users/Link/code/SRAG-j-gate",
+  "branch": "review/j-gate",
+  "base_commit": "d126b0e",
+  "course_id": "cs-mlsys-j",
+  "course_title": "CS-MLSys-J: 大模型推理系统与压缩优化",
+  "generator_script": "docs/J/J-gate/make_course_corpus.py",
+  "corpus_files": [
+    {
+      "file_name": "Paper-01-GPTQ-2210.17323v2.pdf",
+      "repo_path": "docs/J/J-gate/course_corpus/Paper-01-GPTQ-2210.17323v2.pdf",
+      "format": "pdf",
+      "title": "GPTQ: Accurate Post-Training Quantization for Generative Pre-trained Transformers",
+      "origin_abs": "https://arxiv.org/abs/2210.17323",
+      "origin_pdf": "https://arxiv.org/pdf/2210.17323v2.pdf",
+      "license": "CC-BY-4.0",
+      "abs_license_html": "<div class=\"abs-license\"><a href=\"http://creativecommons.org/licenses/by/4.0/\" title=\"Rights to this article\" class=\"has_license\"> <img alt=\"license icon\" role=\"presentation\" src=\"https://arxiv.org/icons/licenses/by-4.0.png\"/> <span>view license</span> </a></div>",
+      "bytes": 521818,
+      "sha256": "35e339171cd48bbf8dda246bd018b11aa33a5cda0c4a1587cdae574208f56396",
+      "pages": 16,
+      "parsed_sources": 50,
+      "parsed_native_chars": 67103
+    },
+    {
+      "file_name": "Paper-02-KIVI-2402.02750v2.pdf",
+      "repo_path": "docs/J/J-gate/course_corpus/Paper-02-KIVI-2402.02750v2.pdf",
+      "format": "pdf",
+      "title": "KIVI: A Tuning-Free Asymmetric 2bit Quantization for KV Cache",
+      "origin_abs": "https://arxiv.org/abs/2402.02750",
+      "origin_pdf": "https://arxiv.org/pdf/2402.02750v2.pdf",
+      "license": "CC-BY-4.0",
+      "abs_license_html": "<div class=\"abs-license\"><a href=\"http://creativecommons.org/licenses/by/4.0/\" title=\"Rights to this article\" class=\"has_license\"> <img alt=\"license icon\" role=\"presentation\" src=\"https://arxiv.org/icons/licenses/by-4.0.png\"/> <span>view license</span> </a></div>",
+      "bytes": 2194402,
+      "sha256": "df31ef32d71bfb280c533c5db8220cadf5ef42076bf45d82ba4c8da8e50ea5f4",
+      "pages": 15,
+      "parsed_sources": 53,
+      "parsed_native_chars": 62539
+    },
+    {
+      "file_name": "Paper-03-PositionalInterpolation-2306.15595v2.pdf",
+      "repo_path": "docs/J/J-gate/course_corpus/Paper-03-PositionalInterpolation-2306.15595v2.pdf",
+      "format": "pdf",
+      "title": "Extending Context Window of Large Language Models via Position Interpolation",
+      "origin_abs": "https://arxiv.org/abs/2306.15595",
+      "origin_pdf": "https://arxiv.org/pdf/2306.15595v2.pdf",
+      "license": "CC-BY-4.0",
+      "abs_license_html": "<div class=\"abs-license\"><a href=\"http://creativecommons.org/licenses/by/4.0/\" title=\"Rights to this article\" class=\"has_license\"> <img alt=\"license icon\" role=\"presentation\" src=\"https://arxiv.org/icons/licenses/by-4.0.png\"/> <span>view license</span> </a></div>",
+      "bytes": 751217,
+      "sha256": "890702e3170e5b8e2fb55552bd86cd99b0aa4ddbb3670ae8c351faa575cfaf09",
+      "pages": 18,
+      "parsed_sources": 51,
+      "parsed_native_chars": 55863
+    },
+    {
+      "file_name": "Deck-01-Core-Concepts.pptx",
+      "repo_path": "docs/J/J-gate/course_corpus/Deck-01-Core-Concepts.pptx",
+      "format": "pptx",
+      "bytes": 34903,
+      "sha256": "a08ecdf1e5663163de11bce76e474f84e3def8f340412ea502f82643bd43623f",
+      "pages": 5,
+      "soffice_verified": true,
+      "parsed_sources": 16,
+      "parsed_native_chars": 3052
+    },
+    {
+      "file_name": "Deck-02-Pure-Visual-Diagrams.pptx",
+      "repo_path": "docs/J/J-gate/course_corpus/Deck-02-Pure-Visual-Diagrams.pptx",
+      "format": "pptx",
+      "bytes": 282351,
+      "sha256": "47ac8347fd3ea0f6866c57e55765ca61083ba1c14904e3fd61f52c841bc9dfcd",
+      "pages": 4,
+      "soffice_verified": true,
+      "parsed_sources": 12,
+      "parsed_native_chars": 195
+    },
+    {
+      "file_name": "Deck-03-Benchmarks-And-Tradeoffs.pptx",
+      "repo_path": "docs/J/J-gate/course_corpus/Deck-03-Benchmarks-And-Tradeoffs.pptx",
+      "format": "pptx",
+      "bytes": 33111,
+      "sha256": "29e665c36df1447dc0eeaad521f2a472e1f55be09ad64b8a1b7a2e4263d36e9c",
+      "pages": 4,
+      "soffice_verified": true,
+      "parsed_sources": 12,
+      "parsed_native_chars": 2302
+    },
+    {
+      "file_name": "Lab-01-ZeroOverlap-Experiment.ipynb",
+      "repo_path": "docs/J/J-gate/course_corpus/Lab-01-ZeroOverlap-Experiment.ipynb",
+      "format": "ipynb",
+      "bytes": 54962,
+      "sha256": "d2c08b14673a48c9065c3c7a2c9aa09dfa3310c98161df2ac5fd4994615d6014",
+      "cells": 8,
+      "parsed_sources": 14,
+      "parsed_native_chars": 1630
+    },
+    {
+      "file_name": "Lab-02-CrossDoc-Verification.ipynb",
+      "repo_path": "docs/J/J-gate/course_corpus/Lab-02-CrossDoc-Verification.ipynb",
+      "format": "ipynb",
+      "bytes": 35262,
+      "sha256": "61838fb98a6b8cc2f9255b1e28ebee72006e88b180054bd647737c603cadf2c7",
+      "cells": 4,
+      "parsed_sources": 7,
+      "parsed_native_chars": 989
+    },
+    {
+      "file_name": "Lab-03-Distractor-Baseline.ipynb",
+      "repo_path": "docs/J/J-gate/course_corpus/Lab-03-Distractor-Baseline.ipynb",
+      "format": "ipynb",
+      "bytes": 31938,
+      "sha256": "e819d978f822af9af0015f29808fa3d2ebab4d964d99d5707c1aea3f9b6d65d1",
+      "cells": 2,
+      "parsed_sources": 4,
+      "parsed_native_chars": 565
+    }
+  ],
+  "questions": [
+    {
+      "question_id": "J_Q01",
+      "category": "Cat_A",
+      "category_label": "长文后段与多文件同名术语干扰",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "在课程论文中，针对 OPT-125M 模型在 WikiText2 上做 3-bit 量化时，GPTQ 与 OBQ 的困惑度（PPL）分别是多少？此外在后文附录的 C4 数据集上，OPT-66B 模型采用 4-bit RTN 与 4-bit GPTQ 的困惑度差异有多大，作者提示为什么该 C4 评测并非完全 zero-shot？",
+      "expected_sources": [
+        {"file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:13"},
+        {"file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:14"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E01", "file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:13", "anchor": "Table 8: OPT-125M 3-bit WikiText2 PPL: OBQ=69.32, GPTQ=53.85 (FP16=27.66)"},
+        {"unit_id": "E02", "file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:14", "anchor": "Table 11: OPT-66B C4 PPL: RTN 4-bit=309., GPTQ 4-bit=11.23 (FP16=10.99); calibration data sampled from C4 training set, thus not fully zero-shot"}
+      ],
+      "ground_truth_excerpt": "p13 Table 8: OPT-125M 27.66 PPL, 3bit OBQ=69.32, GPTQ=53.85. p14 Table 11: OPT-66B C4 RTN 4=309., GPTQ 4=11.23 (full 16=10.99); 'the calibration data used by GPTQ is sampled from the C4 training set, this task is thus not fully zero-shot.'"
+    },
+    {
+      "question_id": "J_Q02",
+      "category": "Cat_A",
+      "category_label": "长文后段与多文件同名术语干扰",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "在键值缓存（KV cache）非对称量化论文的附录消融实验中，当把残差长度从 128 降到 32 时，Llama-2-13B 在 GSM8K 和 LongBench 平均分上分别从多少变成多少？在 Appendix B 的大海捞针（NIAH）设置中，论文使用了几位数的密码和什么背景填充文本？",
+      "expected_sources": [
+        {"file_name": "Paper-02-KIVI-2402.02750v2.pdf", "source_id": "page:13"},
+        {"file_name": "Paper-02-KIVI-2402.02750v2.pdf", "source_id": "page:14"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E03", "file_name": "Paper-02-KIVI-2402.02750v2.pdf", "source_id": "page:13", "anchor": "Table 6: Llama-2-13B GSM8K KIVI-2 R128=20.77 -> R32=20.62; Appendix B NIAH: 7-digit passkey + Paul Graham Essays"},
+        {"unit_id": "E04", "file_name": "Paper-02-KIVI-2402.02750v2.pdf", "source_id": "page:14", "anchor": "Table 7: Llama2-13B LongBench Average KIVI-2 R128=44.69 -> R32=44.75"}
+      ],
+      "ground_truth_excerpt": "p13 Appendix B: 'using 7-digit passkey and Paul Graham Essays as the background filler'; Table 6: Llama-2-13B GSM8K KIVI-2 R128=20.77, KIVI-2 R32=20.62. p14 Table 7: Llama2-13B LongBench Average KIVI-2 R128=44.69, KIVI-2 R32=44.75."
+    },
+    {
+      "question_id": "J_Q03",
+      "category": "Cat_A",
+      "category_label": "长文后段与多文件同名术语干扰",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "在上下文窗口扩展论文的后半部分，将 LLaMA-7B 扩展到 16K 上下文后在 GovReport 长文档摘要任务上的 ROUGE-1 / ROUGE-2 / ROUGE-L 分数分别是多少，推理时的生成温度（temperature）和 top-p 参数设为多少？此外附录 B 验证外推界时使用的 LLaMA-7B 注意力头维度 d 和基准底数 c 分别是多少？",
+      "expected_sources": [
+        {"file_name": "Paper-03-PositionalInterpolation-2306.15595v2.pdf", "source_id": "page:10"},
+        {"file_name": "Paper-03-PositionalInterpolation-2306.15595v2.pdf", "source_id": "page:15"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E05", "file_name": "Paper-03-PositionalInterpolation-2306.15595v2.pdf", "source_id": "page:10", "anchor": "Table 6: LLaMA-7B Extended 16K GovReport ROUGE-1=60.0, ROUGE-2=28.0, ROUGE-L=29.5; generation temperature=0.5, topp=0.95"},
+        {"unit_id": "E06", "file_name": "Paper-03-PositionalInterpolation-2306.15595v2.pdf", "source_id": "page:15", "anchor": "Appendix B: c=10000, d=4096/32=128 (LLaMA-7B setting)"}
+      ],
+      "ground_truth_excerpt": "p10 Table 6: LLaMA-7B Extended 16K ROUGE-1=60.0, ROUGE-2=28.0, ROUGE-L=29.5; 'generation temperature of 0.5 and topp = 0.95'. p15 Appendix B: 'theta_j = c^(-2j/d) with c = 10000 and d = 4096/32 = 128 (LLaMA-7B setting)'."
+    },
+    {
+      "question_id": "J_Q04",
+      "category": "Cat_A",
+      "category_label": "长文后段与多文件同名术语干扰",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "课程资料中，OPT-175B 在 3-bit 权重量化下若在单张 80GB A100 上做 batch size 1 生成推理，每 token 平均延迟是多少（对比 FP16 的 GPU 数量与延迟）？而对 Llama-2-7B 做 2-bit KV 缓存量化并在单张 80GB A100 上跑到最大 batch size 时，吞吐量相对 16-bit 基线提升了多少倍？",
+      "expected_sources": [
+        {"file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:8"},
+        {"file_name": "Paper-02-KIVI-2402.02750v2.pdf", "source_id": "page:8"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E07", "file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:8", "anchor": "Table 6: OPT-175B on A100-80GB: 3-bit=71ms (1 GPU) vs FP16=230ms (5 GPUs), 3.24x speedup"},
+        {"unit_id": "E08", "file_name": "Paper-02-KIVI-2402.02750v2.pdf", "source_id": "page:8", "anchor": "Sec 4.2.4: Llama-2-7B on 1x A100-80GB enables up to 4x larger batch size and 2.35x ~ 3.47x larger throughput"}
+      ],
+      "ground_truth_excerpt": "GPTQ p8 Table 6: A100-80GB FP16=230ms (5 GPUs), 3bit=71ms (1 GPU), Speedup=3.24x. KIVI p8 Sec 4.2.4: Llama-2-7B on single NVIDIA A100 GPU (80GB) enables up to 4x larger batch size and gives 2.35x ~ 3.47x larger throughput."
+    },
+    {
+      "question_id": "J_Q05",
+      "category": "Cat_B",
+      "category_label": "跨文件无共享概念词 2-hop",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "讲义中提出的“热冷锚点分级策略”，在配套实验本两档容量设置下的尾延迟和有效槽保留率实测值分别是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:2"},
+        {"file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:1"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E09", "file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:2", "anchor": "热冷锚点分级策略 -> t99_ms, slot_eff -> run_bucket_evict_probe()"},
+        {"unit_id": "E10", "file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:1", "anchor": "b_cap=64, hot_k=8 -> t99_ms=19.40, slot_eff=91.2%; b_cap=128, hot_k=16 -> t99_ms=14.70, slot_eff=95.8%"}
+      ],
+      "ground_truth_excerpt": "Deck-01 p2 maps 热冷锚点分级策略 (TAT) to run_bucket_evict_probe() with metrics t99_ms and slot_eff. Lab-01 cell:1 stdout: b_cap=64, hot_k=8 -> t99_ms=19.40, slot_eff=91.2%; b_cap=128, hot_k=16 -> t99_ms=14.70, slot_eff=95.8%."
+    },
+    {
+      "question_id": "J_Q06",
+      "category": "Cat_B",
+      "category_label": "跨文件无共享概念词 2-hop",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "讲义定义的“动态块哈希折叠”机制在配套实验本两种步幅配置下，实测的生成速率、显存占用和压缩节省比例各是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:2"},
+        {"file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:3"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E11", "file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:2", "anchor": "动态块哈希折叠 -> gen_tps, v_gb, red_pct -> eval_prefix_reuse_v3()"},
+        {"unit_id": "E12", "file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:3", "anchor": "stride=32 -> gen_tps=1840, v_gb=11.60, red_pct=38.4%; stride=64 -> gen_tps=1695, v_gb=12.85, red_pct=31.7%"}
+      ],
+      "ground_truth_excerpt": "Deck-01 p2 maps 动态块哈希折叠 (DBHF) to eval_prefix_reuse_v3() with gen_tps, v_gb, red_pct. Lab-01 cell:3 stdout: stride=32, mode=fold -> gen_tps=1840, v_gb=11.60, red_pct=38.4%; stride=64, mode=fold -> gen_tps=1695, v_gb=12.85, red_pct=31.7%."
+    },
+    {
+      "question_id": "J_Q07",
+      "category": "Cat_B",
+      "category_label": "跨文件无共享概念词 2-hop",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "根据讲义中的“双阶段离群通道抑制”方法，对应实验脚本在不同分块与平滑系数配置下的 WikiText2 困惑度和峰值显存各是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:3"},
+        {"file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:5"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E13", "file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:3", "anchor": "双阶段离群通道抑制 -> w2_score, pk_mb -> calib_permute_omega_k9()"},
+        {"unit_id": "E14", "file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:5", "anchor": "tile=128, alpha=0.65 -> w2_score=8.92, pk_mb=4120; tile=256, alpha=0.80 -> w2_score=9.41, pk_mb=3980"}
+      ],
+      "ground_truth_excerpt": "Deck-01 p3 maps 双阶段离群通道抑制 (TSOCD) to calib_permute_omega_k9() with w2_score and pk_mb. Lab-01 cell:5 stdout: tile=128, alpha=0.65 -> w2_score=8.92, pk_mb=4120; tile=256, alpha=0.80 -> w2_score=9.41, pk_mb=3980."
+    },
+    {
+      "question_id": "J_Q08",
+      "category": "Cat_B",
+      "category_label": "跨文件无共享概念词 2-hop",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "讲义阐述的“流水线微批次错峰调度”方案，在实验本两种深度设置下测得的阻塞停顿比例和单步周期耗时分别是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:4"},
+        {"file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:7"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E15", "file_name": "Deck-01-Core-Concepts.pptx", "source_id": "page:4", "anchor": "流水线微批次错峰调度 -> wait_pct, cyc_ms -> trace_async_gate_w4()"},
+        {"unit_id": "E16", "file_name": "Lab-01-ZeroOverlap-Experiment.ipynb", "source_id": "cell:7", "anchor": "depth=4, q_lim=24 -> wait_pct=3.80%, cyc_ms=6.15; depth=2, q_lim=12 -> wait_pct=9.40%, cyc_ms=7.82"}
+      ],
+      "ground_truth_excerpt": "Deck-01 p4 maps 流水线微批次错峰调度 (PMBS) to trace_async_gate_w4() with wait_pct and cyc_ms. Lab-01 cell:7 stdout: depth=4, q_lim=24 -> wait_pct=3.80%, cyc_ms=6.15; depth=2, q_lim=12 -> wait_pct=9.40%, cyc_ms=7.82."
+    },
+    {
+      "question_id": "J_Q09",
+      "category": "Cat_C",
+      "category_label": "纯图无文字锚点 PPTX 召回",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "课程幻灯片里的“四阶段双路径 KV 分配器（4-Stage Dual-Path KV Allocator）”架构图中，Stage 2A 和 Stage 2B 分别采用什么精度与容量/分组配置，Stage 4 的内核开销占比是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:2"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E17", "file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:2", "anchor": "Pure PNG architecture diagram: Stage 2A FP16 cap=256 tok (sink_tokens=4); Stage 2B 2-bit asymmetric group_size=32 (residual_buf=128); Stage 4 kernel_overhead=4.2%"}
+      ],
+      "ground_truth_excerpt": "Deck-02 p2 (native text only 'Slide 2', full info in PNG): Stage 2A Pinned Anchor Pool: FP16, cap=256 tokens, sink_tokens=4; Stage 2B Quantized Ring Slab: 2-bit asymmetric, group_size=32, residual_buf=128; Stage 4 Output Accumulator: fp32_acc=true, kernel_overhead=4.2%."
+    },
+    {
+      "question_id": "J_Q10",
+      "category": "Cat_C",
+      "category_label": "纯图无文字锚点 PPTX 召回",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "课程幻灯片的解码延迟对比曲线图中，当 batch size 为 16 时，三条策略的解码延迟（ms/tok）分别是多少？FP16-Static 在哪个 batch size 下出现 OOM？",
+      "expected_sources": [
+        {"file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:3"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E18", "file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:3", "anchor": "Pure PNG chart: bs=16 -> KIVI-Tiered-2bit=21.3 ms/tok, 2bit-Symmetric=30.7 ms/tok, FP16-Static=48.2 ms/tok; FP16-Static hits OOM @ bs=32"}
+      ],
+      "ground_truth_excerpt": "Deck-02 p3 (native text only 'Slide 3', full info in PNG): At bs=16, KIVI-Tiered-2bit=21.3, 2bit-Symmetric=30.7, FP16-Static=48.2 ms/tok; FP16-Static hits OOM @ bs=32."
+    },
+    {
+      "question_id": "J_Q11",
+      "category": "Cat_C",
+      "category_label": "纯图无文字锚点 PPTX 召回",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "幻灯片中展示的“双卡 A100-80G 部署 32 层 70B 模型”显存预算分解图中，权重、KV 池与运行时暂存区各自占用多少 GB，总显存占用与最大安全批大小分别是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:4"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E19", "file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:4", "anchor": "Pure PNG memory budget diagram: Weights=38.4 GB, KV Pool=67.2 GB, Runtime Scratch=6.8 GB, Total Footprint=112.4 GB, Headroom=47.6 GB, Max Safe Batch=44"}
+      ],
+      "ground_truth_excerpt": "Deck-02 p4 (native text only 'Slide 4', full info in PNG): Weights (INT4-g128)=38.4 GB, KV Pool (bs=32, len=8192)=67.2 GB, Runtime Scratch=6.8 GB, Total Footprint=112.4 GB, Free Headroom=47.6 GB, Max Safe Batch=44."
+    },
+    {
+      "question_id": "J_Q12",
+      "category": "Cat_C",
+      "category_label": "纯图无文字锚点 PPTX 召回",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "结合课程纯图架构与性能曲线幻灯片，KIVI-Tiered-2bit 曲线在 bs=16 拐点处相比 FP16-Static 的加速比是多少倍？其对应的架构图 Stage 1 入口最大序列长度和 Stage 3 warp tile 大小分别是多少？",
+      "expected_sources": [
+        {"file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:3"},
+        {"file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:2"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E20", "file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:3", "anchor": "2.26x speedup vs FP16-Static (48.2 / 21.3) at bs=16"},
+        {"unit_id": "E21", "file_name": "Deck-02-Pure-Visual-Diagrams.pptx", "source_id": "page:2", "anchor": "Stage 1 max_seq=16384; Stage 3 warp_tile=128"}
+      ],
+      "ground_truth_excerpt": "Deck-02 p3 PNG annotation: '2.26x speedup vs FP16-Static (48.2)'. Deck-02 p2 PNG: Stage 1 max_seq=16384, Stage 3 warp_tile=128."
+    },
+    {
+      "question_id": "J_Q13",
+      "category": "Cat_D",
+      "category_label": "控制组（显式页码/单文件定位）",
+      "scope": {"course_id": "cs-mlsys-j", "file_name": "Paper-01-GPTQ-2210.17323v2.pdf"},
+      "question": "请直接查看 Paper-01-GPTQ-2210.17323v2.pdf 第 8 页的 Table 5，写出 OPT-175B 在 Baseline 16-bit、GPTQ 4-bit 和 GPTQ 3/g128 下的 WikiText2 困惑度。",
+      "expected_sources": [
+        {"file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:8"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E22", "file_name": "Paper-01-GPTQ-2210.17323v2.pdf", "source_id": "page:8", "anchor": "Table 5 OPT-175B Wiki2: Baseline 16=8.34, GPTQ 4=8.37, GPTQ 3/g128=8.45"}
+      ],
+      "ground_truth_excerpt": "GPTQ p8 Table 5 OPT-175B Wiki2: Baseline 16=8.34, GPTQ 4=8.37, GPTQ 3/g128=8.45."
+    },
+    {
+      "question_id": "J_Q14",
+      "category": "Cat_D",
+      "category_label": "控制组（显式页码/单文件定位）",
+      "scope": {"course_id": "cs-mlsys-j", "file_name": "Deck-03-Benchmarks-And-Tradeoffs.pptx"},
+      "question": "请读取 Deck-03-Benchmarks-And-Tradeoffs.pptx 第 2 页表格，列出 Mistral-7B 在表中所示精度、上下文长度、KV 显存与吞吐量分别是多少。",
+      "expected_sources": [
+        {"file_name": "Deck-03-Benchmarks-And-Tradeoffs.pptx", "source_id": "page:2"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E23", "file_name": "Deck-03-Benchmarks-And-Tradeoffs.pptx", "source_id": "page:2", "anchor": "Mistral-7B | KIVI-2 (GQA-8) | 8192 | 1.95 GB | 1,760 tok/s"}
+      ],
+      "ground_truth_excerpt": "Deck-03 p2 native table row: Mistral-7B | KIVI-2 (GQA-8) | 8192 | 1.95 GB | 1,760 tok/s."
+    },
+    {
+      "question_id": "J_Q15",
+      "category": "Cat_D",
+      "category_label": "控制组（显式页码/单文件定位）",
+      "scope": {"course_id": "cs-mlsys-j", "file_name": "Lab-02-CrossDoc-Verification.ipynb"},
+      "question": "请查看实验本 Lab-02-CrossDoc-Verification.ipynb，该实验在 Batch=16, SeqLen=4096, A100-80GB 条件下对 KIVI R=128 与 R=32 测得的吞吐量（tok/s）和峰值显存（GB）分别是多少？",
+      "expected_sources": [
+        {"file_name": "Lab-02-CrossDoc-Verification.ipynb", "source_id": "cell:1"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E24", "file_name": "Lab-02-CrossDoc-Verification.ipynb", "source_id": "cell:1", "anchor": "R=128: throughput=1420.5 tok/s, peak_mem=26.4 GB; R=32: throughput=1685.0 tok/s, peak_mem=22.8 GB"}
+      ],
+      "ground_truth_excerpt": "Lab-02 cell:1 stdout: R=128 | throughput=1420.5 tok/s | peak_mem=26.4 GB | GSM8K=20.77; R=32 | throughput=1685.0 tok/s | peak_mem=22.8 GB | GSM8K=20.62."
+    },
+    {
+      "question_id": "J_Q16",
+      "category": "Cat_E",
+      "category_label": "缺证/条件不匹配/跨课隔离反例",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "在全课全部资料中，有没有实测给出 OPT-175B 在 1-bit GPTQ 下的 WikiText2 困惑度，或者 KIVI 在 H200-141GB GPU 上的 128K 上下文吞吐量？如有请引用，如无请明确说明缺失。",
+      "expected_sources": [],
+      "required_evidence_units": [
+        {"unit_id": "E25", "file_name": "N/A (honest missing-evidence declaration)", "source_id": "none", "anchor": "Must explicitly state neither 1-bit GPTQ OPT-175B WikiText2 PPL nor KIVI on H200-141GB at 128K context is present; zero hallucination"}
+      ],
+      "ground_truth_excerpt": "GPTQ evaluates 4-bit, 3-bit, and 2-bit (grouped), never 1-bit OPT-175B WikiText2. KIVI evaluates on single NVIDIA A100-80GB up to 32K (LongChat/Mistral), never H200-141GB at 128K."
+    },
+    {
+      "question_id": "J_Q17",
+      "category": "Cat_E",
+      "category_label": "缺证/条件不匹配/跨课隔离反例",
+      "scope": {"course_id": "cs-mlsys-j"},
+      "question": "在与 Paper-02-KIVI 相同的 A100-80GB、2-bit KV 缓存、SeqLen=4096 条件下，课程实验本是否测出了 47.3 ms/tok 的延迟和 312 tok/s 的吞吐量？请核实该数值实际属于什么硬件与量化条件。",
+      "expected_sources": [
+        {"file_name": "Lab-03-Distractor-Baseline.ipynb", "source_id": "cell:0"},
+        {"file_name": "Lab-03-Distractor-Baseline.ipynb", "source_id": "cell:1"}
+      ],
+      "required_evidence_units": [
+        {"unit_id": "E26", "file_name": "Lab-03-Distractor-Baseline.ipynb", "source_id": "cell:1", "anchor": "47.3 ms/tok and 312 tok/s belong to CPU-offload / PCIe Gen4 x16 / INT8-symmetric / SeqLen=512, NOT A100-80GB 2-bit KV SeqLen=4096"}
+      ],
+      "ground_truth_excerpt": "Lab-03 cell:0/cell:1: 'backend: CPU-offload, interconnect: PCIe Gen4 x16, quant: INT8-symmetric, seq_len: 512 -> latency=47.3 ms/tok | throughput=312 tok/s'. Must explicitly reject attribution to KIVI A100-80GB 2-bit SeqLen=4096."
+    },
+    {
+      "question_id": "J_Q18",
+      "category": "Cat_E",
+      "category_label": "缺证/条件不匹配/跨课隔离反例",
+      "scope": {"course_id": "other-course-isolated"},
+      "question": "在当前限定范围内，课程讲义中提出的“热冷锚点分级策略”对应的实验函数名以及在实验本中测得的 t99_ms 数值分别是多少？",
+      "expected_sources": [],
+      "required_evidence_units": [
+        {"unit_id": "E27", "file_name": "N/A (cross-course isolation)", "source_id": "none", "anchor": "Under scope course_id=other-course-isolated, must return empty/unconfirmed with ZERO leakage of run_bucket_evict_probe or 19.40/14.70 from cs-mlsys-j"}
+      ],
+      "ground_truth_excerpt": "Strict cross-course isolation test: query scoped to other-course-isolated must never retrieve Deck-01 or Lab-01 from cs-mlsys-j."
+    }
+  ]
+}
