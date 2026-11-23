@@ -9,8 +9,8 @@ from typing import Literal
 
 from app.stores.structure_snapshot import SnapshotSource
 
-ObjectKind = Literal["image", "table"]
-ObjectOrder = Literal["images", "outputs", "tables"]
+ObjectKind = Literal["image", "table", "caption", "formula"]
+ObjectOrder = Literal["images", "outputs", "tables", "captions", "formulas"]
 Direction = Literal["left", "right", "top", "bottom"]
 SourceIdentity = tuple[str, int, str]
 Rectangle = tuple[float, float, float, float]
@@ -49,12 +49,20 @@ _DEMONSTRATIVE_TABLE = re.compile(r"(?:这|那)张\s*(?:表格|原表|表)")
 _IMAGE = re.compile(
     r"子图|图片|图像|插图|图表|原图|什么图|[左右上下]图|图[中上内]|图里的"
     r"|[左右上下](?:侧|边|方|半)(?:的|[那这][张幅个])?\s*图"
-    r"|\b(?:figure|image|picture|plot|subplot|chart|panel)\b",
+    r"|\b(?:figure|image|picture|plot|subplot|subfigure|chart|panel)\b",
     re.IGNORECASE,
 )
 _TABLE = re.compile(
     r"原表|表格|(?:参数|配置|汇总|限制|限值|阈值|对照|结果)表|(?<!图)表[中内里]|(?:这|那)张表"
     r"|\btable\b",
+    re.IGNORECASE,
+)
+_CAPTION = re.compile(
+    r"图注|图题|\b(?:figure|fig\.?)\s*(?:[0-9]+\s*)?caption\b|\bcaption\b",
+    re.IGNORECASE,
+)
+_FORMULA = re.compile(
+    r"公式|方程|表达式|式子|\b(?:formula|equation)\b",
     re.IGNORECASE,
 )
 _COLUMN = re.compile(
@@ -75,7 +83,7 @@ _COLOR = re.compile(
     r"|\b(?:red|orange|yellow|green|blue|purple|grey|gray|black|white|amber|pink|brown)\b",
     re.IGNORECASE,
 )
-_ENGLISH_OBJECT = r"(?:figure|image|picture|subplot|panel|plot|chart|table)"
+_ENGLISH_OBJECT = r"(?:figure|image|picture|subplot|subfigure|panel|plot|chart|table)"
 
 
 def _direction_pattern(chinese: str, english: str) -> re.Pattern[str]:
@@ -109,6 +117,8 @@ _NATIVE_POSITION_BASES = (
     "native_shape_extents_v1",
     "axis_aligned_native_rule_grid_v1",
     "pdfium_native_image_extents_v1",
+    "pdfium_native_vector_extents_v1",
+    "pdfium_native_text_block_v1",
 )
 _NATIVE_IMAGE_TYPES = {"picture", "image", "chart"}
 _CLEAR_OVERLAP_AREA_RATIO = 0.20
@@ -132,10 +142,19 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
     tables = _ordinals(_TABLE_NUMBER, question)
     has_fact = bool(_FACT.search(question))
     has_preview = bool(_PREVIEW.search(question))
-    has_image = bool(images or _IMAGE.search(question) or (outputs and _AXIS.search(question)))
+    has_caption = bool(_CAPTION.search(question))
+    has_formula = bool(_FORMULA.search(question))
+    has_image = bool(
+        not has_caption
+        and (images or _IMAGE.search(question) or (outputs and _AXIS.search(question)))
+    )
     has_table = bool(
         tables or _TABLE.search(question) or (not has_image and _COLUMN.search(question))
     )
+    if has_caption and not has_table:
+        return ObjectIntent(kind="caption", order="captions")
+    if has_formula and not (has_table or has_image):
+        return ObjectIntent(kind="formula", order="formulas")
     if not (has_image or has_table):
         return None
     directions = [name for name, pattern in _DIRECTIONS if pattern.search(question)]
@@ -278,6 +297,8 @@ def _matches_kind(
     object_type = source.locator.get("object_type")
     if kind == "table":
         return source.kind == "page_object" and object_type == "table"
+    if kind in {"caption", "formula"}:
+        return source.kind == "page_object" and object_type == kind
     if source.kind == "page_object":
         return isinstance(object_type, str) and object_type in _NATIVE_IMAGE_TYPES
     if source.kind == "notebook_output":

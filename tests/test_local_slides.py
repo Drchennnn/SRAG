@@ -31,10 +31,11 @@ def test_a03_pdf_preserves_page_order_native_text_and_does_not_render(monkeypatc
     monkeypatch.setattr(pypdfium2.PdfPage, "render", forbid_render)
     parsed = parse_local_slides(A03_PDF)
 
-    assert [source.source_id for source in parsed.sources] == ["page:1", "page:2"]
-    assert "future samples = (W - 1) / 2" in parsed.sources[0].text
-    assert "(b) Median, W = 5" in parsed.sources[1].text
-    assert all(source.locator["render_status"] == "not_attempted" for source in parsed.sources)
+    pages = [source for source in parsed.sources if source.kind == "page"]
+    assert [source.source_id for source in pages] == ["page:1", "page:2"]
+    assert "future samples = (W - 1) / 2" in pages[0].text
+    assert "(b) Median, W = 5" in pages[1].text
+    assert all(source.locator["render_status"] == "not_attempted" for source in pages)
     assert _sha256(A03_PDF) == original_hash
 
 
@@ -42,7 +43,8 @@ def test_pdfium_parsing_is_safe_for_concurrent_worker_calls() -> None:
     with ThreadPoolExecutor(max_workers=4) as executor:
         results = list(executor.map(parse_local_slides, [A03_PDF] * 8))
 
-    assert all(len(parsed.sources) == 2 for parsed in results)
+    expected_count = len(results[0].sources)
+    assert expected_count >= 2 and all(len(parsed.sources) == expected_count for parsed in results)
     assert all("Median Filter Reference" in parsed.sources[0].text for parsed in results)
 
 

@@ -32,7 +32,16 @@ from app.rag.structure_search import (
     StructureSearcher,
     StructureSearchRequest,
 )
+from app.rag.workspace_clarification import (
+    ClarificationOptionRecord,
+    build_clarification,
+    build_object_clarification_options,
+    project_public_options,
+    resume_clarification,
+)
 from app.rag.workspace_composition import asks_for_composition, compose_evidence
+from app.rag.workspace_context import TurnContext, resolve_turn_context
+from app.rag.workspace_evidence import readable_source_text
 from app.rag.workspace_generation import (
     OUTPUT_RESERVE,
     estimate_prompt_reserve,
@@ -55,11 +64,31 @@ from app.rag.workspace_reading import (
     _has_visual,
     read_window,
 )
-from app.rag.workspace_versions import compare_versions, is_version_comparison
+from app.rag.workspace_router import (
+    CompareVersionsRoute,
+    CompositionRoute,
+    CurrentImageRoute,
+    CurrentVersionCounterpartRoute,
+    FocusedCellOutputsRoute,
+    FollowDisplayRoute,
+    FollowTableRoute,
+    HistoryDisplayReferenceRoute,
+    ResumeClarificationRoute,
+    StaleFocusRoute,
+    SupplementRoute,
+    TargetObjectRoute,
+    route_turn,
+)
+from app.rag.workspace_versions import (
+    _PLURAL_OBJECT as _VERSION_PLURAL_OBJECT,
+)
+from app.rag.workspace_versions import (
+    _as_snapshot,
+    compare_versions,
+)
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
 from app.schemas.workspace import (
-    ClarificationAnchor,
     CreateSession,
     DisplayAnchor,
     TurnRequest,
@@ -652,7 +681,7 @@ class WorkspaceService:
             key,
         )
         source = current.source
-        if source is None or not self._matches_text(evidence, read, source.text):
+        if source is None or not self._matches_text(evidence, read, readable_source_text(source)):
             raise WorkspaceError("original_unavailable", 409)
         if not self._turn_access(turn):
             raise inaccessible()
@@ -668,36 +697,12 @@ class WorkspaceService:
     def _run(self, owner: str, turn: Turn) -> Turn:
         session = self.store.session(owner, turn.session_id)
         try:
-            if session.scope_revision != turn.request.scope_revision:
-                raise WorkspaceError("scope_changed")
-            if isinstance(turn.request.anchor, DisplayAnchor):
-                return self._follow_display(
-                    turn, session, turn.request.anchor, "display_anchor", turn.request.text
-                )
-            if isinstance(turn.request.anchor, ClarificationAnchor):
-                return self._choose(turn, session, turn.request.anchor)
-            if turn.request.kind == "ask" and is_version_comparison(turn.request.text):
-                return compare_versions(self, owner, turn, session)
-            ordinal = _ORDINAL.search(turn.request.text)
-            located = _location(turn.request.text, None) is not None or _FILE_MENTION.search(
-                turn.request.text
-            )
-            image_reference = ordinal or _IMAGE_REFERENCE.search(turn.request.text)
-            if (
-                turn.request.kind == "ask"
-                and image_reference
-                and (not located or _PREVIOUS_TURN.search(turn.request.text))
-            ):
-                return self._resolve_reference(owner, turn, session, ordinal)
-            if (
-                turn.request.kind == "ask"
-                and _TABLE_REFERENCE.search(turn.request.text)
-                and (not located or _PREVIOUS_TURN.search(turn.request.text))
-            ):
-                resolved = self._resolve_table_reference(owner, turn, session)
-                if resolved is not None:
-                    return resolved
-            return self._retrieve(turn, session, turn.request.text, owner=owner)
+            # Stage 1: Read-only Scope, Focus & History resolution.
+            ctx = resolve_turn_context(self, owner, turn, session)
+            # Stage 2: Pure 6-level intent & object routing.
+            decision = route_turn(self, ctx)
+            # Stage 3 & 4: Explicit route execution.
+            return self._dispatch_route(ctx, decision)
         except WorkspaceError as error:
             # Authorized absence of a stored reference is a turn failure, with no source metadata.
             return self.store.finish(
@@ -728,38 +733,192 @@ class WorkspaceService:
                 self.allowed_courses,
             )
 
-    def _resolve_reference(
-        self, owner: str, turn: Turn, session: Session, match: re.Match[str] | None
+    def _dispatch_route(self, ctx: TurnContext, decision: Any) -> Turn:
+        owner, turn, session = ctx.owner, ctx.turn, ctx.session
+        text = turn.request.text
+        if isinstance(decision, FollowDisplayRoute):
+            return self._follow_display(
+                turn, session, decision.anchor, decision.method, decision.question, owner=owner
+            )
+        if isinstance(decision, ResumeClarificationRoute):
+            return resume_clarification(self, owner, turn, ctx, decision.anchor)
+        if isinstance(decision, CompareVersionsRoute):
+            return compare_versions(self, owner, turn, session)
+        if isinstance(decision, CurrentVersionCounterpartRoute):
+            return self._handle_current_counterpart(ctx, decision)
+        if isinstance(decision, HistoryDisplayReferenceRoute):
+            return self._resolve_reference(
+                owner,
+                turn,
+                session,
+                decision.ordinal_match,
+                explicit_history=decision.explicit_history,
+                ctx=ctx,
+            )
+        if isinstance(decision, CurrentImageRoute):
+            return resolve_current_image(self, turn, session)
+        if isinstance(decision, StaleFocusRoute):
+            raise WorkspaceError("stale_reference")
+        if isinstance(decision, FollowTableRoute):
+            resolved = self._resolve_table_reference(owner, turn, session)
+            if resolved is not None:
+                return resolved
+            return self._retrieve(turn, session, text, owner=owner)
+        if isinstance(decision, CompositionRoute):
+            if ctx.scope_snapshot.resolution_status != "resolved":
+                if session.document_ids:
+                    raise WorkspaceError("stale_reference")
+                draft = Draft(session.session_id)
+                draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+                return self._complete(turn, draft)
+            return self._answer_composition(turn, session, text, ctx.scope_snapshot)
+        if isinstance(decision, SupplementRoute):
+            if ctx.scope_snapshot.resolution_status != "resolved":
+                if session.document_ids:
+                    raise WorkspaceError("stale_reference")
+                draft = Draft(session.session_id)
+                draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+                return self._complete(turn, draft)
+            file_names = _explicit_filenames(text) or [
+                doc.file_name
+                for doc in ctx.documents.values()
+                if doc.file_name.casefold() in text.casefold()
+            ]
+            return self._answer_with_supplement(turn, session, text, ctx.documents, file_names)
+        if isinstance(decision, TargetObjectRoute):
+            if ctx.scope_snapshot.resolution_status != "resolved":
+                if session.document_ids:
+                    raise WorkspaceError("stale_reference")
+                draft = Draft(session.session_id)
+                draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+                return self._complete(turn, draft)
+            node = ctx.focus_state.node if ctx.focus_state.status == "valid" else None
+            whole_file = _WHOLE_FILE.search(text)
+            explicit_location = _location(text, None)
+            location = explicit_location or (None if whole_file else _location("", node))
+            target_docs = (
+                {node.document.document_id: ctx.documents[node.document.document_id]}
+                if node is not None and node.document.document_id in ctx.documents
+                else ctx.documents
+            )
+            return self._answer_object(
+                turn, session, text, decision.intent, target_docs, node, location
+            )
+        if isinstance(decision, FocusedCellOutputsRoute):
+            node = ctx.focus_state.node
+            refs = [_doc_ref(doc) for doc in ctx.documents.values()]
+            if node is not None:
+                clarified = self._clarify_focused_cell_outputs(
+                    turn, session, node, refs, candidates=decision.candidates
+                )
+                if clarified is not None:
+                    return clarified
+        return self._retrieve(turn, session, text, owner=owner)
+
+    def _handle_current_counterpart(
+        self, ctx: TurnContext, decision: CurrentVersionCounterpartRoute
     ) -> Turn:
-        explicit_history = bool(_HISTORY_IMAGE.search(turn.request.text))
+        turn, session, text = ctx.turn, ctx.session, ctx.turn.request.text
+        v2_doc = decision.document
+        if decision.status == "resolved" and decision.targets and v2_doc is not None:
+            key = _key(decision.targets[0])
+            v2_node = next(
+                (
+                    entry
+                    for entry in ctx.catalog.nodes.values()
+                    if entry.source is not None and _key(entry.source) == key
+                ),
+                None,
+            )
+            if v2_node is not None:
+                if v2_node.source is not None and not _can_display(v2_node.source):
+                    return self._retrieve(turn, session, text, forced=v2_node, owner=ctx.owner)
+                return answer_current_image(
+                    self, turn, session, v2_node, text, "current_version_counterpart"
+                )
+        if decision.status == "deleted" and v2_doc is not None:
+            return build_clarification(
+                self,
+                turn,
+                "新版已删除或移除了上一轮读取的对应对象，请从目录重新选择当前版本。",
+                [],
+                refs=[_doc_ref(v2_doc)],
+            )
+        options: list[dict[str, Any]] = []
+        refs = [_doc_ref(v2_doc)] if v2_doc is not None else []
+        if decision.targets and v2_doc is not None:
+            options = build_object_clarification_options(
+                decision.targets,
+                {v2_doc.document_id: v2_doc},
+                ctx.catalog,
+                is_displayable_fn=_can_display,
+                base_label_fn=_label,
+                doc_ref_fn=_doc_ref,
+            )
+        return build_clarification(
+            self,
+            turn,
+            "新版与旧版对象无法唯一对应（可能已重排或存在多个候选），请选择当前版本中的对象。",
+            options,
+            refs=refs,
+        )
+
+    def _resolve_reference(
+        self,
+        owner: str,
+        turn: Turn,
+        session: Session,
+        match: re.Match[str] | None,
+        *,
+        explicit_history: bool | None = None,
+        ctx: TurnContext | None = None,
+    ) -> Turn:
+        if explicit_history is None:
+            explicit_history = bool(_HISTORY_IMAGE.search(turn.request.text))
         if not explicit_history and _CURRENT_IMAGE.search(turn.request.text):
             return resolve_current_image(self, turn, session)
-        _, turns, messages = self.store.timeline(owner, session.session_id)
-        completed = {item.turn_id for item in turns if item.status == "completed"}
-        boundary = next(
-            message["ordinal"]
-            for message in messages
-            if message["turn_id"] == turn.turn_id and message["role"] == "user"
-        )
-        previous = next(
-            (
-                item
-                for item in reversed(messages)
-                if item["role"] == "assistant"
-                and item["turn_id"] in completed
-                and item["ordinal"] < boundary
-                and item["visible_display_ids"]
-            ),
-            None,
-        )
+        if ctx is not None:
+            single_read_anchor = ctx.history.latest_single_vision_read
+            previous = ctx.history.latest_visible_message
+        else:
+            _, turns, messages = self.store.timeline(owner, session.session_id)
+            completed = {item.turn_id for item in turns if item.status == "completed"}
+            boundary = next(
+                message["ordinal"]
+                for message in messages
+                if message["turn_id"] == turn.turn_id and message["role"] == "user"
+            )
+            single_read_anchor = None
+            previous = next(
+                (
+                    item
+                    for item in reversed(messages)
+                    if item["role"] == "assistant"
+                    and item["turn_id"] in completed
+                    and item["ordinal"] < boundary
+                    and item["visible_display_ids"]
+                ),
+                None,
+            )
+        if match is None and single_read_anchor is not None:
+            return self._follow_display(
+                turn,
+                session,
+                single_read_anchor,
+                "visible_read_history",
+                turn.request.text,
+                owner=owner,
+            )
         if previous is None:
             if not explicit_history:
                 return resolve_current_image(self, turn, session)
-            return self._clarify(turn, "找不到带图片的已完成回答，请从原件卡片选择。", [], [])
+            return build_clarification(
+                self, turn, "找不到带图片的已完成回答，请从原件卡片选择。", []
+            )
         ids = previous["visible_display_ids"]
         index = _number(match.group(1)) if match else (1 if len(ids) == 1 else 0)
         if not explicit_history and session.focus_id:
-            catalog = self._catalog(session.session_id)
+            catalog = ctx.catalog if ctx is not None else self._catalog(session.session_id)
             focus = catalog.nodes.get(session.focus_id)
             relevant = {ids[index - 1]} if 1 <= index <= len(ids) else set(ids)
             displays = [
@@ -774,8 +933,11 @@ class WorkspaceService:
                     and not _focus_ordinal_matches(catalog, focus, index, displays[0])
                 )
             ):
-                return self._clarify(
-                    turn, "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。", [], []
+                return build_clarification(
+                    self,
+                    turn,
+                    "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。",
+                    [],
                 )
         if 1 <= index <= len(ids):
             anchor = DisplayAnchor(
@@ -789,6 +951,7 @@ class WorkspaceService:
                 anchor,
                 "visible_ordinal" if match else "visible_single",
                 turn.request.text,
+                owner=owner,
             )
         options, refs = [], []
         for order, display_id in enumerate(ids[:6], 1):
@@ -796,60 +959,63 @@ class WorkspaceService:
                 item = self._attachment(session.session_id, previous["message_id"], display_id)
             except WorkspaceError:
                 continue
-            options.append(
-                {
-                    "option_id": uuid4().hex,
-                    "label": f"第 {order} 张图 · {item.description['caption']}",
-                    "kind": "display",
-                    "message_id": previous["message_id"],
-                    "display_id": display_id,
-                }
+            record = ClarificationOptionRecord(
+                option_id=uuid4().hex,
+                label=f"第 {order} 张图 · {item.description['caption']}",
+                kind="display",
+                resume_action="follow_display",
+                message_id=previous["message_id"],
+                display_id=display_id,
             )
+            options.append(record.model_dump(mode="json"))
             refs.append(_attachment_ref(item))
-        return self._clarify(turn, "请选择你指的图片。", options, refs, historical=True)
+        return build_clarification(
+            self, turn, "请选择你指的图片。", options, historical_refs=refs
+        )
 
-    def _choose(self, turn: Turn, session: Session, anchor: ClarificationAnchor) -> Turn:
-        previous = self.store.clarification(session.session_id, anchor.turn_id)
-        if (
-            previous is None
-            or previous.request.scope_revision != session.scope_revision
-            or not self._turn_access(previous)
-        ):
-            raise inaccessible()
-        option = next(
-            (
-                item
-                for item in previous.outcome.get("options", [])
-                if item["option_id"] == anchor.option_id
-            ),
-            None,
-        )
-        if option is None:
-            raise inaccessible()
-        if option["kind"] == "display":
-            selected = DisplayAnchor(
-                type="display", message_id=option["message_id"], display_id=option["display_id"]
-            )
-            return self._follow_display(
-                turn,
-                session,
-                selected,
-                "clarification_choice",
-                previous.request.text,
-            )
-        node = self._node(session, option["node_id"])
-        if not _in_scope(session, node.document):
-            raise inaccessible()
-        if option.get("current_object"):
-            return answer_current_image(
-                self, turn, session, node, previous.request.text, "current_choice"
-            )
-        return self._retrieve(
-            turn, session, previous.request.text, forced=node, kind=previous.request.kind
-        )
+    def _historical_verified_visual_read(
+        self,
+        owner: str | None,
+        session: Session,
+        key: SourceKey,
+        publication_epoch: int,
+        content_sha256: str,
+    ) -> TurnRead | None:
+        if not owner:
+            return None
+        _, turns, messages = self.store.timeline(owner, session.session_id)
+        completed = {item.turn_id for item in turns if item.status == "completed"}
+        target_source = key.model_dump()
+        for item in reversed(messages):
+            if item["role"] != "assistant" or item["turn_id"] not in completed:
+                continue
+            for ev in (item.get("sources") or {}).values():
+                rev = ev.get("revision") or {}
+                if (
+                    rev.get("source") != target_source
+                    or rev.get("publication_epoch") != publication_epoch
+                    or rev.get("content_sha256") != content_sha256
+                ):
+                    continue
+                for read in ev.get("reads", []):
+                    if (
+                        read.get("method") == "vision"
+                        and read.get("status") in {"succeeded", "partial"}
+                        and read.get("origin_execution") == "real_provider"
+                        and read.get("text")
+                    ):
+                        return TurnRead.model_validate(read)
+        return None
 
     def _follow_display(
-        self, turn: Turn, session: Session, anchor: DisplayAnchor, how: str, question: str
+        self,
+        turn: Turn,
+        session: Session,
+        anchor: DisplayAnchor,
+        how: str,
+        question: str,
+        *,
+        owner: str | None = None,
     ) -> Turn:
         item = self._attachment(session.session_id, anchor.message_id, anchor.display_id)
         desc = item.description
@@ -875,6 +1041,30 @@ class WorkspaceService:
                 "historical_only",
                 "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
             )
+            if not _BARE_REFERENCE.fullmatch(question.strip()) and (
+                "回看" in question or "内容" in question or _OBJECT_FACT.search(question)
+            ):
+                prior_read = self._historical_verified_visual_read(
+                    owner, session, key, ref["publication_epoch"], ref["content_sha256"]
+                )
+                if prior_read is not None and stored.source is not None:
+                    doc = SnapshotDocument(
+                        course_id=ref["course_id"],
+                        document_id=key.document_id,
+                        version=key.version,
+                        publication_epoch=ref["publication_epoch"],
+                        content_sha256=ref["content_sha256"],
+                        source_path="",
+                        file_name=desc["file_name"],
+                        title=desc["file_name"],
+                        document_format=desc.get("document_format", "ipynb"),
+                    )
+                    ev = draft.add_evidence(
+                        doc, _as_snapshot(stored.source, ref["course_id"], key), [prior_read]
+                    )
+                    draft.text(
+                        f"旧版 v{key.version} 已读取内容：\n{prior_read.text}", ev.evidence_id
+                    )
             return self._complete(turn, draft, historical=[ref], resolution=message)
         if not self.store.active(turn):
             raise WorkspaceError("interrupted")
@@ -1096,7 +1286,13 @@ class WorkspaceService:
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
         if mode == "ask" and (target := object_intent(text)):
-            return self._answer_object(turn, session, text, target, documents, node, location)
+            if target.kind in {"caption", "formula"} and not any(
+                src.kind == "page_object" and src.locator.get("object_type") == target.kind
+                for src in snapshot.sources
+            ):
+                target = None
+            if target is not None:
+                return self._answer_object(turn, session, text, target, documents, node, location)
         previous = None
         resolved_topic = None
         if followup:
@@ -1132,7 +1328,27 @@ class WorkspaceService:
                     "prior_evidence_unavailable", "本范围没有可核对的上一轮回答。请重述问题。"
                 )
                 return self._complete(turn, draft, refs=refs)
-        if mode == "summary":
+        if (
+            forced is not None
+            and forced.source is not None
+            and forced.source.kind == "notebook_output"
+            and mode == "ask"
+            and (
+                chosen_source := sources.get(
+                    (forced.document.document_id, forced.source.source_id)
+                )
+            )
+            is not None
+        ):
+            ranked = [chosen_source]
+            visual_ranked = []
+            trace = {
+                "route": "clarification_choice",
+                "effective_scope": _effective(documents),
+                "selected_source": _key(chosen_source).model_dump(),
+                "external_call_count": 0,
+            }
+        elif mode == "summary":
             ranked = sorted(
                 (source for source in snapshot.sources if source.text.strip()),
                 key=lambda source: source.kind not in _BASE_KINDS,
@@ -1479,7 +1695,7 @@ class WorkspaceService:
                 and read.status in {"succeeded", "partial"}
                 and read.actual_source == identity
                 and read.method in {"native_text", "native_table", "ocr"}
-                and self._matches_text(item, read, raw.source.text)
+                and self._matches_text(item, read, readable_source_text(raw.source))
             ]
             if reads:
                 sources[key] = item.model_copy(update={"reads": reads})
@@ -1922,7 +2138,7 @@ class WorkspaceService:
                 ):
                     region_rects[key] = region.target_rect
         choices = object_choices(target, sources, focus=focus, region_rects=region_rects)
-        if target.kind == "table" and len(choices) > 1:
+        if target.kind in {"table", "caption", "formula"} and len(choices) > 1:
             choices = _disambiguate_table_choices(text, choices, narrowed.sources)
         trace: dict[str, Any] = {
             "route": "target_object",
@@ -1934,14 +2150,35 @@ class WorkspaceService:
             if choices and target.kind == "table":
                 note = _format_table_ambiguity(choices, docs)
             elif choices:
-                note = "有多个可能的对象，请指定原件位置或图序。"
+                note = "有多个可能的对象，请指定原件位置或从下方候选中选择。"
             else:
                 note = "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+            if len(choices) > 1 and not _VERSION_PLURAL_OBJECT.search(text):
+                catalog = self._catalog(session.session_id)
+                options = build_object_clarification_options(
+                    choices,
+                    docs,
+                    catalog,
+                    is_displayable_fn=_can_display,
+                    base_label_fn=_label,
+                    doc_ref_fn=_doc_ref,
+                )
+                if len(options) >= 2:
+                    trace["clarification_reason"] = "object_ambiguous"
+                    return build_clarification(
+                        self,
+                        turn,
+                        note,
+                        options,
+                        refs=refs,
+                        notice_code="object_ambiguous",
+                        trace=trace,
+                    )
             draft.notice("object_ambiguous" if choices else "object_not_found", note)
             return self._complete(turn, draft, refs=refs, trace=trace)
         source = choices[0]
         trace["selected_source"] = _key(source).model_dump()
-        if target.kind == "table":
+        if target.kind in {"table", "caption", "formula"}:
             self._render_table_crop(turn, draft, docs, source)
         else:
             error = self._read_selected_image(
@@ -1950,6 +2187,83 @@ class WorkspaceService:
             if error:
                 return self._finish_invalid_read(turn, error, trace)
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _answer_selected_text_object(
+        self, turn: Turn, session: Session, node: CatalogNode, question: str
+    ) -> Turn:
+        if node.source is None or not _in_scope(session, node.document):
+            raise inaccessible()
+        docs = {node.document.document_id: node.document}
+        refs = [_doc_ref(node.document)]
+        trace: dict[str, Any] = {
+            "route": "target_object",
+            "effective_scope": _effective(docs),
+            "selected_source": node.key().model_dump(),
+            "external_call_count": 0,
+        }
+        draft = Draft(session.session_id)
+        self._render_table_crop(turn, draft, docs, node.source)
+        return self._complete(
+            turn,
+            draft,
+            refs=refs,
+            resolution={
+                "method": "current_choice",
+                "resolution": "current_choice",
+                "actual_source": node.key().model_dump(),
+            },
+            trace=trace,
+        )
+
+    def _clarify_focused_cell_outputs(
+        self,
+        turn: Turn,
+        session: Session,
+        cell_node: CatalogNode,
+        refs: list[dict[str, Any]],
+        *,
+        candidates: Sequence[SnapshotSource],
+    ) -> Turn | None:
+        if cell_node.source is None or cell_node.source.kind != "cell":
+            return None
+        outputs = [
+            source
+            for source in candidates
+            if source.document_id == cell_node.document.document_id
+            and source.parent_id == cell_node.source.source_id
+            and source.kind == "notebook_output"
+        ]
+        if len(outputs) < 2:
+            return None
+        ordered = sorted(
+            outputs, key=lambda s: (s.locator.get("output_index", s.ordinal), s.ordinal)
+        )
+        docs = {cell_node.document.document_id: cell_node.document}
+        catalog = self._catalog(session.session_id)
+        options = build_object_clarification_options(
+            ordered,
+            docs,
+            catalog,
+            is_displayable_fn=_can_display,
+            base_label_fn=_label,
+            doc_ref_fn=_doc_ref,
+        )
+        if len(options) < 2:
+            return None
+        return build_clarification(
+            self,
+            turn,
+            "当前聚焦 Cell 包含多个保存输出，请选择你要读取的具体输出。",
+            options,
+            refs=refs,
+            trace={
+                "route": "target_object",
+                "clarification_reason": "object_ambiguous",
+                "effective_scope": _effective(docs),
+                "object_candidates": [_key(src).model_dump() for src in ordered],
+                "external_call_count": 0,
+            },
+        )
 
     def _render_table_crop(
         self,
@@ -2290,7 +2604,7 @@ class WorkspaceService:
         consumed = 0
         failures: dict[tuple[str, str], str] = {}
         for source in ranked:
-            if not source.text.strip():
+            if not readable_source_text(source).strip():
                 continue
             if consumed == limit:
                 break
@@ -2304,13 +2618,14 @@ class WorkspaceService:
                 or raw.publication_epoch != doc.publication_epoch
             ):
                 raise WorkspaceError("stale_reference")
-            if raw.status != "available" or raw.source is None or not raw.source.text.strip():
+            raw_text = readable_source_text(raw.source).strip() if raw.source is not None else ""
+            if raw.status != "available" or raw.source is None or not raw_text:
                 failures[(source.document_id, source.source_id)] = (
                     raw.status if raw.status != "available" else "native_text_unavailable"
                 )
                 continue
             consumed += 1
-            text = raw.source.text.strip()
+            text = raw_text
             clipped = len(text) > _TEXT_LIMIT
             readable = text[:_TEXT_LIMIT] + ("…" if clipped else "")
             read = TurnRead(
@@ -2419,16 +2734,12 @@ class WorkspaceService:
         *,
         historical: bool = False,
     ) -> Turn:
-        draft = Draft(turn.session_id)
-        draft.notice("clarification", text)
-        return self.store.finish(
+        return build_clarification(
+            self,
             turn,
-            "clarification",
-            {"dependencies": refs, "options": options},
-            draft.answer(),
-            (),
-            () if historical else refs,
-            self.allowed_courses,
+            text,
+            options,
+            refs=() if historical else refs,
             historical_refs=refs if historical else (),
         )
 
@@ -2492,10 +2803,7 @@ class WorkspaceService:
     @staticmethod
     def _turn_entry(turn: Turn, access: bool) -> dict[str, Any]:
         outcome = turn.outcome if access else {"error": "not_accessible"}
-        options = [
-            {key: item[key] for key in ("option_id", "label", "kind")}
-            for item in outcome.get("options", [])
-        ]
+        options = project_public_options(outcome.get("options", []))
         return {
             "turn_id": turn.turn_id,
             "client_turn_id": turn.request.client_turn_id,
@@ -2610,7 +2918,7 @@ def _tree(
             "next_id": None,
             "children": [],
             "locator": _positions(source.locator) if source else {},
-            "text": source.text.strip()[:800] if source else "",
+            "text": readable_source_text(source).strip()[:800] if source else "",
             "has_media": _can_display(source) if source else False,
         }
         nodes[node_id] = CatalogNode(doc, value, source)
@@ -2803,6 +3111,8 @@ def _label(source: SnapshotSource) -> str:
                 "chart": "图表",
                 "picture": "图片",
                 "image": "图片",
+                "caption": "图注",
+                "formula": "公式",
                 "text": "文本框",
             }.get(object_type, "页内对象")
             return f"{kind} · {label}" if label else kind
@@ -2998,8 +3308,13 @@ def _disambiguate_table_choices(
     choices: list[SnapshotSource],
     all_sources: Sequence[SnapshotSource],
 ) -> list[SnapshotSource]:
-    cleaned = _TABLE_STOPWORDS.sub(" ", question)
-    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9][A-Za-z0-9._-]{1,}", cleaned)]
+    cleaned = re.sub(
+        r"\b(?:the|for|and|what|where|which|who|how|is|are|in|on|of|to|its|with|about|page|pdf|formula|equation|caption|figure|fig)\b",
+        " ",
+        _TABLE_STOPWORDS.sub(" ", question),
+        flags=re.IGNORECASE,
+    )
+    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9_][A-Za-z0-9._-]{1,}", cleaned)]
     cjk_terms = [tok for tok in re.findall(r"[\u3400-\u9fff]{2,}", cleaned)]
     terms = [*latin_terms, *cjk_terms]
     if not terms:
@@ -3009,9 +3324,21 @@ def _disambiguate_table_choices(
         for src in all_sources
         if src.kind in _BASE_KINDS
     }
+    direct_scored = [
+        (
+            sum(1 for term in terms if term in readable_source_text(choice).casefold()),
+            choice,
+        )
+        for choice in choices
+    ]
+    direct_best = max(score for score, _ in direct_scored)
+    if direct_best > 0:
+        winners = [choice for score, choice in direct_scored if score == direct_best]
+        if len(winners) == 1:
+            return winners
     scored: list[tuple[int, SnapshotSource]] = []
     for choice in choices:
-        haystack = choice.text.casefold()
+        haystack = readable_source_text(choice).casefold()
         if choice.parent_id:
             haystack += "\n" + parent_text.get(
                 (choice.document_id, choice.version, choice.parent_id), ""
