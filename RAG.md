@@ -2,6 +2,21 @@
 
 运行方式见 [README](./README.md)，评估见 [evals/README](./evals/README.md)，开发任务见 [CHECKLIST](./CHECKLIST.md)。
 
+## G29–G30 · 公共编排收口、契约统一与双轨 M2 门禁 · 2026-11-23
+
+在 `d4c8597` 联合独审（`1515363`）与正式 A03 复测（`a82c23e`，整题 4/10）以及 `codex/g-pdf-object-recovery`（`731422b`）、`codex/g-version-output-recovery`（`328ae63`）送审后，确认如下架构调整并保留所有历史成绩与 A03 原锁口径：
+
+1. **保留不动的核心底座**：A/B 本地版本化原子发布与 FTS5 快搜、`(document_id, version, source_id)` 身份契约、D 层“展示 vs 实读”双账本与字节校验、G21 阅读与生成统一预算模型，以及“引用必属本轮授权实读”的 0 严重错误底线。
+2. **停止在巨型路由上继续叠正则补丁**：`app/rag/workspace.py`（3,039 行）及关联路由模块已积累 133 个模块级正则，并行分支已在 `_retrieve()` 的 `object_intent` 分发口产生直接冲突，并暴露三类公共契约裂缝：① 文本正则 `_IMAGE_REFERENCE` 早于 `session.focus_id` 抢跑导致页内双图 `Q04` 落入无候选泛化澄清；② PDF 图注/公式文本写入 `locator["object_text"]` 而 `historical_evidence()` 仍校验空 `source.text` 导致 `GET /evidence/{eid}` 409；③ 澄清选项缺少父动作恢复字段导致重排后双版比较（`b2`）选后只读 v2 单边返回 `partial`，且 `answer_current_image` / `compare_versions` 的 `/evidence/{eid}/preview` 返回 404。
+3. **G29 公共编排与契约收口（先拆清边界，再合并两支）**：
+   - 将回合分发拆为显式四阶段管道：`Scope & Focus 状态解析` → `统一意图判定` → `可恢复澄清契约（携带 parent_action / paired_historical_ref）` → `统一证据与预览契约`。
+   - 统一对象文本读取与历史证据核验口径（不污染 FTS 排序，且 `GET /evidence/{eid}` 返回 200）；统一图像引用的 `/media/{display_id}` 与 `/evidence/{eid}/preview` 契约；`focus_id` 参与当前页/Cell 消歧，消除死路泛化澄清。
+   - 在新边界上整合 `g-pdf-object-recovery` 与 `g-version-output-recovery` 的有效解析与跨版能力。
+   - 明确 `workspace_answer_enabled=False` 降级边界：保证精确对象定位、视觉实读、跨版配对与多输出澄清，但**不再为无文字生成模式维护平行于 LLM 的确定性跨文件句子拼装正则**。
+4. **双轨 M2 门禁（G30）与中期路线重排**：
+   - 保留原 A03 锁口径与全部历史封存成绩作为**无文字生成内核的固定回归标尺**；M2 日常版裁决采用**双轨并列**：轨 1 为 A03 原锁底座核验（对象寻址、视觉实读、跨版对话、多输出消歧与 0 严重错误）；轨 2 为真实产品配置（开启文字生成 + 定向视觉）在**未见真实复杂排版 PDF、PPTX、Notebook** 上的真实浏览器端到端盲验。
+   - M2 通过后，中期优先推进 **J（真实多文件课程精准检索对照与定型，覆盖长文、纯图 PPTX、跨文件多跳与 FTS/双语/Jev/可选向量/有界工具循环同预算对比）**，检索定型后再推进 **H（单课程可溯源知识图谱）**；R 可并行推进，桌面端仍留在 K 之后的需求池。
+
 ## G26–G27 · 论文表格的查找、读取和追问
 
 学生问“几种配置各用多少张 GPU”时，普通问答可从当前资料范围检索已登记的表，与页内文字一同参与生成。明确要求打开指定表时，按位置、序号或描述定位原表。表格追问只从当前范围内、对话中已向用户展示或引用的表解析指代。后台为生成而读过的其他候选表不能单独成为“刚才那张表”的指代依据。
