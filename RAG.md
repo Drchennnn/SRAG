@@ -16,6 +16,7 @@
 4. **双轨 M2 门禁（G30）与中期路线重排**：
    - 保留原 A03 锁口径与全部历史封存成绩作为**无文字生成内核的固定回归标尺**；M2 日常版裁决采用**双轨并列**：轨 1 为 A03 原锁底座核验（对象寻址、视觉实读、跨版对话、多输出消歧与 0 严重错误）；轨 2 为真实产品配置（开启文字生成 + 定向视觉）在**未见真实复杂排版 PDF、PPTX、Notebook** 上的真实浏览器端到端盲验。
    - M2 通过后，中期优先推进 **J（真实多文件课程精准检索对照与定型，覆盖长文、纯图 PPTX、跨文件多跳与 FTS/双语/Jev/可选向量/有界工具循环同预算对比）**，检索定型后再推进 **H（单课程可溯源知识图谱）**；R 可并行推进，桌面端仍留在 K 之后的需求池。
+5. **G29 已完成实施与独立盲验签认（2026-11-23）**：实现分支 `feat/g29-orchestration-and-integration`（`33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0`）已落地四阶段模块（`workspace_context.py`、`workspace_router.py`、`workspace_clarification.py`、`workspace_evidence.py`）与三分支预览对称化（`table_crop` 保留 Branch C 整页高亮坐标系），未改 HTTP API、请求 Schema、前端 JS 与 SQLite Schema；经 `review/g29-gate`（`b80e6553f2c89ff00f87513647f66a387246f898`）两轮独立盲验签认通过（`LibreOffice 26.8.3.1` 全量 `656 passed, 0 failed, 0 skipped`、Ruff 0 错误、未见两篇真实论文 68 对象审计达 `94.1% Recall / 92.8% Precision`，四处契约裂缝与多轮旧版隔离/全局表号均闭环，0 严重错误），现待放行 G30 双轨 M2 裁决。
 
 ## G26–G27 · 论文表格的查找、读取和追问
 
