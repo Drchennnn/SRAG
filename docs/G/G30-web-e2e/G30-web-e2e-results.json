@@ -1,0 +1,604 @@
+{
+  "gate": "G30-track2-web-e2e",
+  "subject_sha": "33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0",
+  "subject_dir": "/tmp/srag-g30-web-subject-6y_qft5e",
+  "base_url": "http://127.0.0.1:63787",
+  "effective_config": {
+    "WORKSPACE_COURSE_IDS": "g30-course",
+    "WORKSPACE_ANSWER_ENABLED": true,
+    "WORKSPACE_RETRIEVAL_STRATEGY": "fts",
+    "SOURCE_VISION_ENABLED": true,
+    "QDRANT_URL": "http://127.0.0.1:1",
+    "SRAG_SOFFICE": "/opt/homebrew/bin/soffice"
+  },
+  "steps": {
+    "step1_web_import_3formats": {
+      "passed": true,
+      "import_results": [
+        "Speculative-Decoding-2211.17192v2.pdf · 导入完成 · v1",
+        "Week06-Thermal-Cache-Lab.pptx · 导入完成 · v1",
+        "Lab06-Thermal-Sweep.ipynb · 导入完成 · v1"
+      ],
+      "catalog_docs": {
+        "Week06-Thermal-Cache-Lab.pptx": "v1",
+        "Lab06-Thermal-Sweep.ipynb": "v1",
+        "Speculative-Decoding-2211.17192v2.pdf": "v1"
+      }
+    },
+    "step2_pdf_zh_synthesis": {
+      "passed": true,
+      "elapsed_s": 5.51,
+      "answer_preview": "核心机制：设目标模型为 Mp、更高效的近似模型为 Mq。先用 Mq 生成 γ 个候选补全（γ 为正整数），再用 Mp 并行评估这些猜测及其概率，接受所有能保持与目标模型相同分布的猜测；对第一个被拒绝的位置，从调整后的分布中采样一个 token 进行修正；若全部被接受，则额外采样一个 token。因此每次 Mp 的并行运行至少产生 1 个新 token，最多可产生 γ+1 个 token，串行运行次数在最坏情况下也不会多于普通自回归方法。\n该方法通过一种新的采样方法（speculative sampling）保证输出分布与单独使用目标模型时相同，即不改变输出分布；且无需重新训练、无需改变模型架构。\n加速的关键条件一：Mq 对 Mp 的近似程度要高，即接受率 α 要高。论文指出，比目标模型小几个",
+      "citations": [
+        {
+          "evidence_id": "ev-2",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 2 页"
+        },
+        {
+          "evidence_id": "ev-1",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 1 页"
+        },
+        {
+          "evidence_id": "ev-2",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 2 页"
+        },
+        {
+          "evidence_id": "ev-4",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 7 页"
+        },
+        {
+          "evidence_id": "ev-1",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 1 页"
+        },
+        {
+          "evidence_id": "ev-5",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 8 页"
+        },
+        {
+          "evidence_id": "ev-1",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 1 页"
+        },
+        {
+          "evidence_id": "ev-3",
+          "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 6 页"
+        }
+      ],
+      "reader": {
+        "body_text": "放大正在加载原件…Fast Inference from Transformers via Speculative Decoding\nFigure 1. Our technique illustrated in the case of unconditional language modeling. Each line represents one iteration of the algorithm.\nThe green tokens are the suggestions made by the approximation model (here, a GPT-like Transform",
+        "excerpt_len": 4085,
+        "has_highlight": false,
+        "highlight_style": null,
+        "img_loaded": true,
+        "img_present": true,
+        "img_size": [
+          1224,
+          1584
+        ],
+        "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-2/preview",
+        "location": "当前版本",
+        "open": true,
+        "status": "文字已交给回答模型 · 图像未读取",
+        "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 2 页"
+      },
+      "evidence_http": [
+        {
+          "bytes": 4398,
+          "content_type": "application/json",
+          "sha256": "3450bdd82839cc1bfe95a4cfa39c40bea5ef9544020e5eba8acf27dcbfc4e6f5",
+          "status": 200,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-2"
+        },
+        {
+          "bytes": 4948,
+          "content_type": "application/json",
+          "sha256": "34099b5ec080dd2d590aab11a597097164ce156f0ff624e5426cdb264ae1a3d1",
+          "status": 200,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-1"
+        },
+        {
+          "bytes": 5321,
+          "content_type": "application/json",
+          "sha256": "75d969292c5c68f1be0f750740528bdba7c63e6632a7e5c04266bcd7b942263d",
+          "status": 200,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-4"
+        },
+        {
+          "bytes": 5740,
+          "content_type": "application/json",
+          "sha256": "1954e5945734b0307cc4a868102d1d2a66d1ec96cfca1d4a0690afe861d7858d",
+          "status": 200,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-5"
+        },
+        {
+          "bytes": 4040,
+          "content_type": "application/json",
+          "sha256": "bed0529298eacaf9234d350575a4c451b5c29d21c432ee9fb437612cff3b1538",
+          "status": 200,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-3"
+        }
+      ]
+    },
+    "step3_pdf_complex_objects": {
+      "passed": true,
+      "table_3a": {
+        "passed": true,
+        "elapsed_s": 0.453,
+        "answer_preview": "Speculative-Decoding-2211.17192v2.pdf · v1 · 表格 · α | γ | OPERATIONS | SPEED\n| α | γ | OPERATIONS | SPEED |\n| --- | --- | --- | --- |\n| 0.6 | 2 | 1.53X | 1.96X |\n| 0.7 | 3 | 1.58X | 2.53X |\n| 0.8 | 2 | 1.23X | 2.44X |\n| 0.8 | 5 | 1.63X | 3.69X |\n| 0.9 | 2 | 1.11X | 2.71X |\n| 0.9 | 10 | 1.60X | 6.86X",
+        "reader_cite": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            343,
+            224
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/cb1c447afef74bb0bb6b58180d7f3470/media/90f90a083ac24487b71ffd1b7fdcfa74?view=inline",
+          "location": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页",
+          "open": true,
+          "status": "图像未读取",
+          "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 表格 · α | γ | OPERATIONS | SPEED"
+        },
+        "reader_full_page": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": true,
+          "highlight_style": {
+            "height": "14.1062%",
+            "left": "14.0229%",
+            "top": "56.5367%",
+            "width": "27.941%"
+          },
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            1224,
+            1584
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/cb1c447afef74bb0bb6b58180d7f3470/media/90f90a083ac24487b71ffd1b7fdcfa74?view=page",
+          "location": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页",
+          "open": true,
+          "status": "图像未读取",
+          "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 表格 · α | γ | OPERATIONS | SPEED"
+        },
+        "http_checks": [
+          {
+            "bytes": 14771,
+            "content_type": "image/png",
+            "sha256": "3c592b7981c730e2f163170ba746ff079f2162d51395d0c8ea330799f3856a87",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/cb1c447afef74bb0bb6b58180d7f3470/media/90f90a083ac24487b71ffd1b7fdcfa74?view=inline"
+          },
+          {
+            "bytes": 507,
+            "content_type": "application/json",
+            "sha256": "a4f6917a92b682c4da13246aedd806265dcfd047871cb4f27a35a56b184aa467",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/cb1c447afef74bb0bb6b58180d7f3470/evidence/ev-1"
+          },
+          {
+            "bytes": 471317,
+            "content_type": "image/png",
+            "sha256": "b701d4f296474e78656e6caa7aac8dbd566ed2294f443169eb7f780fc4e25889",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/cb1c447afef74bb0bb6b58180d7f3470/evidence/ev-1/preview"
+          }
+        ]
+      },
+      "q04_clarify_3b": {
+        "passed": true,
+        "clarify_elapsed_s": 0.466,
+        "resume_elapsed_s": 2.989,
+        "clarification_buttons": [
+          "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 左图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+          "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 右图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90"
+        ],
+        "chosen": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 左图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+        "answer_preview": "图中四条曲线均呈阶梯状上升趋势，即随着横轴α增大，纵轴Optimal v逐步增加；且对于相同的α值，c越小（如c=0.01），对应的Optimal v越高；c越大（如c=0.1），对应的Optimal v越低。",
+        "imgs": [
+          {
+            "complete": true,
+            "nh": 415,
+            "nw": 518,
+            "src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/761f75ff2fa4443882a0f8c7119d23e6/media/d7f9a28adb014a0baf71407ff351c195?view=inline"
+          }
+        ],
+        "reader": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            518,
+            415
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/761f75ff2fa4443882a0f8c7119d23e6/media/d7f9a28adb014a0baf71407ff351c195?view=inline",
+          "location": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页",
+          "open": true,
+          "status": "图像已读取",
+          "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 图片 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90"
+        },
+        "http_checks": [
+          {
+            "bytes": 23766,
+            "content_type": "image/png",
+            "sha256": "1fbf0f87a16a3d2d8fc29899ee24548ed7e438e8e35fa620fda6166b40058ea7",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/761f75ff2fa4443882a0f8c7119d23e6/media/d7f9a28adb014a0baf71407ff351c195?view=inline"
+          },
+          {
+            "bytes": 23766,
+            "content_type": "image/png",
+            "sha256": "1fbf0f87a16a3d2d8fc29899ee24548ed7e438e8e35fa620fda6166b40058ea7",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/761f75ff2fa4443882a0f8c7119d23e6/evidence/ev-1/preview"
+          }
+        ]
+      },
+      "formula_caption_3c": {
+        "passed": true,
+        "formula_elapsed_s": 0.464,
+        "caption_elapsed_s": 0.463,
+        "formula_preview": "Speculative-Decoding-2211.17192v2.pdf · v1 · 公式 · E(# generated tokens) = 1 − α\nE(# generated tokens) = 1 − α\nγ+1\n1 − α\n(1)",
+        "caption_preview": "Speculative-Decoding-2211.17192v2.pdf · v1 · 图注 · Figure 5. A simplified trace diagram for a full encoder-decoder Transformer stack. The top row shows speculative decoding with γ = 7\nFigure 5. A simplified trace diagram for a full encoder-decoder Tra",
+        "formula_reader": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            447,
+            117
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/623d44c145454f8ca39052655cf6ad97/media/0aa1389d8092463c9bfa7979ce481bcf?view=inline",
+          "location": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 3 页",
+          "open": true,
+          "status": "图像未读取",
+          "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 公式 · E(# generated tokens) = 1 − α"
+        },
+        "caption_reader": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            1031,
+            88
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/3d84b965404448269e9612acd462d810/media/9308d10d7f914a4ebc36fb524ce9adb6?view=inline",
+          "location": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 6 页",
+          "open": true,
+          "status": "图像未读取",
+          "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 图注 · Figure 5. A simplified trace diagram for a full encoder-decoder Transformer stack. The top row shows speculative decoding with γ = 7"
+        },
+        "evidence_http": [
+          {
+            "bytes": 328,
+            "content_type": "application/json",
+            "sha256": "04d1d980e71bf9fdff479db819a7f72b01fc9d64ffa338344d9dd7cc28d82b43",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/623d44c145454f8ca39052655cf6ad97/evidence/ev-1"
+          },
+          {
+            "bytes": 408,
+            "content_type": "application/json",
+            "sha256": "eba1f5a80912cf69749bab55d699ffdf56d4f2845ecf387a64f9f4041374a0fc",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/3d84b965404448269e9612acd462d810/evidence/ev-1"
+          }
+        ]
+      }
+    },
+    "step4_pptx_libreoffice": {
+      "passed": true,
+      "slide2_table_4a": {
+        "passed": true,
+        "elapsed_s": 2.966,
+        "answer_preview": "Week06-Thermal-Cache-Lab.pptx · v1 · 表格\n| Workload | L2 Miss Rate (%) | Peak Tj (°C) | Sustained Clock (GHz) | Energy-Delay (mJ·s) |\n| --- | --- | --- | --- | --- |\n| MatrixMul-FP32 | 1.8 | 84.2 | 3.60 | 14.2 |\n| GraphBFS-CSR | 11.4 | 79.5 | 3.45 | 28.9 |\n| SparseFFT-16K | 6.2 | 91.8 | 2.95 | 21.6 |\n| VideoHEVC-4K | 3.",
+        "reader": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            1791,
+            663
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/69583a2cc0a84bbcb6c0443e10126a3d/media/686be6a5471d4bb892d816f6f2dbe7cd?view=inline",
+          "location": "Week06-Thermal-Cache-Lab.pptx · v1 · 第 2 页",
+          "open": true,
+          "status": "图像未读取",
+          "title": "Week06-Thermal-Cache-Lab.pptx · v1 · 表格"
+        },
+        "http_checks": [
+          {
+            "bytes": 572,
+            "content_type": "application/json",
+            "sha256": "7a3c7673491990b316becb8e0935f6d1e6167614904004d40a0a84c2d18ab077",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/69583a2cc0a84bbcb6c0443e10126a3d/evidence/ev-1"
+          },
+          {
+            "bytes": 131133,
+            "content_type": "image/png",
+            "sha256": "73589f2a11a8124c304c9d19434b6663f1fdb364dfb8212a2422b8859e30a944",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/69583a2cc0a84bbcb6c0443e10126a3d/evidence/ev-1/preview"
+          }
+        ]
+      },
+      "slide3_chart_4b": {
+        "passed": true,
+        "elapsed_s": 6.725,
+        "answer_preview": "横轴为Victim Cache Entries（取值0, 4, 8, 16, 32），纵轴为L2 Miss Rate (%)（范围0–16%）。两条曲线均随缓存条目数增加而下降，LRU策略（蓝色实线）在8条目后趋于平缓至约8%，FIFO策略（橙色虚线）下降较缓，在8条目后稳定于约10.8%；在8条目处出现‘knee’，LRU优于FIFO。",
+        "imgs": [
+          {
+            "complete": true,
+            "nh": 937,
+            "nw": 1734,
+            "src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/8771cfad95cb4dc194e22aa372bc0f5d/media/66324dea97474b3ab669e315b7023f6d?view=inline"
+          }
+        ],
+        "reader": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            1734,
+            937
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/8771cfad95cb4dc194e22aa372bc0f5d/media/66324dea97474b3ab669e315b7023f6d?view=inline",
+          "location": "Week06-Thermal-Cache-Lab.pptx · v1 · 第 3 页",
+          "open": true,
+          "status": "图像已读取",
+          "title": "Week06-Thermal-Cache-Lab.pptx · v1 · 图片"
+        },
+        "http_checks": [
+          {
+            "bytes": 149266,
+            "content_type": "image/png",
+            "sha256": "65113cbd98ba1bf230589d9f2494ecd03acdb5b77be637432c3abddc406bc09c",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/8771cfad95cb4dc194e22aa372bc0f5d/media/66324dea97474b3ab669e315b7023f6d?view=inline"
+          },
+          {
+            "bytes": 149266,
+            "content_type": "image/png",
+            "sha256": "65113cbd98ba1bf230589d9f2494ecd03acdb5b77be637432c3abddc406bc09c",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/8771cfad95cb4dc194e22aa372bc0f5d/evidence/ev-1/preview"
+          }
+        ]
+      }
+    },
+    "step5_notebook_version_bilateral": {
+      "passed": true,
+      "v1_multi_output_5a": {
+        "passed": true,
+        "clarify_elapsed_s": 0.47,
+        "resume_elapsed_s": 2.159,
+        "clarification_buttons": [
+          "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 1（图像）",
+          "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 2（图像）"
+        ],
+        "chosen": "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 1（图像）",
+        "answer_preview": "横轴单位：s（秒）；纵轴单位：C（摄氏度）；峰值数值：91.8 C",
+        "imgs": [
+          {
+            "complete": true,
+            "nh": 720,
+            "nw": 1200,
+            "src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/33091ace83a74e8683df69223056305e/media/3f20fc4150e441d692157a92a55bc92e?view=inline"
+          }
+        ]
+      },
+      "replace_v2_reordered_5b": {
+        "passed": true,
+        "import_results": [
+          "Lab06-Thermal-Sweep.ipynb · 导入完成 · v2"
+        ],
+        "catalog_version": "v2"
+      },
+      "old_only_control_5c": {
+        "passed": true,
+        "elapsed_s": 0.476,
+        "evidence_versions": [
+          1
+        ],
+        "answer_preview": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。\n旧版 v1 已读取内容：\n横轴单位：s（秒）；纵轴单位：C（摄氏度）；峰值数值：91.8 C",
+        "reader": {
+          "body_text": "放大正在加载原件…",
+          "excerpt_len": 0,
+          "has_highlight": false,
+          "highlight_style": null,
+          "img_loaded": true,
+          "img_present": true,
+          "img_size": [
+            1200,
+            720
+          ],
+          "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/02f952ff50d045c89ccc680311b48a39/evidence/ev-1/preview",
+          "location": "",
+          "open": true,
+          "status": "图像已读取",
+          "title": "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 1"
+        },
+        "http_checks": [
+          {
+            "bytes": 45235,
+            "content_type": "image/png",
+            "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/02f952ff50d045c89ccc680311b48a39/evidence/ev-1/preview"
+          }
+        ]
+      },
+      "bilateral_recovery_5d": {
+        "passed": true,
+        "clarify_elapsed_s": 0.457,
+        "resume_elapsed_s": 3.807,
+        "clarification_buttons": [
+          "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 2（图像）",
+          "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 3（图像）"
+        ],
+        "chosen": "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 3（图像）",
+        "card_count": 2,
+        "evidence_versions": [
+          1,
+          2
+        ],
+        "answer_preview": "旧版 v1 纵轴单位 · 横轴单位：s（秒）；纵轴单位：C（摄氏度）；峰值数值：91.8 C\n当前版 v2 · 纵轴单位\n纵轴单位：C；指标名称：Junction Temp；核心数值：Peak: 83.4 C at 7.0 min，DTM Trip High = 92 C",
+        "http_checks": [
+          {
+            "bytes": 45235,
+            "content_type": "image/png",
+            "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/6316efeb216c43a9b638c5aa78d88f0a/media/c0f3170d7daa4103bcfe36740e1343d3?view=inline"
+          },
+          {
+            "bytes": 44984,
+            "content_type": "image/png",
+            "sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/6316efeb216c43a9b638c5aa78d88f0a/media/7ad471d2a1144f8d8b36935908f73ca3?view=inline"
+          },
+          {
+            "bytes": 45235,
+            "content_type": "image/png",
+            "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/6316efeb216c43a9b638c5aa78d88f0a/evidence/ev-1/preview"
+          },
+          {
+            "bytes": 44984,
+            "content_type": "image/png",
+            "sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+            "status": 200,
+            "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/6316efeb216c43a9b638c5aa78d88f0a/evidence/ev-2/preview"
+          }
+        ]
+      }
+    },
+    "step6_reload_recovery": {
+      "passed": true,
+      "msg_count_before": 26,
+      "msg_count_after": 26,
+      "v1_reader": {
+        "body_text": "放大正在加载原件…",
+        "excerpt_len": 0,
+        "has_highlight": false,
+        "highlight_style": null,
+        "img_loaded": true,
+        "img_present": true,
+        "img_size": [
+          1200,
+          720
+        ],
+        "img_src": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/33091ace83a74e8683df69223056305e/media/3f20fc4150e441d692157a92a55bc92e?view=inline",
+        "location": "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 1",
+        "open": true,
+        "status": "图像已读取",
+        "title": "Lab06-Thermal-Sweep.ipynb · v1 · 输出 1"
+      },
+      "v1_sha256_before": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+      "v1_sha256_after": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+    },
+    "step7_honest_missing_evidence": {
+      "passed": true,
+      "elapsed_s": 4.24,
+      "answer_text": "在已读证据中，未找到任何一份资料明确记载 GPU L3 共享缓存的总容量（MB）。Week06-Thermal-Cache-Lab.pptx 第3页仅出现标题“Victim Cache Capacity Sweep (GraphBFS-CSR)”，没有给出 L3 容量数值。\nSpeculative-Decoding-2211.17192v2.pdf 中 T5-XXL（11B）在 WMT EnDe（英德）翻译任务上的结果以 α 值和加速比（SPEED）呈现，例如 T5-SMALL、TEMP=0、γ=7、α=0.75、SPEED=3.4X；未给出 WMT14 EnFr 的 BLEU 分数。\n三份资料中均未确认 GPU L3 共享缓存总容量（MB）的具体数值；也未确认 T5-11B 在 WMT14 EnFr 上的精确 BLEU 分数（证据只涉及 WMT EnDe 的 α 与加速比，且未出现 En"
+    },
+    "step8_cross_session_404": {
+      "passed": true,
+      "session_b_id": "fae078d1271b43a8b1303c883def9765",
+      "cross_checks": [
+        {
+          "bytes": 36,
+          "content_type": "application/json",
+          "sha256": null,
+          "status": 404,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/6316efeb216c43a9b638c5aa78d88f0a/media/c0f3170d7daa4103bcfe36740e1343d3?view=inline"
+        },
+        {
+          "bytes": 36,
+          "content_type": "application/json",
+          "sha256": null,
+          "status": 404,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/69583a2cc0a84bbcb6c0443e10126a3d/evidence/ev-1"
+        },
+        {
+          "bytes": 36,
+          "content_type": "application/json",
+          "sha256": null,
+          "status": 404,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/e4698b832dcb4b7ab830f69734f0fbeb/evidence/ev-2"
+        },
+        {
+          "bytes": 36,
+          "content_type": "application/json",
+          "sha256": null,
+          "status": 404,
+          "url": "/api/workspace/sessions/2f1610653bd943c4a460391d67337b6c/messages/6316efeb216c43a9b638c5aa78d88f0a/evidence/ev-1/preview"
+        }
+      ]
+    }
+  },
+  "verified_loaded_module": "VERIFIED_WORKSPACE_FILE=/private/tmp/srag-g30-web-subject-6y_qft5e/app/rag/workspace.py",
+  "session_a_id": "2f1610653bd943c4a460391d67337b6c",
+  "summary": {
+    "passed_steps": 8,
+    "total_steps": 8,
+    "pass_rate": "8/8",
+    "severe_errors": 0,
+    "real_call_ledger": {
+      "deepseek_model": "deepseek-flash",
+      "deepseek_generation_calls": 2,
+      "deepseek_rewrite_calls": 2,
+      "deepseek_total_calls": 4,
+      "deepseek_generation_tokens": 20430,
+      "deepseek_rewrite_tokens": 491,
+      "deepseek_total_tokens": 20921,
+      "vision_model": "qwen3-vl-plus",
+      "vision_real_provider_calls": 4,
+      "vision_cache_reuses": 0,
+      "vision_total_tokens": 4136,
+      "mock_protocol_calls": 0
+    },
+    "latency_seconds": {
+      "turn_count": 14,
+      "values": [
+        5.51,
+        0.453,
+        0.466,
+        2.989,
+        0.464,
+        0.463,
+        2.966,
+        6.725,
+        0.47,
+        2.159,
+        0.476,
+        0.457,
+        3.807,
+        4.24
+      ],
+      "p50": 1.317,
+      "p95": 5.935,
+      "max": 6.725
+    }
+  }
+}
