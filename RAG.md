@@ -2,6 +2,15 @@
 
 运行方式见 [README](./README.md)，评估见 [evals/README](./evals/README.md)，开发任务见 [CHECKLIST](./CHECKLIST.md)。
 
+## H01–H03 · 单课程可溯源知识图谱与双入口导航 · 2026-11-24
+
+在 `J` 定型底座（`c04149e`）之上完成单课程可溯源知识图谱设计、实现与独立整审（实现 `feat/h-course-knowledge-graph` `bb6a5ba`，独审 `review/h-gate` `0b47e0c`，Ruff 0 错、`node --check` 通过、真 `LibreOffice 26.8.3.1` 全量 `pytest` `677 passed, 0 failed, 0 skipped`；[H01 设计](./docs/H/H01-边及导航设计.md) · [H02 实现与自测](./docs/H/H02-实现与自测.md)）：
+
+1. **原文支持本体与 5 类反例拒收**：在 `app/stores/local_kg.py` 落地离线零模型确定性构边，仅接受两类带 12 字段原文证据跨度的关系——`defined_in`（在此定义）与 `demonstrated_by`（由此实验演示），强制满足 `readable_source_text(source)[start:end] == evidence_excerpt`。对仅共享术语共现、参考文献提及、未运行计划 Cell、代码注释/句中隔词否定及跨课同名等 5 类反例硬拒收（盲测 `10/10` 真边命中、`10/10` 反例 0 误接受）。
+2. **SQLite 增量存储与换版/删除双护栏**：向后兼容新增 `local_kg_concepts`（含 `active` 列）、`local_kg_edges` 与 `local_kg_doc_state` 水位线表；在立即换版、`delete_local`/`revoke_legacy_document`（显式 `BEGIN IMMEDIATE`）、`promote_due` 到期提升（四消费入口统一 `ensure_course_kg_synced()` CAS 对齐）与迟到写回拦截上保持原子一致，换版或删档后旧边立即退出新查询，历史回答原件引用仍可回看旧版。
+3. **双入口概念导航（默认内置启用）**：`app/api/workspace.py` 新增同源只读端点 `GET /api/workspace/sessions/{session_id}/kg/concepts` 与 `/kg/concepts/{concept_key}`（严格按 `session.course_ids ∩ allowed_courses` 过滤，越权/跨会话/跨课严格 HTTP 404）；`app/web/workspace/` 新增侧边 `#kg-panel` 概念导航与消息内 `.kg-message-concepts` 概念芯片双入口，支持直达同版讲义原页、实验 Cell 代码与 `child_output` 原图，无可靠边或失效芯片在局部面板优雅降级为「用常规检索查找」，离线零模型模式同样完整可用。
+4. **受控一跳问答候选增强（默认 `False`，显式可选）**：`app/config.py` 新增 `workspace_kg_retrieval_enabled: bool = False` 与 `workspace_retrieval_include_adjacency: bool = True`；启用时在授权快照与同预算内沿 `accepted` 边最多一跳补充对端对象（`reason="kg_one_hop"`）并共排 Notebook 同 Cell `child_output`，目标原文强制在 `read_window` 实时重读后才生成引用。H03 10 题同预算三臂盲测（`budget=6, pool_cap=12`，0 严重错误）：`S0_base` `8/10`、`S0_adj` `8/10`、`S0_kg` **`9/10`**（零词面重叠跨文件题 **`2/4 → 4/4`**，`p50=3.020s` 持平）；因 6 槽上限下在反例提及题上存在槽位挤占权衡，保持默认 `False`、按需启用。
+
 ## J01–J03 · 真实多文件精准检索与策略定型 · 2026-11-23
 
 在 `33f0f14` 之上完成真实多文件课程同预算四策略对照（实现 `feat/j-multifile-retrieval` `4bb1c41`，独审 `review/j-gate` `96e05ad`，Ruff 0 错，带真 `LibreOffice 26.8.3.1` 全量 `pytest` `667 passed, 0 failed, 0 skipped`；[J01 设计](./docs/J/J01-多文件检索对照设计.md) · [J02 对照报告](./docs/J/J02-对照实验报告.md)）：
