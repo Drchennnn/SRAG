@@ -2,6 +2,16 @@
 
 运行方式见 [README](./README.md)，评估见 [evals/README](./evals/README.md)，开发任务见 [CHECKLIST](./CHECKLIST.md)。
 
+## J01–J03 · 真实多文件精准检索与策略定型 · 2026-11-23
+
+在 `33f0f14` 之上完成真实多文件课程同预算四策略对照（实现 `feat/j-multifile-retrieval` `4bb1c41`，独审 `review/j-gate` `96e05ad`，Ruff 0 错，带真 `LibreOffice 26.8.3.1` 全量 `pytest` `667 passed, 0 failed, 0 skipped`；[J01 设计](./docs/J/J01-多文件检索对照设计.md) · [J02 对照报告](./docs/J/J02-对照实验报告.md)）：
+
+1. **预算契约解耦与 3 项 G29/G30 边界收口**：将 `pool_cap` 与 `final_source_budget` 从 `request.top_k` 解耦，消除非双语 `fts` 早退预算泄露；同步收口非 LLM 回退路径精确文本子对象单次门控补读（共用 `ev-*`）、多图对比问法防单向方位误锁、以及 `_IMAGE` 中文教学复合词扩充与无显式位置 `choices==[]` 安全回退常规检索。
+2. **Jev 48 KB 确定性修复（`S1`）与定型**：`app/clients/jev.py` 实现三段窗口摘取、`42 KB` 贪心分批与 HTTP 400/413/422 递归二分重试，实测 `0 input_limit`，在未见 9 文件 18 题 `cs-mlsys-j` 上将长文多文件竞争（`Cat A`）由 `1/4` 提至 `3/4`（总体 `7/18 → 10/18`）；但远端 `p95` 增幅 `+34.71 s >> +8 s` 且低置信回退 `21.4%`，**本版保持默认关闭**（待服务批延迟降至 `p95 <= +8 s` 后可复测）。
+3. **有界两步检索（`S2a` / `S2b`）与定型**：解耦 `_expand()` 与 Jev 强绑定。`S2a`（字面标识符 2-hop，0 额外 LLM 调用）与 `S2b`（有界 1 次 `deepseek-flash` 规划器，0 退化、`p95 = 6.23 s`）均将零词面重叠 2-hop（`Cat B`）由 `0/4` 提至 `2/4`，但 `S2a` 无条件启用会引起非 2-hop 控制退化、而 `S2b` 增耗规划调用，**二者均定型为显式可选策略**。
+4. **可选本地向量与纯图整页视觉闭环（`S3`）与定型**：新增 `app/rag/workspace_vector.py`（`LocalVectorBridge` 单实例同步 `QdrantClient(path=...)` + 线程锁 + 显式 `close()`），复用 `"text_content"`/`"visual_fusion"` 与当前版本/Epoch/SHA-256 双重过滤，将纯图无正文页有界 D03 视觉实读（`max_visual_reads=2`）前移至 `read_window` / `_generate_draft` 之前并纳入 G21 `32,768` 统一预算（`_attach_images` 复用同 `ev-*`）。盲测 `cs-mlsys-j` 整题达 **`14/18 (77.8%)`**、纯图无文字锚点 PPTX（`Cat C`）达 **`4/4 (100%)`**、0 严重错误，损坏 Qdrant 0 阻塞退回 `S0`、换版零旧版泄漏。保持默认 `workspace_vector_retrieval_enabled=False`（零默认 Qdrant 依赖），**定型为配置就绪时的显式/按需纯图视觉与跨术语语义增强通道**。
+5. **策略定型与下一步**：`S0`（`FTS + 按需双语`）保留为默认零依赖底座；J 部通过并正式开放 **H01（单课程可溯源知识图谱设计）**。
+
 ## G29–G30 · 公共编排收口、契约统一与双轨 M2 门禁 · 2026-11-23
 
 在 `d4c8597` 联合独审（`1515363`）与正式 A03 复测（`a82c23e`，整题 4/10）以及 `codex/g-pdf-object-recovery`（`731422b`）、`codex/g-version-output-recovery`（`328ae63`）送审后，确认如下架构调整并保留所有历史成绩与 A03 原锁口径：
