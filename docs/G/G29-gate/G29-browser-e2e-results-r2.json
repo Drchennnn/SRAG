@@ -1,0 +1,76 @@
+{
+  "base_url": "http://127.0.0.1:18029",
+  "subject_sha": "33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0",
+  "srag_soffice": "/opt/homebrew/bin/soffice",
+  "checks": {
+    "ui_import_pdf": "Speculative-Decoding-2211.17192v2.pdf · 导入完成 · v1",
+    "browser_q04": {
+      "clarification_buttons": [
+        "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 左图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+        "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 右图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90"
+      ],
+      "answer_dom": {
+        "cites": [
+          "Speculative-Decoding-2211.17192v2.pdf · v1 · 图片 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90"
+        ],
+        "imgs": [
+          {
+            "complete": true,
+            "nh": 415,
+            "nw": 518,
+            "src": "/api/workspace/sessions/ae7d667e7a274dd1b5414d0b34074dab/messages/311b52f14ce8490dbc6d9a9523ab44eb/media/6689624fdbe2438caf4b04106e398a8f?view=inline"
+          }
+        ],
+        "text": "课程助手正在加载图片…图 1 · Speculative-Decoding-2211.17192v2.pdf · v1 · 图片 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 图像已读取问这张图查看图片回原件纵轴表示 'Optimal v'；不同曲线对应不同的 c 值：蓝色线 c = 0.01，橙色线 c = 0.02，绿色线 c = 0.05，红色线 c = 0.1。依据 · Speculative-Decoding-2211.17192v2.pdf · v1 · 图片 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90"
+      },
+      "reader": {
+        "has_highlight": false,
+        "img_loaded": true,
+        "img_size": [
+          518,
+          415
+        ],
+        "open": true,
+        "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 图片 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90"
+      }
+    },
+    "browser_table_crop_highlight": {
+      "highlight_style": null,
+      "img_loaded": true,
+      "img_size": [
+        343,
+        224
+      ],
+      "img_src": "/api/workspace/sessions/ae7d667e7a274dd1b5414d0b34074dab/messages/75d4d4d14c034d3fa0adc331b515dfb7/media/b98911a59ec249deb3b0285680369496?view=inline",
+      "open": true,
+      "title": "Speculative-Decoding-2211.17192v2.pdf · v1 · 表格 · α | γ | OPERATIONS | SPEED"
+    },
+    "browser_b2_bilateral": {
+      "clarification_buttons": [
+        "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 2（图像）",
+        "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 3（图像）"
+      ],
+      "bilateral_dom": {
+        "cites": [
+          "Lab06-Thermal-Sweep.ipynb · 旧版 v1",
+          "Lab06-Thermal-Sweep.ipynb · v2 · 输出 3"
+        ],
+        "img_count": 2,
+        "imgs": [
+          {
+            "complete": true,
+            "nh": 720,
+            "nw": 1200
+          },
+          {
+            "complete": true,
+            "nh": 720,
+            "nw": 1200
+          }
+        ],
+        "text": "课程助手正在加载图片…图 1 · Lab06-Thermal-Sweep.ipynb · 旧版 v1Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 1 · 图像已读取问这张图查看原件旧版 v1 横轴单位 · 横轴单位：s（秒），峰值温度：91.8 C依据 · Lab06-Thermal-Sweep.ipynb · 旧版 v1当前版 v2 · 横轴单位正在加载图片…图 2 · Lab06-Thermal-Sweep.ipynb · v2 · 输出 3Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 3 · 图像已读取问这张图查看原件横轴单位：min；指标名称：Elapsed Time；核心数值：Peak: 83.4 C at 7.0 min依据 · Lab06-Thermal-Sweep.ipynb · v2 · 输出 3"
+      }
+    }
+  },
+  "session_id": "ae7d667e7a274dd1b5414d0b34074dab"
+}

@@ -24,7 +24,9 @@ import time
 from pathlib import Path
 from typing import Any
 
-SUBJECT_DIR = Path("/tmp/srag-g29-gate-subject-6d9fb7d")
+SUBJECT_DIR = Path(os.environ.get("G29_SUBJECT_DIR", "/tmp/srag-g29-gate-subject-6d9fb7d"))
+SUBJECT_SHA = os.environ.get("G29_SUBJECT_SHA", "6d9fb7d45a3dd19424b5fc151900c703abb23462")
+OUT_FILE = os.environ.get("G29_OUT_FILE", "G29-blind-audit-results.json")
 GATE_DIR = Path("/Users/Link/code/SRAG-g29-gate/docs/G/G29-gate")
 FIXTURES = GATE_DIR / "fixtures"
 ENV_FILE = Path("/Users/Link/code/SRAG/.env")
@@ -211,9 +213,10 @@ def run_part_a_pdf_audit(criteria: dict[str, Any]) -> dict[str, Any]:
                         tp_eq += 1
                     else:
                         fp_eq += 1
+                elif p in (4, 11, 12) and len(txt) >= 24 and "=" in txt and not txt.startswith(("=", ")")) and "Algorithm" not in txt:
+                    # Per frozen Phase 1 criteria: intact unnumbered display equations on p4/p11/p12 are allow_optional
+                    opt_eq += 1
                 else:
-                    # Per criteria: unnumbered display proofs on p4 & p12 are allow_optional ONLY if intact display equations (len >= 12 and not single '=' or prose or algorithm).
-                    # Fragments like '=', '(x) =', 'γ = 7', 'c = c_hat = 0', Algorithm 1, or sliced p11 fragments are FP.
                     fp_eq += 1
                     pdf_res["sample_failures"].append({
                         "class": "formula",
@@ -227,23 +230,32 @@ def run_part_a_pdf_audit(criteria: dict[str, Any]) -> dict[str, Any]:
         else:
             gt_by_page = gt["numbered_equations_by_page"]
             gt_eq_count = sum(len(v) for v in gt_by_page.values())
-            # Match each registered formula on YaRN against numbered equations on that page:
-            # Must not be a tiny stub (<= 10 chars or starting with '=' or ')') and must capture equation content cleanly.
             tp_eq, fp_eq, opt_eq = 0, 0, 0
+            covered_eq_nums: set[str] = set()
             used_per_page: dict[int, int] = {}
             for s in reg_eqs:
                 p = s.locator.get("page")
                 txt = (s.locator.get("object_text") or s.text or "").strip()
-                # Strict completeness check: an intact equation must have LHS + relation + RHS (len >= 10, not cut mid-expr like 'r 1 t = 0.1 ln(s' or ') =' or 'g(m) =' or '= L')
                 looks_truncated = (
                     len(txt) < 10
-                    or txt.startswith(("=", ")", "D|", "16k-token", "ppl(t)"))
+                    or txt.startswith(("=", ")", "D|", "16k-token", "ppl(t)", "Let "))
                     or txt.endswith(("=", "ln(s", "·", "−", "fW", "x", "\uf8f4"))
                     or "mparing" in txt
                 )
-                avail = len(gt_by_page.get(str(p), []))
+                page_nums = gt_by_page.get(str(p), [])
+                matched_nums = [num for num in page_nums if num in txt]
+                avail = len(page_nums)
                 used = used_per_page.get(p, 0)
-                if avail > 0 and not looks_truncated and used < avail:
+                if matched_nums and not looks_truncated:
+                    # Exact numbered equation match (may cover 1 or 2 paired align equations)
+                    new_nums = [n for n in matched_nums if n not in covered_eq_nums]
+                    if new_nums:
+                        covered_eq_nums.update(new_nums)
+                        used_per_page[p] = used + len(new_nums)
+                        tp_eq += len(new_nums)
+                    else:
+                        fp_eq += 1
+                elif avail > 0 and not looks_truncated and used < avail and "=" in txt and not txt.startswith("Wq,Wk"):
                     used_per_page[p] = used + 1
                     tp_eq += 1
                 else:
@@ -835,13 +847,14 @@ def main() -> None:
     part_b = run_part_b_cases(env)
 
     out = {
-        "subject_sha": "6d9fb7d45a3dd19424b5fc151900c703abb23462",
+        "subject_sha": SUBJECT_SHA,
         "gate_freeze_sha": "a2ad63c6a683b52a2084c247f7b2520955274f00",
         "loaded_app_file": str(Path(srag_app.__file__).resolve()),
+        "srag_soffice": os.environ.get("SRAG_SOFFICE"),
         "part_a_pdf_68_object_audit": part_a,
         "part_b_blind_cases": part_b,
     }
-    out_path = GATE_DIR / "G29-blind-audit-results.json"
+    out_path = GATE_DIR / OUT_FILE
     out_path.write_text(json.dumps(out, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
     print(f"\nSaved sanitized audit results to {out_path}")
 

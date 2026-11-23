@@ -23,7 +23,9 @@ import time
 from pathlib import Path
 from typing import Any
 
-SUBJECT_DIR = Path("/tmp/srag-g29-gate-subject-6d9fb7d")
+SUBJECT_DIR = Path(os.environ.get("G29_SUBJECT_DIR", "/tmp/srag-g29-gate-subject-6d9fb7d"))
+SUBJECT_SHA = os.environ.get("G29_SUBJECT_SHA", "6d9fb7d45a3dd19424b5fc151900c703abb23462")
+OUT_FILE = os.environ.get("G29_BROWSER_OUT_FILE", "G29-browser-e2e-results.json")
 GATE_DIR = Path("/Users/Link/code/SRAG-g29-gate/docs/G/G29-gate")
 FIXTURES = GATE_DIR / "fixtures"
 ENV_FILE = Path("/Users/Link/code/SRAG/.env")
@@ -128,7 +130,7 @@ def main() -> None:
     )
 
     session = f"g29-e2e-{os.getpid()}"
-    report: dict = {"base_url": BASE_URL, "subject_sha": "6d9fb7d45a3dd19424b5fc151900c703abb23462", "checks": {}}
+    report: dict = {"base_url": BASE_URL, "subject_sha": SUBJECT_SHA, "srag_soffice": env.get("SRAG_SOFFICE"), "checks": {}}
     try:
         _wait_port(PORT)
         _ab(session, "open", f"{BASE_URL}/workspace/")
@@ -370,7 +372,7 @@ def main() -> None:
             "bilateral_dom": b2_dom,
         }
 
-        out_path = GATE_DIR / "G29-browser-e2e-results.json"
+        out_path = GATE_DIR / OUT_FILE
         out_path.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
         print(json.dumps(report, indent=2, ensure_ascii=False))
     finally:
