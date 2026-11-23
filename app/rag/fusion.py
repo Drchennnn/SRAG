@@ -9,8 +9,10 @@ from typing import Protocol
 from qdrant_client import models
 
 _VISUAL_QUERY_PATTERN = re.compile(
-    r"照片|图片|图示|示意图?|流程图|曲线|图表|画面|截图|哪张图|哪幅图|"
-    r"图中|图里|图上|diagram|figure|photo|picture|screenshot|plot|chart",
+    r"照片|图片|图示|示意图?|流程图|曲线图?|图表|实验图|架构图|框图|结构图|"
+    r"对比图|比较图|分布图|结果图|热力图|散点图|柱状图|折线图|直方图|系统图|原理图|"
+    r"画面|截图|哪张图|哪幅图|图中|图里|图上|"
+    r"diagram|figure|photo|picture|screenshot|plot|chart",
     re.IGNORECASE,
 )
 

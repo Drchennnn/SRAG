@@ -60,12 +60,14 @@ from app.rag.workspace_objects import (
 )
 from app.rag.workspace_objects import (
     ObjectIntent,
+    _page_group_key,
     object_choices,
     object_intent,
 )
 from app.rag.workspace_reading import (
     ReadingCursor,
     _has_visual,
+    estimate_embedded_json_budget,
     read_window,
 )
 from app.rag.workspace_router import (
@@ -173,6 +175,10 @@ _IMAGE_REFERENCE = re.compile(
 _TABLE_REFERENCE = re.compile(
     r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这)"
     r"\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:表格|原表|表)"
+)
+_DEMONSTRATIVE_OBJECT = re.compile(
+    r"(?:这|那|本|当前)(?:[张幅个]?\s*(?:图|图片|图像|子图|表格|原表|表))|原表",
+    re.IGNORECASE,
 )
 _CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*cell", re.IGNORECASE)
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
@@ -515,9 +521,23 @@ class WorkspaceService:
         self.region_ids = region_ids
         from app.clients.jev import JevClient
         from app.rag.workspace_retrieval import BilingualRewriter
+        from app.rag.workspace_vector import LocalVectorBridge
 
         self.rewriter = BilingualRewriter(settings)
         self.scorer = JevClient(settings)
+        self.vector_bridge: LocalVectorBridge | None = (
+            LocalVectorBridge(settings)
+            if (
+                settings.workspace_vector_retrieval_enabled
+                or settings.workspace_retrieval_strategy == "vector"
+                or settings.qdrant_local_path is not None
+            )
+            else None
+        )
+
+    def close(self) -> None:
+        if self.vector_bridge is not None:
+            self.vector_bridge.close()
 
     def create(self, owner: str | None, request: CreateSession) -> tuple[dict[str, Any], str]:
         courses, documents = self._scope(
@@ -675,7 +695,38 @@ class WorkspaceService:
             ),
             None,
         )
-        if read is None:
+        vision_read = (
+            None
+            if read is not None
+            else next(
+                (
+                    item
+                    for item in evidence.reads
+                    if item.actual_source == key
+                    and item.method == "vision"
+                    and item.origin_execution == "real_provider"
+                    and bool(item.actual_input_sha256)
+                    and item.status in {"succeeded", "partial"}
+                    and item.text
+                ),
+                None,
+            )
+        )
+        route_name = (turn.outcome.get("trace") or {}).get("route")
+        matching_block = (
+            None
+            if read is not None or route_name != "generated_answer"
+            else next(
+                (
+                    block
+                    for block in message["blocks"]
+                    if block.get("type") == "source_image"
+                    and block.get("evidence_id") == evidence_id
+                ),
+                None,
+            )
+        )
+        if read is None and (vision_read is None or matching_block is None):
             raise inaccessible()
         current = self._historical_source(
             {
@@ -685,15 +736,29 @@ class WorkspaceService:
             key,
         )
         source = current.source
-        if source is None or not self._matches_text(evidence, read, readable_source_text(source)):
+        if source is None:
             raise WorkspaceError("original_unavailable", 409)
+        if read is not None:
+            if not self._matches_text(evidence, read, readable_source_text(source)):
+                raise WorkspaceError("original_unavailable", 409)
+            selected_read = read
+        else:
+            assert vision_read is not None and matching_block is not None
+            attached = self._attachment(session_id, message_id, matching_block["display_id"])
+            details = attached.description
+            if (
+                details.get("byte_sha256") != vision_read.actual_input_sha256
+                or details.get("content_sha256") != evidence.revision.content_sha256
+            ):
+                raise WorkspaceError("original_unavailable", 409)
+            selected_read = vision_read
         if not self._turn_access(turn):
             raise inaccessible()
         return {
             "source": key.model_dump(),
             "file_name": evidence.file_name,
             "locator": _positions(source.locator),
-            "text": read.text,
+            "text": selected_read.text,
             "is_current": current.is_current,
             "has_preview": _can_display(source),
         }
@@ -807,9 +872,33 @@ class WorkspaceService:
                 if node is not None and node.document.document_id in ctx.documents
                 else ctx.documents
             )
-            return self._answer_object(
-                turn, session, text, decision.intent, target_docs, node, location
+            allow_retrieve_fallback = (
+                turn.request.kind == "ask"
+                and explicit_location is None
+                and decision.intent.ordinal is None
+                and decision.intent.direction is None
+                and not decision.intent.unresolved
+                and not decision.from_demonstrative
+                and not _DEMONSTRATIVE_OBJECT.search(text)
+                and (
+                    node is None
+                    or node.source is None
+                    or node.source.kind not in {"page", "cell"}
+                )
             )
+            handled = self._answer_object(
+                turn,
+                session,
+                text,
+                decision.intent,
+                target_docs,
+                node,
+                location,
+                allow_retrieve_fallback=allow_retrieve_fallback,
+            )
+            if handled is not None:
+                return handled
+            return self._retrieve(turn, session, text, owner=owner, allow_object_intent=False)
         if isinstance(decision, FocusedCellOutputsRoute):
             node = ctx.focus_state.node
             refs = [_doc_ref(doc) for doc in ctx.documents.values()]
@@ -1219,6 +1308,7 @@ class WorkspaceService:
         forced: CatalogNode | None = None,
         kind: str | None = None,
         owner: str | None = None,
+        allow_object_intent: bool = True,
     ) -> Turn:
         mode = kind or turn.request.kind
         node = forced
@@ -1341,7 +1431,7 @@ class WorkspaceService:
         ):
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
-        if mode == "ask" and (target := object_intent(text)):
+        if allow_object_intent and mode == "ask" and (target := object_intent(text)):
             if target.kind in {"caption", "formula"} and not any(
                 src.kind == "page_object" and src.locator.get("object_type") == target.kind
                 for src in snapshot.sources
@@ -1418,7 +1508,7 @@ class WorkspaceService:
             request = StructureSearchRequest(
                 query=text,
                 location=location,
-                top_k=12,
+                top_k=self.settings.workspace_retrieval_pool_cap,
                 scope=StructureScope(
                     course_ids=session.course_ids,
                     document_ids=list(documents),
@@ -1468,6 +1558,11 @@ class WorkspaceService:
                 for hit in (getattr(plan, "visual_candidates", ()) if plan else ())
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
+            visual_read_targets = [
+                sources[(hit.source.document_id, hit.source.source_id)]
+                for hit in (getattr(plan, "visual_read_targets", ()) if plan else ())
+                if (hit.source.document_id, hit.source.source_id) in sources
+            ]
             trace = {
                 "effective_scope": _effective(documents),
                 "search_status": search.status,
@@ -1504,14 +1599,18 @@ class WorkspaceService:
                     previous=previous,
                     question=text,
                     extra_media=visual_ranked if mode == "ask" else (),
+                    visual_read_targets=visual_read_targets if mode == "ask" else (),
                     selected_file_scope=bool(session.document_ids or file_names),
                     preceding_reply=latest if check_experiment_scope else None,
                 )
         draft = Draft(session.session_id)
         if mode == "summary":
             draft.text("当前文件摘要（部分来源）")
+            read_order = ranked
+        else:
+            read_order = _prioritize_child_text_objects(ranked)
         failures = self._read_text(
-            turn, draft, documents, ranked, _SUMMARY_SOURCE_LIMIT if mode == "summary" else 2
+            turn, draft, documents, read_order, _SUMMARY_SOURCE_LIMIT if mode == "summary" else 2
         )
         if mode == "summary":
             coverage = _summary_coverage(snapshot.sources, draft.sources, failures)
@@ -1523,7 +1622,29 @@ class WorkspaceService:
         elif mode == "ask":
             media_focus = None if explicit_location else node
             chosen = _media_candidates(ranked, snapshot.sources, media_focus)
-            trace["display_attempts"] = self._attach_images(turn, draft, documents, chosen)
+            eligible_child_keys = {
+                (src.document_id, src.version, src.source_id)
+                for src in ranked
+                if src.kind == "page_object"
+                and src.locator.get("object_type") in {"formula", "caption", "table"}
+            }
+            if ranked and ranked[0].kind == "page":
+                for src in chosen:
+                    if (
+                        src.kind == "page_object"
+                        and src.document_id == ranked[0].document_id
+                        and src.parent_id == ranked[0].source_id
+                        and src.locator.get("object_type") in {"formula", "caption", "table"}
+                    ):
+                        eligible_child_keys.add((src.document_id, src.version, src.source_id))
+            trace["display_attempts"] = self._attach_images(
+                turn,
+                draft,
+                documents,
+                chosen,
+                allow_child_text_read=True,
+                eligible_child_keys=eligible_child_keys,
+            )
         if not draft.sources:
             draft.notice("no_readable_evidence", "在所选范围内没有读到支持本题的原文或图片。")
         elif mode in {"ask", "summary"} and any(b["type"] == "text" for b in draft.blocks):
@@ -1568,7 +1689,13 @@ class WorkspaceService:
             return None
         docs_by_id = {doc.document_id: doc for doc in target_docs}
         readable_sources = [src for src in target_sources if src.text.strip()]
-        if not readable_sources:
+        want_vector = settings.workspace_vector_retrieval_enabled or strategy == "vector"
+        has_blank_visual = any(
+            _has_visual(src) and not src.text.strip() for src in target_sources
+        )
+        if not readable_sources and not (
+            want_vector and any(_has_visual(src) for src in target_sources)
+        ):
             return None
         context = self._prior_context(previous) if previous else None
         prompt_mode = self._prompt_mode("ask", request.query, request.location)
@@ -1602,12 +1729,14 @@ class WorkspaceService:
                 "reads": [{"method": method, "status": "succeeded", "text": ""}],
             }
 
-        min_source_bytes = min(
-            estimate_embedded_json_budget(_skel(1, src)) for src in readable_sources
+        min_source_bytes = (
+            min(estimate_embedded_json_budget(_skel(1, src)) for src in readable_sources)
+            if readable_sources
+            else 180
         )
         if budget - fixed_reserve <= min_source_bytes:
             return None
-        if len(target_docs) == 1:
+        if len(target_docs) == 1 and not (want_vector and has_blank_visual):
             reserve_true = estimate_prompt_reserve(
                 request.query,
                 mode=prompt_mode,
@@ -1625,26 +1754,46 @@ class WorkspaceService:
                     break
             if total_single_bytes <= budget:
                 return None  # Full-text reading already covers this selected short document.
-        if strategy == "fts":
-            if not _HAN_QUERY.search(request.query) or not _has_latin_corpus(target_sources):
+        is_han_latin = bool(_HAN_QUERY.search(request.query) and _has_latin_corpus(target_sources))
+        want_vector = settings.workspace_vector_retrieval_enabled or strategy == "vector"
+        explicit_budget = settings.workspace_retrieval_budget
+        if strategy == "fts" and explicit_budget == 0 and not want_vector:
+            if not is_han_latin:
                 return None
-            strategy = "bilingual"
+            plan_strategy = "bilingual"
+        elif strategy in {"fts", "s0"}:
+            if want_vector:
+                plan_strategy = "vector"
+            else:
+                plan_strategy = "bilingual" if is_han_latin else "fts"
+        else:
+            plan_strategy = "vector" if want_vector and strategy != "vector" else strategy
+        if explicit_budget > 0:
+            candidate_budget = min(explicit_budget, request.top_k)
+        elif plan_strategy == "bilingual":
+            candidate_budget = request.top_k
+        elif plan_strategy in {"s0", "s2a", "s2b", "s2a_jev", "vector"}:
+            candidate_budget = min(6, request.top_k)
+        else:
+            candidate_budget = min(4, request.top_k)
         from app.rag.workspace_retrieval import plan_retrieval
 
-        candidate_budget = request.top_k if strategy == "bilingual" else 4
         return plan_retrieval(
             settings,
             self.searcher,
             snapshot,
             request,
             self.allowed_courses,
-            strategy=strategy,
+            strategy=plan_strategy,
             budget=candidate_budget,
             library=self.library.store,
             active=lambda: self.store.active(turn),
             rewrite=self.rewriter,
             scorer=self.scorer,
+            vector_bridge=self.vector_bridge,
+            evidence_service=self.evidence,
             supplement_saved_outputs=prompt_mode == "definition_and_experiment",
+            allow_bilingual=is_han_latin,
         )
 
     def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
@@ -1802,6 +1951,7 @@ class WorkspaceService:
         previous,
         question,
         extra_media=(),
+        visual_read_targets=(),
         selected_file_scope=False,
         preceding_reply=None,
     ):
@@ -1849,7 +1999,121 @@ class WorkspaceService:
                 return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs])
         context = self._prior_context(previous) if previous else None
         prompt_mode = self._prompt_mode(mode, question, location)
-        unread_visual_total = sum(1 for source in snapshot.sources if _has_visual(source))
+        docs_by_id = {doc.document_id: doc for doc in docs}
+        pre_visual_items: list[
+            tuple[SnapshotDocument, SnapshotSource, EvidenceRequest, EvidenceResult, list[TurnRead]]
+        ] = []
+        visual_evidence_bytes = 0
+        s3_visual_trace: list[dict[str, Any]] = []
+        if (
+            mode == "ask"
+            and cursor is None
+            and visual_read_targets
+            and self.settings.source_vision_enabled
+            and self.settings.dashscope_api_key.strip()
+        ):
+            max_vis = self.settings.workspace_s3_max_visual_reads
+            for v_src in visual_read_targets:
+                if len(pre_visual_items) >= max_vis:
+                    break
+                if (
+                    (v_src.document_id, v_src.source_id) not in source_keys
+                    or (
+                        bool(readable_source_text(v_src).strip())
+                        and not (
+                            v_src.locator.get("format") == "pptx"
+                            and len(readable_source_text(v_src).strip()) < 40
+                        )
+                    )
+                ):
+                    continue
+                if not self.store.active(turn):
+                    raise WorkspaceError("interrupted")
+                v_doc = docs_by_id.get(v_src.document_id)
+                if v_doc is None:
+                    continue
+                req = self._render_request(v_doc, v_src)
+                vis_resp = self.vision.process_current(
+                    EvidenceRequest.model_validate(
+                        {
+                            **req.model_dump(),
+                            "read_intent": "directed_question",
+                            "question": question,
+                        }
+                    )
+                )
+                if vis_resp.status in {"stale_reference", "not_accessible"}:
+                    raise WorkspaceError(vis_resp.status)
+                trace["external_call_count"] = (
+                    trace.get("external_call_count", 0) + vis_resp.external_call_count
+                )
+                reads = _visual_reads(vis_resp)
+                valid_vis_reads = [
+                    r
+                    for r in reads
+                    if r.method == "vision"
+                    and r.origin_execution == "real_provider"
+                    and r.status in {"succeeded", "partial"}
+                    and bool(r.actual_input_sha256)
+                    and r.text.strip()
+                ]
+                s3_visual_trace.append(
+                    {
+                        "source": _key(v_src).model_dump(),
+                        "status": vis_resp.status,
+                        "read_status": vis_resp.read_status,
+                        "external_call_count": vis_resp.external_call_count,
+                        "accepted": bool(valid_vis_reads),
+                    }
+                )
+                if valid_vis_reads and vis_resp.display is not None:
+                    pre_visual_items.append((v_doc, v_src, req, vis_resp, valid_vis_reads))
+            if pre_visual_items:
+                from app.rag.workspace_generation import _read_text_with_items
+
+                temp_sources: dict[str, TurnEvidence] = {}
+                for idx, (v_doc, v_src, _, _, v_reads) in enumerate(pre_visual_items, start=1):
+                    ev_id = f"ev-{idx}"
+                    temp_sources[ev_id] = TurnEvidence(
+                        evidence_id=ev_id,
+                        revision=SourceRevision(
+                            source=_key(v_src),
+                            course_id=v_doc.course_id,
+                            publication_epoch=v_doc.publication_epoch,
+                            content_sha256=v_doc.content_sha256,
+                        ),
+                        file_name=v_doc.file_name,
+                        locator=_positions(v_src.locator),
+                        read_status=_status(v_reads),
+                        reads=v_reads,
+                    )
+                vis_entries = _read_text_with_items(temp_sources)[0]
+                if vis_entries:
+                    visual_evidence_bytes = (
+                        sum(
+                            (1 if pos > 0 else 0) + estimate_embedded_json_budget(entry)
+                            for pos, entry in enumerate(vis_entries.values())
+                        )
+                        + 1  # comma before first text segment
+                        + len(vis_entries)  # ev-id digit width slack if >=10 items
+                    )
+        if s3_visual_trace:
+            trace["s3_visual_reads"] = {
+                "targets": s3_visual_trace,
+                "pre_budget_visual_bytes": visual_evidence_bytes,
+                "accepted_count": len(pre_visual_items),
+            }
+
+        read_visual_keys = {
+            (v_src.document_id, v_src.version, v_src.source_id)
+            for _, v_src, _, _, _ in pre_visual_items
+        }
+        unread_visual_total = sum(
+            1
+            for source in snapshot.sources
+            if _has_visual(source)
+            and (source.document_id, source.version, source.source_id) not in read_visual_keys
+        )
         coverage = {"unread_visual_total": unread_visual_total}
         if self._excluded_previous_experiment(turn, preceding_reply, identifiers, question):
             coverage["assess_experiment_coverage"] = True
@@ -1881,7 +2145,7 @@ class WorkspaceService:
                     snapshot,
                     context_tokens=ceiling,
                     output_reserve=OUTPUT_RESERVE,
-                    prompt_reserve=reserve_true,
+                    prompt_reserve=reserve_true + visual_evidence_bytes,
                     preferred_sources=preferred,
                     cursor=cursor,
                     active=lambda: self.store.active(turn),
@@ -1894,7 +2158,7 @@ class WorkspaceService:
                         snapshot,
                         context_tokens=ceiling,
                         output_reserve=OUTPUT_RESERVE,
-                        prompt_reserve=reserve_false,
+                        prompt_reserve=reserve_false + visual_evidence_bytes,
                         preferred_sources=preferred,
                         cursor=cursor,
                         active=lambda: self.store.active(turn),
@@ -1905,60 +2169,106 @@ class WorkspaceService:
                     snapshot,
                     context_tokens=ceiling,
                     output_reserve=OUTPUT_RESERVE,
-                    prompt_reserve=reserve_false,
+                    prompt_reserve=reserve_false + visual_evidence_bytes,
                     preferred_sources=preferred,
                     cursor=cursor,
                     active=lambda: self.store.active(turn),
                 )
         except ValueError:
-            budget_reason = (
-                "fixed_overhead_exceeded" if input_budget <= reserve else "no_evidence_fits"
-            )
-            trace["reading"] = {
-                "status": "budget_exceeded",
-                "budget_reason": budget_reason,
+            if pre_visual_items and input_budget > reserve + visual_evidence_bytes:
+                window = None
+            else:
+                budget_reason = (
+                    "fixed_overhead_exceeded"
+                    if input_budget <= reserve
+                    else "no_evidence_fits"
+                )
+                trace["reading"] = {
+                    "status": "budget_exceeded",
+                    "budget_reason": budget_reason,
+                    "input_budget": max(0, input_budget),
+                    "prompt_reserve": reserve + visual_evidence_bytes,
+                    "budget": max(0, input_budget - reserve - visual_evidence_bytes),
+                    "estimated_input": 0,
+                    "visual_read_status": "not_attempted",
+                }
+                trace["generation"] = {
+                    "provider": "deepseek",
+                    "model": self.settings.deepseek_chat_model,
+                    "status": "budget_exceeded",
+                    "budget_reason": budget_reason,
+                    "input_budget": max(0, input_budget),
+                    "fixed_overhead": reserve,
+                    "estimated_input": reserve,
+                    "output_reserve": OUTPUT_RESERVE,
+                    "input_evidence_ids": [],
+                    "external_call_count": 0,
+                    "attempts": [],
+                }
+                draft.notice(
+                    "reading_budget", "模型上下文预算无法容纳原文，请缩小范围或调整模型配置。"
+                )
+                return self._complete(
+                    turn, draft, refs=[_doc_ref(doc) for doc in docs], trace=trace
+                )
+        full_text_scope = bool(
+            window is not None and window.full_text_scope and len(docs) == 1 and location is None
+        )
+        if window is not None:
+            trace["reading"] = window.trace() | {
+                "mode": mode,
                 "input_budget": max(0, input_budget),
                 "prompt_reserve": reserve,
-                "budget": max(0, input_budget - reserve),
+                "visual_evidence_bytes": visual_evidence_bytes,
+                "estimated_message_input": reserve + visual_evidence_bytes + window.estimated_input,
+                "preferred": [key.model_dump() for key in preferred],
+                "full_text_scope": full_text_scope,
+                "location": location.model_dump(mode="json") if location else None,
+            }
+        else:
+            trace["reading"] = {
+                "budget": max(0, input_budget - reserve - visual_evidence_bytes),
                 "estimated_input": 0,
-                "visual_read_status": "not_attempted",
-            }
-            trace["generation"] = {
-                "provider": "deepseek",
-                "model": self.settings.deepseek_chat_model,
-                "status": "budget_exceeded",
-                "budget_reason": budget_reason,
+                "prioritized": True,
+                "full_text_scope": False,
+                "read_ranges": [],
+                "unread_visual_total": unread_visual_total,
+                "visual_read_status": "succeeded",
+                "mode": mode,
                 "input_budget": max(0, input_budget),
-                "fixed_overhead": reserve,
-                "estimated_input": reserve,
-                "output_reserve": OUTPUT_RESERVE,
-                "input_evidence_ids": [],
-                "external_call_count": 0,
-                "attempts": [],
+                "prompt_reserve": reserve,
+                "visual_evidence_bytes": visual_evidence_bytes,
+                "estimated_message_input": reserve + visual_evidence_bytes,
+                "preferred": [key.model_dump() for key in preferred],
+                "location": location.model_dump(mode="json") if location else None,
             }
-            draft.notice("reading_budget", "模型上下文预算无法容纳原文，请缩小范围或调整模型配置。")
-            return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs], trace=trace)
-        full_text_scope = window.full_text_scope and len(docs) == 1 and location is None
-        trace["reading"] = window.trace() | {
-            "mode": mode,
-            "input_budget": max(0, input_budget),
-            "prompt_reserve": reserve,
-            "estimated_message_input": reserve + window.estimated_input,
-            "preferred": [key.model_dump() for key in preferred],
-            "full_text_scope": full_text_scope,
-            "location": location.model_dump(mode="json") if location else None,
-        }
-        for segment in window.segments:
-            source = segment.source
-            read = TurnRead(
-                actual_source=_key(source),
-                method=segment.method,
-                status="succeeded",
-                text=segment.text,
+        if pre_visual_items:
+            trace["reading"]["visual_read_status"] = "succeeded"
+        pre_rendered_visuals: dict[
+            tuple[str, int, str], tuple[EvidenceRequest, EvidenceResult, TurnEvidence]
+        ] = {}
+        for v_doc, v_src, v_req, v_resp, v_reads in pre_visual_items:
+            item = draft.add_evidence(v_doc, v_src, v_reads)
+            draft.text(v_reads[0].text, item.evidence_id)
+            pre_rendered_visuals[(v_src.document_id, v_src.version, v_src.source_id)] = (
+                v_req,
+                v_resp,
+                item,
             )
-            item = draft.add_evidence(segment.document, source, [read])
-            item.locator["text_span"] = [segment.start, segment.end]
-            draft.text(segment.text, item.evidence_id)
+        if window is not None:
+            for segment in window.segments:
+                source = segment.source
+                if (source.document_id, source.version, source.source_id) in pre_rendered_visuals:
+                    continue
+                read = TurnRead(
+                    actual_source=_key(source),
+                    method=segment.method,
+                    status="succeeded",
+                    text=segment.text,
+                )
+                item = draft.add_evidence(segment.document, source, [read])
+                item.locator["text_span"] = [segment.start, segment.end]
+                draft.text(segment.text, item.evidence_id)
         refs = [_doc_ref(doc) for doc in docs]
         self._generate_draft(
             turn,
@@ -1971,13 +2281,20 @@ class WorkspaceService:
             coverage={
                 **coverage,
                 "full_text_scope": full_text_scope,
-                "unread_visual_total": len(window.unread_visual),
+                "unread_visual_total": (
+                    max(0, len(window.unread_visual) - len(pre_visual_items))
+                    if window is not None
+                    else unread_visual_total
+                ),
                 "selected_file_scope": (
                     prompt_mode == "definition_and_experiment" and selected_file_scope
                 ),
             },
         )
-        selected = ranked or [segment.source for segment in window.segments]
+        selected = (
+            ranked
+            or ([segment.source for segment in window.segments] if window is not None else [])
+        )
         media_seeds = list(selected)
         seen_media = {(item.document_id, item.source_id) for item in media_seeds}
         for item in extra_media:
@@ -1985,9 +2302,25 @@ class WorkspaceService:
             if item.document_id in identifiers and key not in seen_media:
                 seen_media.add(key)
                 media_seeds.append(item)
-        if mode == "ask" and media_seeds:
-            media = _media_candidates(media_seeds, snapshot.sources, None)
-            self._attach_images(turn, draft, {doc.document_id: doc for doc in docs}, media)
+        if mode == "ask" and (media_seeds or pre_visual_items):
+            media = _media_candidates(media_seeds, snapshot.sources, None) if media_seeds else []
+            if pre_rendered_visuals:
+                pre_keys = set(pre_rendered_visuals)
+                media = [
+                    *[v_src for _, v_src, _, _, _ in pre_visual_items],
+                    *[
+                        item
+                        for item in media
+                        if (item.document_id, item.version, item.source_id) not in pre_keys
+                    ],
+                ]
+            self._attach_images(
+                turn,
+                draft,
+                docs_by_id,
+                media,
+                pre_rendered=pre_rendered_visuals,
+            )
         return self._complete(turn, draft, refs=refs, trace=trace)
 
     def _generate_draft(
@@ -2137,7 +2470,9 @@ class WorkspaceService:
         documents: dict[str, SnapshotDocument],
         node: CatalogNode | None,
         location: StructureLocation | None,
-    ) -> Turn:
+        *,
+        allow_retrieve_fallback: bool = False,
+    ) -> Turn | None:
         draft = Draft(session.session_id)
         names = _object_file_names(text, documents.values())
         if names is None:
@@ -2213,6 +2548,9 @@ class WorkspaceService:
             "external_call_count": 0,
         }
         if len(choices) != 1:
+            distinct_page_groups = {_page_group_key(choice) for choice in choices}
+            if allow_retrieve_fallback and (not choices or len(distinct_page_groups) > 1):
+                return None
             if choices and target.kind == "table":
                 note = _format_table_ambiguity(choices, docs)
             elif choices:
@@ -2717,21 +3055,83 @@ class WorkspaceService:
         draft: Draft,
         documents: dict[str, SnapshotDocument],
         chosen: list[SnapshotSource],
+        *,
+        pre_rendered: Mapping[
+            tuple[str, int, str], tuple[EvidenceRequest, EvidenceResult, TurnEvidence]
+        ]
+        | None = None,
+        allow_child_text_read: bool = False,
+        eligible_child_keys: set[tuple[str, int, str]] | None = None,
     ) -> dict[str, int]:
         attempted = 0
         failed = 0
+        pre_map = pre_rendered or {}
+        existing_by_key: dict[tuple[str, int, str], TurnEvidence] = {}
+        for existing_item in draft.sources.values():
+            src_key = existing_item.revision.source
+            existing_by_key[(src_key.document_id, src_key.version, src_key.source_id)] = (
+                existing_item
+            )
+        child_eligible = eligible_child_keys or set()
+        post_read_done = False
+
         for source in chosen[:_IMAGE_ATTEMPT_LIMIT]:
             if len(draft.images) >= _IMAGE_LIMIT:
                 break
             if not self.store.active(turn):
                 raise WorkspaceError("interrupted")
             doc = documents[source.document_id]
-            req = self._render_request(doc, source)
-            image = self.evidence.render_current(req)
-            if image.status in {"stale_reference", "not_accessible"}:
-                raise WorkspaceError(image.status)
-            item = draft.add_evidence(doc, source, [])
+            s_key = (source.document_id, source.version, source.source_id)
             label = f"{doc.file_name} · v{doc.version} · {_label(source)}"
+            if s_key in pre_map:
+                req, image, item = pre_map[s_key]
+            else:
+                req = self._render_request(doc, source)
+                image = self.evidence.render_current(req)
+                if image.status in {"stale_reference", "not_accessible"}:
+                    raise WorkspaceError(image.status)
+                item = existing_by_key.get(s_key)
+                if (
+                    item is None
+                    and image.status == "available"
+                    and image.display is not None
+                    and allow_child_text_read
+                    and not post_read_done
+                    and source.kind == "page_object"
+                    and source.locator.get("object_type") in {"formula", "caption", "table"}
+                    and s_key in child_eligible
+                    and readable_source_text(source).strip()
+                ):
+                    raw = self.library.store.read_source(_key(source), course_ids=[doc.course_id])
+                    if (
+                        not raw.is_current
+                        or raw.content_sha256 != doc.content_sha256
+                        or raw.publication_epoch != doc.publication_epoch
+                    ):
+                        raise WorkspaceError("stale_reference")
+                    raw_text = (
+                        readable_source_text(raw.source).strip() if raw.source is not None else ""
+                    )
+                    if raw.status == "available" and raw.source is not None and raw_text:
+                        clipped = len(raw_text) > _TEXT_LIMIT
+                        readable = raw_text[:_TEXT_LIMIT] + ("…" if clipped else "")
+                        read = TurnRead(
+                            actual_source=_key(source),
+                            method=(
+                                "native_table"
+                                if raw.source.locator.get("object_type") == "table"
+                                else "native_text"
+                            ),
+                            status="partial" if clipped else "succeeded",
+                            text=readable,
+                            warnings=["excerpt_truncated"] if clipped else [],
+                        )
+                        item = draft.add_evidence(doc, source, [read])
+                        draft.text(f"{label}\n{readable}", item.evidence_id)
+                        existing_by_key[s_key] = item
+                        post_read_done = True
+                if item is None:
+                    item = draft.add_evidence(doc, source, [])
             previous = len(draft.images)
             draft.add_image(item, image, req, label)
             attempted += 1
@@ -3121,6 +3521,53 @@ def _object_file_names(text: str, documents: Iterable[SnapshotDocument]) -> list
     ):
         return None
     return _explicit_filenames(text) or list(dict.fromkeys(names))
+
+
+def _prioritize_child_text_objects(ranked: list[SnapshotSource]) -> list[SnapshotSource]:
+    """Promote exact hit readable child objects ahead of their own parent page in fallback reads."""
+    if len(ranked) <= 1:
+        return list(ranked)
+    promoted_parents = {
+        (src.document_id, src.version, src.parent_id)
+        for src in ranked
+        if src.kind == "page_object"
+        and src.parent_id
+        and src.locator.get("object_type") in {"formula", "caption", "table"}
+        and bool(readable_source_text(src).strip())
+    }
+    if not promoted_parents:
+        return list(ranked)
+    children: list[SnapshotSource] = []
+    others: list[SnapshotSource] = []
+    for src in ranked:
+        if (
+            src.kind == "page_object"
+            and src.parent_id
+            and src.locator.get("object_type") in {"formula", "caption", "table"}
+            and bool(readable_source_text(src).strip())
+        ):
+            children.append(src)
+        else:
+            others.append(src)
+    ordered: list[SnapshotSource] = []
+    child_by_parent: dict[tuple[str, int, str], list[SnapshotSource]] = {}
+    for child in children:
+        pkey = (child.document_id, child.version, child.parent_id or "")
+        child_by_parent.setdefault(pkey, []).append(child)
+    placed: set[tuple[str, int, str]] = set()
+    for src in others:
+        key = (src.document_id, src.version, src.source_id)
+        for child in child_by_parent.get(key, ()):
+            ckey = (child.document_id, child.version, child.source_id)
+            if ckey not in placed:
+                placed.add(ckey)
+                ordered.append(child)
+        ordered.append(src)
+    for child in children:
+        ckey = (child.document_id, child.version, child.source_id)
+        if ckey not in placed:
+            ordered.append(child)
+    return ordered
 
 
 def _media_candidates(

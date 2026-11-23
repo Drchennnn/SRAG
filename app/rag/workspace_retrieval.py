@@ -27,12 +27,18 @@ from app.rag.structure_search import (
     StructureSearchResponse,
     _structural_candidate,
 )
+from app.rag.workspace_evidence import readable_source_text
 from app.schemas.local import SourceKey
 from app.schemas.workspace import WorkspaceError
 from app.stores.local_library import LocalLibraryStore
 from app.stores.structure_snapshot import SnapshotRequest, StructureSnapshot
 
-RetrievalStrategy = Literal["fts", "bilingual", "jev", "expanded"]
+RetrievalStrategy = Literal[
+    "fts", "bilingual", "jev", "expanded", "s0", "s2a", "s2b", "s2a_jev", "vector"
+]
+_VALID_STRATEGIES = frozenset(
+    {"fts", "bilingual", "jev", "expanded", "s0", "s2a", "s2b", "s2a_jev", "vector"}
+)
 _Identity = tuple[str, int, str]
 _SCOPED_FAILURES = {"ambiguous_scope", "scope_not_found", "location_not_found"}
 _HAN = re.compile(r"[\u3400-\u9fff]")
@@ -40,7 +46,7 @@ _NUMBER = r"[+-]?(?:\d{1,3}(?:,\d{3})+|\d+)(?:\.\d+)?(?:e[+-]?\d+)?"
 _NUMBERS = re.compile(rf"{_NUMBER}(?:\s*%)?", re.IGNORECASE)
 _OPERATORS = re.compile(r"<=|>=|==|!=|<|>|=")
 _NEGATION = re.compile(
-    r"排除|不(?!(?:同|仅|但|只|过|论|管|止|妨|少于|低于|高于|大于|小于|超过))|无(?:需|法)|未|没有|非(?!常)|"
+    r"排除|不(?!(?:同|仅|但|只|过|论|管|止|妨|均(?:衡)?|少于|低于|高于|大于|小于|超过))|无(?:需|法)|未|没有|非(?!常)|"
     r"\b(?:no|not|never|without|excluding|exclude|neither|none|cannot|don't|doesn't|"
     r"didn't|isn't|mustn't|non-)\b",
     re.IGNORECASE,
@@ -54,6 +60,22 @@ _LITERAL = re.compile(
 _ANCHOR = re.compile(
     r"(?<![\w.-])(?:[A-Z]{2,}(?:[-_.][A-Za-z0-9]+)+|[A-Z]+\d[A-Za-z0-9_-]*|"
     r"[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)+)(?![\w-]|\.[A-Za-z0-9_])"
+)
+_SENTENCE_SPLIT = re.compile(r"[。！？；\n.!?;]+")
+_S2A_BACKTICK = re.compile(r"`([A-Za-z0-9_.-]{3,64})`")
+_S2A_SNAKE = re.compile(r"(?<![\w.-])([A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+)(?![\w.-])")
+_S2A_DOTTED = re.compile(r"(?<![\w.-])([A-Za-z_]\w*(?:\.[A-Za-z_]\w*)+)(?![\w.-])")
+_S2A_IDENT = re.compile(
+    r"(?<![\w.-])([A-Za-z][A-Za-z0-9]*(?:-[A-Za-z0-9]*\d[A-Za-z0-9]*)+"
+    r"|[A-Z]{2,}[A-Za-z0-9]*\d+[A-Za-z0-9_-]*)(?![\w.-])"
+)
+_S2A_TERM_STOPS = frozenset(
+    {
+        "table-1", "table-2", "table-3", "table-4", "figure-1", "figure-2", "figure-3",
+        "page-1", "page-2", "section-1", "section-2", "e-mail", "co-author", "pre-trained",
+        "fine-tuning", "fine-tuned", "open-source", "high-level", "low-rank", "real-time",
+        "end-to-end", "self-attention", "cross-attention", "zero-shot", "few-shot",
+    }
 )
 _UNIT_FORMS = {
     "pct": r"percent(?:age)?|%",
@@ -96,7 +118,7 @@ _ZH_IDIOMS = re.compile(
     r"十分(?!之)|一般|一致|一直|一起|一些|一样|一定|一再|一切|一并|一共|一律|"
     r"统一|唯一|单一|万一|万分|千万(?:别|不要|不)|"
     r"(?:另|同|这|那|每|某)一(?=[个款项种份类步轮次])|"
-    r"第[零一二两三四五六七八九十百千万\d]+(?=[阶段页章节点维阶位层轮步])?|"
+    r"第(?![零一二两三四五六七八九十百千万\d\s]*(?:讲|章|节|课))[零一二两三四五六七八九十百千万\d]+(?=[阶段页章节点维阶位层轮步])?|"
     r"[零一二两三四]阶|[一二三]维"
 )
 _ZH_DIGITS = {
@@ -232,11 +254,99 @@ class BilingualRewriter:
 
 
 @dataclass(frozen=True)
+class PlannerResult:
+    action: Literal["search", "finish"]
+    missing_aspect: str
+    queries: tuple[str, ...]
+    reason: str
+    trace: dict[str, Any]
+
+
+class SearchPlanner:
+    """Single-step LLM planner deciding whether a bounded second query is needed."""
+
+    def __init__(self, settings: Settings, *, transport: httpx.AsyncBaseTransport | None = None):
+        self.settings = settings
+        self.transport = transport
+
+    def __call__(
+        self, payload: dict[str, Any], *, verify: Callable[[], None] = lambda: None
+    ) -> PlannerResult:
+        started = perf_counter()
+        attempts: list[dict[str, Any]] = []
+        trace: dict[str, Any] = {
+            "provider": "deepseek",
+            "model": self.settings.deepseek_query_model,
+            "attempts": attempts,
+        }
+
+        def finish(
+            status: str,
+            action: Literal["search", "finish"] = "finish",
+            missing: str = "",
+            queries: Sequence[str] = (),
+            reason: str = "",
+        ) -> PlannerResult:
+            trace.update(
+                status=status,
+                action=action,
+                missing_aspect=missing,
+                queries=list(queries),
+                reason=reason,
+                external_call_count=len(attempts),
+                elapsed_ms=round((perf_counter() - started) * 1_000, 3),
+            )
+            return PlannerResult(action, missing, tuple(queries), reason, trace)
+
+        verify()
+        if not self.settings.deepseek_api_key.strip():
+            return finish("not_configured")
+        client = DeepSeekClient(
+            self.settings,
+            transport=self.transport,
+            before_attempt=verify,
+            on_attempt=attempts.append,
+        )
+        try:
+            reply = _run_coro_sync(client.plan_next_search(payload))
+        except (ValueError, TypeError, RecursionError, json.JSONDecodeError):
+            verify()
+            return finish("invalid_response")
+        except (RuntimeError, httpx.HTTPError, httpx.InvalidURL):
+            verify()
+            return finish("provider_error")
+        verify()
+        if isinstance(reply.get("usage"), dict):
+            tokens = reply["usage"].get("total_tokens")
+            if type(tokens) is int and tokens >= 0:
+                trace["total_tokens"] = tokens
+        return finish(
+            "succeeded",
+            action=reply["action"],
+            missing=reply["missing_aspect"],
+            queries=reply["queries"],
+            reason=reply["reason"],
+        )
+
+
+def _run_coro_sync(coro: Any) -> Any:
+    try:
+        asyncio.get_running_loop()
+    except RuntimeError:
+        return asyncio.run(coro)
+    from concurrent.futures import ThreadPoolExecutor
+
+    with ThreadPoolExecutor(max_workers=1) as pool:
+        return pool.submit(asyncio.run, coro).result()
+
+
+@dataclass(frozen=True)
 class RetrievalPlan:
     initial: StructureSearchResponse
     selected: tuple[StructureCandidate, ...]
     trace: dict[str, Any]
     visual_candidates: tuple[StructureCandidate, ...] = ()
+    visual_read_targets: tuple[StructureCandidate, ...] = ()
 
 
 def plan_retrieval(
@@ -252,12 +362,16 @@ def plan_retrieval(
     active: Callable[[], bool] = lambda: True,
     rewrite: Callable[..., RewriteResult] | None = None,
     scorer: JevClient | None = None,
+    planner: Callable[..., PlannerResult] | None = None,
+    vector_bridge: Any = None,
+    evidence_service: Any = None,
     original_question: str | None = None,
     supplement_saved_outputs: bool = False,
+    allow_bilingual: bool = True,
 ) -> RetrievalPlan:
-    """Reuse a single bilingual pool and enforce one final source budget in all arms."""
+    """Reuse a shared pool and enforce one final source budget across all strategies."""
 
-    if strategy not in {"fts", "bilingual", "jev", "expanded"} or not 1 <= budget <= request.top_k:
+    if strategy not in _VALID_STRATEGIES or not 1 <= budget <= request.top_k:
         raise ValueError("invalid workspace retrieval strategy or source budget")
     if not active():
         raise WorkspaceError("interrupted")
@@ -269,11 +383,13 @@ def plan_retrieval(
     visual_candidates = [
         candidate for candidate in initial.candidates if not _has_readable_text(candidate)
     ]
+    visual_read_targets: tuple[StructureCandidate, ...] = ()
     pool = list(text_initial)
     trace: dict[str, Any] = {
         "strategy": strategy,
         "effective_strategy": "fts",
         "budget": budget,
+        "pool_cap": request.top_k,
         "original_query": question,
         "search_query": request.query,
         "alternate_query": None,
@@ -284,6 +400,8 @@ def plan_retrieval(
         "rewrite": {"status": "not_requested", "external_call_count": 0},
         "jev": {"status": "not_requested", "external_call_count": 0},
         "expansion": {"status": "not_requested", "external_call_count": 0},
+        "planner": {"status": "not_requested", "external_call_count": 0},
+        "vector": {"status": "not_requested", "external_call_count": 0},
     }
 
     def finish(selected: Sequence[StructureCandidate]) -> RetrievalPlan:
@@ -299,53 +417,161 @@ def plan_retrieval(
         trace["visual_candidates"] = [
             _candidate_trace(candidate) for candidate in visual_candidates
         ]
+        trace["visual_read_targets"] = [
+            _candidate_trace(candidate) for candidate in visual_read_targets
+        ]
         trace["selected"] = [candidate.source.model_dump() for candidate in selected[:budget]]
         trace["external_call_count"] = sum(
-            trace[name]["external_call_count"] for name in ("rewrite", "jev", "expansion")
+            trace[name].get("external_call_count", 0)
+            for name in ("rewrite", "jev", "expansion", "planner", "vector")
         )
-        return RetrievalPlan(initial, tuple(selected[:budget]), trace, tuple(visual_candidates))
+        return RetrievalPlan(
+            initial,
+            tuple(selected[:budget]),
+            trace,
+            tuple(visual_candidates),
+            visual_read_targets,
+        )
 
     if strategy == "fts" or request.location is not None or initial.status in _SCOPED_FAILURES:
         return finish(pool)
     if not initial.snapshot:
         return finish(pool)
-    scope.verify()
-    rewritten = (rewrite or BilingualRewriter(settings))(request.query, verify=scope.verify)
-    scope.verify()
-    trace["rewrite"] = rewritten.trace
-    if rewritten.query:
-        trace["alternate_query"] = rewritten.query
-        alternate = scope.search(rewritten.query)
-        trace["alternate_search_status"] = alternate.status
-        text_alternate = [
-            candidate for candidate in alternate.candidates if _has_readable_text(candidate)
-        ]
-        visual_candidates = _merge_visual(
-            visual_candidates,
-            [candidate for candidate in alternate.candidates if not _has_readable_text(candidate)],
-            request.top_k,
-        )
-        trace["alternate_pool"] = [
-            _candidate_trace(candidate) for candidate in text_alternate
-        ]
-        pool = _fuse(text_initial, text_alternate, request.top_k)
-        pool = _prioritize_continuations(pool)
-        trace["effective_strategy"] = "bilingual"
-    if strategy == "bilingual":
+
+    # S0 / shared bilingual first-hop enrichment when query needs cross-lingual search.
+    if allow_bilingual:
+        scope.verify()
+        rewritten = (rewrite or BilingualRewriter(settings))(request.query, verify=scope.verify)
+        scope.verify()
+        trace["rewrite"] = rewritten.trace
+        if rewritten.query:
+            trace["alternate_query"] = rewritten.query
+            alternate = scope.search(rewritten.query)
+            trace["alternate_search_status"] = alternate.status
+            text_alternate = [
+                candidate for candidate in alternate.candidates if _has_readable_text(candidate)
+            ]
+            visual_candidates = _merge_visual(
+                visual_candidates,
+                [
+                    candidate
+                    for candidate in alternate.candidates
+                    if not _has_readable_text(candidate)
+                ],
+                request.top_k,
+            )
+            trace["alternate_pool"] = [
+                _candidate_trace(candidate) for candidate in text_alternate
+            ]
+            pool = _fuse(text_initial, text_alternate, request.top_k)
+            pool = _prioritize_continuations(pool)
+            trace["effective_strategy"] = "bilingual"
+
+    if strategy in {"s0", "bilingual"}:
         return finish(pool)
+
+    # S3: Optional vector retrieval (text semantic supplement + visual page recall).
+    if strategy == "vector" or (
+        settings.workspace_vector_retrieval_enabled and vector_bridge is not None
+    ):
+        if vector_bridge is not None:
+            vec_result = vector_bridge.search(
+                snapshot=snapshot,
+                docs=scope.docs,
+                sources=scope.sources,
+                question=question,
+                alternate_query=trace["alternate_query"],
+                pool_cap=request.top_k,
+                s0_status=initial.status,
+                s0_pool=pool,
+                library_store=library,
+                evidence_service=evidence_service,
+                verify=scope.verify,
+                max_visual_reads=settings.workspace_s3_max_visual_reads,
+            )
+            trace["vector"] = vec_result.trace
+            if vec_result.status == "succeeded":
+                if vec_result.text_candidates:
+                    pool = _fuse_with_anchor_protection(
+                        pool, vec_result.text_candidates, request.top_k
+                    )
+                    pool = _prioritize_continuations(pool)
+                if vec_result.visual_candidates:
+                    visual_candidates = _merge_visual(
+                        vec_result.visual_candidates,
+                        visual_candidates,
+                        max(request.top_k, len(vec_result.visual_candidates)),
+                    )
+                    visual_read_targets = vec_result.visual_read_targets
+                trace["effective_strategy"] = "vector"
+        else:
+            trace["vector"] = {
+                "status": "unavailable",
+                "reason": "bridge_not_configured",
+                "external_call_count": 0,
+            }
+        if strategy == "vector":
+            return finish(pool)
+
+    # S2a: Bounded deterministic 2-step literal-anchor expansion (decoupled from Jev).
+    if strategy == "s2a":
+        expanded_pool, trace["expansion"] = _expand_s2a(
+            library, scope, question, pool, budget, trace
+        )
+        if trace["expansion"]["status"] == "succeeded":
+            pool = expanded_pool
+            trace["effective_strategy"] = "s2a"
+        return finish(pool)
+
+    # S2b: Bounded 2-step LLM planner (1 planner call + 1 scoped search).
+    if strategy == "s2b":
+        planned_pool, trace["planner"] = _expand_s2b(
+            library,
+            scope,
+            planner or SearchPlanner(settings),
+            question,
+            pool,
+            budget,
+            trace,
+        )
+        if trace["planner"].get("added_count", 0) > 0:
+            pool = planned_pool
+            trace["effective_strategy"] = "s2b"
+        return finish(pool)
+
+    # S1 / legacy expanded / s2a_jev: Jev scoring with 48 KB batching & strict tie-break.
     scorer = scorer or JevClient(settings)
     scored, trace["jev"] = _score(scorer, question, pool, scope.verify)
-    if trace["jev"]["status"] != "succeeded":
-        if strategy == "expanded":
-            trace["expansion"]["status"] = "unavailable_without_jev"
+    if trace["jev"]["status"] not in {"succeeded", "partial"}:
+        if strategy in {"expanded", "s2a_jev"}:
+            trace["expansion"]["status"] = (
+                "unavailable_without_jev"
+                if strategy == "expanded"
+                else trace["jev"]["status"]
+            )
+        if strategy == "s2a_jev":
+            expanded_pool, trace["expansion"] = _expand_s2a(
+                library, scope, question, pool, budget, trace
+            )
+            if trace["expansion"]["status"] == "succeeded":
+                pool = expanded_pool
+                trace["effective_strategy"] = "s2a"
+            return finish(pool)
         return finish(pool)
-    trace["effective_strategy"] = "jev"
+    if trace["jev"]["status"] == "succeeded" or trace["jev"].get("scored_count", 0) > 0:
+        trace["effective_strategy"] = "jev"
     if strategy == "expanded":
         scored, trace["expansion"] = _expand(
             library, scope, scorer, question, scored, budget, trace
         )
         if trace["expansion"]["status"] == "succeeded":
             trace["effective_strategy"] = "expanded"
+    elif strategy == "s2a_jev":
+        scored, trace["expansion"] = _expand_s2a(
+            library, scope, question, scored, budget, trace
+        )
+        if trace["expansion"]["status"] == "succeeded":
+            trace["effective_strategy"] = "s2a_jev"
     return finish(scored)
 
 
@@ -549,22 +775,515 @@ def _prioritize_continuations(
     return ordered
 
 
+def _fuse_with_anchor_protection(
+    s0_pool: Sequence[StructureCandidate],
+    vector_pool: Sequence[StructureCandidate],
+    pool_cap: int,
+) -> list[StructureCandidate]:
+    """Fuse S0 lexical hits with S3 vector hits while protecting top S0 lexical anchors."""
+    anchors = [item for item in s0_pool if item.match_kind != "browse"][:2]
+    anchor_ids = {_identity(item.source) for item in anchors}
+    sources: dict[_Identity, StructureCandidate] = {}
+    ranks: dict[_Identity, float] = {}
+    for rank, item in enumerate(s0_pool, start=1):
+        if item.match_kind == "browse":
+            continue
+        key = _identity(item.source)
+        sources.setdefault(key, item)
+        ranks[key] = ranks.get(key, 0.0) + 1.0 / (60 + rank)
+    for rank, item in enumerate(vector_pool, start=1):
+        key = _identity(item.source)
+        sources.setdefault(key, item)
+        ranks[key] = ranks.get(key, 0.0) + 1.0 / (60 + rank)
+    rest = [
+        sources[key]
+        for key in sorted(ranks, key=ranks.get, reverse=True)
+        if key not in anchor_ids
+    ]
+    return [*anchors, *rest][:pool_cap]
+
+
+def _interleave_candidates(
+    lists: Sequence[Sequence[StructureCandidate]],
+) -> list[StructureCandidate]:
+    """Round-robin interleave multiple candidate lists without duplicates (SAG-Wiki style)."""
+    result: list[StructureCandidate] = []
+    seen: set[_Identity] = set()
+    max_len = max((len(items) for items in lists), default=0)
+    for idx in range(max_len):
+        for items in lists:
+            if idx >= len(items):
+                continue
+            cand = items[idx]
+            key = _identity(cand.source)
+            if key not in seen:
+                seen.add(key)
+                result.append(cand)
+    return result
+
+
 def _score(scorer, question, pool, verify, *, evidence=()):
+    if not pool:
+        return list(pool), {"status": "empty", "external_call_count": 0, "input_ids": []}
     inputs = [_jev_candidate(item) for item in pool]
     result = scorer.score(question, inputs, evidence=evidence, verify=verify)
     verify()
     wanted = [item.candidate_id for item in inputs]
     trace = {**result.trace, "input_ids": wanted}
-    if result.trace["status"] != "succeeded":
+    status = result.trace.get("status")
+    if status not in {"succeeded", "partial"} or not result.scores:
         return list(pool), trace
-    if set(result.scores) != set(wanted) or any(
-        type(value) not in (int, float) or not 0 <= value <= 1 for value in result.scores.values()
+    if any(
+        key not in set(wanted)
+        or type(value) not in (int, float)
+        or isinstance(value, bool)
+        or not 0 <= value <= 1
+        for key, value in result.scores.items()
     ):
         return list(pool), {**trace, "status": "invalid_response"}
-    trace["scores"] = {candidate_id: result.scores[candidate_id] for candidate_id in wanted}
-    return sorted(
-        pool, key=lambda item: result.scores[_candidate_id(item.source)], reverse=True
-    ), trace
+    scores_map = {cid: float(val) for cid, val in result.scores.items()}
+    trace["scores"] = {cid: scores_map[cid] for cid in wanted if cid in scores_map}
+    trace["scored_count"] = len(scores_map)
+
+    vals = list(scores_map.values())
+    if max(vals) < 0.15 or (len(vals) >= 3 and max(vals) - min(vals) < 1e-3 and min(vals) > 0.8):
+        return list(pool), {**trace, "status": "low_confidence"}
+
+    total = len(pool)
+    ranked_pairs = [
+        (
+            item,
+            scores_map.get(cid := _candidate_id(item.source)) is not None,
+            round(scores_map[cid], 4) if cid in scores_map else -1.0,
+            (total - idx) / total,
+        )
+        for idx, item in enumerate(pool)
+    ]
+    ranked_pairs.sort(key=lambda pair: (pair[1], pair[2], pair[3]), reverse=True)
+    return [pair[0] for pair in ranked_pairs], trace
+
+
+def _prefer_parent_pages_over_child_shapes(
+    items: Sequence[StructureCandidate],
+) -> list[StructureCandidate]:
+    """Promote parent page above redundant child text shapes when both appear."""
+    parent_by_key = {
+        (item.source.document_id, item.source.version, item.source.source_id): item
+        for item in items
+        if item.kind == "page"
+    }
+    ordered: list[StructureCandidate] = []
+    seen: set[_Identity] = set()
+    for item in items:
+        src = item.source
+        page_no = item.locator.get("page")
+        if (
+            item.kind == "page_object"
+            and item.locator.get("format") == "pptx"
+            and item.locator.get("object_type") in {"title", "text"}
+            and isinstance(page_no, int)
+        ):
+            parent = parent_by_key.get((src.document_id, src.version, f"page:{page_no}"))
+            if parent is not None:
+                pkey = _identity(parent.source)
+                if pkey not in seen:
+                    seen.add(pkey)
+                    ordered.append(parent)
+                continue
+        ikey = _identity(src)
+        if ikey not in seen:
+            seen.add(ikey)
+            ordered.append(item)
+    return ordered
+
+
+def _rank_step2_candidates(candidates: Sequence[StructureCandidate]) -> list[StructureCandidate]:
+    """Place concrete measurements/outputs/pages ahead of short markdown heading cells."""
+    def _tier(cand: StructureCandidate) -> int:
+        if cand.kind == "notebook_output":
+            return 0
+        if cand.kind == "page":
+            return 1
+        stripped = cand.text.strip()
+        if (
+            cand.kind == "cell"
+            and stripped.startswith("#")
+            and len(stripped) < 100
+            and "\n" not in stripped
+        ):
+            return 3
+        return 2
+
+    return sorted(candidates, key=lambda cand: (_tier(cand),))
+
+
+def _extract_s2a_terms(
+    text: str, prior_queries: str, covered_doc_ids: set[str], scope: _PinnedScope
+) -> list[tuple[str, float, StructureSearchResponse]]:
+    candidates: dict[str, float] = {}
+    q_tokens = {
+        tok.casefold()
+        for tok in re.findall(r"[A-Za-z0-9_.-]{2,}|[\u3400-\u9fff]{2,}", prior_queries)
+    }
+    patterns = (
+        (_S2A_BACKTICK, 2.0),
+        (_S2A_SNAKE, 2.0),
+        (_S2A_DOTTED, 1.5),
+        (_S2A_IDENT, 1.4),
+    )
+    for sentence in _SENTENCE_SPLIT.split(text):
+        sent = sentence.strip()
+        if not sent:
+            continue
+        sent_low = sent.casefold()
+        ctx_bonus = 1.2 if any(tok in sent_low for tok in q_tokens) else 0.0
+        for pattern, base_weight in patterns:
+            min_len = 3 if pattern in (_S2A_BACKTICK, _S2A_SNAKE) else 4
+            for match in pattern.finditer(sent):
+                term = match.group(1).strip()
+                if (
+                    len(term) < min_len
+                    or term.casefold() in _S2A_TERM_STOPS
+                    or _literal_term(term, prior_queries)
+                ):
+                    continue
+                weight = base_weight + ctx_bonus
+                if candidates.get(term, 0.0) < weight:
+                    candidates[term] = weight
+    ordered = sorted(candidates.items(), key=lambda pair: (-pair[1], pair[0]))[:8]
+    if not ordered:
+        return []
+    # Specificity-weighted local probe: targeted 1-2 doc links beat generic multi-PDF terms.
+    scored: list[tuple[str, float, StructureSearchResponse]] = []
+    for term, weight in ordered:
+        resp = scope.search(term)
+        cross_docs = {
+            cand.source.document_id
+            for cand in resp.candidates
+            if cand.match_kind != "browse"
+            and cand.source.document_id not in covered_doc_ids
+            and _literal_term(term, f"{cand.title}\n{cand.text}")
+        }
+        new_hits = [
+            cand
+            for cand in resp.candidates
+            if cand.match_kind != "browse" and _literal_term(term, f"{cand.title}\n{cand.text}")
+        ]
+        if new_hits:
+            if 1 <= len(cross_docs) <= 2:
+                cross_bonus = 2.2
+            elif len(cross_docs) == 3:
+                cross_bonus = 1.0
+            else:
+                cross_bonus = 0.1
+            scored.append((term, weight + cross_bonus, resp))
+    scored.sort(key=lambda item: (-item[1], item[0]))
+    return [(term, score, resp) for term, score, resp in scored[:3]]
+
+
+def _expand_s2a(library, scope, question, pool, budget, prior_trace):
+    trace: dict[str, Any] = {
+        "status": "no_read_anchor",
+        "external_call_count": 0,
+        "terms": [],
+    }
+    if budget < 2:
+        return list(pool), {
+            **trace,
+            "status": "insufficient_budget",
+            "stop_reason": "insufficient_budget",
+        }
+    if library is None or not pool:
+        return list(pool), {**trace, "stop_reason": "no_read_anchor"}
+
+    pool_ordered = _prefer_parent_pages_over_child_shapes(pool)
+    protected_count = min(3, max(2, budget // 2))
+    protected = list(pool_ordered[:protected_count])
+    covered_docs = {item.source.document_id for item in protected}
+    prior_queries = "\n".join(
+        filter(None, (question, scope.request.query, prior_trace.get("alternate_query")))
+    )
+    anchor_texts: list[tuple[StructureCandidate, str]] = []
+    for item in pool_ordered[: min(6, len(pool_ordered))]:
+        if item.match_kind == "browse" or not item.text.strip():
+            continue
+        scope.verify()
+        raw = library.read_source(item.source, course_ids=(item.course_id,))
+        doc = scope.docs[item.source.document_id]
+        if (
+            not raw.is_current
+            or raw.publication_epoch != doc.publication_epoch
+            or raw.content_sha256 != doc.content_sha256
+        ):
+            raise WorkspaceError("stale_reference")
+        if raw.status == "available" and raw.source is not None:
+            raw_text = readable_source_text(raw.source)
+            if raw_text.strip():
+                anchor_texts.append((item, raw_text))
+
+    if not anchor_texts:
+        return list(pool), {**trace, "stop_reason": "no_read_anchor"}
+
+    merged_candidates: dict[
+        str, tuple[float, StructureSearchResponse, dict[str, Any], StructureCandidate]
+    ] = {}
+    for item, raw_text in anchor_texts:
+        for term, score, resp in _extract_s2a_terms(raw_text, prior_queries, covered_docs, scope):
+            if term not in merged_candidates or score > merged_candidates[term][0]:
+                merged_candidates[term] = (
+                    score,
+                    resp,
+                    {
+                        "term": term,
+                        "score": round(score, 3),
+                        "anchor_source": item.source.model_dump(),
+                    },
+                    item,
+                )
+
+    if not merged_candidates:
+        return list(pool), {**trace, "status": "no_new_terms", "stop_reason": "no_new_terms"}
+
+    chosen_entries = sorted(
+        merged_candidates.values(), key=lambda entry: (-entry[0], entry[2]["term"])
+    )[:3]
+    trace["terms"] = [entry[2] for entry in chosen_entries]
+    known = {_identity(item.source) for item in pool_ordered}
+    per_term_lists: list[list[StructureCandidate]] = []
+    for entry in chosen_entries:
+        term = entry[2]["term"]
+        resp = entry[1]
+        filtered = _rank_step2_candidates(
+            [
+                cand
+                for cand in resp.candidates
+                if _identity(cand.source) not in known
+                and cand.match_kind != "browse"
+                and _literal_term(term, f"{cand.title}\n{cand.text}")
+            ]
+        )
+        if filtered:
+            per_term_lists.append(filtered)
+
+    additions = _interleave_candidates(per_term_lists)
+    trace["new_candidates"] = [_candidate_trace(candidate) for candidate in additions]
+    if not additions:
+        return list(pool), {
+            **trace,
+            "status": "no_new_candidates",
+            "stop_reason": "no_new_candidates",
+        }
+
+    # Keep Step-1 anchor item(s) alongside top base slots, leaving room for Step-2 additions.
+    max_protected = max(2, budget - 2)
+    anchor_items = [entry[3] for entry in chosen_entries]
+    protected_with_anchors: list[StructureCandidate] = []
+    p_keys: set[_Identity] = set()
+    for item in (*anchor_items, *protected):
+        key = _identity(item.source)
+        if key in p_keys:
+            continue
+        p_keys.add(key)
+        protected_with_anchors.append(item)
+        if len(protected_with_anchors) >= max_protected:
+            break
+
+    selected: list[StructureCandidate] = list(protected_with_anchors)
+    selected_keys = {_identity(item.source) for item in selected}
+    for cand in (*additions, *pool_ordered):
+        key = _identity(cand.source)
+        if key in selected_keys:
+            continue
+        selected_keys.add(key)
+        selected.append(cand)
+        if len(selected) >= budget:
+            break
+    trace.update(
+        status="succeeded",
+        stop_reason="step_limit_2",
+        protected_count=len(protected_with_anchors),
+        added_sources=[
+            cand.source.model_dump()
+            for cand in additions[: max(0, budget - len(protected_with_anchors))]
+        ],
+    )
+    return selected[:budget], trace
+
+
+def _expand_s2b(library, scope, planner, question, pool, budget, prior_trace):
+    trace: dict[str, Any] = {
+        "status": "not_requested",
+        "external_call_count": 0,
+        "added_count": 0,
+        "steps_executed": 1,
+    }
+    if budget < 2:
+        return list(pool), {
+            **trace,
+            "status": "insufficient_budget",
+            "stop_reason": "insufficient_budget",
+        }
+
+    pool_ordered = _prefer_parent_pages_over_child_shapes(pool)
+    scope.verify()
+    previews: list[dict[str, Any]] = []
+    for item in pool_ordered[: min(5, len(pool_ordered))]:
+        raw_text = item.text
+        if library is not None:
+            raw = library.read_source(item.source, course_ids=(item.course_id,))
+            doc = scope.docs[item.source.document_id]
+            if (
+                not raw.is_current
+                or raw.publication_epoch != doc.publication_epoch
+                or raw.content_sha256 != doc.content_sha256
+            ):
+                raise WorkspaceError("stale_reference")
+            if raw.status == "available" and raw.source is not None:
+                raw_text = readable_source_text(raw.source) or item.text
+        previews.append(
+            {
+                "file_name": item.file_name,
+                "source_id": item.source.source_id,
+                "kind": item.kind,
+                "title": item.title,
+                "excerpt": raw_text.strip()[:500],
+            }
+        )
+
+    per_doc_items: dict[str, list[dict[str, Any]]] = {doc_id: [] for doc_id in scope.docs}
+    seen_outline: set[tuple[str, str]] = set()
+    for src in scope.sources.values():
+        if src.document_id not in scope.docs or src.kind not in {"page", "cell"}:
+            continue
+        title = src.title.strip() or (src.text.strip().splitlines()[0] if src.text.strip() else "")
+        if not title:
+            continue
+        doc_name = scope.docs[src.document_id].file_name
+        pair = (doc_name, title)
+        if pair in seen_outline:
+            continue
+        seen_outline.add(pair)
+        per_doc_items[src.document_id].append(
+            {"file_name": doc_name, "source_id": src.source_id, "title": title[:100]}
+        )
+
+    outline: list[dict[str, Any]] = []
+    doc_queues = [entries for entries in per_doc_items.values() if entries]
+    max_rounds = max((len(entries) for entries in doc_queues), default=0)
+    for idx in range(max_rounds):
+        for entries in doc_queues:
+            if idx < len(entries):
+                outline.append(entries[idx])
+                if len(outline) >= 60:
+                    break
+        if len(outline) >= 60:
+            break
+
+    if not previews and not outline:
+        return list(pool), {**trace, "status": "no_step1_pool", "stop_reason": "no_step1_pool"}
+
+    already_tried = [
+        item
+        for item in dict.fromkeys(
+            (question, scope.request.query, prior_trace.get("alternate_query") or "")
+        )
+        if item
+    ]
+    payload = {
+        "original_question": question,
+        "step_1_evidence_previews": previews,
+        "authorized_catalog_outline": outline,
+        "already_tried_queries": already_tried,
+    }
+    plan_res = planner(payload, verify=scope.verify)
+    trace.update(plan_res.trace)
+    if plan_res.trace.get("status") != "succeeded":
+        trace["stop_reason"] = f"planner_{plan_res.trace.get('status', 'error')}"
+        return list(pool), trace
+    if plan_res.action == "finish":
+        trace["stop_reason"] = "planner_finished"
+        return list(pool), trace
+
+    tried_norm = {" ".join(q.split()).casefold() for q in already_tried}
+    new_queries = [
+        q
+        for q in plan_res.queries
+        if " ".join(q.split()).casefold() not in tried_norm
+    ][:2]
+    trace["filtered_queries"] = new_queries
+    if not new_queries:
+        trace["stop_reason"] = "no_new_terms"
+        return list(pool), trace
+
+    known = {_identity(item.source) for item in pool_ordered}
+    per_query_lists: list[list[StructureCandidate]] = []
+    for query in new_queries:
+        scope.verify()
+        resp = scope.search(query)
+        filtered = _rank_step2_candidates(
+            _prefer_parent_pages_over_child_shapes(
+                [
+                    cand
+                    for cand in resp.candidates
+                    if _identity(cand.source) not in known
+                    and cand.match_kind != "browse"
+                    and _has_readable_text(cand)
+                ]
+            )
+        )
+        if filtered:
+            per_query_lists.append(filtered)
+
+    additions = _interleave_candidates(per_query_lists)
+    trace["steps_executed"] = 2
+    trace["new_candidates"] = [_candidate_trace(cand) for cand in additions]
+    if not additions:
+        trace["stop_reason"] = "no_new_candidates"
+        return list(pool), trace
+
+    max_protected = min(4, max(2, budget - 2)) if pool_ordered else 0
+    protected: list[StructureCandidate] = []
+    seen_docs: set[str] = set()
+    p_keys: set[_Identity] = set()
+    preview_window = pool_ordered[: min(5, len(pool_ordered))]
+    # Preserve at least one top hit per distinct document seen in planner previews before dupes.
+    for cand in preview_window:
+        if len(protected) >= max_protected:
+            break
+        if cand.source.document_id not in seen_docs:
+            seen_docs.add(cand.source.document_id)
+            p_keys.add(_identity(cand.source))
+            protected.append(cand)
+    for cand in preview_window:
+        if len(protected) >= max_protected:
+            break
+        key = _identity(cand.source)
+        if key not in p_keys:
+            p_keys.add(key)
+            protected.append(cand)
+    selected: list[StructureCandidate] = list(protected)
+    selected_keys = set(p_keys)
+    added_sources: list[dict[str, Any]] = []
+    addition_keys = {_identity(cand.source) for cand in additions}
+    for cand in (*additions, *pool_ordered):
+        key = _identity(cand.source)
+        if key in selected_keys:
+            continue
+        selected_keys.add(key)
+        selected.append(cand)
+        if key in addition_keys:
+            added_sources.append(cand.source.model_dump())
+        if len(selected) >= budget:
+            break
+
+    trace.update(
+        status="succeeded",
+        stop_reason="step_limit_2",
+        protected_count=len(protected),
+        added_count=len(added_sources),
+        added_sources=added_sources,
+    )
+    return selected[:budget], trace
 
 
 def _expand(library, scope, scorer, question, pool, budget, prior_trace):
@@ -693,7 +1412,25 @@ _EN_WORD_PART = (
     r"trillion|point)"
 )
 _EN_WORD_QTY = re.compile(
-    rf"\b({_EN_WORD_PART}(?:[\s-]+{_EN_WORD_PART})*)\b",
+    rf"\b({_EN_WORD_PART}(?:[\s-]+{_EN_WORD_PART})*)\b"
+    r"(?!-(?:stage|step|shot|level|tier|pass|hop|way|sided|fold|part|phase|branch|head|layer|stream)\b)",
+    re.IGNORECASE,
+)
+_EN_ORDINALS = {
+    "first": Decimal("1"),
+    "second": Decimal("2"),
+    "third": Decimal("3"),
+    "fourth": Decimal("4"),
+    "fifth": Decimal("5"),
+    "sixth": Decimal("6"),
+    "seventh": Decimal("7"),
+    "eighth": Decimal("8"),
+    "ninth": Decimal("9"),
+    "tenth": Decimal("10"),
+}
+_EN_ORDINAL_SECTION = re.compile(
+    r"\b(first|second|third|fourth|fifth|sixth|seventh|eighth|ninth|tenth)\s+"
+    r"(?=lecture|chapter|module|unit|section)\b",
     re.IGNORECASE,
 )
 _EN_FRACTION_DENOMS = {
@@ -723,8 +1460,8 @@ _EN_FRACTION = re.compile(
 _ZH_COMPOUND_OR_UNIT_QTY = re.compile(
     r"(?:(?:[零一二两三四五六七八九十百千万亿兆点]{2,})|"
     r"(?<=[取为=于及或和与到比在])\s*[零一二两三四五六七八九十百千万亿]|"
-    r"[零一二两三四五六七八九十百千](?=\s*(?:个|项|种|份|次|轮|层|步|张|条|位|比特|"
-    r"毫克|千克|公斤|毫秒|微秒|纳秒|秒|赫兹|千赫|兆赫|毫米|厘米|分贝|度|倍|%|percent)))"
+    r"[零一二两三四五六七八九十百千](?=\s*(?:个|项|种|份|次|轮|层|步|张|条|位|讲|章|节|课|"
+    r"比特|毫克|千克|公斤|毫秒|微秒|纳秒|秒|赫兹|千赫|兆赫|毫米|厘米|分贝|度|倍|%|percent)))"
 )
 _COMP_SPECS: tuple[tuple[str, re.Pattern[str]], ...] = (
     (
@@ -1026,6 +1763,11 @@ def _extract_quantities(text: str) -> list[_QtySpan]:
                 unit = u_name
                 end_pos += u_len
         add_if_free(match.start(), end_pos, val, unit)
+
+    for match in _EN_ORDINAL_SECTION.finditer(masked):
+        ord_val = _EN_ORDINALS.get(match[1].casefold())
+        if ord_val is not None:
+            add_if_free(match.start(1), match.end(1), ord_val, None)
 
     # 4. Pure Chinese numerals (with idioms neutralized)
     cleaned = _ZH_IDIOMS.sub(lambda m: " " * len(m[0]), masked)

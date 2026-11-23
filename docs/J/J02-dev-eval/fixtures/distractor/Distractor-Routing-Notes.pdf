@@ -1,0 +1,28 @@
+%PDF-1.4
+1 0 obj << /Type /Catalog /Pages 2 0 R >> endobj
+2 0 obj << /Type /Pages /Kids [3 0 R] /Count 1 >> endobj
+3 0 obj << /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Contents 4 0 R /Resources << /Font << /F1 5 0 R >> >> >> endobj
+4 0 obj << /Length 314 >> stream
+BT
+/F1 12 Tf
+50 740 Td
+18 TL
+(Distractor Routing Notes \(Cross-Course Isolation Decoy\)) Tj T*
+(Distractor-405B-Q2: measured throughput = 9999 tok/s, alpha = 0.99.) Tj T*
+(LLaMA-3 70B 4-bit GaLore end-to-end throughput = 7777 tok/s.) Tj T*
+(dispatch_audit_v7 fake trap: ops_share = 0.999, skew_cv = 0.91.) Tj T*
+ET
+endstream endobj
+5 0 obj << /Type /Font /Subtype /Type1 /BaseFont /Helvetica >> endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000606 00000 n 
+trailer << /Size 6 /Root 1 0 R >>
+startxref
+676
+%%EOF

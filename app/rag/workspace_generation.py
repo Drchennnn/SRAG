@@ -20,11 +20,13 @@ from app.rag.workspace_reading import (
     estimate_embedded_json_budget,
     estimate_input_budget,
 )
+from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import TurnEvidence
 
 OUTPUT_RESERVE = 8192
 _CHAT_FRAME_RESERVE = 128
 _TEXT_METHODS = {"native_text", "native_table", "ocr"}
+_READ_METHODS = _TEXT_METHODS | {"vision"}
 _LOCATOR_FIELDS = {
     "page", "cell_index", "output_index", "section_path", "bbox", "version_role", "evidence_role",
 }
@@ -498,6 +500,22 @@ def _read_text(evidence: Mapping[str, TurnEvidence]) -> dict[str, dict]:
     return _read_text_with_items(evidence)[0]
 
 
+def _accept_read_for_generation(source: SourceKey, read: Any) -> bool:
+    if (
+        read.actual_source != source
+        or read.status not in {"succeeded", "partial"}
+        or not read.text.strip()
+    ):
+        return False
+    if read.method in _TEXT_METHODS:
+        return True
+    return (
+        read.method == "vision"
+        and read.origin_execution == "real_provider"
+        and bool(read.actual_input_sha256)
+    )
+
+
 def _read_text_with_items(
     evidence: Mapping[str, TurnEvidence],
 ) -> tuple[dict[str, dict[str, Any]], dict[str, TurnEvidence]]:
@@ -510,12 +528,7 @@ def _read_text_with_items(
         reads = [
             {"method": read.method, "status": read.status, "text": read.text}
             for read in item.reads
-            if (
-                read.actual_source == source
-                and read.method in _TEXT_METHODS
-                and read.status in {"succeeded", "partial"}
-                and read.text.strip()
-            )
+            if _accept_read_for_generation(source, read)
         ]
         if reads:
             result[identifier] = {
@@ -588,10 +601,7 @@ def _trim_turn_evidence(item: TurnEvidence, shrunk_text: str, end: int) -> TurnE
     for read in item.reads:
         if (
             not replaced
-            and read.actual_source == source
-            and read.method in _TEXT_METHODS
-            and read.status in {"succeeded", "partial"}
-            and read.text.strip()
+            and _accept_read_for_generation(source, read)
         ):
             warnings = list(read.warnings)
             if "excerpt_truncated" not in warnings:

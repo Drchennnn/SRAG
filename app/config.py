@@ -31,7 +31,14 @@ class Settings(BaseSettings):
     workspace_max_upload_bytes: int = 50 * 1024 * 1024
     workspace_answer_enabled: bool = False
     workspace_input_token_limit: int = Field(default=32_768, gt=0)
-    workspace_retrieval_strategy: Literal["fts", "bilingual", "jev", "expanded"] = "fts"
+    workspace_retrieval_strategy: Literal[
+        "fts", "bilingual", "jev", "expanded", "s0", "s2a", "s2b", "s2a_jev", "vector"
+    ] = "fts"
+    workspace_retrieval_pool_cap: int = Field(default=12, ge=1, le=50)
+    workspace_retrieval_budget: int = Field(default=0, ge=0, le=50)
+    workspace_vector_retrieval_enabled: bool = False
+    qdrant_local_path: Path | None = None
+    workspace_s3_max_visual_reads: int = Field(default=2, ge=0, le=4)
 
     dashscope_api_key: str = ""
     dashscope_base_url: str = ""

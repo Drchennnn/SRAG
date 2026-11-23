@@ -475,63 +475,20 @@ class QdrantStore:
             raise ValueError("dense 召回数量必须在 1 到 50 之间")
 
         await self.ensure_collection()
-        conditions: list[models.Condition] = [
-            models.FieldCondition(
-                key="representation_type",
-                match=models.MatchValue(value=RepresentationType.TEXT_CONTENT.value),
-            )
-        ]
-        clean_course_ids = _clean_filter_values(course_ids)
-        clean_document_ids = _clean_filter_values(document_ids)
-        if clean_course_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="course_id",
-                    match=models.MatchAny(any=clean_course_ids),
-                )
-            )
-        if clean_document_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="document_id",
-                    match=models.MatchAny(any=clean_document_ids),
-                )
-            )
-        if visible_versions is not None:
-            clean_versions = list(
-                dict.fromkeys(
-                    (document_id.strip(), version)
-                    for document_id, version in visible_versions
-                    if document_id.strip() and version >= 1
-                )
-            )
-            if not clean_versions:
-                return []
-            conditions.append(
-                models.Filter(
-                    should=[
-                        models.Filter(
-                            must=[
-                                models.FieldCondition(
-                                    key="document_id",
-                                    match=models.MatchValue(value=document_id),
-                                ),
-                                models.FieldCondition(
-                                    key="version",
-                                    match=models.MatchValue(value=version),
-                                ),
-                            ]
-                        )
-                        for document_id, version in clean_versions
-                    ]
-                )
-            )
+        query_filter = build_search_filter(
+            RepresentationType.TEXT_CONTENT.value,
+            course_ids=course_ids,
+            document_ids=document_ids,
+            visible_versions=visible_versions,
+        )
+        if query_filter is None:
+            return []
 
         response = await self.client.query_points(
             collection_name=self.collection,
             query=query_vector,
             using=TEXT_DENSE_VECTOR,
-            query_filter=models.Filter(must=conditions),
+            query_filter=query_filter,
             limit=limit,
             with_payload=True,
             with_vectors=False,
@@ -553,63 +510,20 @@ class QdrantStore:
             raise ValueError("sparse 召回数量必须在 1 到 50 之间")
 
         await self.ensure_collection()
-        conditions: list[models.Condition] = [
-            models.FieldCondition(
-                key="representation_type",
-                match=models.MatchValue(value=RepresentationType.TEXT_CONTENT.value),
-            )
-        ]
-        clean_course_ids = _clean_filter_values(course_ids)
-        clean_document_ids = _clean_filter_values(document_ids)
-        if clean_course_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="course_id",
-                    match=models.MatchAny(any=clean_course_ids),
-                )
-            )
-        if clean_document_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="document_id",
-                    match=models.MatchAny(any=clean_document_ids),
-                )
-            )
-        if visible_versions is not None:
-            clean_versions = list(
-                dict.fromkeys(
-                    (document_id.strip(), version)
-                    for document_id, version in visible_versions
-                    if document_id.strip() and version >= 1
-                )
-            )
-            if not clean_versions:
-                return []
-            conditions.append(
-                models.Filter(
-                    should=[
-                        models.Filter(
-                            must=[
-                                models.FieldCondition(
-                                    key="document_id",
-                                    match=models.MatchValue(value=document_id),
-                                ),
-                                models.FieldCondition(
-                                    key="version",
-                                    match=models.MatchValue(value=version),
-                                ),
-                            ]
-                        )
-                        for document_id, version in clean_versions
-                    ]
-                )
-            )
+        query_filter = build_search_filter(
+            RepresentationType.TEXT_CONTENT.value,
+            course_ids=course_ids,
+            document_ids=document_ids,
+            visible_versions=visible_versions,
+        )
+        if query_filter is None:
+            return []
 
         response = await self.client.query_points(
             collection_name=self.collection,
             query=query_sparse,
             using=TEXT_SPARSE_VECTOR,
-            query_filter=models.Filter(must=conditions),
+            query_filter=query_filter,
             limit=limit,
             with_payload=True,
             with_vectors=False,
@@ -633,63 +547,20 @@ class QdrantStore:
             raise ValueError("outline 召回数量必须在 1 到 50 之间")
 
         await self.ensure_collection()
-        conditions: list[models.Condition] = [
-            models.FieldCondition(
-                key="representation_type",
-                match=models.MatchValue(value=RepresentationType.DOCUMENT_OUTLINE.value),
-            )
-        ]
-        clean_course_ids = _clean_filter_values(course_ids)
-        clean_document_ids = _clean_filter_values(document_ids)
-        if clean_course_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="course_id",
-                    match=models.MatchAny(any=clean_course_ids),
-                )
-            )
-        if clean_document_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="document_id",
-                    match=models.MatchAny(any=clean_document_ids),
-                )
-            )
-        if visible_versions is not None:
-            clean_versions = list(
-                dict.fromkeys(
-                    (document_id.strip(), version)
-                    for document_id, version in visible_versions
-                    if document_id.strip() and version >= 1
-                )
-            )
-            if not clean_versions:
-                return []
-            conditions.append(
-                models.Filter(
-                    should=[
-                        models.Filter(
-                            must=[
-                                models.FieldCondition(
-                                    key="document_id",
-                                    match=models.MatchValue(value=document_id),
-                                ),
-                                models.FieldCondition(
-                                    key="version",
-                                    match=models.MatchValue(value=version),
-                                ),
-                            ]
-                        )
-                        for document_id, version in clean_versions
-                    ]
-                )
-            )
+        query_filter = build_search_filter(
+            RepresentationType.DOCUMENT_OUTLINE.value,
+            course_ids=course_ids,
+            document_ids=document_ids,
+            visible_versions=visible_versions,
+        )
+        if query_filter is None:
+            return []
 
         response = await self.client.query_points(
             collection_name=self.collection,
             query=query_vector,
             using=TEXT_DENSE_VECTOR,
-            query_filter=models.Filter(must=conditions),
+            query_filter=query_filter,
             limit=limit,
             with_payload=True,
             with_vectors=False,
@@ -715,63 +586,20 @@ class QdrantStore:
             raise ValueError("visual 召回数量必须在 1 到 50 之间")
 
         await self.ensure_collection()
-        conditions: list[models.Condition] = [
-            models.FieldCondition(
-                key="representation_type",
-                match=models.MatchValue(value=RepresentationType.VISUAL_FUSION.value),
-            )
-        ]
-        clean_course_ids = _clean_filter_values(course_ids)
-        clean_document_ids = _clean_filter_values(document_ids)
-        if clean_course_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="course_id",
-                    match=models.MatchAny(any=clean_course_ids),
-                )
-            )
-        if clean_document_ids:
-            conditions.append(
-                models.FieldCondition(
-                    key="document_id",
-                    match=models.MatchAny(any=clean_document_ids),
-                )
-            )
-        if visible_versions is not None:
-            clean_versions = list(
-                dict.fromkeys(
-                    (document_id.strip(), version)
-                    for document_id, version in visible_versions
-                    if document_id.strip() and version >= 1
-                )
-            )
-            if not clean_versions:
-                return []
-            conditions.append(
-                models.Filter(
-                    should=[
-                        models.Filter(
-                            must=[
-                                models.FieldCondition(
-                                    key="document_id",
-                                    match=models.MatchValue(value=document_id),
-                                ),
-                                models.FieldCondition(
-                                    key="version",
-                                    match=models.MatchValue(value=version),
-                                ),
-                            ]
-                        )
-                        for document_id, version in clean_versions
-                    ]
-                )
-            )
+        query_filter = build_search_filter(
+            RepresentationType.VISUAL_FUSION.value,
+            course_ids=course_ids,
+            document_ids=document_ids,
+            visible_versions=visible_versions,
+        )
+        if query_filter is None:
+            return []
 
         response = await self.client.query_points(
             collection_name=self.collection,
             query=query_vector,
             using=VISUAL_DENSE_VECTOR,
-            query_filter=models.Filter(must=conditions),
+            query_filter=query_filter,
             limit=limit,
             with_payload=True,
             with_vectors=False,
@@ -880,35 +708,12 @@ class QdrantStore:
             await self.client.close()
 
     def _validate_vector_schema(self, info: models.CollectionInfo) -> None:
-        dense = info.config.params.vectors
-        sparse = info.config.params.sparse_vectors or {}
-        if not isinstance(dense, dict):
-            raise QdrantSchemaError("Qdrant collection 必须使用命名向量")
-
-        expected_dense = {
-            TEXT_DENSE_VECTOR: self.text_dimension,
-            VISUAL_DENSE_VECTOR: self.visual_dimension,
-        }
-        errors: list[str] = []
-        for name, expected_size in expected_dense.items():
-            params = dense.get(name)
-            if params is None:
-                errors.append(f"缺少 dense 向量 {name}")
-                continue
-            if params.size != expected_size:
-                errors.append(f"{name} 维度应为 {expected_size}，实际为 {params.size}")
-            if params.distance != models.Distance.COSINE:
-                errors.append(f"{name} 距离度量应为 Cosine，实际为 {params.distance.value}")
-
-        if TEXT_SPARSE_VECTOR not in sparse:
-            errors.append(f"缺少 sparse 向量 {TEXT_SPARSE_VECTOR}")
-
-        if errors:
-            joined = "；".join(errors)
-            raise QdrantSchemaError(
-                f"Qdrant collection {self.collection!r} 与当前配置不兼容：{joined}。"
-                "为避免破坏已有数据，程序不会自动重建 collection。"
-            )
+        validate_collection_schema(
+            self.collection,
+            info,
+            text_dimension=self.text_dimension,
+            visual_dimension=self.visual_dimension,
+        )
 
     async def _ensure_payload_indexes(self, info: models.CollectionInfo) -> None:
         for field_name, expected_type in _PAYLOAD_INDEXES.items():
@@ -926,6 +731,117 @@ class QdrantStore:
                 field_schema=expected_type,
                 wait=True,
             )
+
+
+def build_search_filter(
+    representation_type: str,
+    *,
+    course_ids: Sequence[str] = (),
+    document_ids: Sequence[str] = (),
+    visible_versions: Sequence[tuple[str, int]] | None = None,
+    source_origin: str | None = None,
+) -> models.Filter | None:
+    """构造带表示类型、范围与可见版本约束的 Qdrant Filter；空 visible_versions 返回 None。"""
+
+    conditions: list[models.Condition] = [
+        models.FieldCondition(
+            key="representation_type",
+            match=models.MatchValue(value=representation_type),
+        )
+    ]
+    if source_origin:
+        conditions.append(
+            models.FieldCondition(
+                key="source_origin",
+                match=models.MatchValue(value=source_origin),
+            )
+        )
+    clean_course_ids = _clean_filter_values(course_ids)
+    clean_document_ids = _clean_filter_values(document_ids)
+    if clean_course_ids:
+        conditions.append(
+            models.FieldCondition(
+                key="course_id",
+                match=models.MatchAny(any=clean_course_ids),
+            )
+        )
+    if clean_document_ids:
+        conditions.append(
+            models.FieldCondition(
+                key="document_id",
+                match=models.MatchAny(any=clean_document_ids),
+            )
+        )
+    if visible_versions is not None:
+        clean_versions = list(
+            dict.fromkeys(
+                (document_id.strip(), version)
+                for document_id, version in visible_versions
+                if document_id.strip() and version >= 1
+            )
+        )
+        if not clean_versions:
+            return None
+        conditions.append(
+            models.Filter(
+                should=[
+                    models.Filter(
+                        must=[
+                            models.FieldCondition(
+                                key="document_id",
+                                match=models.MatchValue(value=document_id),
+                            ),
+                            models.FieldCondition(
+                                key="version",
+                                match=models.MatchValue(value=version),
+                            ),
+                        ]
+                    )
+                    for document_id, version in clean_versions
+                ]
+            )
+        )
+    return models.Filter(must=conditions)
+
+
+def validate_collection_schema(
+    collection: str,
+    info: models.CollectionInfo,
+    *,
+    text_dimension: int,
+    visual_dimension: int,
+) -> None:
+    """校验 Qdrant collection 的命名向量名称、维度和距离度量。"""
+
+    dense = info.config.params.vectors
+    sparse = info.config.params.sparse_vectors or {}
+    if not isinstance(dense, dict):
+        raise QdrantSchemaError("Qdrant collection 必须使用命名向量")
+
+    expected_dense = {
+        TEXT_DENSE_VECTOR: text_dimension,
+        VISUAL_DENSE_VECTOR: visual_dimension,
+    }
+    errors: list[str] = []
+    for name, expected_size in expected_dense.items():
+        params = dense.get(name)
+        if params is None:
+            errors.append(f"缺少 dense 向量 {name}")
+            continue
+        if params.size != expected_size:
+            errors.append(f"{name} 维度应为 {expected_size}，实际为 {params.size}")
+        if params.distance != models.Distance.COSINE:
+            errors.append(f"{name} 距离度量应为 Cosine，实际为 {params.distance.value}")
+
+    if TEXT_SPARSE_VECTOR not in sparse:
+        errors.append(f"缺少 sparse 向量 {TEXT_SPARSE_VECTOR}")
+
+    if errors:
+        joined = "；".join(errors)
+        raise QdrantSchemaError(
+            f"Qdrant collection {collection!r} 与当前配置不兼容：{joined}。"
+            "为避免破坏已有数据，程序不会自动重建 collection。"
+        )
 
 
 def _point_id(representation_id: str, version: int) -> str:

@@ -48,8 +48,21 @@ _EXPLICIT_LOCATION = re.compile(
 _DEMONSTRATIVE_TABLE = re.compile(r"(?:这|那)张\s*(?:表格|原表|表)")
 _IMAGE = re.compile(
     r"子图|图片|图像|插图|图表|原图|什么图|[左右上下]图|图[中上内]|图里的"
+    r"|(?:实验|架构|框|曲线|示意|流程|结构|对比|比较|分布|结果|热力|散点|柱状|折线|直方|系统|原理|网络|训练|损失|性能)图"
     r"|[左右上下](?:侧|边|方|半)(?:的|[那这][张幅个])?\s*图"
     r"|\b(?:figure|image|picture|plot|subplot|subfigure|chart|panel)\b",
+    re.IGNORECASE,
+)
+_COMPARATIVE_PREFIX = re.compile(
+    r"(?:与|和|跟|同|较|相比于?|对比|对照|不同于)|"
+    r"\bcompared\s+(?:to|with)\b",
+    re.IGNORECASE,
+)
+_OTHER_OR_MULTI_IMAGE = re.compile(
+    r"另一[张幅个]|其余|其它|其他|另一[边侧]|旁边那[张幅]|两[张幅个]?(?:子)?图|对比两|"
+    r"(?:变化|差距|差多少|差异|不同)|"
+    r"\b(?:the\s+other|another|both\s+(?:figures|plots|subplots)|two\s+(?:figures|plots)|"
+    r"compared\s+(?:to|with)|difference|versus|vs\.?)\b",
     re.IGNORECASE,
 )
 _TABLE = re.compile(
@@ -157,7 +170,12 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
         return ObjectIntent(kind="formula", order="formulas")
     if not (has_image or has_table):
         return None
-    directions = [name for name, pattern in _DIRECTIONS if pattern.search(question)]
+    direction_matches = [
+        (name, match)
+        for name, pattern in _DIRECTIONS
+        if (match := pattern.search(question)) is not None
+    ]
+    directions = [name for name, _ in direction_matches]
     if has_table and not has_image:
         explicit_table = bool(
             tables
@@ -192,6 +210,15 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
     numbers = tables if has_table else (outputs or images)
     ordinal = next(iter(numbers)) if len(numbers) == 1 else None
     direction = directions[0] if len(directions) == 1 else None
+    if has_image and not has_table and len(direction_matches) == 1 and ordinal is None:
+        _, dir_match = direction_matches[0]
+        local_before = question[max(0, dir_match.start() - 24) : dir_match.start()]
+        local_after = question[dir_match.end() : min(len(question), dir_match.end() + 16)]
+        if (
+            _COMPARATIVE_PREFIX.search(local_before)
+            or re.search(r"相比|对比|对照", local_after)
+        ) and _OTHER_OR_MULTI_IMAGE.search(question):
+            direction = None
     unresolved = (
         has_table
         and has_image
