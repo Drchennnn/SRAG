@@ -122,6 +122,10 @@ _FILE_TOKEN = re.compile(
 )
 _LABEL_JOIN = re.compile(r"\s*(?:[:：=（(]\s*)?")
 _OUTPUT = re.compile(r"输出|\b(?:output|stdout)\b", re.I)
+_AUTO_CELL_ID = re.compile(
+    r"^(?:[0-9a-f]{8}|[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$",
+    re.I,
+)
 _PAGE = re.compile(r"\bpage\s*([1-9][0-9]{0,3})\b", re.I)
 _X = re.compile(r"横轴|\bx(?:[- ]?axis)\b", re.I)
 _Y = re.compile(r"纵轴|\by(?:[- ]?axis)\b", re.I)
@@ -828,6 +832,12 @@ def _reordered_comparison_options(
         return None
     past = old[0]
     old_cell_id = past.source.locator.get("cell_id")
+    old_cell_index = past.source.locator.get("cell_index")
+    old_id_present = bool(old_cell_id) and any(
+        src.document_id == past.source.document_id
+        and src.locator.get("cell_id") == old_cell_id
+        for src in current
+    )
     same_cell = [
         src
         for src in current
@@ -837,8 +847,21 @@ def _reordered_comparison_options(
         and (
             (old_cell_id and src.locator.get("cell_id") == old_cell_id)
             or (
-                not old_cell_id
-                and src.locator.get("cell_index") == past.source.locator.get("cell_index")
+                not old_id_present
+                and src.locator.get("cell_index") == old_cell_index
+                and not _cell_id_moved(
+                    past.original.original,
+                    old_cell_id,
+                    old_cell_index,
+                    src.locator.get("cell_id"),
+                    past.source.document_id,
+                    current,
+                )
+                and (
+                    not old_cell_id
+                    or is_image
+                    or bool(_AUTO_CELL_ID.fullmatch(str(old_cell_id)))
+                )
             )
         )
     ]
@@ -1123,6 +1146,27 @@ def _recover_authorized_cell_visual_old(
             item
             for item in (*existing_old, *text_old)
             if _same_notebook_cell(item.source, selected)
+            or (
+                item.source.document_id == selected.document_id
+                and item.source.kind in {"cell", "notebook_output"}
+                and item.source.locator.get("cell_index") is not None
+                and item.source.locator.get("cell_index") == selected.locator.get("cell_index")
+                and not _cell_id_moved(
+                    item.original.original,
+                    item.source.locator.get("cell_id"),
+                    item.source.locator.get("cell_index"),
+                    selected.locator.get("cell_id"),
+                    selected.document_id,
+                    current_sources,
+                )
+                and (
+                    bool(_output_image_mimes(selected.locator.get("representations")))
+                    or (
+                        _AUTO_CELL_ID.fullmatch(str(item.source.locator.get("cell_id") or ""))
+                        and _AUTO_CELL_ID.fullmatch(str(selected.locator.get("cell_id") or ""))
+                    )
+                )
+            )
         ),
         key=lambda item: msg_recency.get(item.message_id, len(full_history)),
     )
@@ -1425,6 +1469,35 @@ def _cell_outputs_reliable(
     return True
 
 
+def _cell_id_moved(
+    old_nb_raw: str | None,
+    prev_cell_id: str | None,
+    prev_cell_index: int | None,
+    now_cell_id: str | None,
+    document_id: str,
+    current_sources: Sequence[SnapshotSource] | None,
+) -> bool:
+    """Return True when either cell_id exists at a different cell position across versions."""
+    if prev_cell_id and current_sources and any(
+        src.document_id == document_id and src.locator.get("cell_id") == prev_cell_id
+        for src in current_sources
+    ):
+        return True
+    if now_cell_id and old_nb_raw:
+        try:
+            old_cells = json.loads(old_nb_raw).get("cells", [])
+        except (TypeError, ValueError, AttributeError):
+            return False
+        if any(
+            idx != prev_cell_index
+            and isinstance(cell, dict)
+            and cell.get("id") == now_cell_id
+            for idx, cell in enumerate(old_cells)
+        ):
+            return True
+    return False
+
+
 def _counterpart(
     old: _Previous,
     current: SnapshotSource,
@@ -1438,25 +1511,43 @@ def _counterpart(
         return False
     prev, now = source.locator, current.locator
     if source.kind in {"cell", "notebook_output"}:
-        known_cell = bool(prev.get("cell_id")) and prev["cell_id"] == now.get("cell_id")
-        same_unlabeled_cell = (
-            not prev.get("cell_id")
-            and not now.get("cell_id")
-            and prev.get("cell_index") is not None
+        prev_id = prev.get("cell_id")
+        now_id = now.get("cell_id")
+        known_cell = bool(prev_id) and prev_id == now_id
+        same_index = (
+            prev.get("cell_index") is not None
             and prev.get("cell_index") == now.get("cell_index")
-            and (
-                (
-                    location is not None
-                    and location.cell_index is not None
-                    and prev.get("cell_index") == location.cell_index
-                )
-                or (
-                    source.kind == "notebook_output"
-                    and _cell_outputs_reliable(old, current, current_sources)
-                )
-            )
         )
-        if not (known_cell or same_unlabeled_cell):
+        unlabeled = not prev_id and not now_id
+        auto_ids = bool(
+            (not prev_id or _AUTO_CELL_ID.fullmatch(str(prev_id)))
+            and (not now_id or _AUTO_CELL_ID.fullmatch(str(now_id)))
+        )
+        is_image_output = source.kind == "notebook_output" and bool(
+            _output_image_mimes(prev.get("representations"))
+        )
+        reliable_fallback = (
+            source.kind == "notebook_output"
+            and same_index
+            and not _cell_id_moved(
+                old.original.original,
+                prev_id,
+                prev.get("cell_index"),
+                now_id,
+                current.document_id,
+                current_sources,
+            )
+            and (unlabeled or auto_ids or is_image_output)
+            and _cell_outputs_reliable(old, current, current_sources)
+        )
+        explicit_unlabeled = (
+            unlabeled
+            and same_index
+            and location is not None
+            and location.cell_index is not None
+            and prev.get("cell_index") == location.cell_index
+        )
+        if not (known_cell or explicit_unlabeled or reliable_fallback):
             return False
         if source.kind == "cell":
             return prev.get("cell_type") == now.get("cell_type")
@@ -1823,19 +1914,33 @@ def resolve_current_counterpart(
     ]
     if len(current_cell_matches) == 1:
         return "resolved", current_cell_matches, document, past
+    past_id = past.source.locator.get("cell_id")
+    past_idx = past.source.locator.get("cell_index")
+    past_id_present = bool(past_id) and any(
+        src.locator.get("cell_id") == past_id for src in doc_sources
+    )
     same_cell_candidates = [
         src
         for src in doc_sources
         if src.kind == past.source.kind
         and (
-            (
-                past.source.locator.get("cell_id")
-                and src.locator.get("cell_id") == past.source.locator.get("cell_id")
-            )
+            (past_id and src.locator.get("cell_id") == past_id)
             or (
-                not past.source.locator.get("cell_id")
-                and not src.locator.get("cell_id")
-                and src.locator.get("cell_index") == past.source.locator.get("cell_index")
+                not past_id_present
+                and src.locator.get("cell_index") == past_idx
+                and not _cell_id_moved(
+                    past.original.original,
+                    past_id,
+                    past_idx,
+                    src.locator.get("cell_id"),
+                    document.document_id,
+                    doc_sources,
+                )
+                and (
+                    not past_id
+                    or bool(_output_image_mimes(past.source.locator.get("representations")))
+                    or bool(_AUTO_CELL_ID.fullmatch(str(past_id)))
+                )
             )
         )
         and _output_image_mimes(src.locator.get("representations"))

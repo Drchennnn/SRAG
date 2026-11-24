@@ -1018,12 +1018,18 @@ def prioritize_matching_tables(
         return list(pool)
     scored.sort(key=lambda item: item[0], reverse=True)
     distinct_docs = {entry[5].source.document_id for entry in scored}
+    distinct_pages = {_table_page_key(entry[5]) for entry in scored}
     want_multi = bool(
         len(req_ordinals) >= 2
         or _TABLE_COMPARE_CUE.search(question)
         or len(distinct_docs) >= 2
     )
-    max_slots = min(2, max(1, budget // 3)) if want_multi else 1
+    max_slots = 1
+    if want_multi:
+        if budget >= 6 and len(distinct_pages) >= 3:
+            max_slots = min(3, max(1, budget // 2))
+        else:
+            max_slots = min(2, max(1, budget // 3))
     chosen_tables: list[StructureCandidate] = []
     _, first_direct, first_aux, covered_ords_ro, _, first_cand = scored[0]
     chosen_tables.append(first_cand)
@@ -1065,6 +1071,11 @@ def prioritize_matching_tables(
             ),
         )
         _, m_direct, m_aux, m_ords, _, next_cand = remaining.pop(best_idx)
+        if len(chosen_tables) >= 2 and not (
+            _table_page_key(next_cand) not in seen_pages
+            and (bool((m_direct | m_aux) - covered_terms) or bool(m_ords - covered_ords))
+        ):
+            break
         seen_pages.add(_table_page_key(next_cand))
         chosen_docs.add(next_cand.source.document_id)
         covered_terms.update(m_direct | m_aux)

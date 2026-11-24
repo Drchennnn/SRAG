@@ -2300,3 +2300,354 @@ def test_r6_prioritize_matching_tables_uses_parent_text_and_caption():
     assert ("doc-pptx", "page:5:shape:1") in top6_keys
     assert ("doc-pdf", "page:14:table:1") in top6_keys
     assert ("doc-pptx", "page:6:shape:1") not in top6_keys
+
+
+def test_r7_counterpart_pairs_regenerated_random_cell_ids_unless_moved_or_reordered(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    from app.rag.source_evidence import ReadRecord
+
+    settings = _settings(
+        tmp_path,
+        deepseek_api_key="r7-mock",
+        dashscope_api_key="r7-mock-dashscope",
+        source_vision_enabled=True,
+        workspace_answer_enabled=False,
+    )
+    service = make_workspace(settings)
+    vision_requests: list[tuple[int, str]] = []
+
+    def fake_vision(request, *, expected_input_sha256: str):
+        base = service.evidence.render_current(request)
+        disp = base.display
+        assert disp is not None and disp.byte_sha256 == expected_input_sha256
+        vision_requests.append((request.source.version, request.source.source_id))
+        rec = ReadRecord(
+            requested_source=request.source,
+            actual_source=disp.actual_source,
+            actual_input_sha256=disp.byte_sha256,
+            actual_input_media_type=disp.media_type,
+            actual_input_rect=disp.rect_visible_norm,
+            purpose="directed_question",
+            execution="real_provider",
+            origin_execution="real_provider",
+            provider="r7-fake",
+            model="qwen3-vl-plus",
+            prompt_version="r7-v1",
+            question_sha256=(
+                hashlib.sha256(request.question.strip().encode()).hexdigest()
+                if request.question
+                else None
+            ),
+            status="succeeded",
+            text=f"v{request.source.version} latency=14.6 ms",
+        )
+        return base.model_copy(update={"read_status": "succeeded", "reads": [rec]})
+
+    monkeypatch.setattr(service.vision, "process_current", fake_vision)
+    nb_path = tmp_path / "Regen45-Bench.ipynb"
+
+    def _write_regen_nb(
+        col_a: tuple[int, int, int],
+        col_b: tuple[int, int, int],
+        *,
+        c1_id: str | None = None,
+        extra_shifted_id: str | None = None,
+    ) -> None:
+        c1_kw: dict[str, Any] = {"id": c1_id} if c1_id is not None else {}
+        cells = [
+            nbformat.v4.new_markdown_cell("# Intro"),
+            nbformat.v4.new_code_cell(
+                "run_bench()",
+                execution_count=1,
+                outputs=[
+                    nbformat.v4.new_output("stream", name="stdout", text="ok"),
+                    nbformat.v4.new_output(
+                        "display_data",
+                        data={"image/png": base64.b64encode(_png_bytes(col_a)).decode()},
+                    ),
+                    nbformat.v4.new_output(
+                        "display_data",
+                        data={"image/png": base64.b64encode(_png_bytes(col_b)).decode()},
+                    ),
+                ],
+                **c1_kw,
+            ),
+        ]
+        if extra_shifted_id is not None:
+            cells.append(
+                nbformat.v4.new_code_cell(
+                    "moved_cell()",
+                    id=extra_shifted_id,
+                    execution_count=2,
+                    outputs=[nbformat.v4.new_output("stream", name="stdout", text="moved")],
+                )
+            )
+        nb = nbformat.v4.new_notebook(cells=cells)
+        nbformat.write(nb, nb_path)
+
+    with _client(service) as client:
+        # 1. Regenerated nbformat 4.5 random cell_ids (v1 -> v2) pair cleanly when unreordered
+        sess = _create_session(client)
+        _write_regen_nb((20, 40, 200), (200, 40, 40))
+        imp = client.post(
+            f"{sess}/import",
+            params={"course_id": _COURSE, "filename": "Regen45-Bench.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        ).json()
+        v1_srcs = service.library.store.current_sources(imp["document_id"], course_ids=(_COURSE,))
+        v1_cid = next(s for s in v1_srcs if s.source_id == "cell:1:output:2").locator["cell_id"]
+        assert isinstance(v1_cid, str) and len(v1_cid) == 8
+
+        rev = client.patch(
+            f"{sess}/scope",
+            json={
+                "course_ids": [_COURSE],
+                "document_ids": [imp["document_id"]],
+                "scope_revision": client.get(sess).json()["scope_revision"],
+            },
+        ).json()["scope_revision"]
+        _ask(client, sess, "第 2 个 Cell 第 2 张输出图里的耗时是多少 ms？", rev, client_id="r7-v1")
+
+        _write_regen_nb((30, 80, 210), (220, 90, 20))
+        client.post(
+            f"{sess}/import",
+            params={
+                "course_id": _COURSE,
+                "filename": "Regen45-Bench.ipynb",
+                "document_id": imp["document_id"],
+            },
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        )
+        v2_srcs = service.library.store.current_sources(imp["document_id"], course_ids=(_COURSE,))
+        v2_cid = next(s for s in v2_srcs if s.source_id == "cell:1:output:2").locator["cell_id"]
+        assert v2_cid != v1_cid
+
+        vision_requests.clear()
+        cmp_ok = _ask(
+            client, sess, "对比 v1 和 v2 第 2 张输出图里的耗时是多少 ms？", rev, client_id="r7-ok"
+        )
+        assert cmp_ok["turn"]["status"] == "completed"
+        assert cmp_ok["turn"]["trace"]["route"] == "version_comparison"
+        assert cmp_ok["message"]["blocks"][0].get("code") != "comparison_ambiguous"
+        assert vision_requests == [(2, "cell:1:output:2")]
+        assert [
+            b["display_source"]["version"]
+            for b in cmp_ok["message"]["blocks"]
+            if b.get("type") == "source_image"
+        ] == [1, 2]
+
+        # 2. Moved cell (v1_cid now sits at cell 2 in v2) must NOT match cell 1
+        sess_moved = _create_session(client)
+        _write_regen_nb((20, 40, 200), (200, 40, 40), c1_id="a1b2c3d4")
+        imp_m = client.post(
+            f"{sess_moved}/import",
+            params={"course_id": _COURSE, "filename": "Moved45.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        ).json()
+        rev_m = client.patch(
+            f"{sess_moved}/scope",
+            json={
+                "course_ids": [_COURSE],
+                "document_ids": [imp_m["document_id"]],
+                "scope_revision": client.get(sess_moved).json()["scope_revision"],
+            },
+        ).json()["scope_revision"]
+        _ask(
+            client,
+            sess_moved,
+            "第 2 个 Cell 第 2 张输出图里的耗时是多少 ms？",
+            rev_m,
+            client_id="r7-m-v1",
+        )
+        _write_regen_nb(
+            (30, 80, 210), (220, 90, 20), c1_id="e5f6a7b8", extra_shifted_id="a1b2c3d4"
+        )
+        client.post(
+            f"{sess_moved}/import",
+            params={
+                "course_id": _COURSE,
+                "filename": "Moved45.ipynb",
+                "document_id": imp_m["document_id"],
+            },
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        )
+        moved_res = _ask(
+            client,
+            sess_moved,
+            "对比 v1 和 v2 第 2 张输出图里的耗时是多少 ms？",
+            rev_m,
+            client_id="r7-m-cmp",
+        )
+        assert moved_res["message"]["blocks"][0]["code"] == "comparison_ambiguous"
+
+        # 3. Reordered outputs + regenerated random cell_id still trigger reordered clarification
+        sess_reord = _create_session(client)
+        _write_regen_nb((20, 40, 200), (200, 40, 40), c1_id="1111aaaa")
+        imp_r = client.post(
+            f"{sess_reord}/import",
+            params={"course_id": _COURSE, "filename": "Reord45.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        ).json()
+        rev_r = client.patch(
+            f"{sess_reord}/scope",
+            json={
+                "course_ids": [_COURSE],
+                "document_ids": [imp_r["document_id"]],
+                "scope_revision": client.get(sess_reord).json()["scope_revision"],
+            },
+        ).json()["scope_revision"]
+        _ask(
+            client,
+            sess_reord,
+            "第 2 个 Cell 第 2 张输出图里的耗时是多少 ms？",
+            rev_r,
+            client_id="r7-r-v1",
+        )
+        _write_regen_nb((200, 40, 40), (20, 40, 200), c1_id="2222bbbb")
+        client.post(
+            f"{sess_reord}/import",
+            params={
+                "course_id": _COURSE,
+                "filename": "Reord45.ipynb",
+                "document_id": imp_r["document_id"],
+            },
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        )
+        reord_res = _ask(
+            client,
+            sess_reord,
+            "对比上一版和当前版第 2 张输出图里的耗时是多少 ms？",
+            rev_r,
+            client_id="r7-r-cmp",
+        )
+        assert reord_res["turn"]["status"] == "clarification"
+        assert reord_res["turn"]["trace"]["clarification_reason"] == "reordered_comparison"
+
+
+def test_r7_prioritize_matching_tables_promotes_up_to_3_complementary_tables_in_budget_6():
+    from app.rag.structure_search import StructureCandidate
+    from app.rag.workspace_retrieval import prioritize_matching_tables
+    from app.schemas.local import SourceKey
+    from app.stores.structure_snapshot import SnapshotDocument
+
+    docs = {
+        "doc-pptx": SnapshotDocument(
+            course_id=_COURSE,
+            document_id="doc-pptx",
+            version=1,
+            publication_epoch=1,
+            content_sha256="sha-p",
+            source_path="Deck.pptx",
+            file_name="Deck.pptx",
+            title="Deck",
+            document_format="pptx",
+        ),
+        "doc-pdf": SnapshotDocument(
+            course_id=_COURSE,
+            document_id="doc-pdf",
+            version=1,
+            publication_epoch=1,
+            content_sha256="sha-d",
+            source_path="Paper.pdf",
+            file_name="Paper.pdf",
+            title="Paper",
+            document_format="pdf",
+        ),
+    }
+
+    def _src(doc_id: str, sid: str, kind: str, title: str, text: str, page: int, **kw):
+        loc: dict[str, Any] = {"format": "pdf" if doc_id == "doc-pdf" else "pptx", "page": page}
+        if "obj_type" in kw:
+            loc["object_type"] = kw["obj_type"]
+        return SnapshotSource(
+            course_id=_COURSE,
+            document_id=doc_id,
+            version=1,
+            source_id=sid,
+            parent_id=None,
+            ordinal=page,
+            kind=kind,
+            title=title,
+            text=text,
+            locator=loc,
+            state="available",
+        )
+
+    snaps = {
+        ("doc-pptx", 1, f"page:{i}"): _src(
+            "doc-pptx", f"page:{i}", "page", f"Slide {i}", "LongBench Latency Limit overview", i
+        )
+        for i in range(1, 7)
+    }
+    snaps[("doc-pptx", 1, "page:5:shape:1")] = _src(
+        "doc-pptx",
+        "page:5:shape:1",
+        "page_object",
+        "Limit Table",
+        "Metric | Latency | Limit\nAxis | 12ms | 15ms",
+        5,
+        obj_type="table",
+    )
+    snaps[("doc-pdf", 1, "page:11")] = _src(
+        "doc-pdf", "page:11", "page", "Bench 1", "LongBench evaluation results.", 11
+    )
+    snaps[("doc-pdf", 1, "page:11:table:1")] = _src(
+        "doc-pdf",
+        "page:11:table:1",
+        "table",
+        "Table 1",
+        "Method | Recall\nAxis | 91.4",
+        11,
+    )
+    snaps[("doc-pdf", 1, "page:14")] = _src(
+        "doc-pdf", "page:14", "page", "Bench 2", "RulerBench main results.", 14
+    )
+    snaps[("doc-pdf", 1, "page:14:table:1")] = _src(
+        "doc-pdf",
+        "page:14:table:1",
+        "table",
+        "Table 2",
+        "Method | AVG\nAxis | 83.7",
+        14,
+    )
+
+    def _cand(doc_id: str, sid: str) -> StructureCandidate:
+        s = snaps[(doc_id, 1, sid)]
+        return StructureCandidate(
+            source=SourceKey(document_id=doc_id, version=1, source_id=sid),
+            course_id=_COURSE,
+            file_name=docs[doc_id].file_name,
+            kind=s.kind,
+            title=s.title,
+            text=s.text,
+            locator=s.locator,
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        )
+
+    pool = [_cand("doc-pptx", f"page:{i}") for i in range(1, 7)] + [
+        _cand("doc-pptx", "page:5:shape:1"),
+        _cand("doc-pdf", "page:11:table:1"),
+        _cand("doc-pdf", "page:14:table:1"),
+    ]
+    picked = prioritize_matching_tables(
+        pool,
+        question="对比课件 Latency 和 Limit 限制表、LongBench Recall 表与 RulerBench AVG 主表",
+        snapshot_sources=snaps,
+        docs=docs,
+        budget=6,
+    )
+    assert picked[0].source.source_id == "page:1"
+    top6 = {(c.source.document_id, c.source.source_id) for c in picked[:6]}
+    assert ("doc-pptx", "page:5:shape:1") in top6
+    assert ("doc-pdf", "page:11:table:1") in top6
+    assert ("doc-pdf", "page:14:table:1") in top6
