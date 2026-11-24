@@ -1,147 +1,133 @@
 # SRAG：课程复习助手
 
-面向课程 IPYNB、PDF 和 PPTX 的检索与问答项目，帮助理解知识点、公式和步骤，并给出课件页码或 Notebook cell 来源。服务与数据本地运行，模型全部通过 API 调用。
+面向课程 **PDF**、**PPTX** 与 **IPYNB** 资料的本地优先检索、多模态核对与问答工具。学生在本地浏览器工作区导入课程讲义、幻灯片与实验 Notebook，用自然语言提问并点开原页/裁图/保存输出逐项核对，沿单课程可溯源知识图谱在概念定义与实验结果间跳转，并在资料换版后区分当前版本与历史引用。
 
-## 已实现
+- **当前交付状态**：A–G（M2 双轨放行）、J（多文件策略定型）、H（单课程知识图谱）、R（冻结人工复核）均已通过并合入 `main`，M4 最终交付（K 部）与验收见 [产品目标与交付路线](./docs/产品目标与交付路线.md)、[K01 发布验收设计](./docs/K/K01-发布验收设计.md) 与 [任务清单](./CHECKLIST.md)。
+- **默认运行定位**：以浏览器工作区 `/workspace/` 为第一产品入口；默认仅依赖本机 Python 与 SQLite FTS5，**无需 Docker、无需外部 Qdrant 服务**即可启动与完整离线浏览。
 
-- PDF、PPTX、IPYNB 可在本地发布版本、保留来源结构并通过 SQLite FTS5 查找原生文字；这条路径可以独立启动。
-- 结构化切块、文本/视觉向量化、Qdrant 检索与 SQLite 文档版本管理。
-- 终端全库或指定课程/文件问答、连续追问、页码定位和单文件总结。
-- 按需识别图内公式/图表，输出文字解释与来源引用。
+## 5 分钟快速上手（零 Docker 冷启动）
 
-课程工作区支持在网页导入 PDF、PPTX 与 Notebook，用中文提问、打开回答引用的原页或表格，并围绕已展示的内容追问。终端与 HTTP 检索入口继续可用。公开资料的表格查找、列值核对及连续追问已在浏览器验证。整体验收 M2 仍在返工，锁定题的成绩以最近正式评测为准。[执行交接](./docs/执行交接.md) · [设计清单](./CHECKLIST.md)
+### 1. 安装环境
 
-## 启动
-
-需要 Python 3.11+、uv 和 Docker。
+需要 Python `>=3.11`（实测 `3.14.7`）、`uv`，以及可选的 LibreOffice（用于 PPTX 整页与表格/插图渲染）：
 
 ```bash
-uv sync --extra dev
-test -f .env || cp .env.example .env  # 已有配置时保留
+uv sync --extra dev --extra documents
+test -f .env || cp .env.example .env
 ```
 
-在 `.env` 填入 `COURSE_ROOT`、`DASHSCOPE_API_KEY` 和 `DEEPSEEK_API_KEY`；其他配置见 [.env.example](./.env.example)。
+> 仅执行离线文字/PDF/Notebook 流程可不装 LibreOffice（PPTX 整页会平滑回退原生文本）；安装 LibreOffice 后可通过 `SRAG_SOFFICE=$(command -v soffice)` 启用真实幻灯片整页与裁图渲染。
+
+### 2. 离线冷启动（零外部密钥立即可用）
+
+使用仓库自带的可分享样例课程 [examples/demo-course](./examples/demo-course) 从空数据目录启动：
 
 ```bash
-docker compose up -d
-uv run python -m tools.chat                         # 全部可见课程
-uv run python -m tools.chat --course CS5187          # 指定课程
+rm -rf ./data/clean-demo && mkdir -p ./data/clean-demo
+COURSE_ROOT="$PWD/examples/demo-course" \
+DATA_DIR="$PWD/data/clean-demo" \
+SQLITE_PATH="$PWD/data/clean-demo/srag.sqlite3" \
+WORKSPACE_COURSE_IDS=demo-course \
+SRAG_SOFFICE="$(command -v soffice || true)" \
+WORKSPACE_ANSWER_ENABLED=false \
+SOURCE_VISION_ENABLED=false \
+uv run uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-常用命令：`/files` 列文件，`/file 编号` 选文件，`/all` 回到当前课程，`/global` 回到全库，`/scope` 查看范围，`/quit` 退出。
+在浏览器打开 `http://127.0.0.1:8000/workspace/`（健康检查：`http://127.0.0.1:8000/api/health`）：
 
-启动 API：
+1. 在左侧「导入资料」选择课程 `demo-course`，上传 `examples/demo-course/` 下的 PDF（*Axis-LoRA*、*FlashAttention-3*）、PPTX 与 `v1/Lab-01-Retrieval-Bench.ipynb`；
+2. 展开左侧「资料目录」逐层浏览页、表格、公式、局部图与 Notebook 保存输出，或打开「原件阅读」预览；
+3. 展开左侧「概念导航」（H 单课程知识图谱，零外部模型构建），点击概念卡片分别跳转「讲义定义原页」与「实验 Cell 及保存输出图」；
+4. 在输入框搜索关键词或提问，离线模式下自动给出可核对的原文摘录（`excerpt_fallback`）与图文来源卡。
 
-```bash
-uv run uvicorn app.main:app --reload
+### 3. 开启完整在线回答与多模态读图
+
+在 `.env` 配置以下后端环境变量后重启服务即可启用真实中文综合回答与定向读图：
+
+```dotenv
+WORKSPACE_COURSE_IDS=demo-course
+WORKSPACE_ANSWER_ENABLED=true
+DEEPSEEK_API_KEY=你的DeepSeek密钥
+DEEPSEEK_CHAT_MODEL=deepseek-flash
+DEEPSEEK_QUERY_MODEL=deepseek-flash
+WORKSPACE_INPUT_TOKEN_LIMIT=32768
+WORKSPACE_RETRIEVAL_STRATEGY=s0
+WORKSPACE_RETRIEVAL_BUDGET=6
+WORKSPACE_RETRIEVAL_INCLUDE_ADJACENCY=true
+
+SOURCE_VISION_ENABLED=true
+DASHSCOPE_API_KEY=你的DashScope密钥
+DASHSCOPE_VISION_MODEL=qwen3-vl-plus
 ```
 
-接口文档：http://127.0.0.1:8000/docs；向量库界面：http://localhost:6333/dashboard。
+典型体验流程：提问论文公式/三线表（点「依据」与「回原件」看归一化高亮）→ 聚焦 `Lab-01` 多图输出 Cell 提问并从澄清按钮选中目标输出 → 勾选「更新当前资料的版本」上传 `v2/Lab-01-Retrieval-Bench.ipynb` → 对比最新版与旧版、回看旧回答 `v1` 原件与失效概念芯片优雅降级。
 
-## 本地导入与文字检索
+---
 
-使用 Python 3.11+ 和带 FTS5 的 SQLite。PDF/PPTX 解析沿用 `documents` 可选依赖。
+## 工作区核心能力与离线/在线边界
 
-```bash
-uv sync --extra documents
-COURSE_ROOT="$PWD/docs/A/样例" DATA_DIR="$PWD/data/local-demo" \
-  SQLITE_PATH="$PWD/data/local-demo/library.sqlite3" uv run uvicorn app.main:app
-```
+| 功能模块 | 无外部密钥（离线模式） | 开启 DeepSeek + `qwen3-vl-plus`（在线模式） |
+| :--- | :--- | :--- |
+| **三格式导入与版本发布** | 完整可用（SQLite 事务发布、FTS5、同内容复用、失败保留旧版） | 完整可用 |
+| **目录树与原件阅读器** | 完整可用（PDF 原页/局部裁图、PPTX 需 `SRAG_SOFFICE`、Notebook 保存输出） | 完整可用 |
+| **单课程概念导航（`#kg-panel` 与消息芯片）** | **完整可用**（离线确定性原文构边，无可靠边平滑回退常规检索） | 完整可用（并在回答消息下方挂载 `.kg-concept-chip`） |
+| **检索与问答** | 关键词全文查找、单文件摘录与原生表格/定位展示（标记 `excerpt_fallback`） | 中文综合回答、按需双语改写、定义与实验对照、多轮指代与跨版对比 |
+| **图表/公式视觉读取** | 展示原图并明确标注「图像未读取」，不猜测图内数值 | 点击「问这张图」或定向问图触发真实 `qwen3-vl-plus` 实读并缓存绑定原图 SHA-256 |
 
-```bash
-curl -sS http://127.0.0.1:8000/api/rag/local/import \
-  -H 'Content-Type: application/json' \
-  -d '{"course_id":"signal-demo","paths":["Signal-reference.pdf","Signal-slides.pptx","Signal-lab.ipynb"]}'
-curl -sS http://127.0.0.1:8000/api/rag/local/search \
-  -H 'Content-Type: application/json' \
-  -d '{"query":"lookahead","scope":{"course_ids":["signal-demo"]}}'
-```
+## 检索策略与图谱开关说明（J03 / H03 定型结论）
 
-`paths` 接受 `COURSE_ROOT` 内的文件或目录。结果逐文件记录版号、发布代次、结构及可搜行数。扫描页保留页号并标待识别。相同内容重导复用既有版号和原件；换路径关联旧资料时传单个文件和 `document_id`。新路径使用本机 SQLite 与解析器，Qdrant 和模型凭据只供旧向量/问答路径使用。
+`WORKSPACE_RETRIEVAL_STRATEGY` 合法取值为以下 9 项：`fts`、`s0`、`bilingual`、`expanded`、`s2a`、`s2b`、`jev`、`s2a_jev`、`vector`（完整配置见 [.env.example](./.env.example)）：
 
-在接口文档可用 `POST /api/rag/local/migrate` 显式回填旧库的当前版；`POST /api/rag/local/migrate/bundle` 接受旧 deck/chunks 包、课程、原路径和已核对的完整原件 SHA-256。 `RAG_SEARCH_BACKEND=local` 可让旧 `/api/rag/search` 的文本请求查本地索引，设置为 `legacy` 即切回。缺等价当前版的旧向量会被 SQLite 隐藏。[发布设计与回退](./docs/B/B01-发布设计.md)
+| 策略 / 开关 | 默认状态 | 适用场景与实测定型建议 |
+| :--- | :--- | :--- |
+| **`s0`**（推荐默认底座） | 建议显式设为 `s0`（代码默认 `fts`，`BUDGET=6`） | FTS5 + 结构邻接（`WORKSPACE_RETRIEVAL_INCLUDE_ADJACENCY=true`）+ 按需双语改写；零 Qdrant / 零 Jev 强依赖 |
+| **`vector`（`S3` 纯图与语义增强）** | 默认关闭 | **必须同时设置** `WORKSPACE_RETRIEVAL_STRATEGY=vector` 与 `WORKSPACE_VECTOR_RETRIEVAL_ENABLED=true`，并指定 `QDRANT_LOCAL_PATH`、`DASHSCOPE_API_KEY`、`SOURCE_VISION_ENABLED=true`、`WORKSPACE_S3_MAX_VISUAL_READS=2`；专治纯图/少字 PPTX 召回与前移 D03 实读（切勿在 `s0`/`fts` 下仅开布尔开关） |
+| **`s2a` / `s2b`（有界 2 步检索）** | 显式可选 | 无共享概念词的跨文件 2-hop：`s2a` 为零外呼字面锚扩展，`s2b` 为有界 1 次 LLM Planner |
+| **`jev` / `expanded` / `s2a_jev`（`S1`）** | **本版保持关闭** | 48 KB 分批修复已消除 `input_limit`，但远端 `Zev-1` RTT 导致 `p95` 增量远超 `+8s` 阈值且低置信回退 `>20%` |
+| **`WORKSPACE_KG_RETRIEVAL_ENABLED`** | **默认 `false`** | 课程概念导航界面默认启用；将图谱一跳作为问答候选增强时可设为 `true`（可提升零重叠跨文件召回，但在 6 槽预算下对纯背景提及题存在槽位权衡） |
 
-## 范围与结构检索
+## 数据安全与模型外传边界
 
-启动服务时将 `SRAG_STRUCTURE_COURSES` 设为获准检索的课程 ID（逗号分隔）。请求同时提供课程范围，可用 `document_ids`、`file_names`、一基页码或零基 Cell 位置缩小范围。默认启用一跳结构邻接，响应记录实际版本、候选的引入原因与覆盖范围。
+1. **本机存储**：原始课程文件字节、SQLite 版本库（`SQLITE_PATH`）、会话与消息记录、原件渲染缓存（`DATA_DIR/source_evidence_cache`）、视觉读图缓存（`DATA_DIR/source_vision_cache`）及可选本地向量库（`QDRANT_LOCAL_PATH`）全部保留在本机，不上传任何第三方存储；前端网页仅通过同源 Cookie 与来源 ID 访问已登记资源。
+2. **模型出站数据**：
+   - 当 `WORKSPACE_ANSWER_ENABLED=false` 且 `SOURCE_VISION_ENABLED=false` 时，**零文本与零图片出站**；
+   - 开启 `WORKSPACE_ANSWER_ENABLED=true` 后，仅将当前问题、有限上下文及本轮实际读到的必要文字片段送往配置的 DeepSeek 端点；
+   - 开启 `SOURCE_VISION_ENABLED=true` 后，仅在用户触发定向读图（或 `S3` 命中纯图页）时将选定单张图片字节与当前问题送往配置的 DashScope 多模态端点；
+   - 所有模型 API Key 仅由后端从 `.env` 读取，绝不下发至浏览器。
 
-```bash
-curl -sS http://127.0.0.1:8000/api/rag/structure/search \
-  -H 'Content-Type: application/json' \
-  -d '{"query":"lookahead","scope":{"course_ids":["signal-demo"]},"top_k":8}'
-```
+## 已知限制（如实披露）
 
-设置 `include_adjacency:false` 可用同一预算执行纯 FTS 对照。[结构检索与复现](./docs/C/C03-结构邻接与覆盖.md)
+- **扫描 PDF 默认不自动后台 OCR**：基础导入零阻塞优先发布原生文字与页级定位，纯扫描页需显式运行 `uv run python -m tools.workspace_reading ocr --course <COURSE_ID> --document <DOCUMENT_ID>` 增强；
+- **复杂无框图形与合并单元格三线表**：无法确认精确坐标时保守回退整页（`parent_page_fallback`）与原生页面读取，避免错框误导；
+- **离线无模型模式下的中文词法与严格对照边界**：离线零密钥模式底层使用 SQLite FTS5 `unicode61` 分词，连续未加空格的中文长短语需按概念词或空格分隔检索（在线 `s0` 模式由按需双语改写自动补全）；同时「定义+实验」跨文件结构验证契约要求实验记录包含可核对的编号与测试条件字段，未满足结构契约的补充陈述会被保守过滤并提示缺项；
+- **需求池未包含能力**：桌面安装包、本地文件夹自动监听、MCP / Skill 接入及完整检索轨迹可视化界面均留在需求池，本交付版本不包含。
 
-## 原件预览
+## 兼容终端、CLI 与旧向量入口
 
-服务端设置 `SOURCE_EVIDENCE_COURSE_IDS` 为获准预览的课程 ID（逗号分隔）。`POST /api/rag/local/evidence/current` 接收来源三元组、原件 SHA-256、发布代次和展示规格。可预览 PDF/PPTX 整页、可靠对象裁区和 Notebook 的指定已保存输出。未配置课程时入口关闭。PPTX 整页依赖 LibreOffice，可用 `SRAG_SOFFICE` 指定可执行文件。没有转换器时返回原生定位和可用正文。[原件预览与复现](./docs/D/D02-版本化原件与裁图.md)
+除默认网页工作区 `/workspace/` 外，仓库仍保留以下 CLI 与兼容 HTTP 接口：
 
-请求同一入口时可用 `read_intent=directed_question` 并提供 `question`，或用 `read_intent=generic_transcription` 转写眼前的图。实际模型读取需服务端同时配置 `SOURCE_VISION_ENABLED=true` 和 DashScope 凭据。响应分别记录 `display`、`reads` 和 `external_call_count`。通用转写经版本校验可写入 FTS，定向读图保存在对应问句的缓存。[模型、缓存和复现](./docs/D/D03-定向读图与回写.md)
-
-## 浏览器课程工作区
-
-```sh
-WORKSPACE_COURSE_IDS=signals .venv/bin/python -m uvicorn app.main:app --host 127.0.0.1
-```
-
-在本机打开 `http://127.0.0.1:8000/workspace`，选择已授权的课程，导入 PDF、PPTX 或 Notebook。
-资料库可展开到页、Cell 和对象。会话在刷新后恢复，卡片动作“问这张图”和文字“刚才第二张图”均在所属消息内解析。
-普通首问可在问题中指定文件和页、Cell 或图序，例如“实验.ipynb Cell 2 第 2 张图的横轴单位是什么？”。能唯一定位时，系统读取指定图或原生表格。位置不清或读取不可用时，回答会提示缺少哪一步。
-PDF 的独立图片只在能核对原件边界时出现在页下。可以直接用“右侧图”这样的相对位置提问，从裁图回到同版原页。此前导入的 PDF 可用同一个原件重导以补登独立图片，已有页级引用沿用原版号。扫描页与无法区分的图片会提示缺少定位。
-核对原表或具体列时，回答可同时附上保留表头和单位的原表裁图。表格原生内容、裁图和引用都来自同一版的同一对象。PPTX 裁图需要 LibreOffice。预览上的视觉状态只记录图片是否实际读取。
-“当前第 2 张图”按当前原件里的图序，“刚才第 2 张图”按上一条展示的顺序。比较已有引用的上一版与当前版时，可从同一条回答分别打开两份原件。[图序与版本验收](./docs/G/G07-图序与版本.md)
-设置 `WORKSPACE_COURSE_IDS` 可用逗号分隔多个课程。模型关闭时仍可搜索原文和查看原件，图片会标明读取状态。
-要在网页生成答案，在 `.env` 设置 `WORKSPACE_ANSWER_ENABLED=true` 和现有的 `DEEPSEEK_API_KEY`，重启后提问。生成会把当前问题和实际读取的必要文字发送给所配置的 DeepSeek 服务。点击引用可核对本轮来源。配置不可用时页面标记摘录回退。 [真实网页复验](./docs/G/G16-网页回答与续问.md)
-
-同时问定义和实验时，可以直接用中文提问。打开各段答案下的引用可分别核对定义原页和实验原文。若指定的实验条件缺少匹配结果，网页会说明缺项。保存为纯文字的 Notebook 输出可在原件侧栏直接阅读。 [G28 网页复验](./docs/G/G28-自然问题的定义与实验.md)
-
-默认检索策略为 `fts`。在 `.env` 可用 `WORKSPACE_RETRIEVAL_STRATEGY` 显式选择 `bilingual`、`jev` 或 `expanded` 并重启。评分策略使用 `JEV_API_KEY`，默认服务 `https://api.zleap.com/v1`、模型 `Zev-1`。短文件全文及显式页可直接读取本地资料。[Jev 实测与适用范围](./docs/G/G17-双语与证据评分对照.md)
-
-输入框使用「发送」提问。「总结此文件」与「查找原文」只执行当次操作，并保留聊天草稿。点目录、回答引用或图卡可开关原件侧栏，窄窗口以抽屉显示，关闭后保留聊天位置。侧栏显示引用版本、原页或裁区，并标记图像读取状态。PPTX 整页不可用时仍可查看原生文字。[浏览器回放](./docs/G/G18-网页回放.md)
-
-`python -m tools.workspace_chat --help` 提供使用同一会话服务的终端入口。[会话及原件权限](./docs/E/E02-会话服务.md)
-
-从空库导入到消息里显示原件的浏览器演示可复跑。[M1 与两种网页追问](./docs/E/E04-M1.md)
-
-用单独工作树和空数据目录试用选中文件后的中文多页问答、图序追问和换版回看。[G19 独立实测与启动命令](./docs/G/G19-独立整审与试用.md)
-
-## 跨文件补证据
-
-已发布的 PDF、PPTX、Notebook 可用 `python -m tools.workspace_reading read --course COURSE_ID --document DOCUMENT_ID` 查看有版本和原文偏移的顺序阅读。扫描 PDF 用同模块的 `ocr` 子命令在基础发布后按需增强。 [使用与复现](./docs/G/G15-顺序阅读与扫描增强.md)
-
-在课程工作区选择资料范围，用普通“问答”同时提问定义和对应的实验验证。系统先读取本轮命中原文，缺实验时最多补查一次。点击回答的“依据”可查看当时引用的文件、版本和页或 Cell。资料换版后仍可从历史回答打开原引用。证据不足时，回答会说明哪一项缺少可核对原文。
-
-同时要求讲义、表格与保存的实验输出时，答案会分别列出实际采用的原件。表格的指标、单位和实验条件与输出一致时才给数值比较。[三类原件演示](./docs/G/G08-三类原件.md)
-
-`python -m tools.evidence_answer` 从本地 SQLite 生成带原文引用的定义与实验比较。单跳与补查使用同一个 `--top-k`，补查从已读定义取字面词，最多查一次。配置 `SRAG_STRUCTURE_COURSES` 后可用 `--course`、`--file` 缩小范围，用 `--trace` 检查每跳、缺项和候选取舍。[公开样例与命令](./docs/F/F03-答案依据与降级.md)
-
-## 旧向量导入
-
-- **IPYNB**：在接口文档调用 `/api/rag/index`，传课程 ID 和文件路径；[体验 Notebook](./notebooks/retrieval_end_to_end.ipynb) 可展示整个流程。
-- **PDF/PPTX**：用 [单文件](./notebooks/cloud_document_preprocess.ipynb) 或 [批量 Colab Notebook](./notebooks/cloud_batch_preprocess.ipynb) 预处理，下载输出包后运行：
-
-```bash
-uv run python -m app.rag.slide_embedder /path/to/slidedeck-bundle
-```
-
-然后通过 `/api/rag/slides/index` 导入向量包。Colab 默认 Drive 前缀为 `/content/drive/MyDrive/Colab Notebooks/SRAG/`；本地解析需额外安装 `uv sync --extra dev --extra documents`。
-
-当前可见文件以 `/api/rag/documents` 或终端 `/files` 为准。模型配置与资料不提交仓库；本地日志、缓存和报告保存在 `data/`。
+- **工作区共享终端会话**：`uv run python -m tools.workspace_chat --help`（复用同一持久会话与权限校验）
+- **版本化顺序阅读与扫描 OCR**：`uv run python -m tools.workspace_reading read --course <COURSE_ID> --document <DOCUMENT_ID>`（支持 `ocr` 子命令）
+- **离线定义与实验比较 CLI**：`uv run python -m tools.evidence_answer --course <COURSE_ID> "问题" --trace`（需设置 `SRAG_STRUCTURE_COURSES`）
+- **本地导入与结构检索 API**：`POST /api/rag/local/import`、`POST /api/rag/local/search`、`POST /api/rag/structure/search`、`POST /api/rag/local/evidence/current`、`POST /api/rag/local/migrate`、`POST /api/rag/local/migrate/bundle`
+- **旧版向量索引与 Qdrant Docker（可选）**：仅使用旧 `/api/rag/index`、`/api/rag/slides/index` 与外部 Qdrant 面板（`http://localhost:6333/dashboard`）时启动 `docker compose up -d`，终端交互入口为 `uv run python -m tools.chat`（详细见 [RAG.md](./RAG.md) 与 [notebooks/](./notebooks/)）。
+- **可重放验收与质量验证**：
+  ```bash
+  uv run ruff check app evals tools tests
+  SRAG_SOFFICE="$(command -v soffice || true)" uv run pytest -q
+  SRAG_SOFFICE="$(command -v soffice || true)" uv run python docs/K/scripts/run_k02_public_acceptance.py
+  ```
 
 ## 文档导航
 
 | 文档 | 内容 |
-| --- | --- |
-| [当前执行交接](./docs/执行交接.md) | 当前可领取任务、接手工作区、基线命令与最近审核证据 |
-| [产品目标与交付路线](./docs/产品目标与交付路线.md) | 最终使用体验、必交功能、阶段交付物与验收条件 |
-| [RAG.md](./RAG.md) | 11 月 19 日目标架构、行内证据契约及现有实现 |
-| [evals/README.md](./evals/README.md) | 评估工具、命令、指标、标准和历史结果 |
-| [任务与审核清单](./CHECKLIST.md) | 分部依赖、承接角色、小任务交付物、审核条件与状态 |
-| [agent.md](./agent.md) | 开发状态和文档维护规则 |
-| [PROGRESS_HISTORY.md](./PROGRESS_HISTORY.md) | 完整开发过程与决策记录 |
-
-## 维护约定
-
-- 只保留项目成果、运行/导入入口和文档导航，命令需与代码一致。
-- 架构参数、评估细节及开发历史引用对应文档，不在此展开；功能变化更新原段落。
+| :--- | :--- |
+| [产品目标与交付路线](./docs/产品目标与交付路线.md) | 产品目标、学习场景、M0–M4 里程碑与第 5 节验收清单 |
+| [K01 发布验收设计](./docs/K/K01-发布验收设计.md) | C1–C7 整机验收方案、公开样例与隔离评测协议 |
+| [K02 交付包与整机质量报告](./docs/K/K02-交付包与整机质量报告.md) | 公开样例实测、固定题集与未用课程脱敏统计、已知限制 |
+| [当前执行交接](./docs/执行交接.md) | 当前任务状态、工作区基线与交接记录 |
+| [RAG.md](./RAG.md) | 目标架构、行内证据契约与模块边界 |
+| [evals/README.md](./evals/README.md) | 评估工具、指标口径与历史基线 |
+| [任务与审核清单](./CHECKLIST.md) | 分部依赖、小任务交付与独立门审记录 |
+| [agent.md](./agent.md) · [PROGRESS_HISTORY.md](./PROGRESS_HISTORY.md) | 协作约定与完整历史过程记录 |

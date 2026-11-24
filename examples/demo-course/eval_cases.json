@@ -1,0 +1,325 @@
+{
+  "schema_version": 1,
+  "suite_id": "k02-demo-course-public-v1",
+  "course_id": "demo-course",
+  "distractor_course_id": "demo-distractor",
+  "thresholds": {
+    "completion_rate_min": 1.0,
+    "severe_error_max": 0,
+    "all_2_rate_min": 0.9,
+    "visual_selection_alignment_min": 1.0
+  },
+  "cases": [
+    {
+      "case_id": "K-Pub-01",
+      "category": "cross_file_definition_and_experiment",
+      "turns": [
+        {
+          "turn_id": "K-Pub-01-T1",
+          "query": "请说明 轴向门控路由 的定义，给出配套实验的实测 recall 结果。",
+          "expected_sources": [
+            {
+              "file_name": "Lecture-01-Retrieval-and-Attention.pptx",
+              "page": 2
+            },
+            {
+              "file_name": "Lab-01-Retrieval-Bench.ipynb",
+              "cell_index": 1
+            }
+          ],
+          "must_contain_facts": [
+            "0 < g_l <= 1.0",
+            "0.15",
+            "86.4%"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-02",
+      "category": "two_column_pdf_formula_and_figure",
+      "turns": [
+        {
+          "turn_id": "K-Pub-02-T1",
+          "file_filter": "Axis-LoRA-2611.07820v1.pdf",
+          "query": "Axis-LoRA 第 6 页的公式是什么？第 3 页的图片展示了什么趋势？",
+          "expected_sources": [
+            {
+              "file_name": "Axis-LoRA-2611.07820v1.pdf",
+              "page": 6
+            },
+            {
+              "file_name": "Axis-LoRA-2611.07820v1.pdf",
+              "page": 3
+            }
+          ],
+          "must_contain_facts": [
+            "InfoNCE"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-03",
+      "category": "pdf_and_pptx_tables_with_units",
+      "turns": [
+        {
+          "turn_id": "K-Pub-03-T1",
+          "file_filter": "Lecture-01-Retrieval-and-Attention.pptx",
+          "query": "表 1 中 FA3-Pingpong-FP8 的硬件带宽、端到端延迟、峰值显存和核心温度分别是多少？",
+          "expected_sources": [
+            {
+              "file_name": "Lecture-01-Retrieval-and-Attention.pptx",
+              "page": 5
+            }
+          ],
+          "must_contain_facts": [
+            "3120",
+            "9.6",
+            "2940",
+            "68.4"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-04",
+      "category": "notebook_multi_output_and_followup",
+      "turns": [
+        {
+          "turn_id": "K-Pub-04-T1",
+          "focus": {
+            "file_name": "Lab-01-Retrieval-Bench.ipynb",
+            "cell_index": 2
+          },
+          "expect_clarification": true,
+          "choose_label_contains": "输出 2",
+          "query": "请读取当前 Cell 输出曲线图的横轴单位和峰值数值。",
+          "expected_sources": [
+            {
+              "file_name": "Lab-01-Retrieval-Bench.ipynb",
+              "source_id": "cell:2:output:2"
+            }
+          ],
+          "must_contain_facts": [
+            "4.12",
+            "RMSE"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        },
+        {
+          "turn_id": "K-Pub-04-T2",
+          "query": "刚才那张图的纵轴单位和曲线标签是什么？",
+          "expected_sources": [
+            {
+              "file_name": "Lab-01-Retrieval-Bench.ipynb",
+              "source_id": "cell:2:output:2"
+            }
+          ],
+          "must_contain_facts": [
+            "FP8 Incoherent"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage",
+            "consistency"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-05",
+      "category": "multi_image_direction_and_unboxed_fallback",
+      "turns": [
+        {
+          "turn_id": "K-Pub-05-T1",
+          "focus": {
+            "file_name": "Lecture-01-Retrieval-and-Attention.pptx",
+            "page": 7
+          },
+          "query": "第 7 页右侧那张图展示了什么指标和延迟？",
+          "expected_sources": [
+            {
+              "file_name": "Lecture-01-Retrieval-and-Attention.pptx",
+              "page": 7
+            }
+          ],
+          "must_contain_facts": [
+            "86.9%",
+            "11.4"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-06",
+      "category": "pure_diagram_pptx_s0_vs_s3",
+      "turns": [
+        {
+          "turn_id": "K-Pub-06-T1",
+          "strategy_compare": [
+            "s0",
+            "vector"
+          ],
+          "query": "异步流水延迟曲线图展示在哪一页幻灯片？请读出图中 4K 和 16K 序列长度对应的全部四个 Step Latency (ms) 实测数值。",
+          "expected_sources": [
+            {
+              "file_name": "Lecture-01-Retrieval-and-Attention.pptx",
+              "page": 6
+            }
+          ],
+          "must_contain_facts": [
+            "14.2",
+            "6.8",
+            "48.6",
+            "19.4"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-07",
+      "category": "clarification_disambiguation",
+      "turns": [
+        {
+          "turn_id": "K-Pub-07-T1",
+          "focus": {
+            "file_name": "FlashAttention-3-2407.08608v2.pdf",
+            "page": 6
+          },
+          "expect_clarification": true,
+          "choose_index": 0,
+          "query": "第 6 页的图片展示了什么调度？",
+          "expected_sources": [
+            {
+              "file_name": "FlashAttention-3-2407.08608v2.pdf",
+              "page": 6
+            }
+          ],
+          "must_contain_facts": [
+            "pingpong"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-08",
+      "category": "insufficient_or_out_of_scope",
+      "turns": [
+        {
+          "turn_id": "K-Pub-08-T1",
+          "file_filter": "Axis-LoRA-2611.07820v1.pdf",
+          "query": "请给出 Axis-LoRA 论文中测得的 1-bit FP1.58 量化在 H100 8-GPU 集群上的训练能耗焦耳数以及 Lab-01 的 fp8_rmse 数值。",
+          "expected_sources": [],
+          "must_not_fabricate": true,
+          "applicable_dimensions": [
+            "fact",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-09",
+      "category": "kg_dual_entry_navigation_and_fallback",
+      "turns": [
+        {
+          "turn_id": "K-Pub-09-T1",
+          "query": "请说明 双阶异步流水 的定义，给出配套实验的实测结果。",
+          "expected_concepts": [
+            "轴向门控路由",
+            "双阶异步流水",
+            "单向边界守卫"
+          ],
+          "kg_navigation_targets": [
+            {
+              "file_name": "Lecture-01-Retrieval-and-Attention.pptx",
+              "page": 3
+            },
+            {
+              "file_name": "Lab-01-Retrieval-Bench.ipynb",
+              "cell_index": 2,
+              "must_contain_facts": [
+                "662"
+              ]
+            }
+          ],
+          "must_contain_facts": [
+            "128"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage"
+          ]
+        }
+      ]
+    },
+    {
+      "case_id": "K-Pub-10",
+      "category": "version_upgrade_and_historical_view",
+      "turns": [
+        {
+          "turn_id": "K-Pub-10-T1",
+          "upload_v2_before_turn": true,
+          "query": "请对比最新版和旧版 Lab-01-Retrieval-Bench.ipynb 中 probe_axis_gate 实测输出的变化。",
+          "expected_sources": [
+            {
+              "file_name": "Lab-01-Retrieval-Bench.ipynb",
+              "version": 1
+            },
+            {
+              "file_name": "Lab-01-Retrieval-Bench.ipynb",
+              "version": 2
+            }
+          ],
+          "must_contain_facts": [
+            "86.4%",
+            "91.8%"
+          ],
+          "applicable_dimensions": [
+            "fact",
+            "citation",
+            "coverage",
+            "consistency"
+          ]
+        }
+      ]
+    }
+  ]
+}

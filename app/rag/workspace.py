@@ -1550,6 +1550,8 @@ class WorkspaceService:
                 )
                 return self._complete(turn, draft, refs=refs)
         offline_kg_trace: dict[str, Any] | None = None
+        visual_ranked: list[SnapshotSource] = []
+        visual_read_targets: list[SnapshotSource] = []
         if (
             forced is not None
             and forced.source is not None
@@ -1563,7 +1565,6 @@ class WorkspaceService:
             is not None
         ):
             ranked = [chosen_source]
-            visual_ranked = []
             trace = {
                 "route": "clarification_choice",
                 "effective_scope": _effective(documents),

@@ -1,0 +1,410 @@
+{
+  "suite": "K02-public-release-acceptance",
+  "demo_manifest_files": 8,
+  "C1_offline": {
+    "passed": true,
+    "health": {
+      "status": "ok",
+      "service": "srag",
+      "version": "0.1.0"
+    },
+    "empty_state_ok": true,
+    "imports": [
+      "Axis-LoRA-2611.07820v1.pdf · 导入完成 · v1",
+      "FlashAttention-3-2407.08608v2.pdf · 导入完成 · v1",
+      "Lecture-01-Retrieval-and-Attention.pptx · 导入完成 · v1",
+      "Lab-01-Retrieval-Bench.ipynb · 导入完成 · v1"
+    ],
+    "catalog_nav": {
+      "p2": "第 2 页 · 1. 核心概念定义：轴向门控路由 (Axis-Gated Routing)",
+      "p3": "第 3 页 · 2. 核心概念定义：双阶异步流水 (Two-Stage Asynchronous Pipeline)",
+      "reader_img": [
+        1920,
+        1080
+      ]
+    },
+    "kg_offline": {
+      "kg_count": 4,
+      "def_reader_title": "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 2 页",
+      "out_reader_title": "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 2 · 输出 1",
+      "no_edge_notice": "当前版本暂无可靠的实验演示关系，可使用常规检索查找相关实验。"
+    },
+    "offline_ask": {
+      "elapsed_s": 4.771,
+      "notices": [
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+        }
+      ],
+      "external_call_count": 0
+    }
+  },
+  "C2_sources": {
+    "C2-01_pptx_whole": {
+      "passed": true,
+      "reader_title": "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 2 页",
+      "img_size": [
+        1920,
+        1080
+      ]
+    },
+    "C2-03_two_col_pdf": {
+      "passed": true,
+      "formula_reader": "Axis-LoRA-2611.07820v1.pdf · v1 · 公式 · L = LInfoNCE + λKD · LKD.",
+      "figure_highlight": {
+        "height": "32.6136%",
+        "left": "9.9047%",
+        "top": "22.3843%",
+        "width": "40.6677%"
+      },
+      "figure_reads": [
+        {
+          "evidence_id": "ev-1",
+          "method": "vision",
+          "status": "partial",
+          "origin_execution": "real_provider",
+          "execution": "real_provider",
+          "actual_source": {
+            "document_id": "local_df777d0e9a6543a0abae6c5e654234f9",
+            "source_id": "page:3:image:1",
+            "version": 1
+          },
+          "actual_input_sha256": "8a1fc5499a7564c31457a0dcc0be6a52e650d0e6bcff7213fc6ff2fca3cbe2c5"
+        }
+      ]
+    },
+    "C2-02_tables_with_units": {
+      "passed": true,
+      "pdf_tbl_highlight": {
+        "height": "9.8676%",
+        "left": "13.431%",
+        "top": "52.0627%",
+        "width": "33.6144%"
+      },
+      "pptx_tbl_size": [
+        1806,
+        706
+      ]
+    },
+    "C2-04_notebook_multi_output": {
+      "passed": true,
+      "selected_source": "cell:2:output:2",
+      "actual_source": "cell:2:output:2",
+      "actual_input_sha256": "ae946a50cb9e6f22cafbd83932c50b31b398fb255e4f00b101a6b477db6cc008",
+      "origin_execution": "real_provider",
+      "url_checks": [
+        {
+          "bytes": 21408,
+          "sha256": "ae946a50cb9e6f22cafbd83932c50b31b398fb255e4f00b101a6b477db6cc008",
+          "status": 200,
+          "url": "/api/workspace/sessions/dbda6f08eff7476d9c43990d1ef67fcd/messages/4e108cd57dde402a96fc58865c440be0/media/69260b1b255442c0a97bb13755e9108f?view=inline"
+        },
+        {
+          "bytes": 21408,
+          "sha256": "ae946a50cb9e6f22cafbd83932c50b31b398fb255e4f00b101a6b477db6cc008",
+          "status": 200,
+          "url": "/api/workspace/sessions/dbda6f08eff7476d9c43990d1ef67fcd/messages/4e108cd57dde402a96fc58865c440be0/evidence/ev-1/preview"
+        }
+      ],
+      "followup_reads": [
+        {
+          "evidence_id": "ev-1",
+          "method": "vision",
+          "status": "succeeded",
+          "origin_execution": "real_provider",
+          "execution": "real_provider",
+          "actual_source": {
+            "document_id": "local_90c766b22f28422f9eaa913e7673b004",
+            "source_id": "cell:2:output:2",
+            "version": 1
+          },
+          "actual_input_sha256": "ae946a50cb9e6f22cafbd83932c50b31b398fb255e4f00b101a6b477db6cc008"
+        }
+      ]
+    },
+    "C2-05_unboxed_fallback": {
+      "passed": true,
+      "display": {
+        "display_id": "c13b62c40f7c4c0a8262c97d0dce8fc5",
+        "evidence_id": "ev-4",
+        "rendition_kind": "parent_page_fallback",
+        "fallback_reason": "unreliable_bbox",
+        "read_status": "not_attempted",
+        "display_source": {
+          "document_id": "local_f42493fb0de24d9080af25b1dee9ec9b",
+          "source_id": "page:8",
+          "version": 1
+        }
+      },
+      "reader_has_highlight": false
+    }
+  },
+  "C3_multiturn_and_version": {
+    "C3-01_clarification": {
+      "passed": true,
+      "options": [
+        "FlashAttention-3-2407.08608v2.pdf · v1 · 第 6 页 · 上图",
+        "FlashAttention-3-2407.08608v2.pdf · v1 · 第 6 页 · 下图"
+      ],
+      "chosen": "FlashAttention-3-2407.08608v2.pdf · v1 · 第 6 页 · 上图"
+    },
+    "C3-02_scope_switch": {
+      "passed": true,
+      "scope_summary": "当前范围 · Lecture-01-Retrieval-and-Attention.pptx",
+      "notices": [
+        {
+          "code": "missing_evidence",
+          "text": "fp8_rmse 的具体数值无法确认：讲义文字未列出该指标，需查看配套实验脚本 `bench_fa3_pingpong` 的保存输出；另有 4 页视觉内容未读取，可能包含相关图表，但当前证据无法确认。"
+        }
+      ]
+    },
+    "C3-03_reload": {
+      "passed": true,
+      "pre_reload_count": 34,
+      "post_reload_count": 34
+    },
+    "C3-04_dual_session_isolation": {
+      "passed": true,
+      "session_b_id": "7e1c7735697c44af8ab3af6965dd3e4f",
+      "session_b_elapsed_s": 1.887,
+      "cross_404": [
+        {
+          "path": "/api/workspace/sessions/dbda6f08eff7476d9c43990d1ef67fcd",
+          "status": 404
+        },
+        {
+          "path": "/api/workspace/sessions/dbda6f08eff7476d9c43990d1ef67fcd/kg/concepts",
+          "status": 404
+        },
+        {
+          "path": "/api/workspace/sessions/dbda6f08eff7476d9c43990d1ef67fcd/messages/4e108cd57dde402a96fc58865c440be0/media/69260b1b255442c0a97bb13755e9108f?view=inline",
+          "status": 404
+        },
+        {
+          "path": "/api/workspace/sessions/dbda6f08eff7476d9c43990d1ef67fcd/messages/4e108cd57dde402a96fc58865c440be0/evidence/ev-1/preview",
+          "status": 404
+        }
+      ]
+    },
+    "C3-05_v1_to_v2": {
+      "passed": true,
+      "upload_v2": [
+        "Lab-01-Retrieval-Bench.ipynb · 导入完成 · v2"
+      ],
+      "old_reader_location": "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 3 · 输出 2",
+      "kg_degraded_cleanly": true
+    }
+  },
+  "C5_Public_cases": {
+    "K-Pub-01": {
+      "passed": true,
+      "elapsed_s": 10.984,
+      "cites": [
+        "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 2 页 · 1. 核心概念定义：轴向门控路由 (Axis-Gated Routing)",
+        "Lecture-01-Retrieval-and-Attention.pptx · v1 · 文本框",
+        "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 2 · 输出 0",
+        "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 2",
+        "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 2 · 输出 0"
+      ],
+      "kg_chip_clicked": true,
+      "kg_detail_has_both": true,
+      "generation_status": "succeeded"
+    },
+    "K-Pub-02": {
+      "passed": true,
+      "elapsed_s": 6.406
+    },
+    "K-Pub-03": {
+      "passed": true,
+      "elapsed_s": 3.033
+    },
+    "K-Pub-04": {
+      "passed": true,
+      "elapsed_s": 6.039
+    },
+    "K-Pub-05": {
+      "passed": true,
+      "elapsed_s": 12.151
+    },
+    "K-Pub-07": {
+      "passed": true,
+      "elapsed_s": 3.365
+    },
+    "K-Pub-08": {
+      "passed": true,
+      "elapsed_s": 3.688
+    },
+    "K-Pub-09": {
+      "passed": true,
+      "elapsed_s": 10.649,
+      "kg_items_count": 4,
+      "def_reader_title": "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 3 页",
+      "child_txt_title": "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 3 · 输出 0",
+      "child_img_title": "Lab-01-Retrieval-Bench.ipynb · v1 · Cell 3 · 输出 1",
+      "fallback_notice": "当前版本暂无可靠的实验演示关系，可使用常规检索查找相关实验。"
+    },
+    "K-Pub-10": {
+      "passed": true,
+      "elapsed_s": 4.977
+    },
+    "K-Pub-06": {
+      "passed": true,
+      "s0": {
+        "elapsed_s": 3.692,
+        "hit_pure_slide_values": false,
+        "cites": [
+          "FlashAttention-3-2407.08608v2.pdf · v1 · 第 10 页",
+          "FlashAttention-3-2407.08608v2.pdf · v1 · 第 11 页 · 512 1k 2k 4k 8k 16k",
+          "FlashAttention-3-2407.08608v2.pdf · v1 · 第 22 页",
+          "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 5 页"
+        ]
+      },
+      "s3": {
+        "passed": true,
+        "elapsed_s": 146.973,
+        "vector_status": "succeeded",
+        "visual_triggered": true,
+        "s3_visual_accepted": 1,
+        "cites": [
+          "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 6 页 · Slide 6",
+          "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 6 页 · Slide 6",
+          "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 6 页 · Slide 6"
+        ]
+      }
+    }
+  },
+  "C6_kg_and_s3": {
+    "s3_pure_diagram": {
+      "passed": true,
+      "elapsed_s": 146.973,
+      "vector_status": "succeeded",
+      "visual_triggered": true,
+      "s3_visual_accepted": 1,
+      "cites": [
+        "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 6 页 · Slide 6",
+        "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 6 页 · Slide 6",
+        "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 6 页 · Slide 6"
+      ]
+    },
+    "s0_vs_s0_kg": {
+      "kg_False": {
+        "kg_trace": {
+          "external_call_count": 0,
+          "status": "not_requested"
+        },
+        "hit_86_4": false,
+        "generation_status": "partial"
+      },
+      "kg_True": {
+        "kg_trace": {
+          "added_sources": [
+            {
+              "document_id": "local_9a62699a4d44414296164d5db04f17fa",
+              "source_id": "cell:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_9a62699a4d44414296164d5db04f17fa",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            {
+              "document_id": "local_9a62699a4d44414296164d5db04f17fa",
+              "source_id": "cell:2",
+              "version": 1
+            }
+          ],
+          "external_call_count": 0,
+          "filtered_out_of_scope": 0,
+          "kg_reserve_cap": 3,
+          "matched_concepts": [
+            {
+              "canonical_name": "轴向门控路由",
+              "concept_key": "c_664cd1ec9714",
+              "course_id": "demo-course"
+            },
+            {
+              "canonical_name": "双阶异步流水",
+              "concept_key": "c_57e679d02091",
+              "course_id": "demo-course"
+            }
+          ],
+          "per_concept_cap": 2,
+          "status": "succeeded",
+          "visual_added": [
+            {
+              "document_id": "local_9a62699a4d44414296164d5db04f17fa",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_9a62699a4d44414296164d5db04f17fa",
+              "source_id": "cell:2:output:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_9a62699a4d44414296164d5db04f17fa",
+              "source_id": "cell:2:output:2",
+              "version": 1
+            }
+          ]
+        },
+        "hit_86_4": true,
+        "generation_status": "partial"
+      }
+    }
+  },
+  "C7_fault_recovery": {
+    "C7-01_corrupt_import": {
+      "passed": true,
+      "workspace_import_http": {
+        "body": {
+          "error": "import_failed",
+          "file_name": "bad.ipynb",
+          "status": "failed"
+        },
+        "status": 200
+      },
+      "legacy_import_http": 400,
+      "ver_after_corrupt_upgrade": "v1",
+      "half_published_active": 0
+    },
+    "C7-02_invalid_model_and_dedup": {
+      "passed": true,
+      "bad_generation_status": "provider_error",
+      "dedup_counts": {
+        "turn_rows": 1,
+        "user_msgs": 1,
+        "assistant_msgs": 1,
+        "half_published_active": 0
+      },
+      "recovered_generation_status": "partial"
+    },
+    "C7-03_vision_failure_and_retry": {
+      "passed": true,
+      "failed_vision_status": "failed",
+      "recovered_status": "completed",
+      "retry_sqlite_counts": {
+        "turn_rows": 1,
+        "user_msgs": 1,
+        "assistant_msgs": 1,
+        "half_published_active": 0
+      }
+    },
+    "C7-04_delete_stale_reference": {
+      "passed": true,
+      "stale_ui_err": "处理失败 · 资料版本已更改，请从目录重新选择。",
+      "deleted_ev_status": 404,
+      "removed_from_catalog_after_reload": true
+    }
+  },
+  "online_main_usage": {
+    "deepseek_calls": 13,
+    "deepseek_tokens": 27342,
+    "vision_calls": 5,
+    "latency_p50_s": 3.012,
+    "latency_p95_s": 10.682,
+    "latency_max_s": 10.984
+  }
+}
