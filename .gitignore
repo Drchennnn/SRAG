@@ -1,5 +1,6 @@
 .omx/
 .worktrees/
+SRAG-analysis/
 .DS_Store
 .env
 .venv/

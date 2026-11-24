@@ -211,28 +211,47 @@ def _labeled_versions(text: str, role: re.Pattern[str]) -> set[int]:
     return numbers
 
 
-def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session: Session) -> Turn:
-    from app.rag.workspace import Draft, _location, _object_file_names
+def compare_versions(
+    service: WorkspaceService,
+    owner: str,
+    turn: Turn,
+    session: Session,
+    *,
+    question: str | None = None,
+    forced_file_name: str | None = None,
+) -> Turn:
+    from app.rag.structure_search import StructureScope, StructureSearcher, StructureSearchRequest
+    from app.rag.workspace import Draft, _doc_ref, _location, _object_file_names
 
     if not set(session.course_ids) <= service.allowed_courses:
         raise inaccessible()
-    question = turn.request.text
+    question = question if question is not None else turn.request.text
     implicit = bool(_BARE_COMPARISON.fullmatch(question))
     draft = Draft(session.session_id)
     trace: dict[str, Any] = {"route": "version_comparison", "external_call_count": 0}
     scope = tuple(session.course_ids)
     snapshot = service.snapshots.read(SnapshotRequest(scope, tuple(session.document_ids)))
-    names = _object_file_names(question, snapshot.documents)
+    names: list[str] | None = (
+        [forced_file_name] if forced_file_name else _object_file_names(question, snapshot.documents)
+    )
     if names is None or len(set(names)) > 1:
         draft.notice("comparison_scope", "找不到可使用的指定文件，请核对课程和资料范围。")
         return service._complete(turn, draft, trace=trace)
     focus = None
+    multi_ids = service.snapshots.multi_version_document_ids(
+        [doc.document_id for doc in snapshot.documents]
+    )
+    multi_docs = [doc for doc in snapshot.documents if doc.document_id in multi_ids]
     if not names and session.focus_id:
         focus = service._catalog(session.session_id).nodes.get(session.focus_id)
         if focus is not None:
-            names = [focus.document.file_name]
+            if focus.document.document_id in multi_ids or not multi_docs:
+                names = [focus.document.file_name]
         else:
-            doc_map = {doc.document_id: doc.file_name for doc in snapshot.documents}
+            doc_map = {
+                doc.document_id: doc.file_name
+                for doc in (multi_docs if multi_docs else snapshot.documents)
+            }
             for _, msg in _completed_history(service, owner, turn, session):
                 msg_docs = {
                     ev["revision"]["source"]["document_id"]
@@ -242,6 +261,52 @@ def compare_versions(service: WorkspaceService, owner: str, turn: Turn, session:
                 if len(msg_docs) == 1:
                     names = [doc_map[next(iter(msg_docs))]]
                     break
+    if not names and multi_docs:
+        if len(multi_docs) == 1:
+            names = [multi_docs[0].file_name]
+        else:
+            cleaned_q = _COMPARE.sub(
+                " ", _CURRENT.sub(" ", _OLD.sub(" ", _VERSION.sub(" ", question)))
+            )
+            cleaned_q = re.sub(r"[，。！？；,;!?\s]+", " ", cleaned_q).strip()
+            if cleaned_q:
+                probe = StructureSearcher(service.snapshots).search(
+                    StructureSearchRequest(
+                        query=cleaned_q,
+                        top_k=8,
+                        include_adjacency=False,
+                        include_page_fallback=False,
+                        scope=StructureScope(
+                            course_ids=list(scope),
+                            document_ids=[doc.document_id for doc in multi_docs],
+                        ),
+                    ),
+                    allowed_course_ids=service.allowed_courses,
+                )
+                hit_docs = list(
+                    dict.fromkeys(
+                        cand.source.document_id
+                        for cand in probe.candidates
+                        if cand.match_kind != "browse"
+                    )
+                )
+                if len(hit_docs) == 1:
+                    hit_name = next(
+                        (d.file_name for d in multi_docs if d.document_id == hit_docs[0]), None
+                    )
+                    if hit_name is not None:
+                        names = [hit_name]
+        if not names:
+            multi_map = {doc.document_id: doc for doc in multi_docs}
+            return build_clarification(
+                service,
+                turn,
+                "有多份多版本资料，请先选定要比较的一份资料。",
+                service._document_choices(session.session_id, multi_map),
+                refs=[_doc_ref(doc) for doc in multi_docs],
+                notice_code="comparison_scope",
+                trace=trace,
+            )
     if names:
         snapshot = service.snapshots.read(
             SnapshotRequest(

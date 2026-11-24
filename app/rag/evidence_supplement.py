@@ -507,7 +507,17 @@ class _Turn:
     ) -> str | None:
         if self.report.stop_reason == "ambiguous_definition_course":
             return self.report.stop_reason
-        if definition and (experiments or self.report.requirements == ["definition"]):
+        already_used = definition is not None and (
+            definition.term is None
+            or _already_used(definition.term.word, [self.request.query, *first_variants])
+        )
+        if definition and (
+            self.report.requirements == ["definition"]
+            or (
+                experiments
+                and (already_used or self.report.budget < 3 or len(experiments) >= 2)
+            )
+        ):
             return "already_supported"
         if self.report.strategy == "single":
             return "single_hop"
@@ -518,9 +528,7 @@ class _Turn:
             return "scope_limited"
         if self.report.budget < 2:
             return "budget_exhausted"
-        if definition.term is None or _already_used(
-            definition.term.word, [self.request.query, *first_variants]
-        ):
+        if already_used:
             return "no_new_terms"
         return None
 

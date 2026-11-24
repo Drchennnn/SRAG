@@ -367,6 +367,30 @@ def route_turn(service: WorkspaceService, ctx: TurnContext) -> RouteDecision:
     ):
         return SupplementRoute()
 
+    # Unfocused or focused explicit Cell + output N question (3a): route image outputs to D03.
+    if explicit_location is not None and explicit_location.cell_index is not None:
+        out_matches = list(_OBJ_OUTPUT_NUMBER.finditer(text))
+        img_matches = list(_OBJ_IMAGE_NUMBER.finditer(text))
+        if len(out_matches) == 1 and not img_matches:
+            from app.rag.workspace import _can_display
+            from app.rag.workspace_objects import _parse_ordinal
+
+            m = out_matches[0]
+            ord_num = _parse_ordinal(m["chinese"] or m["english"] or "")
+            if ord_num >= 1:
+                matching_outputs = [
+                    src
+                    for src in ctx.scope_snapshot.sources
+                    if src.kind == "notebook_output"
+                    and src.locator.get("cell_index") == explicit_location.cell_index
+                    and src.locator.get("output_index") == ord_num - 1
+                    and _can_display(src)
+                ]
+                if matching_outputs:
+                    return TargetObjectRoute(
+                        intent=ObjectIntent(kind="image", ordinal=ord_num, order="outputs")
+                    )
+
     # Explicit object intent (image / table / caption / formula) with snapshot existence guard.
     target = object_intent(text)
     if target is not None:

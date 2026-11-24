@@ -68,6 +68,8 @@ def _load_env_secrets() -> tuple[dict[str, str], list[str]]:
     if explicit := os.environ.get("SRAG_ENV_FILE", "").strip():
         candidates.append(Path(explicit))
     candidates.extend([REPO_ROOT / ".env", REPO_ROOT.parent / "SRAG" / ".env"])
+    if len(REPO_ROOT.parents) > 1:
+        candidates.append(REPO_ROOT.parents[1] / ".env")
     for path in candidates:
         if not path.is_file():
             continue

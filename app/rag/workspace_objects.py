@@ -19,7 +19,7 @@ _NUMBER = r"[0-9]{1,4}|[零〇一二两三四五六七八九十]{1,3}"
 _CHINESE_DIGITS = {digit: value for value, digit in enumerate("零一二三四五六七八九")}
 _CHINESE_DIGITS.update({"〇": 0, "两": 2})
 _IMAGE_NUMBER = re.compile(
-    rf"第\s*(?P<chinese>{_NUMBER})\s*(?:张|幅|个)\s*(?:图片|图像|子图|插图|图)"
+    rf"第\s*(?P<chinese>{_NUMBER})\s*(?:张|幅|个)\s*(?:输出\s*)?(?:图片|图像|子图|插图|图)"
     r"|\b(?:figure|fig\.|image|plot|subplot)\s*#?\s*(?P<english>[0-9]{1,4})\b",
     re.IGNORECASE,
 )
@@ -40,9 +40,39 @@ _EXPLICIT_TABLE_REF = re.compile(
     r"|(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述)\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:表格|原表|表)"
 )
 _EXPLICIT_LOCATION = re.compile(
-    rf"第?\s*(?:{_NUMBER})\s*(?:页|张幻灯片|个?\s*cell)"
-    r"|\b(?:page|slide)\s+#?[1-9][0-9]{0,3}\b"
-    r"|\bcell\s+[1-9][0-9]{0,3}\b",
+    rf"第?\s*(?:{_NUMBER})\s*(?:页|张幻灯片|(?:个)?\s*(?:cell|单元格))"
+    r"|\b(?:page|slide|cell)\s*#?\s*[1-9][0-9]{0,3}\b",
+    re.IGNORECASE,
+)
+_CURRENT_OBJECT_LOC = re.compile(r"当前|本页|这页|该页|本\s*cell|这个\s*cell|这里|此处", re.I)
+_EXPLICIT_CAPTION_TARGET = re.compile(
+    rf"(?:图|figure|fig\.?)\s*#?\s*(?:{_NUMBER})\s*(?:的)?\s*(?:图注|图题|注|caption)"
+    r"|(?:这|那|该)(?:张图)?(?:的)?\s*(?:图注|图题)"
+    r"|\b(?:this|that|the)\s+caption\b",
+    re.IGNORECASE,
+)
+_EXPLICIT_FORMULA_TARGET = re.compile(
+    rf"(?:公式|方程|式子)\s*#?\s*(?:{_NUMBER}|[A-Za-z_][A-Za-z0-9_]*)\b"
+    rf"|第\s*(?:{_NUMBER})\s*(?:个|条|道)\s*(?:公式|方程|表达式|式子)"
+    r"|(?:这|那|该)(?:个|条|道)?\s*(?:公式|方程|表达式|式子)"
+    r"|\b(?:eq\.?|equation)\s*#?\s*\(?[0-9.]+\)?"
+    r"|\b(?:formula|equation)\s+(?:for|of)\s+[A-Za-z_][A-Za-z0-9_]*\b",
+    re.IGNORECASE,
+)
+_FORMULA_DERIVATION = re.compile(
+    r"推导|怎么推|如何推|由来|证明|怎么得到|如何得到|哪里来|从哪来|"
+    r"哪几个公式|多个公式|各个公式|\b(?:deriv(?:e|ation)|proof|multiple\s+equations?)\b",
+    re.IGNORECASE,
+)
+_VISUAL_PROSE_IDIOMS = re.compile(
+    r"试图|意图|企图|力图|贪图|图谋|版图|蓝图|图灵",
+)
+_VISUAL_INTENT_QUERY = re.compile(
+    r"图片|图像|图表|图示|曲线|直方图|柱状图|折线图|散点图|热力图|框图|示意图|流程图|架构图|"
+    r"手写|截图|附图|图例|画图|画出|图中|如图|横轴|纵轴|坐标轴|什么图|哪张图|"
+    r"(?:左边|右侧|左侧|右边|上方|下方|上面|下面)(?:那张|的)?\s*图|"
+    r"\b(?:figure|fig\.?|plot|chart|diagram|curve|axis|axes|visual(?:ization)?|"
+    r"illustration|screenshot|handwritten)\b",
     re.IGNORECASE,
 )
 _DEMONSTRATIVE_TABLE = re.compile(r"(?:这|那)张\s*(?:表格|原表|表)")
@@ -148,13 +178,23 @@ class ObjectIntent:
 
 
 def object_intent(question: str, *, include_reference: bool = False) -> ObjectIntent | None:
-    """Recognize an explicit figure/table question without consuming ordinary previews."""
+    """Recognize an explicit object-viewing/reading question without hijacking RAG queries."""
+    from app.rag.evidence_supplement import asks_for_definition_and_experiment
+    from app.rag.workspace_composition import asks_for_composition
 
     outputs = _ordinals(_OUTPUT_NUMBER, question)
     images = _ordinals(_IMAGE_NUMBER, question)
     tables = _ordinals(_TABLE_NUMBER, question)
     has_fact = bool(_FACT.search(question))
     has_preview = bool(_PREVIEW.search(question))
+    has_explicit_loc = bool(
+        _EXPLICIT_LOCATION.search(question) or _CURRENT_OBJECT_LOC.search(question)
+    )
+    is_composite = bool(
+        asks_for_composition(question) or asks_for_definition_and_experiment(question)
+    )
+    if is_composite and not include_reference and not (has_preview and has_explicit_loc):
+        return None
     has_caption = bool(_CAPTION.search(question))
     has_formula = bool(_FORMULA.search(question))
     has_image = bool(
@@ -165,8 +205,28 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
         tables or _TABLE.search(question) or (not has_image and _COLUMN.search(question))
     )
     if has_caption and not has_table:
-        return ObjectIntent(kind="caption", order="captions")
+        explicit_caption = bool(
+            has_explicit_loc
+            or has_preview
+            or _EXPLICIT_CAPTION_TARGET.search(question)
+            or include_reference
+        )
+        return ObjectIntent(kind="caption", order="captions") if explicit_caption else None
     if has_formula and not (has_table or has_image):
+        explicit_formula = bool(
+            has_explicit_loc
+            or has_preview
+            or _EXPLICIT_FORMULA_TARGET.search(question)
+            or include_reference
+        )
+        if not explicit_formula:
+            return None
+        if (
+            _FORMULA_DERIVATION.search(question)
+            and not has_preview
+            and not _EXPLICIT_FORMULA_TARGET.search(question)
+        ):
+            return None
         return ObjectIntent(kind="formula", order="formulas")
     if not (has_image or has_table):
         return None
@@ -469,3 +529,123 @@ def _select_group_direction(
                 ambiguous_indices.add(peer_idx)
     # Unlocated siblings can also match, so keep them alongside located candidates.
     return [located[idx][0] for idx in sorted(ambiguous_indices)] + unlocated
+
+
+def has_visual_question(question: str) -> bool:
+    """Return True when the query explicitly asks about visual content rather than prose idioms."""
+    cleaned = _VISUAL_PROSE_IDIOMS.sub(" ", question)
+    return bool(_VISUAL_INTENT_QUERY.search(cleaned))
+
+
+def _is_sparse_visual_source(src: SnapshotSource) -> bool:
+    if src.kind == "page_object":
+        return src.locator.get("object_type") in {"image", "picture", "chart"}
+    if src.kind == "notebook_output":
+        return any(
+            isinstance(rep, dict)
+            and rep.get("status") == "available"
+            and str(rep.get("mime_type", "")).startswith("image/")
+            for rep in src.locator.get("representations", ())
+        )
+    if src.kind == "page":
+        return len(" ".join(src.text.split())) < 160
+    return False
+
+
+def select_s0_visual_targets(
+    question: str,
+    *,
+    ranked: Sequence[SnapshotSource],
+    all_sources: Sequence[SnapshotSource],
+    visual_candidates: Sequence[SnapshotSource] = (),
+    explicit_page: int | None = None,
+    explicit_cell: int | None = None,
+    max_targets: int = 2,
+) -> list[SnapshotSource]:
+    """Select bounded (<=2) visual targets for S0 D03 reads when text alone is insufficient."""
+    if max_targets <= 0:
+        return []
+    cap = min(max_targets, 2)
+    visual_ask = has_visual_question(question)
+    page_targeted = explicit_page is not None or explicit_cell is not None
+    if not visual_ask and not page_targeted:
+        return []
+
+    by_parent: dict[tuple[str, int, str], list[SnapshotSource]] = {}
+    for src in all_sources:
+        if src.parent_id and (
+            (
+                src.kind == "page_object"
+                and src.locator.get("object_type") in {"image", "picture", "chart"}
+            )
+            or (
+                src.kind == "notebook_output"
+                and _is_sparse_visual_source(src)
+            )
+        ):
+            by_parent.setdefault((src.document_id, src.version, src.parent_id), []).append(src)
+    for children in by_parent.values():
+        children.sort(key=lambda s: (s.ordinal, s.source_id))
+
+    if not visual_ask and page_targeted:
+        # Non-visual targeted page: read only if page/cell is sparse and has registered visuals.
+        has_sparse_page_with_visual = any(
+            (
+                (
+                    explicit_page is not None
+                    and src.kind == "page"
+                    and src.locator.get("page") == explicit_page
+                )
+                or (
+                    explicit_cell is not None
+                    and src.kind == "cell"
+                    and src.locator.get("cell_index") == explicit_cell
+                )
+            )
+            and len(" ".join(src.text.split())) < 120
+            and bool(by_parent.get((src.document_id, src.version, src.source_id)))
+            for src in ranked[:4]
+        )
+        if not has_sparse_page_with_visual:
+            return []
+
+    picked: list[SnapshotSource] = []
+    seen: set[SourceIdentity] = set()
+
+    def add(src: SnapshotSource) -> None:
+        if len(picked) >= cap:
+            return
+        ident = (src.document_id, src.version, src.source_id)
+        if ident in seen:
+            return
+        seen.add(ident)
+        picked.append(src)
+
+    # 1. Explicit visual candidates surfaced by caption_target / visual retrieval.
+    for cand in visual_candidates:
+        if cand.kind in {"page_object", "notebook_output"} and _is_sparse_visual_source(cand):
+            add(cand)
+
+    # 2. Child registered images of the top-ranked pages/cells.
+    for anchor in ranked[:4]:
+        if len(picked) >= cap:
+            break
+        if anchor.kind in {"page_object", "notebook_output"} and _is_sparse_visual_source(anchor):
+            add(anchor)
+            continue
+        if anchor.kind in {"page", "cell"}:
+            children = by_parent.get((anchor.document_id, anchor.version, anchor.source_id), ())
+            for child in children:
+                add(child)
+                if len(picked) >= cap:
+                    break
+            if (
+                not children
+                and anchor.kind == "page"
+                and visual_ask
+                and len(" ".join(anchor.text.split())) < 160
+                and anchor.locator.get("format") in {"pdf", "pptx"}
+            ):
+                add(anchor)
+
+    return picked[:cap]

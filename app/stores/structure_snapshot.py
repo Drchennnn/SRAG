@@ -3,7 +3,10 @@
 from __future__ import annotations
 
 import json
+import math
+import re
 import unicodedata
+from collections.abc import Sequence
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Literal
@@ -147,6 +150,10 @@ class StructureSnapshotStore(MetadataStore):
                 document_ids,
             ).fetchall()
             sources = tuple(_source(row) for row in source_rows)
+            rowid_by_key = {
+                (row["document_id"], row["version"], row["source_id"]): int(row["id"])
+                for row in source_rows
+            }
             searchable = db.execute(
                 f"""
                 SELECT count(DISTINCT f.source_rowid)
@@ -163,6 +170,8 @@ class StructureSnapshotStore(MetadataStore):
                 document_ids=document_ids,
                 match=request.fts_match,
                 limit=request.fts_limit,
+                sources=sources,
+                rowid_by_key=rowid_by_key,
             )
             return StructureSnapshot(
                 "resolved",
@@ -175,8 +184,195 @@ class StructureSnapshotStore(MetadataStore):
                 scan_truncated,
             )
 
+    def multi_version_document_ids(self, document_ids: Sequence[str]) -> set[str]:
+        """Return the subset of document_ids that have at least one published version >= 2."""
+        clean_ids = [doc_id for doc_id in dict.fromkeys(document_ids) if doc_id]
+        if not clean_ids:
+            return set()
+        marks = ",".join("?" for _ in clean_ids)
+        with self._connect() as db:
+            promote_due(db, _now())
+            rows = db.execute(
+                f"""
+                SELECT document_id
+                FROM local_versions
+                WHERE document_id IN ({marks}) AND published_at IS NOT NULL
+                GROUP BY document_id
+                HAVING max(version) >= 2
+                """,
+                clean_ids,
+            ).fetchall()
+        return {str(row["document_id"]) for row in rows}
 
-def _fts_seeds(db, *, document_ids: tuple[str, ...], match: str | None, limit: int):
+
+_QUOTED_TERM = re.compile(r'"([^"]+)"')
+_CJK_PHRASE = re.compile(r"[\u3400-\u9fff]{2,}")
+_CJK_MIXED_SECTION = re.compile(r"[\u3400-\u9fff]{1,2}[0-9]{1,4}[\u3400-\u9fff]{1,2}")
+_CJK_GLUED_ASCII = re.compile(r"[A-Za-z][A-Za-z0-9_-]{1,}(?=[\u3400-\u9fff])")
+_CJK_SPLIT_WORDS = re.compile(
+    r"请问|请说明|请解释|请给出|请对比|请比较|有什么|怎么样|为什么|怎么|怎样|为何|"
+    r"什么|哪些|哪个|多少|是否|哪里|在哪|以及|还有|并且|而且|或者|关于|针对|对于|"
+    r"里面|之中|当中|的话|时候|分别|各自|主要|具体|之间|区别|差异|变化|如何|"
+    r"处理|过程|机制|原理|方法|参数|步骤|性质|特点|特征|概念|作用|意义|关系|情况|效果|"
+    r"[请和与或的了是在有中里内吗呢啊吧]"
+)
+_CJK_STOP_TERMS = frozenset(
+    {
+        "课件", "讲义", "论文", "文档", "资料", "笔记", "实验", "结果", "内容",
+        "问题", "方法", "说明", "介绍", "解释", "定义", "公式", "例子", "示例",
+    }
+)
+
+
+def _cjk_query_phrases(match: str | None) -> list[str]:
+    if not match:
+        return []
+    phrases: list[str] = []
+    seen: set[str] = set()
+    for token in _QUOTED_TERM.findall(match):
+        for mixed in _CJK_MIXED_SECTION.findall(token):
+            if mixed not in seen:
+                seen.add(mixed)
+                phrases.append(mixed)
+        for glued in _CJK_GLUED_ASCII.findall(token):
+            low = glued.casefold()
+            if low not in seen:
+                seen.add(low)
+                phrases.append(low)
+        for run in _CJK_PHRASE.findall(token):
+            chunks = [c.strip() for c in _CJK_SPLIT_WORDS.split(run) if len(c.strip()) >= 2]
+            for chunk in chunks:
+                if chunk in _CJK_STOP_TERMS:
+                    continue
+                if chunk not in seen:
+                    seen.add(chunk)
+                    phrases.append(chunk)
+            if not chunks and run not in _CJK_STOP_TERMS and len(run) >= 2 and run not in seen:
+                seen.add(run)
+                phrases.append(run)
+    return phrases
+
+
+def _ascii_query_terms(match: str | None) -> list[str]:
+    if not match:
+        return []
+    out: list[str] = []
+    seen: set[str] = set()
+    for token in _QUOTED_TERM.findall(match):
+        low = token.casefold().strip()
+        if low.isascii() and len(low) >= 2 and low not in seen:
+            seen.add(low)
+            out.append(low)
+    return out
+
+
+def _cjk_substring_seeds(
+    *,
+    sources: Sequence[SnapshotSource],
+    rowid_by_key: dict[tuple[str, int, str], int],
+    match: str | None,
+    limit: int,
+    existing_seeds: tuple[SnapshotFtsSeed, ...],
+) -> list[SnapshotFtsSeed]:
+    phrases = _cjk_query_phrases(match)
+    if not phrases or limit <= 0:
+        return []
+    ascii_terms = _ascii_query_terms(match)
+    bigrams: dict[str, list[str]] = {}
+    for phrase in phrases:
+        if len(phrase) >= 4 and not phrase.isascii():
+            grams = list(
+                dict.fromkeys(
+                    phrase[i : i + 2]
+                    for i in range(len(phrase) - 1)
+                    if phrase[i : i + 2] not in _CJK_STOP_TERMS
+                )
+            )
+            if grams:
+                bigrams[phrase] = grams
+
+    corpus_texts = [
+        (src, f"{src.title}\n{src.text}", f"{src.title}\n{src.text}".casefold())
+        for src in sources
+        if src.text.strip() or src.title.strip()
+    ]
+    n_docs = max(1, len(corpus_texts))
+    ascii_pats = {
+        p: re.compile(rf"(?<![0-9a-z]){re.escape(p)}(?![0-9a-z])")
+        for p in phrases
+        if p.isascii()
+    }
+
+    def _has_phrase(phrase: str, hay: str, hay_low: str) -> bool:
+        if pat := ascii_pats.get(phrase):
+            return pat.search(hay_low) is not None
+        return phrase in hay
+
+    phrase_idf = {
+        p: (
+            math.log(
+                (n_docs + 1.0)
+                / (sum(1 for _, hay, hay_low in corpus_texts if _has_phrase(p, hay, hay_low)) + 1.0)
+            )
+            + 0.5
+        )
+        for p in phrases
+    }
+
+    existing_by_rowid = {seed.source_rowid: seed for seed in existing_seeds}
+    new_scored: list[tuple[float, SnapshotSource, int]] = []
+    for src, hay, hay_low in corpus_texts:
+        key = (src.document_id, src.version, src.source_id)
+        rowid = rowid_by_key.get(key)
+        if rowid is None or rowid in existing_by_rowid:
+            continue
+        score = 0.0
+        exact_cjk_hits = 0
+        for phrase in phrases:
+            if _has_phrase(phrase, hay, hay_low):
+                score += (3.0 + 0.4 * min(len(phrase), 8)) * phrase_idf[phrase]
+                exact_cjk_hits += 1
+            elif phrase in bigrams:
+                bg_hits = sum(1 for g in bigrams[phrase] if g in hay)
+                if bg_hits >= 2:
+                    score += 1.5 * bg_hits
+        if exact_cjk_hits == 0 and score < 3.0:
+            continue
+        if ascii_terms:
+            score += 2.0 * sum(1 for tok in ascii_terms if tok in hay_low)
+        new_scored.append((score, src, rowid))
+
+    if not new_scored:
+        return []
+    new_scored.sort(
+        key=lambda item: (-item[0], item[1].document_id, item[1].ordinal, item[1].source_id)
+    )
+    out: list[SnapshotFtsSeed] = []
+    for score, src, rowid in new_scored[:limit]:
+        origin = str(src.locator.get("text_origin") or "native_text")
+        rank_val = -round(score, 6)
+        out.append(
+            SnapshotFtsSeed(
+                document_id=src.document_id,
+                version=src.version,
+                source_id=src.source_id,
+                source_rowid=rowid,
+                rank=rank_val,
+                matches=(SnapshotFtsMatch(origin, src.title, src.text, rank_val),),
+            )
+        )
+    return out
+
+
+def _fts_seeds(
+    db,
+    *,
+    document_ids: tuple[str, ...],
+    match: str | None,
+    limit: int,
+    sources: Sequence[SnapshotSource] = (),
+    rowid_by_key: dict[tuple[str, int, str], int] | None = None,
+):
     if not match or limit <= 0:
         return (), False
     marks = ",".join("?" for _ in document_ids)
@@ -215,7 +411,18 @@ def _fts_seeds(db, *, document_ids: tuple[str, ...], match: str | None, limit: i
             exhausted = True
             break
     if not selected:
-        return (), False
+        cjk_seeds = (
+            _cjk_substring_seeds(
+                sources=sources,
+                rowid_by_key=rowid_by_key or {},
+                match=match,
+                limit=limit,
+                existing_seeds=(),
+            )
+            if sources and rowid_by_key
+            else []
+        )
+        return tuple(cjk_seeds[:limit]), False
 
     rowids = tuple(selected)
     row_marks = ",".join("?" for _ in rowids)
@@ -244,7 +451,23 @@ def _fts_seeds(db, *, document_ids: tuple[str, ...], match: str | None, limit: i
         )
         for rowid, (rank, document_id, version, source_id) in selected.items()
     )
-    return seeds, not exhausted and offset >= scan_limit and len(seeds) < limit
+    truncated = not exhausted and offset >= scan_limit and len(seeds) < limit
+    if sources and rowid_by_key:
+        cjk_seeds = _cjk_substring_seeds(
+            sources=sources,
+            rowid_by_key=rowid_by_key,
+            match=match,
+            limit=limit,
+            existing_seeds=seeds,
+        )
+        if cjk_seeds:
+            if len(seeds) < limit or limit < 8:
+                combined = (*seeds, *cjk_seeds)[:limit]
+            else:
+                reserve = min(len(cjk_seeds), max(2, limit // 4))
+                combined = (*seeds[: limit - reserve], *cjk_seeds[:reserve])
+            return combined, truncated
+    return seeds, truncated
 
 
 def _select_names(

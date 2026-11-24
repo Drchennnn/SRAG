@@ -546,7 +546,9 @@ def plan_retrieval(
                     pool = _fuse_with_anchor_protection(
                         pool, vec_result.text_candidates, request.top_k
                     )
-                    pool = _prioritize_continuations(pool)
+                    pool = _prioritize_continuations(
+                        pool, snapshot_sources=scope.sources, docs=scope.docs
+                    )
                 if vec_result.visual_candidates:
                     visual_candidates = _merge_visual(
                         vec_result.visual_candidates,
@@ -785,11 +787,11 @@ def _fuse(original, alternate, pool_cap: int) -> list[StructureCandidate]:
 def _prioritize_continuations(
     pool: Sequence[StructureCandidate],
     *,
-    anchors: int = 2,
+    anchors: int = 3,
     snapshot_sources: Mapping[_Identity, SnapshotSource] | None = None,
     docs: Mapping[str, Any] | None = None,
 ) -> list[StructureCandidate]:
-    """Place direct structural continuations and Notebook child_output right after anchors."""
+    """Keep structural continuations and paired Notebook code <-> stdout together."""
     if not pool:
         return list(pool)
     anchor_items = list(pool[:anchors])
@@ -805,7 +807,7 @@ def _prioritize_continuations(
     )
     for anchor in anchor_items:
         anchor_id = _identity(anchor.source)
-        # J03 co-ranking: keep readable child_output paired directly after its parent code cell.
+        # J03/K02 co-ranking: keep readable child_output paired directly after its parent code cell.
         if anchor.kind == "cell":
             cell_children: list[tuple[int, StructureCandidate]] = []
             for rank, item in enumerate(pool):
@@ -853,6 +855,47 @@ def _prioritize_continuations(
                                 )
                             ]
                             continue
+
+        # Bidirectional Notebook pairing: readable stdout pulls its parent code cell.
+        if (
+            anchor.kind == "notebook_output"
+            and snapshot_sources is not None
+            and docs is not None
+        ):
+            out_src = snapshot_sources.get(anchor_id)
+            if out_src is not None and out_src.parent_id:
+                parent_id = (out_src.document_id, out_src.version, out_src.parent_id)
+                parent_in_pool = next(
+                    (
+                        item
+                        for item in pool
+                        if _identity(item.source) == parent_id
+                        and _identity(item.source) not in anchor_ids
+                        and _identity(item.source) not in moved
+                    ),
+                    None,
+                )
+                if parent_in_pool is not None and _has_readable_text(parent_in_pool):
+                    moved.add(parent_id)
+                    followers[anchor_id] = [parent_in_pool]
+                    continue
+                if parent_id not in anchor_ids and parent_id not in moved:
+                    parent_src = snapshot_sources.get(parent_id)
+                    if (
+                        parent_src is not None
+                        and parent_src.kind == "cell"
+                        and parent_src.text.strip()
+                    ):
+                        moved.add(parent_id)
+                        followers[anchor_id] = [
+                            _structural_candidate(
+                                parent_src, out_src, "parent_context", docs.values()
+                            )
+                        ]
+                        continue
+
+        if anchor_items.index(anchor) >= 2:
+            continue
 
         linked: list[tuple[int, int, StructureCandidate]] = []
         for rank, item in enumerate(pool):

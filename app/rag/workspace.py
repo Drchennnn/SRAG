@@ -56,6 +56,9 @@ from app.rag.workspace_objects import (
     _FACT as _OBJECT_FACT,
 )
 from app.rag.workspace_objects import (
+    _OTHER_OR_MULTI_IMAGE as _OBJECT_MULTI_IMAGE,
+)
+from app.rag.workspace_objects import (
     _PREVIEW as _OBJECT_PREVIEW,
 )
 from app.rag.workspace_objects import (
@@ -63,6 +66,7 @@ from app.rag.workspace_objects import (
     _page_group_key,
     object_choices,
     object_intent,
+    select_s0_visual_targets,
 )
 from app.rag.workspace_reading import (
     ReadingCursor,
@@ -184,8 +188,8 @@ _CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*ce
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
 _PAGE = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:页|张幻灯片)")
 _PAGE_PREFIX = re.compile(r"\b(?:page|slide)\s+#?([1-9][0-9]{0,3})\b", re.IGNORECASE)
-_CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*cell", re.IGNORECASE)
-_CELL_PREFIX = re.compile(r"\bcell\s+([1-9][0-9]{0,3})\b", re.IGNORECASE)
+_CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*(?:cell|单元格)", re.IGNORECASE)
+_CELL_PREFIX = re.compile(r"\bcell\s*#?\s*([1-9][0-9]{0,3})\b", re.IGNORECASE)
 _FILE_MENTION = re.compile(r"\.(?:pdf|pptx|ipynb)(?=$|[^a-z0-9_])", re.IGNORECASE)
 _WHOLE_FILE = re.compile(
     r"这份(?:课件|文件|资料)|整份|全文|各页|\b(?:whole|entire) (?:file|document)\b", re.I
@@ -350,8 +354,105 @@ def _has_latin_corpus(sources: Sequence[SnapshotSource]) -> bool:
             len(word) for word in _LATIN_WORD.findall(source.text)
         )
     return any(
-        latin_by_doc[doc_id] > han_by_doc.get(doc_id, 0) for doc_id in latin_by_doc
+        latin_by_doc[doc_id] > han_by_doc.get(doc_id, 0)
+        or (
+            latin_by_doc[doc_id] >= 120
+            and latin_by_doc[doc_id] >= 0.25 * (latin_by_doc[doc_id] + han_by_doc.get(doc_id, 0))
+        )
+        for doc_id in latin_by_doc
     )
+
+
+def _resolve_location_file_names(
+    text: str,
+    documents: Mapping[str, SnapshotDocument],
+    sources: Sequence[SnapshotSource],
+    location: StructureLocation | None,
+    *,
+    latest_reply: tuple[Turn, dict[str, Any]] | None = None,
+    scope_revision: int | None = None,
+) -> tuple[list[str], dict[str, SnapshotDocument]]:
+    """Narrow multi-document location queries when a single document unambiguously matches."""
+    if location is None or len(documents) <= 1:
+        return [], dict(documents)
+    doc_ids_with_loc: set[str] = set()
+    loc_sources_by_doc: dict[str, list[SnapshotSource]] = {}
+    for src in sources:
+        if src.document_id not in documents:
+            continue
+        if location.cell_index is not None and src.locator.get("cell_index") == location.cell_index:
+            doc_ids_with_loc.add(src.document_id)
+            loc_sources_by_doc.setdefault(src.document_id, []).append(src)
+        elif location.page is not None and src.locator.get("page") == location.page:
+            doc_ids_with_loc.add(src.document_id)
+            loc_sources_by_doc.setdefault(src.document_id, []).append(src)
+    if not doc_ids_with_loc:
+        return [], dict(documents)
+    narrowed_docs = {
+        doc_id: doc for doc_id, doc in documents.items() if doc_id in doc_ids_with_loc
+    }
+    if len(narrowed_docs) == 1:
+        only_doc = next(iter(narrowed_docs.values()))
+        return [only_doc.file_name], narrowed_docs
+
+    # Check distinctive stem match when >= 2 candidate documents share that page/cell number.
+    stem_hits = [
+        doc
+        for doc in narrowed_docs.values()
+        if len(Path(doc.file_name).stem) >= 4
+        and Path(doc.file_name).stem.casefold() in text.casefold()
+    ]
+    if len(stem_hits) == 1:
+        hit = stem_hits[0]
+        return [hit.file_name], {hit.document_id: hit}
+
+    # Check if query content terms uniquely hit one document's sources at that exact location.
+    from app.stores.structure_snapshot import _cjk_query_phrases
+
+    stripped = _PAGE.sub(" ", _PAGE_PREFIX.sub(" ", _CELL.sub(" ", _CELL_PREFIX.sub(" ", text))))
+    latin_terms = [
+        tok.casefold()
+        for tok in re.findall(r"[A-Za-z][A-Za-z0-9_.-]{1,}", stripped)
+        if tok.casefold()
+        not in {"page", "slide", "cell", "output", "table", "figure", "what", "how"}
+    ]
+    cjk_phrases = _cjk_query_phrases(f'"{stripped}"') if stripped.strip() else []
+    query_terms = list(dict.fromkeys([*latin_terms, *cjk_phrases]))
+    if query_terms:
+        scores: list[tuple[int, SnapshotDocument]] = []
+        for doc_id, doc in narrowed_docs.items():
+            hay = "\n".join(
+                f"{src.title}\n{readable_source_text(src)}"
+                for src in loc_sources_by_doc.get(doc_id, ())
+            ).casefold()
+            score = sum(1 for tok in query_terms if tok in hay)
+            if score > 0:
+                scores.append((score, doc))
+        if len(scores) == 1:
+            only = scores[0][1]
+            return [only.file_name], {only.document_id: only}
+
+    # Multi-turn continuation binding when the preceding turn in the same scope pinned 1 doc.
+    if (
+        latest_reply is not None
+        and scope_revision is not None
+        and latest_reply[0].request.scope_revision == scope_revision
+        and (
+            _PREVIOUS_TURN.search(text)
+            or re.search(r"切回|回到|再看|继续|那份|这份|其中|刚才", text)
+        )
+    ):
+        prev_turn, prev_msg = latest_reply
+        prev_docs = {
+            ev["revision"]["source"]["document_id"]
+            for ev in (prev_msg.get("sources") or {}).values()
+            if (ev.get("revision") or {}).get("source", {}).get("document_id") in narrowed_docs
+        }
+        if len(prev_docs) == 1:
+            prev_id = next(iter(prev_docs))
+            return [narrowed_docs[prev_id].file_name], {prev_id: narrowed_docs[prev_id]}
+
+    return [], narrowed_docs
 
 
 @dataclass(frozen=True)
@@ -947,18 +1048,43 @@ class WorkspaceService:
                 if node is not None and node.document.document_id in ctx.documents
                 else ctx.documents
             )
+            narrowed_file_names: list[str] = []
+            if node is None and explicit_location is not None and len(target_docs) > 1:
+                latest_reply = self._latest_reply(owner, turn) if owner else None
+                narrowed_file_names, target_docs = _resolve_location_file_names(
+                    text,
+                    target_docs,
+                    ctx.scope_snapshot.sources,
+                    explicit_location,
+                    latest_reply=latest_reply,
+                    scope_revision=turn.request.scope_revision,
+                )
             allow_retrieve_fallback = (
                 turn.request.kind == "ask"
-                and explicit_location is None
-                and decision.intent.ordinal is None
-                and decision.intent.direction is None
                 and not decision.intent.unresolved
                 and not decision.from_demonstrative
                 and not _DEMONSTRATIVE_OBJECT.search(text)
+                and not (
+                    decision.intent.kind == "image"
+                    and _OBJECT_MULTI_IMAGE.search(text)
+                )
                 and (
-                    node is None
-                    or node.source is None
-                    or node.source.kind not in {"page", "cell"}
+                    (
+                        explicit_location is None
+                        and decision.intent.ordinal is None
+                        and decision.intent.direction is None
+                        and (
+                            node is None
+                            or node.source is None
+                            or node.source.kind not in {"page", "cell"}
+                        )
+                    )
+                    or (
+                        decision.intent.kind == "table"
+                        and decision.intent.ordinal is None
+                        and decision.intent.direction is None
+                        and not _OBJECT_PREVIEW.search(text)
+                    )
                 )
             )
             handled = self._answer_object(
@@ -970,6 +1096,7 @@ class WorkspaceService:
                 node,
                 location,
                 allow_retrieve_fallback=allow_retrieve_fallback,
+                preferred_file_names=narrowed_file_names,
             )
             if handled is not None:
                 return handled
@@ -1552,6 +1679,7 @@ class WorkspaceService:
         offline_kg_trace: dict[str, Any] | None = None
         visual_ranked: list[SnapshotSource] = []
         visual_read_targets: list[SnapshotSource] = []
+        visual_origin = "s3"
         if (
             forced is not None
             and forced.source is not None
@@ -1582,6 +1710,27 @@ class WorkspaceService:
                 "max_sources": _SUMMARY_SOURCE_LIMIT,
             }
         else:
+            if (
+                location is not None
+                and not file_names
+                and node is None
+                and len(documents) > 1
+            ):
+                loc_latest = (
+                    latest
+                    if latest is not None
+                    else (self._latest_reply(owner, turn) if owner else None)
+                )
+                loc_names, _ = _resolve_location_file_names(
+                    text,
+                    documents,
+                    snapshot.sources,
+                    location,
+                    latest_reply=loc_latest,
+                    scope_revision=turn.request.scope_revision,
+                )
+                if loc_names:
+                    file_names = loc_names
             request = StructureSearchRequest(
                 query=text,
                 location=location,
@@ -1688,6 +1837,27 @@ class WorkspaceService:
                 for hit in (getattr(plan, "visual_read_targets", ()) if plan else ())
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
+            visual_origin = (
+                "s3"
+                if (plan is not None and plan.trace.get("effective_strategy") == "vector")
+                else "s0"
+            )
+            if (
+                mode == "ask"
+                and not visual_read_targets
+                and self.settings.workspace_answer_enabled
+                and self.settings.source_vision_enabled
+                and self.settings.dashscope_api_key.strip()
+            ):
+                visual_read_targets = select_s0_visual_targets(
+                    text,
+                    ranked=ranked,
+                    all_sources=snapshot.sources,
+                    visual_candidates=visual_ranked,
+                    explicit_page=(location.page if location else None),
+                    explicit_cell=(location.cell_index if location else None),
+                    max_targets=self.settings.workspace_s3_max_visual_reads,
+                )
             trace = {
                 "effective_scope": _effective(documents),
                 "search_status": search.status,
@@ -1727,6 +1897,7 @@ class WorkspaceService:
                     question=text,
                     extra_media=visual_ranked if mode == "ask" else (),
                     visual_read_targets=visual_read_targets if mode == "ask" else (),
+                    visual_origin=visual_origin if mode == "ask" else "s3",
                     selected_file_scope=bool(session.document_ids or file_names),
                     preceding_reply=latest if check_experiment_scope else None,
                 )
@@ -2092,6 +2263,7 @@ class WorkspaceService:
         question,
         extra_media=(),
         visual_read_targets=(),
+        visual_origin: str = "s3",
         selected_file_scope=False,
         preceding_reply=None,
     ):
@@ -2156,6 +2328,11 @@ class WorkspaceService:
             for v_src in visual_read_targets:
                 if len(pre_visual_items) >= max_vis:
                     break
+                is_s0_sparse_page = (
+                    visual_origin == "s0"
+                    and v_src.kind == "page"
+                    and len(" ".join(readable_source_text(v_src).split())) < 160
+                )
                 if (
                     (v_src.document_id, v_src.source_id) not in source_keys
                     or (
@@ -2164,6 +2341,7 @@ class WorkspaceService:
                             v_src.locator.get("format") == "pptx"
                             and len(readable_source_text(v_src).strip()) < 40
                         )
+                        and not is_s0_sparse_page
                     )
                 ):
                     continue
@@ -2238,7 +2416,8 @@ class WorkspaceService:
                         + len(vis_entries)  # ev-id digit width slack if >=10 items
                     )
         if s3_visual_trace:
-            trace["s3_visual_reads"] = {
+            trace_key = "s3_visual_reads" if visual_origin == "s3" else "s0_visual_reads"
+            trace[trace_key] = {
                 "targets": s3_visual_trace,
                 "pre_budget_visual_bytes": visual_evidence_bytes,
                 "accepted_count": len(pre_visual_items),
@@ -2612,16 +2791,35 @@ class WorkspaceService:
         location: StructureLocation | None,
         *,
         allow_retrieve_fallback: bool = False,
+        preferred_file_names: Sequence[str] = (),
     ) -> Turn | None:
         draft = Draft(session.session_id)
-        names = _object_file_names(text, documents.values())
+        names = (
+            list(preferred_file_names)
+            if preferred_file_names
+            else _object_file_names(text, documents.values())
+        )
         if names is None:
             draft.notice("scope_not_found", "无法确认指定文件，请明确可使用的资料名称。")
             return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in documents.values()])
+        narrow_doc_ids = tuple(documents)
+        if location is not None and not names and len(documents) > 1:
+            preliminary = self.snapshots.read(
+                SnapshotRequest(tuple(session.course_ids), tuple(documents))
+            )
+            if preliminary.resolution_status == "resolved":
+                names, narrowed_loc_docs = _resolve_location_file_names(
+                    text,
+                    documents,
+                    preliminary.sources,
+                    location,
+                )
+                if not names and len(narrowed_loc_docs) < len(documents):
+                    narrow_doc_ids = tuple(narrowed_loc_docs)
         narrowed = self.snapshots.read(
             SnapshotRequest(
                 tuple(session.course_ids),
-                tuple(documents),
+                narrow_doc_ids,
                 tuple(names),
                 require_single_document=location is not None,
             )
@@ -2689,7 +2887,11 @@ class WorkspaceService:
         }
         if len(choices) != 1:
             distinct_page_groups = {_page_group_key(choice) for choice in choices}
-            if allow_retrieve_fallback and (not choices or len(distinct_page_groups) > 1):
+            if allow_retrieve_fallback and (
+                not choices
+                or len(distinct_page_groups) > 1
+                or (target.kind == "table" and len(choices) > 1)
+            ):
                 return None
             if choices and target.kind == "table":
                 note = _format_table_ambiguity(choices, docs)

@@ -443,13 +443,27 @@ def test_missing_history_scope_switch_unclear_mapping_and_isolation(g24_system, 
     )
     assert switched_anon["message"]["blocks"][0]["code"] == "comparison_missing_history"
 
-    # Course-wide scope with 2 files and no focus -> comparison_scope clarification
+    # Course-wide scope with only 1 multi-version doc -> auto-resolves without naming it
     course_res = client.patch(
         f"{sess_a}/scope",
         json={"course_ids": [_COURSE], "document_ids": [], "scope_revision": rev_a},
     )
     assert course_res.status_code == 200
     rev_a = course_res.json()["scope_revision"]
+    course_single_multi = _ask(
+        client,
+        sess_a,
+        "跟上一版相比，第 1 个 Cell 保存输出有什么变化？",
+        rev_a,
+        client_id="course-wide-single-multi",
+    )
+    assert course_single_multi["turn"]["trace"]["route"] == "version_comparison"
+    assert set(_sides(course_single_multi["message"])) == {1, 2}
+
+    # Upgrade Cobalt-Quant-Audit.ipynb to v2 -> >= 2 multi-version docs -> comparison_scope
+    nb_b = tmp_path / "Cobalt-Quant-Audit.ipynb"
+    _write_notebook(nb_b, "quant_error=0.008")
+    _upload(client, sess_a, nb_b, document_id=doc_b["document_id"])
     course_wide = _ask(
         client,
         sess_a,
@@ -458,6 +472,24 @@ def test_missing_history_scope_switch_unclear_mapping_and_isolation(g24_system, 
         client_id="course-wide-ambig",
     )
     assert course_wide["message"]["blocks"][0]["code"] == "comparison_scope"
+    assert len(course_wide["options"]) == 2
+    opt_a = next(opt for opt in course_wide["options"] if "Zephyr" in opt["label"])
+    resumed = client.post(
+        f"{sess_a}/turns",
+        json={
+            "kind": "ask",
+            "client_turn_id": "course-wide-ambig-resume",
+            "scope_revision": rev_a,
+            "text": opt_a["label"],
+            "anchor": {
+                "type": "clarification",
+                "turn_id": course_wide["turn"]["turn_id"],
+                "option_id": opt_a["option_id"],
+            },
+        },
+    ).json()
+    assert resumed["turn"]["trace"]["route"] == "version_comparison"
+    assert set(_sides(resumed["message"])) == {1, 2}
 
     # Restore focus to Zephyr and test v1 historical original unavailability -> 409/failed
     # Wait: first verify normal comparison still works in course-wide scope when file is named!

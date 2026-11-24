@@ -271,6 +271,19 @@ def resume_clarification(
             owner=owner,
         )
 
+    if option.resume_action == "retrieve_document" and node.source is None:
+        from app.rag.workspace_versions import compare_versions, is_version_comparison
+
+        if is_version_comparison(previous.request.text):
+            return compare_versions(
+                service,
+                owner,
+                turn,
+                session,
+                question=previous.request.text,
+                forced_file_name=node.document.file_name,
+            )
+
     return service._retrieve(
         turn,
         session,
