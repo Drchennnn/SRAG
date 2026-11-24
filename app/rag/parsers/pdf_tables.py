@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import re
 from typing import Any
 
 _RULE_SPAN_TOLERANCE = 5.0
@@ -9,6 +10,10 @@ _LINE_Y_TOLERANCE = 3.5
 _MIN_RULE_WIDTH = 24.0
 _MIN_TABLE_HEIGHT = 16.0
 _UNIFORM_GRID_RATIO = 1.15
+_CAPTION_BREAK = re.compile(r"^(?:table|figure|fig\.?|表|图)\s*[0-9]+", re.IGNORECASE)
+_ALGORITHM_HEADER = re.compile(r"^\s*algorithm\s+[0-9]+", re.IGNORECASE)
+_LINE_NUMBER_CELL = re.compile(r"^\s*[0-9]{1,3}[:.)]?\s*$")
+_WORD_RE = re.compile(r"[A-Za-z]{2,}|[\u3400-\u9fff]{2,}")
 
 
 def extract_horizontal_rule_tables(
@@ -28,38 +33,199 @@ def extract_horizontal_rule_tables(
         return []
 
     tables: list[dict[str, Any]] = []
-    for group in groups:
-        ys = sorted((line[2] for line in group), reverse=True)
-        if len(ys) < 3 or (ys[0] - ys[-1]) < _MIN_TABLE_HEIGHT:
+    occupied_boxes = list(existing_boxes)
+
+    for raw_group in groups:
+        # T1: Strip isolated header/footer decorative rules before subgrouping or grid checks.
+        cleaned = _strip_header_footer_rules(raw_group, page_bbox)
+        if len(cleaned) < 3:
             continue
-        gaps = [ys[i] - ys[i + 1] for i in range(len(ys) - 1)]
-        if len(ys) >= 5 and min(gaps) > 0 and max(gaps) / min(gaps) <= _UNIFORM_GRID_RATIO:
-            continue
-        box = (
-            min(line[0] for line in group),
-            ys[-1],
-            max(line[1] for line in group),
-            ys[0],
+        # T2: Split into subgroups on intervening captions, prose, or large vertical gaps.
+        subgroups = _split_rule_subgroups(cleaned, all_chars, text_page, page_bbox)
+        for subgroup in subgroups:
+            if len(subgroup) < 3:
+                continue
+            ys = [line[2] for line in subgroup]
+            if (ys[0] - ys[-1]) < _MIN_TABLE_HEIGHT:
+                continue
+            # T2: Uniform-grid rejection runs per independent subgroup after splitting.
+            if _is_uniform_grid(ys):
+                continue
+            box = (
+                min(line[0] for line in subgroup),
+                ys[-1],
+                max(line[1] for line in subgroup),
+                ys[0],
+            )
+            full_ok = (
+                not any(_boxes_overlap(box, existing) for existing in occupied_boxes)
+                and not _has_vertical_lines_inside(vertical, box)
+            )
+            parsed = _parse_rule_table(all_chars, text_page, box, ys) if full_ok else None
+            if parsed is not None:
+                rows, title = parsed
+                tables.append(
+                    _table_record(title, rows, box, subgroup, page_bbox, bbox_to_visible)
+                )
+                occupied_boxes.append(box)
+                continue
+
+            # T2: Extract all non-overlapping valid sub-tables from 4..12-rule subgroups.
+            if 4 <= len(subgroup) <= 12:
+                extracted = _extract_subwindow_tables(
+                    subgroup,
+                    vertical,
+                    all_chars,
+                    text_page,
+                    page_bbox,
+                    occupied_boxes,
+                    bbox_to_visible,
+                )
+                tables.extend(extracted)
+    return tables
+
+
+def _table_record(
+    title: str,
+    rows: list[list[str]],
+    box: tuple[float, float, float, float],
+    group: list[tuple[float, float, float, int]],
+    page_bbox: tuple[float, float, float, float],
+    bbox_to_visible: Any,
+) -> dict[str, Any]:
+    return {
+        "title": title,
+        "rows": rows,
+        "bbox": bbox_to_visible(list(box), page_bbox),
+        "native_bbox": list(box),
+        "native_content_order": min(line[3] for line in group),
+        "table_rule_style": "horizontal_rules",
+    }
+
+
+def _is_uniform_grid(ys: list[float]) -> bool:
+    gaps = [ys[i] - ys[i + 1] for i in range(len(ys) - 1)]
+    return len(ys) >= 5 and min(gaps) > 0 and max(gaps) / min(gaps) <= _UNIFORM_GRID_RATIO
+
+
+def _strip_header_footer_rules(
+    group: list[tuple[float, float, float, int]],
+    page_bbox: tuple[float, float, float, float],
+) -> list[tuple[float, float, float, int]]:
+    ordered = sorted(group, key=lambda line: -line[2])
+    page_bottom, page_top = page_bbox[1], page_bbox[3]
+    page_h = max(1.0, page_top - page_bottom)
+    while (
+        len(ordered) >= 4
+        and ordered[0][2] >= page_top - 0.06 * page_h
+        and (ordered[0][2] - ordered[1][2]) > 0.12 * page_h
+    ):
+        ordered = ordered[1:]
+    while (
+        len(ordered) >= 4
+        and ordered[-1][2] <= page_bottom + 0.07 * page_h
+        and (ordered[-2][2] - ordered[-1][2]) > 0.12 * page_h
+    ):
+        ordered = ordered[:-1]
+    return ordered
+
+
+def _split_rule_subgroups(
+    ordered: list[tuple[float, float, float, int]],
+    all_chars: list[tuple[str, tuple[float, float, float, float]]],
+    text_page: Any,
+    page_bbox: tuple[float, float, float, float],
+) -> list[list[tuple[float, float, float, int]]]:
+    page_h = max(1.0, page_bbox[3] - page_bbox[1])
+    subgroups: list[list[tuple[float, float, float, int]]] = [[ordered[0]]]
+    for prev, cur in zip(ordered, ordered[1:], strict=False):
+        vgap = prev[2] - cur[2]
+        should_split = vgap > 0.20 * page_h
+        if not should_split and vgap >= 14.0:
+            span_box = (min(prev[0], cur[0]), cur[2], max(prev[1], cur[1]), prev[2])
+            should_split = _has_intervening_prose_or_caption(all_chars, text_page, span_box)
+        if should_split:
+            subgroups.append([cur])
+        else:
+            subgroups[-1].append(cur)
+    return subgroups
+
+
+def _has_intervening_prose_or_caption(
+    all_chars: list[tuple[str, tuple[float, float, float, float]]],
+    text_page: Any,
+    span_box: tuple[float, float, float, float],
+) -> bool:
+    lines = _extract_phrases(all_chars, text_page, span_box)
+    if not lines:
+        return False
+    rule_w = max(1.0, span_box[2] - span_box[0])
+    prose_run = 0
+    for _, _, phrases in lines:
+        full_text = " ".join(p[0] for p in phrases).strip()
+        if _CAPTION_BREAK.match(full_text):
+            return True
+        wide_col_gap = any(
+            phrases[i + 1][1] - phrases[i][2] > 18.0 for i in range(len(phrases) - 1)
         )
-        if any(_boxes_overlap(box, existing) for existing in existing_boxes):
+        span_w = phrases[-1][2] - phrases[0][1]
+        if (
+            not wide_col_gap
+            and span_w >= 0.70 * rule_w
+            and len(_WORD_RE.findall(full_text)) >= 6
+        ):
+            prose_run += 1
+            if prose_run >= 2:
+                return True
+        else:
+            prose_run = 0
+    return False
+
+
+def _extract_subwindow_tables(
+    subgroup: list[tuple[float, float, float, int]],
+    vertical: list[tuple[float, float, float, int]],
+    all_chars: list[tuple[str, tuple[float, float, float, float]]],
+    text_page: Any,
+    page_bbox: tuple[float, float, float, float],
+    occupied_boxes: list[tuple[float, float, float, float]],
+    bbox_to_visible: Any,
+) -> list[dict[str, Any]]:
+    found: list[dict[str, Any]] = []
+    n = len(subgroup)
+    # Try compact 3-rule booktabs windows first, then larger windows top-to-bottom.
+    windows = [
+        (start, end)
+        for length in range(3, n)
+        for start in range(0, n - length + 1)
+        for end in (start + length,)
+    ]
+    used_indices: set[int] = set()
+    for start, end in windows:
+        if any(idx in used_indices for idx in range(start, end)):
             continue
-        if _has_vertical_lines_inside(vertical, box):
+        sub_group = subgroup[start:end]
+        sub_ys = [line[2] for line in sub_group]
+        if (sub_ys[0] - sub_ys[-1]) < _MIN_TABLE_HEIGHT or _is_uniform_grid(sub_ys):
             continue
-        parsed = _parse_rule_table(all_chars, text_page, box, ys)
+        sub_box = (
+            min(line[0] for line in sub_group),
+            sub_ys[-1],
+            max(line[1] for line in sub_group),
+            sub_ys[0],
+        )
+        if any(_boxes_overlap(sub_box, existing) for existing in occupied_boxes):
+            continue
+        if _has_vertical_lines_inside(vertical, sub_box):
+            continue
+        parsed = _parse_rule_table(all_chars, text_page, sub_box, sub_ys)
         if parsed is None:
             continue
         rows, title = parsed
-        tables.append(
-            {
-                "title": title,
-                "rows": rows,
-                "bbox": bbox_to_visible(list(box), page_bbox),
-                "native_bbox": list(box),
-                "native_content_order": min(line[3] for line in group),
-                "table_rule_style": "horizontal_rules",
-            }
-        )
-    return tables
+        found.append(_table_record(title, rows, sub_box, sub_group, page_bbox, bbox_to_visible))
+        occupied_boxes.append(sub_box)
+        used_indices.update(range(start, end))
+    return found
 
 
 def _group_horizontal_rules(
@@ -226,6 +392,19 @@ def _parse_rule_table(
     body_lines = [line for line in lines if midrule is None or line[0] < midrule]
     if not header_lines and body_lines:
         header_lines, body_lines = [body_lines[0]], body_lines[1:]
+    # T3: Reject Algorithm pseudocode frames bounded by 3 horizontal rules.
+    header_text = " ".join(phrase[0] for line in header_lines for phrase in line[2]).strip()
+    if _ALGORITHM_HEADER.match(header_text):
+        return None
+    box_w = max(1.0, box[2] - box[0])
+    for _, _, phrases in body_lines:
+        if len(phrases) == 1:
+            text, x0, x1 = phrases[0]
+            if (x1 - x0) > 0.75 * box_w and (
+                len(_WORD_RE.findall(text)) >= 8 or text.endswith((".", "。"))
+            ):
+                return None
+
     multi_body = [line for line in body_lines if len(line[2]) >= 2]
     if len(multi_body) < 2:
         return None
@@ -302,6 +481,14 @@ def _parse_rule_table(
 
     if ambiguous_lines >= 2:
         return None
+    # T3: Reject 2-column pseudocode where column 0 is strictly sequential line numbers.
+    if len(cols) == 2 and len(rows) >= 3:
+        first_col = [row[0].strip() for row in rows[1:] if row[0].strip()]
+        if len(first_col) >= 2 and all(_LINE_NUMBER_CELL.match(v) for v in first_col):
+            nums = [int(re.sub(r"[^0-9]", "", v)) for v in first_col]
+            if nums == list(range(nums[0], nums[0] + len(nums))):
+                return None
+
     min_header_cols = 1 if len(rows[0]) == 2 else 2
     if sum(bool(value) for value in rows[0]) < min_header_cols:
         return None

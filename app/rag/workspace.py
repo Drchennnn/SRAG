@@ -32,7 +32,20 @@ from app.rag.structure_search import (
     StructureSearcher,
     StructureSearchRequest,
 )
+from app.rag.workspace_clarification import (
+    ClarificationOptionRecord,
+    build_clarification,
+    build_object_clarification_options,
+    project_public_options,
+    resume_clarification,
+)
 from app.rag.workspace_composition import asks_for_composition, compose_evidence
+from app.rag.workspace_context import (
+    TurnContext,
+    find_filtered_history_displays,
+    resolve_turn_context,
+)
+from app.rag.workspace_evidence import readable_source_text
 from app.rag.workspace_generation import (
     OUTPUT_RESERVE,
     estimate_prompt_reserve,
@@ -47,19 +60,41 @@ from app.rag.workspace_objects import (
 )
 from app.rag.workspace_objects import (
     ObjectIntent,
+    _page_group_key,
     object_choices,
     object_intent,
 )
 from app.rag.workspace_reading import (
     ReadingCursor,
     _has_visual,
+    estimate_embedded_json_budget,
     read_window,
 )
-from app.rag.workspace_versions import compare_versions, is_version_comparison
+from app.rag.workspace_router import (
+    CompareVersionsRoute,
+    CompositionRoute,
+    CurrentImageRoute,
+    CurrentVersionCounterpartRoute,
+    FocusedCellOutputsRoute,
+    FollowDisplayRoute,
+    FollowTableRoute,
+    HistoryDisplayReferenceRoute,
+    ResumeClarificationRoute,
+    StaleFocusRoute,
+    SupplementRoute,
+    TargetObjectRoute,
+    route_turn,
+)
+from app.rag.workspace_versions import (
+    _PLURAL_OBJECT as _VERSION_PLURAL_OBJECT,
+)
+from app.rag.workspace_versions import (
+    _as_snapshot,
+    compare_versions,
+)
 from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import SourceRevision, TurnEvidence, TurnRead, TurnScope
 from app.schemas.workspace import (
-    ClarificationAnchor,
     CreateSession,
     DisplayAnchor,
     TurnRequest,
@@ -79,6 +114,59 @@ from app.stores.workspace import Attachment, Session, Turn, WorkspaceStore, json
 
 _ORDINAL = re.compile(r"第\s*([0-9]+|[一二两三四五六七八九十]+)\s*张(?:图|图片)")
 _PREVIOUS_TURN = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次")
+_EXPERIMENT_TEXT = re.compile(r"实验|实测|试验|\b(?:experiments?|measurements?)\b", re.I)
+_EXPERIMENT_REFERENCE = re.compile(
+    r"(?:同一|那项|那次|上述|配套)(?:的)?(?:配套)?(?:实验|实测|试验)"
+)
+_EXPERIMENT_FILLER = re.compile(
+    r"配套|实验|实测|试验|现在|还能|能否|可以|如何|核对|确认|结果|数据|记录|"
+    r"分别|处理|测出的?|测得的?|是多少|多少|几次"
+)
+_CONCEPT_NOUN = (
+    r"(?:判定规则|判定条件|判定标准|规则|概念|门槛|机制|方法|窗口|"
+    r"定义|条件|要求|标准|准则|约束|限制|规范|条款|规定|设定|东西)"
+)
+_ANAPHORA_PHRASE = (
+    rf"(?:(?:刚才|上[一]?[轮问条次]|前[一]?[轮问条次]|前面|上回)"
+    rf"(?:提到|问过|说过|讲过|涉及)?(?:的)?)?"
+    rf"(?:那|这|该|此)(?:一)?(?:条|个|项|种)?{_CONCEPT_NOUN}"
+    rf"|(?:刚才|上[一]?[轮问条次]|前[一]?[轮问条次]|前面|上回)"
+    rf"(?:提到|问过|说过|讲过|涉及)?的(?:那个|这个|那项|这项)?{_CONCEPT_NOUN}?"
+    rf"|它|它们|其|前者|后者|这个|那个|该项|此项|该|此"
+)
+_DEFINITION_PREDICATE_AFTER = (
+    r"(?:的?\s*(?:定义|含义|意思|规则|条件|要求|标准|前提|限制|约束|边界|规定)"
+    r"|(?:是|到底)?(?:怎么|如何|怎样)(?:定义|界定|规定|要求|判断|判定|触发|成立|算|计算|理解|解释)的?"
+    r"|(?:具体)?(?:指什么|是什么意思|是什么|有哪些(?:条件|要求|前提|限制|规定|规则)"
+    r"|需要(?:满足)?什么(?:条件|要求|前提)|怎么才算|如何才算))"
+)
+_DEFINITION_PREDICATE_BEFORE = (
+    r"(?:(?:怎么|如何|怎样)(?:定义|界定|规定|解释|理解)"
+    r"|(?:说明|解释|重述|给出|说说|讲清楚|界定|确认)(?:一下)?)\s*"
+)
+_DEFINITION_REFERENCE = re.compile(
+    rf"(?P<reference>{_ANAPHORA_PHRASE})(?=\s*{_DEFINITION_PREDICATE_AFTER})"
+)
+_DEFINITION_OBJECT_REFERENCE = re.compile(
+    rf"{_DEFINITION_PREDICATE_BEFORE}(?P<reference>{_ANAPHORA_PHRASE})"
+    rf"(?=(?:\s*的)?[。！？?!；;，,\n\s]|$)"
+)
+_DEFINITION_ELISION = re.compile(
+    r"(?:接着|承接|沿用|继续|按)\s*"
+    r"(?:刚才(?:的)?(?:问题|一问)?|前一问|上一问|上一个问题|上一轮(?:的)?问题?|上回|上面)"
+    r"[，,\s]*(?:请|再)?(?:说明|解释|重述|给出|说说|讲清楚)(?:一下)?\s*"
+    r"(?P<definition>定义|条件|要求|规则|标准|规定)"
+    r"(?=[。！？?!；;，,\n\s]|$)"
+)
+_DEFINITION_REQUEST = re.compile(
+    r"(?:(?:怎么|如何|怎样)(?:定义|界定|规定)|请定义|什么是)\s*(?P<after>.+)$"
+    r"|(?:说明|解释|重述|给出|界定)\s*(?P<nominal>.+?)的定义$"
+    r"|(?P<before>.+?)(?:的定义(?:是)?什么|是?(?:怎么|如何|怎样)(?:定义|界定|规定)的?|是什么意思)$"
+)
+_DEFINITION_PREFACE = re.compile(
+    r"^(?:请问|请|在|据|按|这份|上面|讲义|课件|论文|资料|中|里|的|把|给出|说明|一下|\s)+"
+)
+_TOPIC_SEPARATOR = re.compile(r"和|与|及|、|或|\band\b|\bor\b", re.I)
 _HISTORY_IMAGE = re.compile(r"刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述")
 _IMAGE_REFERENCE = re.compile(
     r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这|哪)"
@@ -87,6 +175,10 @@ _IMAGE_REFERENCE = re.compile(
 _TABLE_REFERENCE = re.compile(
     r"(?:刚才|上一条|前一条|上一轮|前一轮|上次|上面|上述|那|这)"
     r"\s*(?:的\s*)?(?:[那这一]\s*)?(?:张\s*)?(?:表格|原表|表)"
+)
+_DEMONSTRATIVE_OBJECT = re.compile(
+    r"(?:这|那|本|当前)(?:[张幅个]?\s*(?:图|图片|图像|子图|表格|原表|表))|原表",
+    re.IGNORECASE,
 )
 _CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*cell", re.IGNORECASE)
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
@@ -129,7 +221,120 @@ _SUPPLEMENT_BUDGET = 2
 _SUMMARY_SOURCE_LIMIT = 6
 _BASE_KINDS = {"page", "cell"}
 _HAN_QUERY = re.compile(r"[\u3400-\u9fff]")
+_HAN_QUERY_RUN = re.compile(r"[\u3400-\u9fff]+")
 _LATIN_WORD = re.compile(r"[A-Za-z]+")
+
+
+def _related_experiment_question(previous: str, current: str) -> bool:
+    def clauses(text):
+        if not asks_for_definition_and_experiment(f"定义。{_EXPERIMENT_TEXT.sub('实验', text)}"):
+            return []
+        return [
+            clause for clause in re.split(r"[。！？!?；;\n]", text)
+            if _EXPERIMENT_TEXT.search(clause)
+        ]
+
+    old_clauses, new_clauses = clauses(previous), clauses(current)
+    if not old_clauses or not new_clauses:
+        return False
+    if any(_PREVIOUS_TURN.search(c) or _EXPERIMENT_REFERENCE.search(c) for c in new_clauses):
+        return True
+
+    def terms(items):
+        source = _EXPERIMENT_FILLER.sub(" ", " ".join(items)).casefold()
+        latin = set(re.findall(r"[a-z][a-z0-9_-]{2,}", source))
+        han = {
+            word[index:index + 3]
+            for word in _HAN_QUERY_RUN.findall(source)
+            for index in range(len(word) - 2)
+        }
+        return latin, han
+
+    old_latin, old_han = terms(old_clauses)
+    new_latin, new_han = terms(new_clauses)
+    return bool(old_latin & new_latin or len(old_han & new_han) >= 2)
+
+
+def _definition_topics(question: str) -> set[str]:
+    topics = set()
+    for clause in re.split(r"[，,。！？?!；;：:\n]", question):
+        match = _DEFINITION_REQUEST.search(clause.strip())
+        if not match:
+            continue
+        names = _DEFINITION_PREFACE.sub(
+            "", match["after"] or match["nominal"] or match["before"]
+        )
+        for name in _TOPIC_SEPARATOR.split(names):
+            name = name.strip(" \t`‘’“”'\"「」《》")
+            if (
+                2 <= len(name) <= 80
+                and not _PREVIOUS_TURN.search(name)
+                and not _DEFINITION_REFERENCE.search(name + "怎么定义")
+                and re.fullmatch(r"[\w ()+./×-]+", name)
+            ):
+                topics.add(name)
+    return topics
+
+
+def _definition_reference(text: str) -> tuple[int, int, str] | None:
+    if match := _DEFINITION_REFERENCE.search(text):
+        start, end = match.span("reference")
+        suffix = "的" if text[end:].lstrip().startswith("定义") else ""
+        return start, end, suffix
+    if match := _DEFINITION_OBJECT_REFERENCE.search(text):
+        start, end = match.span("reference")
+        return start, end, ""
+    if match := _DEFINITION_ELISION.search(text):
+        start = match.start("definition")
+        return start, start, "的"
+    return None
+
+
+def _bind_definition_topic(text: str, topic: str, reference: tuple[int, int, str]) -> str:
+    start, end, suffix = reference
+    bound = f"{text[:start]}{topic}{suffix}{text[end:]}"
+    if not _contains_topic(bound, topic):
+        bound = f"{bound}（当前追问指向：{topic}）"
+    return bound
+
+
+_CLAUSE_SPLIT = re.compile(
+    r"[。！？!?；;\n，,]+|"
+    r"(?:以及|并且|而且|另外|同时|顺便|顺带|再问一下|还有)(?:看下|问一下|确认一下)?"
+)
+_SCOPE_OR_DISCOURSE_PREFACE = re.compile(
+    r"^(?:请问|请|顺便|另外|还有|同时|并且|而且)?\s*"
+    r"(?:(?:只(?:看|在|查(?:看)?|用)|仅(?:看|在|查(?:看)?|用)|在|按|据)\s*"
+    r"(?:我)?(?:刚)?(?:选中的?|所选|当前|这[份个]?|那[份个]?)*"
+    r"(?:讲义|课件|文件|资料|论文|文档|范围)(?:里|中|内)?|"
+    r"(?:接着|承接|沿用|继续|按)\s*"
+    r"(?:刚才(?:的)?(?:问题|一问)?|前一问|上一问|上一个问题|上一轮(?:的)?问题?|上回|上面)"
+    r")[\s的]*$"
+)
+
+
+def _is_measurement_only_followup(text: str) -> bool:
+    clauses = [
+        clause.strip()
+        for clause in _CLAUSE_SPLIT.split(text)
+        if clause.strip() and not _SCOPE_OR_DISCOURSE_PREFACE.fullmatch(clause.strip())
+    ]
+    if not clauses:
+        return False
+    measurement_only = re.compile(r"测量(?:结果|值|数据)|实测(?:结果|值|数据)|数值|耗时|延迟")
+    return all(
+        _EXPERIMENT_TEXT.search(clause) or measurement_only.search(clause)
+        for clause in clauses
+    )
+
+
+def _contains_topic(text: str, name: str) -> bool:
+    name = " ".join(name.split())
+    text = " ".join(text.split())
+    if name.isascii():
+        pattern = rf"(?<![a-z0-9_-]){re.escape(name)}(?![a-z0-9_-])"
+        return re.search(pattern, text, re.I) is not None
+    return name.casefold() in text.casefold()
 
 
 def _has_latin_corpus(sources: Sequence[SnapshotSource]) -> bool:
@@ -316,9 +521,25 @@ class WorkspaceService:
         self.region_ids = region_ids
         from app.clients.jev import JevClient
         from app.rag.workspace_retrieval import BilingualRewriter
+        from app.rag.workspace_vector import LocalVectorBridge
+        from app.stores.local_kg import LocalKgStore
 
+        self.kg_store = LocalKgStore(settings)
         self.rewriter = BilingualRewriter(settings)
         self.scorer = JevClient(settings)
+        self.vector_bridge: LocalVectorBridge | None = (
+            LocalVectorBridge(settings)
+            if (
+                settings.workspace_vector_retrieval_enabled
+                or settings.workspace_retrieval_strategy == "vector"
+                or settings.qdrant_local_path is not None
+            )
+            else None
+        )
+
+    def close(self) -> None:
+        if self.vector_bridge is not None:
+            self.vector_bridge.close()
 
     def create(self, owner: str | None, request: CreateSession) -> tuple[dict[str, Any], str]:
         courses, documents = self._scope(
@@ -343,12 +564,29 @@ class WorkspaceService:
         access = {turn.turn_id: self._turn_access(turn) for turn in turns}
         catalog = self._catalog(session_id) if session.focus_id else None
         focus = catalog.nodes.get(session.focus_id) if catalog and session.focus_id else None
+        effective_courses = tuple(
+            cid for cid in session.course_ids if cid in self.allowed_courses
+        )
+        active_kg_keys: set[tuple[str, str]] | None = None
+        if any(
+            m.get("role") == "assistant" and m.get("related_concepts")
+            for m in messages
+        ):
+            if effective_courses:
+                concepts, _ = self.kg_store.active_edges_for_courses(effective_courses)
+                active_kg_keys = {(c.course_id, c.concept_key) for c in concepts}
+            else:
+                active_kg_keys = set()
         return {
             **self._header(session),
             "focus": _focus_entry(focus) if focus else None,
             "turns": [self._turn_entry(turn, access[turn.turn_id]) for turn in turns],
             "messages": [
-                self._project_message(message, access[by_id[message["turn_id"]].turn_id])
+                self._project_message(
+                    message,
+                    access[by_id[message["turn_id"]].turn_id],
+                    active_kg_keys=active_kg_keys,
+                )
                 for message in messages
             ],
         }
@@ -384,6 +622,62 @@ class WorkspaceService:
             raise inaccessible()
         response = self.evidence.render_current(self._render_request(node.document, node.source))
         return _image_response(response)
+
+    def kg_concepts(
+        self,
+        owner: str,
+        session_id: str,
+        *,
+        course_id: str | None = None,
+        query: str | None = None,
+        respect_document_scope: bool = False,
+    ) -> dict[str, Any]:
+        from app.rag.workspace_kg import list_workspace_concepts
+
+        session = self.store.session(owner, session_id)
+        if not set(session.course_ids) <= self.allowed_courses:
+            raise inaccessible()
+        effective = tuple(cid for cid in session.course_ids if cid in self.allowed_courses)
+        if not effective:
+            raise inaccessible()
+        snapshot = self.snapshots.read(SnapshotRequest(effective))
+        return list_workspace_concepts(
+            self.kg_store,
+            session,
+            snapshot,
+            effective_courses=effective,
+            selected_course_id=course_id,
+            query=query,
+            respect_document_scope=respect_document_scope,
+        )
+
+    def kg_concept_detail(
+        self,
+        owner: str,
+        session_id: str,
+        concept_key: str,
+        *,
+        course_id: str | None = None,
+    ) -> dict[str, Any]:
+        from app.rag.workspace_kg import get_workspace_concept_detail
+
+        session = self.store.session(owner, session_id)
+        if not set(session.course_ids) <= self.allowed_courses:
+            raise inaccessible()
+        effective = tuple(cid for cid in session.course_ids if cid in self.allowed_courses)
+        if not effective:
+            raise inaccessible()
+        snapshot = self.snapshots.read(SnapshotRequest(effective))
+        catalog = self._catalog(session_id)
+        return get_workspace_concept_detail(
+            self.kg_store,
+            session,
+            snapshot,
+            catalog,
+            effective_courses=effective,
+            concept_key=concept_key,
+            selected_course_id=course_id,
+        )
 
     def authorize_import(
         self, owner: str, session_id: str, course_id: str, document_id: str | None
@@ -476,7 +770,38 @@ class WorkspaceService:
             ),
             None,
         )
-        if read is None:
+        vision_read = (
+            None
+            if read is not None
+            else next(
+                (
+                    item
+                    for item in evidence.reads
+                    if item.actual_source == key
+                    and item.method == "vision"
+                    and item.origin_execution == "real_provider"
+                    and bool(item.actual_input_sha256)
+                    and item.status in {"succeeded", "partial"}
+                    and item.text
+                ),
+                None,
+            )
+        )
+        route_name = (turn.outcome.get("trace") or {}).get("route")
+        matching_block = (
+            None
+            if read is not None or route_name != "generated_answer"
+            else next(
+                (
+                    block
+                    for block in message["blocks"]
+                    if block.get("type") == "source_image"
+                    and block.get("evidence_id") == evidence_id
+                ),
+                None,
+            )
+        )
+        if read is None and (vision_read is None or matching_block is None):
             raise inaccessible()
         current = self._historical_source(
             {
@@ -486,51 +811,42 @@ class WorkspaceService:
             key,
         )
         source = current.source
-        if source is None or not self._matches_text(evidence, read, source.text):
+        if source is None:
             raise WorkspaceError("original_unavailable", 409)
+        if read is not None:
+            if not self._matches_text(evidence, read, readable_source_text(source)):
+                raise WorkspaceError("original_unavailable", 409)
+            selected_read = read
+        else:
+            assert vision_read is not None and matching_block is not None
+            attached = self._attachment(session_id, message_id, matching_block["display_id"])
+            details = attached.description
+            if (
+                details.get("byte_sha256") != vision_read.actual_input_sha256
+                or details.get("content_sha256") != evidence.revision.content_sha256
+            ):
+                raise WorkspaceError("original_unavailable", 409)
+            selected_read = vision_read
         if not self._turn_access(turn):
             raise inaccessible()
         return {
             "source": key.model_dump(),
             "file_name": evidence.file_name,
             "locator": _positions(source.locator),
-            "text": read.text,
+            "text": selected_read.text,
             "is_current": current.is_current,
+            "has_preview": _can_display(source),
         }
 
     def _run(self, owner: str, turn: Turn) -> Turn:
         session = self.store.session(owner, turn.session_id)
         try:
-            if session.scope_revision != turn.request.scope_revision:
-                raise WorkspaceError("scope_changed")
-            if isinstance(turn.request.anchor, DisplayAnchor):
-                return self._follow_display(
-                    turn, session, turn.request.anchor, "display_anchor", turn.request.text
-                )
-            if isinstance(turn.request.anchor, ClarificationAnchor):
-                return self._choose(turn, session, turn.request.anchor)
-            if turn.request.kind == "ask" and is_version_comparison(turn.request.text):
-                return compare_versions(self, owner, turn, session)
-            ordinal = _ORDINAL.search(turn.request.text)
-            located = _location(turn.request.text, None) is not None or _FILE_MENTION.search(
-                turn.request.text
-            )
-            image_reference = ordinal or _IMAGE_REFERENCE.search(turn.request.text)
-            if (
-                turn.request.kind == "ask"
-                and image_reference
-                and (not located or _PREVIOUS_TURN.search(turn.request.text))
-            ):
-                return self._resolve_reference(owner, turn, session, ordinal)
-            if (
-                turn.request.kind == "ask"
-                and _TABLE_REFERENCE.search(turn.request.text)
-                and (not located or _PREVIOUS_TURN.search(turn.request.text))
-            ):
-                resolved = self._resolve_table_reference(owner, turn, session)
-                if resolved is not None:
-                    return resolved
-            return self._retrieve(turn, session, turn.request.text, owner=owner)
+            # Stage 1: Read-only Scope, Focus & History resolution.
+            ctx = resolve_turn_context(self, owner, turn, session)
+            # Stage 2: Pure 6-level intent & object routing.
+            decision = route_turn(self, ctx)
+            # Stage 3 & 4: Explicit route execution.
+            return self._dispatch_route(ctx, decision)
         except WorkspaceError as error:
             # Authorized absence of a stored reference is a turn failure, with no source metadata.
             return self.store.finish(
@@ -561,38 +877,268 @@ class WorkspaceService:
                 self.allowed_courses,
             )
 
-    def _resolve_reference(
-        self, owner: str, turn: Turn, session: Session, match: re.Match[str] | None
-    ) -> Turn:
-        explicit_history = bool(_HISTORY_IMAGE.search(turn.request.text))
-        if not explicit_history and _CURRENT_IMAGE.search(turn.request.text):
+    def _dispatch_route(self, ctx: TurnContext, decision: Any) -> Turn:
+        owner, turn, session = ctx.owner, ctx.turn, ctx.session
+        text = turn.request.text
+        if isinstance(decision, FollowDisplayRoute):
+            return self._follow_display(
+                turn, session, decision.anchor, decision.method, decision.question, owner=owner
+            )
+        if isinstance(decision, ResumeClarificationRoute):
+            return resume_clarification(self, owner, turn, ctx, decision.anchor)
+        if isinstance(decision, CompareVersionsRoute):
+            return compare_versions(self, owner, turn, session)
+        if isinstance(decision, CurrentVersionCounterpartRoute):
+            return self._handle_current_counterpart(ctx, decision)
+        if isinstance(decision, HistoryDisplayReferenceRoute):
+            return self._resolve_reference(
+                owner,
+                turn,
+                session,
+                decision.ordinal_match,
+                explicit_history=decision.explicit_history,
+                old_version_only=decision.old_version_only,
+                target_versions=decision.target_versions,
+                ctx=ctx,
+            )
+        if isinstance(decision, CurrentImageRoute):
             return resolve_current_image(self, turn, session)
-        _, turns, messages = self.store.timeline(owner, session.session_id)
-        completed = {item.turn_id for item in turns if item.status == "completed"}
-        boundary = next(
-            message["ordinal"]
-            for message in messages
-            if message["turn_id"] == turn.turn_id and message["role"] == "user"
+        if isinstance(decision, StaleFocusRoute):
+            raise WorkspaceError("stale_reference")
+        if isinstance(decision, FollowTableRoute):
+            resolved = self._resolve_table_reference(owner, turn, session)
+            if resolved is not None:
+                return resolved
+            return self._retrieve(turn, session, text, owner=owner)
+        if isinstance(decision, CompositionRoute):
+            if ctx.scope_snapshot.resolution_status != "resolved":
+                if session.document_ids:
+                    raise WorkspaceError("stale_reference")
+                draft = Draft(session.session_id)
+                draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+                return self._complete(turn, draft)
+            return self._answer_composition(turn, session, text, ctx.scope_snapshot)
+        if isinstance(decision, SupplementRoute):
+            if ctx.scope_snapshot.resolution_status != "resolved":
+                if session.document_ids:
+                    raise WorkspaceError("stale_reference")
+                draft = Draft(session.session_id)
+                draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+                return self._complete(turn, draft)
+            file_names = _explicit_filenames(text) or [
+                doc.file_name
+                for doc in ctx.documents.values()
+                if doc.file_name.casefold() in text.casefold()
+            ]
+            return self._answer_with_supplement(turn, session, text, ctx.documents, file_names)
+        if isinstance(decision, TargetObjectRoute):
+            if ctx.scope_snapshot.resolution_status != "resolved":
+                if session.document_ids:
+                    raise WorkspaceError("stale_reference")
+                draft = Draft(session.session_id)
+                draft.notice("empty_library", "这个范围没有已发布资料。请导入文件或切换范围。")
+                return self._complete(turn, draft)
+            node = ctx.focus_state.node if ctx.focus_state.status == "valid" else None
+            whole_file = _WHOLE_FILE.search(text)
+            explicit_location = _location(text, None)
+            location = explicit_location or (None if whole_file else _location("", node))
+            target_docs = (
+                {node.document.document_id: ctx.documents[node.document.document_id]}
+                if node is not None and node.document.document_id in ctx.documents
+                else ctx.documents
+            )
+            allow_retrieve_fallback = (
+                turn.request.kind == "ask"
+                and explicit_location is None
+                and decision.intent.ordinal is None
+                and decision.intent.direction is None
+                and not decision.intent.unresolved
+                and not decision.from_demonstrative
+                and not _DEMONSTRATIVE_OBJECT.search(text)
+                and (
+                    node is None
+                    or node.source is None
+                    or node.source.kind not in {"page", "cell"}
+                )
+            )
+            handled = self._answer_object(
+                turn,
+                session,
+                text,
+                decision.intent,
+                target_docs,
+                node,
+                location,
+                allow_retrieve_fallback=allow_retrieve_fallback,
+            )
+            if handled is not None:
+                return handled
+            return self._retrieve(turn, session, text, owner=owner, allow_object_intent=False)
+        if isinstance(decision, FocusedCellOutputsRoute):
+            node = ctx.focus_state.node
+            refs = [_doc_ref(doc) for doc in ctx.documents.values()]
+            if node is not None:
+                clarified = self._clarify_focused_cell_outputs(
+                    turn, session, node, refs, candidates=decision.candidates
+                )
+                if clarified is not None:
+                    return clarified
+        return self._retrieve(turn, session, text, owner=owner)
+
+    def _handle_current_counterpart(
+        self, ctx: TurnContext, decision: CurrentVersionCounterpartRoute
+    ) -> Turn:
+        turn, session, text = ctx.turn, ctx.session, ctx.turn.request.text
+        v2_doc = decision.document
+        if decision.status == "resolved" and decision.targets and v2_doc is not None:
+            key = _key(decision.targets[0])
+            v2_node = next(
+                (
+                    entry
+                    for entry in ctx.catalog.nodes.values()
+                    if entry.source is not None and _key(entry.source) == key
+                ),
+                None,
+            )
+            if v2_node is not None:
+                if v2_node.source is not None and not _can_display(v2_node.source):
+                    return self._retrieve(turn, session, text, forced=v2_node, owner=ctx.owner)
+                return answer_current_image(
+                    self, turn, session, v2_node, text, "current_version_counterpart"
+                )
+        if decision.status == "deleted" and v2_doc is not None:
+            return build_clarification(
+                self,
+                turn,
+                "新版已删除或移除了上一轮读取的对应对象，请从目录重新选择当前版本。",
+                [],
+                refs=[_doc_ref(v2_doc)],
+            )
+        options: list[dict[str, Any]] = []
+        refs = [_doc_ref(v2_doc)] if v2_doc is not None else []
+        if decision.targets and v2_doc is not None:
+            options = build_object_clarification_options(
+                decision.targets,
+                {v2_doc.document_id: v2_doc},
+                ctx.catalog,
+                is_displayable_fn=_can_display,
+                base_label_fn=_label,
+                doc_ref_fn=_doc_ref,
+            )
+        return build_clarification(
+            self,
+            turn,
+            "新版与旧版对象无法唯一对应（可能已重排或存在多个候选），请选择当前版本中的对象。",
+            options,
+            refs=refs,
         )
-        previous = next(
-            (
-                item
-                for item in reversed(messages)
-                if item["role"] == "assistant"
-                and item["turn_id"] in completed
-                and item["ordinal"] < boundary
-                and item["visible_display_ids"]
-            ),
-            None,
-        )
-        if previous is None:
+
+    def _resolve_reference(
+        self,
+        owner: str,
+        turn: Turn,
+        session: Session,
+        match: re.Match[str] | None,
+        *,
+        explicit_history: bool | None = None,
+        old_version_only: bool = False,
+        target_versions: frozenset[int] = frozenset(),
+        ctx: TurnContext | None = None,
+    ) -> Turn:
+        if explicit_history is None:
+            explicit_history = bool(_HISTORY_IMAGE.search(turn.request.text))
+        if not explicit_history and not old_version_only and _CURRENT_IMAGE.search(
+            turn.request.text
+        ):
+            return resolve_current_image(self, turn, session)
+        filtered_ids: list[str] | None = None
+        if old_version_only or target_versions:
+            if ctx is not None:
+                messages = ctx.history.messages
+                completed_turns = ctx.history.completed_turns
+                boundary = ctx.history.boundary
+                current_versions = {doc_id: doc.version for doc_id, doc in ctx.documents.items()}
+            else:
+                _, turns, messages = self.store.timeline(owner, session.session_id)
+                completed_turns = {
+                    item.turn_id: item
+                    for item in turns
+                    if item.status == "completed" and self._turn_access(item)
+                }
+                boundary = next(
+                    (
+                        message["ordinal"]
+                        for message in messages
+                        if message["turn_id"] == turn.turn_id and message["role"] == "user"
+                    ),
+                    len(messages) + 1,
+                )
+                snap = self.snapshots.read(
+                    SnapshotRequest(tuple(session.course_ids), tuple(session.document_ids))
+                )
+                current_versions = {doc.document_id: doc.version for doc in snap.documents}
+            single_read_anchor, previous, filtered_ids = find_filtered_history_displays(
+                messages,
+                completed_turns,
+                boundary,
+                current_versions,
+                old_version_only=old_version_only,
+                target_versions=target_versions,
+            )
+        elif ctx is not None:
+            single_read_anchor = ctx.history.latest_single_vision_read
+            previous = ctx.history.latest_visible_message
+        else:
+            _, turns, messages = self.store.timeline(owner, session.session_id)
+            completed = {item.turn_id for item in turns if item.status == "completed"}
+            boundary = next(
+                message["ordinal"]
+                for message in messages
+                if message["turn_id"] == turn.turn_id and message["role"] == "user"
+            )
+            single_read_anchor = None
+            previous = next(
+                (
+                    item
+                    for item in reversed(messages)
+                    if item["role"] == "assistant"
+                    and item["turn_id"] in completed
+                    and item["ordinal"] < boundary
+                    and item["visible_display_ids"]
+                ),
+                None,
+            )
+        if match is None and single_read_anchor is not None:
+            return self._follow_display(
+                turn,
+                session,
+                single_read_anchor,
+                "visible_read_history",
+                turn.request.text,
+                owner=owner,
+            )
+        if previous is None or (filtered_ids is not None and not filtered_ids):
+            if old_version_only or target_versions:
+                return build_clarification(
+                    self,
+                    turn,
+                    "本会话没有可核对的旧版图片记录，无法仅查看旧版原图。",
+                    [],
+                    trace={
+                        "route": "history_reference",
+                        "clarification_reason": "missing_old_version_history",
+                        "external_call_count": 0,
+                    },
+                )
             if not explicit_history:
                 return resolve_current_image(self, turn, session)
-            return self._clarify(turn, "找不到带图片的已完成回答，请从原件卡片选择。", [], [])
-        ids = previous["visible_display_ids"]
+            return build_clarification(
+                self, turn, "找不到带图片的已完成回答，请从原件卡片选择。", []
+            )
+        ids = filtered_ids if filtered_ids is not None else previous["visible_display_ids"]
         index = _number(match.group(1)) if match else (1 if len(ids) == 1 else 0)
         if not explicit_history and session.focus_id:
-            catalog = self._catalog(session.session_id)
+            catalog = ctx.catalog if ctx is not None else self._catalog(session.session_id)
             focus = catalog.nodes.get(session.focus_id)
             relevant = {ids[index - 1]} if 1 <= index <= len(ids) else set(ids)
             displays = [
@@ -607,8 +1153,11 @@ class WorkspaceService:
                     and not _focus_ordinal_matches(catalog, focus, index, displays[0])
                 )
             ):
-                return self._clarify(
-                    turn, "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。", [], []
+                return build_clarification(
+                    self,
+                    turn,
+                    "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。",
+                    [],
                 )
         if 1 <= index <= len(ids):
             anchor = DisplayAnchor(
@@ -622,6 +1171,7 @@ class WorkspaceService:
                 anchor,
                 "visible_ordinal" if match else "visible_single",
                 turn.request.text,
+                owner=owner,
             )
         options, refs = [], []
         for order, display_id in enumerate(ids[:6], 1):
@@ -629,60 +1179,63 @@ class WorkspaceService:
                 item = self._attachment(session.session_id, previous["message_id"], display_id)
             except WorkspaceError:
                 continue
-            options.append(
-                {
-                    "option_id": uuid4().hex,
-                    "label": f"第 {order} 张图 · {item.description['caption']}",
-                    "kind": "display",
-                    "message_id": previous["message_id"],
-                    "display_id": display_id,
-                }
+            record = ClarificationOptionRecord(
+                option_id=uuid4().hex,
+                label=f"第 {order} 张图 · {item.description['caption']}",
+                kind="display",
+                resume_action="follow_display",
+                message_id=previous["message_id"],
+                display_id=display_id,
             )
+            options.append(record.model_dump(mode="json"))
             refs.append(_attachment_ref(item))
-        return self._clarify(turn, "请选择你指的图片。", options, refs, historical=True)
+        return build_clarification(
+            self, turn, "请选择你指的图片。", options, historical_refs=refs
+        )
 
-    def _choose(self, turn: Turn, session: Session, anchor: ClarificationAnchor) -> Turn:
-        previous = self.store.clarification(session.session_id, anchor.turn_id)
-        if (
-            previous is None
-            or previous.request.scope_revision != session.scope_revision
-            or not self._turn_access(previous)
-        ):
-            raise inaccessible()
-        option = next(
-            (
-                item
-                for item in previous.outcome.get("options", [])
-                if item["option_id"] == anchor.option_id
-            ),
-            None,
-        )
-        if option is None:
-            raise inaccessible()
-        if option["kind"] == "display":
-            selected = DisplayAnchor(
-                type="display", message_id=option["message_id"], display_id=option["display_id"]
-            )
-            return self._follow_display(
-                turn,
-                session,
-                selected,
-                "clarification_choice",
-                previous.request.text,
-            )
-        node = self._node(session, option["node_id"])
-        if not _in_scope(session, node.document):
-            raise inaccessible()
-        if option.get("current_object"):
-            return answer_current_image(
-                self, turn, session, node, previous.request.text, "current_choice"
-            )
-        return self._retrieve(
-            turn, session, previous.request.text, forced=node, kind=previous.request.kind
-        )
+    def _historical_verified_visual_read(
+        self,
+        owner: str | None,
+        session: Session,
+        key: SourceKey,
+        publication_epoch: int,
+        content_sha256: str,
+    ) -> TurnRead | None:
+        if not owner:
+            return None
+        _, turns, messages = self.store.timeline(owner, session.session_id)
+        completed = {item.turn_id for item in turns if item.status == "completed"}
+        target_source = key.model_dump()
+        for item in reversed(messages):
+            if item["role"] != "assistant" or item["turn_id"] not in completed:
+                continue
+            for ev in (item.get("sources") or {}).values():
+                rev = ev.get("revision") or {}
+                if (
+                    rev.get("source") != target_source
+                    or rev.get("publication_epoch") != publication_epoch
+                    or rev.get("content_sha256") != content_sha256
+                ):
+                    continue
+                for read in ev.get("reads", []):
+                    if (
+                        read.get("method") == "vision"
+                        and read.get("status") in {"succeeded", "partial"}
+                        and read.get("origin_execution") == "real_provider"
+                        and read.get("text")
+                    ):
+                        return TurnRead.model_validate(read)
+        return None
 
     def _follow_display(
-        self, turn: Turn, session: Session, anchor: DisplayAnchor, how: str, question: str
+        self,
+        turn: Turn,
+        session: Session,
+        anchor: DisplayAnchor,
+        how: str,
+        question: str,
+        *,
+        owner: str | None = None,
     ) -> Turn:
         item = self._attachment(session.session_id, anchor.message_id, anchor.display_id)
         desc = item.description
@@ -708,6 +1261,30 @@ class WorkspaceService:
                 "historical_only",
                 "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。",
             )
+            if not _BARE_REFERENCE.fullmatch(question.strip()) and (
+                "回看" in question or "内容" in question or _OBJECT_FACT.search(question)
+            ):
+                prior_read = self._historical_verified_visual_read(
+                    owner, session, key, ref["publication_epoch"], ref["content_sha256"]
+                )
+                if prior_read is not None and stored.source is not None:
+                    doc = SnapshotDocument(
+                        course_id=ref["course_id"],
+                        document_id=key.document_id,
+                        version=key.version,
+                        publication_epoch=ref["publication_epoch"],
+                        content_sha256=ref["content_sha256"],
+                        source_path="",
+                        file_name=desc["file_name"],
+                        title=desc["file_name"],
+                        document_format=desc.get("document_format", "ipynb"),
+                    )
+                    ev = draft.add_evidence(
+                        doc, _as_snapshot(stored.source, ref["course_id"], key), [prior_read]
+                    )
+                    draft.text(
+                        f"旧版 v{key.version} 已读取内容：\n{prior_read.text}", ev.evidence_id
+                    )
             return self._complete(turn, draft, historical=[ref], resolution=message)
         if not self.store.active(turn):
             raise WorkspaceError("interrupted")
@@ -806,28 +1383,43 @@ class WorkspaceService:
         forced: CatalogNode | None = None,
         kind: str | None = None,
         owner: str | None = None,
+        allow_object_intent: bool = True,
     ) -> Turn:
         mode = kind or turn.request.kind
         node = forced
         switching = bool(mode == "ask" and _FILE_MENTION.search(text) and _affirmed_switch(text))
         explicit_location = _location(text, None)
         whole_file = _WHOLE_FILE.search(text)
+        named_definition = bool(_definition_topics(text))
+        definition_reference = _definition_reference(text) if not named_definition else None
         followup = bool(
             self.settings.workspace_answer_enabled
             and owner
             and mode == "ask"
+            and not named_definition
             and not explicit_location
             and not whole_file
-            and not _FILE_MENTION.search(text)
+            and (definition_reference or not _FILE_MENTION.search(text))
             and (
-                _PREVIOUS_TURN.search(text)
+                definition_reference
+                or _PREVIOUS_TURN.search(text)
                 or _CONTINUE_TEXT.fullmatch(text)
                 or (len(text) <= 28 and _REWRITE_PRIOR.search(text))
             )
         )
-        latest = self._latest_reply(owner, turn) if owner and followup else None
+        check_experiment_scope = (
+            self.settings.workspace_answer_enabled
+            and mode == "ask"
+            and bool(session.document_ids)
+            and bool(_EXPERIMENT_TEXT.search(text))
+        )
+        latest = (
+            self._latest_reply(owner, turn)
+            if owner and (followup or check_experiment_scope)
+            else None
+        )
         topic_document = None
-        if latest and latest[0].request.scope_revision == turn.request.scope_revision:
+        if followup and latest and latest[0].request.scope_revision == turn.request.scope_revision:
             topic_document = (latest[0].outcome.get("trace") or {}).get("topic_document_id")
         if (
             node is None
@@ -906,14 +1498,49 @@ class WorkspaceService:
             file_names = names
         if mode == "ask" and asks_for_composition(text):
             return self._answer_composition(turn, session, text, snapshot)
-        if mode == "ask" and location is None and asks_for_definition_and_experiment(text):
+        if (
+            mode == "ask"
+            and location is None
+            and not self.settings.workspace_answer_enabled
+            and asks_for_definition_and_experiment(text)
+        ):
             file_names = _explicit_filenames(text) or file_names
             return self._answer_with_supplement(turn, session, text, documents, file_names)
-        if mode == "ask" and (target := object_intent(text)):
-            return self._answer_object(turn, session, text, target, documents, node, location)
+        if allow_object_intent and mode == "ask" and (target := object_intent(text)):
+            if target.kind in {"caption", "formula"} and not any(
+                src.kind == "page_object" and src.locator.get("object_type") == target.kind
+                for src in snapshot.sources
+            ):
+                target = None
+            if target is not None:
+                return self._answer_object(turn, session, text, target, documents, node, location)
         previous = None
+        resolved_topic = None
         if followup:
-            previous = self._scoped_previous(latest, documents) if latest else None
+            current_documents = {
+                key: doc for key, doc in documents.items()
+                if not file_names or doc.file_name in file_names
+            }
+            same_scope = bool(
+                latest and latest[0].request.scope_revision == turn.request.scope_revision
+            )
+            if same_scope:
+                previous = self._scoped_previous(latest, current_documents)
+            if previous is None and (
+                definition_reference
+                or (not _REWRITE_PRIOR.search(text) and not _is_measurement_only_followup(text))
+            ):
+                confirmed = self._confirmed_definition_topics(latest, current_documents)
+                if len(confirmed) == 1:
+                    resolved_topic = next(iter(confirmed))
+                    if definition_reference:
+                        text = _bind_definition_topic(text, resolved_topic, definition_reference)
+                    elif not _contains_topic(text, resolved_topic):
+                        text = f"{text}（当前追问所指目标：{resolved_topic}）"
+                elif definition_reference or len(confirmed) > 1:
+                    return self._clarify(
+                        turn, "无法确定你指的是哪个定义。请写出概念或规则名称。", [], refs,
+                    )
             if _REWRITE_PRIOR.search(text):
                 if previous:
                     return self._rewrite_previous(turn, previous, refs, topic_document)
@@ -922,7 +1549,28 @@ class WorkspaceService:
                     "prior_evidence_unavailable", "本范围没有可核对的上一轮回答。请重述问题。"
                 )
                 return self._complete(turn, draft, refs=refs)
-        if mode == "summary":
+        offline_kg_trace: dict[str, Any] | None = None
+        if (
+            forced is not None
+            and forced.source is not None
+            and forced.source.kind == "notebook_output"
+            and mode == "ask"
+            and (
+                chosen_source := sources.get(
+                    (forced.document.document_id, forced.source.source_id)
+                )
+            )
+            is not None
+        ):
+            ranked = [chosen_source]
+            visual_ranked = []
+            trace = {
+                "route": "clarification_choice",
+                "effective_scope": _effective(documents),
+                "selected_source": _key(chosen_source).model_dump(),
+                "external_call_count": 0,
+            }
+        elif mode == "summary":
             ranked = sorted(
                 (source for source in snapshot.sources if source.text.strip()),
                 key=lambda source: source.kind not in _BASE_KINDS,
@@ -936,7 +1584,8 @@ class WorkspaceService:
             request = StructureSearchRequest(
                 query=text,
                 location=location,
-                top_k=12,
+                top_k=self.settings.workspace_retrieval_pool_cap,
+                include_adjacency=self.settings.workspace_retrieval_include_adjacency,
                 scope=StructureScope(
                     course_ids=session.course_ids,
                     document_ids=list(documents),
@@ -976,14 +1625,66 @@ class WorkspaceService:
             if not file_names and {doc.document_id for doc in search.snapshot} != set(documents):
                 raise WorkspaceError("stale_reference")
             chosen = plan.selected if plan else search.candidates
+            offline_kg_visual: tuple[SnapshotSource, ...] = ()
+            if (
+                plan is None
+                and use_retrieval
+                and location is None
+                and self.settings.workspace_kg_retrieval_enabled
+                and search.status
+                not in {"ambiguous_scope", "scope_not_found", "location_not_found"}
+                and search.snapshot
+            ):
+                from app.rag.workspace_kg import expand_kg_one_hop
+
+                src_by_triple = {
+                    (src.document_id, src.version, src.source_id): src
+                    for src in snapshot.sources
+                    if src.document_id in documents
+                }
+                kg_budget = min(self.settings.workspace_retrieval_budget or 6, request.top_k)
+
+                def _verify_turn_active() -> None:
+                    if not self.store.active(turn):
+                        raise WorkspaceError("interrupted")
+
+                kg_res = expand_kg_one_hop(
+                    self.kg_store,
+                    course_ids=tuple(
+                        sorted({doc.course_id for doc in documents.values()})
+                    ),
+                    docs=documents,
+                    sources=src_by_triple,
+                    question=text,
+                    alternate_query=None,
+                    pool=chosen,
+                    budget=kg_budget,
+                    verify=_verify_turn_active,
+                )
+                offline_kg_trace = kg_res.trace
+                offline_kg_visual = tuple(
+                    src_by_triple[(c.source.document_id, c.source.version, c.source.source_id)]
+                    for c in kg_res.visual_candidates
+                    if (c.source.document_id, c.source.version, c.source.source_id) in src_by_triple
+                )
+                if kg_res.trace.get("status") == "succeeded":
+                    chosen = tuple(kg_res.pool[:kg_budget])
             ranked = [
                 sources[(hit.source.document_id, hit.source.source_id)]
                 for hit in chosen
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
             visual_ranked = [
+                *(
+                    sources[(hit.source.document_id, hit.source.source_id)]
+                    for hit in (getattr(plan, "visual_candidates", ()) if plan else ())
+                    if (hit.source.document_id, hit.source.source_id) in sources
+                ),
+                *offline_kg_visual,
+            ]
+            visual_read_targets = [
                 sources[(hit.source.document_id, hit.source.source_id)]
-                for hit in (getattr(plan, "visual_candidates", ()) if plan else ())
+                for hit in (getattr(plan, "visual_read_targets", ()) if plan else ())
                 if (hit.source.document_id, hit.source.source_id) in sources
             ]
             trace = {
@@ -1001,11 +1702,15 @@ class WorkspaceService:
                     for hit in chosen
                 ],
             }
+            if offline_kg_trace is not None:
+                trace["kg"] = offline_kg_trace
             if plan:
                 trace["retrieval"] = plan.trace
                 trace["external_call_count"] = plan.trace.get("external_call_count", 0)
         if topic_document:
             trace["topic_document_id"] = topic_document
+        if resolved_topic:
+            trace["definition_topic"] = resolved_topic
         if mode in {"ask", "summary"} and self.settings.workspace_answer_enabled:
             if self.settings.deepseek_api_key.strip():
                 answer_mode = "summary" if whole_file and _SUMMARY_FILE.search(text) else mode
@@ -1020,13 +1725,27 @@ class WorkspaceService:
                     previous=previous,
                     question=text,
                     extra_media=visual_ranked if mode == "ask" else (),
+                    visual_read_targets=visual_read_targets if mode == "ask" else (),
+                    selected_file_scope=bool(session.document_ids or file_names),
+                    preceding_reply=latest if check_experiment_scope else None,
                 )
         draft = Draft(session.session_id)
         if mode == "summary":
             draft.text("当前文件摘要（部分来源）")
-        failures = self._read_text(
-            turn, draft, documents, ranked, _SUMMARY_SOURCE_LIMIT if mode == "summary" else 2
+            read_order = ranked
+        else:
+            read_order = _prioritize_child_text_objects(ranked)
+        offline_kg_active = bool(
+            self.settings.workspace_kg_retrieval_enabled
+            and offline_kg_trace is not None
+            and offline_kg_trace.get("status") in {"succeeded", "already_covered"}
         )
+        read_limit = (
+            _SUMMARY_SOURCE_LIMIT
+            if mode == "summary"
+            else (min(len(read_order), 4) if offline_kg_active else 2)
+        )
+        failures = self._read_text(turn, draft, documents, read_order, read_limit)
         if mode == "summary":
             coverage = _summary_coverage(snapshot.sources, draft.sources, failures)
             trace.update(coverage)
@@ -1037,7 +1756,29 @@ class WorkspaceService:
         elif mode == "ask":
             media_focus = None if explicit_location else node
             chosen = _media_candidates(ranked, snapshot.sources, media_focus)
-            trace["display_attempts"] = self._attach_images(turn, draft, documents, chosen)
+            eligible_child_keys = {
+                (src.document_id, src.version, src.source_id)
+                for src in ranked
+                if src.kind == "page_object"
+                and src.locator.get("object_type") in {"formula", "caption", "table"}
+            }
+            if ranked and ranked[0].kind == "page":
+                for src in chosen:
+                    if (
+                        src.kind == "page_object"
+                        and src.document_id == ranked[0].document_id
+                        and src.parent_id == ranked[0].source_id
+                        and src.locator.get("object_type") in {"formula", "caption", "table"}
+                    ):
+                        eligible_child_keys.add((src.document_id, src.version, src.source_id))
+            trace["display_attempts"] = self._attach_images(
+                turn,
+                draft,
+                documents,
+                chosen,
+                allow_child_text_read=True,
+                eligible_child_keys=eligible_child_keys,
+            )
         if not draft.sources:
             draft.notice("no_readable_evidence", "在所选范围内没有读到支持本题的原文或图片。")
         elif mode in {"ask", "summary"} and any(b["type"] == "text" for b in draft.blocks):
@@ -1082,13 +1823,20 @@ class WorkspaceService:
             return None
         docs_by_id = {doc.document_id: doc for doc in target_docs}
         readable_sources = [src for src in target_sources if src.text.strip()]
-        if not readable_sources:
+        want_vector = settings.workspace_vector_retrieval_enabled or strategy == "vector"
+        has_blank_visual = any(
+            _has_visual(src) and not src.text.strip() for src in target_sources
+        )
+        if not readable_sources and not (
+            want_vector and any(_has_visual(src) for src in target_sources)
+        ):
             return None
         context = self._prior_context(previous) if previous else None
+        prompt_mode = self._prompt_mode("ask", request.query, request.location)
         unread_visual = sum(1 for src in target_sources if _has_visual(src))
         fixed_reserve = estimate_prompt_reserve(
             request.query,
-            mode="ask",
+            mode=prompt_mode,
             context=context,
             coverage={"full_text_scope": False, "unread_visual_total": unread_visual},
         )
@@ -1115,15 +1863,17 @@ class WorkspaceService:
                 "reads": [{"method": method, "status": "succeeded", "text": ""}],
             }
 
-        min_source_bytes = min(
-            estimate_embedded_json_budget(_skel(1, src)) for src in readable_sources
+        min_source_bytes = (
+            min(estimate_embedded_json_budget(_skel(1, src)) for src in readable_sources)
+            if readable_sources
+            else 180
         )
         if budget - fixed_reserve <= min_source_bytes:
             return None
-        if len(target_docs) == 1:
+        if len(target_docs) == 1 and not (want_vector and has_blank_visual):
             reserve_true = estimate_prompt_reserve(
                 request.query,
-                mode="ask",
+                mode=prompt_mode,
                 context=context,
                 coverage={"full_text_scope": True, "unread_visual_total": unread_visual},
             )
@@ -1138,25 +1888,51 @@ class WorkspaceService:
                     break
             if total_single_bytes <= budget:
                 return None  # Full-text reading already covers this selected short document.
-        if strategy == "fts":
-            if not _HAN_QUERY.search(request.query) or not _has_latin_corpus(target_sources):
+        is_han_latin = bool(_HAN_QUERY.search(request.query) and _has_latin_corpus(target_sources))
+        want_vector = settings.workspace_vector_retrieval_enabled or strategy == "vector"
+        want_kg = settings.workspace_kg_retrieval_enabled
+        explicit_budget = settings.workspace_retrieval_budget
+        if strategy == "fts" and explicit_budget == 0 and not want_vector and not want_kg:
+            if not is_han_latin:
                 return None
-            strategy = "bilingual"
+            plan_strategy = "bilingual"
+        elif strategy in {"fts", "s0"}:
+            if want_vector:
+                plan_strategy = "vector"
+            elif is_han_latin:
+                plan_strategy = "bilingual"
+            else:
+                plan_strategy = "fts" if strategy == "fts" else "s0"
+        else:
+            plan_strategy = "vector" if want_vector and strategy != "vector" else strategy
+        if explicit_budget > 0:
+            candidate_budget = min(explicit_budget, request.top_k)
+        elif want_kg or plan_strategy in {"s0", "s2a", "s2b", "s2a_jev", "vector"}:
+            candidate_budget = min(6, request.top_k)
+        elif plan_strategy == "bilingual":
+            candidate_budget = request.top_k
+        else:
+            candidate_budget = min(4, request.top_k)
         from app.rag.workspace_retrieval import plan_retrieval
 
-        candidate_budget = request.top_k if strategy == "bilingual" else 4
         return plan_retrieval(
             settings,
             self.searcher,
             snapshot,
             request,
             self.allowed_courses,
-            strategy=strategy,
+            strategy=plan_strategy,
             budget=candidate_budget,
             library=self.library.store,
             active=lambda: self.store.active(turn),
             rewrite=self.rewriter,
             scorer=self.scorer,
+            vector_bridge=self.vector_bridge,
+            evidence_service=self.evidence,
+            supplement_saved_outputs=prompt_mode == "definition_and_experiment",
+            allow_bilingual=is_han_latin,
+            kg_enabled=want_kg,
+            kg_store=self.kg_store,
         )
 
     def _matches_text(self, item: TurnEvidence, read: TurnRead, original: str) -> bool:
@@ -1171,25 +1947,63 @@ class WorkspaceService:
         return original.startswith(excerpt) or original.strip().startswith(excerpt)
 
     def _latest_reply(self, owner: str, turn: Turn) -> tuple[Turn, dict[str, Any]] | None:
-        _, turns, messages = self.store.timeline(owner, turn.session_id)
-        previous_turns = {row.turn_id: row for row in turns if row.status == "completed"}
-        boundary = next(item["ordinal"] for item in messages if item["turn_id"] == turn.turn_id)
-        message = next(
-            (
-                item
-                for item in reversed(messages)
-                if item["ordinal"] < boundary and item["role"] == "assistant"
-            ),
-            None,
-        )
-        if not message or not (previous := previous_turns.get(message["turn_id"])):
-            return None
-        if not self._turn_access(previous):
-            return None
-        return previous, message
+        latest = self.store.previous_reply(owner, turn)
+        return latest if latest and self._turn_access(latest[0]) else None
+
+    def _confirmed_definition_topics(self, latest, documents) -> set[str]:
+        if not latest:
+            return set()
+        topics = _definition_topics(latest[0].request.text)
+        if not topics:
+            prior_topic = (latest[0].outcome.get("trace") or {}).get("definition_topic")
+            if isinstance(prior_topic, str) and prior_topic.strip():
+                topics = {prior_topic.strip()}
+        if not topics:
+            return set()
+        current = self._scoped_previous(latest, documents, allow_subset=True)
+        if not current:
+            return set()
+        return {
+            name for name in topics
+            if any(_contains_topic(read.text, name)
+                   for item in current[2].values() for read in item.reads)
+        }
+
+    def _resolve_definition_topic(self, latest, documents) -> str | None:
+        confirmed = self._confirmed_definition_topics(latest, documents)
+        return next(iter(confirmed)) if len(confirmed) == 1 else None
+
+    @staticmethod
+    def _excluded_previous_experiment(turn, preceding_reply, document_ids, question) -> bool:
+        if not preceding_reply:
+            return False
+        previous, message = preceding_reply
+        if (
+            previous.request.scope_revision == turn.request.scope_revision
+            or not _related_experiment_question(previous.request.text, question)
+        ):
+            return False
+        # Only use the persisted identities of citations from the visible answer.
+        for block in message["blocks"]:
+            if block["type"] != "text":
+                continue
+            for key in block.get("citations", []):
+                item = message["sources"].get(key)
+                if not item or not isinstance(item["locator"].get("output_index"), int):
+                    continue
+                identity = item["revision"]["source"]
+                if identity["document_id"] not in document_ids and any(
+                    read["actual_source"] == identity
+                    and read["method"] == "native_text"
+                    and read["status"] in {"succeeded", "partial"}
+                    for read in item["reads"]
+                ):
+                    return True
+        return False
 
     def _scoped_previous(
-        self, latest: tuple[Turn, dict[str, Any]], documents: dict[str, SnapshotDocument]
+        self, latest: tuple[Turn, dict[str, Any]], documents: dict[str, SnapshotDocument],
+        *, allow_subset: bool = False,
     ) -> tuple[Turn, dict[str, Any], dict[str, TurnEvidence]] | None:
         previous, message = latest
         identifiers = {
@@ -1203,9 +2017,18 @@ class WorkspaceService:
             if key not in identifiers:
                 continue
             item = TurnEvidence.model_validate(message["sources"][key])
+            if allow_subset and isinstance(item.locator.get("output_index"), int):
+                continue
             identity = item.revision.source
             doc = documents.get(identity.document_id)
-            if doc is None or doc.version != identity.version:
+            if (
+                doc is None
+                or doc.version != identity.version
+                or doc.publication_epoch != item.revision.publication_epoch
+                or doc.content_sha256 != item.revision.content_sha256
+            ):
+                if allow_subset:
+                    continue
                 return None
             raw = self._historical_source(_doc_ref(doc), identity)
             reads = [
@@ -1216,7 +2039,7 @@ class WorkspaceService:
                 and read.status in {"succeeded", "partial"}
                 and read.actual_source == identity
                 and read.method in {"native_text", "native_table", "ocr"}
-                and self._matches_text(item, read, raw.source.text)
+                and self._matches_text(item, read, readable_source_text(raw.source))
             ]
             if reads:
                 sources[key] = item.model_copy(update={"reads": reads})
@@ -1248,6 +2071,12 @@ class WorkspaceService:
         )
         return self._complete(turn, draft, refs=refs, trace=trace)
 
+    @staticmethod
+    def _prompt_mode(mode, question, location):
+        if mode == "ask" and location is None and asks_for_definition_and_experiment(question):
+            return "definition_and_experiment"
+        return mode
+
     def _generate_snapshot(
         self,
         turn,
@@ -1261,6 +2090,9 @@ class WorkspaceService:
         previous,
         question,
         extra_media=(),
+        visual_read_targets=(),
+        selected_file_scope=False,
+        preceding_reply=None,
     ):
         if names:
             allowed = {name.casefold() for name in names}
@@ -1305,18 +2137,136 @@ class WorkspaceService:
                 draft.notice("no_reading_cursor", "本轮范围没有可续读的位置。")
                 return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs])
         context = self._prior_context(previous) if previous else None
-        unread_visual_total = sum(1 for source in snapshot.sources if _has_visual(source))
+        prompt_mode = self._prompt_mode(mode, question, location)
+        docs_by_id = {doc.document_id: doc for doc in docs}
+        pre_visual_items: list[
+            tuple[SnapshotDocument, SnapshotSource, EvidenceRequest, EvidenceResult, list[TurnRead]]
+        ] = []
+        visual_evidence_bytes = 0
+        s3_visual_trace: list[dict[str, Any]] = []
+        if (
+            mode == "ask"
+            and cursor is None
+            and visual_read_targets
+            and self.settings.source_vision_enabled
+            and self.settings.dashscope_api_key.strip()
+        ):
+            max_vis = self.settings.workspace_s3_max_visual_reads
+            for v_src in visual_read_targets:
+                if len(pre_visual_items) >= max_vis:
+                    break
+                if (
+                    (v_src.document_id, v_src.source_id) not in source_keys
+                    or (
+                        bool(readable_source_text(v_src).strip())
+                        and not (
+                            v_src.locator.get("format") == "pptx"
+                            and len(readable_source_text(v_src).strip()) < 40
+                        )
+                    )
+                ):
+                    continue
+                if not self.store.active(turn):
+                    raise WorkspaceError("interrupted")
+                v_doc = docs_by_id.get(v_src.document_id)
+                if v_doc is None:
+                    continue
+                req = self._render_request(v_doc, v_src)
+                vis_resp = self.vision.process_current(
+                    EvidenceRequest.model_validate(
+                        {
+                            **req.model_dump(),
+                            "read_intent": "directed_question",
+                            "question": question,
+                        }
+                    )
+                )
+                if vis_resp.status in {"stale_reference", "not_accessible"}:
+                    raise WorkspaceError(vis_resp.status)
+                trace["external_call_count"] = (
+                    trace.get("external_call_count", 0) + vis_resp.external_call_count
+                )
+                reads = _visual_reads(vis_resp)
+                valid_vis_reads = [
+                    r
+                    for r in reads
+                    if r.method == "vision"
+                    and r.origin_execution == "real_provider"
+                    and r.status in {"succeeded", "partial"}
+                    and bool(r.actual_input_sha256)
+                    and r.text.strip()
+                ]
+                s3_visual_trace.append(
+                    {
+                        "source": _key(v_src).model_dump(),
+                        "status": vis_resp.status,
+                        "read_status": vis_resp.read_status,
+                        "external_call_count": vis_resp.external_call_count,
+                        "accepted": bool(valid_vis_reads),
+                    }
+                )
+                if valid_vis_reads and vis_resp.display is not None:
+                    pre_visual_items.append((v_doc, v_src, req, vis_resp, valid_vis_reads))
+            if pre_visual_items:
+                from app.rag.workspace_generation import _read_text_with_items
+
+                temp_sources: dict[str, TurnEvidence] = {}
+                for idx, (v_doc, v_src, _, _, v_reads) in enumerate(pre_visual_items, start=1):
+                    ev_id = f"ev-{idx}"
+                    temp_sources[ev_id] = TurnEvidence(
+                        evidence_id=ev_id,
+                        revision=SourceRevision(
+                            source=_key(v_src),
+                            course_id=v_doc.course_id,
+                            publication_epoch=v_doc.publication_epoch,
+                            content_sha256=v_doc.content_sha256,
+                        ),
+                        file_name=v_doc.file_name,
+                        locator=_positions(v_src.locator),
+                        read_status=_status(v_reads),
+                        reads=v_reads,
+                    )
+                vis_entries = _read_text_with_items(temp_sources)[0]
+                if vis_entries:
+                    visual_evidence_bytes = (
+                        sum(
+                            (1 if pos > 0 else 0) + estimate_embedded_json_budget(entry)
+                            for pos, entry in enumerate(vis_entries.values())
+                        )
+                        + 1  # comma before first text segment
+                        + len(vis_entries)  # ev-id digit width slack if >=10 items
+                    )
+        if s3_visual_trace:
+            trace["s3_visual_reads"] = {
+                "targets": s3_visual_trace,
+                "pre_budget_visual_bytes": visual_evidence_bytes,
+                "accepted_count": len(pre_visual_items),
+            }
+
+        read_visual_keys = {
+            (v_src.document_id, v_src.version, v_src.source_id)
+            for _, v_src, _, _, _ in pre_visual_items
+        }
+        unread_visual_total = sum(
+            1
+            for source in snapshot.sources
+            if _has_visual(source)
+            and (source.document_id, source.version, source.source_id) not in read_visual_keys
+        )
+        coverage = {"unread_visual_total": unread_visual_total}
+        if self._excluded_previous_experiment(turn, preceding_reply, identifiers, question):
+            coverage["assess_experiment_coverage"] = True
         reserve_false = estimate_prompt_reserve(
             question,
-            mode=mode,
+            mode=prompt_mode,
             context=context,
-            coverage={"full_text_scope": False, "unread_visual_total": unread_visual_total},
+            coverage={**coverage, "full_text_scope": False},
         )
         reserve_true = estimate_prompt_reserve(
             question,
-            mode=mode,
+            mode=prompt_mode,
             context=context,
-            coverage={"full_text_scope": True, "unread_visual_total": unread_visual_total},
+            coverage={**coverage, "full_text_scope": True},
         )
         reserve = reserve_false
         ceiling = min(
@@ -1334,7 +2284,7 @@ class WorkspaceService:
                     snapshot,
                     context_tokens=ceiling,
                     output_reserve=OUTPUT_RESERVE,
-                    prompt_reserve=reserve_true,
+                    prompt_reserve=reserve_true + visual_evidence_bytes,
                     preferred_sources=preferred,
                     cursor=cursor,
                     active=lambda: self.store.active(turn),
@@ -1347,7 +2297,7 @@ class WorkspaceService:
                         snapshot,
                         context_tokens=ceiling,
                         output_reserve=OUTPUT_RESERVE,
-                        prompt_reserve=reserve_false,
+                        prompt_reserve=reserve_false + visual_evidence_bytes,
                         preferred_sources=preferred,
                         cursor=cursor,
                         active=lambda: self.store.active(turn),
@@ -1358,75 +2308,132 @@ class WorkspaceService:
                     snapshot,
                     context_tokens=ceiling,
                     output_reserve=OUTPUT_RESERVE,
-                    prompt_reserve=reserve_false,
+                    prompt_reserve=reserve_false + visual_evidence_bytes,
                     preferred_sources=preferred,
                     cursor=cursor,
                     active=lambda: self.store.active(turn),
                 )
         except ValueError:
-            budget_reason = (
-                "fixed_overhead_exceeded" if input_budget <= reserve else "no_evidence_fits"
-            )
-            trace["reading"] = {
-                "status": "budget_exceeded",
-                "budget_reason": budget_reason,
+            if pre_visual_items and input_budget > reserve + visual_evidence_bytes:
+                window = None
+            else:
+                budget_reason = (
+                    "fixed_overhead_exceeded"
+                    if input_budget <= reserve
+                    else "no_evidence_fits"
+                )
+                trace["reading"] = {
+                    "status": "budget_exceeded",
+                    "budget_reason": budget_reason,
+                    "input_budget": max(0, input_budget),
+                    "prompt_reserve": reserve + visual_evidence_bytes,
+                    "budget": max(0, input_budget - reserve - visual_evidence_bytes),
+                    "estimated_input": 0,
+                    "visual_read_status": "not_attempted",
+                }
+                trace["generation"] = {
+                    "provider": "deepseek",
+                    "model": self.settings.deepseek_chat_model,
+                    "status": "budget_exceeded",
+                    "budget_reason": budget_reason,
+                    "input_budget": max(0, input_budget),
+                    "fixed_overhead": reserve,
+                    "estimated_input": reserve,
+                    "output_reserve": OUTPUT_RESERVE,
+                    "input_evidence_ids": [],
+                    "external_call_count": 0,
+                    "attempts": [],
+                }
+                draft.notice(
+                    "reading_budget", "模型上下文预算无法容纳原文，请缩小范围或调整模型配置。"
+                )
+                return self._complete(
+                    turn, draft, refs=[_doc_ref(doc) for doc in docs], trace=trace
+                )
+        full_text_scope = bool(
+            window is not None and window.full_text_scope and len(docs) == 1 and location is None
+        )
+        if window is not None:
+            trace["reading"] = window.trace() | {
+                "mode": mode,
                 "input_budget": max(0, input_budget),
                 "prompt_reserve": reserve,
-                "budget": max(0, input_budget - reserve),
+                "visual_evidence_bytes": visual_evidence_bytes,
+                "estimated_message_input": reserve + visual_evidence_bytes + window.estimated_input,
+                "preferred": [key.model_dump() for key in preferred],
+                "full_text_scope": full_text_scope,
+                "location": location.model_dump(mode="json") if location else None,
+            }
+        else:
+            trace["reading"] = {
+                "budget": max(0, input_budget - reserve - visual_evidence_bytes),
                 "estimated_input": 0,
-                "visual_read_status": "not_attempted",
-            }
-            trace["generation"] = {
-                "provider": "deepseek",
-                "model": self.settings.deepseek_chat_model,
-                "status": "budget_exceeded",
-                "budget_reason": budget_reason,
+                "prioritized": True,
+                "full_text_scope": False,
+                "read_ranges": [],
+                "unread_visual_total": unread_visual_total,
+                "visual_read_status": "succeeded",
+                "mode": mode,
                 "input_budget": max(0, input_budget),
-                "fixed_overhead": reserve,
-                "estimated_input": reserve,
-                "output_reserve": OUTPUT_RESERVE,
-                "input_evidence_ids": [],
-                "external_call_count": 0,
-                "attempts": [],
+                "prompt_reserve": reserve,
+                "visual_evidence_bytes": visual_evidence_bytes,
+                "estimated_message_input": reserve + visual_evidence_bytes,
+                "preferred": [key.model_dump() for key in preferred],
+                "location": location.model_dump(mode="json") if location else None,
             }
-            draft.notice("reading_budget", "模型上下文预算无法容纳原文，请缩小范围或调整模型配置。")
-            return self._complete(turn, draft, refs=[_doc_ref(doc) for doc in docs], trace=trace)
-        full_text_scope = window.full_text_scope and len(docs) == 1 and location is None
-        trace["reading"] = window.trace() | {
-            "mode": mode,
-            "input_budget": max(0, input_budget),
-            "prompt_reserve": reserve,
-            "estimated_message_input": reserve + window.estimated_input,
-            "preferred": [key.model_dump() for key in preferred],
-            "full_text_scope": full_text_scope,
-            "location": location.model_dump(mode="json") if location else None,
-        }
-        for segment in window.segments:
-            source = segment.source
-            read = TurnRead(
-                actual_source=_key(source),
-                method=segment.method,
-                status="succeeded",
-                text=segment.text,
+        if pre_visual_items:
+            trace["reading"]["visual_read_status"] = "succeeded"
+        pre_rendered_visuals: dict[
+            tuple[str, int, str], tuple[EvidenceRequest, EvidenceResult, TurnEvidence]
+        ] = {}
+        for v_doc, v_src, v_req, v_resp, v_reads in pre_visual_items:
+            item = draft.add_evidence(v_doc, v_src, v_reads)
+            draft.text(v_reads[0].text, item.evidence_id)
+            pre_rendered_visuals[(v_src.document_id, v_src.version, v_src.source_id)] = (
+                v_req,
+                v_resp,
+                item,
             )
-            item = draft.add_evidence(segment.document, source, [read])
-            item.locator["text_span"] = [segment.start, segment.end]
-            draft.text(segment.text, item.evidence_id)
+        if window is not None:
+            for segment in window.segments:
+                source = segment.source
+                if (source.document_id, source.version, source.source_id) in pre_rendered_visuals:
+                    continue
+                read = TurnRead(
+                    actual_source=_key(source),
+                    method=segment.method,
+                    status="succeeded",
+                    text=segment.text,
+                )
+                item = draft.add_evidence(segment.document, source, [read])
+                item.locator["text_span"] = [segment.start, segment.end]
+                draft.text(segment.text, item.evidence_id)
         refs = [_doc_ref(doc) for doc in docs]
         self._generate_draft(
             turn,
             draft,
             trace,
-            mode,
+            prompt_mode,
             refs=refs,
             question=question,
             context=context,
             coverage={
+                **coverage,
                 "full_text_scope": full_text_scope,
-                "unread_visual_total": len(window.unread_visual),
+                "unread_visual_total": (
+                    max(0, len(window.unread_visual) - len(pre_visual_items))
+                    if window is not None
+                    else unread_visual_total
+                ),
+                "selected_file_scope": (
+                    prompt_mode == "definition_and_experiment" and selected_file_scope
+                ),
             },
         )
-        selected = ranked or [segment.source for segment in window.segments]
+        selected = (
+            ranked
+            or ([segment.source for segment in window.segments] if window is not None else [])
+        )
         media_seeds = list(selected)
         seen_media = {(item.document_id, item.source_id) for item in media_seeds}
         for item in extra_media:
@@ -1434,9 +2441,25 @@ class WorkspaceService:
             if item.document_id in identifiers and key not in seen_media:
                 seen_media.add(key)
                 media_seeds.append(item)
-        if mode == "ask" and media_seeds:
-            media = _media_candidates(media_seeds, snapshot.sources, None)
-            self._attach_images(turn, draft, {doc.document_id: doc for doc in docs}, media)
+        if mode == "ask" and (media_seeds or pre_visual_items):
+            media = _media_candidates(media_seeds, snapshot.sources, None) if media_seeds else []
+            if pre_rendered_visuals:
+                pre_keys = set(pre_rendered_visuals)
+                media = [
+                    *[v_src for _, v_src, _, _, _ in pre_visual_items],
+                    *[
+                        item
+                        for item in media
+                        if (item.document_id, item.version, item.source_id) not in pre_keys
+                    ],
+                ]
+            self._attach_images(
+                turn,
+                draft,
+                docs_by_id,
+                media,
+                pre_rendered=pre_rendered_visuals,
+            )
         return self._complete(turn, draft, refs=refs, trace=trace)
 
     def _generate_draft(
@@ -1485,8 +2508,25 @@ class WorkspaceService:
             draft.blocks = [block for block in draft.blocks if block["type"] != "text"]
             for statement in result.statements:
                 draft.text(statement.text, *statement.citations)
+            excluded_experiment = (
+                coverage
+                and coverage.get("assess_experiment_coverage")
+                and result.trace.get("experiment_missing") is True
+                and result.missing
+            )
             if result.missing:
-                draft.notice("missing_evidence", result.missing)
+                missing = result.missing
+                if coverage and coverage.get("selected_file_scope") and not excluded_experiment:
+                    missing = f"本轮仅查所选文件。{missing}"
+                draft.notice("missing_evidence", missing)
+            if excluded_experiment:
+                draft.notice(
+                    "experiment_outside_scope",
+                    "本轮选定范围已改变，上一轮引用的实验依据已超出当前所选文件。"
+                    "本轮能核对的内容以上述当前文件的回答和引用为准。"
+                    "如需核对该实验，请在资料目录重新选择实验文件，"
+                    "或切回课程全部资料后再提问。",
+                )
         else:
             draft.notice("excerpt_fallback", "回答模型未能生成可核对的答案。本条保留已读原文摘录。")
 
@@ -1569,7 +2609,9 @@ class WorkspaceService:
         documents: dict[str, SnapshotDocument],
         node: CatalogNode | None,
         location: StructureLocation | None,
-    ) -> Turn:
+        *,
+        allow_retrieve_fallback: bool = False,
+    ) -> Turn | None:
         draft = Draft(session.session_id)
         names = _object_file_names(text, documents.values())
         if names is None:
@@ -1626,7 +2668,17 @@ class WorkspaceService:
                 ):
                     region_rects[key] = region.target_rect
         choices = object_choices(target, sources, focus=focus, region_rects=region_rects)
-        if target.kind == "table" and len(choices) > 1:
+        if target.kind == "table":
+            choices = _resolve_table_choices(
+                text,
+                target,
+                choices,
+                sources,
+                narrowed.sources,
+                focus=focus,
+                region_rects=region_rects,
+            )
+        elif target.kind in {"caption", "formula"} and len(choices) > 1:
             choices = _disambiguate_table_choices(text, choices, narrowed.sources)
         trace: dict[str, Any] = {
             "route": "target_object",
@@ -1635,17 +2687,41 @@ class WorkspaceService:
             "external_call_count": 0,
         }
         if len(choices) != 1:
+            distinct_page_groups = {_page_group_key(choice) for choice in choices}
+            if allow_retrieve_fallback and (not choices or len(distinct_page_groups) > 1):
+                return None
             if choices and target.kind == "table":
                 note = _format_table_ambiguity(choices, docs)
             elif choices:
-                note = "有多个可能的对象，请指定原件位置或图序。"
+                note = "有多个可能的对象，请指定原件位置或从下方候选中选择。"
             else:
                 note = "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。"
+            if len(choices) > 1 and not _VERSION_PLURAL_OBJECT.search(text):
+                catalog = self._catalog(session.session_id)
+                options = build_object_clarification_options(
+                    choices,
+                    docs,
+                    catalog,
+                    is_displayable_fn=_can_display,
+                    base_label_fn=_label,
+                    doc_ref_fn=_doc_ref,
+                )
+                if len(options) >= 2:
+                    trace["clarification_reason"] = "object_ambiguous"
+                    return build_clarification(
+                        self,
+                        turn,
+                        note,
+                        options,
+                        refs=refs,
+                        notice_code="object_ambiguous",
+                        trace=trace,
+                    )
             draft.notice("object_ambiguous" if choices else "object_not_found", note)
             return self._complete(turn, draft, refs=refs, trace=trace)
         source = choices[0]
         trace["selected_source"] = _key(source).model_dump()
-        if target.kind == "table":
+        if target.kind in {"table", "caption", "formula"}:
             self._render_table_crop(turn, draft, docs, source)
         else:
             error = self._read_selected_image(
@@ -1654,6 +2730,83 @@ class WorkspaceService:
             if error:
                 return self._finish_invalid_read(turn, error, trace)
         return self._complete(turn, draft, refs=refs, trace=trace)
+
+    def _answer_selected_text_object(
+        self, turn: Turn, session: Session, node: CatalogNode, question: str
+    ) -> Turn:
+        if node.source is None or not _in_scope(session, node.document):
+            raise inaccessible()
+        docs = {node.document.document_id: node.document}
+        refs = [_doc_ref(node.document)]
+        trace: dict[str, Any] = {
+            "route": "target_object",
+            "effective_scope": _effective(docs),
+            "selected_source": node.key().model_dump(),
+            "external_call_count": 0,
+        }
+        draft = Draft(session.session_id)
+        self._render_table_crop(turn, draft, docs, node.source)
+        return self._complete(
+            turn,
+            draft,
+            refs=refs,
+            resolution={
+                "method": "current_choice",
+                "resolution": "current_choice",
+                "actual_source": node.key().model_dump(),
+            },
+            trace=trace,
+        )
+
+    def _clarify_focused_cell_outputs(
+        self,
+        turn: Turn,
+        session: Session,
+        cell_node: CatalogNode,
+        refs: list[dict[str, Any]],
+        *,
+        candidates: Sequence[SnapshotSource],
+    ) -> Turn | None:
+        if cell_node.source is None or cell_node.source.kind != "cell":
+            return None
+        outputs = [
+            source
+            for source in candidates
+            if source.document_id == cell_node.document.document_id
+            and source.parent_id == cell_node.source.source_id
+            and source.kind == "notebook_output"
+        ]
+        if len(outputs) < 2:
+            return None
+        ordered = sorted(
+            outputs, key=lambda s: (s.locator.get("output_index", s.ordinal), s.ordinal)
+        )
+        docs = {cell_node.document.document_id: cell_node.document}
+        catalog = self._catalog(session.session_id)
+        options = build_object_clarification_options(
+            ordered,
+            docs,
+            catalog,
+            is_displayable_fn=_can_display,
+            base_label_fn=_label,
+            doc_ref_fn=_doc_ref,
+        )
+        if len(options) < 2:
+            return None
+        return build_clarification(
+            self,
+            turn,
+            "当前聚焦 Cell 包含多个保存输出，请选择你要读取的具体输出。",
+            options,
+            refs=refs,
+            trace={
+                "route": "target_object",
+                "clarification_reason": "object_ambiguous",
+                "effective_scope": _effective(docs),
+                "object_candidates": [_key(src).model_dump() for src in ordered],
+                "external_call_count": 0,
+            },
+        )
 
     def _render_table_crop(
         self,
@@ -1994,7 +3147,7 @@ class WorkspaceService:
         consumed = 0
         failures: dict[tuple[str, str], str] = {}
         for source in ranked:
-            if not source.text.strip():
+            if not readable_source_text(source).strip():
                 continue
             if consumed == limit:
                 break
@@ -2008,13 +3161,14 @@ class WorkspaceService:
                 or raw.publication_epoch != doc.publication_epoch
             ):
                 raise WorkspaceError("stale_reference")
-            if raw.status != "available" or raw.source is None or not raw.source.text.strip():
+            raw_text = readable_source_text(raw.source).strip() if raw.source is not None else ""
+            if raw.status != "available" or raw.source is None or not raw_text:
                 failures[(source.document_id, source.source_id)] = (
                     raw.status if raw.status != "available" else "native_text_unavailable"
                 )
                 continue
             consumed += 1
-            text = raw.source.text.strip()
+            text = raw_text
             clipped = len(text) > _TEXT_LIMIT
             readable = text[:_TEXT_LIMIT] + ("…" if clipped else "")
             read = TurnRead(
@@ -2040,21 +3194,83 @@ class WorkspaceService:
         draft: Draft,
         documents: dict[str, SnapshotDocument],
         chosen: list[SnapshotSource],
+        *,
+        pre_rendered: Mapping[
+            tuple[str, int, str], tuple[EvidenceRequest, EvidenceResult, TurnEvidence]
+        ]
+        | None = None,
+        allow_child_text_read: bool = False,
+        eligible_child_keys: set[tuple[str, int, str]] | None = None,
     ) -> dict[str, int]:
         attempted = 0
         failed = 0
+        pre_map = pre_rendered or {}
+        existing_by_key: dict[tuple[str, int, str], TurnEvidence] = {}
+        for existing_item in draft.sources.values():
+            src_key = existing_item.revision.source
+            existing_by_key[(src_key.document_id, src_key.version, src_key.source_id)] = (
+                existing_item
+            )
+        child_eligible = eligible_child_keys or set()
+        post_read_done = False
+
         for source in chosen[:_IMAGE_ATTEMPT_LIMIT]:
             if len(draft.images) >= _IMAGE_LIMIT:
                 break
             if not self.store.active(turn):
                 raise WorkspaceError("interrupted")
             doc = documents[source.document_id]
-            req = self._render_request(doc, source)
-            image = self.evidence.render_current(req)
-            if image.status in {"stale_reference", "not_accessible"}:
-                raise WorkspaceError(image.status)
-            item = draft.add_evidence(doc, source, [])
+            s_key = (source.document_id, source.version, source.source_id)
             label = f"{doc.file_name} · v{doc.version} · {_label(source)}"
+            if s_key in pre_map:
+                req, image, item = pre_map[s_key]
+            else:
+                req = self._render_request(doc, source)
+                image = self.evidence.render_current(req)
+                if image.status in {"stale_reference", "not_accessible"}:
+                    raise WorkspaceError(image.status)
+                item = existing_by_key.get(s_key)
+                if (
+                    item is None
+                    and image.status == "available"
+                    and image.display is not None
+                    and allow_child_text_read
+                    and not post_read_done
+                    and source.kind == "page_object"
+                    and source.locator.get("object_type") in {"formula", "caption", "table"}
+                    and s_key in child_eligible
+                    and readable_source_text(source).strip()
+                ):
+                    raw = self.library.store.read_source(_key(source), course_ids=[doc.course_id])
+                    if (
+                        not raw.is_current
+                        or raw.content_sha256 != doc.content_sha256
+                        or raw.publication_epoch != doc.publication_epoch
+                    ):
+                        raise WorkspaceError("stale_reference")
+                    raw_text = (
+                        readable_source_text(raw.source).strip() if raw.source is not None else ""
+                    )
+                    if raw.status == "available" and raw.source is not None and raw_text:
+                        clipped = len(raw_text) > _TEXT_LIMIT
+                        readable = raw_text[:_TEXT_LIMIT] + ("…" if clipped else "")
+                        read = TurnRead(
+                            actual_source=_key(source),
+                            method=(
+                                "native_table"
+                                if raw.source.locator.get("object_type") == "table"
+                                else "native_text"
+                            ),
+                            status="partial" if clipped else "succeeded",
+                            text=readable,
+                            warnings=["excerpt_truncated"] if clipped else [],
+                        )
+                        item = draft.add_evidence(doc, source, [read])
+                        draft.text(f"{label}\n{readable}", item.evidence_id)
+                        existing_by_key[s_key] = item
+                        post_read_done = True
+                if item is None:
+                    item = draft.add_evidence(doc, source, [])
             previous = len(draft.images)
             draft.add_image(item, image, req, label)
             attempted += 1
@@ -2100,6 +3316,28 @@ class WorkspaceService:
         failed: bool = False,
     ) -> Turn:
         refs, historical = refs or [], historical or []
+        answer = draft.answer()
+        if not failed and draft.sources:
+            from app.rag.workspace_kg import project_answer_concepts
+
+            effective_courses = tuple(
+                dict.fromkeys(
+                    item.revision.course_id
+                    for item in draft.sources.values()
+                    if item.revision.course_id in self.allowed_courses
+                )
+            )
+            if effective_courses:
+                snapshot = self.snapshots.read(SnapshotRequest(effective_courses))
+                cited = [item.revision.source for item in draft.sources.values()]
+                related = project_answer_concepts(
+                    self.kg_store,
+                    snapshot,
+                    effective_courses=effective_courses,
+                    cited_sources=cited,
+                )
+                if related:
+                    answer["related_concepts"] = related
         outcome = {"dependencies": [*refs, *historical], "resolution": resolution, "trace": trace}
         if failed:
             outcome.update({"error": "vision_failed", "retryable": True})
@@ -2107,7 +3345,7 @@ class WorkspaceService:
             turn,
             "failed" if failed else "completed",
             outcome,
-            draft.answer(),
+            answer,
             draft.images,
             refs,
             self.allowed_courses,
@@ -2123,16 +3361,12 @@ class WorkspaceService:
         *,
         historical: bool = False,
     ) -> Turn:
-        draft = Draft(turn.session_id)
-        draft.notice("clarification", text)
-        return self.store.finish(
+        return build_clarification(
+            self,
             turn,
-            "clarification",
-            {"dependencies": refs, "options": options},
-            draft.answer(),
-            (),
-            () if historical else refs,
-            self.allowed_courses,
+            text,
+            options,
+            refs=() if historical else refs,
             historical_refs=refs if historical else (),
         )
 
@@ -2177,8 +3411,30 @@ class WorkspaceService:
         )
 
     @staticmethod
-    def _project_message(message: dict[str, Any], access: bool) -> dict[str, Any]:
+    def _project_message(
+        message: dict[str, Any],
+        access: bool,
+        *,
+        active_kg_keys: set[tuple[str, str]] | None = None,
+    ) -> dict[str, Any]:
         if access or message["role"] == "user":
+            if (
+                active_kg_keys is not None
+                and message.get("role") == "assistant"
+                and isinstance(message.get("related_concepts"), list)
+                and message["related_concepts"]
+            ):
+                return {
+                    **message,
+                    "related_concepts": [
+                        {
+                            **item,
+                            "is_stale": (item.get("course_id"), item.get("concept_key"))
+                            not in active_kg_keys,
+                        }
+                        for item in message["related_concepts"]
+                    ],
+                }
             return message
         return {
             **message,
@@ -2191,15 +3447,13 @@ class WorkspaceService:
             ],
             "sources": {},
             "visible_display_ids": [],
+            "related_concepts": [],
         }
 
     @staticmethod
     def _turn_entry(turn: Turn, access: bool) -> dict[str, Any]:
         outcome = turn.outcome if access else {"error": "not_accessible"}
-        options = [
-            {key: item[key] for key in ("option_id", "label", "kind")}
-            for item in outcome.get("options", [])
-        ]
+        options = project_public_options(outcome.get("options", []))
         return {
             "turn_id": turn.turn_id,
             "client_turn_id": turn.request.client_turn_id,
@@ -2314,7 +3568,7 @@ def _tree(
             "next_id": None,
             "children": [],
             "locator": _positions(source.locator) if source else {},
-            "text": source.text.strip()[:800] if source else "",
+            "text": readable_source_text(source).strip()[:800] if source else "",
             "has_media": _can_display(source) if source else False,
         }
         nodes[node_id] = CatalogNode(doc, value, source)
@@ -2453,6 +3707,53 @@ def _object_file_names(text: str, documents: Iterable[SnapshotDocument]) -> list
     return _explicit_filenames(text) or list(dict.fromkeys(names))
 
 
+def _prioritize_child_text_objects(ranked: list[SnapshotSource]) -> list[SnapshotSource]:
+    """Promote exact hit readable child objects ahead of their own parent page in fallback reads."""
+    if len(ranked) <= 1:
+        return list(ranked)
+    promoted_parents = {
+        (src.document_id, src.version, src.parent_id)
+        for src in ranked
+        if src.kind == "page_object"
+        and src.parent_id
+        and src.locator.get("object_type") in {"formula", "caption", "table"}
+        and bool(readable_source_text(src).strip())
+    }
+    if not promoted_parents:
+        return list(ranked)
+    children: list[SnapshotSource] = []
+    others: list[SnapshotSource] = []
+    for src in ranked:
+        if (
+            src.kind == "page_object"
+            and src.parent_id
+            and src.locator.get("object_type") in {"formula", "caption", "table"}
+            and bool(readable_source_text(src).strip())
+        ):
+            children.append(src)
+        else:
+            others.append(src)
+    ordered: list[SnapshotSource] = []
+    child_by_parent: dict[tuple[str, int, str], list[SnapshotSource]] = {}
+    for child in children:
+        pkey = (child.document_id, child.version, child.parent_id or "")
+        child_by_parent.setdefault(pkey, []).append(child)
+    placed: set[tuple[str, int, str]] = set()
+    for src in others:
+        key = (src.document_id, src.version, src.source_id)
+        for child in child_by_parent.get(key, ()):
+            ckey = (child.document_id, child.version, child.source_id)
+            if ckey not in placed:
+                placed.add(ckey)
+                ordered.append(child)
+        ordered.append(src)
+    for child in children:
+        ckey = (child.document_id, child.version, child.source_id)
+        if ckey not in placed:
+            ordered.append(child)
+    return ordered
+
+
 def _media_candidates(
     ranked: list[SnapshotSource],
     available: Sequence[SnapshotSource],
@@ -2507,6 +3808,8 @@ def _label(source: SnapshotSource) -> str:
                 "chart": "图表",
                 "picture": "图片",
                 "image": "图片",
+                "caption": "图注",
+                "formula": "公式",
                 "text": "文本框",
             }.get(object_type, "页内对象")
             return f"{kind} · {label}" if label else kind
@@ -2685,6 +3988,149 @@ def _number(word: str) -> int:
 _TABLE_STOPWORDS = re.compile(
     r"打开|查看|展示|显示|预览|核对|请|帮我|包含|含有|关于|里面|中的|里的|那张|这张|原表|表格|表|的"
 )
+_EXPLICIT_TABLE_LABEL = re.compile(
+    r"\btable\s*#?\s*(?P<en>[1-9][0-9]{0,3})(?![0-9.])"
+    r"|(?<![第图])表\s*#?\s*(?P<zh>[1-9][0-9]{0,3})(?![0-9.])",
+    re.IGNORECASE,
+)
+_PAGE_TABLE_CAPTION = re.compile(
+    r"(?m)^\s*(?:table|表)\s*#?\s*([1-9][0-9]{0,3})\s*[:：.\-]",
+    re.IGNORECASE,
+)
+_NEXT_CAPTION_BOUNDARY = re.compile(
+    r"(?m)^\s*(?:table|figure|fig\.?|表|图)\s*#?\s*[1-9][0-9]{0,3}\s*[:：.\-]",
+    re.IGNORECASE,
+)
+
+
+def _resolve_table_choices(
+    question: str,
+    target: ObjectIntent,
+    initial_choices: list[SnapshotSource],
+    scoped_sources: Sequence[SnapshotSource],
+    all_sources: Sequence[SnapshotSource],
+    *,
+    focus: SnapshotSource | None,
+    region_rects: Mapping[tuple[str, int, str], tuple[float, float, float, float]],
+) -> list[SnapshotSource]:
+    """Resolve global Table M / 表 M labels on multi-table pages before falling back."""
+    label_nums = {
+        int(match["en"] or match["zh"]) for match in _EXPLICIT_TABLE_LABEL.finditer(question)
+    }
+    label_num = next(iter(label_nums)) if len(label_nums) == 1 else None
+    if label_num is None:
+        if len(initial_choices) > 1:
+            return _disambiguate_table_choices(question, initial_choices, all_sources)
+        return initial_choices
+
+    page_tables = object_choices(
+        ObjectIntent(kind="table", direction=target.direction),
+        scoped_sources,
+        focus=focus,
+        region_rects=region_rects,
+    )
+    if not page_tables:
+        return initial_choices
+
+    # Priority 1a: Explicit "Table M" / "表 M" directly inside the table title or cell text.
+    label_re = re.compile(rf"(?:\btable|表)\s*#?\s*{label_num}(?![0-9.])", re.IGNORECASE)
+    direct = [
+        tbl
+        for tbl in page_tables
+        if label_re.search(tbl.title or "") or label_re.search(readable_source_text(tbl))
+    ]
+    if len(direct) == 1:
+        return direct
+
+    # Priority 1b: Map Table K: captions on the same parent page to the page's tables.
+    parent_pages = {
+        (src.document_id, src.version, src.source_id): src
+        for src in all_sources
+        if src.kind in _BASE_KINDS
+    }
+    by_parent: dict[tuple[str, int, str], list[SnapshotSource]] = {}
+    for tbl in page_tables:
+        if tbl.parent_id:
+            by_parent.setdefault((tbl.document_id, tbl.version, tbl.parent_id), []).append(tbl)
+
+    caption_matches: list[SnapshotSource] = []
+    for parent_key, group in by_parent.items():
+        page_src = parent_pages.get(parent_key)
+        if page_src is None or not page_src.text:
+            continue
+        ordered_group = sorted(
+            group,
+            key=lambda s: (
+                s.locator["bbox"][1]
+                if isinstance(s.locator.get("bbox"), list) and len(s.locator["bbox"]) == 4
+                else 0.0,
+                s.ordinal,
+            ),
+        )
+        seen_nums: list[int] = []
+        spans: dict[int, tuple[int, int]] = {}
+        for m in _PAGE_TABLE_CAPTION.finditer(page_src.text):
+            num = int(m.group(1))
+            if num not in spans:
+                seen_nums.append(num)
+                spans[num] = (m.start(), m.end())
+        if label_num not in spans:
+            continue
+        if len(seen_nums) == len(ordered_group):
+            caption_matches.append(ordered_group[seen_nums.index(label_num)])
+            continue
+        # Score tables against the page text window immediately around "Table M:".
+        start_pos, end_pos = spans[label_num]
+        next_cap = _NEXT_CAPTION_BOUNDARY.search(page_src.text, end_pos)
+        window_end = min(next_cap.start() if next_cap else len(page_src.text), end_pos + 700)
+        window_text = page_src.text[max(0, start_pos - 220) : window_end].casefold()
+        scored = []
+        for tbl in ordered_group:
+            header_tokens = [
+                tok.casefold()
+                for tok in re.findall(r"[A-Za-z0-9_]{2,}|[\u3400-\u9fff]{2,}", tbl.title or "")
+            ]
+            score = sum(1 for tok in dict.fromkeys(header_tokens) if tok in window_text)
+            scored.append((score, tbl))
+        best = max(score for score, _ in scored)
+        if best > 0:
+            winners = [tbl for score, tbl in scored if score == best]
+            if len(winners) == 1:
+                caption_matches.append(winners[0])
+    if len(caption_matches) == 1:
+        return caption_matches
+
+    # Priority 2: Document-global table ordinal across all pages of the same document.
+    global_matches: list[SnapshotSource] = []
+    page_table_ids = {(t.document_id, t.version, t.source_id) for t in page_tables}
+    for doc_ver in dict.fromkeys((t.document_id, t.version) for t in page_tables):
+        doc_tables = sorted(
+            (
+                src
+                for src in all_sources
+                if (src.document_id, src.version) == doc_ver
+                and src.kind == "page_object"
+                and src.locator.get("object_type") == "table"
+            ),
+            key=lambda s: (
+                s.locator.get("page") if isinstance(s.locator.get("page"), int) else 0,
+                s.ordinal,
+            ),
+        )
+        if 1 <= label_num <= len(doc_tables):
+            cand = doc_tables[label_num - 1]
+            if (cand.document_id, cand.version, cand.source_id) in page_table_ids:
+                global_matches.append(cand)
+    if len(global_matches) == 1:
+        return global_matches
+
+    # Priority 3: Keep valid local match or disambiguate/clarify over page_tables when out-of-range.
+    if initial_choices:
+        if len(initial_choices) > 1:
+            return _disambiguate_table_choices(question, initial_choices, all_sources)
+        return initial_choices
+    disambiguated = _disambiguate_table_choices(question, page_tables, all_sources)
+    return disambiguated if disambiguated else page_tables
 
 
 def _is_table_evidence(item: Mapping[str, Any]) -> bool:
@@ -2702,8 +4148,13 @@ def _disambiguate_table_choices(
     choices: list[SnapshotSource],
     all_sources: Sequence[SnapshotSource],
 ) -> list[SnapshotSource]:
-    cleaned = _TABLE_STOPWORDS.sub(" ", question)
-    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9][A-Za-z0-9._-]{1,}", cleaned)]
+    cleaned = re.sub(
+        r"\b(?:the|for|and|what|where|which|who|how|is|are|in|on|of|to|its|with|about|page|pdf|formula|equation|caption|figure|fig)\b",
+        " ",
+        _TABLE_STOPWORDS.sub(" ", question),
+        flags=re.IGNORECASE,
+    )
+    latin_terms = [tok.casefold() for tok in re.findall(r"[A-Za-z0-9_][A-Za-z0-9._-]{1,}", cleaned)]
     cjk_terms = [tok for tok in re.findall(r"[\u3400-\u9fff]{2,}", cleaned)]
     terms = [*latin_terms, *cjk_terms]
     if not terms:
@@ -2713,9 +4164,21 @@ def _disambiguate_table_choices(
         for src in all_sources
         if src.kind in _BASE_KINDS
     }
+    direct_scored = [
+        (
+            sum(1 for term in terms if term in readable_source_text(choice).casefold()),
+            choice,
+        )
+        for choice in choices
+    ]
+    direct_best = max(score for score, _ in direct_scored)
+    if direct_best > 0:
+        winners = [choice for score, choice in direct_scored if score == direct_best]
+        if len(winners) == 1:
+            return winners
     scored: list[tuple[int, SnapshotSource]] = []
     for choice in choices:
-        haystack = choice.text.casefold()
+        haystack = readable_source_text(choice).casefold()
         if choice.parent_id:
             haystack += "\n" + parent_text.get(
                 (choice.document_id, choice.version, choice.parent_id), ""

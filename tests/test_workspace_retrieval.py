@@ -776,3 +776,65 @@ def test_g23_rewriter_records_constraint_reason_and_falls_back_cleanly(settings)
     assert result.trace["status"] == "constraints_unverified"
     assert result.trace["constraint_reason"] == "numeric_or_unit_mismatch"
     assert result.trace["total_tokens"] == 42
+
+
+def test_rejected_rewrite_reserves_scoped_saved_output_within_candidate_cap(settings, papers):
+    library, _, store = papers
+    outputs = {}
+    for course in ("main", "elsewhere"):
+        name = "Run.ipynb"
+        path = library.course_root / course / name
+        raw = f"notebook for {course}".encode()
+        plan = library.store.prepare(course, path)
+        outputs[course] = library.store.publish(
+            plan,
+            ParsedSource(
+                title=name,
+                sources=[
+                    SourceDraft(
+                        source_id="cell:0", kind="cell", ordinal=0, title="Run",
+                        text="print(measured)", locator={"format": "ipynb", "cell_index": 0},
+                    ),
+                    SourceDraft(
+                        source_id="cell:0:output:0", kind="notebook_output", ordinal=1,
+                        parent_id="cell:0", title="Saved output", text="Twelve completions.",
+                        locator={"format": "ipynb", "cell_index": 0, "output_index": 0},
+                    ),
+                ],
+            ),
+            original=raw,
+            content_sha256=hashlib.sha256(raw).hexdigest(),
+            document_format="ipynb",
+        )
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(
+            None, {"status": "constraints_unverified", "constraint_reason": "vague_numeral",
+                   "external_call_count": 1},
+        )
+
+    snapshot = store.read(SnapshotRequest(("main", "elsewhere")))
+    for file_names, expected in (([], True), (["Guide.pdf"], False)):
+        request = StructureSearchRequest(
+            query="vibration calibration 怎么定义？实验处理十一个输入时完成了几次？",
+            top_k=2,
+            scope={"course_ids": ["main", "elsewhere"], "file_names": file_names},
+        )
+        plan = plan_retrieval(
+            settings, StructureSearcher(store), snapshot, request, _COURSES,
+            strategy="bilingual", budget=2, rewrite=reject, supplement_saved_outputs=True,
+        )
+        assert plan.trace["rewrite"]["constraint_reason"] == "vague_numeral"
+        assert plan.trace["external_call_count"] == 1
+        assert plan.trace["alternate_query"] is None
+        assert len(plan.trace["candidate_pool"]) <= request.top_k
+        assert len(plan.selected) <= request.top_k
+        result = [item for item in plan.selected if item.kind == "notebook_output"]
+        assert bool(result) is expected
+        if expected:
+            assert plan.trace["saved_output_fallback"]["status"] == "reserved"
+            assert len(plan.trace["saved_output_fallback"]["displaced"]) == 1
+            assert result[0].source.document_id == outputs["main"].document_id
+        else:
+            assert plan.trace["saved_output_fallback"]["added"] == []

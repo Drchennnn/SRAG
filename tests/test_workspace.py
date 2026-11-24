@@ -794,6 +794,61 @@ def test_normal_web_question_persists_only_grounded_final_citations(system, tmp_
     assert narrowed["turn"]["trace"]["missing"] == ["experiment"]
 
 
+def test_definition_and_experiment_generation_keeps_separate_scoped_citations(
+    system, tmp_path, monkeypatch
+):
+    from app.clients.deepseek import DeepSeekClient
+
+    settings, _, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-test-marker"
+    session = _create(client)
+    question, files = _publish_supplement_case(client, session, tmp_path)
+    lecture = files["lecture"][0].name
+    lab = files["lab"][0].name
+    question += "请核对 SignalTrialA7。"
+
+    async def answer(self, messages, **kwargs):
+        request = json.loads(messages[-1]["content"])
+        assert request["mode"] == "definition_and_experiment"
+        assert "分别引用直接支撑各自结论的原件" in messages[0]["content"]
+        evidence = {item["file_name"]: item["id"] for item in request["evidence"]}
+        if lecture in request["question"]:
+            assert set(evidence) == {lecture}
+        else:
+            assert {lecture, lab} <= evidence.keys()
+        statements = [{"text": "定义依据", "citations": [evidence[lecture]]}]
+        if lab in evidence:
+            statements.append({"text": "实验依据", "citations": [evidence[lab]]})
+        return {
+            "content": json.dumps({
+                "statements": statements,
+                "missing": "" if lab in evidence else "缺少实验原件",
+            })
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", answer)
+    for text, expected_files in (
+        (question, [lecture, lab]),
+        (f"{question} 只查 {lecture}", [lecture]),
+    ):
+        result = _ask(client, session, text)
+        trace = result["turn"]["trace"]
+        assert trace["route"] == "generated_answer"
+        expected_status = "succeeded" if lab in expected_files else "partial"
+        assert trace["generation"]["status"] == expected_status
+        assert trace["generation"]["estimated_input"] <= trace["generation"]["input_budget"]
+        message = result["message"]
+        originals = [
+            client.get(session + f"/messages/{message['message_id']}/evidence/{key}")
+            for block in message["blocks"]
+            for key in block.get("citations", [])
+        ]
+        assert [original.status_code for original in originals] == [200] * len(expected_files)
+        assert [original.json()["file_name"] for original in originals] == expected_files
+        assert all(not original.json()["has_preview"] for original in originals)
+
+
 def test_supplement_respects_same_name_clarification_and_explicit_location(system, tmp_path):
     _, _, _, client = system
     session = _create(client, course_ids=[_COURSE, "other"])
@@ -1423,3 +1478,386 @@ def test_g22_on_demand_bilingual_controls_and_fallback(system, tmp_path, monkeyp
     assert fallback["turn"]["trace"]["retrieval"]["strategy"] == "bilingual"
     assert fallback["turn"]["trace"]["retrieval"]["rewrite"]["status"] == "provider_error"
     assert fallback["turn"]["trace"]["generation"]["status"] == "succeeded"
+
+
+def test_scope_explanation_uses_previous_citation_identity_without_reusing_its_text(
+    system, monkeypatch
+):
+    from app.clients.deepseek import DeepSeekClient
+    from app.rag.workspace_retrieval import RewriteResult
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-test-marker"
+    fixture = Path("docs/G/G28-scope")
+    session = _create(client)
+    guide = _upload(client, session, fixture / "HarborGate-Guide.pdf")["document_id"]
+    experiment = _upload(client, session, fixture / "Dock-Replay.ipynb")["document_id"]
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(None, {"status": "constraints_unverified", "external_call_count": 0})
+
+    monkeypatch.setattr(service, "rewriter", reject)
+    assessments = []
+
+    async def answer(self, messages, **kwargs):
+        wire = json.loads(messages[1]["content"])
+        evidence = {item["source"]["document_id"]: item["id"] for item in wire["evidence"]}
+        assessed = "布尔字段 experiment_missing" in messages[0]["content"]
+        assessments.append(assessed)
+        have_output = experiment in evidence
+        has_current_result = "几次开启" in wire["question"]
+        model_response = {
+            "statements": [
+                {"text": "连续 3 个采样高于 4 V 才开启。", "citations": [evidence[guide]]}
+            ],
+            "missing": "",
+        }
+        if have_output:
+            model_response["statements"].append(
+                {"text": "保存输出记录平均延迟 3.4 ms。", "citations": [evidence[experiment]]}
+            )
+        else:
+            assert "3.4 ms" not in messages[1]["content"]
+            assert not wire["previous_context"]
+            if has_current_result:
+                model_response["statements"].append({"text": "记录了 6 次开启。",
+                                                     "citations": [evidence[guide]]})
+            else:
+                model_response["missing"] = "当前文件未测得分发延迟。"
+        if assessed:
+            model_response["experiment_missing"] = bool(model_response["missing"])
+        return {"content": json.dumps(model_response)}
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", answer)
+    question = "HarborGate 的开启条件怎么定义？配套实验的平均分发延迟是多少毫秒？"
+    assert "3.4 ms" in str(_ask(client, session, question, client_id="wide")["message"]["blocks"])
+
+    def change_scope(document_ids, revision):
+        response = client.patch(
+            session + "/scope",
+            json={
+                "course_ids": [_COURSE], "document_ids": document_ids, "scope_revision": revision,
+            },
+        )
+        assert response.status_code == 200, response.text
+        return response.json()["scope_revision"]
+
+    original_historical_source = service._historical_source
+
+    def no_outside_read(ref, key):
+        assert key.document_id != experiment
+        return original_historical_source(ref, key)
+
+    revision = change_scope([guide], 1)
+    monkeypatch.setattr(service, "_historical_source", no_outside_read)
+    narrowed = _ask(client, session, question, revision, client_id="narrowed")
+    assert {block.get("code") for block in narrowed["message"]["blocks"]} >= {
+        "experiment_outside_scope", "missing_evidence",
+    }
+    assert "3.4 ms" not in str(narrowed["message"])
+    assert {item["revision"]["source"]["document_id"]
+            for item in narrowed["message"]["sources"].values()} == {guide}
+    steady = _ask(client, session, question, revision, client_id="same")
+    assert "experiment_outside_scope" not in str(steady["message"]["blocks"])
+
+    revision = change_scope([], revision)
+    restored = _ask(client, session, question, revision, client_id="restored")
+    assert "experiment_outside_scope" not in str(restored["message"]["blocks"])
+    assert "3.4 ms" in str(restored["message"]["blocks"])
+
+    revision = change_scope([guide], revision)
+    sufficient = _ask(
+        client, session, "HarborGate 怎么定义？刚才干燥回放实验记录了几次开启？",
+        revision, client_id="sufficient",
+    )
+    assert "experiment_outside_scope" not in str(sufficient["message"]["blocks"])
+    assert assessments == [False, True, False, False, True]
+    assert sufficient["turn"]["trace"]["generation"]["experiment_missing"] is False
+
+    revision = change_scope([], revision)
+    _ask(client, session, question, revision, client_id="wide-again")
+    revision = change_scope([guide], revision)
+    unrelated = _ask(
+        client, session, "HarborGate 怎么定义？耐腐蚀实验使用了哪种盐水？",
+        revision, client_id="unrelated",
+    )
+    assert "experiment_outside_scope" not in str(unrelated["message"]["blocks"])
+    assert assessments[-2:] == [False, False]
+
+    other = _create(client, course_ids=[_COURSE], document_ids=[guide])
+    fresh = _ask(client, other, question)
+    assert "experiment_outside_scope" not in str(fresh["message"]["blocks"])
+    assert assessments[-1] is False
+
+
+def test_changed_scope_resolves_unique_pinned_definition_topic(system, tmp_path, monkeypatch):
+    import nbformat
+
+    from app.clients.deepseek import DeepSeekClient
+    from app.rag.workspace_retrieval import RewriteResult
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-topic-probe"
+    session = _create(client)
+
+    guide = tmp_path / "Cue-Guide.ipynb"
+    lab = tmp_path / "Replay-Log.ipynb"
+    other = tmp_path / "Other-Guide.ipynb"
+    text = "Acceptance Grid: both readings must exceed 23. Quiet Window: mute after an alert."
+    nbformat.write(nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text)]), guide)
+    nbformat.write(nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text)]), other)
+    cell = nbformat.v4.new_code_cell(
+        "print('Lab replay latency: 19 ms')",
+        outputs=[nbformat.v4.new_output(output_type="stream", text="Lab replay latency: 19 ms")],
+    )
+    nbformat.write(nbformat.v4.new_notebook(cells=[cell]), lab)
+    guide_id = _upload(client, session, guide)["document_id"]
+    lab_id = _upload(client, session, lab)["document_id"]
+    other_id = _upload(client, session, other)["document_id"]
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(None, {"status": "constraints_unverified", "external_call_count": 0})
+
+    monkeypatch.setattr(service, "rewriter", reject)
+    calls = []
+
+    async def respond(self, messages, **kwargs):
+        wire = json.loads(messages[-1]["content"])
+        calls.append(wire)
+        reads = {item["source"]["document_id"]: item["id"] for item in wire["evidence"]}
+        # The previously selected guide is the source used when the course is open.
+        guide_key = reads.get(guide_id, reads.get(other_id))
+        statements = [{"text": "当前讲义的定义。", "citations": [guide_key]}]
+        missing = "本轮没有实验读数。"
+        if lab_id in reads:
+            statements.append({"text": "旧实验数值 19 ms。", "citations": [reads[lab_id]]})
+            missing = ""
+        answer = {"statements": statements, "missing": missing}
+        if "布尔字段 experiment_missing" in messages[0]["content"]:
+            answer["experiment_missing"] = bool(missing)
+        return {"content": json.dumps(answer)}
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", respond)
+    opened = "讲义怎么定义 Acceptance Grid？配套回放实验的延迟是多少？"
+    follow = "按刚才的问题，那条规则怎么定义？刚才回放实验的延迟是多少？"
+    revision = 1
+
+    def ask(text):
+        return _ask(client, session, text, revision, client_id=f"turn-{len(calls)}-{revision}")
+
+    def scope(ids):
+        nonlocal revision
+        response = client.patch(
+            session + "/scope",
+            json={"course_ids": [_COURSE], "document_ids": ids, "scope_revision": revision},
+        )
+        assert response.status_code == 200, response.text
+        revision = response.json()["scope_revision"]
+
+    assert "19 ms" in str(ask(opened)["message"]["blocks"])
+    scope([guide_id])
+    current = ask(follow)
+    assert current["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+    assert "Acceptance Grid怎么定义" in calls[-1]["question"]
+    assert calls[-1]["previous_context"] == {}
+    assert "19 ms" not in str(calls[-1])
+    assert {item["source"]["document_id"] for item in calls[-1]["evidence"]} == {guide_id}
+    assert any(block.get("code") == "experiment_outside_scope"
+               for block in current["message"]["blocks"])
+
+    for implicit in (
+        "只在选中的资料里，接着前一问说明其定义。",
+        "只在选中的资料里，接着前一问说明定义。",
+    ):
+        scope([])
+        ask(opened)
+        scope([guide_id])
+        result = ask(implicit + "刚才回放实验的延迟是多少？")
+        assert result["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+        assert "Acceptance Grid的定义" in calls[-1]["question"]
+        assert calls[-1]["previous_context"] == {} and "19 ms" not in str(calls[-1])
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    no_definition = ask("接着前一问说明其测量结果。刚才回放实验的延迟是多少？")
+    assert "definition_topic" not in no_definition["turn"]["trace"]
+    assert calls[-1]["question"].startswith("接着前一问说明其测量结果")
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    explicit = follow.replace("那条规则", "Quiet Window")
+    result = ask(explicit)
+    assert "definition_topic" not in result["turn"]["trace"]
+    assert calls[-1]["question"] == explicit and calls[-1]["previous_context"] == {}
+    same_scope_new_topic = explicit.replace("Quiet Window", "Acceptance Grid")
+    same_scope = ask(same_scope_new_topic)
+    assert "definition_topic" not in same_scope["turn"]["trace"]
+    assert calls[-1]["question"] == same_scope_new_topic and calls[-1]["previous_context"] == {}
+
+    for question, selected, replace_version in (
+        (opened.replace("Acceptance Grid", "Acceptance Grid 和 Quiet Window"), guide_id, False),
+        (opened, other_id, False),
+        (opened, guide_id, True),
+    ):
+        scope([])
+        ask(question)
+        scope([selected])
+        if replace_version:
+            nbformat.write(
+                nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text + "\nNew v2.")]),
+                guide,
+            )
+            assert _upload(client, session, guide, document_id=guide_id)["version"] == 2
+            revision = client.get(session).json()["scope_revision"]
+        before = len(calls)
+        assert ask(follow)["turn"]["status"] == "clarification"
+        assert len(calls) == before
+
+    fresh = _create(client, course_ids=[_COURSE], document_ids=[guide_id])
+    assert _ask(client, fresh, follow)["turn"]["status"] == "clarification"
+
+
+def test_general_anaphora_and_unrelated_question_boundaries(system, tmp_path, monkeypatch):
+    import nbformat
+
+    from app.clients.deepseek import DeepSeekClient
+    from app.rag.workspace_retrieval import RewriteResult
+
+    settings, service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-anaphora-probe"
+    session = _create(client)
+
+    guide = tmp_path / "Relay-Guide.ipynb"
+    lab = tmp_path / "Relay-Lab.ipynb"
+    text = "Acceptance Grid: both readings must exceed 23. Quiet Window: mute after an alert."
+    nbformat.write(nbformat.v4.new_notebook(cells=[nbformat.v4.new_markdown_cell(text)]), guide)
+    cell = nbformat.v4.new_code_cell(
+        "print('Lab replay latency: 19 ms')",
+        outputs=[nbformat.v4.new_output(output_type="stream", text="Lab replay latency: 19 ms")],
+    )
+    nbformat.write(nbformat.v4.new_notebook(cells=[cell]), lab)
+    guide_id = _upload(client, session, guide)["document_id"]
+    _upload(client, session, lab)
+
+    def reject(query, *, verify):
+        verify()
+        return RewriteResult(None, {"status": "constraints_unverified", "external_call_count": 0})
+
+    monkeypatch.setattr(service, "rewriter", reject)
+    calls = []
+
+    async def respond(self, messages, **kwargs):
+        wire = json.loads(messages[-1]["content"])
+        calls.append(wire)
+        reads = {item["source"]["document_id"]: item["id"] for item in wire["evidence"]}
+        guide_key = reads[guide_id]
+        answer = {
+            "statements": [{"text": "当前讲义的定义。", "citations": [guide_key]}],
+            "missing": "",
+        }
+        if "布尔字段 experiment_missing" in messages[0]["content"]:
+            answer["experiment_missing"] = False
+        return {"content": json.dumps(answer)}
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", respond)
+    opened = "讲义怎么定义 Acceptance Grid？配套实验的延迟是多少？"
+    revision = 1
+
+    def ask(text):
+        return _ask(client, session, text, revision, client_id=f"anaphora-{len(calls)}-{revision}")
+
+    def scope(ids):
+        nonlocal revision
+        response = client.patch(
+            session + "/scope",
+            json={"course_ids": [_COURSE], "document_ids": ids, "scope_revision": revision},
+        )
+        assert response.status_code == 200, response.text
+        revision = response.json()["scope_revision"]
+
+    for followup in (
+        "只看我刚选的这份讲义，上面到底是怎么界定刚才那个要求的？配套实验现在还能核对吗？",
+        "只看这份讲义，前面提到的门槛有哪些条件？",
+        "接着上回，说说条件。",
+        "它有哪些前提条件？",
+    ):
+        scope([])
+        ask(opened)
+        scope([guide_id])
+        result = ask(followup)
+        assert result["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+        assert "Acceptance Grid" in calls[-1]["question"]
+        assert calls[-1]["previous_context"] == {}
+        assert "19 ms" not in str(calls[-1])
+        assert {item["source"]["document_id"] for item in calls[-1]["evidence"]} == {guide_id}
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    unrelated = ask("这份讲义里，批次在流水线阶段按什么顺序处理？")
+    assert "definition_topic" not in unrelated["turn"]["trace"]
+    assert calls[-1]["question"] == "这份讲义里，批次在流水线阶段按什么顺序处理？"
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    explicit_switch = ask("Quiet Window 是怎么规定的？")
+    assert "definition_topic" not in explicit_switch["turn"]["trace"]
+    assert calls[-1]["question"] == "Quiet Window 是怎么规定的？"
+
+    # Follow-up where _definition_reference is None still resolves confirmed prior topic.
+    from app.rag.workspace import _definition_reference
+
+    non_regex_followup = "只看我选中的讲义，把刚才问过的部分重新梳理一遍；配套实验还能核对吗？"
+    assert _definition_reference(non_regex_followup) is None
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    resolved = ask(non_regex_followup)
+    assert resolved["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+    assert calls[-1]["question"].startswith(non_regex_followup)
+    assert "Acceptance Grid" in calls[-1]["question"]
+    assert calls[-1]["previous_context"] == {}
+    assert "19 ms" not in str(calls[-1])
+
+    # Ambiguous multi-topic prior turn clarifies even when _definition_reference is None.
+    scope([])
+    ask(opened.replace("Acceptance Grid", "Acceptance Grid 和 Quiet Window"))
+    scope([guide_id])
+    before = len(calls)
+    ambig_q = "只看我选中的讲义，把刚才问过的部分重新梳理一遍。"
+    assert ask(ambig_q)["turn"]["status"] == "clarification"
+    assert len(calls) == before
+
+    # Punctuation variants (comma & conjunction) vs pure-measurement-with-comma counterexample.
+    from app.rag.workspace import _is_measurement_only_followup
+
+    pure_measure_comma = "只看我选中的讲义，刚才那次实验的延迟结果还能核对吗？"
+    assert _is_measurement_only_followup(pure_measure_comma) is True
+    for variant in (
+        "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？",
+        "只看我选中的讲义，把刚才问过的部分重新梳理一遍，顺便看下配套实验还能核对吗？",
+    ):
+        assert _is_measurement_only_followup(variant) is False
+        scope([])
+        ask(opened)
+        scope([guide_id])
+        result = ask(variant)
+        assert result["turn"]["trace"]["definition_topic"] == "Acceptance Grid"
+        assert "Acceptance Grid" in calls[-1]["question"]
+        assert calls[-1]["previous_context"] == {}
+        assert "19 ms" not in str(calls[-1])
+
+    scope([])
+    ask(opened)
+    scope([guide_id])
+    measure_only = ask(pure_measure_comma)
+    assert "definition_topic" not in measure_only["turn"]["trace"]
+    assert calls[-1]["question"] == pure_measure_comma

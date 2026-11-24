@@ -410,6 +410,28 @@ class WorkspaceStore(MetadataStore):
                 [json.loads(row["payload"]) for row in messages],
             )
 
+    def previous_reply(
+        self, owner: str, turn: Turn
+    ) -> tuple[Turn, dict[str, Any]] | None:
+        with self._connect() as db:
+            _session(db, turn.session_id, owner_digest(owner))
+            row = db.execute(
+                """
+                SELECT t.*, a.payload AS message_payload
+                FROM workspace_messages a
+                JOIN workspace_turns t ON t.turn_id = a.turn_id
+                WHERE a.session_id = ? AND a.role = 'assistant' AND a.ordinal < (
+                    SELECT ordinal FROM workspace_messages
+                    WHERE turn_id = ? AND role = 'user'
+                )
+                ORDER BY a.ordinal DESC LIMIT 1
+                """,
+                (turn.session_id, turn.turn_id),
+            ).fetchone()
+            if row is None or row["status"] != "completed":
+                return None
+            return Turn.from_row(row), json.loads(row["message_payload"])
+
     def answer(self, turn: Turn) -> dict[str, Any] | None:
         with self._connect() as db:
             row = db.execute(

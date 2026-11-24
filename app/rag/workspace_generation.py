@@ -14,16 +14,19 @@ import httpx
 
 from app.clients.deepseek import DeepSeekClient
 from app.config import Settings
+from app.rag.evidence_supplement import classify_experiment_evidence
 from app.rag.workspace_reading import (
     _fit,
     estimate_embedded_json_budget,
     estimate_input_budget,
 )
+from app.schemas.local import SourceKey
 from app.schemas.turn_evidence import TurnEvidence
 
 OUTPUT_RESERVE = 8192
 _CHAT_FRAME_RESERVE = 128
 _TEXT_METHODS = {"native_text", "native_table", "ocr"}
+_READ_METHODS = _TEXT_METHODS | {"vision"}
 _LOCATOR_FIELDS = {
     "page", "cell_index", "output_index", "section_path", "bbox", "version_role", "evidence_role",
 }
@@ -39,6 +42,31 @@ _COVERAGE_FIELDS = {
     "clipped",
 }
 _INLINE_EVIDENCE_ID = re.compile(r"[\[【（(]\s*ev-[\w-]+", re.IGNORECASE)
+_NUMBER_TOKEN = re.compile(r"\d[\d,]*(?:\.\d+)?")
+_LOCATOR_OR_VERSION_NUM = re.compile(
+    r"第\s*\d+\s*页|\b(?:page|p\.?|cell|version|ver\.?|v)\s*\d+(?:\.\d+)*\b",
+    re.IGNORECASE,
+)
+_UNCERTAINTY_CUE = re.compile(
+    r"无法确认|未能确认|不能确认|无法核对|无法验证|未找到|缺少|未提供|没有|未说明|并非|不是|不等于"
+)
+_EXPERIMENT_CLAIM_CUE = re.compile(
+    r"测得|测量|实测|实验结果|基线|试验|样本数|MAE|RMSE|Baseline|Trial|Samples",
+    re.IGNORECASE,
+)
+_EXTRA_VERIFICATION_DEMAND = re.compile(
+    r"独立验证流程|额外实验说明|如何验证[^。；\n]*定义|触发条件[^。；\n]*关系"
+    r"|实验条件与[^。；\n]*关系|(?:现有证据)?(?:仅|只)(?:给出|提供)[^。；\n]*(?:指标|数值)"
+)
+_QUESTION_ASKS_EXTRA_VERIFICATION = re.compile(
+    r"独立验证|验证流程|验证步骤|触发条件|因果|机制|机理"
+)
+
+_TECHNICAL_CLAIM = re.compile(
+    r"(?<![a-zA-Z0-9_])(?:[a-zA-Z][a-zA-Z0-9]+(?=\s*[（(])"
+    r"|[a-zA-Z][a-zA-Z0-9]*(?:_[a-zA-Z][a-zA-Z0-9]*)+"
+    r"|[A-Z][a-z]+[A-Z][a-zA-Z0-9]*)(?![a-zA-Z0-9_])"
+)
 
 _INSTRUCTIONS = """你是课程资料助教。请直接回答 question，中文提问默认用中文作答。
 这是一个 JSON 请求。evidence 是本轮已经读到的文字资料。
@@ -58,6 +86,31 @@ summary 概括证据范围。若用户只要求把上次回答简短重述，遵
 每个结论至少使用一个确实支持它的 evidence id。字段 text 仅放正文，请勿嵌入引文标号。
 missing 只写具体尚不能确认的事项，没有缺项时为空字符串。
 无支持结论时 statements 为空并明确 missing。"""
+
+_DEFINITION_EXPERIMENT_INSTRUCTIONS = """
+分开陈述定义与实验结果，分别引用直接支撑各自结论的原件。
+每条只写一个可由引文直接核对的事实及其必要条件。给公式引用实际列出该公式的正文，
+参数表里的设置值不能支撑公式或架构。省略与所问无关的附带结论。
+原文只描述特定条件、例子或最坏情形时，保留该范围，不能概括成普遍规律。
+实验只报告原文中对应对象、数据集或负载、比较基线、条件、指标和单位的结果。
+条件不符时只指出差异并说明缺项，省略其他条件下的数值。
+保留原文对吞吐量、可维持请求速率和延迟等不同指标的区分。倍数写作“为基线的 X 倍”。
+逐项核对指标的限定条件。只把限定条件绑定到原文明示的指标，不把一个指标的层号、
+数据集或其他限定自动移用到另一个指标。
+如果问题指向配套实验而只有论文结果，明确区分来源，不能把论文结果当作配套实验的测量。
+优先引用载有具体数值的实验文本或保存输出，不能用代码或定义推断未测结果。
+课件、资料等泛称可指当前范围内直接支持定义的论文。用原件真实名称或类型说明出处，
+不因泛称与文件类型不同而声称缺少另一本课件。
+只陈述所问的结论和与其直接相关的条件。保留已确认的定义或实验项。
+missing 仅列用户所问且缺乏匹配证据的项，不在其中重复已回答结论。
+请把所有证据 ID 仅放在 citations 数组中。"""
+
+_EXPERIMENT_COVERAGE_INSTRUCTIONS = """
+这次的 JSON 还须有布尔字段 experiment_missing。只根据当前 evidence 判断：
+所问实验结果全部可核对时填 false；有任何所问实验项在当前证据中缺失或条件不符时填 true。
+若只有定义或未被问及的实验值，不能视为所问实验已覆盖。其他非实验缺项不影响此字段。
+照常把具体缺项写入 missing。"""
+
 
 _COMPOSITION_INSTRUCTIONS = """
 按 evidence_role 分清讲义条件、原生表格、保存输出。对照同一对象、实验条件、指标、单位。
@@ -122,7 +175,13 @@ def _build_messages(
         "coverage": _clean_coverage(coverage),
         "evidence": evidence,
     }
-    instructions = _INSTRUCTIONS + (_COMPOSITION_INSTRUCTIONS if mode == "compose" else "")
+    instructions = _INSTRUCTIONS
+    if mode == "compose":
+        instructions += _COMPOSITION_INSTRUCTIONS
+    elif mode == "definition_and_experiment":
+        instructions += _DEFINITION_EXPERIMENT_INSTRUCTIONS
+    if coverage and coverage.get("assess_experiment_coverage"):
+        instructions += _EXPERIMENT_COVERAGE_INSTRUCTIONS
     return [
         {"role": "system", "content": instructions},
         {
@@ -263,15 +322,198 @@ def generate_response(
     if type(tokens) is int and tokens >= 0:
         trace["total_tokens"] = tokens
     try:
-        statements, missing = _parse_answer(reply.get("content"), evidence_data.keys())
+        assess_experiment = bool(coverage and coverage.get("assess_experiment_coverage"))
+        statements, missing, experiment_missing = _parse_answer(
+            reply.get("content"), evidence_data.keys(), assess_experiment=assess_experiment
+        )
     except (ValueError, TypeError, RecursionError):
         return finish("invalid_response")
+    if experiment_missing is not None:
+        trace["experiment_missing"] = experiment_missing
+    if mode == "definition_and_experiment":
+        supported = _supported_technical_statements(statements, evidence_data, question)
+        if len(supported) != len(statements):
+            trace["unsupported_literal_statements"] = len(statements) - len(supported)
+            statements = supported
+            missing = " ".join(filter(None, (missing, "部分结论缺少直接原文依据。")))
+        supported_exp_ids, rejected_exp_reasons = classify_experiment_evidence(
+            valid_evidence, question
+        )
+        if rejected_exp_reasons:
+            trace["rejected_experiment_reasons"] = rejected_exp_reasons
+            filtered = tuple(
+                statement
+                for statement in statements
+                if not any(cid in rejected_exp_reasons for cid in statement.citations)
+            )
+            if len(filtered) != len(statements):
+                trace["unverified_experiment_statements"] = len(statements) - len(filtered)
+                statements = filtered
+            if not supported_exp_ids and not missing:
+                missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+        verified_exp_stmts = tuple(
+            statement
+            for statement in statements
+            if not (
+                _norm_number_tokens(statement.text, strip_locators=True)
+                and _EXPERIMENT_CLAIM_CUE.search(statement.text)
+                and not _UNCERTAINTY_CUE.search(statement.text)
+                and not any(cid in supported_exp_ids for cid in statement.citations)
+            )
+        )
+        if len(verified_exp_stmts) != len(statements):
+            trace["unverified_experiment_statements"] = trace.get(
+                "unverified_experiment_statements", 0
+            ) + (len(statements) - len(verified_exp_stmts))
+            statements = verified_exp_stmts
+            if not supported_exp_ids and not missing:
+                missing = "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+        missing = _sanitize_missing_numbers(
+            missing,
+            statements=statements,
+            evidence=evidence_data,
+            question=question,
+            rejected_exp_ids=rejected_exp_reasons,
+            has_supported_exp=bool(supported_exp_ids),
+        )
+        if (
+            missing
+            and supported_exp_ids
+            and any(cid in supported_exp_ids for s in statements for cid in s.citations)
+            and not rejected_exp_reasons
+            and not trace.get("unsupported_literal_statements")
+            and not trace.get("unverified_experiment_statements")
+            and _EXTRA_VERIFICATION_DEMAND.search(missing)
+            and not _QUESTION_ASKS_EXTRA_VERIFICATION.search(question)
+        ):
+            kept_missing = [
+                part.strip()
+                for part in re.split(r"[。；;\n]+", missing)
+                if part.strip() and not _EXTRA_VERIFICATION_DEMAND.search(part)
+            ]
+            missing = ("；".join(kept_missing) + "。") if kept_missing else ""
     status = "insufficient" if not statements else ("partial" if missing else "succeeded")
     return finish(status, statements, missing, valid_evidence)
 
 
+def _norm_number_tokens(text: str, *, strip_locators: bool = False) -> set[str]:
+    cleaned = _LOCATOR_OR_VERSION_NUM.sub(" ", text) if strip_locators else text
+    out: set[str] = set()
+    for raw in _NUMBER_TOKEN.findall(cleaned):
+        token = raw.replace(",", "")
+        if "." in token:
+            token = token.rstrip("0").rstrip(".") or "0"
+        out.add(token)
+    return out
+
+
+def _evidence_numbers(evidence: Mapping[str, dict[str, Any]], ids: Any) -> set[str]:
+    nums: set[str] = set()
+    for eid in ids:
+        entry = evidence.get(eid)
+        if not entry:
+            continue
+        for read in entry.get("reads", ()):
+            nums.update(_norm_number_tokens(read.get("text", "")))
+    return nums
+
+
+def _sanitize_missing_numbers(
+    missing: str,
+    *,
+    statements: tuple[GeneratedStatement, ...],
+    evidence: Mapping[str, dict[str, Any]],
+    question: str,
+    rejected_exp_ids: Mapping[str, str],
+    has_supported_exp: bool,
+) -> str:
+    if not missing:
+        return missing
+    kept_cids = {cid for s in statements for cid in s.citations}
+    supported_nums = _evidence_numbers(evidence, kept_cids) | _norm_number_tokens(
+        question, strip_locators=True
+    )
+    missing_nums = _norm_number_tokens(missing, strip_locators=True)
+    forbidden = missing_nums - supported_nums
+    if not forbidden:
+        return missing
+    kept_parts: list[str] = []
+    for sent in re.split(r"[。；;\n]+", missing):
+        sent = sent.strip()
+        if not sent:
+            continue
+        sent_nums = _norm_number_tokens(sent, strip_locators=True)
+        if not (sent_nums & forbidden):
+            kept_parts.append(sent)
+            continue
+        if re.search(r"缺少|未提供|没有|无法确认|不足", sent):
+            for clause in re.split(r"[，,]+", sent):
+                clause = clause.strip()
+                if clause and not (_norm_number_tokens(clause, strip_locators=True) & forbidden):
+                    kept_parts.append(clause)
+    if kept_parts:
+        return "；".join(kept_parts) + "。"
+    if not has_supported_exp:
+        return "本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。"
+    return ""
+
+
+def _supported_technical_statements(
+    statements: tuple[GeneratedStatement, ...],
+    evidence: Mapping[str, dict[str, Any]],
+    question: str,
+) -> tuple[GeneratedStatement, ...]:
+    # Use the cited text as sent, never its parent page or an unread excerpt.
+    def words(text):
+        return {
+            word.casefold().replace("_", "")
+            for word in re.findall(r"[a-zA-Z][a-zA-Z0-9_]*", text)
+        }
+
+    source_words = {
+        key: words(" ".join(read["text"] for read in entry["reads"]))
+        for key, entry in evidence.items()
+    }
+    source_nums = {
+        key: _norm_number_tokens(" ".join(read["text"] for read in entry["reads"]))
+        for key, entry in evidence.items()
+    }
+    question_only = words(question).difference(*source_words.values())
+    question_nums = _norm_number_tokens(question, strip_locators=True)
+    supported = []
+    for statement in statements:
+        literals = {
+            match.casefold().replace("_", "")
+            for match in _TECHNICAL_CLAIM.findall(statement.text)
+        }
+        cited = question_only.union(*(source_words[key] for key in statement.citations))
+        stmt_nums = _norm_number_tokens(statement.text, strip_locators=True)
+        cited_nums = set().union(*(source_nums[key] for key in statement.citations))
+        if _UNCERTAINTY_CUE.search(statement.text):
+            cited_nums = cited_nums | question_nums
+        if literals <= cited and stmt_nums <= cited_nums:
+            supported.append(statement)
+    return tuple(supported)
+
+
 def _read_text(evidence: Mapping[str, TurnEvidence]) -> dict[str, dict]:
     return _read_text_with_items(evidence)[0]
+
+
+def _accept_read_for_generation(source: SourceKey, read: Any) -> bool:
+    if (
+        read.actual_source != source
+        or read.status not in {"succeeded", "partial"}
+        or not read.text.strip()
+    ):
+        return False
+    if read.method in _TEXT_METHODS:
+        return True
+    return (
+        read.method == "vision"
+        and read.origin_execution == "real_provider"
+        and bool(read.actual_input_sha256)
+    )
 
 
 def _read_text_with_items(
@@ -286,12 +528,7 @@ def _read_text_with_items(
         reads = [
             {"method": read.method, "status": read.status, "text": read.text}
             for read in item.reads
-            if (
-                read.actual_source == source
-                and read.method in _TEXT_METHODS
-                and read.status in {"succeeded", "partial"}
-                and read.text.strip()
-            )
+            if _accept_read_for_generation(source, read)
         ]
         if reads:
             result[identifier] = {
@@ -364,10 +601,7 @@ def _trim_turn_evidence(item: TurnEvidence, shrunk_text: str, end: int) -> TurnE
     for read in item.reads:
         if (
             not replaced
-            and read.actual_source == source
-            and read.method in _TEXT_METHODS
-            and read.status in {"succeeded", "partial"}
-            and read.text.strip()
+            and _accept_read_for_generation(source, read)
         ):
             warnings = list(read.warnings)
             if "excerpt_truncated" not in warnings:
@@ -392,11 +626,16 @@ def _trim_turn_evidence(item: TurnEvidence, shrunk_text: str, end: int) -> TurnE
     )
 
 
-def _parse_answer(content: object, allowed) -> tuple[tuple[GeneratedStatement, ...], str]:
+def _parse_answer(
+    content: object, allowed, *, assess_experiment: bool = False
+) -> tuple[tuple[GeneratedStatement, ...], str, bool | None]:
     if not isinstance(content, str):
         raise ValueError("expected generated JSON text")
     parsed = json.loads(content, object_pairs_hook=_unique_object)
-    if not isinstance(parsed, dict) or set(parsed) != {"statements", "missing"}:
+    if not isinstance(parsed, dict):
+        raise ValueError("invalid generated answer shape")
+    experiment_missing = parsed.pop("experiment_missing", None) if assess_experiment else None
+    if set(parsed) != {"statements", "missing"}:
         raise ValueError("invalid generated answer shape")
     claims, missing = parsed["statements"], parsed["missing"]
     if (
@@ -422,7 +661,10 @@ def _parse_answer(content: object, allowed) -> tuple[tuple[GeneratedStatement, .
         result.append(GeneratedStatement(text.strip(), tuple(citations)))
     if not result and not missing.strip():
         raise ValueError("empty generated answer")
-    return tuple(result), missing.strip()
+    return (
+        tuple(result), missing.strip(),
+        experiment_missing if type(experiment_missing) is bool else None,
+    )
 
 
 def _unique_object(pairs: list[tuple[str, object]]) -> dict[str, object]:

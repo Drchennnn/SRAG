@@ -44,6 +44,15 @@
           </form>
         </details>
         <ul id="import-results" class="import-results" aria-live="polite"></ul>
+        <details id="kg-panel" class="kg-panel">
+          <summary><span>概念导航</span><span id="kg-count" class="kg-count">0</span></summary>
+          <div class="kg-panel-body">
+            <label class="screen-reader" for="kg-filter">筛选课程概念</label>
+            <input id="kg-filter" type="search" maxlength="200" placeholder="筛选概念或别名">
+            <ul id="kg-list" class="kg-list" aria-live="polite"></ul>
+            <section id="kg-detail" class="kg-detail" aria-live="polite" hidden></section>
+          </div>
+        </details>
       </div>
 
       <nav aria-label="资料目录" id="catalog" aria-busy="true">

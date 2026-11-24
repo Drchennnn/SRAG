@@ -141,6 +141,40 @@ def catalog_media(session_id: str, node_id: str, owner: Owner, service: Service)
     return Response(image, media_type=mime_type, headers=_MEDIA_HEADERS)
 
 
+@router.get("/sessions/{session_id}/kg/concepts")
+def kg_concepts(
+    session_id: str,
+    owner: Owner,
+    service: Service,
+    course_id: str | None = None,
+    q: str | None = None,
+    respect_document_scope: bool = False,
+):
+    return service.kg_concepts(
+        owner,
+        session_id,
+        course_id=course_id,
+        query=q,
+        respect_document_scope=respect_document_scope,
+    )
+
+
+@router.get("/sessions/{session_id}/kg/concepts/{concept_key}")
+def kg_concept_detail(
+    session_id: str,
+    concept_key: str,
+    owner: Owner,
+    service: Service,
+    course_id: str | None = None,
+):
+    return service.kg_concept_detail(
+        owner,
+        session_id,
+        concept_key,
+        course_id=course_id,
+    )
+
+
 @router.post("/sessions/{session_id}/import")
 async def import_file(
     session_id: str,
