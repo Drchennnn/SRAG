@@ -1,0 +1,910 @@
+{
+  "gate_phase": "K03_independent_release_gate",
+  "tested_commit": "4574f9b",
+  "subject_isolated_from_dev_db": true,
+  "demo_manifest_check": {
+    "count": 8,
+    "files": [
+      {
+        "file": "Axis-LoRA-2611.07820v1.pdf",
+        "bytes": 1255410,
+        "sha256_prefix": "bf34209eded04fb8"
+      },
+      {
+        "file": "FlashAttention-3-2407.08608v2.pdf",
+        "bytes": 1096663,
+        "sha256_prefix": "3d05ca102802e6b8"
+      },
+      {
+        "file": "Lecture-01-Retrieval-and-Attention.pptx",
+        "bytes": 106761,
+        "sha256_prefix": "d70b83baf8c90bb9"
+      },
+      {
+        "file": "v1/Lab-01-Retrieval-Bench.ipynb",
+        "bytes": 89774,
+        "sha256_prefix": "351cb404b6e190db"
+      },
+      {
+        "file": "v2/Lab-01-Retrieval-Bench.ipynb",
+        "bytes": 30925,
+        "sha256_prefix": "f9f0aded0c744d6a"
+      },
+      {
+        "file": "Distractor-Notes.pdf",
+        "bytes": 951,
+        "sha256_prefix": "f7157351976062a8"
+      },
+      {
+        "file": "NOTICE.txt",
+        "bytes": 928,
+        "sha256_prefix": "8be750a6490b1754"
+      },
+      {
+        "file": "eval_cases.json",
+        "bytes": 8831,
+        "sha256_prefix": "c7292e4c47628105"
+      }
+    ]
+  },
+  "blind_corpus_hashes": [
+    {
+      "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+      "bytes": 1506508,
+      "sha256": "89cbd22a8d019525973b26fc3f454f442eadd0a19eb6c84ef2edbb6878b3526d"
+    },
+    {
+      "file_name": "Deck-01-GoT-Architecture.pptx",
+      "bytes": 165372,
+      "sha256": "8160e3c873da87b96aefa0bb6cbf06761d2d87d44ae6d7a49cb42f76d1261794"
+    },
+    {
+      "file_name": "Lab-01-GoT-Bench-v1.ipynb",
+      "bytes": 99905,
+      "sha256": "fcf2db8ae6848feb3fe14485a3ab83bd0acb7ccc1bed471802523744f8a97a2d"
+    },
+    {
+      "file_name": "Lab-01-GoT-Bench-v2.ipynb",
+      "bytes": 65913,
+      "sha256": "18a3a7b651a886c540deb4ecb7d5da042b29a7ae93bc8c2ba5b31c302e92e120"
+    }
+  ],
+  "C1_offline_and_first_question": {
+    "offline": {
+      "passed": true,
+      "health": {
+        "status": "ok",
+        "service": "srag",
+        "version": "0.1.0"
+      },
+      "empty_state_ok": true,
+      "imports": [
+        "Axis-LoRA-2611.07820v1.pdf · 导入完成 · v1",
+        "Lecture-01-Retrieval-and-Attention.pptx · 导入完成 · v1",
+        "Lab-01-Retrieval-Bench.ipynb · 导入完成 · v1"
+      ],
+      "offline_kg_count": 3,
+      "excerpt_fallback_notices": [
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。"
+        }
+      ],
+      "external_call_count": 0
+    },
+    "online_first_question": {
+      "passed": true,
+      "elapsed_s": 9.885,
+      "answer_preview": "课件将轴向门控路由（Axis-Gated Routing）定义为：一种由注意力头灵敏度谱驱动的嵌入低秩投影缩放机制。\n其门控权重满足 0 < g_l <= 1.0，蒸馏正则系数 lambda_kd = 0.15。\n适用条件是编码器已完成轴向反事实探针校准；未校准时退回余弦相似度检",
+      "citation_click": {
+        "hasHl": false,
+        "imgH": 1080,
+        "imgW": 1920,
+        "loc": "当前版本",
+        "open": true,
+        "status": "文字已交给回答模型 · 图像未读取",
+        "title": "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 2 页"
+      }
+    }
+  },
+  "C2_three_format_inspection": {
+    "C2-05_parent_page_fallback": {
+      "passed": true,
+      "rendition_kind": "parent_page_fallback",
+      "fallback_reason": "unreliable_bbox",
+      "reader": {
+        "hasHl": false,
+        "imgH": 1080,
+        "imgW": 1920,
+        "loc": "Lecture-01-Retrieval-and-Attention.pptx · v1 · 第 8 页",
+        "open": true,
+        "status": "图像已读取",
+        "title": "Lecture-01-Retrieval-and-Attention.pptx · v1 · 图片"
+      }
+    },
+    "C2-02_two_col_table": {
+      "passed": true,
+      "hasHl": false,
+      "imgH": 174,
+      "imgW": 514,
+      "loc": "Paper-01-GoT-2305.16582v2.pdf · v1 · 第 15 页",
+      "open": true,
+      "status": "图像未读取",
+      "title": "Paper-01-GoT-2305.16582v2.pdf · v1 · 表格 · #Parameters (eval samples/per second) | Inference time (eval samples/per second)"
+    },
+    "C2-03_two_col_formulas": {
+      "passed": false,
+      "cited_sources": [
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:1:shape:3"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3:shape:2"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3:shape:3"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:5"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:6"
+        }
+      ]
+    },
+    "C2-01_pptx_whole": {
+      "passed": true,
+      "hasHl": false,
+      "imgH": 1080,
+      "imgW": 1920,
+      "loc": "当前版本",
+      "open": true,
+      "status": "文字已交给回答模型 · 图像未读取",
+      "title": "Deck-01-GoT-Architecture.pptx · v1 · 第 2 页"
+    },
+    "C2-04_notebook_second_output": {
+      "passed": true,
+      "source_used": "direct_K_Q06",
+      "actual_source_id": "cell:1:output:2",
+      "match": true,
+      "media": {
+        "bytes": 22485,
+        "sha": "721344ef919dd6628c76466e8e7046f9d6c16234a19ff263a7a43a57dbc26e8c"
+      },
+      "preview": {
+        "bytes": 22485,
+        "sha": "721344ef919dd6628c76466e8e7046f9d6c16234a19ff263a7a43a57dbc26e8c"
+      }
+    }
+  },
+  "C3_multiturn_and_versioning": {
+    "C3-04_dual_session_404": {
+      "passed": true,
+      "b_answer": "Distractor-Notes 中给出的百分比是 12.5%。",
+      "cross_404_checks": [
+        {
+          "path": "/api/workspace/sessions/ca4ca8071aac41b591f53b7f18ff0ab4",
+          "status": 404
+        },
+        {
+          "path": "/api/workspace/sessions/ca4ca8071aac41b591f53b7f18ff0ab4/catalog",
+          "status": 404
+        },
+        {
+          "path": "/api/workspace/sessions/ca4ca8071aac41b591f53b7f18ff0ab4/kg/concepts",
+          "status": 404
+        }
+      ]
+    },
+    "C3-01_clarification_anchor": {
+      "passed": true,
+      "options_count": 2,
+      "chosen_label": "Lab-01-GoT-Bench.ipynb · v1 · Cell 2 · 输出 2（图像）"
+    },
+    "C3-02_explicit_scope_switch": {
+      "passed": true,
+      "scoped_document_ids": [
+        "local_4f0b8cd8fc834c7e9eaec4dcec030b2e"
+      ],
+      "notices": [
+        {
+          "code": "missing_evidence",
+          "text": "当前证据未包含 run_triplet_hop_k3() 的定义或运行记录，因此无法确认其显存占用和节点准确率；此外本轮仅读取了部分页面（unread_visual_total 为 12，full_text_scope 为 false），不能据此断定整份资料中完全没有该数据。"
+        }
+      ],
+      "answer_preview": "在当前已读证据（该论文第1–6页、第14–15页的正文与表格）中，没有出现 run_triplet_hop_k3() 这一函数名，也没有给出该函数的显存占用或节点准确率。\n论文中与资源相关的可确认数据是：模型在四块 NVIDIA A800 80G GPU 上训练；GoT 相对 Mutimodal-CoT-base 参数"
+    },
+    "C3-03_reload_persistence": {
+      "passed": true,
+      "pre_reload_msgs": 28,
+      "post_reload_msgs": 28
+    },
+    "C3-05_v1_to_v2_upgrade": {
+      "passed": true,
+      "explicit_v2_answer": "run_triplet_hop_k3() 的默认参数为 hops=4、edge_keep=0.90；节点准确率 node_acc 为 90.81%，图开销 graph_overhead_ms 为 23.4 ms。\n该函数还返回 mem_gb=21.20，但这不是所问的图开销指标。",
+      "explicit_v2_versions": [
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2,
+        2
+      ],
+      "v1_media_preserved": {
+        "sha": "721344ef919dd6628c76466e8e7046f9d6c16234a19ff263a7a43a57dbc26e8c",
+        "status": 200
+      },
+      "k_q07_unscoped_route": "version_comparison",
+      "k_q07_unscoped_notices": [
+        {
+          "code": "comparison_ambiguous",
+          "text": "无法唯一对应两版对象。请选择一份资料，并明确页、表格或 Cell 内的输出位置。"
+        }
+      ]
+    }
+  },
+  "C5_blind_8q": {
+    "K_Q01": {
+      "question_id": "K_Q01",
+      "status": "completed",
+      "elapsed_s": 3.495,
+      "answer": "在 ScienceQA 主实验中，GoT-T5base 的平均测试准确率（AVG %）为 92.50，Multimodal-CoTbase 为 91.04。\n在模型开销对比中，GoT-T5base（Ours）的训练参数量为 233M，推理速度为 13.38 eval samples/per second；Multimodal-CoTbase 的训练参数量为 227M，推理速度为 16.33 eval samples/per second。\n论文指出，与 Multimodal-CoT 相比，GoT 的参数量增加了 0.2%。",
+      "citations_count": 6,
+      "cited_sources": [
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:14"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:15"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:15:table:1"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:15:table:2"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:16"
+        }
+      ],
+      "selected_source": null,
+      "route": "generated_answer",
+      "clarification_options": [],
+      "notices": [
+        {
+          "code": "missing_evidence",
+          "text": "证据中未出现明确标注为“AVG %”的列；92.50 与 91.04 是 ScienceQA 理由生成结果表中 GoT-T5base 与 Mutimodal-CoTbase 的 BLEU1 列数值，因此无法确认它们就是平均测试准确率（AVG %）。"
+        }
+      ],
+      "visual_reads": [],
+      "external_call_count": 2,
+      "required_facts_matched": [
+        "233M",
+        "13.38",
+        "227M",
+        "16.33"
+      ],
+      "required_facts_total": 6,
+      "forbidden_facts_matched": []
+    },
+    "K_Q02": {
+      "question_id": "K_Q02",
+      "status": "completed",
+      "elapsed_s": 13.488,
+      "answer": "课程导览 (Course Modules):\n• 模块 1：思维图构造与图注意力编码 (Thought Graph & GAT Encoder)\n• 模块 2：跨模态注意力对齐与门控融合 (Cross-Attention & Gated Fusion)\n• 模块 3：共指消解与实体聚类归并 (Coreference Cluster Merging)\n• 模块 4：基准评估、消融对照与推理时延分解\n\n说明：本讲义定义核心概念及配套实验入口，实验实测数值以 Lab-01-GoT-Bench.ipynb 为准。\n核心概念定义：模态门控特征融合 (Gated Multimodal Feature Fusion)\n正式定义：模态门控特征融合是指使用可训练投影矩阵计算 Sigmoid 门控系数 lambda，按 H = (1 - lambda) * H^T + lambda * H^I + lambda * H^G 动态加权结合文本、视觉与图表示。\n配套实验演示：不同模态分支组合下的准确率与融合延迟对比，由实验函数 eval_branch_mix_m7() 实测演示。\n表 1：GoT 与对比基线模型规格及推理吞吐对照表\n| 模型名称 | 参数规模 | 推理吞吐 (samples/s) | 最大图节点数 | 学习率 |\n| --- | --- | --- | --- | --- |\n| Multimodal-CoTbase | 227M | 16.33 samples/s | - | 5e-5 |\n| GoT-T5base (Ours) | 233M | 13.38 samples/s | 150 | 5e-5 |\n| GoT-T5large | 738M | 8.45 samples/s | 150 | 5e-5 |\n核心概念定义：模态门控特征融合 (Gated Multimodal Feature Fusion)\n正式定义：模态门控特征融合是指使用可训练投影矩阵计算 Sigmoid 门控系数 lambda，按 H = (1 - lambda) * H^T + lambda * H^I + lambda * H^G 动态加权结合文本、视觉与图表示。\n配套实验演示：不同模态分支组合下的准确率与融合延迟对比，由实验函数 eval_branch_mix_m7() 实测演示。\n[h\ns\n0\n, hn\n0\n, he\n0\n, ..., hs\nj\n, hn\nj\n, he\nj\n] = Encodertext(p)\n(4)\nwhere the h\ns\ni\nand h\ne\ni ∈ R\nD are the representation\nof <s> and </s> for node ni respectively, D is\nthe dimension of node embedding, and the h\nn\ni =\n{h\nn\ni,1\n, ..., hn\ni,m} is the representations of node ni\nwith m tokens. we use the h\ns\ni\nto represent the node\nrepresentation of ni\n.\nDropout\nGoT input G 𝑁, 𝐸\nGraph\nAttention Layer\nGraph\nAttention Layer\nConcatenate\nDropout\nGraph\nAttention Layer\nFFNN\nLayernorm\nGoT representation\nMulti-head\nattention\nResidual connection\nℎ\n𝑔′ ℎ\n𝑔′\n𝐻\n𝐺\n…\nFigure 4: Architecture of GoT encoder\nGAT Encoder We employ a graph attention net￾work (GAT) (Velickovic et al., 2018; Chen and\nYang, 2021) to encode the thought graph. For every\nnode ni\nin graph G(N , E), the graph attention\nlayer is designed as:\naij = Attention(\nWh\ns\ni\n||Wh\ns\nj\n) (5)\nqij = LeakyReLU (aij ) (6)\nαij = Softmax(qij ) = exp (qij )\nP\nk∈Ki\nexp (qik)\n(7)\nh\ng′\ni = GELU\n\n\nX\nj∈Ki\nαijWh\ns\nj\n\n (8)\nwhere || denotes concatenate operation, the W is\na trainable weight and the set Ki contains the node\nni’s neighbours in thought graph G. Our graph\nattention layer first employed a shared attention\nmechanism Attention(.) : R\nD′\n× R\nD′ → R to\ncompute the attention weights, where D′\nis the\nattention layer output dimension. The attention\nweights aij measures the importance of node ni’s\nfeatures to nj ’s features. By only calculating the\nattention weights between nodes who are neigh￾bours, our graph attention layer demonstrates the\nability to perceive structural information of graphs.\nIn our implementation, we adopt a single-layer\nfeed-forward neural network (FFNN) as the atten￾tion mechanism which is both simple and straight￾forward.\nFigure 4 shows the architecture of our GoT en￾coder. Our GoT encoder employs a multi-head\ngraph attention layer, following (Velickovic et al.,\n2018), we concatenate the output of each graph\nattention layer and further pass it to a output graph\nattention layer with the same architecture:\nh\ng′\ni = ∥\nK\nk=1GELU\n\n\nX\nj∈Ni\nα\nk\nijWkh\ns\nj\n\n (9)\nh\ng′′\ni = GELU\n\n\nX\nj∈Ni\nαijWh\ng′\nj\n\n (10)\nwhere K is the number of attention heads, || is\nthe concatenate operation, and n is the number of\nnodes in thought graph. We then use a single-layer\nfeed-forward neural network (FFNN) to obtain the\nfinal thought graph embedding HG:\nh\ng′′ = [h\ng′′\n0\n, ..., hg′′\nn\n]; HG = FFNN(h\ng′′)\n(11)\n2.3 Feature Fusion\nAfter obtaining the encoded features, we use a\nsingle head attention to align the text representa￾tion HT with image representation HI\nand thought\ngraph representation HG, respectively. The image\nattention output HI\nand thought graph attention\noutput HG are calculated by:\nHI = Softmax \u0012\nHT HI⊤\n√\nd\n\u0013\nHI\n(12)\nHG = Softmax \u0012\nHT HG⊤\n√\nd\n\u0013\nHG (13)\nwhere Q is HT\nand d is the dimension of HT\n.\nWe take both KI and VI as HI\nand KG and VG as\nHG. Please note that image representation is op￾tional and is only required for multimodal dataset.\nNext, a gated fusion mechanism (Wu et al., 2021;\nZhang et al., 2023; Li et al., 2022; Zhang et al.,\n2020) is applied to combine the attention outputs\nHI\nand HG with the text representation HT\n. The\nfeature fusion output H can be calculated by:\nλ =\n\n\n\nSigmoid\nWT HT + WGHG\n\u0001\ntext-only\nSigmoid\nWT HT + WIHI + WGHG\n\u0001\nmultimodal\nH =\n\n\n\n(1 − λ) · HT + λ · HG\ntext-only\n(1 − λ) · HT + λ · HI + λ · HG\nmultimodal\nwhere WT ,WI and WG are all trainable weights.\nWe then input the fused feature output H into the\ndecoder to predict the rationales or the final answer.\n3 Experiments\nDataset We evaluate our model on the text-only\nAQUA-RAT (Ling et al., 2017) and multimodal\nScienceQA benchmark (Lu et al., 2022). The de￾tailed dataset information and statistics are shown\nin Appendix B.\nModel Setup In our experiments, we used\nT5 (Raffel et al., 2020a) as our basic model ar￾chitecture, including both T5-base and T5-large\nmodel sizes. Specifically, to ensure a fair compar￾ison, we initialized our model with the finetuned\nT5 checkpoint FLAN-Alpaca 3\nand used ViT-large\nencoder (Dosovitskiy et al., 2021) for the vision\nencoder, following (Zhang et al., 2023). We fine￾tuned the models for 100 epochs with a learning\nrate of 5e-5. The detailed training parameters are\navailable in Appendix C. We trained our models on\nfour NVIDIA A800 80G GPUs.\n4 Results and Discussion\n4.1 Main Results\nBaselines For AQUA-RAT, our baselines include:\n(1) Zero-Shot and Zero-Shot-CoT LLMs (Kojima\net al., 2022); (2) Few-Shot and Manual-CoT LLMs\n(Wei et al., 2022b) and Auto-CoT (Zhang et al.,\n2022) (The above baselines all use the text-davinci￾002 version of GPT-3 with 175B parameters); (3)\n3\nhttps://huggingface.co/declare-lab/flan-alpaca-base\nFintuned LLMs: Calcformer-T5-L (Kadlcík et al. ˇ ,\n2023) which finetunes calculator-using T5-Large\nmodel on the Calc-X collection. To have a fair com￾parison we also fine-tuned FLAN-Alpacabase and\nFLAN-Alpacalarge on AQUA-RAT with traditional\ntwo-stage CoT.\nFor ScienceQA, following (Zhang et al., 2023;\nLu et al., 2022), our adopted baselines include: (1)\nVision question answering (VQA) baseline mod￾els (Yu et al., 2019; Anderson et al., 2018; Kim\net al., 2018; Gao et al., 2019; Kim et al., 2021;\nLu et al., 2021; Li et al., 2019, 2020); (2) Text￾to-text LLMs (Raffel et al., 2020b; Chen et al.,\n2020) and (3) Text-to-text LLMs with CoT prompt￾ing (Lu et al., 2022; Zhang et al., 2023). Both\nUnifiedQA (Lu et al., 2022) and GPT-3.5 (Lu\net al., 2022) use generated image captions to in￾corporate vision semantics. Whereas, Mutimodal￾CoT (Zhang et al., 2023) injects generated image\nfeatures into traditional CoT reasoning.\nMODELS TRAINING SIZE ACC(%)\nZero-Shot (Kojima et al., 2022) zero-shot 175B 22.40\nZero-Shot-CoT (Kojima et al., 2022) zero-shot 175B 33.50\nFew-Shot (Wei et al., 2022b) few-shot 175B 24.80\nManual-CoT (Wei et al., 2022b) few-shot 175B 35.80\nAuto-CoT (Zhang et al., 2022) few-shot 175B 36.50\nCalcformer-T5-L (Kadlcík et al. ˇ , 2023) train-set 770M 27.20\nFLAN-Alpacabase train-set 223M 30.09 ± 1.12\nGoT-T5base train-set 223M 32.09 ± 1.62\nFLAN-Alpacalarge train-set 738M 33.73 ± 1.14\nGoT-T5large train-set 738M 34.48 ± 1.11\nTable 1: Main test accuracy results (ACC%) of AQUA￾RAT. Size=backbone model size.\nResults The rationales generation results can be\nseen in Table 8 in Appendix D. The overall results\nare reported in Table 1 and Table 2.\nIn the AQUA-RAT dataset, our GoTbase model\nattains a 0.78 enhancement in ROUGE-L scores for\nrationale generation during the initial stage, outper￾forming the FLAN-Alpacabase model, which does\nnot integrate GoT. For the answer generation phase,\nthe GoTbase exhibits a substantial accuracy increase\nof 2.00%, while the GoTlarge model records a 0.75%\nenhancement. Compared to the 175B parameter\nzero-shot and few-shot LLMs, our GoT-large, em￾ploying just a 738M backbone model, achieves\nresults remarkably close to those of Manual-CoT\n(Wei et al., 2022b).\nFor ScienceQA dataset, in rationale generation\nstage, we can see from Table 8 that our model\nachieves a ROUGE-L of 94.39 and outperforms\nthe Mutimodal-CoTbase by 1.15. For the final an-",
+      "citations_count": 6,
+      "cited_sources": [
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:1:shape:3"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3:shape:2"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3:shape:3"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:5"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:6"
+        }
+      ],
+      "selected_source": null,
+      "route": "generated_answer",
+      "clarification_options": [],
+      "notices": [
+        {
+          "code": "excerpt_fallback",
+          "text": "回答模型未能生成可核对的答案。本条保留已读原文摘录。"
+        }
+      ],
+      "visual_reads": [],
+      "external_call_count": 2,
+      "required_facts_matched": [
+        "LeakyReLU",
+        "Softmax",
+        "GELU",
+        "Sigmoid",
+        "H^I",
+        "H^G"
+      ],
+      "required_facts_total": 9,
+      "forbidden_facts_matched": []
+    },
+    "K_Q03_s0": {
+      "question_id": "K_Q03",
+      "status": "completed",
+      "elapsed_s": 4.119,
+      "answer": "本轮证据未包含“思维图结构编码”需要满足的三个机制成立条件，无法确认。\n表 1 中 GoT-T5large 的参数规模为 738M，推理吞吐为 8.45 samples/s。\nv1 版本配套实验测得 hops=3、edge_keep=0.75、节点准确率 87.59%、图开销 19.6 ms、显存占用 18.40 GB。",
+      "citations_count": 4,
+      "cited_sources": [
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:3:shape:5"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:6:table:1"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:1"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:1:output:0"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:1:output:1"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:2"
+        }
+      ],
+      "selected_source": null,
+      "route": "generated_answer",
+      "clarification_options": [],
+      "notices": [
+        {
+          "code": "missing_evidence",
+          "text": "“思维图结构编码”的三个机制成立条件在已读证据中未出现；覆盖范围含 1 个未读视觉内容，且非全文范围，不能据此断定整份资料没有该内容。"
+        }
+      ],
+      "visual_reads": [],
+      "external_call_count": 2,
+      "required_facts_matched": [
+        "738M",
+        "8.45",
+        "0.75",
+        "87.59%",
+        "19.6",
+        "18.40"
+      ],
+      "required_facts_total": 10,
+      "forbidden_facts_matched": []
+    },
+    "K_Q04": {
+      "question_id": "K_Q04",
+      "status": "completed",
+      "elapsed_s": 5.731,
+      "answer": "lambda=0.2 → 18.4 ms, lambda=0.5 → 21.6 ms, lambda=0.8 → 24.9 ms",
+      "citations_count": 1,
+      "cited_sources": [
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:5:shape:6"
+        }
+      ],
+      "selected_source": {
+        "document_id": "local_3c2e9bf02df242419d68d1b8e7132cd8",
+        "source_id": "page:5:shape:6",
+        "version": 1
+      },
+      "route": "target_object",
+      "clarification_options": [],
+      "notices": [],
+      "visual_reads": [
+        {
+          "evidence_id": "ev-1",
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.4937629999999999,
+            0.186667,
+            0.987524,
+            0.88
+          ],
+          "actual_input_sha256": "0f0e8a21d6a39519d950283add6a89904411001361a1d2837edb7fe4cb0ad33d",
+          "actual_source": {
+            "document_id": "local_3c2e9bf02df242419d68d1b8e7132cd8",
+            "source_id": "page:5:shape:6",
+            "version": 1
+          },
+          "execution": "real_provider",
+          "method": "vision",
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "question_sha256": "fd6ced7ce1bcb3265e5f6c36a40e6905618bf9c2b1af06949905f2d20b8108f4",
+          "status": "succeeded",
+          "text": "lambda=0.2 → 18.4 ms, lambda=0.5 → 21.6 ms, lambda=0.8 → 24.9 ms",
+          "warnings": []
+        }
+      ],
+      "external_call_count": 1,
+      "required_facts_matched": [
+        "18.4",
+        "21.6",
+        "24.9"
+      ],
+      "required_facts_total": 3,
+      "forbidden_facts_matched": []
+    },
+    "K_Q05_s0": {
+      "question_id": "K_Q05",
+      "status": "completed",
+      "elapsed_s": 9.184,
+      "answer": "本轮已读证据中未出现“3-Stage GoT Inference Pipeline Latency Breakdown（A800-80G）”图，也没有 Stage A、Stage B、Stage C 的延迟（ms）与占比数据。\n已读证据中同样没有该流水线的总端到端延迟和峰值显存（Peak VRAM）数值。\n第4页图像经视觉读取后仅显示“Graph-of-Thought deduction example”（earthquake 的 Rationales 与 GoT 图），不含所问的延迟分解图或数值。\n论文正文只提到模型在四块 NVIDIA A800 80G GPU 上训练，未给出推理流水线各阶段延迟或峰值显存。",
+      "citations_count": 7,
+      "cited_sources": [
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:4:image:1"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:2"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:4"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:6"
+        },
+        {
+          "file_name": "Paper-01-GoT-2305.16582v2.pdf",
+          "version": 1,
+          "source_id": "page:6:table:1"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:3"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:3:output:0"
+        }
+      ],
+      "selected_source": null,
+      "route": "generated_answer",
+      "clarification_options": [],
+      "notices": [
+        {
+          "code": "missing_evidence",
+          "text": "Stage A/B/C 的延迟（ms）与占比、总端到端延迟、Peak VRAM 均无法确认：已读页面（第2、4、6页及第4页图像）中没有该延迟分解图或相应数值；coverage 显示 full_text_scope 为 false，因此不能据此断定整份资料都不含该图，需读取其余页面或该图所在幻灯片。"
+        }
+      ],
+      "visual_reads": [
+        {
+          "evidence_id": "ev-1",
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": [
+            0.175237,
+            0.064176,
+            0.82474,
+            0.231364
+          ],
+          "actual_input_sha256": "7cbb3bae58995e8e7e4703990b309f1811207f6010cc81bea09f41bfe87eae05",
+          "actual_source": {
+            "document_id": "local_4f0b8cd8fc834c7e9eaec4dcec030b2e",
+            "source_id": "page:4:image:1",
+            "version": 1
+          },
+          "execution": "real_provider",
+          "method": "vision",
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "question_sha256": "99907826030ebc514ac8e55bcd51ec95335d039dda092b930cc2a1bd54adc2d5",
+          "status": "partial",
+          "text": "The image provided does not contain the '3-Stage GoT Inference Pipeline Latency Breakdown (A800-80G)' chart or any numerical latency values, stage labels (A/B/C), percentages, total end-to-end latency, or peak VRAM data. The image only shows a 'Graph-of-Thought deduction example' with rationales and a GoT diagram for the word 'earthquake'. Therefore, the requested information is not present in the image.",
+          "warnings": [
+            "Stage A latency (ms)",
+            "Stage A占比",
+            "Stage B latency (ms)",
+            "Stage B占比",
+            "Stage C latency (ms)",
+            "Stage C占比",
+            "Total end-to-end latency",
+            "Peak VRAM"
+          ]
+        }
+      ],
+      "external_call_count": 3,
+      "required_facts_matched": [],
+      "required_facts_total": 9,
+      "forbidden_facts_matched": []
+    },
+    "K_Q06": {
+      "question_id": "K_Q06",
+      "status": "completed",
+      "elapsed_s": 2.878,
+      "answer": "1-hop: 9.8 ms, 2-hop: 14.2 ms, 3-hop: 19.6 ms",
+      "citations_count": 1,
+      "cited_sources": [
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:1:output:2"
+        }
+      ],
+      "selected_source": {
+        "document_id": "local_a534d6fa9a2042ab98676f04007d1290",
+        "source_id": "cell:1:output:2",
+        "version": 1
+      },
+      "route": "target_object",
+      "clarification_options": [],
+      "notices": [],
+      "visual_reads": [
+        {
+          "evidence_id": "ev-1",
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": null,
+          "actual_input_sha256": "721344ef919dd6628c76466e8e7046f9d6c16234a19ff263a7a43a57dbc26e8c",
+          "actual_source": {
+            "document_id": "local_a534d6fa9a2042ab98676f04007d1290",
+            "source_id": "cell:1:output:2",
+            "version": 1
+          },
+          "execution": "real_provider",
+          "method": "vision",
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "question_sha256": "a3f26f66583fdfb8cf74673c9f9574a07c0670e07ea5ba845c048564fcbd8af8",
+          "status": "succeeded",
+          "text": "1-hop: 9.8 ms, 2-hop: 14.2 ms, 3-hop: 19.6 ms",
+          "warnings": []
+        }
+      ],
+      "external_call_count": 1,
+      "required_facts_matched": [
+        "9.8",
+        "14.2",
+        "19.6"
+      ],
+      "required_facts_total": 3,
+      "forbidden_facts_matched": []
+    },
+    "K_Q08": {
+      "question_id": "K_Q08",
+      "status": "completed",
+      "elapsed_s": 10.648,
+      "answer": "课程讲义明确说明：共指实体聚类归并“在本课程中仅作概念与算法步骤说明，全课未安排配套 Notebook 实验演示”。\nLab-01-GoT-Bench.ipynb 中与共指实体聚类归并相关的消融实验只是未来计划，代码标注为“尚未运行，无保存输出”，并抛出 NotImplementedError('Planned future benchmark - not yet executed')。\n现有证据中没有出现 INT8 量化精度对比实验的内容。",
+      "citations_count": 5,
+      "cited_sources": [
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:1"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:4"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:4:shape:2"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:4:shape:3"
+        },
+        {
+          "file_name": "Deck-01-GoT-Architecture.pptx",
+          "version": 1,
+          "source_id": "page:5"
+        },
+        {
+          "file_name": "Lab-01-GoT-Bench.ipynb",
+          "version": 1,
+          "source_id": "cell:4"
+        }
+      ],
+      "selected_source": null,
+      "route": "generated_answer",
+      "clarification_options": [],
+      "notices": [
+        {
+          "code": "missing_evidence",
+          "text": "未找到任何已运行并保存输出结果的“共指实体聚类归并”消融实验；也未找到 INT8 量化精度对比实验的相关安排或结果。当前证据为局部摘录（full_text_scope 为 false），不能据此断言整份资料完全没有此类实验。"
+        }
+      ],
+      "visual_reads": [],
+      "external_call_count": 2,
+      "required_facts_matched": [
+        "没有",
+        "未安排",
+        "未运行",
+        "无保存输出"
+      ],
+      "required_facts_total": 4,
+      "forbidden_facts_matched": []
+    },
+    "K_Q07": {
+      "question_id": "K_Q07",
+      "status": "completed",
+      "elapsed_s": 0.875,
+      "answer": "",
+      "citations_count": 0,
+      "cited_sources": [],
+      "selected_source": null,
+      "route": "version_comparison",
+      "clarification_options": [],
+      "notices": [
+        {
+          "code": "comparison_ambiguous",
+          "text": "无法唯一对应两版对象。请选择一份资料，并明确页、表格或 Cell 内的输出位置。"
+        }
+      ],
+      "visual_reads": [],
+      "external_call_count": 0,
+      "required_facts_matched": [],
+      "required_facts_total": 5,
+      "forbidden_facts_matched": []
+    },
+    "K_Q05_s3": {
+      "question_id": "K_Q05",
+      "strategy": "vector (S3)",
+      "status": "completed",
+      "elapsed_s": 56.36,
+      "answer": "课程幻灯片第 6 页的 3-Stage GoT Inference Pipeline Latency Breakdown（A800-80G）图显示：Stage A 为 11.2 ms（14.8%），Stage B 为 19.6 ms（25.9%），Stage C 为 44.9 ms（59.3%）。\n同一图中，总端到端延迟（Total End-to-End）为 75.7 ms，峰值显存（Peak VRAM）为 18.4 GB。",
+      "vector_trace": null,
+      "visual_reads": [
+        {
+          "evidence_id": "ev-1",
+          "actual_input_media_type": "image/png",
+          "actual_input_rect": null,
+          "actual_input_sha256": "d9753ebb7f4b186d1e07bdb21a9e502862aefa36aeb4d120a8210e9a1ab93c84",
+          "actual_source": {
+            "document_id": "local_3c2e9bf02df242419d68d1b8e7132cd8",
+            "source_id": "page:6",
+            "version": 1
+          },
+          "execution": "real_provider",
+          "method": "vision",
+          "model": "qwen3-vl-plus",
+          "origin_execution": "real_provider",
+          "prompt_version": "source-directed-v1",
+          "question_sha256": "99907826030ebc514ac8e55bcd51ec95335d039dda092b930cc2a1bd54adc2d5",
+          "status": "succeeded",
+          "text": "Stage A: 11.2 ms (14.8%), Stage B: 19.6 ms (25.9%), Stage C: 44.9 ms (59.3%); Total End-to-End: 75.7 ms, Peak VRAM: 18.4 GB",
+          "warnings": []
+        }
+      ],
+      "required_facts_matched": [
+        "11.2 ms",
+        "14.8%",
+        "19.6 ms",
+        "25.9%",
+        "44.9 ms",
+        "59.3%",
+        "75.7 ms",
+        "18.4 GB"
+      ],
+      "required_facts_total": 9
+    },
+    "K_Q03_kg": {
+      "question_id": "K_Q03",
+      "strategy": "s0+kg",
+      "status": "completed",
+      "elapsed_s": 4.413,
+      "answer": "核心概念定义：思维图结构编码 (Thought-Graph Structural Encoding)\n正式定义：思维图结构编码是指先从输入文本抽取主谓宾三元组节点 N 与邻接矩阵 E 构成思维图 G(N, E)，再通过多层图注意力网络对每个节点及其邻域节点计算注意力权重并汇聚生成图表示 H^G。\n\n机制成立条件：\n(1) 最大输入序列长度限制为 512 tokens；\n(2) 单张思维图的节点数上限为 150 个节点；\n(3) 多头注意力输出需经 GELU 激活、拼接及层归一化后接入特征融合模块。\n\n配套实验演示：该编码机制在不同边保留率与跳数下的节点准确率及结构开销，由课程配套实验文件 Lab-01-GoT-Bench.ipynb 中的实验函数 run_triplet_hop_k3() 实测演示。\n| 模型名称 | 参数规模 | 推理吞吐 (samples/s) | 最大图节点数 | 学习率 |\n| --- | --- | --- | --- | --- |\n| Multimodal-CoTbase | 227M | 16.33 samples/s | - | 5e-5 |\n| GoT-T5base (Ours) | 233M | 13.38 samples/s | 150 | 5e-5 |\n| GoT-T5large | 738M | 8.45 samples/s | 150 | 5e-5 |\ndef run_triplet_hop_k3(hops=3, edge_keep=0.75):\n    # Empirical sweep v1 (isolated anchor symbol)\n    node_acc = 87.59\n    graph_overhead_ms = 19.6\n    mem_gb = 18.40\n    print(f'[k3_v1] hops={hops}, edge_keep={edge_keep:.2f} | node_acc={node_acc:.2f}%, graph_overhead_ms={graph_overhead_ms:.1f}, mem_gb={mem_gb:.2f}')\n    return node_acc, graph_overhead_ms, mem_gb\n\nrun_triplet_hop_k3()\n[k3_v1] hops=3, edge_keep=0.75 | node_acc=87.59%, graph_overhead_ms=19.6, mem_gb=18.40\n\n<Sweep A Figure>\ndef eval_branch_mix_m7(alpha_init=0.45):\n    # Empirical mix probe m7 (v1 only)\n    text_only_acc = 32.09\n    multi_acc = 87.59\n    mixer_ms = 44.9\n    print(f'[m7_v1] alpha_init={alpha_init:.2f} | text_only_acc={text_only_acc:.2f}%, multi_acc={multi_acc:.2f}%, mixer_ms={mixer_ms:.1f}')\n    return text_only_acc, multi_acc, mixer_ms\n\neval_branch_mix_m7()",
+      "kg_trace": null,
+      "required_facts_matched": [
+        "512",
+        "150",
+        "GELU",
+        "738M",
+        "8.45",
+        "run_triplet_hop_k3",
+        "0.75",
+        "87.59%",
+        "19.6",
+        "18.40"
+      ],
+      "required_facts_total": 10
+    }
+  },
+  "C6_kg_and_strategy_tradeoffs": {
+    "kg_verification": {
+      "v1_concepts": [
+        {
+          "name": "共指实体聚类归并",
+          "def": 1,
+          "demo": 0
+        },
+        {
+          "name": "思维图结构编码",
+          "def": 1,
+          "demo": 1
+        },
+        {
+          "name": "模态门控特征融合",
+          "def": 1,
+          "demo": 1
+        }
+      ],
+      "v1_c1_has_child_outputs": true,
+      "v1_c3_fallback_to_search": true,
+      "v2_c2_demo_invalidated": true,
+      "ui_dual_entry_ok": false,
+      "kg_ui_def_reader": {
+        "hasHl": false,
+        "imgH": 1080,
+        "imgW": 1920,
+        "loc": "当前版本 · 资料目录",
+        "open": true,
+        "status": "仅展示 · 图像未读取",
+        "title": "Deck-01-GoT-Architecture.pptx · v1 · 第 2 页"
+      },
+      "kg_ui_out_reader": {
+        "hasHl": false,
+        "imgH": 0,
+        "imgW": 0,
+        "loc": "当前版本 · 资料目录",
+        "open": true,
+        "status": "仅展示 · 图像未读取",
+        "title": "Lab-01-GoT-Bench.ipynb · v1 · Cell 2 · 输出 0"
+      }
+    },
+    "S0_vs_S3_K_Q05": {
+      "s0_matched": 0,
+      "s3_matched": 8,
+      "total": 9,
+      "s3_elapsed_s": 56.36
+    },
+    "S0_vs_S0KG_K_Q03": {
+      "s0_matched": 6,
+      "kg_matched": 10,
+      "total": 10,
+      "kg_external_calls": 0
+    },
+    "S0_vs_S0KG_no_table1_probe": {
+      "s0_matched": [
+        "512",
+        "150",
+        "GELU",
+        "run_triplet_hop_k3"
+      ],
+      "kg_matched": [
+        "512",
+        "150",
+        "GELU",
+        "run_triplet_hop_k3",
+        "87.59%",
+        "19.6",
+        "18.40"
+      ],
+      "total": 7,
+      "kg_trace": null,
+      "kg_external_calls": 0
+    }
+  },
+  "C7_four_faults": {
+    "C7-01_corrupted_import": {
+      "passed": true,
+      "imp_bad": [
+        "Broken-Lab.ipynb · 导入失败"
+      ],
+      "imp_bad_rep": [
+        "Lab-01-GoT-Bench.ipynb · 导入失败"
+      ],
+      "half_published_active": 0,
+      "imp_good_v2": [
+        "Lab-01-GoT-Bench.ipynb · 导入完成 · v2"
+      ]
+    },
+    "C7-04_delete_stale_ref": {
+      "passed": true,
+      "delete_status": 200,
+      "stale_turn_error": "stale_reference",
+      "catalog_cleared": true
+    },
+    "C7-02_invalid_model_key_dedup": {
+      "passed": true,
+      "generation_status": "provider_error",
+      "notices": [
+        {
+          "code": "excerpt_fallback",
+          "text": "回答模型未能生成可核对的答案。本条保留已读原文摘录。"
+        }
+      ],
+      "dedup_same_turn_id": true,
+      "sqlite_counts": {
+        "turns": 1,
+        "user_msgs": 1,
+        "assistant_msgs": 1
+      }
+    },
+    "C7-03_vision_failed_and_retry": {
+      "passed": true,
+      "retry_status": "completed",
+      "retry_answer": "19.6 ms",
+      "sqlite_counts": {
+        "turns": 1,
+        "user_msgs": 1,
+        "assistant_msgs": 1
+      }
+    }
+  }
+}
