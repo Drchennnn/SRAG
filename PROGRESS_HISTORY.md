@@ -650,3 +650,10 @@
   - `M5`：服务层与 Chromium 跨课/跨会话/未认证访问严格 HTTP 404；
   - `M6`（同快照同预算三臂对照，`deepseek-flash`，`strategy="s0"`, `pool_cap=12`, `budget=6`，20 次真实调用，三臂均 **0 严重错误**）：`S0_base` `8/10`（跨文件零重叠 `2/4`，`p50=3.021s / p95=6.845s`）、`S0_adj` `8/10`（`2/4`，`p50=3.043s / p95=8.765s`）、`S0_kg` **`9/10`**（跨文件零重叠 **`4/4`**，`p50=3.020s / p95=9.239s`）。
 - **两项独立结论与下一步**：① **单课程导航功能（`M1–M5`）**全面通过并默认内置启用；② **问答一跳候选增强（`workspace_kg_retrieval_enabled`）**通过门禁并保持默认 `False` 显式可选。**H 部正式通过（M3 全部完成）**；进入 M4/K 最终交付的唯一剩余前置为 **R（历史冻结答案人工复核，当前 `R01` 可领）**，交由项目负责人决定下一步。
+
+## 2026-11-24 · Git 提交与合入规范落盘，及 R01 冻结答案复核准备独立审核通过（开放 R02）
+
+- **主线补合并与规范落盘**：在仓库本地设置 `user.name="Drchennnn"` / `user.email="drchennnn@gmail.com"`，并将 [AGENTS.md](./AGENTS.md) 与 [agent.md](./agent.md) 明确增补三条硬约束（作者邮箱校验、阶段验收通过后必须 `git merge --no-ff` 合入 `main` 并推送、严禁脱钩式同步）；随后将已完成的主产品与治理链（`feat/h-course-knowledge-graph`，完整含 G28–G30、J01–J03、H01–H03）及 7 条独立门禁分支（`review/g29-gate`、`review/j-gate`、`review/h-gate`、`codex/g-m2-joint-gate`、`codex/g28-gate`、`codex/m2-retest-prep`、`review/m2-condition-fix-gate`）全部通过 `git merge --no-ff` 真实合入 `origin/main`（`88eee7d0c5074940b05c007e2c72a94220c3ab75`），合并后复跑 Ruff 0 错、`node --check` 通过、带真 `LibreOffice` 全量 `pytest` **`677 passed, 0 failed, 0 skipped`**。
+- **R01 复核资料与口径准备**：`r01_exec` 在只读前提下核对冻结归档 `../SRAG-analysis/修复回归-20261016-163138/`（前后全量 `3090/3090` 文件递归 SHA-256 零变化），在冻结目录外生成私有本地人工复核工作表（`../SRAG-analysis/R-人工复核-20261124/R02-人工复核工作表.md`）、全量 53 题结构化映射（`R01-完整映射表.json`）及 30 份原页/Cell 预览（28 张 PNG + 2 份 MD），全部人工判定栏留空待填；公开仓库仅提交脱敏的 [R01 口径与覆盖表](./docs/R/R01-复核口径与覆盖表.md)（`feat/r-frozen-manual-review` `df78d1fa68959489fa4c66fae59ab6e5781c6d33`）。
+- **R01 独立门禁盲核（6/6 PASS）**：`r01_gate`（`review/r-gate` `98d2538cdbcdb01aa140a75452995e8ab50728a0`）逐项核验：① 冻结目录 3090 文件零改动、20+22 项 SHA-256 零失配；② 重点 8 题（`F15/F16/F18/F24/F29/F30`、`旧 22/23`）原题/回答/引用/视觉缓存计数/AI 初评与纠正版理由逐条忠实一致、原件与 30 份预览可读；③ 40/40 复选框留空、8 必看 `pending` / 45 范围外 `out_of_scope_unreviewed`，0 伪造人评；④ 53 题（30+23）分母与汇总指标严丝合缝；⑤ 公开文档零个人课程内容/绝对路径/密钥泄漏；⑥ 0 触碰 A03 私有文件。[R01 独立审核](./docs/R/R01-独立审核.md)
+- **结论与下一步**：`R01` 正式通过并随 `--no-ff` 合入 `origin/main`；现正式开放并移交 **`R02`（人工确认与分歧）** 给真实人工评估者，待重点 8 题人工判断完成后执行 `R03` 独立记录审核并解锁 `K01`。
