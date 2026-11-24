@@ -238,6 +238,7 @@ def compare_versions(
         draft.notice("comparison_scope", "找不到可使用的指定文件，请核对课程和资料范围。")
         return service._complete(turn, draft, trace=trace)
     focus = None
+    target_doc: SnapshotDocument | None = None
     multi_ids = service.snapshots.multi_version_document_ids(
         [doc.document_id for doc in snapshot.documents]
     )
@@ -246,10 +247,13 @@ def compare_versions(
         focus = service._catalog(session.session_id).nodes.get(session.focus_id)
         if focus is not None:
             if focus.document.document_id in multi_ids or not multi_docs:
+                target_doc = focus.document
                 names = [focus.document.file_name]
+            else:
+                focus = None
         else:
             doc_map = {
-                doc.document_id: doc.file_name
+                doc.document_id: doc
                 for doc in (multi_docs if multi_docs else snapshot.documents)
             }
             for _, msg in _completed_history(service, owner, turn, session):
@@ -259,11 +263,13 @@ def compare_versions(
                     if ev["revision"]["source"]["document_id"] in doc_map
                 }
                 if len(msg_docs) == 1:
-                    names = [doc_map[next(iter(msg_docs))]]
+                    target_doc = doc_map[next(iter(msg_docs))]
+                    names = [target_doc.file_name]
                     break
     if not names and multi_docs:
         if len(multi_docs) == 1:
-            names = [multi_docs[0].file_name]
+            target_doc = multi_docs[0]
+            names = [target_doc.file_name]
         else:
             cleaned_q = _COMPARE.sub(
                 " ", _CURRENT.sub(" ", _OLD.sub(" ", _VERSION.sub(" ", question)))
@@ -291,11 +297,12 @@ def compare_versions(
                     )
                 )
                 if len(hit_docs) == 1:
-                    hit_name = next(
-                        (d.file_name for d in multi_docs if d.document_id == hit_docs[0]), None
+                    hit_doc = next(
+                        (d for d in multi_docs if d.document_id == hit_docs[0]), None
                     )
-                    if hit_name is not None:
-                        names = [hit_name]
+                    if hit_doc is not None:
+                        target_doc = hit_doc
+                        names = [hit_doc.file_name]
         if not names:
             multi_map = {doc.document_id: doc for doc in multi_docs}
             return build_clarification(
@@ -307,7 +314,15 @@ def compare_versions(
                 notice_code="comparison_scope",
                 trace=trace,
             )
-    if names:
+    if not names and not multi_docs and len(snapshot.documents) > 1:
+        draft.notice(
+            "comparison_missing_history",
+            "本会话范围内没有可比较的多版本资料。请先更新版本并从旧回答定位原件后再比较。",
+        )
+        return service._complete(turn, draft, trace=trace)
+    if target_doc is not None:
+        snapshot = service.snapshots.read(SnapshotRequest(scope, (target_doc.document_id,)))
+    elif names:
         snapshot = service.snapshots.read(
             SnapshotRequest(
                 scope, tuple(doc.document_id for doc in snapshot.documents), tuple(names)
@@ -395,21 +410,38 @@ def compare_versions(
         and (not _OUTPUT.search(request_text) or image or source.kind == "notebook_output")
     ]
     if intent:
-        regions = {}
-        for source in current:
-            key = _key(source)
-            identity = key.document_id, key.version, key.source_id
-            region_id = service.region_ids.get(identity)
-            region = service.evidence.regions.get(region_id) if region_id else None
-            if (
-                region
-                and region.source == key
-                and region.content_sha256 == docs[key.document_id].content_sha256
-                and region.coordinate_frame == "visible_page_norm_v1"
-            ):
-                regions[identity] = region.target_rect
-        current = object_choices(intent, current, region_rects=regions)
+        current = object_choices(
+            intent, current, region_rects=_region_rects(service, docs, current)
+        )
     old = _old_candidates(service, session, candidate_history, docs, versions, request_text, image)
+    if (
+        not old
+        and not image
+        and location is None
+        and not intent
+        and full_history
+    ):
+        matched_old = _latest_old_visual_entry(full_history, docs, versions, request_text)
+        if matched_old is not None and len(matched_old[2]) == 1:
+            previous_turn, message, _, _ = matched_old
+            candidate_history = [(previous_turn, message)]
+            prior_intent = object_intent(previous_turn.request.text, include_reference=True)
+            attribute = attribute or _image_attribute(previous_turn.request.text)
+            intent = prior_intent or ObjectIntent(kind="image")
+            image = inherited_image = True
+            current = [
+                source
+                for source in snapshot.sources
+                if source.document_id in docs
+                and _at_location(source, location)
+                and (not _OUTPUT.search(request_text) or image or source.kind == "notebook_output")
+            ]
+            current = object_choices(
+                intent, current, region_rects=_region_rects(service, docs, current)
+            )
+            old = _old_candidates(
+                service, session, candidate_history, docs, versions, request_text, True
+            )
     doc_sources_by_doc: dict[str, list[SnapshotSource]] = {}
     for src in snapshot.sources:
         doc_sources_by_doc.setdefault(src.document_id, []).append(src)
@@ -425,14 +457,31 @@ def compare_versions(
             current_sources=doc_sources_by_doc.get(candidate.document_id),
         )
     ]
+    if (
+        not paired
+        and location is None
+        and not image
+        and not intent
+        and old
+        and any(item.source.kind == "page" for item in old)
+    ):
+        paired = [
+            (past, candidate)
+            for past in old
+            for candidate in current
+            if past.source.document_id == candidate.document_id
+            and candidate.kind == "page"
+            and past.source.locator.get("page") is not None
+            and past.source.locator.get("page") == candidate.locator.get("page")
+        ]
     if location is None and not image and not intent and len(paired) > 1:
         latest = paired[0][0].message_id
-        recent = [(older, newer) for older, newer in paired if older.message_id == latest]
+        recent = [(older, newer) for older, newer in paired if older.message_id == latest][:8]
         keys = {
             (_key(older.source).document_id, older.source.version, newer.version)
             for older, newer in recent
         }
-        if len(keys) == 1 and len(recent) <= 8:
+        if len(keys) == 1:
             paired = recent
             if len(paired) > 1:
                 return _compare_native_group(service, turn, draft, docs, paired, trace)
@@ -897,6 +946,27 @@ def _old_candidates(
         ):
             break
     return list(records.values())
+
+
+def _region_rects(
+    service: WorkspaceService,
+    docs: dict[str, SnapshotDocument],
+    sources: Sequence[SnapshotSource],
+) -> dict[tuple[str, int, str], tuple[float, float, float, float]]:
+    regions: dict[tuple[str, int, str], tuple[float, float, float, float]] = {}
+    for source in sources:
+        key = _key(source)
+        identity = key.document_id, key.version, key.source_id
+        region_id = service.region_ids.get(identity)
+        region = service.evidence.regions.get(region_id) if region_id else None
+        if (
+            region
+            and region.source == key
+            and region.content_sha256 == docs[key.document_id].content_sha256
+            and region.coordinate_frame == "visible_page_norm_v1"
+        ):
+            regions[identity] = region.target_rect
+    return regions
 
 
 def _at_location(source: SnapshotSource, location: StructureLocation | None) -> bool:

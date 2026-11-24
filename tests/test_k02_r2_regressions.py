@@ -978,3 +978,403 @@ def test_r2_post_audit_refinements(tmp_path: Path):
         assert any(
             ev["locator"].get("page") == 24 for ev in r_cn["message"]["sources"].values()
         )
+
+
+# K02-R3: Bug A (filter multi_docs cleanly) & Bug B (composite table+exp bypasses target_object)
+
+
+def test_r3_bug_a_version_comparison_filters_single_version_and_resets_v1_focus(tmp_path: Path):
+    import sqlite3
+
+    service = make_workspace(_settings(tmp_path, deepseek_api_key=""))
+    nb_lab = tmp_path / "Lab-Metrics.ipynb"
+
+    def _write_lab(metric: str) -> None:
+        nbformat.write(
+            nbformat.v4.new_notebook(
+                cells=[
+                    nbformat.v4.new_code_cell(
+                        "run_bench()",
+                        id="bench-metric",
+                        execution_count=1,
+                        outputs=[
+                            nbformat.v4.new_output("stream", name="stdout", text=metric),
+                        ],
+                    )
+                ]
+            ),
+            nb_lab,
+        )
+
+    _write_lab("recall_at_10=84.2%")
+
+    # 1. Single-version PPTX (3 slides) + PDF (v1) alongside Lab-Metrics
+    _publish_doc(
+        service.library,
+        "Deck-Slides.pptx",
+        "pptx",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=0,
+                title="Overview",
+                text="Course overview.",
+                locator={"format": "pptx", "page": 1},
+            ),
+            SourceDraft(
+                source_id="page:3",
+                kind="page",
+                ordinal=2,
+                title="Attention Slide",
+                text="Attention slide details on page 3.",
+                locator={"format": "pptx", "page": 3},
+            ),
+        ],
+    )
+    paper_v1 = _publish_doc(
+        service.library,
+        "Paper-Notes.pdf",
+        "pdf",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=0,
+                title="Latency Benchmark",
+                text="Paper baseline score=70.1%",
+                locator={"format": "pdf", "page": 1},
+            ),
+            SourceDraft(
+                source_id="page:1:table:1",
+                kind="page_object",
+                parent_id="page:1",
+                ordinal=1,
+                title="Table 1",
+                text="Method | Score\nPaperBase | 70.1",
+                locator={"format": "pdf", "page": 1, "object_type": "table"},
+            ),
+        ],
+    )
+
+    with _client(service) as client:
+        session = _create_session(client)
+        # 0 multi-version docs across multiple single-version docs -> comparison_missing_history
+        no_multi = _ask(client, session, "v1 和 v2 相比有什么变化？", 1, client_id="r3-no-multi")
+        assert no_multi["message"]["blocks"][0]["code"] == "comparison_missing_history"
+
+        # Publish v1 of Lab-Metrics and cite both Lab-Metrics and Paper-Notes in v1
+        doc_lab = client.post(
+            f"{session}/import",
+            params={"course_id": _COURSE, "filename": "Lab-Metrics.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_lab.read_bytes(),
+        ).json()
+        _ask(client, session, "recall_at_10", 1, client_id="r3-cite-lab-v1")
+        _ask(client, session, "Latency Benchmark score=70.1%", 1, client_id="r3-cite-paper-v1")
+
+        # Upgrade only Lab-Metrics to v2
+        _write_lab("recall_at_10=92.6%")
+        client.post(
+            f"{session}/import",
+            params={
+                "course_id": _COURSE,
+                "filename": "Lab-Metrics.ipynb",
+                "document_id": doc_lab["document_id"],
+            },
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_lab.read_bytes(),
+        )
+
+        # Edge check: a doc with ONLY 1 published version (version=2) is NOT multi-version
+        orphan = _publish_doc(
+            service.library,
+            "Orphan.pdf",
+            "pdf",
+            [
+                SourceDraft(
+                    source_id="page:1",
+                    kind="page",
+                    ordinal=0,
+                    title="Orphan",
+                    text="Orphan doc v1.",
+                    locator={"format": "pdf", "page": 1},
+                ),
+            ],
+        )
+        _publish_doc(
+            service.library,
+            "Orphan.pdf",
+            "pdf",
+            [
+                SourceDraft(
+                    source_id="page:1",
+                    kind="page",
+                    ordinal=0,
+                    title="Orphan",
+                    text="Orphan doc v2.",
+                    locator={"format": "pdf", "page": 1},
+                ),
+            ],
+            document_id=orphan.document_id,
+        )
+        with sqlite3.connect(service.settings.sqlite_path) as db:
+            db.execute(
+                "UPDATE local_versions SET published_at = NULL "
+                "WHERE document_id = ? AND version = 1",
+                (orphan.document_id,),
+            )
+        assert service.snapshots.multi_version_document_ids(
+            [doc_lab["document_id"], orphan.document_id, paper_v1.document_id]
+        ) == {doc_lab["document_id"]}
+        assert service.library.store.delete_local(orphan.document_id)
+
+        # Focus single-version Deck-Slides.pptx page 3 -> must NOT poison Lab-Metrics compare
+        cat = client.get(f"{session}/catalog").json()
+        deck_p3 = next(
+            n
+            for c in cat["courses"]
+            for d in c["documents"]
+            if d["file_name"] == "Deck-Slides.pptx"
+            for n in d["nodes"]
+            if n["locator"].get("page") == 3
+        )
+        rev = client.put(
+            f"{session}/focus", json={"node_id": deck_p3["node_id"], "scope_revision": 1}
+        ).json()["scope_revision"]
+
+        for cid, q in (
+            ("r3-v1-v2", "v1 和 v2 相比有什么变化？"),
+            ("r3-old-new-diff", "新旧版本差异是什么？"),
+        ):
+            cmp_res = _ask(client, session, q, rev, client_id=cid)
+            assert cmp_res["turn"]["trace"]["route"] == "version_comparison"
+            assert cmp_res["message"]["blocks"][0].get("code") != "comparison_ambiguous"
+            assert {
+                ev["revision"]["source"]["version"]
+                for ev in cmp_res["message"]["sources"].values()
+            } == {1, 2}
+            assert {
+                ev["file_name"] for ev in cmp_res["message"]["sources"].values()
+            } == {"Lab-Metrics.ipynb"}
+
+        # Upgrade Paper-Notes.pdf to v2 with changed title; >=2 multi-version docs clarify those 2
+        _publish_doc(
+            service.library,
+            "Paper-Notes.pdf",
+            "pdf",
+            [
+                SourceDraft(
+                    source_id="page:1",
+                    kind="page",
+                    ordinal=0,
+                    title="Latency Benchmark Updated",
+                    text="Paper improved score=78.4%",
+                    locator={"format": "pdf", "page": 1},
+                ),
+            ],
+            document_id=paper_v1.document_id,
+        )
+        clar = _ask(client, session, "v1 和 v2 相比有什么变化？", rev, client_id="r3-two-multi")
+        assert clar["message"]["blocks"][0]["code"] == "comparison_scope"
+        opt_labels = [opt["label"] for opt in clar["options"]]
+        assert len(opt_labels) == 2
+        assert not any("Deck-Slides.pptx" in lbl for lbl in opt_labels)
+        paper_opt = next(opt for opt in clar["options"] if "Paper-Notes.pdf" in opt["label"])
+        resumed = client.post(
+            f"{session}/turns",
+            json={
+                "kind": "ask",
+                "client_turn_id": "r3-two-multi-resume-pdf",
+                "scope_revision": rev,
+                "text": paper_opt["label"],
+                "anchor": {
+                    "type": "clarification",
+                    "turn_id": clar["turn"]["turn_id"],
+                    "option_id": paper_opt["option_id"],
+                },
+            },
+        ).json()
+        assert resumed["turn"]["trace"]["route"] == "version_comparison"
+        assert {
+            ev["revision"]["source"]["version"]
+            for ev in resumed["message"]["sources"].values()
+        } == {1, 2}
+
+
+def test_r3_bug_b_composite_table_queries_bypass_object_ambiguity_and_reach_kg(tmp_path: Path):
+    # 1. Unit checks for composite table+code/experiment/concept vs explicit single-table lookups
+    for composite_q in (
+        "讲义中的原理、Table 1 参数与实验代码输出有什么关联？",
+        "请先看表 1 的指标限制，再结合实验代码验证结果是否达标",
+        "对比讲义 Table 1 与实验 Notebook 代码输出中的实测数据",
+        "请结合定义与表 1 的关系说明限制条件",
+        "结合表 1 和实验脚本核对实测结果",
+    ):
+        assert object_intent(composite_q) is None, composite_q
+
+    for explicit_q, expected_kind in (
+        ("打开第 1 页的表 1", "table"),
+        ("查看 Table 1", "table"),
+        ("打开那张表", "table"),
+        ("表 1 第一列是什么单位？", "table"),
+        ("请先看表 1 的指标，不用查实验代码", "table"),
+    ):
+        got = object_intent(explicit_q)
+        assert got is not None and got.kind == expected_kind, explicit_q
+
+    # 2. E2E course-wide composite query with >= 2 Table 1 docs + KG 1-hop enabled
+    service = make_workspace(
+        _settings(
+            tmp_path,
+            deepseek_api_key="",
+            workspace_answer_enabled=True,
+            workspace_kg_retrieval_enabled=True,
+        )
+    )
+    _publish_doc(
+        service.library,
+        "Lecture-Deck.pptx",
+        "pptx",
+        [
+            SourceDraft(
+                source_id="page:2",
+                kind="page",
+                ordinal=1,
+                title="2. 轴向稀疏路由 (Axis-Sparse Routing)",
+                text=(
+                    "定义：轴向稀疏路由 (Axis-Sparse Routing) — 按列裁剪 KV 块。\n"
+                    "使用 `probe_axis_sparse` 验证。"
+                ),
+                locator={"format": "pptx", "page": 2},
+            ),
+            SourceDraft(
+                source_id="page:5",
+                kind="page",
+                ordinal=4,
+                title="硬件对照表",
+                text="Table 1: 硬件参数表 Memory_Limit=3000 MB",
+                locator={"format": "pptx", "page": 5},
+            ),
+            SourceDraft(
+                source_id="page:5:table:1",
+                kind="page_object",
+                parent_id="page:5",
+                ordinal=5,
+                title="Table 1",
+                text="Metric | Limit\nPeak Memory (MB) | <= 3000",
+                locator={"format": "pptx", "page": 5, "object_type": "table"},
+            ),
+        ],
+    )
+    _publish_doc(
+        service.library,
+        "Reference-Paper.pdf",
+        "pdf",
+        [
+            SourceDraft(
+                source_id="page:5",
+                kind="page",
+                ordinal=0,
+                title="Page 5",
+                text="Table 1: Paper Baseline Scores.",
+                locator={"format": "pdf", "page": 5},
+            ),
+            SourceDraft(
+                source_id="page:5:table:1",
+                kind="page_object",
+                parent_id="page:5",
+                ordinal=1,
+                title="Table 1",
+                text="Baseline | Accuracy\nPaperBase | 75.0",
+                locator={"format": "pdf", "page": 5, "object_type": "table"},
+            ),
+        ],
+    )
+    nb_path = tmp_path / "Bench-Run.ipynb"
+    nbformat.write(
+        nbformat.v4.new_notebook(
+            cells=[
+                nbformat.v4.new_code_cell(
+                    "res = probe_axis_sparse(kv_blocks)\nprint(res)",
+                    id="sparse-cell",
+                    execution_count=1,
+                    outputs=[
+                        nbformat.v4.new_output(
+                            "stream", name="stdout", text="Recall@10=88.5%, peak_memory=2800 MB"
+                        ),
+                        nbformat.v4.new_output(
+                            "display_data",
+                            data={
+                                "image/png": base64.b64encode(_png_bytes((30, 140, 220))).decode(
+                                    "ascii"
+                                )
+                            },
+                        ),
+                    ],
+                )
+            ]
+        ),
+        nb_path,
+    )
+
+    with _client(service) as client:
+        session = _create_session(client)
+        client.post(
+            f"{session}/import",
+            params={"course_id": _COURSE, "filename": "Bench-Run.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        )
+
+        # Standalone "查看 Table 1" in multi-table scope STILL hits target_object
+        bare_tbl = _ask(client, session, "查看 Table 1", 1, client_id="r3-bare-tbl")
+        assert bare_tbl["turn"]["trace"]["route"] == "target_object"
+        assert bare_tbl["message"]["blocks"][0]["code"] == "object_ambiguous"
+
+        # Course-wide composite query ("表 1" / "Table 1" + code + experiment output + concept)
+        # must bypass target_object and enter retrieval + KG 1-hop!
+        comp = _ask(
+            client,
+            session,
+            "请解释 轴向稀疏路由 的定义，结合表 1 的 Peak Memory 限制，"
+            "再核对实验代码和输出中的实测数据",
+            1,
+            client_id="r3-composite-kg",
+        )
+        assert comp["turn"]["status"] == "completed"
+        assert comp["turn"]["trace"].get("route") != "target_object"
+        assert not any(
+            b.get("code") == "object_ambiguous" for b in comp["message"]["blocks"]
+        )
+        kg_trace = comp["turn"]["trace"].get("kg") or {}
+        assert kg_trace.get("status") in {"succeeded", "already_covered"}
+        cited_files = {ev["file_name"] for ev in comp["message"]["sources"].values()}
+        assert "Bench-Run.ipynb" in cited_files
+        assert "Lecture-Deck.pptx" in cited_files
+
+        # Focused multi-output cell still allows table+code+experiment query to bypass hijack
+        cat = client.get(f"{session}/catalog").json()
+        bench_cell = next(
+            n
+            for c in cat["courses"]
+            for d in c["documents"]
+            if d["file_name"] == "Bench-Run.ipynb"
+            for n in d["nodes"]
+            if n["kind"] == "cell"
+        )
+        rev = client.put(
+            f"{session}/focus", json={"node_id": bench_cell["node_id"], "scope_revision": 1}
+        ).json()["scope_revision"]
+        cell_comp = _ask(
+            client,
+            session,
+            "请核对 Table 1 的硬件指标限制与实验代码运行输出",
+            rev,
+            client_id="r3-cell-focus-composite",
+        )
+        assert cell_comp["turn"]["status"] == "completed"
+        assert cell_comp["turn"]["trace"].get("route") != "target_object"
+        assert not any(
+            b.get("code") == "object_ambiguous" for b in cell_comp["message"]["blocks"]
+        )

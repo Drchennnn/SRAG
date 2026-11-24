@@ -9,6 +9,12 @@ from typing import TYPE_CHECKING
 from app.rag.evidence_supplement import asks_for_definition_and_experiment
 from app.rag.workspace_composition import asks_for_composition
 from app.rag.workspace_objects import (
+    _CROSS_SOURCE_CODE_EXP as _OBJ_CROSS_SOURCE_CODE_EXP,
+)
+from app.rag.workspace_objects import (
+    _CROSS_SOURCE_NEGATION as _OBJ_CROSS_SOURCE_NEGATION,
+)
+from app.rag.workspace_objects import (
     _FACT as _OBJECT_FACT,
 )
 from app.rag.workspace_objects import (
@@ -19,6 +25,12 @@ from app.rag.workspace_objects import (
 )
 from app.rag.workspace_objects import (
     _PREVIEW as _OBJECT_PREVIEW,
+)
+from app.rag.workspace_objects import (
+    _TABLE as _OBJ_TABLE,
+)
+from app.rag.workspace_objects import (
+    _TABLE_NUMBER as _OBJ_TABLE_NUMBER,
 )
 from app.rag.workspace_objects import (
     ObjectIntent,
@@ -418,6 +430,11 @@ def route_turn(service: WorkspaceService, ctx: TurnContext) -> RouteDecision:
         and not _VERSION_PLURAL_OBJECT.search(text)
         and not _EXPERIMENT_TEXT.search(text)
         and not _definition_topics(text)
+        and not (
+            (_OBJ_TABLE.search(text) or _OBJ_TABLE_NUMBER.search(text))
+            and _OBJ_CROSS_SOURCE_CODE_EXP.search(text)
+            and not _OBJ_CROSS_SOURCE_NEGATION.search(text)
+        )
     ):
         file_names = [
             doc.file_name

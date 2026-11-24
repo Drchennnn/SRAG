@@ -185,7 +185,7 @@ class StructureSnapshotStore(MetadataStore):
             )
 
     def multi_version_document_ids(self, document_ids: Sequence[str]) -> set[str]:
-        """Return the subset of document_ids that have at least one published version >= 2."""
+        """Return document_ids that have at least two distinct published versions."""
         clean_ids = [doc_id for doc_id in dict.fromkeys(document_ids) if doc_id]
         if not clean_ids:
             return set()
@@ -198,7 +198,7 @@ class StructureSnapshotStore(MetadataStore):
                 FROM local_versions
                 WHERE document_id IN ({marks}) AND published_at IS NOT NULL
                 GROUP BY document_id
-                HAVING max(version) >= 2
+                HAVING max(version) >= 2 AND count(DISTINCT version) >= 2
                 """,
                 clean_ids,
             ).fetchall()

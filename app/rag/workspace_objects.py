@@ -64,6 +64,24 @@ _FORMULA_DERIVATION = re.compile(
     r"哪几个公式|多个公式|各个公式|\b(?:deriv(?:e|ation)|proof|multiple\s+equations?)\b",
     re.IGNORECASE,
 )
+_CROSS_SOURCE_CODE_EXP = re.compile(
+    r"代码|Notebook|ipynb|脚本|源码|实验(?:结果|输出|代码|验证|对比|部分|设置|条件|数据|中|里)?|"
+    r"实测(?:结果|输出|数据)?|保存(?:的)?(?:实验|运行)?输出|运行(?:的)?(?:结果|输出)|"
+    r"验证(?:结果|是否|一下)?|"
+    r"\b(?:notebook|code|script|implementation|experiment(?:al|s)?|validat(?:e|ion|ing)|"
+    r"saved\s+outputs?|empirical)\b",
+    re.IGNORECASE,
+)
+_CROSS_SOURCE_CONCEPT = re.compile(
+    r"定义|概念|原理|机制|思想|\b(?:defin(?:e|ition)|concept|principle|mechanism)\b",
+    re.IGNORECASE,
+)
+_CROSS_SOURCE_NEGATION = re.compile(
+    r"(?:不要|不用|不必|无需|跳过|忽略|(?<!\w)别)\s*"
+    r"(?:查|看|读|引)?\s*(?:实验|代码|Notebook|验证|输出)"
+    r"|\b(?:skip|ignore|without|do\s+not|don['’]t)\s+(?:code|notebook|experiments?|validation)\b",
+    re.IGNORECASE,
+)
 _VISUAL_PROSE_IDIOMS = re.compile(
     r"试图|意图|企图|力图|贪图|图谋|版图|蓝图|图灵",
 )
@@ -210,6 +228,28 @@ def object_intent(question: str, *, include_reference: bool = False) -> ObjectIn
     has_table = bool(
         tables or _TABLE.search(question) or (not has_image and _COLUMN.search(question))
     )
+    if (
+        has_table
+        and not has_image
+        and not include_reference
+        and not has_explicit_loc
+        and (
+            (
+                _CROSS_SOURCE_CODE_EXP.search(question)
+                and not _CROSS_SOURCE_NEGATION.search(question)
+            )
+            or (
+                _CROSS_SOURCE_CONCEPT.search(question)
+                and re.search(
+                    r"验证|对比|对照|比较|区别|联系|关系|结合|关联|"
+                    r"\b(?:compar(?:e|ing)|validat(?:e|ing)|combin(?:e|ing)|relat(?:e|ion|ionship))\b",
+                    question,
+                    re.IGNORECASE,
+                )
+            )
+        )
+    ):
+        return None
     if has_caption and not has_table:
         explicit_caption = bool(
             has_explicit_loc
