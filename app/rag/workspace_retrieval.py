@@ -928,9 +928,23 @@ def prioritize_matching_tables(
         for num in sorted(req_ordinals)
     ]
 
+    page_captions: dict[tuple[str, int, int], list[str]] = {}
+    if snapshot_sources is not None:
+        for src in snapshot_sources.values():
+            is_cap = src.kind == "caption" or (
+                src.kind == "page_object" and src.locator.get("object_type") == "caption"
+            )
+            if is_cap and isinstance(src.locator.get("page"), int):
+                cap_text = readable_source_text(src).strip()
+                if cap_text:
+                    page_captions.setdefault(
+                        (src.document_id, src.version, src.locator["page"]), []
+                    ).append(cap_text)
+
     scored: list[
         tuple[
-            tuple[int, int, int, int, int],
+            tuple[int, int, int, int, int, int],
+            frozenset[str],
             frozenset[str],
             frozenset[int],
             bool,
@@ -939,13 +953,19 @@ def prioritize_matching_tables(
     ] = []
     for cand, in_pool, orig_rank in candidates.values():
         parent_text = ""
+        cap_texts: list[str] = []
         if snapshot_sources is not None and isinstance(cand.locator.get("page"), int):
+            page_num = cand.locator["page"]
             p_src = snapshot_sources.get(
-                (cand.source.document_id, cand.source.version, f"page:{cand.locator['page']}")
+                (cand.source.document_id, cand.source.version, f"page:{page_num}")
             )
             if p_src is not None:
                 parent_text = f"{p_src.title}\n{p_src.text}"
+            cap_texts = page_captions.get(
+                (cand.source.document_id, cand.source.version, page_num), []
+            )
         blob = f"{cand.title}\n{cand.text}".casefold()
+        aux_blob = "\n".join(part for part in (parent_text, *cap_texts) if part).casefold()
         matched_ords: set[int] = set()
         if req_ordinals:
             tbl_idx = cand.locator.get("table_index")
@@ -957,22 +977,37 @@ def prioritize_matching_tables(
                 ):
                     matched_ords.add(num)
         ord_hit = 1 if matched_ords else 0
-        matched_terms = frozenset(term for term in terms if term in blob)
-        term_hits = len(matched_terms)
+        direct_terms = frozenset(term for term in terms if term in blob)
+        aux_terms = (
+            frozenset(term for term in terms if term not in direct_terms and term in aux_blob)
+            if aux_blob
+            else frozenset()
+        )
+        direct_hits = len(direct_terms)
+        aux_hits = len(aux_terms)
+        total_hits = direct_hits + aux_hits
         same_doc = 1 if cand.source.document_id in hit_docs else 0
         if in_pool:
-            if ord_hit == 0 and term_hits == 0 and not same_doc:
+            if ord_hit == 0 and total_hits == 0 and not same_doc:
                 continue
         elif same_doc:
-            if ord_hit == 0 and term_hits == 0:
+            if ord_hit == 0 and total_hits == 0:
                 continue
-        elif ord_hit == 0 and term_hits < 2:
+        elif ord_hit == 0 and total_hits < 2:
             continue
-        has_match = bool(ord_hit or term_hits)
+        has_match = bool(ord_hit or total_hits)
         scored.append(
             (
-                (ord_hit, term_hits, same_doc, 1 if in_pool else 0, -orig_rank),
-                matched_terms,
+                (
+                    ord_hit,
+                    direct_hits * 2 + aux_hits,
+                    direct_hits,
+                    same_doc,
+                    1 if in_pool else 0,
+                    -orig_rank,
+                ),
+                direct_terms,
+                aux_terms,
                 frozenset(matched_ords),
                 has_match,
                 cand,
@@ -982,7 +1017,7 @@ def prioritize_matching_tables(
     if not scored:
         return list(pool)
     scored.sort(key=lambda item: item[0], reverse=True)
-    distinct_docs = {entry[4].source.document_id for entry in scored}
+    distinct_docs = {entry[5].source.document_id for entry in scored}
     want_multi = bool(
         len(req_ordinals) >= 2
         or _TABLE_COMPARE_CUE.search(question)
@@ -990,10 +1025,11 @@ def prioritize_matching_tables(
     )
     max_slots = min(2, max(1, budget // 3)) if want_multi else 1
     chosen_tables: list[StructureCandidate] = []
-    first_score, covered_terms_ro, covered_ords_ro, _, first_cand = scored[0]
+    _, first_direct, first_aux, covered_ords_ro, _, first_cand = scored[0]
     chosen_tables.append(first_cand)
     seen_pages: set[tuple[str, int | str]] = {_table_page_key(first_cand)}
-    covered_terms = set(covered_terms_ro)
+    chosen_docs: set[str] = {first_cand.source.document_id}
+    covered_terms = set(first_direct | first_aux)
     covered_ords = set(covered_ords_ro)
     remaining = scored[1:]
     while len(chosen_tables) < max_slots and remaining:
@@ -1002,27 +1038,36 @@ def prioritize_matching_tables(
             key=lambda i: (
                 1
                 if (
-                    _table_page_key(remaining[i][4]) not in seen_pages
+                    _table_page_key(remaining[i][5]) not in seen_pages
                     and (
-                        bool(remaining[i][1] - covered_terms)
-                        or bool(remaining[i][2] - covered_ords)
+                        bool((remaining[i][1] | remaining[i][2]) - covered_terms)
+                        or bool(remaining[i][3] - covered_ords)
                     )
                 )
                 else 0,
                 1
                 if (
-                    _table_page_key(remaining[i][4]) not in seen_pages
-                    and remaining[i][3]
+                    remaining[i][5].source.document_id not in chosen_docs
+                    and remaining[i][4]
                 )
                 else 0,
-                len(remaining[i][2] - covered_ords),
+                1
+                if (
+                    _table_page_key(remaining[i][5]) not in seen_pages
+                    and remaining[i][4]
+                )
+                else 0,
+                len(remaining[i][3] - covered_ords),
+                len(remaining[i][1] - covered_terms) * 2
+                + len(remaining[i][2] - covered_terms),
                 len(remaining[i][1] - covered_terms),
                 *remaining[i][0],
             ),
         )
-        _, m_terms, m_ords, _, next_cand = remaining.pop(best_idx)
+        _, m_direct, m_aux, m_ords, _, next_cand = remaining.pop(best_idx)
         seen_pages.add(_table_page_key(next_cand))
-        covered_terms.update(m_terms)
+        chosen_docs.add(next_cand.source.document_id)
+        covered_terms.update(m_direct | m_aux)
         covered_ords.update(m_ords)
         chosen_tables.append(next_cand)
 

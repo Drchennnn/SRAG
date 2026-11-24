@@ -1439,14 +1439,24 @@ def _counterpart(
     prev, now = source.locator, current.locator
     if source.kind in {"cell", "notebook_output"}:
         known_cell = bool(prev.get("cell_id")) and prev["cell_id"] == now.get("cell_id")
-        same_explicit_cell = (
+        same_unlabeled_cell = (
             not prev.get("cell_id")
             and not now.get("cell_id")
-            and location is not None
-            and location.cell_index is not None
-            and prev.get("cell_index") == location.cell_index
+            and prev.get("cell_index") is not None
+            and prev.get("cell_index") == now.get("cell_index")
+            and (
+                (
+                    location is not None
+                    and location.cell_index is not None
+                    and prev.get("cell_index") == location.cell_index
+                )
+                or (
+                    source.kind == "notebook_output"
+                    and _cell_outputs_reliable(old, current, current_sources)
+                )
+            )
         )
-        if not (known_cell or same_explicit_cell):
+        if not (known_cell or same_unlabeled_cell):
             return False
         if source.kind == "cell":
             return prev.get("cell_type") == now.get("cell_type")
@@ -1817,7 +1827,17 @@ def resolve_current_counterpart(
         src
         for src in doc_sources
         if src.kind == past.source.kind
-        and src.locator.get("cell_id") == past.source.locator.get("cell_id")
+        and (
+            (
+                past.source.locator.get("cell_id")
+                and src.locator.get("cell_id") == past.source.locator.get("cell_id")
+            )
+            or (
+                not past.source.locator.get("cell_id")
+                and not src.locator.get("cell_id")
+                and src.locator.get("cell_index") == past.source.locator.get("cell_index")
+            )
+        )
         and _output_image_mimes(src.locator.get("representations"))
     ]
     if not same_cell_candidates:
