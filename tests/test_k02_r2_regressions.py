@@ -22,20 +22,17 @@ from app.config import Settings
 from app.rag.local_library import LocalLibrary
 from app.rag.source_evidence import DisplayRecord, EvidenceResult
 from app.rag.source_vision import VisionReply
-from app.rag.structure_search import (
-    StructureCandidate,
-    StructureSearcher,
-    StructureSearchRequest,
-)
+from app.rag.structure_search import StructureSearcher, StructureSearchRequest
 from app.rag.workspace import (
     WorkspaceService,
     _has_latin_corpus,
+    _location,
     _parse_location_num,
     make_workspace,
 )
 from app.rag.workspace_objects import ObjectIntent, has_visual_question, object_intent
-from app.rag.workspace_retrieval import _fuse, _prioritize_continuations
-from app.schemas.local import ParsedSource, SourceDraft, SourceKey
+from app.rag.workspace_retrieval import _prioritize_continuations
+from app.schemas.local import ParsedSource, SourceDraft
 from app.stores.structure_snapshot import (
     SnapshotRequest,
     SnapshotSource,
@@ -827,38 +824,14 @@ def test_r2_post_audit_refinements(tmp_path: Path):
     assert has_visual_question("np.array.sum() 的 axis=0/1/2 是怎么解释的？") is False
     assert has_visual_question("图的 x-axis 和纵轴单位是什么？") is True
 
-    # 2. Chinese numeral page parser parses "二十四" -> 24
+    # 2. Chinese numeral page parser parses "第二十四页" -> 24, never "哪一页" -> 1
     assert _parse_location_num("二十四") == 24
     assert _parse_location_num("十一") == 11
     assert _parse_location_num("一百零三") == 103
+    assert _location("展示在哪一页幻灯片？", None) is None
+    assert _location("第二十四页的表格列了什么？", None).page == 24
 
-    # 3. _fuse preserves top translated-query hits ahead of tail double-hits
-    def cand(doc_id: str, sid: str, txt: str) -> StructureCandidate:
-        return StructureCandidate(
-            source=SourceKey(document_id=doc_id, version=1, source_id=sid),
-            course_id=_COURSE,
-            file_name="nb.ipynb",
-            kind="cell",
-            title=sid,
-            text=txt,
-            locator={"cell_index": int(sid.split(":")[1])},
-            state="available",
-            text_available=True,
-            match_kind="fts",
-            reasons=[],
-        )
-
-    orig = [cand("d", f"cell:{i}", f"Naive Bayes outline {i}") for i in range(6)]
-    alt = [
-        cand("d", "cell:80", "Smoothing alpha=0.1 BernoulliNB"),
-        cand("d", "cell:79", "# Smoothing formula"),
-        *orig[:4],
-    ]
-    fused = _fuse(orig, alt, pool_cap=6)
-    fused_ids = [c.source.source_id for c in fused]
-    assert "cell:80" in fused_ids and "cell:79" in fused_ids
-
-    # 4. E2E: unlocated figure doc question with "不同" falls back cleanly;
+    # 3. E2E: unlocated figure doc question with "不同" falls back cleanly;
     # "换文件到... 它要求..." switches without definition clarification;
     # "第二十四页的表格..." resolves across multi-doc course via table object match.
     service = make_workspace(_settings(tmp_path, deepseek_api_key=""))

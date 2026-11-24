@@ -187,10 +187,15 @@ _DEMONSTRATIVE_OBJECT = re.compile(
 )
 _CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*cell", re.IGNORECASE)
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
-_CN_NUM = r"[1-9][0-9]{0,3}|[零〇一二两三四五六七八九十百]{1,6}"
-_PAGE = re.compile(rf"第?\s*({_CN_NUM})\s*(?:页|张幻灯片)")
+_CN_ONLY = r"[零〇一二两三四五六七八九十百]{1,6}"
+_PAGE = re.compile(
+    rf"(?:第\s*([1-9][0-9]{{0,3}}|{_CN_ONLY})|(?<![零〇一二两三四五六七八九十百哪这每各])([1-9][0-9]{{0,3}}))\s*(?:页|张幻灯片)"
+)
 _PAGE_PREFIX = re.compile(r"\b(?:page|slide)\s+#?([1-9][0-9]{0,3})\b", re.IGNORECASE)
-_CELL = re.compile(rf"第?\s*({_CN_NUM})\s*(?:个)?\s*(?:cell|单元格)", re.IGNORECASE)
+_CELL = re.compile(
+    rf"(?:第\s*([1-9][0-9]{{0,3}}|{_CN_ONLY})|([1-9][0-9]{{0,3}}))\s*(?:个)?\s*(?:cell|单元格)",
+    re.IGNORECASE,
+)
 _CELL_PREFIX = re.compile(r"\bcell\s*#?\s*([1-9][0-9]{0,3})\b", re.IGNORECASE)
 _FILE_MENTION = re.compile(r"\.(?:pdf|pptx|ipynb)(?=$|[^a-z0-9_])", re.IGNORECASE)
 _WHOLE_FILE = re.compile(
@@ -3915,10 +3920,12 @@ def _parse_location_num(raw: str) -> int | None:
 
 def _location(query: str, node: CatalogNode | None) -> StructureLocation | None:
     if match := _PAGE.search(query) or _PAGE_PREFIX.search(query):
-        if (page_num := _parse_location_num(match.group(1))) is not None:
+        raw_page = next((g for g in match.groups() if g is not None), "")
+        if (page_num := _parse_location_num(raw_page)) is not None:
             return StructureLocation(page=page_num)
     if match := _CELL.search(query) or _CELL_PREFIX.search(query):
-        if (cell_num := _parse_location_num(match.group(1))) is not None:
+        raw_cell = next((g for g in match.groups() if g is not None), "")
+        if (cell_num := _parse_location_num(raw_cell)) is not None:
             return StructureLocation(cell_index=cell_num - 1)
     if node and node.source:
         if isinstance(page := node.source.locator.get("page"), int):
