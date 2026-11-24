@@ -1,0 +1,85 @@
+{
+  "candidate_sha": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+  "previous_gate_sha": "dfd044327020f46c0084266639c007a837c465bf",
+  "overall_verdict": "返工（P04 出站请求仍未锚定前轮唯一目标概念）",
+  "scores": {
+    "original_5": "5/5",
+    "previous_4": "4/4",
+    "double_file_4": "4/4",
+    "total": "13/13"
+  },
+  "p04_verdicts": {
+    "outbound_http_anchoring": "失败（question 原样出站，definition_topic=null，previous_context={}，未建立追问与前轮唯一目标的关联）",
+    "final_answer_and_citation": "通过（最终回答给出所问定义及必要条件，直接引用点击打开对应 v1 讲义定义页）",
+    "narrowed_scope_isolation": "通过（旧实验候选/实读/出站/引用/旧数值复述均为 0，保留范围变化与重选办法；S03 切回恢复实验，S04 新会话不继承）"
+  },
+  "earliest_deviation": "app/rag/workspace.py 中 followup=True、_definition_topics=空且前轮有 1 个已确认定义话题，但 _definition_reference() 返回 None，跳过话题绑定分支导致未写入 definition_topic 且出站 question 未锚定。",
+  "private_frozen_runs": {
+    "regression_first": {
+      "sha256": "c9c554490275b157d5a7a5fb0011a06c40c94ccb1d29d3329de054f105572bcf",
+      "subject": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 19,
+      "reader_clicks_ok": 19
+    },
+    "absence_first": {
+      "sha256": "cedda40e4c3d3746fc74b74daf0bad25b497bb3f46bf3902fb9add2cee3bb957",
+      "subject": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+      "turns": 1,
+      "provider_calls_total": 2,
+      "provider_calls_http_200": 2,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 3,
+      "reader_clicks_ok": 3
+    },
+    "final_holdout_first": {
+      "sha256": "97362f455af766562b3d61c05d6021d5a8bf8df719386f9ca001f4198217e3f0",
+      "subject": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 11,
+      "reader_clicks_ok": 11
+    },
+    "scope_holdout_first": {
+      "sha256": "b00ee7c57af317ce386af1edeeb7278d717e5eb168593be872e5934970cfcd17",
+      "subject": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+      "turns": 4,
+      "provider_calls_total": 5,
+      "provider_calls_http_200": 5,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 8,
+      "reader_clicks_ok": 8
+    }
+  },
+  "public_controls": {
+    "sha256": "47e171d2e16fd04a5aa95dd523f0faefde3e788c456ccb0a92e90a8a3ab193ac",
+    "subject": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+    "turns": 8,
+    "provider_calls_total": 8,
+    "provider_calls_http_200": 8,
+    "provider_calls_failed": 0,
+    "excerpt_fallbacks": [],
+    "reader_clicks_total": 17,
+    "reader_clicks_ok": 17
+  },
+  "anchor_control": {
+    "sha256": "42eae631eec931856b5f28f702d0b09b07db919326d4f781b4ca87466fc7a44a",
+    "subject": "b93590e5aa853e1e3d35e4068a5320a80766ca43",
+    "turns": 6,
+    "provider_calls_total": 7,
+    "provider_calls_http_200": 7,
+    "provider_calls_failed": 0,
+    "excerpt_fallbacks": [],
+    "reader_clicks_total": 12,
+    "reader_clicks_ok": 12
+  }
+}

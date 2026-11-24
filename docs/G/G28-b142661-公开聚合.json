@@ -1,0 +1,187 @@
+{
+  "candidate_sha": "b142661ac6b64c3ee1eba74d4da511444ea08184",
+  "verdicts": {
+    "original_answer": "返工（原五题 4/5：P04 未保留目标定义及直接引用；前批四题 4/4；双文件场景 4/4；合计 12/13）",
+    "outbound_anchoring": "失败（P04 出站 HTTP 请求仍为原省略式追问，definition_topic=null，previous_context={}，未绑定目标名称）",
+    "scope_isolation": "通过（P04、N04、S02 收窄后旧实验候选/实读/出站/引用/旧数值复述均为 0，范围提示与重选说明完整；S03 切回课程范围恢复实验；S04 新会话无越界）",
+    "first_failing_step": "P04 请求层指代解析入口（_definition_reference / _definition_topics 均未命中 P04 问句）"
+  },
+  "private_frozen_runs": {
+    "regression_first": {
+      "sha256": "d32ba7ffb380005626b26e0e1f4d2715120e8ca63f5f95b9f82a94571235af9c",
+      "subject": "b142661ac6b64c3ee1eba74d4da511444ea08184",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "reader_clicks_total": 16,
+      "reader_clicks_ok": 16
+    },
+    "absence_first": {
+      "sha256": "c12b468341a71dc12a5dec64bbfa092f873c328c5b0b3b453af3a7276727dd6c",
+      "subject": "b142661ac6b64c3ee1eba74d4da511444ea08184",
+      "turns": 1,
+      "provider_calls_total": 2,
+      "provider_calls_http_200": 2,
+      "provider_calls_failed": 0,
+      "reader_clicks_total": 3,
+      "reader_clicks_ok": 3
+    },
+    "final_holdout_first": {
+      "sha256": "00bc2a3020206d697fc8fee5c3e7c6314b790f24b74ffdfd2a7edada633910c3",
+      "subject": "b142661ac6b64c3ee1eba74d4da511444ea08184",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "reader_clicks_total": 10,
+      "reader_clicks_ok": 10
+    },
+    "scope_holdout_first": {
+      "sha256": "ccb8c46164e2a1b0c2883cbcc3bf9d03d51e05cad10b7cab452f3ad60ecb5059",
+      "subject": "b142661ac6b64c3ee1eba74d4da511444ea08184",
+      "turns": 4,
+      "provider_calls_total": 5,
+      "provider_calls_http_200": 5,
+      "provider_calls_failed": 0,
+      "reader_clicks_total": 8,
+      "reader_clicks_ok": 8
+    }
+  },
+  "public_controls": {
+    "sha256": "0bfdbbd32e9e6724b10e4fa076b0a849bc3400deaddee2b7f22e67ee53c70c7d",
+    "subject": "b142661ac6b64c3ee1eba74d4da511444ea08184",
+    "turns": 8,
+    "provider_calls_total": 8,
+    "provider_calls_http_200": 8,
+    "provider_calls_failed": 0,
+    "reader_clicks_total": 17,
+    "reader_clicks_ok": 17,
+    "turns_detail": [
+      {
+        "id": "D01",
+        "provider_calls": 2,
+        "reader_clicks": 3,
+        "reader_titles": [
+          "Field-Operations-Guide.pdf · v1 · 第 9 页",
+          "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+          "Field-Operations-Guide.pdf · v1 · 第 6 页"
+        ],
+        "notices": [],
+        "outbound_question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Field-Operations-Guide.pdf",
+          "Release-Lag-Record.ipynb"
+        ]
+      },
+      {
+        "id": "D02",
+        "provider_calls": 1,
+        "reader_clicks": 3,
+        "reader_titles": [
+          "Field-Operations-Guide.pdf · v1 · 第 9 页",
+          "Field-Operations-Guide.pdf · v1 · 第 6 页",
+          "Field-Operations-Guide.pdf · v1 · 第 15 页"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "outbound_question": "按刚才的问题，Acceptance Grid怎么定义？刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Field-Operations-Guide.pdf"
+        ]
+      },
+      {
+        "id": "D03",
+        "provider_calls": 1,
+        "reader_clicks": 2,
+        "reader_titles": [
+          "Field-Operations-Guide.pdf · v1 · 第 3 页",
+          "Field-Operations-Guide.pdf · v1 · 第 22 页"
+        ],
+        "notices": [],
+        "outbound_question": "Quiet Window 怎么定义？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Field-Operations-Guide.pdf"
+        ]
+      },
+      {
+        "id": "D04",
+        "provider_calls": 1,
+        "reader_clicks": 3,
+        "reader_titles": [
+          "Field-Operations-Guide.pdf · v1 · 第 9 页",
+          "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+          "Field-Operations-Guide.pdf · v1 · 第 6 页"
+        ],
+        "notices": [],
+        "outbound_question": "讲义怎么定义 Acceptance Grid？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Field-Operations-Guide.pdf",
+          "Release-Lag-Record.ipynb"
+        ]
+      },
+      {
+        "id": "D05",
+        "provider_calls": 1,
+        "reader_clicks": 2,
+        "reader_titles": [
+          "Field-Operations-Guide.pdf · v1 · 第 9 页",
+          "Field-Operations-Guide.pdf · v1 · 第 15 页"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "outbound_question": "只在选中的资料里，接着前一问说明Acceptance Grid的定义。刚才那次回放实验的平均释放延迟是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Field-Operations-Guide.pdf"
+        ]
+      },
+      {
+        "id": "D06",
+        "provider_calls": 2,
+        "reader_clicks": 4,
+        "reader_titles": [
+          "Field-Operations-Guide.pdf · v1 · 第 9 页",
+          "Field-Operations-Guide.pdf · v1 · 第 3 页",
+          "Release-Lag-Record.ipynb · v1 · Cell 1 · 输出 0",
+          "Field-Operations-Guide.pdf · v1 · 第 6 页"
+        ],
+        "notices": [],
+        "outbound_question": "讲义怎么定义 Acceptance Grid 和 Quiet Window？配套 Latency replay 实验的 mean release lag 为多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Field-Operations-Guide.pdf",
+          "Release-Lag-Record.ipynb"
+        ]
+      },
+      {
+        "id": "D07",
+        "provider_calls": 0,
+        "reader_clicks": 0,
+        "reader_titles": [],
+        "notices": [
+          "clarification"
+        ],
+        "clarification": true
+      },
+      {
+        "id": "D08",
+        "provider_calls": 0,
+        "reader_clicks": 0,
+        "reader_titles": [],
+        "notices": [
+          "clarification"
+        ],
+        "clarification": true
+      }
+    ]
+  }
+}
