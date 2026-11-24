@@ -380,7 +380,10 @@ def _query_plan(raw_query: str) -> _QueryPlan:
             deduped.append(variant)
     terms: list[str] = []
     for variant in deduped:
-        terms.extend(re.findall(r"[^\W_]+", variant.text, flags=re.UNICODE))
+        for raw_tok in re.findall(r"[^\W_]+", variant.text, flags=re.UNICODE):
+            terms.append(raw_tok)
+            if re.search(r"[\u3400-\u9fff]", raw_tok) and re.search(r"[A-Za-z0-9]", raw_tok):
+                terms.extend(re.findall(r"[A-Za-z0-9]+|[\u3400-\u9fff]+", raw_tok))
     unique_terms = tuple(dict.fromkeys(term.casefold() for term in terms if term.strip()))
     content_terms = tuple(term for term in unique_terms if term not in _EN_STOPWORDS)
     bm25_terms = content_terms or unique_terms
@@ -701,17 +704,28 @@ def _select_with_reserved_edges(seed_candidates, edges, *, documents, top_k):
     reason_order = {
         "parent_context": 0,
         "caption_target": 1,
-        "same_position_object": 2,
-        "previous_position": 3,
-        "next_position": 4,
-        "child_object": 5,
+        "child_object": 2,
+        "same_position_object": 3,
+        "previous_position": 4,
+        "next_position": 5,
     }
+
+    def _edge_priority(edge: tuple[str, SnapshotSource, SnapshotSource]) -> int:
+        reason, target, _ = edge
+        if reason == "child_object":
+            if target.kind == "notebook_output" and bool(target.text.strip()):
+                return 1
+            if not bool(target.text.strip()):
+                return 6
+            return 5
+        return reason_order.get(reason, len(reason_order))
+
     ordered_edges = sorted(
         edges,
         key=lambda edge: (
             edge[0] == "child_object" and not bool(edge[1].text.strip()),
             seed_ranks.get(_source_tuple(edge[2]), len(seed_candidates)),
-            reason_order.get(edge[0], len(reason_order)),
+            _edge_priority(edge),
         ),
     )
     edge_keys = list(dict.fromkeys(_source_tuple(target) for _, target, _ in ordered_edges))

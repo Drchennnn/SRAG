@@ -1,0 +1,17 @@
+SRAG Shareable Demo Course Materials — License & Attribution Notice
+
+1. Axis-LoRA-2611.07820v1.pdf
+   Title: Axis-LoRA: Probing and Adapting Embedding Models for Personal-Memory Retrieval
+   Source: https://arxiv.org/abs/2611.07820v1
+   License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+   License URL: http://creativecommons.org/licenses/by/4.0/
+
+2. FlashAttention-3-2407.08608v2.pdf
+   Title: FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision
+   Source: https://arxiv.org/abs/2407.08608v2
+   License: Creative Commons Attribution 4.0 International (CC BY 4.0)
+   License URL: http://creativecommons.org/licenses/by/4.0/
+
+3. Companion synthetic materials (Lecture-01-Retrieval-and-Attention.pptx,
+   v1/Lab-01-Retrieval-Bench.ipynb, v2/Lab-01-Retrieval-Bench.ipynb, Distractor-Notes.pdf)
+   were authored for SRAG K02 product verification under CC BY 4.0 / repository license.

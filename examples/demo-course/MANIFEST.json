@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "course_id": "demo-course",
+  "papers": [
+    {
+      "file_name": "Axis-LoRA-2611.07820v1.pdf",
+      "arxiv_id": "2611.07820v1",
+      "title": "Axis-LoRA: Probing and Adapting Embedding Models for Personal-Memory Retrieval",
+      "license": "CC BY 4.0",
+      "license_url": "http://creativecommons.org/licenses/by/4.0/",
+      "abs_url": "https://arxiv.org/abs/2611.07820v1",
+      "pdf_url": "https://arxiv.org/pdf/2611.07820v1.pdf"
+    },
+    {
+      "file_name": "FlashAttention-3-2407.08608v2.pdf",
+      "arxiv_id": "2407.08608v2",
+      "title": "FlashAttention-3: Fast and Accurate Attention with Asynchrony and Low-precision",
+      "license": "CC BY 4.0",
+      "license_url": "http://creativecommons.org/licenses/by/4.0/",
+      "abs_url": "https://arxiv.org/abs/2407.08608v2",
+      "pdf_url": "https://arxiv.org/pdf/2407.08608v2.pdf"
+    }
+  ],
+  "files": {
+    "Axis-LoRA-2611.07820v1.pdf": {
+      "bytes": 1255410,
+      "sha256": "bf34209eded04fb84424671cddcd25df24692692058d6ae056a40670568c5e7b"
+    },
+    "FlashAttention-3-2407.08608v2.pdf": {
+      "bytes": 1096663,
+      "sha256": "3d05ca102802e6b8ebbae5181efe777b7d258cd75e2fe9cca209efd2f5e6c6cb"
+    },
+    "Lecture-01-Retrieval-and-Attention.pptx": {
+      "bytes": 106761,
+      "sha256": "d70b83baf8c90bb95251c511290b240f7a4ea1ddef0f296292470fa5ef14a455"
+    },
+    "v1/Lab-01-Retrieval-Bench.ipynb": {
+      "bytes": 89774,
+      "sha256": "351cb404b6e190db05a547212803194bb8d1f1cd00190cfb3d3d2babde7714e4"
+    },
+    "v2/Lab-01-Retrieval-Bench.ipynb": {
+      "bytes": 30925,
+      "sha256": "f9f0aded0c744d6a64b725c6180d2ff46b39bb420b356a5cefc9e3505f4e46ad"
+    },
+    "Distractor-Notes.pdf": {
+      "bytes": 951,
+      "sha256": "f7157351976062a80ea7f0618499e3985f5bb47b28c06d66acbc33ba04fa4fc1"
+    },
+    "NOTICE.txt": {
+      "bytes": 928,
+      "sha256": "8be750a6490b175438d3b0a076d907fd550ce462b0877cf399ff4ed6bee6825a"
+    },
+    "eval_cases.json": {
+      "bytes": 8831,
+      "sha256": "c7292e4c47628105f7a63edca3e528a1d09ddd7278112ad8ca9a4e541e7589c4"
+    }
+  }
+}

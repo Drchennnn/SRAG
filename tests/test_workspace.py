@@ -1861,3 +1861,78 @@ def test_general_anaphora_and_unrelated_question_boundaries(system, tmp_path, mo
     measure_only = ask(pure_measure_comma)
     assert "definition_topic" not in measure_only["turn"]["trace"]
     assert calls[-1]["question"] == pure_measure_comma
+
+
+def test_clarification_choice_text_notebook_output_with_answer_enabled(
+    system, tmp_path, monkeypatch
+):
+    """Regression: text notebook_output clarification with answers enabled must succeed."""
+    import base64
+
+    import nbformat
+
+    from app.clients.deepseek import DeepSeekClient
+
+    settings, _service, _, client = system
+    settings.workspace_answer_enabled = True
+    settings.deepseek_api_key = "offline-clarification-probe"
+    session = _create(client)
+
+    png_bytes = (
+        b"\x89PNG\r\n\x1a\n\x00\x00\x00\rIHDR\x00\x00\x00\x01\x00\x00\x00\x01"
+        b"\x08\x02\x00\x00\x00\x90wS\xde\x00\x00\x00\x0cIDATx\x9cc\xf8\xcf\xc0\x00\x00"
+        b"\x03\x01\x01\x00\x18\xdd\x8d\xb0\x00\x00\x00\x00IEND\xaeB`\x82"
+    )
+    nb_path = tmp_path / "Dual-Out.ipynb"
+    cell = nbformat.v4.new_code_cell(
+        "print('recall=91.8%')",
+        outputs=[
+            nbformat.v4.new_output(output_type="stream", text="recall=91.8%\n"),
+            nbformat.v4.new_output(
+                output_type="display_data",
+                data={"image/png": base64.b64encode(png_bytes).decode("ascii")},
+                metadata={},
+            ),
+        ],
+    )
+    nbformat.write(nbformat.v4.new_notebook(cells=[cell]), nb_path)
+    doc_id = _upload(client, session, nb_path)["document_id"]
+    cell_node = _node(client, session, doc_id, "cell")
+    rev = _focus(client, session, cell_node, 1)
+
+    async def fake_answer(self, messages, **kwargs):
+        wire = json.loads(messages[-1]["content"])
+        ev_id = wire["evidence"][0]["id"]
+        return {
+            "content": json.dumps(
+                {
+                    "statements": [{"text": "实测 recall 为 91.8%。", "citations": [ev_id]}],
+                    "missing": "",
+                }
+            ),
+            "usage": {"total_tokens": 12},
+        }
+
+    monkeypatch.setattr(DeepSeekClient, "generate_answer", fake_answer)
+    clar = _ask(client, session, "当前 Cell 输出了什么指标？", rev, client_id="c-nb-clar")
+    assert clar["turn"]["status"] == "clarification"
+    text_opt = next(opt for opt in clar["options"] if "输出 0" in opt["label"])
+    resumed = client.post(
+        session + "/turns",
+        json={
+            "client_turn_id": "c-nb-clar-res",
+            "kind": "ask",
+            "text": "当前 Cell 输出了什么指标？",
+            "anchor": {
+                "type": "clarification",
+                "turn_id": clar["turn"]["turn_id"],
+                "option_id": text_opt["option_id"],
+            },
+            "scope_revision": rev,
+        },
+    )
+    assert resumed.status_code == 200, resumed.text
+    body = resumed.json()
+    assert body["turn"]["status"] == "completed"
+    assert "91.8%" in body["message"]["blocks"][0]["text"]
+    assert body["turn"]["trace"]["selected_source"]["source_id"] == "cell:0:output:0"
