@@ -127,6 +127,17 @@ _X = re.compile(r"横轴|\bx(?:[- ]?axis)\b", re.I)
 _Y = re.compile(r"纵轴|\by(?:[- ]?axis)\b", re.I)
 _UNIT = re.compile(r"单位|量纲|\bunits?\b", re.I)
 _LABEL = re.compile(r"标签|名称|\b(?:label|title|name)\b", re.I)
+_METRIC_ATTRS: tuple[tuple[str, re.Pattern[str]], ...] = (
+    (
+        "耗时与延迟",
+        re.compile(
+            r"耗时|延迟|时延|时间|毫秒|(?<![A-Za-z0-9_])ms(?![A-Za-z0-9_])|秒",
+            re.I,
+        ),
+    ),
+    ("准确率与精度", re.compile(r"准确率|精度|\b(?:accuracy|precision)\b", re.I)),
+    ("吞吐量", re.compile(r"吞吐|\b(?:throughput|qps|tps)\b", re.I)),
+)
 _VALUE_HINT = re.compile(
     r"数值|峰值|趋势|大小|读数|数据|\b(?:values?|peaks?|trends?|numbers?)\b",
     re.I,
@@ -1579,7 +1590,10 @@ def _image_attribute(question: str) -> str | None:
     attrs = [
         name for name, pattern in (("单位", _UNIT), ("标签", _LABEL)) if pattern.search(question)
     ]
-    return f"{axes[0]}{attrs[0]}" if len(axes) == len(attrs) == 1 else None
+    if len(axes) == len(attrs) == 1:
+        return f"{axes[0]}{attrs[0]}"
+    metric_attrs = [name for name, pattern in _METRIC_ATTRS if pattern.search(question)]
+    return "、".join(metric_attrs) if metric_attrs else None
 
 
 def _previous_visual_read(

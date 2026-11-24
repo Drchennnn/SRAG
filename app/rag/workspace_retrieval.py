@@ -867,6 +867,11 @@ def _table_query_terms(question: str, alternate_query: str | None) -> tuple[list
     return terms, ordinals
 
 
+def _table_page_key(cand: StructureCandidate) -> tuple[str, int | str]:
+    page = cand.locator.get("page")
+    return (cand.source.document_id, page if page is not None else cand.source.source_id)
+
+
 def prioritize_matching_tables(
     pool: Sequence[StructureCandidate],
     *,
@@ -919,11 +924,19 @@ def prioritize_matching_tables(
         return list(pool)
 
     ordinal_patterns = [
-        re.compile(rf"(?:\btable|表)\s*#?\s*{num}(?![0-9.])", re.IGNORECASE)
+        (num, re.compile(rf"(?:\btable|表)\s*#?\s*{num}(?![0-9.])", re.IGNORECASE))
         for num in sorted(req_ordinals)
     ]
 
-    scored: list[tuple[tuple[int, int, int, int, int], StructureCandidate]] = []
+    scored: list[
+        tuple[
+            tuple[int, int, int, int, int],
+            frozenset[str],
+            frozenset[int],
+            bool,
+            StructureCandidate,
+        ]
+    ] = []
     for cand, in_pool, orig_rank in candidates.values():
         parent_text = ""
         if snapshot_sources is not None and isinstance(cand.locator.get("page"), int):
@@ -933,16 +946,19 @@ def prioritize_matching_tables(
             if p_src is not None:
                 parent_text = f"{p_src.title}\n{p_src.text}"
         blob = f"{cand.title}\n{cand.text}".casefold()
-        ord_hit = 0
+        matched_ords: set[int] = set()
         if req_ordinals:
             tbl_idx = cand.locator.get("table_index")
             if isinstance(tbl_idx, int) and tbl_idx in req_ordinals:
-                ord_hit = 1
-            elif any(pat.search(f"{cand.title}\n{cand.text}") for pat in ordinal_patterns):
-                ord_hit = 1
-            elif parent_text and any(pat.search(parent_text) for pat in ordinal_patterns):
-                ord_hit = 1
-        term_hits = sum(1 for term in terms if term in blob)
+                matched_ords.add(tbl_idx)
+            for num, pat in ordinal_patterns:
+                if pat.search(f"{cand.title}\n{cand.text}") or (
+                    parent_text and pat.search(parent_text)
+                ):
+                    matched_ords.add(num)
+        ord_hit = 1 if matched_ords else 0
+        matched_terms = frozenset(term for term in terms if term in blob)
+        term_hits = len(matched_terms)
         same_doc = 1 if cand.source.document_id in hit_docs else 0
         if in_pool:
             if ord_hit == 0 and term_hits == 0 and not same_doc:
@@ -952,14 +968,21 @@ def prioritize_matching_tables(
                 continue
         elif ord_hit == 0 and term_hits < 2:
             continue
+        has_match = bool(ord_hit or term_hits)
         scored.append(
-            ((ord_hit, term_hits, same_doc, 1 if in_pool else 0, -orig_rank), cand)
+            (
+                (ord_hit, term_hits, same_doc, 1 if in_pool else 0, -orig_rank),
+                matched_terms,
+                frozenset(matched_ords),
+                has_match,
+                cand,
+            )
         )
 
     if not scored:
         return list(pool)
     scored.sort(key=lambda item: item[0], reverse=True)
-    distinct_docs = {cand.source.document_id for _, cand in scored}
+    distinct_docs = {entry[4].source.document_id for entry in scored}
     want_multi = bool(
         len(req_ordinals) >= 2
         or _TABLE_COMPARE_CUE.search(question)
@@ -967,15 +990,41 @@ def prioritize_matching_tables(
     )
     max_slots = min(2, max(1, budget // 3)) if want_multi else 1
     chosen_tables: list[StructureCandidate] = []
-    seen_pages: set[tuple[str, int | None]] = set()
-    for _, cand in scored:
-        page_key = (cand.source.document_id, cand.locator.get("page"))
-        if len(req_ordinals) < 2 and page_key in seen_pages and len(scored) > 1:
-            continue
-        seen_pages.add(page_key)
-        chosen_tables.append(cand)
-        if len(chosen_tables) >= max_slots:
-            break
+    first_score, covered_terms_ro, covered_ords_ro, _, first_cand = scored[0]
+    chosen_tables.append(first_cand)
+    seen_pages: set[tuple[str, int | str]] = {_table_page_key(first_cand)}
+    covered_terms = set(covered_terms_ro)
+    covered_ords = set(covered_ords_ro)
+    remaining = scored[1:]
+    while len(chosen_tables) < max_slots and remaining:
+        best_idx = max(
+            range(len(remaining)),
+            key=lambda i: (
+                1
+                if (
+                    _table_page_key(remaining[i][4]) not in seen_pages
+                    and (
+                        bool(remaining[i][1] - covered_terms)
+                        or bool(remaining[i][2] - covered_ords)
+                    )
+                )
+                else 0,
+                1
+                if (
+                    _table_page_key(remaining[i][4]) not in seen_pages
+                    and remaining[i][3]
+                )
+                else 0,
+                len(remaining[i][2] - covered_ords),
+                len(remaining[i][1] - covered_terms),
+                *remaining[i][0],
+            ),
+        )
+        _, m_terms, m_ords, _, next_cand = remaining.pop(best_idx)
+        seen_pages.add(_table_page_key(next_cand))
+        covered_terms.update(m_terms)
+        covered_ords.update(m_ords)
+        chosen_tables.append(next_cand)
 
     if not chosen_tables:
         return list(pool)

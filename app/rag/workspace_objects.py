@@ -19,12 +19,12 @@ _NUMBER = r"[0-9]{1,4}|[零〇一二两三四五六七八九十]{1,3}"
 _CHINESE_DIGITS = {digit: value for value, digit in enumerate("零一二三四五六七八九")}
 _CHINESE_DIGITS.update({"〇": 0, "两": 2})
 _IMAGE_NUMBER = re.compile(
-    rf"第\s*(?P<chinese>{_NUMBER})\s*(?:张|幅|个)\s*(?:输出\s*)?(?:图片|图像|子图|插图|图)"
+    rf"第\s*(?P<chinese>{_NUMBER})\s*(?:张|幅|个)\s*(?:(?:输出|结果|对比|实验)\s*)?(?:图片|图像|子图|插图|图)"
     r"|\b(?:figure|fig\.|image|plot|subplot)\s*#?\s*(?P<english>[0-9]{1,4})\b",
     re.IGNORECASE,
 )
 _OUTPUT_NUMBER = re.compile(
-    rf"第\s*(?P<chinese>{_NUMBER})\s*(?:个)?\s*(?:保存)?输出"
+    rf"第\s*(?P<chinese>{_NUMBER})\s*(?:个)?\s*(?:保存)?输出(?!\s*(?:图片|图像|子图|插图|图))"
     r"|\boutput\s*#?\s*(?P<english>[0-9]{1,4})\b",
     re.IGNORECASE,
 )
@@ -96,7 +96,7 @@ _VISUAL_INTENT_QUERY = re.compile(
 _DEMONSTRATIVE_TABLE = re.compile(r"(?:这|那)张\s*(?:表格|原表|表)")
 _IMAGE = re.compile(
     r"子图|图片|图像|插图|图表|原图|什么图|[左右上下]图|图[中上内]|图里的"
-    r"|(?:实验|架构|框|曲线|示意|流程|结构|对比|比较|分布|结果|热力|散点|柱状|折线|直方|系统|原理|网络|训练|损失|性能)图"
+    r"|(?:输出|实验|架构|框|曲线|示意|流程|结构|对比|比较|分布|结果|热力|散点|柱状|折线|直方|系统|原理|网络|训练|损失|性能)图"
     r"|[左右上下](?:侧|边|方|半)(?:的|[那这][张幅个])?\s*图"
     r"|\b(?:figure|image|picture|plot|subplot|subfigure|chart|panel)\b",
     re.IGNORECASE,

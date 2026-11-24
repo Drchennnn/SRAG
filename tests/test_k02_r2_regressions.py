@@ -1864,3 +1864,106 @@ def test_r4_fix2_table_prioritization_keeps_matched_tables_within_budget_6(tmp_p
     assert rescued[0].source.source_id == "page:1"
     assert any(c.source.source_id == "page:9:shape:2" for c in rescued[:6])
     assert any(c.source.source_id == "page:4:table:1" for c in rescued[:6])
+
+
+def test_r5_chinese_ordinal_output_result_image_and_metric_attribute():
+    from app.rag.workspace_versions import _image_attribute
+
+    assert object_intent(
+        "对比 v1 和 v2 第 2 张输出图里的耗时是多少 ms",
+        include_reference=True,
+    ) == ObjectIntent(kind="image", ordinal=2, order="images")
+    assert object_intent(
+        "对比 v1 和 v2 第二张输出图里的耗时",
+        include_reference=True,
+    ) == ObjectIntent(kind="image", ordinal=2, order="images")
+    assert object_intent(
+        "对比 v1 和 v2 第 2 张结果图里的延迟是多少？",
+        include_reference=True,
+    ) == ObjectIntent(kind="image", ordinal=2, order="images")
+    assert object_intent(
+        "对比 v1 和 v2 第 2 个输出图里的吞吐变化？",
+        include_reference=True,
+    ) == ObjectIntent(kind="image", ordinal=2, order="images")
+    # Existing "第 N 个输出" with axis preserves order="outputs"
+    assert object_intent("第 2 个输出的横轴是什么？") == ObjectIntent(
+        kind="image", ordinal=2, order="outputs"
+    )
+    assert _image_attribute("对比 v1 和 v2 第 2 张输出图里的耗时是多少 ms")
+    assert _image_attribute("对比 v1 和 v2 第 2 张结果图里的延迟、准确率和吞吐")
+    assert _image_attribute("对比最新版图的纵轴单位和数值") == "纵轴单位"
+    assert _image_attribute("请展示第 2 张图") is None
+
+
+def test_r5_prioritize_matching_tables_prefers_cross_page_complementary_metrics():
+    from app.rag.structure_search import StructureCandidate
+    from app.rag.workspace_retrieval import prioritize_matching_tables
+    from app.schemas.local import SourceKey
+
+    def _cand(
+        doc_id: str,
+        sid: str,
+        kind: str,
+        title: str,
+        text: str,
+        page: int,
+        *,
+        obj_type: str | None = None,
+    ) -> StructureCandidate:
+        loc: dict[str, Any] = {"format": "pdf", "page": page}
+        if obj_type is not None:
+            loc["object_type"] = obj_type
+        return StructureCandidate(
+            source=SourceKey(document_id=doc_id, version=1, source_id=sid),
+            course_id=_COURSE,
+            file_name="Paper.pdf",
+            kind=kind,
+            title=title,
+            text=text,
+            locator=loc,
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        )
+
+    prose = [
+        _cand("doc-a", f"page:{i}", "page", f"Prose {i}", "metrics prose", i)
+        for i in range(1, 5)
+    ]
+    # Same-page (page=2) has two tables both matching QPS & P99 (score 2);
+    # page=3 has another redundant QPS & P99 table (score 2);
+    # page=6 has a table matching complementary Latency (score 1).
+    tables = [
+        _cand(
+            "doc-a", "page:2:table:1", "table", "Table 1", "Model | QPS | P99\nA | 4120 | 8.1", 2
+        ),
+        _cand(
+            "doc-a", "page:2:table:2", "table", "Table 1b", "Model | QPS | P99\nB | 3900 | 9.2", 2
+        ),
+        _cand(
+            "doc-a", "page:3:table:1", "table", "Table 3", "Model | QPS | P99\nC | 3800 | 9.5", 3
+        ),
+        _cand("doc-a", "page:6:table:1", "table", "Table 2", "Model | Latency\nA | 12.4 ms", 6),
+    ]
+    picked = prioritize_matching_tables(
+        [*prose, *tables],
+        question="对比表中 QPS、P99 与 Latency 指标",
+        budget=6,
+    )
+    top6_sids = {c.source.source_id for c in picked[:6]}
+    assert "page:2:table:1" in top6_sids
+    assert "page:6:table:1" in top6_sids
+    assert "page:2:table:2" not in top6_sids
+    assert "page:3:table:1" not in top6_sids
+
+    # With >=2 explicit table ordinals, still prefer cross-page complementary over page=2 dup
+    picked_ord = prioritize_matching_tables(
+        [*prose, *tables],
+        question="对比 Table 1 和 Table 2 中的 QPS、P99 与 Latency 指标",
+        budget=6,
+    )
+    top6_ord_sids = {c.source.source_id for c in picked_ord[:6]}
+    assert "page:2:table:1" in top6_ord_sids
+    assert "page:6:table:1" in top6_ord_sids
+    assert "page:2:table:2" not in top6_ord_sids
