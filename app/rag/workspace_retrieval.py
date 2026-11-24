@@ -781,7 +781,34 @@ def _fuse(original, alternate, pool_cap: int) -> list[StructureCandidate]:
             key = _identity(item.source)
             sources.setdefault(key, item)
             ranks[key] = ranks.get(key, 0) + 1 / (60 + rank)
-    return [sources[key] for key in sorted(ranks, key=ranks.get, reverse=True)[:pool_cap]]
+    ordered = [sources[key] for key in sorted(ranks, key=ranks.get, reverse=True)[:pool_cap]]
+    # Reserve up to 2 slots inside top-6 for top translated-query hits drowned by boilerplate.
+    if alternate and len(ordered) >= 3:
+        top_orig = {
+            _identity(item.source)
+            for item in original[:4]
+            if item.match_kind != "browse" and _has_readable_text(item)
+        }
+        alt_distinct = [
+            sources[_identity(item.source)]
+            for item in alternate
+            if item.match_kind != "browse"
+            and _has_readable_text(item)
+            and _identity(item.source) in sources
+            and _identity(item.source) not in top_orig
+        ][:2]
+        if alt_distinct:
+            head = ordered[:2]
+            seen = {_identity(item.source) for item in head}
+            injected = []
+            for item in alt_distinct:
+                k = _identity(item.source)
+                if k not in seen:
+                    seen.add(k)
+                    injected.append(item)
+            tail = [item for item in ordered if _identity(item.source) not in seen]
+            return [*head, *injected, *tail][:pool_cap]
+    return ordered
 
 
 def _prioritize_continuations(

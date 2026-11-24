@@ -22,11 +22,20 @@ from app.config import Settings
 from app.rag.local_library import LocalLibrary
 from app.rag.source_evidence import DisplayRecord, EvidenceResult
 from app.rag.source_vision import VisionReply
-from app.rag.structure_search import StructureSearcher, StructureSearchRequest
-from app.rag.workspace import WorkspaceService, _has_latin_corpus, make_workspace
-from app.rag.workspace_objects import ObjectIntent, object_intent
-from app.rag.workspace_retrieval import _prioritize_continuations
-from app.schemas.local import ParsedSource, SourceDraft
+from app.rag.structure_search import (
+    StructureCandidate,
+    StructureSearcher,
+    StructureSearchRequest,
+)
+from app.rag.workspace import (
+    WorkspaceService,
+    _has_latin_corpus,
+    _parse_location_num,
+    make_workspace,
+)
+from app.rag.workspace_objects import ObjectIntent, has_visual_question, object_intent
+from app.rag.workspace_retrieval import _fuse, _prioritize_continuations
+from app.schemas.local import ParsedSource, SourceDraft, SourceKey
 from app.stores.structure_snapshot import (
     SnapshotRequest,
     SnapshotSource,
@@ -811,3 +820,188 @@ def test_rc4c_multidoc_location_narrowing_and_multitable_slide_fallback(tmp_path
         )
         assert tbl_res["turn"]["status"] == "completed"
         assert not any(b.get("code") == "object_ambiguous" for b in tbl_res["message"]["blocks"])
+
+
+def test_r2_post_audit_refinements(tmp_path: Path):
+    # 1. NumPy axis=0/1/2 never falsely triggers S0 vision; x-axis / 纵轴 does
+    assert has_visual_question("np.array.sum() 的 axis=0/1/2 是怎么解释的？") is False
+    assert has_visual_question("图的 x-axis 和纵轴单位是什么？") is True
+
+    # 2. Chinese numeral page parser parses "二十四" -> 24
+    assert _parse_location_num("二十四") == 24
+    assert _parse_location_num("十一") == 11
+    assert _parse_location_num("一百零三") == 103
+
+    # 3. _fuse preserves top translated-query hits ahead of tail double-hits
+    def cand(doc_id: str, sid: str, txt: str) -> StructureCandidate:
+        return StructureCandidate(
+            source=SourceKey(document_id=doc_id, version=1, source_id=sid),
+            course_id=_COURSE,
+            file_name="nb.ipynb",
+            kind="cell",
+            title=sid,
+            text=txt,
+            locator={"cell_index": int(sid.split(":")[1])},
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        )
+
+    orig = [cand("d", f"cell:{i}", f"Naive Bayes outline {i}") for i in range(6)]
+    alt = [
+        cand("d", "cell:80", "Smoothing alpha=0.1 BernoulliNB"),
+        cand("d", "cell:79", "# Smoothing formula"),
+        *orig[:4],
+    ]
+    fused = _fuse(orig, alt, pool_cap=6)
+    fused_ids = [c.source.source_id for c in fused]
+    assert "cell:80" in fused_ids and "cell:79" in fused_ids
+
+    # 4. E2E: unlocated figure doc question with "不同" falls back cleanly;
+    # "换文件到... 它要求..." switches without definition clarification;
+    # "第二十四页的表格..." resolves across multi-doc course via table object match.
+    service = make_workspace(_settings(tmp_path, deepseek_api_key=""))
+    pdf_doc = _publish_doc(
+        service.library,
+        "Edge-Lecture.pdf",
+        "pdf",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=0,
+                title="Edges",
+                text="不同的边缘成因包括表面法向量不连续和投影阴影。",
+                locator={"format": "pdf", "page": 1},
+            ),
+            SourceDraft(
+                source_id="page:1:image:1",
+                kind="page_object",
+                parent_id="page:1",
+                ordinal=1,
+                title="Fig 1",
+                text="",
+                locator={
+                    "format": "pdf",
+                    "page": 1,
+                    "object_type": "image",
+                    "bbox": [0.1, 0.1, 0.5, 0.5],
+                    "coordinate_frame": "visible_page_norm_v1",
+                    "position_basis": "pdfium_native_image_extents_v1",
+                },
+            ),
+            SourceDraft(
+                source_id="page:2",
+                kind="page",
+                ordinal=2,
+                title="Gradient",
+                text="边缘梯度核定义。Definition: gradient.",
+                locator={"format": "pdf", "page": 2},
+            ),
+            SourceDraft(
+                source_id="page:2:image:1",
+                kind="page_object",
+                parent_id="page:2",
+                ordinal=3,
+                title="Fig 2",
+                text="",
+                locator={
+                    "format": "pdf",
+                    "page": 2,
+                    "object_type": "image",
+                    "bbox": [0.5, 0.1, 0.9, 0.5],
+                    "coordinate_frame": "visible_page_norm_v1",
+                    "position_basis": "pdfium_native_image_extents_v1",
+                },
+            ),
+            SourceDraft(
+                source_id="page:24",
+                kind="page",
+                ordinal=24,
+                title="Page 24 PDF",
+                text="General notes on page 24 without any table.",
+                locator={"format": "pdf", "page": 24},
+            ),
+        ],
+    )
+    deck_doc = _publish_doc(
+        service.library,
+        "Course-Plan.pptx",
+        "pptx",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=0,
+                title="Textbook",
+                text="Course Textbook: None required. Recommended Reading listed.",
+                locator={"format": "pptx", "page": 1},
+            ),
+            SourceDraft(
+                source_id="page:24",
+                kind="page",
+                ordinal=23,
+                title="Grading Table",
+                text="评分构成表",
+                locator={"format": "pptx", "page": 24},
+            ),
+            SourceDraft(
+                source_id="page:24:table:1",
+                kind="page_object",
+                parent_id="page:24",
+                ordinal=24,
+                title="Table 1",
+                text="Item | Weight\nHomework | 30%",
+                locator={"format": "pptx", "page": 24, "object_type": "table"},
+            ),
+            SourceDraft(
+                source_id="page:24:table:2",
+                kind="page_object",
+                parent_id="page:24",
+                ordinal=25,
+                title="Table 2",
+                text="Exam | 50%",
+                locator={"format": "pptx", "page": 24, "object_type": "table"},
+            ),
+        ],
+    )
+
+    with _client(service) as client:
+        session = _create_session(client)
+        r_diff = _ask(
+            client,
+            session,
+            "Edge-Lecture.pdf 用示例说明了哪些不同的边缘成因？图中标签有何意义？",
+            client_id="f07-diff-causes",
+        )
+        assert r_diff["turn"]["status"] == "completed"
+        assert not any(b.get("code") == "object_ambiguous" for b in r_diff["message"]["blocks"])
+
+        _ask(client, session, "边缘梯度核的定义是什么？", client_id="prior-def")
+        r_sw = _ask(
+            client,
+            session,
+            "换文件到 Course-Plan.pptx。它要求购买指定教材吗？",
+            client_id="f27-switch-req",
+        )
+        assert r_sw["turn"]["status"] == "completed"
+        assert {
+            ev["revision"]["source"]["document_id"] for ev in r_sw["message"]["sources"].values()
+        } == {deck_doc.document_id}
+        assert pdf_doc.document_id != deck_doc.document_id
+
+        r_cn = _ask(
+            client,
+            session,
+            "第二十四页的表格列了什么？",
+            client_id="cn-page-24-tbl",
+        )
+        assert r_cn["turn"]["status"] == "completed"
+        cited_docs = {
+            ev["revision"]["source"]["document_id"] for ev in r_cn["message"]["sources"].values()
+        }
+        assert cited_docs == {deck_doc.document_id}
+        assert any(
+            ev["locator"].get("page") == 24 for ev in r_cn["message"]["sources"].values()
+        )

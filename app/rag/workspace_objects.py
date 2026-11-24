@@ -71,8 +71,8 @@ _VISUAL_INTENT_QUERY = re.compile(
     r"图片|图像|图表|图示|曲线|直方图|柱状图|折线图|散点图|热力图|框图|示意图|流程图|架构图|"
     r"手写|截图|附图|图例|画图|画出|图中|如图|横轴|纵轴|坐标轴|什么图|哪张图|"
     r"(?:左边|右侧|左侧|右边|上方|下方|上面|下面)(?:那张|的)?\s*图|"
-    r"\b(?:figure|fig\.?|plot|chart|diagram|curve|axis|axes|visual(?:ization)?|"
-    r"illustration|screenshot|handwritten)\b",
+    r"\b(?:figure|fig\.?|plot|chart|diagram|curve|(?:x|y|horizontal|vertical|plot|chart|figure)[-\s]*ax(?:is|es)|"
+    r"visual(?:ization)?|illustration|screenshot|handwritten)\b",
     re.IGNORECASE,
 )
 _DEMONSTRATIVE_TABLE = re.compile(r"(?:这|那)张\s*(?:表格|原表|表)")
@@ -86,6 +86,12 @@ _IMAGE = re.compile(
 _COMPARATIVE_PREFIX = re.compile(
     r"(?:与|和|跟|同|较|相比于?|对比|对照|不同于)|"
     r"\bcompared\s+(?:to|with)\b",
+    re.IGNORECASE,
+)
+_EXPLICIT_MULTI_IMAGE = re.compile(
+    r"另一[张幅个]|另一[边侧]|旁边那[张幅]|两[张幅个]?(?:子)?图|对比两|"
+    r"\b(?:the\s+other|another\s+(?:figure|image|plot|subplot)|"
+    r"both\s+(?:figures|plots|subplots)|two\s+(?:figures|plots))\b",
     re.IGNORECASE,
 )
 _OTHER_OR_MULTI_IMAGE = re.compile(

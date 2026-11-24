@@ -53,10 +53,10 @@ from app.rag.workspace_generation import (
 )
 from app.rag.workspace_initial_focus import answer_current_image, resolve_current_image
 from app.rag.workspace_objects import (
-    _FACT as _OBJECT_FACT,
+    _EXPLICIT_MULTI_IMAGE as _OBJECT_MULTI_IMAGE,
 )
 from app.rag.workspace_objects import (
-    _OTHER_OR_MULTI_IMAGE as _OBJECT_MULTI_IMAGE,
+    _FACT as _OBJECT_FACT,
 )
 from app.rag.workspace_objects import (
     _PREVIEW as _OBJECT_PREVIEW,
@@ -139,7 +139,8 @@ _ANAPHORA_PHRASE = (
     rf"|它|它们|其|前者|后者|这个|那个|该项|此项|该|此"
 )
 _DEFINITION_PREDICATE_AFTER = (
-    r"(?:的?\s*(?:定义|含义|意思|规则|条件|要求|标准|前提|限制|约束|边界|规定)"
+    r"(?:的\s*(?:定义|含义|意思|规则|条件|要求|标准|前提|限制|约束|边界|规定)"
+    r"|(?<=其)\s*(?:定义|含义|意思)"
     r"|(?:是|到底)?(?:怎么|如何|怎样)(?:定义|界定|规定|要求|判断|判定|触发|成立|算|计算|理解|解释)的?"
     r"|(?:具体)?(?:指什么|是什么意思|是什么|有哪些(?:条件|要求|前提|限制|规定|规则)"
     r"|需要(?:满足)?什么(?:条件|要求|前提)|怎么才算|如何才算))"
@@ -186,9 +187,10 @@ _DEMONSTRATIVE_OBJECT = re.compile(
 )
 _CURRENT_IMAGE = re.compile(r"当前|本页|本\s*cell|这里|这页|这个\s*cell", re.IGNORECASE)
 _BARE_REFERENCE = re.compile(r"^(?:刚才\s*)?第\s*\S+\s*张(?:图|图片)[。！？?\s]*$")
-_PAGE = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:页|张幻灯片)")
+_CN_NUM = r"[1-9][0-9]{0,3}|[零〇一二两三四五六七八九十百]{1,6}"
+_PAGE = re.compile(rf"第?\s*({_CN_NUM})\s*(?:页|张幻灯片)")
 _PAGE_PREFIX = re.compile(r"\b(?:page|slide)\s+#?([1-9][0-9]{0,3})\b", re.IGNORECASE)
-_CELL = re.compile(r"第?\s*([1-9][0-9]{0,3})\s*(?:个)?\s*(?:cell|单元格)", re.IGNORECASE)
+_CELL = re.compile(rf"第?\s*({_CN_NUM})\s*(?:个)?\s*(?:cell|单元格)", re.IGNORECASE)
 _CELL_PREFIX = re.compile(r"\bcell\s*#?\s*([1-9][0-9]{0,3})\b", re.IGNORECASE)
 _FILE_MENTION = re.compile(r"\.(?:pdf|pptx|ipynb)(?=$|[^a-z0-9_])", re.IGNORECASE)
 _WHOLE_FILE = re.compile(
@@ -199,7 +201,7 @@ _REWRITE_PRIOR = re.compile(
 )
 _SUMMARY_FILE = re.compile(r"总结|概括|概要|summari[sz]e", re.I)
 _CONTINUE_TEXT = re.compile(r"^(?:请)?(?:继续读|继续往后读|续读|读下一段)[。！？?\s]*$")
-_SWITCH_FILE = re.compile(r"切换到|改问|改看|\bswitch to\b", re.I)
+_SWITCH_FILE = re.compile(r"切换到|换文件(?:到|为|成)|改问|改看|\bswitch to\b", re.I)
 _SWITCH_DENIAL = re.compile(r"不要|请勿|禁止|别|\b(?:not|never|don['’]t)\b", re.I)
 _FILE_EXCLUSION = re.compile(
     r"(?:不要|请勿|禁止|不用|不许|无需|不得|(?<!\w)别)(?:再|去)?\s*"
@@ -405,6 +407,21 @@ def _resolve_location_file_names(
     if len(stem_hits) == 1:
         hit = stem_hits[0]
         return [hit.file_name], {hit.document_id: hit}
+
+    # Check if query targets a table/figure object uniquely present in 1 doc at that location.
+    intent = object_intent(text)
+    if intent is not None and intent.kind == "table":
+        tbl_docs = [
+            doc
+            for doc_id, doc in narrowed_docs.items()
+            if any(
+                src.kind == "page_object" and src.locator.get("object_type") == "table"
+                for src in loc_sources_by_doc.get(doc_id, ())
+            )
+        ]
+        if len(tbl_docs) == 1:
+            only_tbl = tbl_docs[0]
+            return [only_tbl.file_name], {only_tbl.document_id: only_tbl}
 
     # Check if query content terms uniquely hit one document's sources at that exact location.
     from app.stores.structure_snapshot import _cjk_query_phrases
@@ -3859,11 +3876,50 @@ def _summary_coverage(
     }
 
 
+def _parse_location_num(raw: str) -> int | None:
+    if raw.isascii() and raw.isdigit():
+        val = int(raw)
+        return val if val >= 1 else None
+    digits = {d: i for i, d in enumerate("零一二三四五六七八九")}
+    digits.update({"〇": 0, "两": 2})
+    if "百" in raw or "十" in raw:
+        total = 0
+        rem = raw
+        if "百" in rem:
+            if rem.count("百") != 1:
+                return None
+            h_part, rem = rem.split("百")
+            h_val = digits.get(h_part or "一")
+            if h_val is None or h_val == 0:
+                return None
+            total += h_val * 100
+        if "十" in rem:
+            if rem.count("十") != 1:
+                return None
+            t_part, rem = rem.split("十")
+            t_part_clean = t_part.lstrip("零〇")
+            t_val = digits.get(t_part_clean or "一")
+            if t_val is None:
+                return None
+            total += t_val * 10
+        u_clean = rem.lstrip("零〇")
+        if u_clean:
+            u_val = digits.get(u_clean)
+            if u_val is None:
+                return None
+            total += u_val
+        return total if total >= 1 else None
+    val = digits.get(raw)
+    return val if val is not None and val >= 1 else None
+
+
 def _location(query: str, node: CatalogNode | None) -> StructureLocation | None:
     if match := _PAGE.search(query) or _PAGE_PREFIX.search(query):
-        return StructureLocation(page=int(match.group(1)))
+        if (page_num := _parse_location_num(match.group(1))) is not None:
+            return StructureLocation(page=page_num)
     if match := _CELL.search(query) or _CELL_PREFIX.search(query):
-        return StructureLocation(cell_index=int(match.group(1)) - 1)
+        if (cell_num := _parse_location_num(match.group(1))) is not None:
+            return StructureLocation(cell_index=cell_num - 1)
     if node and node.source:
         if isinstance(page := node.source.locator.get("page"), int):
             return StructureLocation(page=page)
