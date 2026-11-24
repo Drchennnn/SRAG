@@ -415,6 +415,17 @@ def plan_retrieval(
     def finish(selected: Sequence[StructureCandidate]) -> RetrievalPlan:
         nonlocal visual_candidates
         selected_list = list(selected)
+        if strategy in {"fts", "s0", "bilingual", "vector"}:
+            selected_list = prioritize_matching_tables(
+                selected_list,
+                question=question,
+                alternate_query=trace["alternate_query"],
+                snapshot_sources=scope.sources,
+                docs=scope.docs,
+                budget=budget,
+            )
+            combined_tbl = {_identity(item.source): item for item in (*selected_list, *pool)}
+            pool[:] = list(combined_tbl.values())[:request.top_k]
         if (
             kg_enabled
             and kg_store is not None
@@ -782,6 +793,207 @@ def _fuse(original, alternate, pool_cap: int) -> list[StructureCandidate]:
             sources.setdefault(key, item)
             ranks[key] = ranks.get(key, 0) + 1 / (60 + rank)
     return [sources[key] for key in sorted(ranks, key=ranks.get, reverse=True)[:pool_cap]]
+
+
+_TABLE_QUERY_CUE = re.compile(
+    r"多表|跨表|各表|两张表|两个表|表格|参数表|限值表|限制表|阈值表|对照表|数据表|结果表|性能表|"
+    r"(?<![图列行])表\s*#?\s*(?:[0-9]{1,4}|[零〇一二两三四五六七八九十]{1,3})|"
+    r"(?<!图)表(?:中|内|里)|\btable(?:s|\s*#?\s*[0-9]{1,4})?\b",
+    re.IGNORECASE,
+)
+_TABLE_COMPARE_CUE = re.compile(
+    r"多表|跨表|各表|两张表|两个表|对比|比较|差异|不同|\b(?:compar(?:e|ison)|versus|vs\.?)\b",
+    re.IGNORECASE,
+)
+_TABLE_NEGATION = re.compile(
+    r"(?:不要|不用|不必|无需|跳过|忽略|别)\s*(?:查|看|读|引|用)?\s*(?:表格|表\s*[0-9]+|表)|"
+    r"\b(?:skip|ignore|without|do\s+not|don['’]t)\s+(?:the\s+)?tables?\b",
+    re.IGNORECASE,
+)
+_TABLE_ORDINAL_CUE = re.compile(
+    r"(?:\btable\s*#?\s*(?P<en>[0-9]{1,4})\b|"
+    r"第\s*(?P<zh_ord>[0-9]{1,4}|[零〇一二两三四五六七八九十]{1,3})\s*(?:张|个)\s*(?:表格|表)|"
+    r"(?<![第图])表\s*#?\s*(?P<zh>[0-9]{1,4})(?![0-9.]))",
+    re.IGNORECASE,
+)
+_TABLE_TERM_STOPS = frozenset(
+    {
+        "table", "tables", "compare", "comparison", "metric", "metrics", "value", "values",
+        "result", "results", "data", "what", "which", "with", "from", "that", "this",
+    }
+)
+_TABLE_ZH_STOPS = frozenset(
+    {
+        "表格", "参数", "指标", "对比", "比较", "数值", "数据", "限制", "限值", "实验",
+        "代码", "输出", "变化", "多少", "什么", "请问", "结合", "核对", "分别", "各自",
+        "哪些", "哪个", "对应", "是否", "达标", "结果", "实测", "讲义", "说明", "关系",
+    }
+)
+
+
+def _is_table_candidate(cand: StructureCandidate) -> bool:
+    return (
+        cand.kind in {"table", "pptx_table"}
+        or (cand.kind == "page_object" and cand.locator.get("object_type") == "table")
+    ) and _has_readable_text(cand)
+
+
+def _table_query_terms(question: str, alternate_query: str | None) -> tuple[list[str], set[int]]:
+    ordinals: set[int] = set()
+    for match in _TABLE_ORDINAL_CUE.finditer(question):
+        raw = match.group("en") or match.group("zh") or match.group("zh_ord") or ""
+        if raw.isdigit():
+            ordinals.add(int(raw))
+        elif raw in _ZH_DIGITS:
+            ordinals.add(_ZH_DIGITS[raw])
+    blob = "\n".join(filter(None, (question, alternate_query)))
+    terms: list[str] = []
+    seen: set[str] = set()
+    for tok in re.findall(r"[A-Za-z0-9_.-]{2,}", blob):
+        low = tok.casefold()
+        if low in _TABLE_TERM_STOPS or low in seen or low.isdigit():
+            continue
+        seen.add(low)
+        terms.append(low)
+    for run in re.findall(r"[\u3400-\u9fff]{2,}", blob):
+        if len(run) <= 4 and run not in _TABLE_ZH_STOPS and run not in seen:
+            seen.add(run)
+            terms.append(run)
+        for idx in range(len(run) - 1):
+            bg = run[idx : idx + 2]
+            if bg not in _TABLE_ZH_STOPS and bg not in seen:
+                seen.add(bg)
+                terms.append(bg)
+    return terms, ordinals
+
+
+def prioritize_matching_tables(
+    pool: Sequence[StructureCandidate],
+    *,
+    question: str,
+    alternate_query: str | None = None,
+    snapshot_sources: Mapping[_Identity, SnapshotSource] | None = None,
+    docs: Mapping[str, Any] | None = None,
+    budget: int = 6,
+) -> list[StructureCandidate]:
+    """Keep 1-2 query-matched table nodes inside budget=6 without displacing primary anchors."""
+    if not pool or budget < 2:
+        return list(pool)
+    if not _TABLE_QUERY_CUE.search(question) or _TABLE_NEGATION.search(question):
+        return list(pool)
+
+    terms, req_ordinals = _table_query_terms(question, alternate_query)
+    hit_docs = {
+        item.source.document_id
+        for item in pool[: min(budget, len(pool))]
+        if item.match_kind != "browse"
+    }
+    first_seed_by_doc: dict[str, SnapshotSource] = {}
+    for item in pool:
+        if item.match_kind != "browse" and item.source.document_id not in first_seed_by_doc:
+            if snapshot_sources is not None:
+                seed_src = snapshot_sources.get(_identity(item.source))
+                if seed_src is not None:
+                    first_seed_by_doc[item.source.document_id] = seed_src
+
+    candidates: dict[_Identity, tuple[StructureCandidate, bool, int]] = {}
+    for rank, item in enumerate(pool):
+        if _is_table_candidate(item):
+            candidates[_identity(item.source)] = (item, True, rank)
+
+    if snapshot_sources is not None and docs is not None:
+        for rank_off, src in enumerate(snapshot_sources.values(), start=len(pool)):
+            is_tbl = src.kind in {"table", "pptx_table"} or (
+                src.kind == "page_object" and src.locator.get("object_type") == "table"
+            )
+            if not is_tbl or not readable_source_text(src).strip():
+                continue
+            key = (src.document_id, src.version, src.source_id)
+            if key in candidates:
+                continue
+            seed_src = first_seed_by_doc.get(src.document_id, src)
+            cand = _structural_candidate(src, seed_src, "child_object", docs.values())
+            candidates[key] = (cand, False, rank_off)
+
+    if not candidates:
+        return list(pool)
+
+    ordinal_patterns = [
+        re.compile(rf"(?:\btable|表)\s*#?\s*{num}(?![0-9.])", re.IGNORECASE)
+        for num in sorted(req_ordinals)
+    ]
+
+    scored: list[tuple[tuple[int, int, int, int, int], StructureCandidate]] = []
+    for cand, in_pool, orig_rank in candidates.values():
+        parent_text = ""
+        if snapshot_sources is not None and isinstance(cand.locator.get("page"), int):
+            p_src = snapshot_sources.get(
+                (cand.source.document_id, cand.source.version, f"page:{cand.locator['page']}")
+            )
+            if p_src is not None:
+                parent_text = f"{p_src.title}\n{p_src.text}"
+        blob = f"{cand.title}\n{cand.text}".casefold()
+        ord_hit = 0
+        if req_ordinals:
+            tbl_idx = cand.locator.get("table_index")
+            if isinstance(tbl_idx, int) and tbl_idx in req_ordinals:
+                ord_hit = 1
+            elif any(pat.search(f"{cand.title}\n{cand.text}") for pat in ordinal_patterns):
+                ord_hit = 1
+            elif parent_text and any(pat.search(parent_text) for pat in ordinal_patterns):
+                ord_hit = 1
+        term_hits = sum(1 for term in terms if term in blob)
+        same_doc = 1 if cand.source.document_id in hit_docs else 0
+        if in_pool:
+            if ord_hit == 0 and term_hits == 0 and not same_doc:
+                continue
+        elif same_doc:
+            if ord_hit == 0 and term_hits == 0:
+                continue
+        elif ord_hit == 0 and term_hits < 2:
+            continue
+        scored.append(
+            ((ord_hit, term_hits, same_doc, 1 if in_pool else 0, -orig_rank), cand)
+        )
+
+    if not scored:
+        return list(pool)
+    scored.sort(key=lambda item: item[0], reverse=True)
+    distinct_docs = {cand.source.document_id for _, cand in scored}
+    want_multi = bool(
+        len(req_ordinals) >= 2
+        or _TABLE_COMPARE_CUE.search(question)
+        or len(distinct_docs) >= 2
+    )
+    max_slots = min(2, max(1, budget // 3)) if want_multi else 1
+    chosen_tables: list[StructureCandidate] = []
+    seen_pages: set[tuple[str, int | None]] = set()
+    for _, cand in scored:
+        page_key = (cand.source.document_id, cand.locator.get("page"))
+        if len(req_ordinals) < 2 and page_key in seen_pages and len(scored) > 1:
+            continue
+        seen_pages.add(page_key)
+        chosen_tables.append(cand)
+        if len(chosen_tables) >= max_slots:
+            break
+
+    if not chosen_tables:
+        return list(pool)
+
+    chosen_ids = {_identity(item.source) for item in chosen_tables}
+    anchor_head: list[StructureCandidate] = []
+    if pool:
+        anchor_head.append(pool[0])
+        if len(pool) > 1 and pool[1].kind in {"notebook_output", "cell"}:
+            anchor_head.append(pool[1])
+    head_ids = {_identity(item.source) for item in anchor_head}
+    promoted = [item for item in chosen_tables if _identity(item.source) not in head_ids]
+    tail = [
+        item
+        for item in pool
+        if _identity(item.source) not in head_ids and _identity(item.source) not in chosen_ids
+    ]
+    return [*anchor_head, *promoted, *tail]
 
 
 def _prioritize_continuations(

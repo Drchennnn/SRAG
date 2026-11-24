@@ -1797,6 +1797,23 @@ class WorkspaceService:
             if not file_names and {doc.document_id for doc in search.snapshot} != set(documents):
                 raise WorkspaceError("stale_reference")
             chosen = plan.selected if plan else search.candidates
+            if plan is None and use_retrieval and location is None and search.snapshot:
+                from app.rag.workspace_retrieval import prioritize_matching_tables
+
+                snap_by_triple = {
+                    (src.document_id, src.version, src.source_id): src
+                    for src in snapshot.sources
+                    if src.document_id in documents
+                }
+                chosen = tuple(
+                    prioritize_matching_tables(
+                        chosen,
+                        question=text,
+                        snapshot_sources=snap_by_triple,
+                        docs=documents,
+                        budget=min(self.settings.workspace_retrieval_budget or 6, request.top_k),
+                    )
+                )
             offline_kg_visual: tuple[SnapshotSource, ...] = ()
             if (
                 plan is None

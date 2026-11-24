@@ -1378,3 +1378,489 @@ def test_r3_bug_b_composite_table_queries_bypass_object_ambiguity_and_reach_kg(t
         assert not any(
             b.get("code") == "object_ambiguous" for b in cell_comp["message"]["blocks"]
         )
+
+
+# K02-R4: Fix 1 (dedup + mixed Cell text/image compare) & Fix 2 (table weighting in budget=6)
+
+
+def test_r4_fix1_dedup_and_mixed_cell_text_plus_image_version_comparison(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    from app.rag.source_evidence import ReadRecord
+
+    settings = _settings(
+        tmp_path,
+        source_vision_enabled=True,
+        dashscope_api_key="r4-mock-dashscope",
+        deepseek_api_key="",
+    )
+    service = make_workspace(settings)
+    vision_requests: list[tuple[int, str]] = []
+
+    def fake_vision(request, *, expected_input_sha256: str):
+        base = service.evidence.render_current(request)
+        display = base.display
+        assert display is not None and display.byte_sha256 == expected_input_sha256
+        vision_requests.append((request.source.version, request.source.source_id))
+        rec = ReadRecord(
+            requested_source=request.source,
+            actual_source=display.actual_source,
+            actual_input_sha256=display.byte_sha256,
+            actual_input_media_type=display.media_type,
+            actual_input_rect=display.rect_visible_norm,
+            purpose="directed_question",
+            execution="real_provider",
+            origin_execution="real_provider",
+            provider="r4-fake",
+            model="qwen3-vl-plus",
+            prompt_version="r4-v1",
+            question_sha256=(
+                hashlib.sha256(request.question.strip().encode()).hexdigest()
+                if request.question
+                else None
+            ),
+            status="succeeded",
+            text=f"v{request.source.version} unit=seconds peak=92",
+        )
+        return base.model_copy(update={"read_status": "succeeded", "reads": [rec]})
+
+    monkeypatch.setattr(service.vision, "process_current", fake_vision)
+
+    _publish_doc(
+        service.library,
+        "Lecture-Notes.pdf",
+        "pdf",
+        [
+            SourceDraft(
+                source_id="page:1",
+                kind="page",
+                ordinal=0,
+                title="Notes",
+                text="Single-version reference notes.",
+                locator={"format": "pdf", "page": 1},
+            )
+        ],
+    )
+
+    nb_path = tmp_path / "Bench-Lab.ipynb"
+
+    def _write_bench(metric: str, col_a: tuple[int, int, int], col_b: tuple[int, int, int]) -> None:
+        nbformat.write(
+            nbformat.v4.new_notebook(
+                cells=[
+                    nbformat.v4.new_markdown_cell("# Header", id="md-0"),
+                    nbformat.v4.new_code_cell(
+                        "eval_metric = run_bench()\nprint(eval_metric)",
+                        id="bench-c1",
+                        execution_count=1,
+                        outputs=[
+                            nbformat.v4.new_output("stream", name="stdout", text=metric),
+                            nbformat.v4.new_output(
+                                "display_data",
+                                data={"image/png": base64.b64encode(_png_bytes(col_a)).decode()},
+                            ),
+                            nbformat.v4.new_output(
+                                "display_data",
+                                data={"image/png": base64.b64encode(_png_bytes(col_b)).decode()},
+                            ),
+                        ],
+                    ),
+                ]
+            ),
+            nb_path,
+        )
+
+    _write_bench("Recall@10=84.2%", (20, 40, 200), (200, 40, 40))
+
+    with _client(service) as client:
+        sess = _create_session(client)
+        sess_txt = _create_session(client)
+        sess_isolated = _create_session(client)
+
+        imp_v1 = client.post(
+            f"{sess}/import",
+            params={"course_id": _COURSE, "filename": "Bench-Lab.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        ).json()
+
+        # In sess: read output:2 (2nd image) TWICE + cite stdout + read output:1 once
+        _ask(client, sess, "Recall@10", 1, client_id="r4-cite-stdout")
+        _ask(client, sess, "第 2 个 Cell 第 1 张图的横轴单位是什么？", 1, client_id="r4-img1")
+        _ask(client, sess, "第 2 个 Cell 第 2 张图的横轴单位是什么？", 1, client_id="r4-img2-a")
+        r_latest = _ask(
+            client, sess, "第 2 个 Cell 第 2 张输出图的横轴单位是什么？", 1, client_id="r4-img2-b"
+        )
+        latest_msg_id = r_latest["message"]["message_id"]
+
+        # In sess_txt: cite ONLY v1 stdout (never opened v1 image!)
+        _ask(client, sess_txt, "Recall@10", 1, client_id="r4-txt-only-v1")
+
+        # Upgrade Bench-Lab to v2
+        _write_bench("Recall@10=92.4%", (30, 80, 210), (230, 90, 20))
+        client.post(
+            f"{sess}/import",
+            params={
+                "course_id": _COURSE,
+                "filename": "Bench-Lab.ipynb",
+                "document_id": imp_v1["document_id"],
+            },
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        )
+        vision_requests.clear()
+
+        # 1a + 1b: repeated v1 visual reads deduplicate to latest_msg_id AND include v1+v2 stdout
+        cmp_both = _ask(
+            client,
+            sess,
+            "对比 v1 和 v2 的指标与第 2 张输出图横轴单位有什么变化？",
+            1,
+            client_id="r4-cmp-mixed",
+        )
+        assert cmp_both["turn"]["status"] == "completed"
+        assert cmp_both["turn"]["trace"]["route"] == "version_comparison"
+        assert cmp_both["turn"]["trace"]["historical_message_id"] == latest_msg_id
+        assert cmp_both["message"]["blocks"][0].get("code") != "comparison_ambiguous"
+        assert vision_requests == [(2, "cell:1:output:2")]
+        joined_text = "\n".join(b.get("text", "") for b in cmp_both["message"]["blocks"])
+        assert "84.2%" in joined_text and "92.4%" in joined_text
+        img_blocks = [
+            b for b in cmp_both["message"]["blocks"] if b.get("type") == "source_image"
+        ]
+        assert [b["display_source"]["version"] for b in img_blocks] == [1, 2]
+
+        # 1b snapshot recovery when v1 history only cited same-cell stdout + no axis attr
+        vision_requests.clear()
+        cmp_rec = _ask(
+            client,
+            sess_txt,
+            "对比 v1 和 v2 的指标数值与第 2 张输出图有什么变化？",
+            1,
+            client_id="r4-cmp-recovered",
+        )
+        assert cmp_rec["turn"]["status"] == "completed"
+        assert cmp_rec["turn"]["trace"]["route"] == "version_comparison"
+        assert cmp_rec["message"]["blocks"][0].get("code") != "comparison_ambiguous"
+        assert vision_requests == [(2, "cell:1:output:2")]
+        rec_text = "\n".join(b.get("text", "") for b in cmp_rec["message"]["blocks"])
+        assert "84.2%" in rec_text and "92.4%" in rec_text
+        assert any(
+            b.get("code") == "historical_image_unread" for b in cmp_rec["message"]["blocks"]
+        )
+
+        # Security check: fresh isolated session without v1 history still rejects
+        iso_res = _ask(
+            client,
+            sess_isolated,
+            "对比 v1 和 v2 的指标数值与第 2 张输出图有什么变化？",
+            1,
+            client_id="r4-iso-reject",
+        )
+        assert iso_res["message"]["blocks"][0]["code"] == "comparison_missing_history"
+
+
+def test_r4_fix2_table_prioritization_keeps_matched_tables_within_budget_6(tmp_path: Path):
+    from app.rag.structure_search import (
+        StructureCandidate,
+        StructureScope,
+        StructureSearcher,
+        StructureSearchRequest,
+    )
+    from app.rag.workspace_retrieval import plan_retrieval, prioritize_matching_tables
+    from app.schemas.local import SourceKey
+    from app.stores.local_kg import LocalKgStore
+
+    settings = _settings(
+        tmp_path,
+        deepseek_api_key="r4-mock",
+        workspace_retrieval_strategy="s0",
+        workspace_retrieval_budget=6,
+        workspace_retrieval_pool_cap=12,
+        workspace_kg_retrieval_enabled=True,
+    )
+    service = make_workspace(settings)
+
+    # Publish 8 verbose prose pages mentioning "AxisGate Throughput" so tables rank past top-6
+    pptx_sources: list[SourceDraft] = [
+        SourceDraft(
+            source_id="page:1",
+            kind="page",
+            ordinal=0,
+            title="1. AxisGate Throughput 概述",
+            text=(
+                "定义：轴向吞吐调度 (AxisGate Throughput) 控制分块延迟与吞吐。\n"
+                "使用 `bench_axis_throughput` 验证。"
+            ),
+            locator={"format": "pptx", "page": 1},
+        )
+    ]
+    for idx in range(2, 9):
+        pptx_sources.append(
+            SourceDraft(
+                source_id=f"page:{idx}",
+                kind="page",
+                ordinal=idx - 1,
+                title=f"Table 1 Table 2 AxisGate QPS P99 {idx}",
+                text=(
+                    f"Table 1 Table 2 AxisGate FlashBase QPS P99 metrics comparison {idx}. "
+                    "Table 1 and Table 2 AxisGate QPS P99 FlashBase 指标 对比 prose."
+                ),
+                locator={"format": "pptx", "page": idx},
+            )
+        )
+    pptx_sources.extend(
+        [
+            SourceDraft(
+                source_id="page:9",
+                kind="page",
+                ordinal=8,
+                title="Bench Metrics",
+                text="Table 1 Summary",
+                locator={"format": "pptx", "page": 9},
+            ),
+            SourceDraft(
+                source_id="page:9:shape:2",
+                kind="page_object",
+                parent_id="page:9",
+                ordinal=9,
+                title="Table 1",
+                text="Variant | QPS | P99\nAxisGate | 4120 | 7.3",
+                locator={"format": "pptx", "page": 9, "object_type": "table"},
+            ),
+        ]
+    )
+    pptx_doc = _publish_doc(service.library, "Throughput-Deck.pptx", "pptx", pptx_sources)
+
+    pdf_sources = [
+        SourceDraft(
+            source_id=f"page:{idx}",
+            kind="page",
+            ordinal=idx - 1,
+            title=f"Table 1 Table 2 Background QPS P99 {idx}",
+            text="Table 1 Table 2 AxisGate FlashBase QPS P99 background comparison prose.",
+            locator={"format": "pdf", "page": idx},
+        )
+        for idx in range(1, 4)
+    ]
+    pdf_sources.extend(
+        [
+            SourceDraft(
+                source_id="page:4",
+                kind="page",
+                ordinal=3,
+                title="Baseline Table",
+                text="Table 2 Baseline Metrics",
+                locator={"format": "pdf", "page": 4},
+            ),
+            SourceDraft(
+                source_id="page:4:table:1",
+                kind="page_object",
+                parent_id="page:4",
+                ordinal=4,
+                title="Table 2",
+                text="Variant | QPS | P99\nFlashBase | 2890 | 12.1",
+                locator={"format": "pdf", "page": 4, "object_type": "table"},
+            ),
+        ]
+    )
+    _publish_doc(service.library, "Baseline-Paper.pdf", "pdf", pdf_sources)
+
+    nb_rel = Path("Throughput-Run.ipynb")
+    nb_path = service.library.course_root / _COURSE / nb_rel
+    nb_path.parent.mkdir(parents=True, exist_ok=True)
+    nbformat.write(
+        nbformat.v4.new_notebook(
+            cells=[
+                nbformat.v4.new_code_cell(
+                    "out = bench_axis_throughput(kv_cache)\nprint(out)",
+                    id="tp-c0",
+                    execution_count=1,
+                    outputs=[
+                        nbformat.v4.new_output("stream", name="stdout", text="measured_qps=4088")
+                    ],
+                )
+            ]
+        ),
+        nb_path,
+    )
+    _publish_doc(
+        service.library,
+        "Throughput-Run.ipynb",
+        "ipynb",
+        [
+            SourceDraft(
+                source_id="cell:0",
+                kind="cell",
+                ordinal=0,
+                title="Cell 1",
+                text="out = bench_axis_throughput(kv_cache)\nprint(out)",
+                locator={
+                    "format": "ipynb",
+                    "cell_index": 0,
+                    "cell_id": "tp-c0",
+                    "cell_type": "code",
+                    "outputs_state": "available",
+                },
+            ),
+            SourceDraft(
+                source_id="cell:0:output:0",
+                kind="notebook_output",
+                parent_id="cell:0",
+                ordinal=1,
+                title="Output 0",
+                text="measured_qps=4088",
+                locator={
+                    "format": "ipynb",
+                    "cell_index": 0,
+                    "cell_id": "tp-c0",
+                    "output_index": 0,
+                    "output_type": "stream",
+                    "stream_name": "stdout",
+                },
+            ),
+        ],
+        raw=nb_path.read_bytes(),
+    )
+    # Register KG edge cleanly on local library import/publish
+    kg_store = LocalKgStore(settings)
+    assert len(kg_store.list_concepts([_COURSE])) >= 1
+
+    snap = service.snapshots.read(SnapshotRequest((_COURSE,), ()))
+    searcher = StructureSearcher(service.snapshots)
+    scope = StructureScope(
+        course_ids=[_COURSE], document_ids=[d.document_id for d in snap.documents]
+    )
+
+    # 1. Multi-table metric comparison query keeps both matching tables inside budget=6
+    multi_req = StructureSearchRequest(
+        query="对比 Table 1 和 Table 2 中 AxisGate 与 FlashBase 的 QPS 和 P99 指标",
+        top_k=12,
+        include_adjacency=True,
+        scope=scope,
+    )
+    plan_multi = plan_retrieval(
+        settings,
+        searcher,
+        snap,
+        multi_req,
+        frozenset({_COURSE}),
+        strategy="s0",
+        budget=6,
+        allow_bilingual=False,
+        kg_store=kg_store,
+        kg_enabled=True,
+    )
+    assert len(plan_multi.selected) == 6
+    assert plan_multi.selected[0].kind == "page"
+    selected_tables = [
+        c for c in plan_multi.selected if c.locator.get("object_type") == "table"
+    ]
+    assert len(selected_tables) >= 2
+    assert any("4120" in c.text for c in selected_tables)
+    assert any("2890" in c.text for c in selected_tables)
+
+    # 2. Composite query ("概念定义 + 表 1 + 实验") preserves definition + Table 1 + KG in budget=6
+    comp_req = StructureSearchRequest(
+        query="请说明 轴向吞吐调度 的定义，结合 Table 1 的 QPS 限制与实验输出验证是否达标",
+        top_k=12,
+        include_adjacency=True,
+        scope=scope,
+    )
+    plan_comp = plan_retrieval(
+        settings,
+        searcher,
+        snap,
+        comp_req,
+        frozenset({_COURSE}),
+        strategy="s0",
+        budget=6,
+        allow_bilingual=False,
+        kg_store=kg_store,
+        kg_enabled=True,
+    )
+    assert len(plan_comp.selected) == 6
+    assert any(
+        c.locator.get("object_type") == "table" and "4120" in c.text for c in plan_comp.selected
+    )
+    assert any(c.kind == "notebook_output" and "4088" in c.text for c in plan_comp.selected)
+    assert any(
+        c.source.document_id == pptx_doc.document_id and c.source.source_id == "page:1"
+        for c in plan_comp.selected
+    )
+
+    # 3. Non-table prose query leaves selection unaltered without injecting tables
+    prose_req = StructureSearchRequest(
+        query="AxisGate Throughput analysis background",
+        top_k=12,
+        include_adjacency=True,
+        scope=scope,
+    )
+    plan_prose = plan_retrieval(
+        settings,
+        searcher,
+        snap,
+        prose_req,
+        frozenset({_COURSE}),
+        strategy="s0",
+        budget=6,
+        allow_bilingual=False,
+        kg_store=kg_store,
+        kg_enabled=False,
+    )
+    assert not any(c.locator.get("object_type") == "table" for c in plan_prose.selected)
+
+    # 4. Direct rescue check when matching tables sit at rank 7 & 8 outside budget=6
+    synthetic_pool = [
+        StructureCandidate(
+            source=SourceKey(document_id=pptx_doc.document_id, version=1, source_id=f"page:{i}"),
+            course_id=_COURSE,
+            file_name="Throughput-Deck.pptx",
+            kind="page",
+            title=f"Prose {i}",
+            text="AxisGate prose chunk",
+            locator={"format": "pptx", "page": i},
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        )
+        for i in range(1, 8)
+    ] + [
+        StructureCandidate(
+            source=SourceKey(
+                document_id=pptx_doc.document_id, version=1, source_id="page:9:shape:2"
+            ),
+            course_id=_COURSE,
+            file_name="Throughput-Deck.pptx",
+            kind="page_object",
+            title="Table 1",
+            text="Variant | QPS\nAxisGate | 4120",
+            locator={"format": "pptx", "page": 9, "object_type": "table"},
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        ),
+        StructureCandidate(
+            source=SourceKey(document_id="pdf-other", version=1, source_id="page:4:table:1"),
+            course_id=_COURSE,
+            file_name="Baseline-Paper.pdf",
+            kind="table",
+            title="Table 2",
+            text="Variant | QPS\nFlashBase | 2890",
+            locator={"format": "pdf", "page": 4},
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        ),
+    ]
+    rescued = prioritize_matching_tables(
+        synthetic_pool,
+        question="对比 Table 1 和 Table 2 中的 QPS 指标",
+        budget=6,
+    )
+    assert rescued[0].source.source_id == "page:1"
+    assert any(c.source.source_id == "page:9:shape:2" for c in rescued[:6])
+    assert any(c.source.source_id == "page:4:table:1" for c in rescued[:6])

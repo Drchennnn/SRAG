@@ -131,6 +131,17 @@ _VALUE_HINT = re.compile(
     r"数值|峰值|趋势|大小|读数|数据|\b(?:values?|peaks?|trends?|numbers?)\b",
     re.I,
 )
+_MIXED_CELL_TEXT_WITH_IMAGE = re.compile(
+    r"指标|参数|代码|文本|文字|stdout|保存(?:的)?输出|运行(?:的)?输出|实验(?:结果|输出|数值)|"
+    r"实测(?:结果|数值|数据)|准确率|召回率|延迟|误差|"
+    r"\b(?:metrics?|code|text|stdout|saved\s+outputs?|accuracy|recall|latency|rmse|mae)\b|"
+    r"(?:数值|结果|数据)\s*(?:与|和|及|以及|还有|并)\s*"
+    r"第\s*[0-9一二三四五六七八九十两]+\s*(?:张|幅|个)?(?:输出)?图|"
+    r"第\s*[0-9一二三四五六七八九十两]+\s*(?:张|幅|个)?(?:输出)?图\s*"
+    r"(?:与|和|及|以及|还有|并)\s*(?:数值|结果|数据)",
+    re.I,
+)
+_CODE_TEXT_CUE = re.compile(r"代码|cell|单元格|\b(?:code|cell)\b", re.I)
 _EXCERPT = 900
 
 
@@ -413,7 +424,9 @@ def compare_versions(
         current = object_choices(
             intent, current, region_rects=_region_rects(service, docs, current)
         )
-    old = _old_candidates(service, session, candidate_history, docs, versions, request_text, image)
+    old = _old_candidates(
+        service, session, candidate_history, docs, versions, request_text, image, intent=intent
+    )
     if (
         not old
         and not image
@@ -440,7 +453,14 @@ def compare_versions(
                 intent, current, region_rects=_region_rects(service, docs, current)
             )
             old = _old_candidates(
-                service, session, candidate_history, docs, versions, request_text, True
+                service,
+                session,
+                candidate_history,
+                docs,
+                versions,
+                request_text,
+                True,
+                intent=intent,
             )
     doc_sources_by_doc: dict[str, list[SnapshotSource]] = {}
     for src in snapshot.sources:
@@ -457,6 +477,55 @@ def compare_versions(
             current_sources=doc_sources_by_doc.get(candidate.document_id),
         )
     ]
+    has_intent_old = bool(
+        old
+        and intent is not None
+        and any(
+            item.source.document_id == current[0].document_id
+            and (
+                intent.order != "images"
+                or intent.ordinal is None
+                or _old_notebook_image_order(item) == intent.ordinal
+            )
+            for item in old
+        )
+    )
+    if (
+        not paired
+        and not has_intent_old
+        and image
+        and intent is not None
+        and len(current) == 1
+        and current[0].kind == "notebook_output"
+        and full_history
+    ):
+        recovered = _recover_authorized_cell_visual_old(
+            service,
+            session,
+            full_history,
+            docs,
+            versions,
+            request_text,
+            existing_old=old,
+            selected=current[0],
+            location=location,
+            intent=intent,
+            current_sources=doc_sources_by_doc.get(current[0].document_id),
+        )
+        if recovered:
+            if not old:
+                old = list(recovered)
+            paired = [
+                (past, current[0])
+                for past in recovered
+                if _counterpart(
+                    past,
+                    current[0],
+                    location,
+                    intent,
+                    current_sources=doc_sources_by_doc.get(current[0].document_id),
+                )
+            ]
     if (
         not paired
         and location is None
@@ -474,6 +543,27 @@ def compare_versions(
             and past.source.locator.get("page") is not None
             and past.source.locator.get("page") == candidate.locator.get("page")
         ]
+    if paired:
+        msg_recency = {msg["message_id"]: idx for idx, (_, msg) in enumerate(full_history)}
+        dedup_paired: dict[
+            tuple[str, int, str, str, int, str], tuple[_Previous, SnapshotSource]
+        ] = {}
+        for past_item, cand_item in paired:
+            pair_key = (
+                past_item.source.document_id,
+                past_item.source.version,
+                past_item.source.source_id,
+                cand_item.document_id,
+                cand_item.version,
+                cand_item.source_id,
+            )
+            existing = dedup_paired.get(pair_key)
+            if existing is None or (
+                msg_recency.get(past_item.message_id, len(full_history))
+                < msg_recency.get(existing[0].message_id, len(full_history))
+            ):
+                dedup_paired[pair_key] = (past_item, cand_item)
+        paired = list(dedup_paired.values())
     if location is None and not image and not intent and len(paired) > 1:
         latest = paired[0][0].message_id
         recent = [(older, newer) for older, newer in paired if older.message_id == latest][:8]
@@ -628,6 +718,19 @@ def execute_paired_comparison(
     if not service.store.active(turn):
         raise WorkspaceError("interrupted")
     if is_image:
+        mixed_cell_text = bool(
+            selected.kind == "notebook_output" and _MIXED_CELL_TEXT_WITH_IMAGE.search(question)
+        )
+        if mixed_cell_text:
+            _attach_paired_cell_text(
+                service,
+                draft,
+                past,
+                document,
+                selected,
+                question=question,
+                trace=trace,
+            )
         error = _compare_images(
             service,
             turn,
@@ -641,12 +744,32 @@ def execute_paired_comparison(
             question=question,
             inherited_image=inherited_image,
             resumed_from_clarification=resumed_from_turn_id is not None,
+            mixed_cell_text=mixed_cell_text,
         )
         if error:
             return service._finish_invalid_read(turn, error, trace)
+        if (
+            mixed_cell_text
+            and service.settings.workspace_answer_enabled
+            and service.settings.deepseek_api_key.strip()
+            and len(draft.sources) >= 2
+        ):
+            service._generate_draft(
+                turn,
+                draft,
+                trace,
+                "compare_versions",
+                refs=[_doc_ref(document)],
+                historical=[history_ref],
+                question=question,
+            )
     else:
         _compare_native(service, draft, past, document, selected, trace)
-        if service.settings.workspace_answer_enabled and len(draft.sources) == 2:
+        if (
+            service.settings.workspace_answer_enabled
+            and service.settings.deepseek_api_key.strip()
+            and len(draft.sources) == 2
+        ):
             service._generate_draft(
                 turn,
                 draft,
@@ -837,6 +960,8 @@ def _old_candidates(
     versions: set[int],
     question: str,
     image: bool,
+    *,
+    intent: ObjectIntent | None = None,
 ) -> list[_Previous]:
     records = {}
     for prev_turn, message in history:
@@ -938,6 +1063,7 @@ def _old_candidates(
         if (
             image
             and added_this_turn == 1
+            and (intent is None or (intent.ordinal is None and intent.direction is None))
             and any(
                 r.get("method") == "vision" and r.get("status") in {"succeeded", "partial"}
                 for ev in message["sources"].values()
@@ -946,6 +1072,230 @@ def _old_candidates(
         ):
             break
     return list(records.values())
+
+
+def _same_notebook_cell(a: SnapshotSource, b: SnapshotSource) -> bool:
+    if a.document_id != b.document_id or a.kind not in {"cell", "notebook_output"}:
+        return False
+    a_id, b_id = a.locator.get("cell_id"), b.locator.get("cell_id")
+    if a_id and b_id:
+        return a_id == b_id
+    return (
+        not a_id
+        and not b_id
+        and a.locator.get("cell_index") is not None
+        and a.locator.get("cell_index") == b.locator.get("cell_index")
+    )
+
+
+def _recover_authorized_cell_visual_old(
+    service: WorkspaceService,
+    session: Session,
+    full_history: list[tuple[Turn, dict[str, Any]]],
+    docs: dict[str, SnapshotDocument],
+    versions: set[int],
+    request_text: str,
+    *,
+    existing_old: Sequence[_Previous],
+    selected: SnapshotSource,
+    location: StructureLocation | None,
+    intent: ObjectIntent,
+    current_sources: Sequence[SnapshotSource] | None,
+) -> list[_Previous]:
+    """Recover an authorized v1 notebook output image via same-cell historical citations."""
+    text_old = _old_candidates(
+        service, session, full_history, docs, versions, request_text, False, intent=intent
+    )
+    msg_recency = {msg["message_id"]: idx for idx, (_, msg) in enumerate(full_history)}
+    anchors = sorted(
+        (
+            item
+            for item in (*existing_old, *text_old)
+            if _same_notebook_cell(item.source, selected)
+        ),
+        key=lambda item: msg_recency.get(item.message_id, len(full_history)),
+    )
+    if not anchors:
+        return []
+    anchor = anchors[0]
+    v1_cell_idx = anchor.source.locator.get("cell_index")
+    if not isinstance(v1_cell_idx, int):
+        return []
+    try:
+        v1_outputs = json.loads(anchor.original.original)["cells"][v1_cell_idx]["outputs"]
+    except (KeyError, IndexError, TypeError, ValueError):
+        return []
+    if not isinstance(v1_outputs, list):
+        return []
+
+    rev = anchor.evidence.revision
+    candidate_indices: list[int] = []
+    target_out_idx = selected.locator.get("output_index")
+    if isinstance(target_out_idx, int) and 0 <= target_out_idx < len(v1_outputs):
+        candidate_indices.append(target_out_idx)
+    for idx, raw_out in enumerate(v1_outputs):
+        if idx not in candidate_indices and isinstance(raw_out, dict):
+            data = raw_out.get("data")
+            if isinstance(data, dict) and any(
+                isinstance(k, str) and k.startswith("image/") for k in data
+            ):
+                candidate_indices.append(idx)
+
+    recovered: list[_Previous] = []
+    for out_idx in candidate_indices:
+        v1_key = SourceKey(
+            document_id=selected.document_id,
+            version=rev.source.version,
+            source_id=f"cell:{v1_cell_idx}:output:{out_idx}",
+        )
+        hist = service._historical_source(
+            {"course_id": rev.course_id, "content_sha256": rev.content_sha256},
+            v1_key,
+        )
+        if hist.source is None or not _output_image_mimes(
+            hist.source.locator.get("representations")
+        ):
+            continue
+        snap_src = _as_snapshot(hist.source, rev.course_id, v1_key)
+        synth_ev = TurnEvidence(
+            evidence_id=anchor.evidence.evidence_id,
+            revision=rev.model_copy(update={"source": v1_key}),
+            file_name=anchor.evidence.file_name,
+            locator=dict(hist.source.locator),
+            read_status="not_attempted",
+            reads=[],
+        )
+        prev = _Previous(anchor.message_id, synth_ev, snap_src, hist, None)
+        if _counterpart(prev, selected, location, intent, current_sources=current_sources):
+            return [prev]
+        if not recovered:
+            recovered.append(prev)
+    return recovered
+
+
+def _attach_paired_cell_text(
+    service: WorkspaceService,
+    draft: Draft,
+    past: _Previous,
+    document: SnapshotDocument,
+    selected: SnapshotSource,
+    *,
+    question: str,
+    trace: dict[str, Any],
+) -> None:
+    """Attach reliable paired v1+v2 text/stdout evidence from the same Notebook cell."""
+    v1_cell_idx = past.source.locator.get("cell_index")
+    v2_cell_idx = selected.locator.get("cell_index")
+    v2_cell_id = selected.locator.get("cell_id")
+    if not isinstance(v1_cell_idx, int) or not isinstance(v2_cell_idx, int):
+        return
+    try:
+        v1_cell = json.loads(past.original.original)["cells"][v1_cell_idx]
+        v1_outputs = v1_cell.get("outputs") or []
+    except (KeyError, IndexError, TypeError, ValueError):
+        return
+
+    all_v2 = service.library.store.current_sources(
+        document.document_id, course_ids=(document.course_id,)
+    )
+    v2_same_cell = [
+        src
+        for src in all_v2
+        if (
+            (v2_cell_id and src.locator.get("cell_id") == v2_cell_id)
+            or (not v2_cell_id and src.locator.get("cell_index") == v2_cell_idx)
+        )
+    ]
+    v2_text_outputs = sorted(
+        (
+            src
+            for src in v2_same_cell
+            if src.kind == "notebook_output"
+            and src.locator.get("output_type") != "error"
+            and bool(readable_source_text(_as_snapshot(src, document.course_id, SourceKey(
+                document_id=document.document_id, version=document.version, source_id=src.source_id
+            ))).strip())
+        ),
+        key=lambda s: (int(s.locator.get("output_index", s.ordinal)), s.ordinal),
+    )
+    v2_code_cells = [src for src in v2_same_cell if src.kind == "cell"]
+
+    pairs_to_attach: list[tuple[SourceKey, SourceDraft]] = []
+    rev = past.evidence.revision
+    for v2_out in v2_text_outputs:
+        out_idx = v2_out.locator.get("output_index")
+        if not isinstance(out_idx, int) or out_idx >= len(v1_outputs):
+            continue
+        raw_v1_out = v1_outputs[out_idx]
+        if not isinstance(raw_v1_out, dict):
+            continue
+        v1_stream = raw_v1_out.get("name") if raw_v1_out.get("output_type") == "stream" else None
+        if (raw_v1_out.get("output_type"), v1_stream) != (
+            v2_out.locator.get("output_type"),
+            v2_out.locator.get("stream_name"),
+        ):
+            continue
+        v1_key = SourceKey(
+            document_id=document.document_id,
+            version=rev.source.version,
+            source_id=f"cell:{v1_cell_idx}:output:{out_idx}",
+        )
+        pairs_to_attach.append((v1_key, v2_out))
+
+    if (
+        (not pairs_to_attach or _CODE_TEXT_CUE.search(question))
+        and v2_code_cells
+        and len(pairs_to_attach) < 2
+    ):
+        v2_c = v2_code_cells[0]
+        if (
+            v1_cell.get("cell_type") == v2_c.locator.get("cell_type")
+            and isinstance(v1_cell.get("source"), (str, list))
+        ):
+            v1_cell_key = SourceKey(
+                document_id=document.document_id,
+                version=rev.source.version,
+                source_id=f"cell:{v1_cell_idx}",
+            )
+            pairs_to_attach.append((v1_cell_key, v2_c))
+
+    attached_pairs: list[dict[str, Any]] = []
+    for v1_key, v2_draft in pairs_to_attach[:2]:
+        v2_key = SourceKey(
+            document_id=document.document_id,
+            version=document.version,
+            source_id=v2_draft.source_id,
+        )
+        hist = service._historical_source(
+            {"course_id": rev.course_id, "content_sha256": rev.content_sha256},
+            v1_key,
+        )
+        if hist.status != "available" or hist.source is None:
+            continue
+        v1_snap = _as_snapshot(hist.source, rev.course_id, v1_key)
+        v2_snap = _as_snapshot(v2_draft, document.course_id, v2_key)
+        if _native_read(v1_snap) is None or _native_read(v2_snap) is None:
+            continue
+        synth_ev = TurnEvidence(
+            evidence_id=past.evidence.evidence_id,
+            revision=rev.model_copy(update={"source": v1_key}),
+            file_name=past.evidence.file_name,
+            locator=dict(hist.source.locator),
+            read_status="not_attempted",
+            reads=[],
+        )
+        past_txt = _Previous(past.message_id, synth_ev, v1_snap, hist, None)
+        details: dict[str, Any] = {}
+        _compare_native(service, draft, past_txt, document, v2_snap, details)
+        attached_pairs.append(
+            {
+                "historical": v1_key.model_dump(),
+                "current": v2_key.model_dump(),
+                **details,
+            }
+        )
+    if attached_pairs:
+        trace["paired_cell_text_sources"] = attached_pairs
 
 
 def _region_rects(
@@ -1302,13 +1652,31 @@ def _compare_images(
     question: str = "",
     inherited_image: bool,
     resumed_from_clarification: bool = False,
+    mixed_cell_text: bool = False,
 ) -> str | None:
-    assert past.attachment is not None
     revision = past.evidence.revision
-    desc = past.attachment.description
-    request = EvidenceRequest.model_validate(desc["request"]).model_copy(
-        update={"read_intent": "display_only", "question": None}
-    )
+    if past.attachment is not None:
+        desc = past.attachment.description
+        request = EvidenceRequest.model_validate(desc["request"]).model_copy(
+            update={"read_intent": "display_only", "question": None}
+        )
+        expected_sha: str | None = desc["byte_sha256"]
+    else:
+        hist_doc = SnapshotDocument(
+            course_id=revision.course_id,
+            document_id=revision.source.document_id,
+            version=revision.source.version,
+            publication_epoch=revision.publication_epoch,
+            content_sha256=revision.content_sha256,
+            source_path="",
+            file_name=past.evidence.file_name,
+            title=past.evidence.file_name,
+            document_format=document.document_format,
+        )
+        request = service._render_request(hist_doc, past.source).model_copy(
+            update={"read_intent": "display_only", "question": None}
+        )
+        expected_sha = None
     grant = HistoricalSourceGrant(
         revision.source,
         (revision.course_id,),
@@ -1341,12 +1709,13 @@ def _compare_images(
         display is not None
         and display.actual_source == revision.source
         and display.fallback_reason is None
-        and display.byte_sha256 == desc["byte_sha256"]
+        and (expected_sha is None or display.byte_sha256 == expected_sha)
     ):
         old_read = _previous_visual_read(
             past, history, attribute, display, allow_general=allow_general
         )
         item = _include_old(draft, past, old_read)
+        item.locator["version_role"] = "historical"
         draft.add_image(
             item, rendered, request, f"{past.evidence.file_name} · 旧版 v{past.source.version}"
         )
@@ -1363,12 +1732,13 @@ def _compare_images(
     if inherited_image and not old_read and not resumed_from_clarification:
         return None
 
-    if attribute is None and not (allow_general and old_read):
+    if attribute is None and not (allow_general and old_read) and not mixed_cell_text:
         current_request = service._render_request(document, selected)
         display_only = service.evidence.render_current(current_request)
         if display_only.status in {"stale_reference", "not_accessible"}:
             raise WorkspaceError(display_only.status)
         item = draft.add_evidence(document, selected, [])
+        item.locator["version_role"] = "current"
         draft.add_image(
             item,
             display_only,
@@ -1383,7 +1753,11 @@ def _compare_images(
     draft.text(f"当前版 v{document.version} · {target_attr}")
     trace["directed_attribute"] = target_attr
     prompt_q = _single_image_v2_prompt(attribute, question)
+    before_keys = set(draft.sources)
     error = service._read_selected_image(turn, draft, document, selected, prompt_q, trace)
+    for eid in draft.sources:
+        if eid not in before_keys:
+            draft.sources[eid].locator["version_role"] = "current"
     trace["current_read_status"] = trace.get("read_status", "not_attempted")
     return error
 
