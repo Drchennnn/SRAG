@@ -884,7 +884,11 @@ def prioritize_matching_tables(
     """Keep 1-2 query-matched table nodes inside budget=6 without displacing primary anchors."""
     if not pool or budget < 2:
         return list(pool)
-    if not _TABLE_QUERY_CUE.search(question) or _TABLE_NEGATION.search(question):
+    if _TABLE_NEGATION.search(question):
+        return list(pool)
+    has_table_cue = bool(_TABLE_QUERY_CUE.search(question))
+    has_compare_cue = bool(_TABLE_COMPARE_CUE.search(question))
+    if not has_table_cue and not has_compare_cue:
         return list(pool)
 
     terms, req_ordinals = _table_query_terms(question, alternate_query)
@@ -1016,6 +1020,14 @@ def prioritize_matching_tables(
 
     if not scored:
         return list(pool)
+    if not has_table_cue:
+        matched_tables = [entry for entry in scored if (len(entry[1]) + len(entry[2])) > 0]
+        if (
+            len(matched_tables) < 2
+            or len({_table_page_key(entry[5]) for entry in matched_tables}) < 2
+            or not any(entry[1] for entry in matched_tables)
+        ):
+            return list(pool)
     scored.sort(key=lambda item: item[0], reverse=True)
     distinct_docs = {entry[5].source.document_id for entry in scored}
     distinct_pages = {_table_page_key(entry[5]) for entry in scored}

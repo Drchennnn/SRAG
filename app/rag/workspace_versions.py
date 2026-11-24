@@ -149,7 +149,10 @@ _VALUE_HINT = re.compile(
 _MIXED_CELL_TEXT_WITH_IMAGE = re.compile(
     r"指标|参数|代码|文本|文字|stdout|保存(?:的)?输出|运行(?:的)?输出|实验(?:结果|输出|数值)|"
     r"实测(?:结果|数值|数据)|准确率|召回率|延迟|误差|"
+    r"数值变化|指标变化|输出变化|对比结果|结果对比|"
     r"\b(?:metrics?|code|text|stdout|saved\s+outputs?|accuracy|recall|latency|rmse|mae)\b|"
+    r"[A-Za-z_][A-Za-z0-9_]*\([^()\n]{0,24}\)|"
+    r"\b[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)+\b(?!\.(?:ipynb|pdf|pptx)\b)|"
     r"(?:数值|结果|数据)\s*(?:与|和|及|以及|还有|并)\s*"
     r"第\s*[0-9一二三四五六七八九十两]+\s*(?:张|幅|个)?(?:输出)?图|"
     r"第\s*[0-9一二三四五六七八九十两]+\s*(?:张|幅|个)?(?:输出)?图\s*"
@@ -1844,7 +1847,7 @@ def _compare_images(
             "historical_image_unread", "旧版该图没有已核对的同属性读取，暂不能断言其内容。"
         )
     trace["historical_read_status"] = old_read.status if old_read else "not_attempted"
-    if inherited_image and not old_read and not resumed_from_clarification:
+    if inherited_image and not old_read and not resumed_from_clarification and not mixed_cell_text:
         return None
 
     if attribute is None and not (allow_general and old_read) and not mixed_cell_text:

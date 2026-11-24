@@ -2651,3 +2651,266 @@ def test_r7_prioritize_matching_tables_promotes_up_to_3_complementary_tables_in_
     assert ("doc-pptx", "page:5:shape:1") in top6
     assert ("doc-pdf", "page:11:table:1") in top6
     assert ("doc-pdf", "page:14:table:1") in top6
+
+
+def test_r8_prioritize_matching_tables_triggers_on_tableless_multi_metric_comparison():
+    from app.rag.structure_search import StructureCandidate
+    from app.rag.workspace_retrieval import prioritize_matching_tables
+    from app.schemas.local import SourceKey
+    from app.stores.structure_snapshot import SnapshotDocument
+
+    docs = {
+        "doc-pptx": SnapshotDocument(
+            course_id=_COURSE,
+            document_id="doc-pptx",
+            version=1,
+            publication_epoch=1,
+            content_sha256="sha-p8",
+            source_path="Deck.pptx",
+            file_name="Deck.pptx",
+            title="Deck",
+            document_format="pptx",
+        ),
+        "doc-pdf": SnapshotDocument(
+            course_id=_COURSE,
+            document_id="doc-pdf",
+            version=1,
+            publication_epoch=1,
+            content_sha256="sha-d8",
+            source_path="Paper.pdf",
+            file_name="Paper.pdf",
+            title="Paper",
+            document_format="pdf",
+        ),
+    }
+
+    def _src(doc_id: str, sid: str, kind: str, title: str, text: str, page: int, **kw):
+        loc: dict[str, Any] = {"format": "pdf" if doc_id == "doc-pdf" else "pptx", "page": page}
+        if "obj_type" in kw:
+            loc["object_type"] = kw["obj_type"]
+        return SnapshotSource(
+            course_id=_COURSE,
+            document_id=doc_id,
+            version=1,
+            source_id=sid,
+            parent_id=None,
+            ordinal=page,
+            kind=kind,
+            title=title,
+            text=text,
+            locator=loc,
+            state="available",
+        )
+
+    snaps = {
+        ("doc-pptx", 1, f"page:{i}"): _src(
+            "doc-pptx",
+            f"page:{i}",
+            "page",
+            f"Slide {i}",
+            "Model overview parameters accuracy throughput",
+            i,
+        )
+        for i in range(1, 7)
+    }
+    snaps[("doc-pptx", 1, "page:5:shape:1")] = _src(
+        "doc-pptx",
+        "page:5:shape:1",
+        "page_object",
+        "Model Spec",
+        "Model | 参数量 | Params\nA | 7B | 7B",
+        5,
+        obj_type="table",
+    )
+    snaps[("doc-pdf", 1, "page:11:table:1")] = _src(
+        "doc-pdf",
+        "page:11:table:1",
+        "table",
+        "Eval Acc",
+        "Model | 准确率 | Accuracy\nA | 89.2% | 89.2%",
+        11,
+    )
+    snaps[("doc-pdf", 1, "page:14:table:1")] = _src(
+        "doc-pdf",
+        "page:14:table:1",
+        "table",
+        "Speed Bench",
+        "Model | 吞吐 | Throughput\nA | 4120 tok/s | 4120",
+        14,
+    )
+
+    def _cand(doc_id: str, sid: str) -> StructureCandidate:
+        s = snaps[(doc_id, 1, sid)]
+        return StructureCandidate(
+            source=SourceKey(document_id=doc_id, version=1, source_id=sid),
+            course_id=_COURSE,
+            file_name=docs[doc_id].file_name,
+            kind=s.kind,
+            title=s.title,
+            text=s.text,
+            locator=s.locator,
+            state="available",
+            text_available=True,
+            match_kind="fts",
+            reasons=[],
+        )
+
+    pool = [_cand("doc-pptx", f"page:{i}") for i in range(1, 7)] + [
+        _cand("doc-pptx", "page:5:shape:1"),
+        _cand("doc-pdf", "page:11:table:1"),
+        _cand("doc-pdf", "page:14:table:1"),
+    ]
+    # Question has NO word "表"/"table", only comparison cue + multi-metric terms
+    picked = prioritize_matching_tables(
+        pool,
+        question="对比两模型参数量、准确率和吞吐",
+        snapshot_sources=snaps,
+        docs=docs,
+        budget=6,
+    )
+    assert picked[0].source.source_id == "page:1"
+    top6 = {(c.source.document_id, c.source.source_id) for c in picked[:6]}
+    assert ("doc-pptx", "page:5:shape:1") in top6
+    assert ("doc-pdf", "page:11:table:1") in top6
+    assert ("doc-pdf", "page:14:table:1") in top6
+
+    # Unrelated prose comparison without matching tables keeps pool untouched
+    unchanged = prioritize_matching_tables(
+        pool,
+        question="对比两个抽象概念之间的核心定义差异",
+        snapshot_sources=snaps,
+        docs=docs,
+        budget=6,
+    )
+    assert unchanged == pool
+
+
+def test_r8_mixed_cell_text_regex_covers_calls_identifiers_and_value_changes(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+):
+    from app.rag.source_evidence import ReadRecord
+    from app.rag.workspace_versions import _MIXED_CELL_TEXT_WITH_IMAGE
+
+    assert _MIXED_CELL_TEXT_WITH_IMAGE.search(
+        "对比 v1 和 v2 中 foo_bar() 的 avg_latency 数值变化与第 2 张输出图"
+    )
+    assert _MIXED_CELL_TEXT_WITH_IMAGE.search("对比第 2 张输出图的指标变化")
+    assert _MIXED_CELL_TEXT_WITH_IMAGE.search("输出变化和第 1 张输出图")
+    assert _MIXED_CELL_TEXT_WITH_IMAGE.search("对比结果与第 2 张图")
+    assert not _MIXED_CELL_TEXT_WITH_IMAGE.search(
+        "retrieval_bench.ipynb 第 2 张图的横轴单位是什么"
+    )
+    assert not _MIXED_CELL_TEXT_WITH_IMAGE.search("对比 v1 和 v2 第 2 张输出图里的耗时是多少 ms？")
+
+    settings = _settings(
+        tmp_path,
+        deepseek_api_key="",
+        dashscope_api_key="r8-mock-dashscope",
+        source_vision_enabled=True,
+        workspace_answer_enabled=False,
+    )
+    service = make_workspace(settings)
+    vision_requests: list[tuple[int, str]] = []
+
+    def fake_vision(request, *, expected_input_sha256: str):
+        base = service.evidence.render_current(request)
+        disp = base.display
+        assert disp is not None and disp.byte_sha256 == expected_input_sha256
+        vision_requests.append((request.source.version, request.source.source_id))
+        rec = ReadRecord(
+            requested_source=request.source,
+            actual_source=disp.actual_source,
+            actual_input_sha256=disp.byte_sha256,
+            actual_input_media_type=disp.media_type,
+            actual_input_rect=disp.rect_visible_norm,
+            purpose="directed_question",
+            execution="real_provider",
+            origin_execution="real_provider",
+            provider="r8-fake",
+            model="qwen3-vl-plus",
+            prompt_version="r8-v1",
+            question_sha256=(
+                hashlib.sha256(request.question.strip().encode()).hexdigest()
+                if request.question
+                else None
+            ),
+            status="succeeded",
+            text=f"v{request.source.version} curve peak=88",
+        )
+        return base.model_copy(update={"read_status": "succeeded", "reads": [rec]})
+
+    monkeypatch.setattr(service.vision, "process_current", fake_vision)
+    nb_path = tmp_path / "StageBench.ipynb"
+
+    def _write_nb(metric: str, col_a: tuple[int, int, int], col_b: tuple[int, int, int]) -> None:
+        nb = nbformat.v4.new_notebook(
+            cells=[
+                nbformat.v4.new_markdown_cell("# Stage Bench"),
+                nbformat.v4.new_code_cell(
+                    "res = bench_stage()\nprint(res)",
+                    execution_count=1,
+                    outputs=[
+                        nbformat.v4.new_output("stream", name="stdout", text=metric),
+                        nbformat.v4.new_output(
+                            "display_data",
+                            data={"image/png": base64.b64encode(_png_bytes(col_a)).decode()},
+                        ),
+                        nbformat.v4.new_output(
+                            "display_data",
+                            data={"image/png": base64.b64encode(_png_bytes(col_b)).decode()},
+                        ),
+                    ],
+                ),
+            ]
+        )
+        nbformat.write(nb, nb_path)
+
+    with _client(service) as client:
+        sess = _create_session(client)
+        _write_nb("p95_lat=18.2", (20, 40, 200), (200, 40, 40))
+        imp = client.post(
+            f"{sess}/import",
+            params={"course_id": _COURSE, "filename": "StageBench.ipynb"},
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        ).json()
+        rev = client.patch(
+            f"{sess}/scope",
+            json={
+                "course_ids": [_COURSE],
+                "document_ids": [imp["document_id"]],
+                "scope_revision": client.get(sess).json()["scope_revision"],
+            },
+        ).json()["scope_revision"]
+        # Read v1 output:2 generally (no axis/metric attribute)
+        _ask(client, sess, "第 2 个 Cell 第 2 张输出图画了什么？", rev, client_id="r8-v1-img2")
+
+        _write_nb("p95_lat=11.4", (30, 80, 210), (220, 90, 20))
+        client.post(
+            f"{sess}/import",
+            params={
+                "course_id": _COURSE,
+                "filename": "StageBench.ipynb",
+                "document_id": imp["document_id"],
+            },
+            headers={"content-type": "application/octet-stream", "origin": _HOST},
+            content=nb_path.read_bytes(),
+        )
+        vision_requests.clear()
+        res = _ask(
+            client,
+            sess,
+            "对比 v1 和 v2 中 bench_stage() 的 p95_lat 数值变化与第 2 张输出图",
+            rev,
+            client_id="r8-cmp-mixed",
+        )
+        assert res["turn"]["status"] == "completed"
+        assert res["turn"]["trace"]["route"] == "version_comparison"
+        assert vision_requests == [(2, "cell:1:output:2")]
+        joined = "\n".join(b.get("text", "") for b in res["message"]["blocks"])
+        assert "18.2" in joined and "11.4" in joined
+        assert [
+            b["display_source"]["version"]
+            for b in res["message"]["blocks"]
+            if b.get("type") == "source_image"
+        ] == [1, 2]
