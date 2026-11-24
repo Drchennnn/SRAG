@@ -1070,7 +1070,9 @@ def main() -> None:
                 )
                 c302_ans = _answer_text(r_c302["assistant"])
                 results["C3_multiturn_and_versioning"]["C3-02_explicit_scope_switch"] = {
-                    "passed": "18.40" not in c302_ans and "87.59%" not in c302_ans,
+                    "passed": "18.40" not in c302_ans
+                    and "Lab-01" not in c302_ans
+                    and "run_triplet_hop_k3" in c302_ans,
                     "scoped_document_ids": scoped_snap["scope"]["document_ids"],
                     "notices": _msg_notices(r_c302["assistant"]),
                     "answer_preview": c302_ans[:160],
