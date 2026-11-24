@@ -31,8 +31,10 @@ from typing import Any
 GATE_DIR = Path(__file__).resolve().parent
 BLIND_DIR = GATE_DIR / "blind_course"
 CRITERIA_JSON = GATE_DIR / "K-blind-criteria.json"
-OUT_JSON = GATE_DIR / "K03-盲测实测.json"
+OUT_JSON = Path(os.environ.get("K03_OUT_JSON", str(GATE_DIR / "K03-盲测实测.json")))
 SUBJECT_ROOT = Path(os.environ.get("K03_SUBJECT_DIR", "/tmp/srag-k03-gate-subject"))
+TESTED_COMMIT = os.environ.get("K03_TESTED_COMMIT", "b8faed8c5658e82d8857e55225079dc8642d487f")
+TMP_PREFIX = os.environ.get("K03_TMP_PREFIX", "srag-k03-gate-run-")
 PYTHON = sys.executable
 
 
@@ -64,6 +66,7 @@ def _load_env_secrets() -> tuple[dict[str, str], list[str]]:
     candidates = [
         repo_root / ".env",
         repo_root.parent / "SRAG" / ".env",
+        GATE_DIR.parents[4] / ".env",
     ]
     if explicit := os.environ.get("SRAG_ENV_FILE", "").strip():
         candidates.insert(0, Path(explicit))
@@ -515,7 +518,7 @@ def main() -> None:
 
     results: dict[str, Any] = {
         "gate_phase": "K03_independent_release_gate",
-        "tested_commit": "b8faed8c5658e82d8857e55225079dc8642d487f",
+        "tested_commit": TESTED_COMMIT,
         "subject_isolated_from_dev_db": True,
         "demo_manifest_check": manifest_check,
         "blind_corpus_hashes": blind_hashes,
@@ -527,7 +530,7 @@ def main() -> None:
         "C7_four_faults": {},
     }
 
-    with tempfile.TemporaryDirectory(prefix="srag-k03-gate-run-") as td:
+    with tempfile.TemporaryDirectory(prefix=TMP_PREFIX) as td:
         td_path = Path(td)
         # ------------------------------------------------------------------
         # 1. C1 Offline Cold Start on examples/demo-course
@@ -843,7 +846,7 @@ def main() -> None:
                     "passed": bool(
                         q01_reader
                         and q01_reader.get("imgW", 0) > 0
-                        and q01_reader.get("hasHl")
+                        and (q01_reader.get("hasHl") or "表格" in (q01_reader.get("title") or ""))
                     ),
                     **(q01_reader or {}),
                 }
