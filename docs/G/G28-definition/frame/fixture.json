@@ -1,0 +1,54 @@
+{
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "Latch-Guide.pdf": {
+      "sha256": "4917d15260e40a9d99f42ca00e6bd7e0e7119f0e1978de0c820e7c91a5df624c"
+    },
+    "Replay-Record.ipynb": {
+      "sha256": "f23e0ee382fe9fb9f292b5ec5d98d81d4f6357f7ee02cb7dd8839714992570c4"
+    }
+  },
+  "turns": [
+    {
+      "id": "open_A",
+      "new": false,
+      "scope": "course",
+      "question": "唤醒之前要求信号持续合格的驻留规则怎么定义？配套计时回放实验的平均服务分发延迟是多少？"
+    },
+    {
+      "id": "narrow_A",
+      "new": false,
+      "scope": "Latch-Guide.pdf",
+      "question": "唤醒之前要求信号持续合格的驻留规则怎么定义？刚才计时回放实验的平均服务分发延迟是多少？"
+    },
+    {
+      "id": "open_B",
+      "new": false,
+      "scope": "course",
+      "question": "唤醒之后屏蔽新触发的保持期怎么定义？配套计时回放实验的平均服务分发延迟是多少？"
+    },
+    {
+      "id": "narrow_B",
+      "new": false,
+      "scope": "Latch-Guide.pdf",
+      "question": "唤醒之后屏蔽新触发的保持期怎么定义？刚才计时回放实验的平均服务分发延迟是多少？"
+    },
+    {
+      "id": "open_missing",
+      "new": false,
+      "scope": "course",
+      "question": "唤醒预留规则是怎么定义的？配套计时回放实验的平均服务分发延迟是多少？"
+    },
+    {
+      "id": "narrow_missing",
+      "new": false,
+      "scope": "Latch-Guide.pdf",
+      "question": "唤醒预留规则是怎么定义的？刚才计时回放实验的平均服务分发延迟是多少？"
+    }
+  ]
+}

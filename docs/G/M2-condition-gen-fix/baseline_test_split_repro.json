@@ -1,0 +1,105 @@
+{
+  "subject_commit": "7e96dfad20c1a5892ba143201ae1c6fa1c699dc4",
+  "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+  "mode_off_expected_rejection": {
+    "route": "evidence_answer",
+    "answer_status": "partial",
+    "visible_text": "A basalt latch opens on three consecutive readings strictly above 8 V.\n本轮可核对的原文不足以确认符合所问对象、条件和指标的实测比较。",
+    "citations": {
+      "ev-1": {
+        "file_name": "Basalt-Latch-Guide.pdf",
+        "version": 1,
+        "source_id": "page:1",
+        "text": "Basalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1"
+      }
+    }
+  },
+  "mode_on_reproduced_failure": {
+    "route": "generated_answer",
+    "generation": {
+      "attempts": [
+        {
+          "elapsed_ms": 1647.867,
+          "outcome": "response",
+          "status": 200
+        }
+      ],
+      "elapsed_ms": 1662.077,
+      "estimated_input": 5873,
+      "external_call_count": 1,
+      "fixed_overhead": 3805,
+      "input_budget": 32768,
+      "input_evidence_ids": [
+        "ev-1",
+        "ev-2",
+        "ev-3",
+        "ev-4",
+        "ev-5"
+      ],
+      "model": "deepseek-flash",
+      "output_reserve": 8192,
+      "provider": "deepseek",
+      "status": "succeeded",
+      "total_tokens": 1629
+    },
+    "provider_calls": [
+      {
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "method": "POST",
+        "model": "deepseek-flash",
+        "request_bytes": 944,
+        "mode": null,
+        "question": null,
+        "evidence_ids": [],
+        "status_code": 200,
+        "elapsed_ms": 418.014
+      },
+      {
+        "url": "https://api.deepseek.com/v1/chat/completions",
+        "method": "POST",
+        "model": "deepseek-flash",
+        "request_bytes": 5889,
+        "mode": "definition_and_experiment",
+        "question": "Basalt latch 的定义是什么？讲义所对应的测试集实验如何验证？",
+        "evidence_ids": [
+          "ev-1",
+          "ev-2",
+          "ev-3",
+          "ev-4",
+          "ev-5"
+        ],
+        "status_code": 200,
+        "elapsed_ms": 413.473
+      }
+    ],
+    "visible_text": "课程助手\n\nBasalt latch 的定义：连续三次读数严格高于 8 V 时，basalt latch 打开。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页\n\n讲义对应的实验编号为 SlateTrialB6；该实验在 held-out 划分上以 MAE 为指标、单位为 amplitude，基线为 0.26，试验为 0.19，样本数为 4。\n\n依据 · Latch-Trial.ipynb · v1 · Cell 1\n\n该实验的基线绝对误差为 (0.21, 0.25, 0.30, 0.28)，试验绝对误差为 (0.15, 0.17, 0.22, 0.22)。\n\n依据 · Latch-Trial.ipynb · v1 · Cell 1\n\n该指南只包含干台架（dry bench）观测；配套检查表将 Dry bench 记为 Recorded。\n\n依据 · Basalt-Latch-Guide.pdf · v1 · 第 1 页Latch-Check.pptx · v1 · 第 1 页\n\n图 1 · Basalt-Latch-Guide.pdf · v1 · 第 1 页 · Basalt latch calibration\n\nBasalt-Latch-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+    "citations": [
+      "ev-1",
+      "ev-2",
+      "ev-3"
+    ],
+    "clicked_citations": {
+      "ev-1": {
+        "body_head": "放大\n\nBasalt latch calibration\nDefinition: A basalt latch opens on three consecutive readings strictly above 8 V.\nExperiment-ID: SlateTrialB6.\nOnly dry bench observations are included in this guide.\nPage 1",
+        "location": "当前版本",
+        "open": true,
+        "status": "文字已交给回答模型 · 图像未读取",
+        "title": "Basalt-Latch-Guide.pdf · v1 · 第 1 页"
+      },
+      "ev-2": {
+        "body_head": "Experiment-ID: SlateTrialB6. Split: held-out. Metric: MAE. Unit: amplitude. Baseline: 0.26. Trial: 0.19. Samples: 4.\nBaseline absolute errors: (0.21, 0.25, 0.30, 0.28).\nTrial absolute errors: (0.15, 0.17, 0.22, 0.22).",
+        "location": "当前版本",
+        "open": true,
+        "status": "文字已交给回答模型 · 图像未读取",
+        "title": "Latch-Trial.ipynb · v1 · Cell 1"
+      },
+      "ev-3": {
+        "body_head": "放大\n\n暂时无法渲染原件，可核对下方的原文。\n\nBasalt handling checklist\n| Check | Status |\n| --- | --- |\n| Dry bench | Recorded |",
+        "location": "当前版本",
+        "open": true,
+        "status": "文字已交给回答模型 · 图像未读取",
+        "title": "Latch-Check.pptx · v1 · 第 1 页"
+      }
+    }
+  }
+}

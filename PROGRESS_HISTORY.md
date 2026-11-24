@@ -568,3 +568,85 @@
 - 合成一页上方横线表、下方网格表，复现了旧库同字节重导将下表重复登记并漏掉上表。修复后下表沿用旧键，新表取得独立键，两库均按上、下顺序选择。重复导入一次后发布代次稳定。[兼容回归](tests/test_pdf_table_id_compat.py)
 - 使用现有 LibreOffice 运行整合树全量测试，620 项通过、0 跳过，1 条 Starlette 测试客户端弃用提示。Ruff 核对生产、测试及三份网页回放脚本均通过；整合者再次从空库验证两轮网页的路由、原生读取、回答和引用。
 - 独审另造一页三表 PDF，从 HTTP 导入并读目录，在升级库与新库分别问第 1、2、3 张表。两库均依次选中 `table:3`、`table:1`、`table:2`，升级前消息引用的旧表预览在升级后字节一致。
+
+## 2026-11-22 · G28 + M2 联合验收候选生成（独审待完成，A03 未启动）
+
+- 从远端 `main`（`54fbd9e9daf97d6aa9f28d6ef0bdc0431f41c8fd`）在独立干净工作树建立 `codex/g-m2-joint-candidate`，无冲突整合 `codex/g28-dev`（`18fb8929e6aaaa41de40dd34d933d34741c661e6`，产品修复提交 `d63447a99178bfc5c55a8edadbc62a9604951420`）与 `feat/m2-condition-gen-fix`（`e55a9b4a9281d127c78f6fe28f7511c064312884`，产品修复提交 `8d530e4887330f422364375f897b29da5e97a224`），并验证三者均为主祖先，产品合并提交为 `90cd99b8ec925c58cb7f291fae646d1eec69b94f`。
+- 联合树检查结果：`ruff check --no-cache app evals tools tests` 通过；`PYTHONPATH=. ../SRAG/.venv/bin/pytest -q -rs -p no:cacheprovider` 通过 **640 passed, 3 skipped**（1 warning `StarletteDeprecationWarning`）；3 项跳过原因：`tests/test_source_evidence.py:747` 与 `tests/test_workspace.py:1019` 为 `SRAG_SOFFICE not configured`，`tests/test_workspace_preview.py:118` 为 `Set SRAG_SOFFICE to exercise genuine PPTX page rendering`。
+- 正常网页入口公开冒烟（[smoke.py](./docs/G/G-M2-joint-smoke/smoke.py) · [smoke.json](./docs/G/G-M2-joint-smoke/smoke.json)）：空库导入公开 `Beacon-Sync-Manual.pdf` 与 `Beacon-Sync-Log.ipynb` 后，课程范围首问完整回答 `Barrier Latch` 定义与 `12.0 ms`（`3 个 admitted slots`）；收窄到 `Beacon-Sync-Manual.pdf` 后发送逗号连接自然追问，实测 `trace.definition_topic == "Barrier Latch"`、点击定义引用打开 `Beacon-Sync-Manual.pdf · v1 · 第 2 页`、触发 `experiment_outside_scope` 与 `missing_evidence` 范围提示，旧实验数值（`12.0 ms` / `3 个 admitted slots`）零泄漏，3 次 DeepSeek 调用均 HTTP 200。
+- 如实保留已知 `M2` 路真实网页回归的两处假性 `partial` 波动（`3_same_cell_fwd.ask_a` 与 `5_original_six.held_out`，`deepseek-flash` 额外要求具体验证步骤/如何直接验证定义而未命中固定模板，正文数值 `0.26`/`0.19` 与可点击引用均准确，固定输出回放均 `succeeded`）。状态定格为：**联合候选已生成、独审待完成、A03 未启动**，停止于 `codex/g-m2-joint-candidate`（不合入 `main`）。[联合交接](./docs/G/G-M2-joint-smoke/README.md)
+
+## 2026-11-23 · G/M2 联合候选 A03 正式复测与独立评分（4/10，M2 返工）
+
+- **运行前核验与单次执行封存**：对批准复测的固定联合候选 `d4c8597d92db20a8803259f47c59faf16ca14f6a`（联合独审 `1515363ffd1de2aef0cf89b565a57c921749650b`）完成 A03/G01 原锁（`A03-lock-manifest.json` `c2a92200...`，8 成员）、运行器 `run_g09.py`（`96cfd3a1...`）、`H02` 无 `PUT /focus` 原步骤、`LibreOffice 26.8.3.1` 与隔离配置核验（关闭外部文字生成、`deepseek_api_key=""`、仅开 `qwen3-vl-plus` 定向视觉、每题独立空库空缓存）。从 `git archive` 检出独立干净副本执行单次 10 题 11 轮首跑并只读封存（`SEAL.json` `b9cef970fbe3c76a113c1334e5f11022da16940549c4ffd6012251d3965126cd`，17/17 成员，2 次视觉调用均 HTTP 200 / 454 tokens，0 失败/缓存/拦截，ASGI p50/p95 为 `61.577 / 4,487.856 ms`）。
+- **独立评分与比较**：独立评分者只读封存工件对照原锁与答案键评分并封存（`SCORING-SEAL.json` `8c9901148618b52283e7109c55e96eca702078f073c7f4ca8f8761600840c1bd`，4 成员）。结果与 G19 同口径持平：完成 **9/10**、严重错误 **0**、整题 **4/10**（日常 **3/6**、保留 **1/4**；4 完整 / 5 部分 / 1 空白）、关键题 **2/5**、精确来源 **4/9**、事实/引用各 **5/9**、视觉 **1/3**、对话一致 **0/2**、边界 **1/3**、证据覆盖 **4/13**；较 G19 0 项提升、10 项持平、0 项回退；6 题未过首偏为 `选错来源 5`、`读对答错 1`。
+- **裁决与边界**：正式 A03 裁决 **`M2_REWORK`**（公开网页专项结果单列，不充作 A03 达标）。私有题面、答案、实际目标名称、逐题轨迹、原始图片与密钥仅留存本机；公开聚合与报告已推送至 `codex/a03-formal-retest`（`main` 不变），交回主审裁决后续阶段是否开放。[A03 复测报告](./docs/G/A03-formal-retest/README.md) · [A03 公开聚合](./docs/G/A03-formal-retest/A03-聚合.json)
+
+2026-11-23 换任主审。PDF 对象恢复与 Notebook 换版恢复均已送审；PDF 候选澄清和重排后的双版比较待补验，M2 返工。当前分支、架构、裁决及下一轮任务见[换任主审交接](./docs/G/主代理交接.md)。
+
+2026-11-23 更新换任协作方式。主代理自主调度执行与独审子代理，回读各自提交并报告裁决。
+
+2026-11-23 用户 明确换任顺序：首轮只读评审目标、架构、进度、问题与长期路线；用户确认方向后由主代理自主派工。
+
+## 2026-11-23 · 新任主代理架构评审与路线调整（方向已确认，G29 方案待审核）
+
+- **只读架构与进度核验**：新任主代理沿 `docs/G/主代理交接.md` 核对产品路线、架构文档、`G19`/`G20-D`/`G-M2-joint-gate`（`1515363`）/`A03-formal-retest`（`a82c23e`）以及 `codex/g-pdf-object-recovery`（`731422b`）与 `codex/g-version-output-recovery`（`328ae63`）两支候选与源码，全程未触碰 A03 私有封存或修改产品代码。
+- **关键架构诊断**：确认 A/B 版本发布、D 展示与实读双账本、G21 统一预算及 0 严重错误底线值得完整保留；同时确认 `app/rag/workspace.py`（3,039 行，全工作区链路 133 个模块级正则）继续打补丁的成本已高于结构收口——两路分支已在 `_retrieve()` 产生 `git merge-tree` 冲突，并暴露 `Q04`（`_IMAGE_REFERENCE` 早于 `session.focus_id` 抢跑）、`Q02/Q03`（`locator["object_text"]` 与 `historical_evidence()` 校验空 `source.text` 致 409）、`b2`（澄清选项丢失父任务导致选后只读 v2 单边返回 `partial`）及图像 `/evidence/{eid}/preview` 404 不对称等公共契约裂缝。
+- **项目负责人拍板的三项方向调整**：
+  1. 近期先做小范围、强约束的 **G29 公共编排与契约收口**（拆清 Scope/Focus、意图判定、可恢复澄清与统一证据/预览服务），再整合 `g-pdf-object-recovery` 与 `g-version-output-recovery`，关闭上述四处已知缺口。
+  2. 保留 A03 原锁口径及全部历史成绩作为无文字生成底座的固定回归标尺，不再为关闭文字生成模式下的跨文件综合堆叠平行正则；M2 改由 **G30 双轨裁决**（A03 原锁底座核心项 + 开启 DeepSeek 与视觉的真实未见三格式复杂排版网页盲验）。
+  3. M2 通过后，中期顺序调整为**先打通 J（真实多文件课程精准检索对照与定型，含纯图 PPTX 与跨文件多跳），再推进 H（单课程可溯源知识图谱）**；R 独立并行，桌面端留在 K 之后的需求池。
+- **本轮交付与下一步**：同步更新 `RAG.md`、`docs/产品目标与交付路线.md`、`CHECKLIST.md`、`docs/执行交接.md` 与 `PROGRESS_HISTORY.md` 并推送 `codex/g-lead-handoff`；下一步提交 G29 首轮执行方向与验收标准，待项目负责人审核通过后派发子代理执行。
+
+## 2026-11-23 · G29 公共编排与契约收口及两路整合 · 独立盲验复审通过（放行 G30 候选）
+
+- **设计独立签认**：`g29_exec` 在隔离 worktree `feat/g29-orchestration-and-integration` 交付 `docs/G/G29-设计.md`（初稿 `0dbaf4b`）；`g29_gate` 在开发前先冻结未见真实复杂排版三格式盲测套件（`review/g29-gate` `a2ad63c`：2 份未见 CC BY 4.0 真实论文 `Speculative-Decoding-2211.17192v2.pdf` 13 页双栏 + `YaRN-2309.00071v3.pdf` 20 页数学单栏共 68 对象、1 份全新 4 页课程 PPTX、1 套双版/重排 Notebook、17 项冻结用例），首审拦截 4 项设计缺陷（`table_crop` 与 `workspace.js` 高亮坐标冲突、`b2` 多属性 `attribute=None` 冲突、`X1` 切分剥离右缘公式编号、`V5` Form XObject 过严与 `T2` 多表分组）；`g29_exec` 修订至 `aabe669`（SHA-256 `131371f8...`），`g29_gate` 第 2 轮签认通过（`825b272`）。
+- **第 1 轮实现与独立盲验返工**：`g29_exec` 实施四阶段管道（`workspace_context.py`/`workspace_router.py`/`workspace_clarification.py`/`workspace_evidence.py`）、四处契约裂缝修复、两路恢复整合与 PDF 护栏，推送 `6d9fb7d`（Ruff 0 错、`650 passed, 3 skipped`）。`g29_gate` 在干净 `git archive 6d9fb7d` 上独立盲验（`4342508`，19 次真实模型调用）：四处核心契约裂缝（`Q04`、`GET /evidence` 200、`b2` 双边恢复、预览对称与 `table_crop` Branch C）、跨会话 5/5 404、`stale_reference` 2/2 及真实论文视觉图（15/15）与三线表（15/15）均 100% 通过；但检出 1 项严重版本串版（同会话 `v1→v2→读v2→只看旧版/对比两版` 串读 v2 并因 `history[:1]` 丢 v1）、1 项 `< 70%` 路线复议红线（`_pdf_text_object_sources` 词元级先按 `x=0.50` 切半致公式仅 48.0% Recall / 16.0% Precision、总体微平均 Precision 44.2%）、1 项同页多表全局表号 `ordinal` 超界，且本机缺 `soffice`。项目负责人拍板按路线 A 在 G29 返工修复并先补装本机依赖。
+- **本机环境补齐与第 2 轮返工复审通过**：本机经 Homebrew 安装 `LibreOffice 26.8.3.1`（`/opt/homebrew/bin/soffice`）；`g29_exec` 修复旧版历史过滤与全历史回溯、改为先全页归行再行级双栏判定+通栏不切分+真实版心右缘编号重关联+严格公式准入与伪代码浮框过滤、新增多表全局表号匹配与 3 项回归测试，推送 `33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0`。`g29_gate` 从干净 `git archive 33f0f14` 独立复跑（`review/g29-gate` `b80e6553f2c89ff00f87513647f66a387246f898`，21 次真实外部模型调用，含真实 Chromium 与真实 `SRAG_SOFFICE`）：
+  - **静态与全量测试**：Ruff `All checks passed!`，全量 `pytest`（带 `SRAG_SOFFICE`）**`656 passed, 0 failed, 0 skipped`**；零改动 API/Schema/前端 JS/SQLite Schema，严守无文字生成边界；
+  - **68 对象真实复杂排版 PDF 审计（红线解除）**：视觉图 `15/15`（100%/100%）、无竖线三线表 `15/15`（100%/100%）、图注 `13/13`（100%/100%）、带编号独立公式 `21/25`（Recall 84.0% / Precision 80.8% / FPR 19.2%），**Micro Overall 达 `64/68`（Recall 94.1% / Precision 92.8% / FPR 7.2% ；最严计入无编号证明仍达 85.3%）**，伪代码/行内引用/页眉横线 0 误报；
+  - **17 项三格式盲测与真实 Chromium**：原 3 项阻断/失败项（`G29-NB-01`、`G29-PDF-04/05`、`G29-PDF-08b`）全部闭合，真实 LibreOffice PPTX 裁图/整页/内嵌图实读与全部核心契约通过，**0 严重错误**；留档 2 项非阻塞观测（复杂 `\begin{cases}` 大括号分段公式偶发漏登；图像意图正则后续可补 `"实验图"`/`"架构图"` 等复合词）。
+- **结论与下一步**：G29 独立门禁正式签认**通过**；现停在 G29 交付点向项目负责人汇报，待确认后启动 G30（在 `33f0f14` 固定 SHA 上执行双轨 M2 裁决：单次封存 A03 原锁复测 + 真实三格式网页终验汇总）。
+
+## 2026-11-23 · G30 双轨 M2 裁决 · 日常版放行，开放 J01 候选
+
+- **受测固定产品候选**：`feat/g29-orchestration-and-integration` · `33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0`（G29 独审基线 `review/g29-gate` `b80e6553f2c89ff00f87513647f66a387246f898`）。
+- **轨 1（A03 原锁单次封存复测与独立评分）**：
+  - 独立执行者 `g30_a03_runner` 核验 `A03-lock-manifest.json`（`c2a92200...`，8/8）与 `run_g09.py`（`96cfd3a1...`），从干净 `git archive 33f0f14` 启用真实 `LibreOffice 26.8.3.1`（`/opt/homebrew/bin/soffice`）、关闭外部文字生成与 embedding/rerank/Jev、不补 `PUT /focus`，一次性跑完 10 题 11 轮并立即只读 `0o400` 封存（`SEAL.json` `c4b34ee7...`，19/19 成员；`setup_exceptions=0`；4/4 次真实 `qwen3-vl-plus` HTTP 200 / 1,181 tokens / 0 失败/缓存/拦截；ASGI p50/p95 为 `1,488.846 / 3,925.958 ms`）。
+  - 未参与实现与运行的独立评分者 `g30_a03_scorer` 只读核验并按原锁口径评分封存（`SCORING-SEAL.json` `ff8645c0...`，`score-aggregate.json` `38eedce0...`）：**完成度 `10/10`（通过）**、**严重错误 `0`（通过）**、**整段对话一致 `2/2`（通过）**、**整题 `4/10 → 6/10`**（日常 `4/6`、保留 `2/4`；`full=6 / partial=4 / blank=0`）、**关键题 `2/5 → 4/5`**、精确来源 `4/9 → 5/9`、事实/公式与引用各 `5/9 → 6/9`、视觉选读 `1/3 → 2/3`、边界 `1/3 → 2/3`、证据覆盖 `4/13 → 6/13`；较 G19/`d4c8597` **3 项提升、7 项持平、0 项回退**，`读对答错` 由 `1 → 0` 清零。
+  - 剩余 4 题未达原锁口径中，2 题为关闭外部文字生成 + `budget=2` 下的跨文件综合上限（已明示不堆叠平行正则）；另 2 题为已定位的非阻塞小边界（检索回退 `limit=2` 致公式子对象展示未实读；多图对比问句方位词误锁对照侧单图）。[轨 1 报告](./docs/G/G30-a03-retest/README.md) · [聚合 JSON](./docs/G/G30-a03-retest/A03-聚合.json)
+- **轨 2（真实产品配置三格式网页终验）**：
+  - 独立验证者 `g30_web_gate` 从干净 `git archive 33f0f14` 启动真实 `uvicorn` + `agent-browser` Chromium `/workspace/`（开启 `deepseek-flash` + `qwen3-vl-plus` + 真实 `LibreOffice 26.8.3.1`），在 3 份真实公开三格式课程材料上跑通全部 8 步学生学习工作流（**`8/8` 通过，0 严重错误，0 Mock 调用**）：空库网页三格式导入 → 长英文 PDF 中文综合与 `#reader` 引用核对 → PDF 无竖线三线表/整页高亮、聚焦双图 `Q04` 澄清实读、图注/公式 `GET /evidence` 200 → 真 LibreOffice PPTX 原生表与内嵌曲线图视觉实读 → Notebook 多输出澄清、`v2_reordered` 换版、`"只看旧版"` 严守 `v1` 零串版、`"对比两版"` 重排澄清恢复双边 `v1+v2` 完整对比 → 刷新恢复 26 消息与旧 `v1` 字节同哈希 → 缺证诚实拒答 → 跨会话 4/4 HTTP 404。真实调用 `4` 次 DeepSeek + `4` 次 `qwen3-vl-plus`，14 轮耗时 p50 `1.317s` / p95 `5.935s`。[轨 2 报告](./docs/G/G30-web-e2e/README.md)
+- **双轨 M2 裁决与下一步**：按 2026-11-23 签认的双轨 M2 门禁口径（同时完整保留 A03 原锁 `6/10` 单列成绩与边界记录），**G 部日常版双轨验收通过并放行**，正式开放中期第一优先级 **J01（真实多文件精准检索对照设计）**，待项目负责人确认后启动。
+
+## 2026-11-23 · J01–J03 真实多文件精准检索与策略对照 · J 部通过，开放 H01
+
+- **J01 设计与独立签认**：`j_exec` 在合并基线 `d126b0e` 上对照 `SAG-Wiki`（`92cec19`）与现行源码交付 `docs/J/J01-多文件检索对照设计.md`（初稿 `e398a63`）；`j_gate` 在开发前独立冻结 9 文件 18 题未见真实课程包 `cs-mlsys-j`（`review/j-gate` `536ab59`：3 篇未见 CC BY 4.0 真实论文 `GPTQ`/`KIVI`/`PositionalInterpolation` + 3 份真 `soffice` PPTX 含纯图无文字锚点页 + 3 份 Notebook 含 FTS5 实测零重叠 2-hop 实验本），首审拦截 5 项设计缺陷（`S0` 非双语预算泄露、`S1` tie-break 覆盖 `noul`、`S3` `representation_type` 过滤冲突与本地目录锁、`S3` 纯图 D03 实读与生成/G21 预算时序脱节、边界 ①③ 控制流）；`j_exec` 修订至 `be14e93`（SHA-256 `59a2cd16...`），`j_gate` 复审签认通过（`3af8fe6`）。
+- **J02 实现、边界收口与开发组对照**：`j_exec` 落地 `S0` 解耦预算、`S1` Jev `48 KB` 三段摘取+分批+二分修复、`S2a` 确定性字面锚 2-hop、`S2b` 有界 1 次 LLM Planner、`S3` 本地 `LocalVectorBridge`（同步 `QdrantClient(path=...)` + 前移有界 D03 实读纳入 G21 预算）及 G29/G30 留档 3 项小边界收口，推送 `feat/j-multifile-retrieval`（`4bb1c41d41d89f835e19334bdf19b8dcde4d64b1`）；Ruff 0 错误、带真 `SRAG_SOFFICE` 全量 `pytest` **`667 passed, 0 failed, 0 skipped`**。开发组 10+2 文件 14 题同预算实测（全部 0 严重错误）：`S0_pool12` 7/14、`S1_pool12` 8/14（`0 input_limit`）、`S2a` 8/14 精确 / 9/14 父口径、`S2b` 9/14、`S3` **13/14（92.9%，纯图 3/3 100%）**。[J02 报告](./docs/J/J02-对照实验报告.md)
+- **J03 独立盲验与最终策略定型**：`j_gate` 从干净 `git archive 4bb1c41` 独立复跑 Ruff 0 错、全量 `pytest` 667/0/0，并在未见 9 文件 18 题 `cs-mlsys-j` 上完成 6 组同预算真实服务对照（推送 `review/j-gate` `96e05adcea879532d0687089314ca1d4edd3d42c`，6 组均 **0 严重错误**）：
+  - `S0_prod_current (12/12)`：`10/18 (55.6%)`（`p50=3.87s / p95=9.08s`）；
+  - `S0_pool12 (12/6)`：`7/18 (38.9%)`（`Cat A 1/4, B 0/4, C 0/4, D 3/3, E 3/3`，`p50=3.43s / p95=4.62s`）；
+  - `S1_pool12 (Zev-1)`：核验 `10/18 (55.6%)`（`Cat A 3/4, B 1/4`，`0 input_limit`，但 `p95=39.33s` 超门槛且低置信回退 `21.4%`）；
+  - `S2a_pool12`：核验 `7/18 (38.9%)`（`Cat B 2/4`，0 额外 LLM 调用，但在非 2-hop 引起 `J_Q04`/`J_Q17` 退化）；
+  - `S2b_pool12`：`9/18 (50.0%)`（`Cat B 2/4`，0 退化，`p95=6.23s`，`+14` 次 planner 调用）；
+  - `S3_pool12`：**`14/18 (77.8%)`**（`Cat A 2/4, B 2/4, C 4/4 (100%), D 3/3, E 3/3`，`p50=3.88s / p95=12.02s`；冷建库 172 文本 + 66 视觉向量）；
+  - 损坏 Qdrant 与无效 Jev 均 0 阻塞安全退回 `S0`，`Lab-01` `v1→v2` 换版零旧版泄漏。
+- **定型结论与下一步**：`S0` 保留默认零强依赖底座；`S1` 本版保持关闭（留复测条件 `p95 <= +8s`）；`S2a/S2b` 保留显式可选；`S3` 保持默认关闭并定型为配置就绪时的显式/按需纯图视觉与跨术语语义增强通道。**J 部正式通过，开放 `H01`（单课程知识图谱边及导航设计）**，待项目负责人确认后启动。
+
+## 2026-11-24 · H01 单课程知识图谱边及导航设计 · 独立复审通过（放行 H02）
+
+- **设计与独审过程**：`h_exec` 在 `c04149e` 上提交 `docs/H/H01-边及导航设计.md`（初稿 `2dbf2b8`）；`h_gate` 先独立冻结未见单课程盲测套件（`review/h-gate` `33f8a89`，6 份原件、10 条真边、10 条必拒反例、10 题三臂对照），首审拦截 4 项阻塞缺陷（`plan_retrieval` 第 436 行非双语早退与预算分裂、PDF 硬换行/编号标题/非紧邻锚点漏抽、R4 代码注释隔词否定绕过 E1/E2、`promote_due` 直接问答同步建边/`delete_local` 事务锁/残留锚词清理与 `_catalog` 课程隔离）。
+- **修订复审通过**：`h_exec` 逐项修订至 `de86e6a3b28414a0da2ff6b299ea273cd8917456`（SHA-256 `e1c9336f...`）；`h_gate` 复审全部 4 项必改项闭环签认通过并推送 `review/h-gate`（`1bc29c9e8a11df2f1636cfa99539ce33e163901c`）。
+- **结论与下一步**：`H01` 正式通过并推送 `feat/h-course-knowledge-graph`，立即放行 `H02`（概念到实验的导航与受控一跳问答增强实现）。
+
+## 2026-11-24 · H02 实现与 H03 独立整审 · H 部通过（M3 完成，待 R 通过后开放 K01）
+
+- **H02 实现与两轮盲审修复**：`h_exec` 按已签认 `H01` 落地 `app/stores/local_kg.py`、`app/rag/workspace_kg.py`、概念导航 API、前端 `#kg-panel` / `.kg-message-concepts` 双入口及受控一跳问答（初版 `1cfcd1fd`，675/0/0）。`h_gate` 首轮盲审（`51a23e3`）在 0 误接受反例前提下检出 3 处 PDF 确定性解析缺陷（行首折行小数误判节边界、独立标题+`正式定义：`含公式减号误切分、跨行括号别名截断），第 2 轮（`78eaec5`）检出 1 处封面抬头抢跑顺序缺陷；`h_exec` 依次于 `dfc0c098` 与 `bb6a5ba34d39b80636529d4f8d1f6e2c4ea0fcb8` 闭环修复并补齐通用单测，全量 `pytest`（带真 `LibreOffice 26.8.3.1`）达 **`677 passed, 0 failed, 0 skipped`**、Ruff 0 错、`node --check` 通过、真实 Chromium 双入口自测通过。[H02 实现与自测](./docs/H/H02-实现与自测.md)
+- **H03 第 3 轮全量 `M1–M6` 独立盲验通过**：`h_gate` 从干净 `git archive bb6a5ba` 在未见试点课程 `cs-ctrl-h` + `cs-other-h` 上复跑全部静态/JS/677 回归与 `M1–M6` 门禁（推送 `review/h-gate` `0b47e0cea0208427ca6f1af7b183bf95a765d547`）：
+  - `M1`：`10/10` 真边命中且原文 span 100% 字符一致，`10/10` 反例 0 误接受，0 垃圾概念；
+  - `M2`：真实 Chromium 侧边 `#kg-panel` 与消息内 `.kg-concept-chip` 双入口均可直达同版讲义与实验 Cell/PNG `child_output`，离线零模型可用；
+  - `M3`：无实验边概念显式提示并平滑回退常规检索，0 编造、0 跨课泄漏；
+  - `M4`：UI 换版 `v2`（9 条活跃边、移除边立即失效、前移 Cell 对齐、0 条 `v1` 残留、旧 `v1` 引用可回看）、删档后失效芯片面板优雅降级无全局横幅、`promote_due` 到期直问即时同步；
+  - `M5`：服务层与 Chromium 跨课/跨会话/未认证访问严格 HTTP 404；
+  - `M6`（同快照同预算三臂对照，`deepseek-flash`，`strategy="s0"`, `pool_cap=12`, `budget=6`，20 次真实调用，三臂均 **0 严重错误**）：`S0_base` `8/10`（跨文件零重叠 `2/4`，`p50=3.021s / p95=6.845s`）、`S0_adj` `8/10`（`2/4`，`p50=3.043s / p95=8.765s`）、`S0_kg` **`9/10`**（跨文件零重叠 **`4/4`**，`p50=3.020s / p95=9.239s`）。
+- **两项独立结论与下一步**：① **单课程导航功能（`M1–M5`）**全面通过并默认内置启用；② **问答一跳候选增强（`workspace_kg_retrieval_enabled`）**通过门禁并保持默认 `False` 显式可选。**H 部正式通过（M3 全部完成）**；进入 M4/K 最终交付的唯一剩余前置为 **R（历史冻结答案人工复核，当前 `R01` 可领）**，交由项目负责人决定下一步。

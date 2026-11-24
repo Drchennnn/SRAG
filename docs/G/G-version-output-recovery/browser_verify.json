@@ -1,0 +1,1339 @@
+{
+  "git_sha": "0f5c93ca7aabc5631c728f49fccee986f70c878f",
+  "user_agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/157.0.0.0 Safari/537.36",
+  "problem2": {
+    "clarify": {
+      "turn": {
+        "client_turn_id": "430a443b-df1e-47b6-b928-e0efc40b5208",
+        "error": null,
+        "kind": "ask",
+        "options": [
+          {
+            "kind": "document",
+            "label": "Browser-P2.ipynb · v1 · Cell 2 · 输出 0（图像）",
+            "option_id": "08bcbca4c9c7474c864172addf130bb4"
+          },
+          {
+            "kind": "document",
+            "label": "Browser-P2.ipynb · v1 · Cell 2 · 输出 1（图像）",
+            "option_id": "6388d2bd66944f809e301fc64a21f058"
+          }
+        ],
+        "resolution": null,
+        "retryable": false,
+        "status": "clarification",
+        "text": "当前这个 Cell 的输出图像横轴是什么？",
+        "trace": null,
+        "turn_id": "2e860ec7b1a94a27bc814b52a30e11ee"
+      },
+      "message": {
+        "blocks": [
+          {
+            "code": "clarification",
+            "text": "当前聚焦 Cell 包含多个保存输出，请选择你要读取的具体输出。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "5bf39b1dbd074a469ab4c52660beca51",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {},
+        "turn_id": "2e860ec7b1a94a27bc814b52a30e11ee",
+        "visible_display_ids": []
+      },
+      "clarification_buttons": [
+        "Browser-P2.ipynb · v1 · Cell 2 · 输出 0（图像）",
+        "Browser-P2.ipynb · v1 · Cell 2 · 输出 1（图像）"
+      ],
+      "opened_citations": {}
+    },
+    "after_select": {
+      "turn": {
+        "client_turn_id": "0714d8e0-2bd3-4641-9499-6681424d12ef",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_00633d8725bc423cbd5e655602b25635",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "method": "current_choice",
+          "resolution": "current_choice"
+        },
+        "retryable": false,
+        "status": "completed",
+        "text": "当前这个 Cell 的输出图像横轴是什么？",
+        "trace": {
+          "display": {
+            "byte_sha256": "f4f3b7810cff5a20c76d6d9a1c80d84d4cd670f3a93284246fb738520ea55445",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_00633d8725bc423cbd5e655602b25635",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            }
+          },
+          "external_call_count": 1,
+          "read_status": "succeeded",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_00633d8725bc423cbd5e655602b25635",
+            "source_id": "cell:1:output:1",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 952.359582995996,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 202,
+                  "input_tokens": 289,
+                  "output_tokens": 19,
+                  "total_tokens": 308
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "turn_id": "a309b30363254d1a923627ce0e23ed8f"
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "Browser-P2.ipynb · v1 · 输出 1",
+            "display_id": "4d47dcc13ce74894b00f92f521a87d30",
+            "display_source": {
+              "document_id": "local_00633d8725bc423cbd5e655602b25635",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 320,
+            "media_url": "/api/workspace/sessions/472ea1b55d634ba0af76567c138867a4/messages/4596fbb60e624f28a3d45f138758f5ea/media/4d47dcc13ce74894b00f92f521a87d30?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "batch_size (item)",
+            "type": "text"
+          }
+        ],
+        "message_id": "4596fbb60e624f28a3d45f138758f5ea",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Browser-P2.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Bench Drift v1"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": null,
+                "actual_input_sha256": "f4f3b7810cff5a20c76d6d9a1c80d84d4cd670f3a93284246fb738520ea55445",
+                "actual_source": {
+                  "document_id": "local_00633d8725bc423cbd5e655602b25635",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "34ecf28d645d7370a57026b1a87875477713dd505977d7a0c0d3467530251382",
+                "status": "succeeded",
+                "text": "batch_size (item)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "8c1b044c92c14cec999f9e39ce6ffca52c56cfd86922d736c3074982e10dcbff",
+              "course_id": "public",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_00633d8725bc423cbd5e655602b25635",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "a309b30363254d1a923627ce0e23ed8f",
+        "visible_display_ids": [
+          "4d47dcc13ce74894b00f92f521a87d30"
+        ]
+      },
+      "clarification_buttons": [],
+      "opened_citations": {
+        "ev-1": {
+          "img_src": "/api/workspace/sessions/472ea1b55d634ba0af76567c138867a4/messages/4596fbb60e624f28a3d45f138758f5ea/media/4d47dcc13ce74894b00f92f521a87d30?view=inline",
+          "location": "Browser-P2.ipynb · v1 · Cell 2 · 输出 1",
+          "open": true,
+          "status": "图像已读取",
+          "title": "Browser-P2.ipynb · v1 · 输出 1"
+        }
+      }
+    }
+  },
+  "problem1_no_put_focus": {
+    "turn1_show": {
+      "turn": {
+        "client_turn_id": "274fc895-0a03-46d9-91b6-031066128d36",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "展示这个 Cell 的两张图",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Browser-P1.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "section_path": [
+                  "Bench Drift v1"
+                ]
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Browser-P1.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "output_index": 0,
+                "section_path": [
+                  "Bench Drift v1"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Browser-P1.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "output_index": 1,
+                "section_path": [
+                  "Bench Drift v1"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Browser-P1.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "output_index": 2,
+                "section_path": [
+                  "Bench Drift v1"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                    "source_id": "cell:1",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:2",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:1"
+            ],
+            "enumerated_source_count": 5,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 3,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "display_attempts": {
+            "attempt_limit": 12,
+            "attempted": 2,
+            "display_limit": 3,
+            "displayed": 2,
+            "eligible": 2,
+            "failed": 0,
+            "unattempted": 0
+          },
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_eabeb7db619c4eb8a1a6825954575253"
+            ]
+          },
+          "search_status": "ok"
+        },
+        "turn_id": "0a8b2a697f8a49d296b0d7e9917fdeac"
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "Browser-P1.ipynb · v1 · Cell 2 · Bench Drift v1\nplot_bench_curves(version=1)",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "Browser-P1.ipynb · v1 · 输出 2\nv1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms.",
+            "type": "text"
+          },
+          {
+            "caption": "Browser-P1.ipynb · v1 · 输出 0",
+            "display_id": "2814d274803d40ca8e08b1f684e41a3f",
+            "display_source": {
+              "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 320,
+            "media_url": "/api/workspace/sessions/82510dbae3ab4aea98f0aa0a270b7ea9/messages/3469d2902d934701a3fc44e9b0ea8424/media/2814d274803d40ca8e08b1f684e41a3f?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "caption": "Browser-P1.ipynb · v1 · 输出 1",
+            "display_id": "118e2376df2c4c1fbb418f10dd1021c6",
+            "display_source": {
+              "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 320,
+            "media_url": "/api/workspace/sessions/82510dbae3ab4aea98f0aa0a270b7ea9/messages/3469d2902d934701a3fc44e9b0ea8424/media/118e2376df2c4c1fbb418f10dd1021c6?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "3469d2902d934701a3fc44e9b0ea8424",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Browser-P1.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "section_path": [
+                "Bench Drift v1"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                  "source_id": "cell:1",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "plot_bench_curves(version=1)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "8c1b044c92c14cec999f9e39ce6ffca52c56cfd86922d736c3074982e10dcbff",
+              "course_id": "public",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1",
+                "version": 1
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Browser-P1.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 2,
+              "section_path": [
+                "Bench Drift v1"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "v1 summary: Curve A peak=120 ops/s; Curve B p95=18 ms.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "8c1b044c92c14cec999f9e39ce6ffca52c56cfd86922d736c3074982e10dcbff",
+              "course_id": "public",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:2",
+                "version": 1
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Browser-P1.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [
+                "Bench Drift v1"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "8c1b044c92c14cec999f9e39ce6ffca52c56cfd86922d736c3074982e10dcbff",
+              "course_id": "public",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Browser-P1.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Bench Drift v1"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "8c1b044c92c14cec999f9e39ce6ffca52c56cfd86922d736c3074982e10dcbff",
+              "course_id": "public",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "0a8b2a697f8a49d296b0d7e9917fdeac",
+        "visible_display_ids": [
+          "2814d274803d40ca8e08b1f684e41a3f",
+          "118e2376df2c4c1fbb418f10dd1021c6"
+        ]
+      },
+      "clarification_buttons": [],
+      "opened_citations": {
+        "ev-1": {
+          "img_src": null,
+          "location": "当前版本",
+          "open": true,
+          "status": "已提取文字 · 图像未读取",
+          "title": "Browser-P1.ipynb · v1 · Cell 2"
+        },
+        "ev-2": {
+          "img_src": null,
+          "location": "当前版本",
+          "open": true,
+          "status": "已提取文字 · 图像未读取",
+          "title": "Browser-P1.ipynb · v1 · Cell 2 · 输出 2"
+        }
+      }
+    },
+    "turn1_read": {
+      "turn": {
+        "client_turn_id": "83696daf-d60d-45c8-b084-bac9ccda008b",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+            "source_id": "cell:1:output:0",
+            "version": 1
+          },
+          "display_id": "2814d274803d40ca8e08b1f684e41a3f",
+          "message_id": "3469d2902d934701a3fc44e9b0ea8424",
+          "method": "visible_ordinal",
+          "ordinal": 1,
+          "resolution": "visible_ordinal"
+        },
+        "retryable": false,
+        "status": "completed",
+        "text": "刚才第一张图是什么？",
+        "trace": {
+          "external_call_count": 1,
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 1831.995917018503,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 202,
+                  "input_tokens": 286,
+                  "output_tokens": 74,
+                  "total_tokens": 360
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "turn_id": "80e154d2e77349c7b353a2829c2abcf4"
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”",
+            "type": "text"
+          }
+        ],
+        "message_id": "d44001830e78466ca6d46339d0c8bf7a",
+        "ordinal": 4,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Browser-P1.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [
+                "Bench Drift v1"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": null,
+                "actual_input_sha256": "439f84ba01e0472d1fdd443911adbed95cef353fbe6636e4f8e61e3c5f6ccc63",
+                "actual_source": {
+                  "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "28e36ec097883e0e26538b03804696fac3ad8b832860d427c05faeb38e7b4f49",
+                "status": "succeeded",
+                "text": "一张图表，标题为“Curve A Throughput”，Y轴单位为“ops/s (v1)”，图中有一个蓝色矩形框，内含文字“Peak throughput 120 ops/s”，X轴标注为“batch_size (items) | Y-axis metric”",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "8c1b044c92c14cec999f9e39ce6ffca52c56cfd86922d736c3074982e10dcbff",
+              "course_id": "public",
+              "publication_epoch": 1,
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              }
+            }
+          }
+        },
+        "turn_id": "80e154d2e77349c7b353a2829c2abcf4",
+        "visible_display_ids": []
+      },
+      "clarification_buttons": [],
+      "opened_citations": {
+        "ev-1": {
+          "img_src": "/api/workspace/sessions/82510dbae3ab4aea98f0aa0a270b7ea9/messages/d44001830e78466ca6d46339d0c8bf7a/evidence/ev-1/preview",
+          "location": "",
+          "open": true,
+          "status": "图像已读取",
+          "title": "Browser-P1.ipynb · v1 · Cell 2 · 输出 0"
+        }
+      }
+    },
+    "turn2_new_counterpart_v2": {
+      "turn": {
+        "client_turn_id": "4bdf9c33-0991-46b9-b985-95593cd101ed",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": {
+          "actual_source": {
+            "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+            "source_id": "cell:1:output:0",
+            "version": 2
+          },
+          "method": "current_version_counterpart",
+          "resolution": "current_version_counterpart"
+        },
+        "retryable": false,
+        "status": "completed",
+        "text": "最新版里刚才读过的那张图现在的峰值是多少？",
+        "trace": {
+          "display": {
+            "byte_sha256": "b752b4566fb9bd000956b95b51efc743acfb58643922deea04d0314c67194303",
+            "fallback_reason": null,
+            "rect": null,
+            "source": {
+              "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            }
+          },
+          "external_call_count": 1,
+          "read_status": "succeeded",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+            "source_id": "cell:1:output:0",
+            "version": 2
+          },
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 1509.0040829963982,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 202,
+                  "input_tokens": 291,
+                  "output_tokens": 20,
+                  "total_tokens": 311
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "turn_id": "c3a3092b064945b1a7e87a467cb20008"
+      },
+      "message": {
+        "blocks": [
+          {
+            "caption": "Browser-P1.ipynb · v2 · 输出 0",
+            "display_id": "a466cb5122024f7891bfa35a08dbe4f5",
+            "display_source": {
+              "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "evidence_id": "ev-1",
+            "fallback_reason": null,
+            "height": 320,
+            "media_url": "/api/workspace/sessions/82510dbae3ab4aea98f0aa0a270b7ea9/messages/3b54da96e5c147938e4dccd53ea0c55f/media/a466cb5122024f7891bfa35a08dbe4f5?view=inline",
+            "read_status": "succeeded",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "240 ops/s",
+            "type": "text"
+          }
+        ],
+        "message_id": "3b54da96e5c147938e4dccd53ea0c55f",
+        "ordinal": 6,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Browser-P1.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [
+                "Bench Drift v2"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": "image/png",
+                "actual_input_rect": null,
+                "actual_input_sha256": "b752b4566fb9bd000956b95b51efc743acfb58643922deea04d0314c67194303",
+                "actual_source": {
+                  "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                  "source_id": "cell:1:output:0",
+                  "version": 2
+                },
+                "execution": "real_provider",
+                "method": "vision",
+                "model": "qwen3-vl-plus",
+                "origin_execution": "real_provider",
+                "prompt_version": "source-directed-v1",
+                "question_sha256": "570aa3720fe0492e21b73f56d10ecefafe6a63ebd44cfc98b0f16c4665bd7d93",
+                "status": "succeeded",
+                "text": "240 ops/s",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "822bb46f51d7ca59cf4f1d8d0c06af077b27871f5fbb400f118d77ff0b5b1392",
+              "course_id": "public",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_eabeb7db619c4eb8a1a6825954575253",
+                "source_id": "cell:1:output:0",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "c3a3092b064945b1a7e87a467cb20008",
+        "visible_display_ids": [
+          "a466cb5122024f7891bfa35a08dbe4f5"
+        ]
+      },
+      "clarification_buttons": [],
+      "opened_citations": {
+        "ev-1": {
+          "img_src": "/api/workspace/sessions/82510dbae3ab4aea98f0aa0a270b7ea9/messages/3b54da96e5c147938e4dccd53ea0c55f/media/a466cb5122024f7891bfa35a08dbe4f5?view=inline",
+          "location": "Browser-P1.ipynb · v2 · Cell 2 · 输出 0",
+          "open": true,
+          "status": "图像已读取",
+          "title": "Browser-P1.ipynb · v2 · 输出 0"
+        }
+      }
+    }
+  },
+  "natural_web_auto_rebind": {
+    "scope_after_replace": {
+      "course_ids": [
+        "public"
+      ],
+      "document_ids": [
+        "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553"
+      ]
+    },
+    "focus_after_replace": {
+      "course_id": "public",
+      "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+      "file_name": "Browser-AutoRebind.ipynb",
+      "has_media": false,
+      "kind": "document",
+      "label": "Browser-AutoRebind.ipynb",
+      "locator": {},
+      "next_id": null,
+      "node_id": "node-70eae9b12005b88b2d3be216692dcedf",
+      "parent_id": null,
+      "previous_id": null,
+      "text": "",
+      "version": 2
+    },
+    "followup_ask": {
+      "turn": {
+        "client_turn_id": "363c62e4-2636-4457-9714-a365fd989192",
+        "error": null,
+        "kind": "ask",
+        "options": [],
+        "resolution": null,
+        "retryable": false,
+        "status": "completed",
+        "text": "第 2 个 Cell 的输出 summary 写了什么？",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Browser-AutoRebind.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "section_path": [
+                  "Bench Drift v2"
+                ]
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Browser-AutoRebind.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "output_index": 0,
+                "section_path": [
+                  "Bench Drift v2"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1:output:0",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Browser-AutoRebind.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "output_index": 1,
+                "section_path": [
+                  "Bench Drift v2"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            },
+            {
+              "file_name": "Browser-AutoRebind.ipynb",
+              "locator": {
+                "cell_id": "curve-cell",
+                "cell_index": 1,
+                "output_index": 2,
+                "section_path": [
+                  "Bench Drift v2"
+                ]
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                    "source_id": "cell:1",
+                    "version": 2
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1:output:2",
+                "version": 2
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "cell:1"
+            ],
+            "enumerated_source_count": 5,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 3,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "display_attempts": {
+            "attempt_limit": 12,
+            "attempted": 2,
+            "display_limit": 3,
+            "displayed": 2,
+            "eligible": 2,
+            "failed": 0,
+            "unattempted": 0
+          },
+          "effective_scope": {
+            "course_ids": [
+              "public"
+            ],
+            "document_ids": [
+              "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553"
+            ]
+          },
+          "search_status": "ok"
+        },
+        "turn_id": "3b456c539ae4498cb48f294e71d11c04"
+      },
+      "message": {
+        "blocks": [
+          {
+            "citations": [
+              "ev-1"
+            ],
+            "text": "Browser-AutoRebind.ipynb · v2 · Cell 2 · Bench Drift v2\nplot_bench_curves(version=2)",
+            "type": "text"
+          },
+          {
+            "citations": [
+              "ev-2"
+            ],
+            "text": "Browser-AutoRebind.ipynb · v2 · 输出 2\nv2 summary: Curve A peak=240 ops/s; Curve B p95=9 ms.",
+            "type": "text"
+          },
+          {
+            "caption": "Browser-AutoRebind.ipynb · v2 · 输出 0",
+            "display_id": "f7df4b97bf3748479733c50c8426bee3",
+            "display_source": {
+              "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+              "source_id": "cell:1:output:0",
+              "version": 2
+            },
+            "evidence_id": "ev-3",
+            "fallback_reason": null,
+            "height": 320,
+            "media_url": "/api/workspace/sessions/737a565ad4084b7aaca6e040f0e946e4/messages/9c9a9098817646558332f59b80afbb45/media/f7df4b97bf3748479733c50c8426bee3?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "caption": "Browser-AutoRebind.ipynb · v2 · 输出 1",
+            "display_id": "819757dd0cd749d39ffd1929bf4c792d",
+            "display_source": {
+              "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            },
+            "evidence_id": "ev-4",
+            "fallback_reason": null,
+            "height": 320,
+            "media_url": "/api/workspace/sessions/737a565ad4084b7aaca6e040f0e946e4/messages/9c9a9098817646558332f59b80afbb45/media/819757dd0cd749d39ffd1929bf4c792d?view=inline",
+            "read_status": "not_attempted",
+            "rect_visible_norm": null,
+            "rendition_kind": "notebook_output",
+            "type": "source_image",
+            "width": 640
+          },
+          {
+            "code": "excerpt_fallback",
+            "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+            "type": "notice"
+          }
+        ],
+        "message_id": "9c9a9098817646558332f59b80afbb45",
+        "ordinal": 2,
+        "role": "assistant",
+        "sources": {
+          "ev-1": {
+            "evidence_id": "ev-1",
+            "file_name": "Browser-AutoRebind.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "section_path": [
+                "Bench Drift v2"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                  "source_id": "cell:1",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "plot_bench_curves(version=2)",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "822bb46f51d7ca59cf4f1d8d0c06af077b27871f5fbb400f118d77ff0b5b1392",
+              "course_id": "public",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1",
+                "version": 2
+              }
+            }
+          },
+          "ev-2": {
+            "evidence_id": "ev-2",
+            "file_name": "Browser-AutoRebind.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 2,
+              "section_path": [
+                "Bench Drift v2"
+              ]
+            },
+            "read_status": "succeeded",
+            "reads": [
+              {
+                "actual_input_media_type": null,
+                "actual_input_rect": null,
+                "actual_input_sha256": null,
+                "actual_source": {
+                  "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                  "source_id": "cell:1:output:2",
+                  "version": 2
+                },
+                "execution": null,
+                "method": "native_text",
+                "model": null,
+                "origin_execution": null,
+                "prompt_version": null,
+                "question_sha256": null,
+                "status": "succeeded",
+                "text": "v2 summary: Curve A peak=240 ops/s; Curve B p95=9 ms.",
+                "warnings": []
+              }
+            ],
+            "revision": {
+              "content_sha256": "822bb46f51d7ca59cf4f1d8d0c06af077b27871f5fbb400f118d77ff0b5b1392",
+              "course_id": "public",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1:output:2",
+                "version": 2
+              }
+            }
+          },
+          "ev-3": {
+            "evidence_id": "ev-3",
+            "file_name": "Browser-AutoRebind.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 0,
+              "section_path": [
+                "Bench Drift v2"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "822bb46f51d7ca59cf4f1d8d0c06af077b27871f5fbb400f118d77ff0b5b1392",
+              "course_id": "public",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1:output:0",
+                "version": 2
+              }
+            }
+          },
+          "ev-4": {
+            "evidence_id": "ev-4",
+            "file_name": "Browser-AutoRebind.ipynb",
+            "locator": {
+              "cell_id": "curve-cell",
+              "cell_index": 1,
+              "output_index": 1,
+              "section_path": [
+                "Bench Drift v2"
+              ]
+            },
+            "read_status": "not_attempted",
+            "reads": [],
+            "revision": {
+              "content_sha256": "822bb46f51d7ca59cf4f1d8d0c06af077b27871f5fbb400f118d77ff0b5b1392",
+              "course_id": "public",
+              "publication_epoch": 2,
+              "source": {
+                "document_id": "local_3f5cdf7dcbc04bf6b1d503fd6e1f0553",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            }
+          }
+        },
+        "turn_id": "3b456c539ae4498cb48f294e71d11c04",
+        "visible_display_ids": [
+          "f7df4b97bf3748479733c50c8426bee3",
+          "819757dd0cd749d39ffd1929bf4c792d"
+        ]
+      },
+      "clarification_buttons": [],
+      "opened_citations": {
+        "ev-1": {
+          "img_src": null,
+          "location": "当前版本",
+          "open": true,
+          "status": "已提取文字 · 图像未读取",
+          "title": "Browser-AutoRebind.ipynb · v2 · Cell 2"
+        },
+        "ev-2": {
+          "img_src": null,
+          "location": "当前版本",
+          "open": true,
+          "status": "已提取文字 · 图像未读取",
+          "title": "Browser-AutoRebind.ipynb · v2 · Cell 2 · 输出 2"
+        }
+      }
+    }
+  },
+  "provider_calls": [
+    {
+      "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+      "kind": "sync",
+      "status_code": 200,
+      "elapsed_ms": 891.3
+    },
+    {
+      "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+      "kind": "sync",
+      "status_code": 200,
+      "elapsed_ms": 1811.6
+    },
+    {
+      "url": "https://dashscope.aliyuncs.com/api/v1/services/aigc/multimodal-generation/generation",
+      "kind": "sync",
+      "status_code": 200,
+      "elapsed_ms": 1489.0
+    }
+  ]
+}

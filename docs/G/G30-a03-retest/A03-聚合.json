@@ -1,0 +1,85 @@
+{
+  "subject": "33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0",
+  "g29_gate": "b80e6553f2c89ff00f87513647f66a387246f898",
+  "settings": {
+    "entrypoint": "Production FastAPI ASGI TestClient via /api/workspace/sessions",
+    "vision_model": "qwen3-vl-plus",
+    "vision_timeout_seconds": 20.0,
+    "external_text_generation": false,
+    "jev": false,
+    "external_embedding_and_rerank": false,
+    "per_case_isolated_sqlite_and_caches": true,
+    "os_page_cache_controlled": false,
+    "libreoffice": "LibreOffice 26.8.3.1 861effc5289d539f15c4c18d1ba8579ffd78728b"
+  },
+  "execution": {
+    "runs": 1,
+    "cases": 10,
+    "turns": 11,
+    "setup_exceptions": 0,
+    "runner_sha256": "96cfd3a19ef829c63151ac7779575441f9fc05a62b6c588d5170dda4099024ea",
+    "lock_manifest_sha256": "c2a92200b00f210bc97a4c6edb59ce37b671c1814446574d040a0b6afa5154d6",
+    "locked_members_verified": 8,
+    "sealed_readonly_members_verified": 19,
+    "seal_sha256": "c4b34ee7da3eff7bcdfd5a97ec76109741b85b1408d560542d03ce1d46fde25e",
+    "run_config_sha256": "557ece9aa7d1d92443a2b10697b00b9ad959f05061976e2b81cfaf11734761f9",
+    "provider_ledger_sha256": "1fa312e85124c2aa110e443fbc20e882d0bb6409c4495e25178d06952d9b94a3",
+    "summary_sha256": "fb2ce302296177b3372923036b3f78782ee904ac37932af630b3386d1a655822",
+    "real_vision_calls": 4,
+    "http_200": 4,
+    "vision_failures": 0,
+    "visual_cache_hits": 0,
+    "egress_blocks": 0,
+    "vision_tokens": 1181,
+    "actual_vision_service_ms": [1161.694, 3896.897, 2512.754, 1467.053],
+    "asgi_latency_ms": {"method": "nearest rank", "samples": 11, "p50": 1488.846, "p95": 3925.958}
+  },
+  "independent_scoring": {
+    "score_seal_sha256": "ff8645c067f42f83fa2ee29ef54963a04551c4a1a70f1ac7c3cbc4e00ce5ed2c",
+    "score_aggregate_sha256": "38eedce09bb49643b5b1b9ec62a1e88e8cd68a8f4928242e1e56f41bb00bc6d1",
+    "sealed_readonly_members_verified": 4,
+    "untested_a03_metrics": [],
+    "series": ["threshold", "G19", "d4c8597", "G30_a03_retest"],
+    "metrics": {
+      "completion": ["10/10", "9/10", "9/10", "10/10"],
+      "severe_errors": [0, 0, 0, 0],
+      "whole_cases": ["≥9/10", "4/10", "4/10", "6/10"],
+      "critical_cases": ["5/5", "2/5", "2/5", "4/5"],
+      "exact_source_objects": ["9/9", "4/9", "4/9", "5/9"],
+      "fact_or_formula_support": ["≥8/9", "5/9", "5/9", "6/9"],
+      "citation_support": ["≥8/9", "5/9", "5/9", "6/9"],
+      "exact_object_and_visual_read": ["3/3", "1/3", "1/3", "2/3"],
+      "dialogue_consistency": ["2/2", "0/2", "0/2", "2/2"],
+      "boundary_behavior": ["3/3", "1/3", "1/3", "2/3"],
+      "evidence_coverage": ["≥12/13", "4/13", "4/13", "6/13"],
+      "routine": [null, "3/6", "3/6", "4/6"],
+      "holdout": [null, "1/4", "1/4", "2/4"]
+    },
+    "status_counts": {"full": 6, "partial": 4, "blank": 0},
+    "comparison_vs_d4c8597": {
+      "unchanged": 7,
+      "improved": 3,
+      "regressed": 0,
+      "whole_case_pass_improved": 2,
+      "completion_only_improved": 1
+    },
+    "comparison_vs_g19": {
+      "unchanged": 7,
+      "improved": 3,
+      "regressed": 0,
+      "whole_case_pass_improved": 2,
+      "completion_only_improved": 1
+    },
+    "first_deviation_counts": {
+      "选错来源": 3,
+      "读对答错": 0,
+      "选对未读": 1,
+      "展示或引用失配": 0
+    },
+    "first_deviation_by_partition": {
+      "routine": {"选错来源": 1, "选对未读": 1},
+      "holdout": {"选错来源": 2}
+    },
+    "verdict": "M2_REWORK"
+  }
+}

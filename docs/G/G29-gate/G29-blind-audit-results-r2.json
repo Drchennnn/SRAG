@@ -1,0 +1,4153 @@
+{
+  "subject_sha": "33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0",
+  "gate_freeze_sha": "a2ad63c6a683b52a2084c247f7b2520955274f00",
+  "loaded_app_file": "/private/tmp/srag-g29-gate-subject-33f0f14/app/__init__.py",
+  "srag_soffice": "/opt/homebrew/bin/soffice",
+  "part_a_pdf_68_object_audit": {
+    "per_pdf": {
+      "Speculative-Decoding-2211.17192v2.pdf": {
+        "total_registered_page_objects": 22,
+        "classes": {
+          "visual_panels": {
+            "gt": 5,
+            "registered": 5,
+            "tp": 5,
+            "fp": 0,
+            "fn": 0
+          },
+          "tables": {
+            "gt": 5,
+            "registered": 5,
+            "tp": 5,
+            "fp": 0,
+            "fn": 0
+          },
+          "figure_captions": {
+            "gt": 5,
+            "registered": 5,
+            "tp": 5,
+            "fp": 0,
+            "fn": 0
+          },
+          "numbered_equations": {
+            "gt": 1,
+            "registered": 7,
+            "tp": 1,
+            "fp": 0,
+            "fn": 0,
+            "optional_ignored": 6
+          }
+        },
+        "sample_failures": []
+      },
+      "YaRN-2309.00071v3.pdf": {
+        "total_registered_page_objects": 49,
+        "classes": {
+          "visual_panels": {
+            "gt": 10,
+            "registered": 10,
+            "tp": 10,
+            "fp": 0,
+            "fn": 0
+          },
+          "tables": {
+            "gt": 10,
+            "registered": 10,
+            "tp": 10,
+            "fp": 0,
+            "fn": 0
+          },
+          "figure_captions": {
+            "gt": 8,
+            "registered": 8,
+            "tp": 8,
+            "fp": 0,
+            "fn": 0
+          },
+          "numbered_equations": {
+            "gt": 24,
+            "registered": 21,
+            "tp": 20,
+            "fp": 5,
+            "fn": 4,
+            "optional_ignored": 0
+          }
+        },
+        "sample_failures": [
+          {
+            "class": "formula",
+            "kind": "FP_or_sliced_fragment",
+            "source_id": "page:2:formula:3",
+            "page": 2,
+            "bbox": [
+              0.416,
+              0.907,
+              0.584,
+              0.928
+            ],
+            "text_excerpt": "Wq,Wk : R\n|D| → R|D|\n."
+          },
+          {
+            "class": "formula",
+            "kind": "FP_or_sliced_fragment",
+            "source_id": "page:3:formula:1",
+            "page": 3,
+            "bbox": [
+              0.173,
+              0.104,
+              0.604,
+              0.123
+            ],
+            "text_excerpt": "Let θ = diag(θ1, · · · , θ|D|/2). In complex coordinates, we define"
+          },
+          {
+            "class": "formula",
+            "kind": "FP_or_sliced_fragment",
+            "source_id": "page:14:formula:2",
+            "page": 14,
+            "bbox": [
+              0.433,
+              0.741,
+              0.827,
+              0.776
+            ],
+            "text_excerpt": "ppl(t) − ppl(t = 1)\nppl(t = 1) (24)"
+          },
+          {
+            "class": "formula",
+            "kind": "FP_or_sliced_fragment",
+            "source_id": "page:15:formula:1",
+            "page": 15,
+            "bbox": [
+              0.63,
+              0.342,
+              0.827,
+              0.363
+            ],
+            "text_excerpt": "ppl(t) − ppl(t = 1)\nl(t 1) at different"
+          },
+          {
+            "class": "formula",
+            "kind": "FP_or_sliced_fragment",
+            "source_id": "page:15:formula:2",
+            "page": 15,
+            "bbox": [
+              0.657,
+              0.357,
+              0.726,
+              0.373
+            ],
+            "text_excerpt": "ppl(t = 1)"
+          }
+        ]
+      }
+    },
+    "by_class": {
+      "visual_panels": {
+        "gt": 15,
+        "tp": 15,
+        "fp": 0,
+        "fn": 0,
+        "optional_ignored": 0,
+        "recall": 1.0,
+        "precision": 1.0,
+        "fpr": 0.0
+      },
+      "tables": {
+        "gt": 15,
+        "tp": 15,
+        "fp": 0,
+        "fn": 0,
+        "optional_ignored": 0,
+        "recall": 1.0,
+        "precision": 1.0,
+        "fpr": 0.0
+      },
+      "figure_captions": {
+        "gt": 13,
+        "tp": 13,
+        "fp": 0,
+        "fn": 0,
+        "optional_ignored": 0,
+        "recall": 1.0,
+        "precision": 1.0,
+        "fpr": 0.0
+      },
+      "numbered_equations": {
+        "gt": 25,
+        "tp": 21,
+        "fp": 5,
+        "fn": 4,
+        "optional_ignored": 6,
+        "recall": 0.84,
+        "precision": 0.8077,
+        "fpr": 0.1923
+      }
+    },
+    "traps": [],
+    "micro_overall": {
+      "gt": 68,
+      "tp": 64,
+      "fp": 5,
+      "fn": 4,
+      "recall": 0.9412,
+      "precision": 0.9275,
+      "fpr": 0.0725
+    },
+    "red_line_triggered": false,
+    "red_line_reasons": []
+  },
+  "part_b_blind_cases": {
+    "product_mode": {
+      "G29-PDF-01": {
+        "http_status": 200,
+        "elapsed_s": 3.18,
+        "turn_id": "4a451d7f185e449aa13a6db52d1cbf86",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "两类曲线是 'Speed y = 10'（紫色实线）和 'Ops y = 10'（紫色点划线）；当 α = 0.90 且 γ = 10 时，纵轴数值分别约为 6.8 和 1.2。",
+        "trace": {
+          "display": {
+            "byte_sha256": "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c",
+            "fallback_reason": null,
+            "rect": [
+              0.48235300000000003,
+              0.082855,
+              0.9047040000000001,
+              0.34444400000000003
+            ],
+            "source": {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:5:image:2",
+              "version": 1
+            }
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_cd257ca54de547fdbab34255995d88d5"
+            ]
+          },
+          "external_call_count": 1,
+          "object_candidates": [
+            {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:5:image:2",
+              "version": 1
+            }
+          ],
+          "read_status": "succeeded",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+            "source_id": "page:5:image:2",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 3116.4785840082914,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 210,
+                  "input_tokens": 328,
+                  "output_tokens": 79,
+                  "total_tokens": 407
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "8033db92b19a4bd7bef076bb5b2dd9eb",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c",
+              "size": [
+                518,
+                415
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:5:image:2",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [
+                "succeeded"
+              ],
+              "vision_input_sha256": [
+                "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c"
+              ],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c",
+              "preview_size": [
+                518,
+                415
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-PDF-02": {
+        "turn1": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "786084964e6a4974a91c76a10d9b26df",
+          "turn_status": "clarification",
+          "turn_error": null,
+          "options": [
+            {
+              "option_id": "a728e890dcbc4a44aca7074ca7f833cd",
+              "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 左图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+              "kind": "document"
+            },
+            {
+              "option_id": "e5257a141d9c4f9c89554939a60cdd20",
+              "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 右图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+              "kind": "document"
+            }
+          ],
+          "notice_codes": [
+            "object_ambiguous"
+          ],
+          "answer_text": "有多个可能的对象，请指定原件位置或从下方候选中选择。",
+          "trace": {
+            "clarification_reason": "object_ambiguous",
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_cd257ca54de547fdbab34255995d88d5"
+              ]
+            },
+            "external_call_count": 0,
+            "object_candidates": [
+              {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:5:image:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:5:image:2",
+                "version": 1
+              }
+            ],
+            "route": "target_object"
+          },
+          "checks": null
+        },
+        "turn2": {
+          "http_status": 200,
+          "elapsed_s": 2.55,
+          "turn_id": "f241a757ea444e84b425f48493275c19",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "纵轴表示 'Optimal v'；不同曲线对应参数 c，分别为 c = 0.01（蓝色）、c = 0.02（橙色）、c = 0.05（绿色）、c = 0.1（红色）。",
+          "trace": {
+            "display": {
+              "byte_sha256": "1fbf0f87a16a3d2d8fc29899ee24548ed7e438e8e35fa620fda6166b40058ea7",
+              "fallback_reason": null,
+              "rect": [
+                0.070588,
+                0.082855,
+                0.492939,
+                0.34444400000000003
+              ],
+              "source": {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:5:image:1",
+                "version": 1
+              }
+            },
+            "external_call_count": 1,
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:5:image:1",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 2483.8820002041757,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 210,
+                    "input_tokens": 302,
+                    "output_tokens": 71,
+                    "total_tokens": 373
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "239653de4c024b07b3b2af36ac3cce04",
+                "evidence_id": "ev-1",
+                "rendition_kind": "object_crop",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "1fbf0f87a16a3d2d8fc29899ee24548ed7e438e8e35fa620fda6166b40058ea7",
+                "size": [
+                  518,
+                  415
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                  "source_id": "page:5:image:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "1fbf0f87a16a3d2d8fc29899ee24548ed7e438e8e35fa620fda6166b40058ea7"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "1fbf0f87a16a3d2d8fc29899ee24548ed7e438e8e35fa620fda6166b40058ea7",
+                "preview_size": [
+                  518,
+                  415
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(object_crop)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      },
+      "G29-PDF-04": {
+        "http_status": 200,
+        "elapsed_s": 0.04,
+        "turn_id": "05294785263c4c24a9b821b78ddfb2b0",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "Speculative-Decoding-2211.17192v2.pdf · v1 · 图注 · Figure 5. A simplified trace diagram for a full encoder-decoder Transformer stack. The top row shows speculative decoding with γ = 7\nFigure 5. A simplified trace diagram for a full encoder-decoder Transformer stack. The top row shows speculative decoding with γ = 7",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_cd257ca54de547fdbab34255995d88d5"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:6:caption:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+            "source_id": "page:6:caption:1",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "ffc2c0eb9e6545f3a31d069df0cb1cdc",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "b8c601ab169ab25d34d170d17a7d29fc6a9f7c76bcde58377b7564aca84a8836",
+              "size": [
+                1031,
+                88
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:6:caption:1",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 132,
+              "preview_http": 200,
+              "preview_sha256": "b8c601ab169ab25d34d170d17a7d29fc6a9f7c76bcde58377b7564aca84a8836",
+              "preview_size": [
+                1031,
+                88
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-PDF-05": {
+        "http_status": 200,
+        "elapsed_s": 0.04,
+        "turn_id": "2971069b421644b391caed1d89e0fca9",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "Speculative-Decoding-2211.17192v2.pdf · v1 · 公式 · E(# generated tokens) = 1 − α\nE(# generated tokens) = 1 − α\nγ+1\n1 − α\n(1)",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_cd257ca54de547fdbab34255995d88d5"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:3:formula:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+            "source_id": "page:3:formula:1",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "3d1182f325ec447698c47c3e0c194150",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "680c2522278c0091c1c1b340d5c2eaabaccda388633237bd0dc14b3dca4ca5b1",
+              "size": [
+                447,
+                117
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:3:formula:1",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 43,
+              "preview_http": 200,
+              "preview_sha256": "680c2522278c0091c1c1b340d5c2eaabaccda388633237bd0dc14b3dca4ca5b1",
+              "preview_size": [
+                447,
+                117
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-PDF-07a": {
+        "http_status": 200,
+        "elapsed_s": 0.05,
+        "turn_id": "01a75d1a68f040d3b7d6949271e986da",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "Speculative-Decoding-2211.17192v2.pdf · v1 · 表格 · α | γ | OPERATIONS | SPEED\n| α | γ | OPERATIONS | SPEED |\n| --- | --- | --- | --- |\n| 0.6 | 2 | 1.53X | 1.96X |\n| 0.7 | 3 | 1.58X | 2.53X |\n| 0.8 | 2 | 1.23X | 2.44X |\n| 0.8 | 5 | 1.63X | 3.69X |\n| 0.9 | 2 | 1.11X | 2.71X |\n| 0.9 | 10 | 1.60X | 6.86X |",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_cd257ca54de547fdbab34255995d88d5"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:5:table:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+            "source_id": "page:5:table:1",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "fc865015108e45e8ade5ec440d745af2",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "3c592b7981c730e2f163170ba746ff079f2162d51395d0c8ea330799f3856a87",
+              "size": [
+                343,
+                224
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:5:table:1",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": true,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 225,
+              "preview_http": 200,
+              "preview_sha256": "b701d4f296474e78656e6caa7aac8dbd566ed2294f443169eb7f780fc4e25889",
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "table_crop_full_page_preview",
+              "media_inline_200": true,
+              "preview_200": true,
+              "preview_matches_full_page": true,
+              "crop_size": [
+                343,
+                224
+              ],
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ]
+        }
+      },
+      "G29-PDF-07b": {
+        "http_status": 200,
+        "elapsed_s": 0.05,
+        "turn_id": "38869e706c944e3a9edbfd84a3038631",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "Speculative-Decoding-2211.17192v2.pdf · v1 · 表格 · TASK | Mq | TEMP | γ | α | SPEED\n| TASK | Mq | TEMP | γ | α | SPEED |\n| --- | --- | --- | --- | --- | --- |\n| ENDE | T5-SMALL F | 0 | 7 | 0.75 | 3.4X |\n| ENDE | T5-BASE | 0 | 7 | 0.8 | 2.8X |\n| ENDE | T5-LARGE | 0 | 7 | 0.82 | 1.7X |\n| ENDE | T5-SMALL F | 1 | 7 | 0.62 | 2.6X |\n| ENDE | T5-BASE | 1 | 5 | 0.68 | 2.4X |\n| ENDE | T5-LARGE | 1 | 3 | 0.71 | 1.4X |\n| CNNDM | T5-SMALL F | 0 | 5 | 0.65 | 3.1X |\n| CNNDM | T5-BASE | 0 | 5 | 0.73 | 3.0X |\n| CNNDM | T5-LARGE | 0 | 3 | 0.74 | 2.2X |\n| CNNDM | T5-SMALL F | 1 | 5 | 0.53 | 2.3X |\n| CNNDM | T5-BASE | 1 | 3 | 0.55 | 2.2X |\n| CNNDM | T5-LARGE | 1 | 3 | 0.56 | 1.7X |",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_cd257ca54de547fdbab34255995d88d5"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+              "source_id": "page:6:table:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+            "source_id": "page:6:table:1",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "75b20be0653a425abc40432755a5356f",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "4afecae75f6abfeac2d5968f3f944cbded952baf2c619276c08f8427333b3d20",
+              "size": [
+                511,
+                354
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_cd257ca54de547fdbab34255995d88d5",
+                "source_id": "page:6:table:1",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": true,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 587,
+              "preview_http": 200,
+              "preview_sha256": "a17b7d545a2f748d6545c654cae3ce42be0d9123f32c84ca1c40d48597091c7a",
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "table_crop_full_page_preview",
+              "media_inline_200": true,
+              "preview_200": true,
+              "preview_matches_full_page": true,
+              "crop_size": [
+                511,
+                354
+              ],
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ]
+        }
+      },
+      "G29-PDF-03a": {
+        "http_status": 200,
+        "elapsed_s": 2.42,
+        "turn_id": "a1b5987d2bb54c719bf9a4be159aff99",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "纵轴指标是 'Passkey Retrieval Accuracy (%)'；当 Context Size 超过 25000 时，NTK-aware 曲线（绿色方块线）呈下降趋势。",
+        "trace": {
+          "display": {
+            "byte_sha256": "47988e0f8b4786a9eb937a4aa38521f38337498d35120398939c286b10a7f924",
+            "fallback_reason": null,
+            "rect": [
+              0.48887400000000003,
+              0.37096799999999996,
+              0.8394630000000001,
+              0.5758570000000001
+            ],
+            "source": {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:8:image:2",
+              "version": 1
+            }
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_60982fa9d23f43d59093acdc12490ed8"
+            ]
+          },
+          "external_call_count": 1,
+          "object_candidates": [
+            {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:8:image:2",
+              "version": 1
+            }
+          ],
+          "read_status": "succeeded",
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+            "source_id": "page:8:image:2",
+            "version": 1
+          },
+          "vision": {
+            "capability_reason": null,
+            "elapsed_ms": 2377.6162080466747,
+            "reads": [
+              {
+                "cache_hit": false,
+                "execution": "real_provider",
+                "external_call": true,
+                "missing_or_error": [],
+                "model": "qwen3-vl-plus",
+                "prompt_version": "source-directed-v1",
+                "provider": "dashscope-native",
+                "usage": {
+                  "image_tokens": 132,
+                  "input_tokens": 247,
+                  "output_tokens": 59,
+                  "total_tokens": 306
+                }
+              }
+            ],
+            "status": "succeeded"
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "1be0c0b0105a4d7d8e7696754246d501",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "47988e0f8b4786a9eb937a4aa38521f38337498d35120398939c286b10a7f924",
+              "size": [
+                430,
+                326
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:8:image:2",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [
+                "succeeded"
+              ],
+              "vision_input_sha256": [
+                "47988e0f8b4786a9eb937a4aa38521f38337498d35120398939c286b10a7f924"
+              ],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "47988e0f8b4786a9eb937a4aa38521f38337498d35120398939c286b10a7f924",
+              "preview_size": [
+                430,
+                326
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-PDF-03b": {
+        "turn1": {
+          "http_status": 200,
+          "elapsed_s": 0.03,
+          "turn_id": "f2eac177ac8c4e12a524624689636fd6",
+          "turn_status": "clarification",
+          "turn_error": null,
+          "options": [
+            {
+              "option_id": "6a9b124eab1d41149ac2d91af5adb4fd",
+              "label": "YaRN-2309.00071v3.pdf · v1 · 第 7 页 · 左图",
+              "kind": "document"
+            },
+            {
+              "option_id": "ba3ad8f1a6bb423280ef5d0d0236ebaf",
+              "label": "YaRN-2309.00071v3.pdf · v1 · 第 7 页 · 右图",
+              "kind": "document"
+            }
+          ],
+          "notice_codes": [
+            "object_ambiguous"
+          ],
+          "answer_text": "当前范围内有多个候选图片，请选择你要读取的具体图片。",
+          "trace": {
+            "clarification_reason": "object_ambiguous",
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_60982fa9d23f43d59093acdc12490ed8"
+              ]
+            },
+            "external_call_count": 0,
+            "object_candidates": [
+              {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:7:image:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:7:image:2",
+                "version": 1
+              }
+            ],
+            "route": "target_object"
+          },
+          "checks": null
+        },
+        "turn2": {
+          "http_status": 200,
+          "elapsed_s": 1.69,
+          "turn_id": "5d03997c920545c0b14ec32a58927784",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "1.8 to 2.6",
+          "trace": {
+            "display": {
+              "byte_sha256": "04e00f31d09190a9dc6415db7a7cdc42eb3d8378ffc9854988c3cfb5b16ca53b",
+              "fallback_reason": null,
+              "rect": [
+                0.48887400000000003,
+                0.436094,
+                0.839464,
+                0.644453
+              ],
+              "source": {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:7:image:2",
+                "version": 1
+              }
+            },
+            "external_call_count": 1,
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:7:image:2",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 1635.2198750246316,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 132,
+                    "input_tokens": 226,
+                    "output_tokens": 23,
+                    "total_tokens": 249
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "13d3d7d8102946778e69d85c17d83f8b",
+                "evidence_id": "ev-1",
+                "rendition_kind": "object_crop",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "04e00f31d09190a9dc6415db7a7cdc42eb3d8378ffc9854988c3cfb5b16ca53b",
+                "size": [
+                  430,
+                  331
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                  "source_id": "page:7:image:2",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "04e00f31d09190a9dc6415db7a7cdc42eb3d8378ffc9854988c3cfb5b16ca53b"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "04e00f31d09190a9dc6415db7a7cdc42eb3d8378ffc9854988c3cfb5b16ca53b",
+                "preview_size": [
+                  430,
+                  331
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(object_crop)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      },
+      "G29-PDF-06a": {
+        "http_status": 200,
+        "elapsed_s": 0.02,
+        "turn_id": "ab25140fc8a14d7a8819387fdc5b1970",
+        "turn_status": "clarification",
+        "turn_error": null,
+        "options": [
+          {
+            "option_id": "4c2a323c3c5a44f7847a33417a89d3cd",
+            "label": "YaRN-2309.00071v3.pdf · v1 · 第 5 页 · 公式 · r(d) = L",
+            "kind": "document"
+          },
+          {
+            "option_id": "bbff4ced395b4dc78e234bf5f3a8449e",
+            "label": "YaRN-2309.00071v3.pdf · v1 · 第 5 页 · 公式 · g(m) = m (12)",
+            "kind": "document"
+          }
+        ],
+        "notice_codes": [
+          "object_ambiguous"
+        ],
+        "answer_text": "有多个可能的对象，请指定原件位置或从下方候选中选择。",
+        "trace": {
+          "clarification_reason": "object_ambiguous",
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_60982fa9d23f43d59093acdc12490ed8"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:5:formula:1",
+              "version": 1
+            },
+            {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:5:formula:2",
+              "version": 1
+            }
+          ],
+          "route": "target_object"
+        },
+        "checks": {
+          "media_checks": [],
+          "evidence_checks": [],
+          "symmetry_checks": []
+        }
+      },
+      "G29-PDF-06b": {
+        "http_status": 200,
+        "elapsed_s": 0.05,
+        "turn_id": "1e612af4492d43c9b2855a2e80ec9a16",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "YaRN-2309.00071v3.pdf · v1 · 公式 · r\nr\n1\nt\n= 0.1 ln(s) + 1. (15)",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_60982fa9d23f43d59093acdc12490ed8"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:6:formula:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+            "source_id": "page:6:formula:1",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "06d0f13f6022485eb52c59ee10ddb0ba",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "f4a7eb17dbf42bba1bd9c94af335a0d412e750c6b38fa6a1155c4769c3e8d3e4",
+              "size": [
+                537,
+                120
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:6:formula:1",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 27,
+              "preview_http": 200,
+              "preview_sha256": "f4a7eb17dbf42bba1bd9c94af335a0d412e750c6b38fa6a1155c4769c3e8d3e4",
+              "preview_size": [
+                537,
+                120
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-PDF-08a": {
+        "http_status": 200,
+        "elapsed_s": 0.05,
+        "turn_id": "6a60b2155daf4473a11216566ccb257e",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "YaRN-2309.00071v3.pdf · v1 · 表格 · Model: Size | Extension: Method | Fine-: tuned | Training: Steps | Extension: Scale s | Extension: Scale s | Extension: 8192 | Evaluation Context Window Size: 16384 | Evaluation Context Window Size: 32768 | Evaluation Context Window Size: 65536 | Evaluation Context Window Size: 131072\n| Model: Size | Extension: Method | Fine-: tuned | Training: Steps | Extension: Scale s | Extension: Scale s | Extension: 8192 | Evaluation Context Window Size: 16384 | Evaluation Context Window Size: 32768 | Evaluation Context Window Size: 65536 | Evaluation Context Window Size: 131072 |\n| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |\n| 7B | YaRN | ✓ | 400 | 4k × | 16 | 3.51 | 2.99 | 2.65 | 2.42 | > 101 |\n| 7B | YaRN | ✓ | 400+200 | 4k × | 32 | 3.56 | 3.04 | 2.70 | 2.45 | 2.37 |\n| 13B | YaRN | ✓ | 400 | 4k × | 16 | 3.25 | 2.79 | 2.50 | 2.29 | > 101 |\n| 13B | YaRN | ✓ | 400+200 | 4k × | 32 | 3.29 | 2.83 | 2.53 | 2.31 | 2.24 |",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_60982fa9d23f43d59093acdc12490ed8"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:8:table:1",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+            "source_id": "page:8:table:1",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "304c860a6ad24c5fa93c38dcb72d80bf",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "1995bfc29a537f6c14fc508eb0b3ed89042a011e3878abd7888563a20a0b7774",
+              "size": [
+                868,
+                230
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:8:table:1",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": true,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 653,
+              "preview_http": 200,
+              "preview_sha256": "6f24c736e0dc5bd4d6a16f79ddad31fa23172e9baad822de965ce45ff30fa632",
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "table_crop_full_page_preview",
+              "media_inline_200": true,
+              "preview_200": true,
+              "preview_matches_full_page": true,
+              "crop_size": [
+                868,
+                230
+              ],
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ]
+        }
+      },
+      "G29-PDF-08b": {
+        "http_status": 200,
+        "elapsed_s": 0.05,
+        "turn_id": "00e0159328d54c35b00ee9d10c6d5e97",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "YaRN-2309.00071v3.pdf · v1 · 表格 · Model Size | Model Name | Extension Method | Extension Scale s | Effective Context GPU-Hours (A100) | Training Time in GPU-Hours (A100)\n| Model Size | Model Name | Extension Method | Extension Scale s | Effective Context GPU-Hours (A100) | Training Time in GPU-Hours (A100) |\n| --- | --- | --- | --- | --- | --- |\n| 7B | LLaMA YaRN | YaRN | 2k × 16 | 32k | 128 |\n| 7B | Llama 2 YaRN | YaRN | 4k × 16 | 64k | 256 |\n| 7B | Llama 2 YaRN | YaRN | 4k × 32 | 128k | 256 + 128 |\n| 7B | (Chen et al., 2023) | PI | 2k × 8 | 16k | 640 |\n| 7B | (Together.ai, 2023) | PI | 4k × 8 | 32k | ? |\n| 7B | (Xiong et al., 2023) | NTK-aware | 4k × 44.2 | ≈ 50k | 64000 |\n| 7B | (Rozière et al., 2023) | NTK-aware | 4k × 88.6 | ≈ 100k | 6400 |",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_60982fa9d23f43d59093acdc12490ed8"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+              "source_id": "page:9:table:3",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+            "source_id": "page:9:table:3",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "9d6e071a689240dfba33395f760b4a7c",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "b3233ad49aca6a9cd7de0c8addaa69952964cb42d24e4a50907b988471716109",
+              "size": [
+                821,
+                293
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_60982fa9d23f43d59093acdc12490ed8",
+                "source_id": "page:9:table:3",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": true,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 585,
+              "preview_http": 200,
+              "preview_sha256": "76a55def80d00338508c7729a34d43c18c557f25b6dbde8408682eaba6c9c670",
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "table_crop_full_page_preview",
+              "media_inline_200": true,
+              "preview_200": true,
+              "preview_matches_full_page": true,
+              "crop_size": [
+                821,
+                293
+              ],
+              "preview_size": [
+                1224,
+                1584
+              ]
+            }
+          ]
+        }
+      },
+      "G29-PPTX-01": {
+        "http_status": 200,
+        "elapsed_s": 2.73,
+        "turn_id": "9af21501dd94401da8ea45b16c44b5fa",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [],
+        "answer_text": "Week06-Thermal-Cache-Lab.pptx · v1 · 表格\n| Workload | L2 Miss Rate (%) | Peak Tj (°C) | Sustained Clock (GHz) | Energy-Delay (mJ·s) |\n| --- | --- | --- | --- | --- |\n| MatrixMul-FP32 | 1.8 | 84.2 | 3.60 | 14.2 |\n| GraphBFS-CSR | 11.4 | 79.5 | 3.45 | 28.9 |\n| SparseFFT-16K | 6.2 | 91.8 | 2.95 | 21.6 |\n| VideoHEVC-4K | 3.1 | 88.0 | 3.20 | 17.4 |",
+        "trace": {
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_7dd900f376d04c6ebb56025c194fdfb7"
+            ]
+          },
+          "external_call_count": 0,
+          "object_candidates": [
+            {
+              "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+              "source_id": "page:2:shape:3",
+              "version": 1
+            }
+          ],
+          "route": "target_object",
+          "selected_source": {
+            "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+            "source_id": "page:2:shape:3",
+            "version": 1
+          }
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "4846a25b228f4c70857434dde024233b",
+              "evidence_id": "ev-1",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "0f14af315bdceb350c10105444c386196850c58f068ae6262ce84817103f8f4b",
+              "size": [
+                1791,
+                663
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:2:shape:3",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": true,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 304,
+              "preview_http": 200,
+              "preview_sha256": "73589f2a11a8124c304c9d19434b6663f1fdb364dfb8212a2422b8859e30a944",
+              "preview_size": [
+                1920,
+                1080
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-1",
+              "mode": "table_crop_full_page_preview",
+              "media_inline_200": true,
+              "preview_200": true,
+              "preview_matches_full_page": true,
+              "crop_size": [
+                1791,
+                663
+              ],
+              "preview_size": [
+                1920,
+                1080
+              ]
+            }
+          ]
+        }
+      },
+      "G29-PPTX-02": {
+        "http_status": 200,
+        "elapsed_s": 8.01,
+        "turn_id": "c6680a0746714b1b969c39e7ab04f535",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [
+          "missing_evidence"
+        ],
+        "answer_text": "现有证据仅包含第 3 页标题“Slide 3: Victim Cache Capacity Sweep (GraphBFS-CSR)”的原生文字，未读取到实验图本身（unread_visual_total=1），因此无法确认横轴和纵轴分别是什么，也无法确认 8 entries 拐点处 LRU 和 FIFO 的 L2 Miss Rate 数值。",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "page": 3
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "bbox": [
+                  0.052501,
+                  0.04,
+                  0.945024,
+                  0.133333
+                ],
+                "page": 3
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3:shape:2",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "bbox": [
+                  0.067502,
+                  0.153333,
+                  0.930023,
+                  1.0
+                ],
+                "page": 3
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:3",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3:shape:3",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 4,
+            "checked_positions": [
+              "page:3"
+            ],
+            "enumerated_source_count": 14,
+            "evidence_inspected_count": 3,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 3,
+            "searchable_source_count": 12,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_7dd900f376d04c6ebb56025c194fdfb7"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 1545.938,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 1560.306,
+            "estimated_input": 2958,
+            "external_call_count": 1,
+            "fixed_overhead": 2242,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "insufficient",
+            "total_tokens": 795
+          },
+          "reading": {
+            "budget": 30526,
+            "estimated_input": 716,
+            "estimated_message_input": 2958,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": null,
+              "cell_range": null,
+              "page": 3,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 3
+                },
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:3",
+                  "version": 1
+                },
+                "title": "Slide 3: Victim Cache Capacity Sweep (GraphBFS-CSR)"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3",
+                "version": 1
+              },
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3:shape:2",
+                "version": 1
+              },
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3:shape:3",
+                "version": 1
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2242,
+            "read_ranges": [
+              {
+                "end": 51,
+                "kind": "page",
+                "locator": {
+                  "page": 3
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:3",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "664c7d08d3185c2110c213b73a91b708ba790b9d236e418cf0989897861cc98a",
+                "title": "Slide 3: Victim Cache Capacity Sweep (GraphBFS-CSR)"
+              },
+              {
+                "end": 51,
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.052501,
+                    0.04,
+                    0.945024,
+                    0.133333
+                  ],
+                  "page": 3
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:3:shape:2",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "664c7d08d3185c2110c213b73a91b708ba790b9d236e418cf0989897861cc98a",
+                "title": ""
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.067502,
+                    0.153333,
+                    0.930023,
+                    1.0
+                  ],
+                  "page": 3
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:3:shape:3",
+                  "version": 1
+                },
+                "title": ""
+              }
+            ],
+            "skipped_total": 1,
+            "unread_visual": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.067502,
+                    0.153333,
+                    0.930023,
+                    1.0
+                  ],
+                  "page": 3
+                },
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:3:shape:3",
+                  "version": 1
+                },
+                "title": ""
+              }
+            ],
+            "unread_visual_total": 1,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "03aed722df674f218414b689a93f39df",
+              "evidence_id": "ev-3",
+              "rendition_kind": "original_page",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "5eac2e776fe4da33ca2262195094235d38d0df76f5e02944721e72a318c490c4",
+              "size": [
+                1920,
+                1080
+              ]
+            },
+            {
+              "display_id": "97d858aee9384454bde36f5299d6ba1b",
+              "evidence_id": "ev-4",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "f8d007e05937370b62513227d17aa42cd5fcdc0cf3a2c48c86cf0294d48fabfa",
+              "size": [
+                1791,
+                145
+              ]
+            },
+            {
+              "display_id": "4d57c0df91ee4b4ea61e11535de21c2b",
+              "evidence_id": "ev-5",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "65113cbd98ba1bf230589d9f2494ecd03acdb5b77be637432c3abddc406bc09c",
+              "size": [
+                1734,
+                937
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-3",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "5eac2e776fe4da33ca2262195094235d38d0df76f5e02944721e72a318c490c4",
+              "preview_size": [
+                1920,
+                1080
+              ]
+            },
+            {
+              "evidence_id": "ev-4",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3:shape:2",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "f8d007e05937370b62513227d17aa42cd5fcdc0cf3a2c48c86cf0294d48fabfa",
+              "preview_size": [
+                1791,
+                145
+              ]
+            },
+            {
+              "evidence_id": "ev-5",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:3:shape:3",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "65113cbd98ba1bf230589d9f2494ecd03acdb5b77be637432c3abddc406bc09c",
+              "preview_size": [
+                1734,
+                937
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-3",
+              "mode": "inline_symmetry(original_page)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            },
+            {
+              "evidence_id": "ev-4",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            },
+            {
+              "evidence_id": "ev-5",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-PPTX-03": {
+        "http_status": 200,
+        "elapsed_s": 8.68,
+        "turn_id": "8cf11b106f724325b37429ae9e40d0c3",
+        "turn_status": "completed",
+        "turn_error": null,
+        "options": [],
+        "notice_codes": [
+          "missing_evidence"
+        ],
+        "answer_text": "第 4 页的文字说明指出，P0、P1、P2 的确切电压轨需查看右侧框图；本轮只读到原生文字，未读取该图，因此无法给出三个档位对应的电压值。\n已确认的 DVFS 相关数值为：P2 为降频档，时钟 2.80 GHz；P0 为标称档，时钟 3.60 GHz；触发高温为 92 °C，释放低温为 85 °C，死区宽度为 7 °C。\n第 4 页架构图中 P0、P1、P2 对应的电压轨数值（伏）无法确认，因为该图未被读取；热传感器采样周期 dt 在已读文字中未出现，无法确认。",
+        "trace": {
+          "candidates": [
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "page": 4
+              },
+              "match_kind": "direct",
+              "reasons": [
+                {
+                  "code": "direct_location",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "bbox": [
+                  0.052501,
+                  0.04,
+                  0.945024,
+                  0.133333
+                ],
+                "page": 4
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:2",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "bbox": [
+                  0.052501,
+                  0.166667,
+                  0.450011,
+                  0.926667
+                ],
+                "page": 4
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:3",
+                "version": 1
+              }
+            },
+            {
+              "file_name": "Week06-Thermal-Cache-Lab.pptx",
+              "locator": {
+                "bbox": [
+                  0.468762,
+                  0.173333,
+                  0.952524,
+                  0.72875
+                ],
+                "page": 4
+              },
+              "match_kind": "structural",
+              "reasons": [
+                {
+                  "code": "child_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                },
+                {
+                  "code": "same_position_object",
+                  "seed": {
+                    "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                    "source_id": "page:4",
+                    "version": 1
+                  }
+                }
+              ],
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:4",
+                "version": 1
+              }
+            }
+          ],
+          "coverage": {
+            "checked_adjacency_edges": 6,
+            "checked_positions": [
+              "page:4"
+            ],
+            "enumerated_source_count": 14,
+            "evidence_inspected_count": 4,
+            "fts_candidate_cap": 36,
+            "fts_scan_truncated": false,
+            "fts_seed_count": 0,
+            "full_file_read": false,
+            "reserved_adjacency_slots": 0,
+            "returned_count": 4,
+            "searchable_source_count": 12,
+            "snapshot_document_count": 1,
+            "truncated": false,
+            "truncated_by_reason": {}
+          },
+          "effective_scope": {
+            "course_ids": [
+              "g29-blind"
+            ],
+            "document_ids": [
+              "local_7dd900f376d04c6ebb56025c194fdfb7"
+            ]
+          },
+          "external_call_count": 1,
+          "generation": {
+            "attempts": [
+              {
+                "elapsed_ms": 2341.734,
+                "outcome": "response",
+                "status": 200
+              }
+            ],
+            "elapsed_ms": 2355.446,
+            "estimated_input": 4069,
+            "external_call_count": 1,
+            "fixed_overhead": 2259,
+            "input_budget": 32768,
+            "input_evidence_ids": [
+              "ev-1",
+              "ev-2",
+              "ev-3"
+            ],
+            "model": "deepseek-flash",
+            "output_reserve": 8192,
+            "provider": "deepseek",
+            "status": "partial",
+            "total_tokens": 1223
+          },
+          "reading": {
+            "budget": 30509,
+            "estimated_input": 1810,
+            "estimated_message_input": 4069,
+            "full_text_scope": false,
+            "input_budget": 32768,
+            "location": {
+              "cell_id": null,
+              "cell_index": null,
+              "cell_range": null,
+              "page": 4,
+              "page_range": null
+            },
+            "mode": "ask",
+            "next_cursor": null,
+            "outline": [
+              {
+                "kind": "page",
+                "locator": {
+                  "page": 4
+                },
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:4",
+                  "version": 1
+                },
+                "title": "Slide 4: Dynamic Thermal Management (DTM) Hysteresis Loop"
+              }
+            ],
+            "outline_total": 1,
+            "preferred": [
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4",
+                "version": 1
+              },
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:2",
+                "version": 1
+              },
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:3",
+                "version": 1
+              },
+              {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:4",
+                "version": 1
+              }
+            ],
+            "prioritized": false,
+            "prompt_reserve": 2259,
+            "read_ranges": [
+              {
+                "end": 410,
+                "kind": "page",
+                "locator": {
+                  "page": 4
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:4",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "96e5cb891a0ba055b8628e8a7842b7abff53dad081c5e3868b0965c6df40eae4",
+                "title": "Slide 4: Dynamic Thermal Management (DTM) Hysteresis Loop"
+              },
+              {
+                "end": 57,
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.052501,
+                    0.04,
+                    0.945024,
+                    0.133333
+                  ],
+                  "page": 4
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:4:shape:2",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "ed9142e2c16ea94a5d0aca422e0877b2e09c2d91b21f0a9455fbccb7f537b1a1",
+                "title": ""
+              },
+              {
+                "end": 352,
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.052501,
+                    0.166667,
+                    0.450011,
+                    0.926667
+                  ],
+                  "page": 4
+                },
+                "method": "native_text",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:4:shape:3",
+                  "version": 1
+                },
+                "start": 0,
+                "text_sha256": "ef96cb6e56cd6adf76a610485845b3874146fafb9f666c2c8bb56415bfe11bc4",
+                "title": ""
+              }
+            ],
+            "skipped": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.468762,
+                    0.173333,
+                    0.952524,
+                    0.72875
+                  ],
+                  "page": 4
+                },
+                "reason": "image_only",
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:4:shape:4",
+                  "version": 1
+                },
+                "title": ""
+              }
+            ],
+            "skipped_total": 1,
+            "unread_visual": [
+              {
+                "kind": "page_object",
+                "locator": {
+                  "bbox": [
+                    0.468762,
+                    0.173333,
+                    0.952524,
+                    0.72875
+                  ],
+                  "page": 4
+                },
+                "source": {
+                  "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                  "source_id": "page:4:shape:4",
+                  "version": 1
+                },
+                "title": ""
+              }
+            ],
+            "unread_visual_total": 1,
+            "visual_read_status": "not_attempted"
+          },
+          "route": "generated_answer",
+          "search_status": "ok"
+        },
+        "checks": {
+          "media_checks": [
+            {
+              "display_id": "86fcf6798c1a431085ef3931db1aad88",
+              "evidence_id": "ev-4",
+              "rendition_kind": "original_page",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "d9f34645327ca2c0c900eef8c76b95e87967cfa8a9783ab93eeefbf55717f361",
+              "size": [
+                1920,
+                1080
+              ]
+            },
+            {
+              "display_id": "853c392a476445bfa708012a8e895f22",
+              "evidence_id": "ev-5",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "83bcfcb3cc75464e92a705cb4127aa360cb3aa4424b0b4202f05f9f7534feaa2",
+              "size": [
+                1791,
+                145
+              ]
+            },
+            {
+              "display_id": "8a8f4bb1b79a4e69aed1c6752d7df9e4",
+              "evidence_id": "ev-6",
+              "rendition_kind": "object_crop",
+              "status": 200,
+              "content_type": "image/png",
+              "sha256": "bc365d5aeb7c20c849e335adcb5893b8eba5e398dc871ebb9efbc85589694433",
+              "size": [
+                841,
+                865
+              ]
+            }
+          ],
+          "evidence_checks": [
+            {
+              "evidence_id": "ev-4",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "d9f34645327ca2c0c900eef8c76b95e87967cfa8a9783ab93eeefbf55717f361",
+              "preview_size": [
+                1920,
+                1080
+              ]
+            },
+            {
+              "evidence_id": "ev-5",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:2",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "83bcfcb3cc75464e92a705cb4127aa360cb3aa4424b0b4202f05f9f7534feaa2",
+              "preview_size": [
+                1791,
+                145
+              ]
+            },
+            {
+              "evidence_id": "ev-6",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:3",
+                "version": 1
+              },
+              "has_native_read": false,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 404,
+              "evidence_text_len": 0,
+              "preview_http": 200,
+              "preview_sha256": "bc365d5aeb7c20c849e335adcb5893b8eba5e398dc871ebb9efbc85589694433",
+              "preview_size": [
+                841,
+                865
+              ]
+            },
+            {
+              "evidence_id": "ev-1",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 410,
+              "preview_http": 200,
+              "preview_sha256": "d9f34645327ca2c0c900eef8c76b95e87967cfa8a9783ab93eeefbf55717f361",
+              "preview_size": [
+                1920,
+                1080
+              ]
+            },
+            {
+              "evidence_id": "ev-3",
+              "source": {
+                "document_id": "local_7dd900f376d04c6ebb56025c194fdfb7",
+                "source_id": "page:4:shape:3",
+                "version": 1
+              },
+              "has_native_read": true,
+              "has_native_table_read": false,
+              "vision_statuses": [],
+              "vision_input_sha256": [],
+              "evidence_http": 200,
+              "evidence_text_len": 352,
+              "preview_http": 200,
+              "preview_sha256": "d9f34645327ca2c0c900eef8c76b95e87967cfa8a9783ab93eeefbf55717f361",
+              "preview_size": [
+                1920,
+                1080
+              ]
+            }
+          ],
+          "symmetry_checks": [
+            {
+              "evidence_id": "ev-4",
+              "mode": "inline_symmetry(original_page)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            },
+            {
+              "evidence_id": "ev-5",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            },
+            {
+              "evidence_id": "ev-6",
+              "mode": "inline_symmetry(object_crop)",
+              "media_200": true,
+              "preview_200": true,
+              "sha_match": true,
+              "vision_sha_match": true
+            }
+          ]
+        }
+      },
+      "G29-NB-01": {
+        "v1_read": {
+          "http_status": 200,
+          "elapsed_s": 1.68,
+          "turn_id": "f63fc259b4b84ebb8e1462fa87399469",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "横轴单位：s（秒），峰值温度：91.8 C",
+          "trace": {
+            "display": {
+              "byte_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_53e13f54907045898744e85f30779f3f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            },
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_53e13f54907045898744e85f30779f3f"
+              ]
+            },
+            "external_call_count": 1,
+            "object_candidates": [
+              {
+                "document_id": "local_53e13f54907045898744e85f30779f3f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            ],
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_53e13f54907045898744e85f30779f3f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 1653.6670839414,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 936,
+                    "output_tokens": 31,
+                    "total_tokens": 967
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "474d34bb48cd402b9078db2cd056c912",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_53e13f54907045898744e85f30779f3f",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        },
+        "read_new_no_focus": {
+          "http_status": 200,
+          "elapsed_s": 4.1,
+          "turn_id": "2b800baf4dcd418988ebb6d43e6560b9",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "横轴单位是分钟（min），峰值温度是83.4°C",
+          "trace": {
+            "display": {
+              "byte_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_53e13f54907045898744e85f30779f3f",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            },
+            "external_call_count": 1,
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_53e13f54907045898744e85f30779f3f",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 4074.9642909504473,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 936,
+                    "output_tokens": 31,
+                    "total_tokens": 967
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "c4e6f42802ea4933bfc0135abe1d1f09",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_53e13f54907045898744e85f30779f3f",
+                  "source_id": "cell:1:output:1",
+                  "version": 2
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        },
+        "old_only_control": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "36c6aad63afc4da7967781e247e918a8",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [
+            "historical_only"
+          ],
+          "answer_text": "这是先前回答中的原图。可以回看旧图，或从目录另选当前版本。\n旧版 v1 已读取内容：\n横轴单位：s（秒），峰值温度：91.8 C",
+          "trace": null,
+          "checks": {
+            "media_checks": [],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_53e13f54907045898744e85f30779f3f",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": []
+          }
+        },
+        "bilateral_compare": {
+          "http_status": 200,
+          "elapsed_s": 1.95,
+          "turn_id": "d67f1a191b2846dcad6eb3e764682302",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "旧版 v1 横轴单位 · 横轴单位：s（秒），峰值温度：91.8 C\n当前版 v2 · 横轴单位\n横轴单位：min；指标名称：Elapsed Time；核心数值：Peak: 83.4 C at 7.0 min",
+          "trace": {
+            "current_read_status": "succeeded",
+            "current_source": {
+              "document_id": "local_53e13f54907045898744e85f30779f3f",
+              "source_id": "cell:1:output:1",
+              "version": 2
+            },
+            "directed_attribute": "横轴单位",
+            "display": {
+              "byte_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_53e13f54907045898744e85f30779f3f",
+                "source_id": "cell:1:output:1",
+                "version": 2
+              }
+            },
+            "external_call_count": 1,
+            "historical_message_id": "25f31bb2ddd249efb94368db979f86d6",
+            "historical_read_status": "succeeded",
+            "historical_source": {
+              "document_id": "local_53e13f54907045898744e85f30779f3f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "read_status": "succeeded",
+            "route": "version_comparison",
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 1908.6467500310391,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 931,
+                    "output_tokens": 44,
+                    "total_tokens": 975
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "2881630e6d0e4946ab897caec53b2f42",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "display_id": "f45550dfd6014c6cbe4a87eee17ff0fd",
+                "evidence_id": "ev-2",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_53e13f54907045898744e85f30779f3f",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "evidence_id": "ev-2",
+                "source": {
+                  "document_id": "local_53e13f54907045898744e85f30779f3f",
+                  "source_id": "cell:1:output:1",
+                  "version": 2
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              },
+              {
+                "evidence_id": "ev-2",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      },
+      "G29-NB-02": {
+        "v1_read": {
+          "http_status": 200,
+          "elapsed_s": 1.93,
+          "turn_id": "062e5d4e096b4f1ab5edf32c30df6e17",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "横轴单位：s（秒），峰值温度：91.8 C",
+          "trace": {
+            "display": {
+              "byte_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            },
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_ea4ca381de204581aba8925cc99aa34f"
+              ]
+            },
+            "external_call_count": 1,
+            "object_candidates": [
+              {
+                "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            ],
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 1907.177000073716,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 936,
+                    "output_tokens": 31,
+                    "total_tokens": 967
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "9b9a98a49ffa4c5e848d54ee277c8a4e",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        },
+        "reordered_clarify": {
+          "http_status": 200,
+          "elapsed_s": 0.03,
+          "turn_id": "2f5f10f97af84e5faf79bab0776cadef",
+          "turn_status": "clarification",
+          "turn_error": null,
+          "options": [
+            {
+              "option_id": "d9b0388874d5497894c96237d246b336",
+              "label": "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 2（图像）",
+              "kind": "document"
+            },
+            {
+              "option_id": "fdc0f596a45b44878ebabb7ed7739ad1",
+              "label": "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 3（图像）",
+              "kind": "document"
+            }
+          ],
+          "notice_codes": [
+            "clarification"
+          ],
+          "answer_text": "新版输出顺序已变化，无法自动对齐两版对象。请选择当前版本中要对比的输出。",
+          "trace": {
+            "clarification_reason": "reordered_comparison",
+            "external_call_count": 0,
+            "route": "version_comparison"
+          },
+          "checks": null
+        },
+        "bilateral_recovered": {
+          "http_status": 200,
+          "elapsed_s": 2.22,
+          "turn_id": "d734f19f37244713bd888652d6041128",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "旧版 v1 横轴单位 · 横轴单位：s（秒），峰值温度：91.8 C\n当前版 v2 · 横轴单位\n横轴单位：min；指标名称：Elapsed Time；核心数值：Peak: 83.4 C at 7.0 min",
+          "trace": {
+            "current_read_status": "succeeded",
+            "current_source": {
+              "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+              "source_id": "cell:1:output:3",
+              "version": 2
+            },
+            "directed_attribute": "横轴单位",
+            "display": {
+              "byte_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+                "source_id": "cell:1:output:3",
+                "version": 2
+              }
+            },
+            "external_call_count": 1,
+            "historical_message_id": "6d75a40b0f944fda80e97da949b710c7",
+            "historical_read_status": "succeeded",
+            "historical_source": {
+              "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "read_status": "succeeded",
+            "resumed_from_clarification": "2f5f10f97af84e5faf79bab0776cadef",
+            "route": "version_comparison",
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 2170.5441249068826,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 931,
+                    "output_tokens": 44,
+                    "total_tokens": 975
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "1d48dc39fc974c998b22e6541700e59c",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "display_id": "8354966240ba40d7a92c63a3be778c41",
+                "evidence_id": "ev-2",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "evidence_id": "ev-2",
+                "source": {
+                  "document_id": "local_ea4ca381de204581aba8925cc99aa34f",
+                  "source_id": "cell:1:output:3",
+                  "version": 2
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              },
+              {
+                "evidence_id": "ev-2",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      },
+      "G29-NB-03": {
+        "clarify": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "c8fe24568b0c46269b9a3f91a751a4be",
+          "turn_status": "clarification",
+          "turn_error": null,
+          "options": [
+            {
+              "option_id": "9264083654f0424e836a6f99ad607905",
+              "label": "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 0（[v2 | Rev-B] Thermal swe）",
+              "kind": "document"
+            },
+            {
+              "option_id": "a18985caf806462883fe7c74f0cf12ac",
+              "label": "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 1（图像）",
+              "kind": "document"
+            },
+            {
+              "option_id": "c3b73b8a94b0485a86309b3cba6202b4",
+              "label": "Lab06-Thermal-Sweep.ipynb · v1 · Cell 2 · 输出 2（图像）",
+              "kind": "document"
+            }
+          ],
+          "notice_codes": [
+            "clarification"
+          ],
+          "answer_text": "当前聚焦 Cell 包含多个保存输出，请选择你要读取的具体输出。",
+          "trace": {
+            "clarification_reason": "object_ambiguous",
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_11432e9b6bb3450286fe4dedc6ced4c9"
+              ]
+            },
+            "external_call_count": 0,
+            "object_candidates": [
+              {
+                "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                "source_id": "cell:1:output:0",
+                "version": 1
+              },
+              {
+                "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                "source_id": "cell:1:output:2",
+                "version": 1
+              }
+            ],
+            "route": "target_object"
+          },
+          "checks": null
+        },
+        "select_text": {
+          "http_status": 200,
+          "elapsed_s": 2.31,
+          "turn_id": "642c8f10943d4478af197c613b18d9cd",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [
+            "missing_evidence"
+          ],
+          "answer_text": "当前单元格输出显示的热扫描摘要为：[v2 | Rev-B] Thermal sweep summary。\n峰值温度为 83.4 C，出现在频率 3.60 GHz 处。\nvictim_hit_rate 为 41.6 %（8-way LRU）。\nthrottle_events 为 0。\n该单元格还输出了两张图，各为 1200x720、含 1 个坐标轴，但仅见图形占位文字，未读取到图中数据。\n两张图（结温图与封装功耗图）的具体曲线与数值无法确认；另有 2 个可视内容未读取，完整文字范围未覆盖。",
+          "trace": {
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_11432e9b6bb3450286fe4dedc6ced4c9"
+              ]
+            },
+            "external_call_count": 1,
+            "generation": {
+              "attempts": [
+                {
+                  "elapsed_ms": 2262.089,
+                  "outcome": "response",
+                  "status": 200
+                }
+              ],
+              "elapsed_ms": 2277.542,
+              "estimated_input": 4155,
+              "external_call_count": 1,
+              "fixed_overhead": 2176,
+              "input_budget": 32768,
+              "input_evidence_ids": [
+                "ev-1",
+                "ev-2",
+                "ev-3",
+                "ev-4"
+              ],
+              "model": "deepseek-flash",
+              "output_reserve": 8192,
+              "provider": "deepseek",
+              "status": "partial",
+              "total_tokens": 1293
+            },
+            "reading": {
+              "budget": 30592,
+              "estimated_input": 1979,
+              "estimated_message_input": 4155,
+              "full_text_scope": false,
+              "input_budget": 32768,
+              "location": {
+                "cell_id": null,
+                "cell_index": 1,
+                "cell_range": null,
+                "page": null,
+                "page_range": null
+              },
+              "mode": "ask",
+              "next_cursor": null,
+              "outline": [
+                {
+                  "kind": "cell",
+                  "locator": {
+                    "cell_index": 1,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1",
+                    "version": 1
+                  },
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                }
+              ],
+              "outline_total": 1,
+              "preferred": [
+                {
+                  "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                }
+              ],
+              "prioritized": false,
+              "prompt_reserve": 2176,
+              "read_ranges": [
+                {
+                  "end": 207,
+                  "kind": "cell",
+                  "locator": {
+                    "cell_index": 1,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "781e6ee1e1fe15e94cd80ef4e6e792c5c2aca3735b24cf03329d61b9a9159ed1",
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                },
+                {
+                  "end": 133,
+                  "kind": "notebook_output",
+                  "locator": {
+                    "cell_index": 1,
+                    "output_index": 0,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1:output:0",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "297d813b7fb6dbb9b32066dddba8da750f4fc1dc27b36d2d4ce98359f13affa1",
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2) · output 1"
+                },
+                {
+                  "end": 34,
+                  "kind": "notebook_output",
+                  "locator": {
+                    "cell_index": 1,
+                    "output_index": 1,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1:output:1",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "a8edb9d2d910b5f9312d9112d79565c14be31a20afe6bb67aa2b503711806295",
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2) · output 2"
+                },
+                {
+                  "end": 34,
+                  "kind": "notebook_output",
+                  "locator": {
+                    "cell_index": 1,
+                    "output_index": 2,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "method": "native_text",
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1:output:2",
+                    "version": 1
+                  },
+                  "start": 0,
+                  "text_sha256": "a8edb9d2d910b5f9312d9112d79565c14be31a20afe6bb67aa2b503711806295",
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2) · output 3"
+                }
+              ],
+              "skipped": [],
+              "skipped_total": 0,
+              "unread_visual": [
+                {
+                  "kind": "notebook_output",
+                  "locator": {
+                    "cell_index": 1,
+                    "output_index": 1,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1:output:1",
+                    "version": 1
+                  },
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2) · output 2"
+                },
+                {
+                  "kind": "notebook_output",
+                  "locator": {
+                    "cell_index": 1,
+                    "output_index": 2,
+                    "section_path": [
+                      "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2)"
+                    ]
+                  },
+                  "source": {
+                    "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                    "source_id": "cell:1:output:2",
+                    "version": 1
+                  },
+                  "title": "ECE-418 Lab 06: Thermal Sweep & Victim Cache Profiling (v2) · output 3"
+                }
+              ],
+              "unread_visual_total": 2,
+              "visual_read_status": "not_attempted"
+            },
+            "route": "generated_answer",
+            "selected_source": {
+              "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+              "source_id": "cell:1:output:0",
+              "version": 1
+            }
+          },
+          "checks": {
+            "media_checks": [],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-2",
+                "source": {
+                  "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                  "source_id": "cell:1:output:0",
+                  "version": 1
+                },
+                "has_native_read": true,
+                "has_native_table_read": false,
+                "vision_statuses": [],
+                "vision_input_sha256": [],
+                "evidence_http": 200,
+                "evidence_text_len": 133,
+                "preview_http": 409,
+                "preview_sha256": null,
+                "preview_size": [
+                  0,
+                  0
+                ]
+              },
+              {
+                "evidence_id": "ev-3",
+                "source": {
+                  "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": true,
+                "has_native_table_read": false,
+                "vision_statuses": [],
+                "vision_input_sha256": [],
+                "evidence_http": 200,
+                "evidence_text_len": 34,
+                "preview_http": 200,
+                "preview_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "evidence_id": "ev-4",
+                "source": {
+                  "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "has_native_read": true,
+                "has_native_table_read": false,
+                "vision_statuses": [],
+                "vision_input_sha256": [],
+                "evidence_http": 200,
+                "evidence_text_len": 34,
+                "preview_http": 200,
+                "preview_sha256": "5c2451304a2b890d6256dba21c73183e634f435796c0a8ababe96a8a5aa18460",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": []
+          }
+        },
+        "select_image": {
+          "http_status": 200,
+          "elapsed_s": 2.23,
+          "turn_id": "97d47e159abb423e97c46e70ab206d63",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "Peak package power: 53.2 W at 3.6 GHz; Package TDP ceiling: 65 W",
+          "trace": {
+            "display": {
+              "byte_sha256": "5c2451304a2b890d6256dba21c73183e634f435796c0a8ababe96a8a5aa18460",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                "source_id": "cell:1:output:2",
+                "version": 1
+              }
+            },
+            "external_call_count": 1,
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+              "source_id": "cell:1:output:2",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 2190.1097500231117,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 926,
+                    "output_tokens": 41,
+                    "total_tokens": 967
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "e3659e5624b44696b21c603969f2e8e0",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "5c2451304a2b890d6256dba21c73183e634f435796c0a8ababe96a8a5aa18460",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_11432e9b6bb3450286fe4dedc6ced4c9",
+                  "source_id": "cell:1:output:2",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "5c2451304a2b890d6256dba21c73183e634f435796c0a8ababe96a8a5aa18460"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "5c2451304a2b890d6256dba21c73183e634f435796c0a8ababe96a8a5aa18460",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      },
+      "G29-CTR-02": {
+        "cross_media_status": 404,
+        "cross_evidence_status": 404,
+        "cross_preview_status": 404,
+        "cross_display_anchor_status": 404,
+        "cross_clarification_anchor_status": 404
+      },
+      "G29-CTR-03": {
+        "stale_focus": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "605364b0ee4c49b1bdd0f553bd41bea5",
+          "turn_status": "failed",
+          "turn_error": "stale_reference",
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "",
+          "trace": null,
+          "checks": null
+        },
+        "stale_clarification_after_v3": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "1dc14f74e91746f9b4d55bccfaa899e5",
+          "turn_status": "failed",
+          "turn_error": "stale_reference",
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "",
+          "trace": null,
+          "checks": null
+        }
+      }
+    },
+    "no_gen_mode": {
+      "G29-PDF-02-nogen": {
+        "turn1": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "e22a7c8e16a8409c9dc86d65ad854a0d",
+          "turn_status": "clarification",
+          "turn_error": null,
+          "options": [
+            {
+              "option_id": "94208ad4011f4b19b3bec0ba76051d1b",
+              "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 左图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+              "kind": "document"
+            },
+            {
+              "option_id": "fda8111f8baf4ce5a0170b33254b3c3b",
+              "label": "Speculative-Decoding-2211.17192v2.pdf · v1 · 第 5 页 · 右图 · 0.50 0.55 0.60 0.65 0.70 0.75 0.80 0.85 0.90",
+              "kind": "document"
+            }
+          ],
+          "notice_codes": [
+            "object_ambiguous"
+          ],
+          "answer_text": "有多个可能的对象，请指定原件位置或从下方候选中选择。",
+          "trace": {
+            "clarification_reason": "object_ambiguous",
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_d5e6f73d90684135b354673731e67ff2"
+              ]
+            },
+            "external_call_count": 0,
+            "object_candidates": [
+              {
+                "document_id": "local_d5e6f73d90684135b354673731e67ff2",
+                "source_id": "page:5:image:1",
+                "version": 1
+              },
+              {
+                "document_id": "local_d5e6f73d90684135b354673731e67ff2",
+                "source_id": "page:5:image:2",
+                "version": 1
+              }
+            ],
+            "route": "target_object"
+          },
+          "checks": null
+        },
+        "turn2": {
+          "http_status": 200,
+          "elapsed_s": 1.76,
+          "turn_id": "98225fba5d884d598d76b1e10ab7a37b",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "10",
+          "trace": {
+            "display": {
+              "byte_sha256": "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c",
+              "fallback_reason": null,
+              "rect": [
+                0.48235300000000003,
+                0.082855,
+                0.9047040000000001,
+                0.34444400000000003
+              ],
+              "source": {
+                "document_id": "local_d5e6f73d90684135b354673731e67ff2",
+                "source_id": "page:5:image:2",
+                "version": 1
+              }
+            },
+            "external_call_count": 1,
+            "read_status": "partial",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_d5e6f73d90684135b354673731e67ff2",
+              "source_id": "page:5:image:2",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 1708.8009580038488,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [
+                    "纵轴的具体物理量或单位未在图中明确标注，仅显示数值刻度从1到10"
+                  ],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 210,
+                    "input_tokens": 296,
+                    "output_tokens": 38,
+                    "total_tokens": 334
+                  }
+                }
+              ],
+              "status": "partial"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "620662aa51c24e5abec35ccbfda066cd",
+                "evidence_id": "ev-1",
+                "rendition_kind": "object_crop",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c",
+                "size": [
+                  518,
+                  415
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_d5e6f73d90684135b354673731e67ff2",
+                  "source_id": "page:5:image:2",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "partial"
+                ],
+                "vision_input_sha256": [
+                  "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "1df1d327720e3a1917328e4c71c5e6e21e21fd01632a86f772729f283c02880c",
+                "preview_size": [
+                  518,
+                  415
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(object_crop)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      },
+      "G29-NB-02-nogen": {
+        "v1_read": {
+          "http_status": 200,
+          "elapsed_s": 2.55,
+          "turn_id": "21e4846244ca479380d6d50c01660579",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "s",
+          "trace": {
+            "display": {
+              "byte_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            },
+            "effective_scope": {
+              "course_ids": [
+                "g29-blind"
+              ],
+              "document_ids": [
+                "local_fbb615eb11aa4de6a9e2d5624443b2ed"
+              ]
+            },
+            "external_call_count": 1,
+            "object_candidates": [
+              {
+                "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+                "source_id": "cell:1:output:1",
+                "version": 1
+              }
+            ],
+            "read_status": "succeeded",
+            "route": "target_object",
+            "selected_source": {
+              "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 2532.6835000887513,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 932,
+                    "output_tokens": 13,
+                    "total_tokens": 945
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "0717f69f305848cdb0e5689ba32f181f",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        },
+        "reordered_clarify": {
+          "http_status": 200,
+          "elapsed_s": 0.02,
+          "turn_id": "45b64e27e5b74c18a46c8e4cab81d5b9",
+          "turn_status": "clarification",
+          "turn_error": null,
+          "options": [
+            {
+              "option_id": "d5ea2a8dcef54e299b9e363e32844ec3",
+              "label": "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 2（图像）",
+              "kind": "document"
+            },
+            {
+              "option_id": "6ca86b63e02146c3b4c9b3ffdc3e4c5e",
+              "label": "Lab06-Thermal-Sweep.ipynb · v2 · Cell 2 · 输出 3（图像）",
+              "kind": "document"
+            }
+          ],
+          "notice_codes": [
+            "clarification"
+          ],
+          "answer_text": "新版输出顺序已变化，无法自动对齐两版对象。请选择当前版本中要对比的输出。",
+          "trace": {
+            "clarification_reason": "reordered_comparison",
+            "external_call_count": 0,
+            "route": "version_comparison"
+          },
+          "checks": null
+        },
+        "bilateral_recovered": {
+          "http_status": 200,
+          "elapsed_s": 1.54,
+          "turn_id": "da150392098140cea1a0a3c64709ca34",
+          "turn_status": "completed",
+          "turn_error": null,
+          "options": [],
+          "notice_codes": [],
+          "answer_text": "旧版 v1 横轴单位 · s\n当前版 v2 · 横轴单位\nmin",
+          "trace": {
+            "current_read_status": "succeeded",
+            "current_source": {
+              "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+              "source_id": "cell:1:output:3",
+              "version": 2
+            },
+            "directed_attribute": "横轴单位",
+            "display": {
+              "byte_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+              "fallback_reason": null,
+              "rect": null,
+              "source": {
+                "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+                "source_id": "cell:1:output:3",
+                "version": 2
+              }
+            },
+            "external_call_count": 1,
+            "historical_message_id": "2e163b3250314a9c8b370cd4408f0c0d",
+            "historical_read_status": "succeeded",
+            "historical_source": {
+              "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+              "source_id": "cell:1:output:1",
+              "version": 1
+            },
+            "read_status": "succeeded",
+            "resumed_from_clarification": "45b64e27e5b74c18a46c8e4cab81d5b9",
+            "route": "version_comparison",
+            "vision": {
+              "capability_reason": null,
+              "elapsed_ms": 1505.583459045738,
+              "reads": [
+                {
+                  "cache_hit": false,
+                  "execution": "real_provider",
+                  "external_call": true,
+                  "missing_or_error": [],
+                  "model": "qwen3-vl-plus",
+                  "prompt_version": "source-directed-v1",
+                  "provider": "dashscope-native",
+                  "usage": {
+                    "image_tokens": 838,
+                    "input_tokens": 923,
+                    "output_tokens": 13,
+                    "total_tokens": 936
+                  }
+                }
+              ],
+              "status": "succeeded"
+            }
+          },
+          "checks": {
+            "media_checks": [
+              {
+                "display_id": "dddafadd85354ebe8aee9dd643faee95",
+                "evidence_id": "ev-1",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "display_id": "90974c0a723d4de09b6af088d8970ccd",
+                "evidence_id": "ev-2",
+                "rendition_kind": "notebook_output",
+                "status": 200,
+                "content_type": "image/png",
+                "sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "evidence_checks": [
+              {
+                "evidence_id": "ev-1",
+                "source": {
+                  "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+                  "source_id": "cell:1:output:1",
+                  "version": 1
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "ac3717423bfcec594d94e255fb97683e076284a222f0cf4e61fef5824b623deb",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              },
+              {
+                "evidence_id": "ev-2",
+                "source": {
+                  "document_id": "local_fbb615eb11aa4de6a9e2d5624443b2ed",
+                  "source_id": "cell:1:output:3",
+                  "version": 2
+                },
+                "has_native_read": false,
+                "has_native_table_read": false,
+                "vision_statuses": [
+                  "succeeded"
+                ],
+                "vision_input_sha256": [
+                  "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84"
+                ],
+                "evidence_http": 404,
+                "evidence_text_len": 0,
+                "preview_http": 200,
+                "preview_sha256": "8a6513042f2adc3dbd923dc0023de3d829d37625f46292919044d2420a6a8e84",
+                "preview_size": [
+                  1200,
+                  720
+                ]
+              }
+            ],
+            "symmetry_checks": [
+              {
+                "evidence_id": "ev-1",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              },
+              {
+                "evidence_id": "ev-2",
+                "mode": "inline_symmetry(notebook_output)",
+                "media_200": true,
+                "preview_200": true,
+                "sha_match": true,
+                "vision_sha_match": true
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}

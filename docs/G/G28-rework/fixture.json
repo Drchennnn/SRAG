@@ -1,0 +1,42 @@
+{
+  "config": {
+    "workspace_input_token_limit": 32768,
+    "workspace_retrieval_strategy": "fts",
+    "workspace_answer_enabled": true,
+    "source_vision_enabled": true
+  },
+  "files": {
+    "PagedAttention-2309.06180v1.pdf": {
+      "sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e"
+    },
+    "Frame-Run.ipynb": {
+      "sha256": "75213664ae24d15699fdcac230f07ac5f2197e14b25ec5a8f83b75d6d4bc4709"
+    }
+  },
+  "turns": [
+    {
+      "id": "cold",
+      "new": false,
+      "scope": "course",
+      "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次？"
+    },
+    {
+      "id": "scoped",
+      "new": false,
+      "scope": "PagedAttention-2309.06180v1.pdf",
+      "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次？"
+    },
+    {
+      "id": "condition",
+      "new": true,
+      "scope": "course",
+      "question": "论文怎么定义 PagedAttention 的块表？配套实验在热缓存下处理十九个请求时，四号物理块被分配了几次？"
+    },
+    {
+      "id": "missing_measurement",
+      "new": true,
+      "scope": "course",
+      "question": "论文怎么定义 PagedAttention 的块表？配套实验在冷缓存下处理十九个请求时，四号物理块被分配了几次，平均分配延迟是多少毫秒？"
+    }
+  ]
+}

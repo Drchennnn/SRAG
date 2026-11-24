@@ -1,0 +1,7 @@
+{
+  "F02_semicolon": false,
+  "F02_comma": false,
+  "F02_conjunction": false,
+  "M01_pure_measure_comma": true,
+  "F05_measurement_only": true
+}

@@ -1,0 +1,272 @@
+{
+  "process_meta": {
+    "git_sha": "ed616f2606fe5dd331fea77993e8b05c5157201f",
+    "module_files": {
+      "local_slides": "/Users/Link/code/SRAG-pdf-obj/app/rag/parsers/local_slides.py",
+      "workspace": "/Users/Link/code/SRAG-pdf-obj/app/rag/workspace.py",
+      "workspace_objects": "/Users/Link/code/SRAG-pdf-obj/app/rag/workspace_objects.py"
+    },
+    "effective_config": {
+      "workspace_answer_enabled": false,
+      "source_vision_enabled": true,
+      "vision_model": "qwen3-vl-plus",
+      "workspace_retrieval_strategy": "fts",
+      "workspace_input_token_limit": 32768
+    }
+  },
+  "questions": [
+    {
+      "question_id": "Q01_vector_subfigure",
+      "turn_status": "completed",
+      "route": "target_object",
+      "clarification": null,
+      "vision": {
+        "capability_reason": null,
+        "elapsed_ms": 1853.4250410739332,
+        "reads": [
+          {
+            "cache_hit": false,
+            "execution": "real_provider",
+            "external_call": true,
+            "missing_or_error": [],
+            "model": "qwen3-vl-plus",
+            "prompt_version": "source-directed-v1",
+            "provider": "dashscope-native",
+            "usage": {
+              "image_tokens": 416,
+              "input_tokens": 531,
+              "output_tokens": 63,
+              "total_tokens": 594
+            }
+          }
+        ],
+        "status": "succeeded"
+      },
+      "visible_text": "课程助手\n\n图 1 · Vector-Subfigures-Guide.pdf · v1 · 图片 · (b) Right Panel: Damped Decay\n\nVector-Subfigures-Guide.pdf · v1 · 第 2 页 · 图像已读取\n\n问这张图\n查看图片\n回原件\n\nThe right subfigure (b) shows a damped decay plot with Gain [dB] on the y-axis and Time [ms] on the x-axis. The spike occurs at 8 ms, and the peak gain is +6 dB.\n\n依据 · Vector-Subfigures-Guide.pdf · v1 · 图片 · (b) Right Panel: Damped Decay",
+      "citations": [
+        "ev-1"
+      ],
+      "clicked_citations": {
+        "ev-1": {
+          "has_img": true,
+          "head": "放大",
+          "img_height": 733,
+          "img_width": 569,
+          "open": true,
+          "status": "图像已读取",
+          "title": "Vector-Subfigures-Guide.pdf · v1 · 图片 · (b) Right Panel: Damped Decay"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_c7f07ed1d1ce4f0f9360dea1b88b06c8",
+            "source_id": "page:2:image:2",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.498366,
+            0.178737,
+            0.961634,
+            0.641263
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "succeeded"
+        }
+      ]
+    },
+    {
+      "question_id": "Q02_figure_caption",
+      "turn_status": "completed",
+      "route": "target_object",
+      "clarification": null,
+      "vision": null,
+      "visible_text": "课程助手\n\nVector-Subfigures-Guide.pdf · v1 · 图注 · Figure 1: Qualitative bench waveforms. Only a schematic illustration;\nFigure 1: Qualitative bench waveforms. Only a schematic illustration;\ndoes not support causal delay claims.\n\n依据 · Vector-Subfigures-Guide.pdf · v1 · 图注 · Figure 1: Qualitative bench waveforms. Only a schematic illustration;\n\n图 1 · Vector-Subfigures-Guide.pdf · v1 · 图注 · Figure 1: Qualitative bench waveforms. Only a schematic illustration;\n\nVector-Subfigures-Guide.pdf · v1 · 第 2 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "citations": [
+        "ev-1"
+      ],
+      "clicked_citations": {
+        "ev-1": {
+          "has_img": true,
+          "head": "放大",
+          "img_height": 124,
+          "img_width": 744,
+          "open": true,
+          "status": "图像未读取",
+          "title": "Vector-Subfigures-Guide.pdf · v1 · 图注 · Figure 1: Qualitative bench waveforms. Only a schematic illustration;"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_c7f07ed1d1ce4f0f9360dea1b88b06c8",
+            "source_id": "page:2:caption:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.063971,
+            0.626763,
+            0.671554,
+            0.704438
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted"
+        }
+      ]
+    },
+    {
+      "question_id": "Q03_standalone_formula",
+      "turn_status": "completed",
+      "route": "target_object",
+      "clarification": null,
+      "vision": null,
+      "visible_text": "课程助手\n\nFormula-And-Notes.pdf · v1 · 公式 · Effective Group Delay (Standalone Formula):\nEffective Group Delay (Standalone Formula):\ntau_eff = (W - 1) / 2\nCondition: for odd W >= 3 only\n\n依据 · Formula-And-Notes.pdf · v1 · 公式 · Effective Group Delay (Standalone Formula):\n\n图 1 · Formula-And-Notes.pdf · v1 · 公式 · Effective Group Delay (Standalone Formula):\n\nFormula-And-Notes.pdf · v1 · 第 2 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "citations": [
+        "ev-1"
+      ],
+      "clicked_citations": {
+        "ev-1": {
+          "has_img": true,
+          "head": "放大",
+          "img_height": 259,
+          "img_width": 986,
+          "open": true,
+          "status": "图像未读取",
+          "title": "Formula-And-Notes.pdf · v1 · 公式 · Effective Group Delay (Standalone Formula):"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_c5e99e996ac24779adc3bad907d58333",
+            "source_id": "page:2:formula:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.098039,
+            0.138485,
+            0.901961,
+            0.30151500000000003
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted"
+        }
+      ]
+    },
+    {
+      "question_id": "Q04_ambiguity_counterexample",
+      "turn_status": "clarification",
+      "route": null,
+      "clarification": null,
+      "vision": null,
+      "visible_text": "课程助手\n\n请明确要读取的当前文件或图片。",
+      "citations": [],
+      "clicked_citations": {},
+      "displays": []
+    },
+    {
+      "question_id": "Q05_table_regression",
+      "turn_status": "completed",
+      "route": "target_object",
+      "clarification": null,
+      "vision": null,
+      "visible_text": "课程助手\n\nVector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |\n\n依据 · Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n\n图 1 · Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n\nVector-Subfigures-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件",
+      "citations": [
+        "ev-1"
+      ],
+      "clicked_citations": {
+        "ev-1": {
+          "has_img": true,
+          "head": "放大",
+          "img_height": 278,
+          "img_width": 1034,
+          "open": true,
+          "status": "图像未读取",
+          "title": "Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-1",
+          "display_source": {
+            "document_id": "local_c7f07ed1d1ce4f0f9360dea1b88b06c8",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.07771199999999999,
+            0.312828,
+            0.922288,
+            0.487374
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted"
+        }
+      ]
+    },
+    {
+      "question_id": "Q06_page_citation_regression",
+      "turn_status": "completed",
+      "route": null,
+      "clarification": null,
+      "vision": null,
+      "visible_text": "课程助手\n\nVector-Subfigures-Guide.pdf · v1 · 第 1 页 · Benchtop Waveform & Calibration Guide\nBenchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration guide documents two-channel benchtop acquisition.\nDefault sampling interval is fixed at 0.25 ms with a 50-ohm termination impedance.\nAll measurements are recorded at an ambient reference temperature of 23.0 C after\na 15-minute warm-up period.\nTable 1: Channel Calibration Parameters\nChannel Nominal Range\nCH-A (Step) 0.0 V to 5.0 V\nCH-B (Decay) -12.0 dB to +6.0 dB\n\n依据 · Vector-Subfigures-Guide.pdf · v1 · 第 1 页\n\nVector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |\n\n依据 · Vector-Subfigures-Guide.pdf · v1 · 第 1 页\n\n图 1 · Vector-Subfigures-Guide.pdf · v1 · 第 1 页 · Benchtop Waveform & Calibration Guide\n\nVector-Subfigures-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件\n\n图 2 · Vector-Subfigures-Guide.pdf · v1 · 表格 · Channel | Nominal Range\n\nVector-Subfigures-Guide.pdf · v1 · 第 1 页 · 图像未读取\n\n问这张图\n查看图片\n回原件\n\n未启用回答模型或缺少配置。本条为原文摘录。",
+      "citations": [
+        "ev-1",
+        "ev-2"
+      ],
+      "clicked_citations": {
+        "ev-1": {
+          "has_img": true,
+          "head": "放大\n\nBenchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration guide documents two-channel benchtop ",
+          "img_height": 1584,
+          "img_width": 1224,
+          "open": true,
+          "status": "已提取文字 · 图像未读取",
+          "title": "Vector-Subfigures-Guide.pdf · v1 · 第 1 页"
+        },
+        "ev-2": {
+          "has_img": true,
+          "head": "放大\n\n| Channel | Nominal Range |\n| --- | --- |\n| CH-A (Step) | 0.0 V to 5.0 V |\n| CH-B (Decay) | -12.0 dB to +6.0 dB |",
+          "img_height": 1584,
+          "img_width": 1224,
+          "open": true,
+          "status": "已提取文字 · 图像未读取",
+          "title": "Vector-Subfigures-Guide.pdf · v1 · 第 1 页"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-3",
+          "display_source": {
+            "document_id": "local_c7f07ed1d1ce4f0f9360dea1b88b06c8",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "read_status": "not_attempted"
+        },
+        {
+          "evidence_id": "ev-4",
+          "display_source": {
+            "document_id": "local_c7f07ed1d1ce4f0f9360dea1b88b06c8",
+            "source_id": "page:1:table:1",
+            "version": 1
+          },
+          "rect_visible_norm": [
+            0.07771199999999999,
+            0.312828,
+            0.922288,
+            0.487374
+          ],
+          "rendition_kind": "object_crop",
+          "read_status": "not_attempted"
+        }
+      ]
+    }
+  ]
+}

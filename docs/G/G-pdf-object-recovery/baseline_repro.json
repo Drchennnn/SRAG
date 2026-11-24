@@ -1,0 +1,432 @@
+{
+  "git_sha": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+  "config": {
+    "workspace_answer_enabled": false,
+    "source_vision_enabled": true,
+    "vision_model": "qwen3-vl-plus",
+    "workspace_retrieval_strategy": "fts"
+  },
+  "registered_objects": {
+    "Vector-Subfigures-Guide.pdf": [
+      {
+        "source_id": "page:1",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Benchtop Waveform & Calibration Guide",
+        "text_head": "Benchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Over",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      },
+      {
+        "source_id": "page:2",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Section 2: Dual-Panel Benchtop Waveforms",
+        "text_head": "Section 2: Dual-Panel Benchtop Waveforms\nSide-by-side pure vector subfigures sharing Figure 1 caption below.\n(a) Left Pa",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      }
+    ],
+    "Formula-And-Notes.pdf": [
+      {
+        "source_id": "page:1",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Signal Windowing & Thermal Notes",
+        "text_head": "Signal Windowing & Thermal Notes\nPublic Synthetic Fixture (CC BY 4.0) - Formula-And-Notes.pdf\nSection 1: Background\nBenc",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      },
+      {
+        "source_id": "page:2",
+        "kind": "page",
+        "parent_id": null,
+        "title": "Section 2: Discrete Window Delay & Envelope",
+        "text_head": "Section 2: Discrete Window Delay & Envelope\nDistinct formulas are separated vertically; Figure 3 shows the peak-hold env",
+        "object_type": null,
+        "bbox": null,
+        "position_basis": null
+      }
+    ]
+  },
+  "questions": [
+    {
+      "question_id": "Q01_vector_subfigure",
+      "category": "vector_subfigure",
+      "question": "In Vector-Subfigures-Guide.pdf on page 2, what does the right subfigure (b) show, including its axis quantities, spike time in ms, and peak gain in dB?",
+      "turn_status": "completed",
+      "route": null,
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": [
+            {
+              "method": "native_text",
+              "status": "succeeded",
+              "text_head": "Section 2: Dual-Panel Benchtop Waveforms\nSide-by-side pure vector subfigures sharing Figure 1 caption below.\n(a) Left Panel: Step Response\n0 4 8\n0\n2.5\n5.0\nTime "
+            }
+          ]
+        },
+        "ev-2": {
+          "source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": []
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Vector-Subfigures-Guide.pdf · v1 · 第 2 页 · Section 2: Dual-Panel Benchtop Waveforms\nSection 2: Dual-Panel Benchtop Waveforms\nSide-by-side pure vector subfigures sharing Figure 1 caption below.\n(a) Left Panel: Step Response\n0 4 8\n0\n2.5\n5.0\nTime [ms]\nAmplitude [V]\n(b) Right Panel: Damped Decay\n0 4 8 12\n-12\n-3\n+6\nTime [ms]\nGain [dB]\nFigure 1: Qualitative bench waveforms. Only a schematic illustration;\ndoes not support causal delay claims.",
+          "type": "text"
+        },
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 第 2 页 · Section 2: Dual-Panel Benchtop Waveforms",
+          "display_id": "22fadef712d54024a6320d31c2281652",
+          "display_source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "evidence_id": "ev-2",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/5d134cd969ef434e8b51d7772f3d6844/messages/326758f7220c4f67a5067c5707cb321f/media/22fadef712d54024a6320d31c2281652?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 200,
+          "file_name": "Vector-Subfigures-Guide.pdf",
+          "source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "locator": {
+            "page": 2
+          },
+          "has_preview": true,
+          "text_head": "Section 2: Dual-Panel Benchtop Waveforms\nSide-by-side pure vector subfigures sharing Figure 1 caption below.\n(a) Left Panel: Step Response\n0 4 8\n0\n2.5\n5.0\nTime "
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-2",
+          "display_source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 104273
+        }
+      ]
+    },
+    {
+      "question_id": "Q02_figure_caption",
+      "category": "figure_caption",
+      "question": "What does the Figure 1 caption on page 2 of Vector-Subfigures-Guide.pdf state about causal delay claims?",
+      "turn_status": "completed",
+      "route": "target_object",
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {},
+      "blocks": [
+        {
+          "code": "object_not_found",
+          "text": "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {},
+      "displays": []
+    },
+    {
+      "question_id": "Q03_standalone_formula",
+      "category": "standalone_formula_with_nearby_distractor",
+      "question": "In Formula-And-Notes.pdf on page 2, what is the formula for tau_eff and its applicability condition?",
+      "turn_status": "completed",
+      "route": null,
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_b72f1164415b4ccc876bfb4436e59e44",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": [
+            {
+              "method": "native_text",
+              "status": "succeeded",
+              "text_head": "Section 2: Discrete Window Delay & Envelope\nDistinct formulas are separated vertically; Figure 3 shows the peak-hold envelope.\nEffective Group Delay (Standalone"
+            }
+          ]
+        },
+        "ev-2": {
+          "source": {
+            "document_id": "local_b72f1164415b4ccc876bfb4436e59e44",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": []
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Formula-And-Notes.pdf · v1 · 第 2 页 · Section 2: Discrete Window Delay & Envelope\nSection 2: Discrete Window Delay & Envelope\nDistinct formulas are separated vertically; Figure 3 shows the peak-hold envelope.\nEffective Group Delay (Standalone Formula):\ntau_eff = (W - 1) / 2\nCondition: for odd W >= 3 only\nSmoothing Factor (Auxiliary Note):\nalpha_max = 1 / (N + 1)\nApplies to exponential moving average window length N.\nPeak-Hold Envelope Trace\n0 50 100\n0.0\n1.5\n3.0\nSample Index [n]\nLevel [V]\nFigure 3: Peak-hold envelope under dry bench conditions.",
+          "type": "text"
+        },
+        {
+          "caption": "Formula-And-Notes.pdf · v1 · 第 2 页 · Section 2: Discrete Window Delay & Envelope",
+          "display_id": "6e319e7a5c224cb0b8565aec554e00e3",
+          "display_source": {
+            "document_id": "local_b72f1164415b4ccc876bfb4436e59e44",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "evidence_id": "ev-2",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/5d134cd969ef434e8b51d7772f3d6844/messages/5ca6b5587eba4badad07eb5f1d9cd504/media/6e319e7a5c224cb0b8565aec554e00e3?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 200,
+          "file_name": "Formula-And-Notes.pdf",
+          "source": {
+            "document_id": "local_b72f1164415b4ccc876bfb4436e59e44",
+            "version": 1,
+            "source_id": "page:2"
+          },
+          "locator": {
+            "page": 2
+          },
+          "has_preview": true,
+          "text_head": "Section 2: Discrete Window Delay & Envelope\nDistinct formulas are separated vertically; Figure 3 shows the peak-hold envelope.\nEffective Group Delay (Standalone"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-2",
+          "display_source": {
+            "document_id": "local_b72f1164415b4ccc876bfb4436e59e44",
+            "source_id": "page:2",
+            "version": 1
+          },
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 107753
+        }
+      ]
+    },
+    {
+      "question_id": "Q04_ambiguity_counterexample",
+      "category": "ambiguity_counterexample",
+      "question": "这张图里的曲线趋势是什么？",
+      "turn_status": "clarification",
+      "route": null,
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {},
+      "blocks": [
+        {
+          "code": "clarification",
+          "text": "当前焦点与此前展示不同，请说明要读“当前原件”还是“刚才的图”。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {},
+      "displays": []
+    },
+    {
+      "question_id": "Q05_table_regression",
+      "category": "existing_table_regression",
+      "question": "In Table 1 of Vector-Subfigures-Guide.pdf on page 1, what are the nominal ranges for CH-A and CH-B?",
+      "turn_status": "completed",
+      "route": "target_object",
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {},
+      "blocks": [
+        {
+          "code": "object_not_found",
+          "text": "找不到能核对位置的指定对象，请补充文件、页或 Cell 及对象位置。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {},
+      "displays": []
+    },
+    {
+      "question_id": "Q06_page_citation_regression",
+      "category": "existing_page_citation_regression",
+      "question": "According to Section 1 of Vector-Subfigures-Guide.pdf on page 1, what are the default sampling interval, termination impedance, and ambient reference temperature?",
+      "turn_status": "completed",
+      "route": null,
+      "answer_status": null,
+      "clarification": null,
+      "object_intent": null,
+      "object_resolution": null,
+      "vision": null,
+      "selected_sources": {
+        "ev-1": {
+          "source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": [
+            {
+              "method": "native_text",
+              "status": "succeeded",
+              "text_head": "Benchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration g"
+            }
+          ]
+        },
+        "ev-2": {
+          "source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "object_type": null,
+          "bbox": null,
+          "reads": []
+        }
+      },
+      "blocks": [
+        {
+          "citations": [
+            "ev-1"
+          ],
+          "text": "Vector-Subfigures-Guide.pdf · v1 · 第 1 页 · Benchtop Waveform & Calibration Guide\nBenchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration guide documents two-channel benchtop acquisition.\nDefault sampling interval is fixed at 0.25 ms with a 50-ohm termination impedance.\nAll measurements are recorded at an ambient reference temperature of 23.0 C after\na 15-minute warm-up period.\nTable 1: Channel Calibration Parameters\nChannel Nominal Range\nCH-A (Step) 0.0 V to 5.0 V\nCH-B (Decay) -12.0 dB to +6.0 dB",
+          "type": "text"
+        },
+        {
+          "caption": "Vector-Subfigures-Guide.pdf · v1 · 第 1 页 · Benchtop Waveform & Calibration Guide",
+          "display_id": "4b942ef614ff49caa0fdedbc31233f09",
+          "display_source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "evidence_id": "ev-2",
+          "fallback_reason": null,
+          "height": 1584,
+          "media_url": "/api/workspace/sessions/5d134cd969ef434e8b51d7772f3d6844/messages/9e869aa1fefd4016bfb476aca1bd895f/media/4b942ef614ff49caa0fdedbc31233f09?view=inline",
+          "read_status": "not_attempted",
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "type": "source_image",
+          "width": 1224
+        },
+        {
+          "code": "excerpt_fallback",
+          "text": "未启用回答模型或缺少配置。本条为原文摘录。",
+          "type": "notice"
+        }
+      ],
+      "opened_citations": {
+        "ev-1": {
+          "http_status": 200,
+          "file_name": "Vector-Subfigures-Guide.pdf",
+          "source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "version": 1,
+            "source_id": "page:1"
+          },
+          "locator": {
+            "page": 1
+          },
+          "has_preview": true,
+          "text_head": "Benchtop Waveform & Calibration Guide\nPublic Synthetic Fixture (CC BY 4.0) - Vector-Subfigures-Guide.pdf\nSection 1: Overview\nThis public synthetic calibration g"
+        }
+      },
+      "displays": [
+        {
+          "evidence_id": "ev-2",
+          "display_source": {
+            "document_id": "local_87c4fc5317f845559f984f3f0a2f28e8",
+            "source_id": "page:1",
+            "version": 1
+          },
+          "rect_visible_norm": null,
+          "rendition_kind": "original_page",
+          "read_status": "not_attempted",
+          "media_http_status": 200,
+          "media_bytes": 108680
+        }
+      ]
+    }
+  ]
+}

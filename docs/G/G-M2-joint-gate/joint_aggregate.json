@@ -1,0 +1,883 @@
+{
+  "candidate_sha": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+  "ancestors_verified": {
+    "g28_dev": "18fb8929e6aaaa41de40dd34d933d34741c661e6",
+    "m2_gen_fix": "e55a9b4a9281d127c78f6fe28f7511c064312884"
+  },
+  "verdict": "建议开放 A03",
+  "process_verification": {
+    "mode_off": {
+      "git_sha": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+      "worktree_status": "clean",
+      "worktree_dir": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate",
+      "module_files": {
+        "workspace": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate/app/rag/workspace.py",
+        "workspace_generation": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate/app/rag/workspace_generation.py",
+        "evidence_supplement": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate/app/rag/evidence_supplement.py"
+      },
+      "effective_config": {
+        "workspace_answer_enabled": false,
+        "workspace_retrieval_strategy": "fts",
+        "workspace_input_token_limit": 32768,
+        "source_vision_enabled": true,
+        "sqlite_path": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/off_1_only_b_declares_equiv/runtime/library.sqlite3",
+        "data_dir": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/off_1_only_b_declares_equiv/runtime/data"
+      }
+    },
+    "mode_on_browser": {
+      "git_sha": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+      "worktree_status": "clean",
+      "module_files": {
+        "workspace": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate/app/rag/workspace.py",
+        "workspace_generation": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate/app/rag/workspace_generation.py",
+        "evidence_supplement": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/candidate/app/rag/evidence_supplement.py"
+      },
+      "effective_config": {
+        "workspace_answer_enabled": true,
+        "workspace_retrieval_strategy": "fts",
+        "workspace_input_token_limit": 32768,
+        "source_vision_enabled": true,
+        "deepseek_chat_model": "deepseek-flash",
+        "sqlite_path": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/browser_1_only_b_declares_equiv/library.sqlite3",
+        "data_dir": "/var/folders/yg/d67n81ms291_bvmhpc04t13r0000gq/T/srag-joint-m2-5dsobymq/browser_1_only_b_declares_equiv/data",
+        "port": 58005
+      }
+    }
+  },
+  "replay_vs_live_accounting": {
+    "fixed_model_output_replay_pytest": {
+      "command": "pytest -v -p no:cacheprovider tests/test_m2_condition_generation.py",
+      "passed": 7,
+      "failed": 0
+    },
+    "offline_full_pytest": {
+      "command": "pytest -q -p no:cacheprovider",
+      "passed": 640,
+      "skipped": 3,
+      "failed": 0
+    },
+    "ruff_check": "All checks passed!",
+    "live_browser_provider_calls": {
+      "g28_frozen_13_turns": 21,
+      "g28_comma_public_14_turns": 15,
+      "m2_16q_mode_on_browser": 32,
+      "joint_4turn_session": 6,
+      "total_http_200": 74,
+      "provider_errors": 0,
+      "excerpt_fallbacks": 0,
+      "reruns": 0
+    }
+  },
+  "g28_frozen_runs": {
+    "scores": {
+      "original_5": "5/5",
+      "previous_4": "4/4",
+      "double_file_4": "4/4",
+      "total": "13/13"
+    },
+    "p04_verdicts": {
+      "outbound_anchoring": "通过（Max_heapify 显式写入出站 question，previous_context={}）",
+      "final_definition_and_citation": "通过（回答含定义与条件，ev-7 直接点击打开对应 v1 讲义页）",
+      "narrowed_scope_isolation": "通过（旧实验候选/实读/出站/引用/旧数值复述均为 0，保留范围变化与重选说明）"
+    },
+    "regression_first": {
+      "sha256": "67ede96551fd7abc9aca9787dda7a2ffb3a3687a9d5c86c722601bf233131ae6",
+      "subject": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 15,
+      "reader_clicks_ok": 15
+    },
+    "absence_first": {
+      "sha256": "14c4a146647ed4633cef4c57ce3fcafb402adcd15da06d8445242860acb2c6a5",
+      "subject": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+      "turns": 1,
+      "provider_calls_total": 2,
+      "provider_calls_http_200": 2,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 1,
+      "reader_clicks_ok": 1
+    },
+    "final_holdout_first": {
+      "sha256": "c6549bf0a7eaf36718ddf9b178db9dfcc86b8fdcdbb0142e97a02ecb153a00b1",
+      "subject": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+      "turns": 4,
+      "provider_calls_total": 7,
+      "provider_calls_http_200": 7,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 10,
+      "reader_clicks_ok": 10
+    },
+    "scope_holdout_first": {
+      "sha256": "570e6d14de88da14a024557201402b6865ec41c79847a71b6653b86158d01a7a",
+      "subject": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+      "turns": 4,
+      "provider_calls_total": 5,
+      "provider_calls_http_200": 5,
+      "provider_calls_failed": 0,
+      "excerpt_fallbacks": [],
+      "reader_clicks_total": 8,
+      "reader_clicks_ok": 8
+    }
+  },
+  "g28_public_comma_control": {
+    "sha256": "e578a64e355c9f87e8629a56dc9a00a4e26d4498871f8f0eb70152769f8a9637",
+    "subject": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+    "turns": [
+      {
+        "id": "P_prime_1",
+        "provider_calls": 2,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        ]
+      },
+      {
+        "id": "F02_comma",
+        "provider_calls": 1,
+        "definition_topic": "Barrier Latch",
+        "outbound_question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？（当前追问所指目标：Barrier Latch）",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 3 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 5 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 6 页"
+        ]
+      },
+      {
+        "id": "P_prime_2",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        ]
+      },
+      {
+        "id": "F02_conjunction",
+        "provider_calls": 1,
+        "definition_topic": "Barrier Latch",
+        "outbound_question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，顺便看下配套实验还能核对吗？（当前追问所指目标：Barrier Latch）",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 5 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 3 页"
+        ]
+      },
+      {
+        "id": "P_prime_3",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        ]
+      },
+      {
+        "id": "M01_pure_measure_comma",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "只看我选中的讲义，刚才那次实验的延迟结果还能核对吗？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 6 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 5 页"
+        ]
+      },
+      {
+        "id": "P_prime_4",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        ]
+      },
+      {
+        "id": "F02_semicolon",
+        "provider_calls": 1,
+        "definition_topic": "Barrier Latch",
+        "outbound_question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍；配套实验还能核对吗？（当前追问所指目标：Barrier Latch）",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 5 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 3 页"
+        ]
+      },
+      {
+        "id": "P_prime_5",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        ]
+      },
+      {
+        "id": "F05_measurement_only",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "接着前一问说明其测量结果。配套实验现在还能核对吗？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 6 页"
+        ]
+      },
+      {
+        "id": "P_prime_6",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0"
+        ]
+      },
+      {
+        "id": "E01_explicit_switch",
+        "provider_calls": 1,
+        "definition_topic": null,
+        "outbound_question": "Cooldown Guard 怎么定义？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页"
+        ]
+      },
+      {
+        "id": "A01_ambig_prime",
+        "provider_calls": 2,
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Barrier Latch 和 Cooldown Guard？配套实验测得的 mean sync delay 是多少毫秒？",
+        "previous_context_empty": true,
+        "outbound_files": [
+          "Beacon-Sync-Log.ipynb",
+          "Beacon-Sync-Manual.pdf"
+        ],
+        "notices": [],
+        "readers": [
+          "Beacon-Sync-Manual.pdf · v1 · 第 2 页",
+          "Beacon-Sync-Manual.pdf · v1 · 第 4 页",
+          "Beacon-Sync-Log.ipynb · v1 · Cell 1 · 输出 0",
+          "Beacon-Sync-Manual.pdf · v1 · 第 6 页"
+        ]
+      },
+      {
+        "id": "A02_ambig_comma",
+        "provider_calls": 0,
+        "definition_topic": null,
+        "outbound_question": null,
+        "previous_context_empty": null,
+        "outbound_files": [],
+        "notices": [
+          "clarification"
+        ],
+        "readers": []
+      }
+    ],
+    "provider_calls_total": 15,
+    "provider_calls_http_200": 15,
+    "provider_calls_failed": 0,
+    "excerpt_fallbacks": [],
+    "reader_clicks_total": 37,
+    "reader_clicks_ok": 37
+  },
+  "m2_16q_dual_mode": {
+    "sha256": "1b9613a7fae0a2fa7afe504f5a4e69498fcd746497e4364583d1db096d2bfc3f",
+    "score_summary": {
+      "mode_off": {
+        "total": 16,
+        "attribution_passed": 16,
+        "numeric_verified_by_citation": 4,
+        "no_measurement_declaration_count": 12,
+        "numeric_unverified_or_leaked": 0,
+        "status_accurate_passed": 16,
+        "extra_missing_on_complete_count": 0,
+        "rows": [
+          {
+            "suite": "1_only_b_declares_equiv",
+            "question_id": "ask_a",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "2_a_declares_equiv",
+            "question_id": "ask_a",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "complete",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_fwd",
+            "question_id": "ask_a",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "complete",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_fwd",
+            "question_id": "ask_b",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_rev",
+            "question_id": "ask_a",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "complete",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_rev",
+            "question_id": "ask_b",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "4_explicit_diff",
+            "question_id": "ask_a",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "held_out",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "complete",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "salt_fog",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "unfamiliar_condition",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "different_object",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "different_metric",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "test_split",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "6_counter_example",
+            "question_id": "independent_verification_proc",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "7_citation_number_counterexamples",
+            "question_id": "ask_test_value",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "7_citation_number_counterexamples",
+            "question_id": "ask_test_guess_026",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "no_evidence",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          }
+        ]
+      },
+      "mode_on": {
+        "total": 16,
+        "attribution_passed": 16,
+        "numeric_verified_by_citation": 4,
+        "no_measurement_declaration_count": 12,
+        "numeric_unverified_or_leaked": 0,
+        "status_accurate_passed": 16,
+        "extra_missing_on_complete_count": 0,
+        "rows": [
+          {
+            "suite": "1_only_b_declares_equiv",
+            "question_id": "ask_a",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "2_a_declares_equiv",
+            "question_id": "ask_a",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "succeeded",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_fwd",
+            "question_id": "ask_a",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "succeeded",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_fwd",
+            "question_id": "ask_b",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_rev",
+            "question_id": "ask_a",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "succeeded",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "3_same_cell_rev",
+            "question_id": "ask_b",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "4_explicit_diff",
+            "question_id": "ask_a",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "held_out",
+            "positive_expected": true,
+            "attribution_ok": true,
+            "numeric_citation_status": "verified_by_citation",
+            "status": "succeeded",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "salt_fog",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "unfamiliar_condition",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "different_object",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "different_metric",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "5_original_six",
+            "question_id": "test_split",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "6_counter_example",
+            "question_id": "independent_verification_proc",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "7_citation_number_counterexamples",
+            "question_id": "ask_test_value",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          },
+          {
+            "suite": "7_citation_number_counterexamples",
+            "question_id": "ask_test_guess_026",
+            "positive_expected": false,
+            "attribution_ok": true,
+            "numeric_citation_status": "无测量声明",
+            "status": "partial",
+            "status_ok": true,
+            "extra_missing_on_complete": false
+          }
+        ]
+      }
+    }
+  },
+  "joint_cross_capability_session": {
+    "sha256": "1674cb646be1180bf1b75e188221248012022235fa9edbad0f5951fa46afe6a6",
+    "subject": "d4c8597d92db20a8803259f47c59faf16ca14f6a",
+    "turns": [
+      {
+        "id": "J01_course_prime",
+        "question": "讲义怎么定义 Quorum Gate？配套实验测得的 mean verification latency 是多少毫秒？",
+        "provider_calls": [
+          [
+            "deepseek-flash",
+            200
+          ],
+          [
+            "deepseek-flash",
+            200
+          ]
+        ],
+        "definition_topic": null,
+        "outbound_question": "讲义怎么定义 Quorum Gate？配套实验测得的 mean verification latency 是多少毫秒？",
+        "previous_context_keys": [],
+        "outbound_files": [
+          "Joint-Latency-Log.ipynb",
+          "Joint-Protocol-Guide.pdf"
+        ],
+        "notices": [],
+        "final_texts": [
+          "讲义将 Quorum Gate 定义为：只有当三个独立验证者（verifiers）在 5 ticks 内对同一 epoch digest 签名时，批次才会被释放。",
+          "讲义还规定：如果某个签名延迟超过 5 ticks 或出现重复，计数（tally）会重置为零。",
+          "配套 notebook 的输出显示，Quorum Gate benchmark 共 4 个已验证批次，mean verification latency 为 14.5 ms。"
+        ],
+        "readers": [
+          {
+            "title": "Joint-Protocol-Guide.pdf · v1 · 第 2 页",
+            "error": null
+          },
+          {
+            "title": "Joint-Latency-Log.ipynb · v1 · Cell 1 · 输出 0",
+            "error": null
+          }
+        ]
+      },
+      {
+        "id": "J02_narrow_mixed_comma",
+        "question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？",
+        "provider_calls": [
+          [
+            "deepseek-flash",
+            200
+          ]
+        ],
+        "definition_topic": "Quorum Gate",
+        "outbound_question": "只看我选中的讲义，把刚才问过的部分重新梳理一遍，配套实验还能核对吗？（当前追问所指目标：Quorum Gate）",
+        "previous_context_keys": [],
+        "outbound_files": [
+          "Joint-Protocol-Guide.pdf"
+        ],
+        "notices": [
+          "missing_evidence",
+          "experiment_outside_scope"
+        ],
+        "final_texts": [
+          "Quorum Gate 的规则是：只有当三个独立验证者（three independent verifiers）在 5 ticks 内对同一 epoch digest 签名时，批次才会被释放。",
+          "如果某个签名延迟超过 5 ticks，或者出现重复签名，计数（tally）就会重置为零。",
+          "这份讲义只说明平均验证延迟（mean verification latency）的测量数据存放在配套 notebook 中，并没有给出具体数值。"
+        ],
+        "readers": [
+          {
+            "title": "Joint-Protocol-Guide.pdf · v1 · 第 2 页",
+            "error": null
+          },
+          {
+            "title": "Joint-Protocol-Guide.pdf · v1 · 第 3 页",
+            "error": null
+          }
+        ]
+      },
+      {
+        "id": "J03_narrow_guess_num",
+        "question": "只看我选中的讲义，刚才那个要求的测试集实验平均延迟测得是 14.5 ms 吗？",
+        "provider_calls": [
+          [
+            "deepseek-flash",
+            200
+          ]
+        ],
+        "definition_topic": null,
+        "outbound_question": "只看我选中的讲义，刚才那个要求的测试集实验平均延迟测得是 14.5 ms 吗？",
+        "previous_context_keys": [
+          "previous_answer",
+          "previous_question"
+        ],
+        "outbound_files": [
+          "Joint-Protocol-Guide.pdf"
+        ],
+        "notices": [
+          "missing_evidence"
+        ],
+        "final_texts": [
+          "不能确认测试集实验的平均延迟是 14.5 ms。讲义只说明平均验证延迟（mean verification latency）的测量数据存放在配套 notebook 中，并未给出具体数值。"
+        ],
+        "readers": [
+          {
+            "title": "Joint-Protocol-Guide.pdf · v1 · 第 3 页",
+            "error": null
+          }
+        ]
+      },
+      {
+        "id": "J04_switch_back_course",
+        "question": "切回课程全部资料，配套实验测得的 mean verification latency 是多少毫秒？",
+        "provider_calls": [
+          [
+            "deepseek-flash",
+            200
+          ],
+          [
+            "deepseek-flash",
+            200
+          ]
+        ],
+        "definition_topic": null,
+        "outbound_question": "切回课程全部资料，配套实验测得的 mean verification latency 是多少毫秒？",
+        "previous_context_keys": [],
+        "outbound_files": [
+          "Joint-Latency-Log.ipynb",
+          "Joint-Protocol-Guide.pdf"
+        ],
+        "notices": [],
+        "final_texts": [
+          "配套实验笔记本记录 4 个已验证批次的 mean verification latency 为 14.5 ms。",
+          "该数值来自笔记本中 latencies = [14.0, 15.0, 14.2, 14.8] 的均值计算，输出为 14.5 ms。",
+          "协议指南说明 mean verification latency 的测量记录位于配套笔记本中。"
+        ],
+        "readers": [
+          {
+            "title": "Joint-Latency-Log.ipynb · v1 · Cell 1",
+            "error": null
+          },
+          {
+            "title": "Joint-Latency-Log.ipynb · v1 · Cell 1 · 输出 0",
+            "error": null
+          },
+          {
+            "title": "Joint-Protocol-Guide.pdf · v1 · 第 3 页",
+            "error": null
+          }
+        ]
+      }
+    ],
+    "provider_calls_total": 6,
+    "provider_calls_http_200": 6,
+    "provider_calls_failed": 0,
+    "excerpt_fallbacks": [],
+    "reader_clicks_total": 8,
+    "reader_clicks_ok": 8
+  }
+}

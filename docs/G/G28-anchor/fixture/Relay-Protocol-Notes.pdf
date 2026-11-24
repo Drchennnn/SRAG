@@ -1,0 +1,170 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Count 10 /Kids [4 0 R 6 0 R 8 0 R 10 0 R 12 0 R 14 0 R 16 0 R 18 0 R 20 0 R 22 0 R] >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 144 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Overview) Tj T*
+(Relay protocol lecture notes covering release gates, backoff timers, and batch logging.) Tj T*
+ET
+endstream
+endobj
+6 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 7 0 R >>
+endobj
+7 0 obj
+<< /Length 368 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Quorum Gate) Tj T*
+(Quorum Gate: a batch is released only when three independent verifiers sign the same epoch) Tj T*
+(digest within 5 ticks.) Tj T*
+(If a signature is delayed past 5 ticks or duplicated by the same verifier, the tally) Tj T*
+(resets to zero.) Tj T*
+(Advisory pings do not count toward the three-verifier quorum.) Tj T*
+ET
+endstream
+endobj
+8 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 9 0 R >>
+endobj
+9 0 obj
+<< /Length 139 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Verifier Roles) Tj T*
+(Verifiers operate independently and never share transient signature buffers.) Tj T*
+ET
+endstream
+endobj
+10 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 11 0 R >>
+endobj
+11 0 obj
+<< /Length 147 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Epoch Boundaries) Tj T*
+(Each epoch has a monotonic sequence number and a fixed 5-tick verification window.) Tj T*
+ET
+endstream
+endobj
+12 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 13 0 R >>
+endobj
+13 0 obj
+<< /Length 258 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Lease Backoff) Tj T*
+(Lease Backoff: after a worker lease timeout, the worker waits 8 ticks before requesting) Tj T*
+(renewal.) Tj T*
+(Lease Backoff only throttles renewal attempts; it does not authorize batch release.) Tj T*
+ET
+endstream
+endobj
+14 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 15 0 R >>
+endobj
+15 0 obj
+<< /Length 143 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Retry Accounting) Tj T*
+(Failed renewals increment the backoff counter without altering queued batches.) Tj T*
+ET
+endstream
+endobj
+16 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 17 0 R >>
+endobj
+17 0 obj
+<< /Length 142 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Queue Isolation) Tj T*
+(Quarantined batches remain isolated from active dispatch queues until cleared.) Tj T*
+ET
+endstream
+endobj
+18 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 19 0 R >>
+endobj
+19 0 obj
+<< /Length 279 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Batch Pipeline) Tj T*
+(Batch Pipeline processing order: incoming batches first enter staging, then undergo digest) Tj T*
+(check, and finally record an audit entry.) Tj T*
+(Each stage logs its timestamp before handing off to the next stage.) Tj T*
+ET
+endstream
+endobj
+20 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 21 0 R >>
+endobj
+21 0 obj
+<< /Length 125 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Audit Trail) Tj T*
+(Audit entries append monotonically to the local verification log.) Tj T*
+ET
+endstream
+endobj
+22 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R >> >> /Contents 23 0 R >>
+endobj
+23 0 obj
+<< /Length 171 >>
+stream
+BT /F1 12 Tf 48 752 Td 16 TL
+(Experiment Notes) Tj T*
+(Latency benchmarks are stored separately in the verification notebook, not in these) Tj T*
+(lecture notes.) Tj T*
+ET
+endstream
+endobj
+xref
+0 24
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000177 00000 n 
+0000000247 00000 n 
+0000000373 00000 n 
+0000000568 00000 n 
+0000000694 00000 n 
+0000001113 00000 n 
+0000001239 00000 n 
+0000001429 00000 n 
+0000001557 00000 n 
+0000001756 00000 n 
+0000001884 00000 n 
+0000002194 00000 n 
+0000002322 00000 n 
+0000002517 00000 n 
+0000002645 00000 n 
+0000002839 00000 n 
+0000002967 00000 n 
+0000003298 00000 n 
+0000003426 00000 n 
+0000003603 00000 n 
+0000003731 00000 n 
+trailer
+<< /Size 24 /Root 1 0 R >>
+startxref
+3954
+%%EOF

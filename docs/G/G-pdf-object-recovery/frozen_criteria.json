@@ -1,0 +1,241 @@
+{
+  "suite_id": "G-pdf-object-recovery-frozen-v1",
+  "license": "CC BY 4.0",
+  "configuration": {
+    "workspace_answer_enabled": false,
+    "source_vision_enabled": true,
+    "vision_model": "qwen3-vl-plus",
+    "workspace_retrieval_strategy": "fts"
+  },
+  "pdfs": {
+    "Vector-Subfigures-Guide.pdf": {
+      "file": "docs/G/G-pdf-object-recovery/fixtures/Vector-Subfigures-Guide.pdf",
+      "sha256": "0bcc3f74e42982eb308ae710cfff93a25a0b14a4ac6e100da45d3dbc37976d35",
+      "bytes": 6234,
+      "page_count": 2,
+      "page_size_pt": [612.0, 792.0],
+      "objects": [
+        {
+          "object_id": "pdf1_p1_page",
+          "page": 1,
+          "kind": "page",
+          "bbox": [0.0, 0.0, 1.0, 1.0],
+          "expected_facts": [
+            "Benchtop Waveform & Calibration Guide",
+            "0.25 ms",
+            "50-ohm termination impedance",
+            "23.0 C",
+            "15-minute warm-up"
+          ]
+        },
+        {
+          "object_id": "pdf1_p1_table1",
+          "page": 1,
+          "kind": "table",
+          "bbox": [0.1, 0.3, 0.9, 0.48],
+          "expected_facts": [
+            "Table 1: Channel Calibration Parameters",
+            "CH-A (Step)",
+            "0.0 V to 5.0 V",
+            "CH-B (Decay)",
+            "-12.0 dB to +6.0 dB"
+          ]
+        },
+        {
+          "object_id": "pdf1_p2_subfigure_a",
+          "page": 2,
+          "kind": "subfigure",
+          "bbox": [0.06, 0.2, 0.48, 0.62],
+          "expected_facts": [
+            "(a) Left Panel: Step Response",
+            "Amplitude [V]",
+            "Time [ms]",
+            "step-up peak at t = 4 ms",
+            "5.0 V"
+          ]
+        },
+        {
+          "object_id": "pdf1_p2_subfigure_b",
+          "page": 2,
+          "kind": "subfigure",
+          "bbox": [0.52, 0.2, 0.94, 0.62],
+          "expected_facts": [
+            "(b) Right Panel: Damped Decay",
+            "Gain [dB]",
+            "Time [ms]",
+            "damped decay",
+            "spike at t = 8 ms",
+            "+6 dB"
+          ]
+        },
+        {
+          "object_id": "pdf1_p2_figure1_caption",
+          "page": 2,
+          "kind": "caption",
+          "bbox": [0.08, 0.64, 0.92, 0.7],
+          "expected_facts": [
+            "Figure 1: Qualitative bench waveforms.",
+            "Only a schematic illustration",
+            "does not support causal delay claims."
+          ]
+        }
+      ]
+    },
+    "Formula-And-Notes.pdf": {
+      "file": "docs/G/G-pdf-object-recovery/fixtures/Formula-And-Notes.pdf",
+      "sha256": "7415c8607af4f9b1ce5b724856a2f4596d53bbb2042f48c652d7376f38d1e1a5",
+      "bytes": 4753,
+      "page_count": 2,
+      "page_size_pt": [612.0, 792.0],
+      "objects": [
+        {
+          "object_id": "pdf2_p1_page",
+          "page": 1,
+          "kind": "page",
+          "bbox": [0.0, 0.0, 1.0, 1.0],
+          "expected_facts": [
+            "Signal Windowing & Thermal Notes",
+            "E_loss = 0.5 * k * x^2",
+            "Figure 2: Thermal drift baseline."
+          ]
+        },
+        {
+          "object_id": "pdf2_p2_formula_tau_eff",
+          "page": 2,
+          "kind": "formula",
+          "bbox": [0.12, 0.16, 0.88, 0.28],
+          "expected_facts": [
+            "tau_eff = (W - 1) / 2",
+            "for odd W >= 3 only"
+          ]
+        },
+        {
+          "object_id": "pdf2_p2_formula_alpha_max",
+          "page": 2,
+          "kind": "formula",
+          "bbox": [0.12, 0.36, 0.88, 0.46],
+          "expected_facts": [
+            "alpha_max = 1 / (N + 1)",
+            "exponential moving average"
+          ]
+        },
+        {
+          "object_id": "pdf2_p2_figure3_caption",
+          "page": 2,
+          "kind": "caption",
+          "bbox": [0.12, 0.78, 0.88, 0.83],
+          "expected_facts": [
+            "Figure 3: Peak-hold envelope under dry bench conditions."
+          ]
+        }
+      ]
+    }
+  },
+  "questions": [
+    {
+      "question_id": "Q01_vector_subfigure",
+      "category": "vector_subfigure",
+      "document": "Vector-Subfigures-Guide.pdf",
+      "question": "In Vector-Subfigures-Guide.pdf on page 2, what does the right subfigure (b) show, including its axis quantities, spike time in ms, and peak gain in dB?",
+      "expected_page": 2,
+      "expected_kind": "subfigure",
+      "expected_object_id": "pdf1_p2_subfigure_b",
+      "expected_bbox": [0.52, 0.2, 0.94, 0.62],
+      "expected_behavior": "answer_with_object_citation",
+      "expected_facts": [
+        "Gain [dB]",
+        "Time [ms]",
+        "t = 8 ms",
+        "+6 dB",
+        "damped decay"
+      ]
+    },
+    {
+      "question_id": "Q02_figure_caption",
+      "category": "figure_caption",
+      "document": "Vector-Subfigures-Guide.pdf",
+      "question": "What does the Figure 1 caption on page 2 of Vector-Subfigures-Guide.pdf state about causal delay claims?",
+      "expected_page": 2,
+      "expected_kind": "caption",
+      "expected_object_id": "pdf1_p2_figure1_caption",
+      "expected_bbox": [0.08, 0.64, 0.92, 0.7],
+      "expected_behavior": "answer_with_object_citation",
+      "expected_facts": [
+        "Qualitative bench waveforms",
+        "Only a schematic illustration",
+        "does not support causal delay claims"
+      ]
+    },
+    {
+      "question_id": "Q03_standalone_formula",
+      "category": "standalone_formula_with_nearby_distractor",
+      "document": "Formula-And-Notes.pdf",
+      "question": "In Formula-And-Notes.pdf on page 2, what is the formula for tau_eff and its applicability condition?",
+      "expected_page": 2,
+      "expected_kind": "formula",
+      "expected_object_id": "pdf2_p2_formula_tau_eff",
+      "expected_bbox": [0.12, 0.16, 0.88, 0.28],
+      "distractor_object_id": "pdf2_p2_formula_alpha_max",
+      "distractor_bbox": [0.12, 0.36, 0.88, 0.46],
+      "expected_behavior": "answer_with_object_citation",
+      "expected_facts": [
+        "tau_eff = (W - 1) / 2",
+        "odd W >= 3 only"
+      ]
+    },
+    {
+      "question_id": "Q04_ambiguity_counterexample",
+      "category": "ambiguity_counterexample",
+      "document": "Vector-Subfigures-Guide.pdf",
+      "question": "这张图里的曲线趋势是什么？",
+      "target_page_hint": 2,
+      "expected_page": 2,
+      "expected_kind": "subfigure",
+      "expected_behavior": "clarify_object_ambiguous",
+      "expected_clarification_reason": "object_ambiguous",
+      "ambiguous_candidates": [
+        {
+          "object_id": "pdf1_p2_subfigure_a",
+          "label": "(a) Left Panel: Step Response",
+          "bbox": [0.06, 0.2, 0.48, 0.62]
+        },
+        {
+          "object_id": "pdf1_p2_subfigure_b",
+          "label": "(b) Right Panel: Damped Decay",
+          "bbox": [0.52, 0.2, 0.94, 0.62]
+        }
+      ]
+    },
+    {
+      "question_id": "Q05_table_regression",
+      "category": "existing_table_regression",
+      "document": "Vector-Subfigures-Guide.pdf",
+      "question": "In Table 1 of Vector-Subfigures-Guide.pdf on page 1, what are the nominal ranges for CH-A and CH-B?",
+      "expected_page": 1,
+      "expected_kind": "table",
+      "expected_object_id": "pdf1_p1_table1",
+      "expected_bbox": [0.1, 0.3, 0.9, 0.48],
+      "expected_behavior": "answer_with_object_citation",
+      "expected_facts": [
+        "0.0 V to 5.0 V",
+        "-12.0 dB to +6.0 dB"
+      ]
+    },
+    {
+      "question_id": "Q06_page_citation_regression",
+      "category": "existing_page_citation_regression",
+      "document": "Vector-Subfigures-Guide.pdf",
+      "question": "According to Section 1 of Vector-Subfigures-Guide.pdf on page 1, what are the default sampling interval, termination impedance, and ambient reference temperature?",
+      "expected_page": 1,
+      "expected_kind": "page",
+      "expected_object_id": "pdf1_p1_page",
+      "expected_bbox": [0.0, 0.0, 1.0, 1.0],
+      "expected_behavior": "answer_with_page_citation",
+      "expected_facts": [
+        "0.25 ms",
+        "50-ohm",
+        "23.0 C"
+      ]
+    }
+  ]
+}

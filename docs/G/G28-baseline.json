@@ -1,0 +1,329 @@
+{
+  "answer_flag_override": true,
+  "cases": {
+    "Q07": {
+      "blocks": [
+        {
+          "code": "definition",
+          "text": "本轮可核对的原文不足以确认定义。",
+          "type": "notice"
+        },
+        {
+          "code": "experiment",
+          "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+          "type": "notice"
+        }
+      ],
+      "buttons": [],
+      "sources": {},
+      "status": "completed",
+      "trace": {
+        "answer_sections": {
+          "definition": "missing",
+          "experiment": "missing"
+        },
+        "answer_status": "no_evidence",
+        "budget": 2,
+        "cited_evidence_ids": [],
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_184292105d764bb1994d7b55af129d00",
+            "local_34a66191ba2e4418a64677df2f77598a",
+            "local_b4e9274caf4640fa9499f2b033faa52a"
+          ]
+        },
+        "elapsed_ms": 32.03850006684661,
+        "external_call_count": 0,
+        "final_evidence_ids": [
+          "ev-1",
+          "ev-2"
+        ],
+        "first_missing": [
+          "definition",
+          "experiment"
+        ],
+        "first_search_status": "ok",
+        "first_supported": [],
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+                "locator": {
+                  "page": 2
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 7.575457606742246,
+                "source": {
+                  "document_id": "local_b4e9274caf4640fa9499f2b033faa52a",
+                  "source_id": "page:2",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+                "locator": {
+                  "bbox": [
+                    0.644917,
+                    0.520106,
+                    0.824203,
+                    0.671999
+                  ],
+                  "page": 2
+                },
+                "origins": [],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": null,
+                "source": {
+                  "document_id": "local_b4e9274caf4640fa9499f2b033faa52a",
+                  "source_id": "page:2:table:1",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 5.009083892218769,
+            "kind": "first",
+            "query": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_184292105d764bb1994d7b55af129d00",
+                "local_34a66191ba2e4418a64677df2f77598a",
+                "local_b4e9274caf4640fa9499f2b033faa52a"
+              ]
+            }
+          }
+        ],
+        "misses": [],
+        "missing": [
+          "definition",
+          "experiment"
+        ],
+        "replacements": [],
+        "requirements": [
+          "definition",
+          "experiment"
+        ],
+        "route": "evidence_answer",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_184292105d764bb1994d7b55af129d00",
+            "local_34a66191ba2e4418a64677df2f77598a",
+            "local_b4e9274caf4640fa9499f2b033faa52a"
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+            "course_id": "public",
+            "document_id": "local_184292105d764bb1994d7b55af129d00",
+            "file_name": "Direct-Preference-Optimization-2305.18290v3.pdf",
+            "publication_epoch": 1,
+            "version": 1
+          },
+          {
+            "content_sha256": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d",
+            "course_id": "public",
+            "document_id": "local_34a66191ba2e4418a64677df2f77598a",
+            "file_name": "Mixtral-Router-Verification.ipynb",
+            "publication_epoch": 1,
+            "version": 1
+          },
+          {
+            "content_sha256": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+            "course_id": "public",
+            "document_id": "local_b4e9274caf4640fa9499f2b033faa52a",
+            "file_name": "Mixtral-of-Experts-2401.04088v1.pdf",
+            "publication_epoch": 1,
+            "version": 1
+          }
+        ],
+        "snapshot_recheck_count": 4,
+        "source_read_count": 2,
+        "status": "partial",
+        "stop_reason": "no_definition_anchor",
+        "strategy": "supplement",
+        "supplement_count": 0,
+        "term": null
+      },
+      "visible": "课程助手\n\n本轮可核对的原文不足以确认定义。\n\n本轮可核对的原文不足以确认与该定义相符的实测比较。",
+      "scope": "当前范围 · public的全部资料",
+      "question": "在 Mixtral 课件和配套实验里，门控网络 G(x) 的计算公式是怎么定义的？实验在 ArXiv 验证集上测出的第 15 层连续词元首选专家重复率和平均路由分发延迟分别是多少？",
+      "reader": {},
+      "fixtures": {
+        "Mixtral-of-Experts-2401.04088v1.pdf": "f8bbf0e9d979b7a8ce7be65119266545a229a85b57e077d8bd048e458bb642da",
+        "Direct-Preference-Optimization-2305.18290v3.pdf": "92cb3a2b71362acda98a789b03d88688fd33cf5fcf13f81d2b1de30ee7d3b67a",
+        "v1/Mixtral-Router-Verification.ipynb": "7a75fc9f22f50f310e889325b487d4652d145c97950e1738b74a6ab7fb2c256d"
+      }
+    },
+    "H04": {
+      "blocks": [
+        {
+          "code": "definition",
+          "text": "本轮可核对的原文不足以确认定义。",
+          "type": "notice"
+        },
+        {
+          "code": "experiment",
+          "text": "本轮可核对的原文不足以确认与该定义相符的实测比较。",
+          "type": "notice"
+        }
+      ],
+      "buttons": [],
+      "sources": {},
+      "status": "completed",
+      "trace": {
+        "answer_sections": {
+          "definition": "missing",
+          "experiment": "missing"
+        },
+        "answer_status": "no_evidence",
+        "budget": 2,
+        "cited_evidence_ids": [],
+        "effective_scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_98e91fe7a38b4c6590b3335c336e4415"
+          ]
+        },
+        "elapsed_ms": 22.41579198744148,
+        "external_call_count": 0,
+        "final_evidence_ids": [
+          "ev-1",
+          "ev-2"
+        ],
+        "first_missing": [
+          "definition",
+          "experiment"
+        ],
+        "first_search_status": "ok",
+        "first_supported": [],
+        "hops": [
+          {
+            "candidates": [
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-1",
+                "file_name": "PagedAttention-2309.06180v1.pdf",
+                "locator": {
+                  "page": 6
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 1,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 4.120290257798633e-06,
+                "source": {
+                  "document_id": "local_98e91fe7a38b4c6590b3335c336e4415",
+                  "source_id": "page:6",
+                  "version": 1
+                }
+              },
+              {
+                "course_id": "public",
+                "disposition": "read",
+                "evidence_id": "ev-2",
+                "file_name": "PagedAttention-2309.06180v1.pdf",
+                "locator": {
+                  "page": 5
+                },
+                "origins": [
+                  "native_text"
+                ],
+                "rank": 2,
+                "read_status": "succeeded",
+                "reason": null,
+                "score": 3.948696374108392e-06,
+                "source": {
+                  "document_id": "local_98e91fe7a38b4c6590b3335c336e4415",
+                  "source_id": "page:5",
+                  "version": 1
+                }
+              }
+            ],
+            "elapsed_ms": 3.1045828945934772,
+            "kind": "first",
+            "query": "论文对逻辑 KV 块到物理 KV 块的块表映射是怎么定义的？在翻译和聊天机器人负载实验中，vLLM 相比现有系统取得了多少倍的吞吐量提升？",
+            "scope": {
+              "course_ids": [
+                "public"
+              ],
+              "document_ids": [
+                "local_98e91fe7a38b4c6590b3335c336e4415"
+              ]
+            }
+          }
+        ],
+        "misses": [],
+        "missing": [
+          "definition",
+          "experiment"
+        ],
+        "replacements": [],
+        "requirements": [
+          "definition",
+          "experiment"
+        ],
+        "route": "evidence_answer",
+        "scope": {
+          "course_ids": [
+            "public"
+          ],
+          "document_ids": [
+            "local_98e91fe7a38b4c6590b3335c336e4415"
+          ]
+        },
+        "snapshot": [
+          {
+            "content_sha256": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e",
+            "course_id": "public",
+            "document_id": "local_98e91fe7a38b4c6590b3335c336e4415",
+            "file_name": "PagedAttention-2309.06180v1.pdf",
+            "publication_epoch": 1,
+            "version": 1
+          }
+        ],
+        "snapshot_recheck_count": 4,
+        "source_read_count": 2,
+        "status": "partial",
+        "stop_reason": "no_definition_anchor",
+        "strategy": "supplement",
+        "supplement_count": 0,
+        "term": null
+      },
+      "visible": "课程助手\n\n本轮可核对的原文不足以确认定义。\n\n本轮可核对的原文不足以确认与该定义相符的实测比较。",
+      "scope": "当前范围 · public的全部资料",
+      "question": "论文对逻辑 KV 块到物理 KV 块的块表映射是怎么定义的？在翻译和聊天机器人负载实验中，vLLM 相比现有系统取得了多少倍的吞吐量提升？",
+      "reader": {},
+      "fixtures": {
+        "PagedAttention-2309.06180v1.pdf": "55b3b324d779a67c59dac2519445e3b07c14e6ff5c656fadb47a3d7b5997469e"
+      }
+    }
+  }
+}

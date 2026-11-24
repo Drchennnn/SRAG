@@ -1,0 +1,48 @@
+{
+  "baseline_commit": "cfcfe5e79bde6dbd8b5346da752e4d527f4e18cd",
+  "mode_off": {
+    "answer_status": "complete",
+    "blocks": [
+      {
+        "citations": [
+          "ev-1"
+        ],
+        "text": "A basalt latch opens on three consecutive readings strictly above 8 V.",
+        "type": "text"
+      },
+      {
+        "citations": [
+          "ev-2"
+        ],
+        "text": "实验 TrialA，切分 held-out，样本数 4。MAE（amplitude）基线为 0.26，试验为 0.19。",
+        "type": "text"
+      }
+    ]
+  },
+  "mode_on_browser": {
+    "generation": {
+      "attempts": [
+        {
+          "elapsed_ms": 1004.153,
+          "outcome": "response",
+          "status": 200
+        }
+      ],
+      "elapsed_ms": 1019.519,
+      "estimated_input": 4717,
+      "external_call_count": 1,
+      "fixed_overhead": 3805,
+      "input_budget": 32768,
+      "input_evidence_ids": [
+        "ev-1",
+        "ev-2"
+      ],
+      "model": "deepseek-flash",
+      "output_reserve": 8192,
+      "provider": "deepseek",
+      "status": "succeeded",
+      "total_tokens": 1132
+    },
+    "visible_text": "课程助手\n\nBasalt latch 的定义是：连续三次读数都严格高于 8 V 时开启。\n\n依据 · Basalt-Guide.ipynb · v1 · Cell 1\n\n对应实验为 TrialA，使用留出验证集（held-out），指标为 MAE，单位为 amplitude；基线为 0.26，试验结果为 0.19，样本数为 4。\n\n依据 · Lab-OnlyB.ipynb · v1 · Cell 1"
+  }
+}

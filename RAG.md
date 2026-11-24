@@ -2,6 +2,42 @@
 
 运行方式见 [README](./README.md)，评估见 [evals/README](./evals/README.md)，开发任务见 [CHECKLIST](./CHECKLIST.md)。
 
+## H01–H03 · 单课程可溯源知识图谱与双入口导航 · 2026-11-24
+
+在 `J` 定型底座（`c04149e`）之上完成单课程可溯源知识图谱设计、实现与独立整审（实现 `feat/h-course-knowledge-graph` `bb6a5ba`，独审 `review/h-gate` `0b47e0c`，Ruff 0 错、`node --check` 通过、真 `LibreOffice 26.8.3.1` 全量 `pytest` `677 passed, 0 failed, 0 skipped`；[H01 设计](./docs/H/H01-边及导航设计.md) · [H02 实现与自测](./docs/H/H02-实现与自测.md)）：
+
+1. **原文支持本体与 5 类反例拒收**：在 `app/stores/local_kg.py` 落地离线零模型确定性构边，仅接受两类带 12 字段原文证据跨度的关系——`defined_in`（在此定义）与 `demonstrated_by`（由此实验演示），强制满足 `readable_source_text(source)[start:end] == evidence_excerpt`。对仅共享术语共现、参考文献提及、未运行计划 Cell、代码注释/句中隔词否定及跨课同名等 5 类反例硬拒收（盲测 `10/10` 真边命中、`10/10` 反例 0 误接受）。
+2. **SQLite 增量存储与换版/删除双护栏**：向后兼容新增 `local_kg_concepts`（含 `active` 列）、`local_kg_edges` 与 `local_kg_doc_state` 水位线表；在立即换版、`delete_local`/`revoke_legacy_document`（显式 `BEGIN IMMEDIATE`）、`promote_due` 到期提升（四消费入口统一 `ensure_course_kg_synced()` CAS 对齐）与迟到写回拦截上保持原子一致，换版或删档后旧边立即退出新查询，历史回答原件引用仍可回看旧版。
+3. **双入口概念导航（默认内置启用）**：`app/api/workspace.py` 新增同源只读端点 `GET /api/workspace/sessions/{session_id}/kg/concepts` 与 `/kg/concepts/{concept_key}`（严格按 `session.course_ids ∩ allowed_courses` 过滤，越权/跨会话/跨课严格 HTTP 404）；`app/web/workspace/` 新增侧边 `#kg-panel` 概念导航与消息内 `.kg-message-concepts` 概念芯片双入口，支持直达同版讲义原页、实验 Cell 代码与 `child_output` 原图，无可靠边或失效芯片在局部面板优雅降级为「用常规检索查找」，离线零模型模式同样完整可用。
+4. **受控一跳问答候选增强（默认 `False`，显式可选）**：`app/config.py` 新增 `workspace_kg_retrieval_enabled: bool = False` 与 `workspace_retrieval_include_adjacency: bool = True`；启用时在授权快照与同预算内沿 `accepted` 边最多一跳补充对端对象（`reason="kg_one_hop"`）并共排 Notebook 同 Cell `child_output`，目标原文强制在 `read_window` 实时重读后才生成引用。H03 10 题同预算三臂盲测（`budget=6, pool_cap=12`，0 严重错误）：`S0_base` `8/10`、`S0_adj` `8/10`、`S0_kg` **`9/10`**（零词面重叠跨文件题 **`2/4 → 4/4`**，`p50=3.020s` 持平）；因 6 槽上限下在反例提及题上存在槽位挤占权衡，保持默认 `False`、按需启用。
+
+## J01–J03 · 真实多文件精准检索与策略定型 · 2026-11-23
+
+在 `33f0f14` 之上完成真实多文件课程同预算四策略对照（实现 `feat/j-multifile-retrieval` `4bb1c41`，独审 `review/j-gate` `96e05ad`，Ruff 0 错，带真 `LibreOffice 26.8.3.1` 全量 `pytest` `667 passed, 0 failed, 0 skipped`；[J01 设计](./docs/J/J01-多文件检索对照设计.md) · [J02 对照报告](./docs/J/J02-对照实验报告.md)）：
+
+1. **预算契约解耦与 3 项 G29/G30 边界收口**：将 `pool_cap` 与 `final_source_budget` 从 `request.top_k` 解耦，消除非双语 `fts` 早退预算泄露；同步收口非 LLM 回退路径精确文本子对象单次门控补读（共用 `ev-*`）、多图对比问法防单向方位误锁、以及 `_IMAGE` 中文教学复合词扩充与无显式位置 `choices==[]` 安全回退常规检索。
+2. **Jev 48 KB 确定性修复（`S1`）与定型**：`app/clients/jev.py` 实现三段窗口摘取、`42 KB` 贪心分批与 HTTP 400/413/422 递归二分重试，实测 `0 input_limit`，在未见 9 文件 18 题 `cs-mlsys-j` 上将长文多文件竞争（`Cat A`）由 `1/4` 提至 `3/4`（总体 `7/18 → 10/18`）；但远端 `p95` 增幅 `+34.71 s >> +8 s` 且低置信回退 `21.4%`，**本版保持默认关闭**（待服务批延迟降至 `p95 <= +8 s` 后可复测）。
+3. **有界两步检索（`S2a` / `S2b`）与定型**：解耦 `_expand()` 与 Jev 强绑定。`S2a`（字面标识符 2-hop，0 额外 LLM 调用）与 `S2b`（有界 1 次 `deepseek-flash` 规划器，0 退化、`p95 = 6.23 s`）均将零词面重叠 2-hop（`Cat B`）由 `0/4` 提至 `2/4`，但 `S2a` 无条件启用会引起非 2-hop 控制退化、而 `S2b` 增耗规划调用，**二者均定型为显式可选策略**。
+4. **可选本地向量与纯图整页视觉闭环（`S3`）与定型**：新增 `app/rag/workspace_vector.py`（`LocalVectorBridge` 单实例同步 `QdrantClient(path=...)` + 线程锁 + 显式 `close()`），复用 `"text_content"`/`"visual_fusion"` 与当前版本/Epoch/SHA-256 双重过滤，将纯图无正文页有界 D03 视觉实读（`max_visual_reads=2`）前移至 `read_window` / `_generate_draft` 之前并纳入 G21 `32,768` 统一预算（`_attach_images` 复用同 `ev-*`）。盲测 `cs-mlsys-j` 整题达 **`14/18 (77.8%)`**、纯图无文字锚点 PPTX（`Cat C`）达 **`4/4 (100%)`**、0 严重错误，损坏 Qdrant 0 阻塞退回 `S0`、换版零旧版泄漏。保持默认 `workspace_vector_retrieval_enabled=False`（零默认 Qdrant 依赖），**定型为配置就绪时的显式/按需纯图视觉与跨术语语义增强通道**。
+5. **策略定型与下一步**：`S0`（`FTS + 按需双语`）保留为默认零依赖底座；J 部通过并正式开放 **H01（单课程可溯源知识图谱设计）**。
+
+## G29–G30 · 公共编排收口、契约统一与双轨 M2 门禁 · 2026-11-23
+
+在 `d4c8597` 联合独审（`1515363`）与正式 A03 复测（`a82c23e`，整题 4/10）以及 `codex/g-pdf-object-recovery`（`731422b`）、`codex/g-version-output-recovery`（`328ae63`）送审后，确认如下架构调整并保留所有历史成绩与 A03 原锁口径：
+
+1. **保留不动的核心底座**：A/B 本地版本化原子发布与 FTS5 快搜、`(document_id, version, source_id)` 身份契约、D 层“展示 vs 实读”双账本与字节校验、G21 阅读与生成统一预算模型，以及“引用必属本轮授权实读”的 0 严重错误底线。
+2. **停止在巨型路由上继续叠正则补丁**：`app/rag/workspace.py`（3,039 行）及关联路由模块已积累 133 个模块级正则，并行分支已在 `_retrieve()` 的 `object_intent` 分发口产生直接冲突，并暴露三类公共契约裂缝：① 文本正则 `_IMAGE_REFERENCE` 早于 `session.focus_id` 抢跑导致页内双图 `Q04` 落入无候选泛化澄清；② PDF 图注/公式文本写入 `locator["object_text"]` 而 `historical_evidence()` 仍校验空 `source.text` 导致 `GET /evidence/{eid}` 409；③ 澄清选项缺少父动作恢复字段导致重排后双版比较（`b2`）选后只读 v2 单边返回 `partial`，且 `answer_current_image` / `compare_versions` 的 `/evidence/{eid}/preview` 返回 404。
+3. **G29 公共编排与契约收口（先拆清边界，再合并两支）**：
+   - 将回合分发拆为显式四阶段管道：`Scope & Focus 状态解析` → `统一意图判定` → `可恢复澄清契约（携带 parent_action / paired_historical_ref）` → `统一证据与预览契约`。
+   - 统一对象文本读取与历史证据核验口径（不污染 FTS 排序，且 `GET /evidence/{eid}` 返回 200）；统一图像引用的 `/media/{display_id}` 与 `/evidence/{eid}/preview` 契约；`focus_id` 参与当前页/Cell 消歧，消除死路泛化澄清。
+   - 在新边界上整合 `g-pdf-object-recovery` 与 `g-version-output-recovery` 的有效解析与跨版能力。
+   - 明确 `workspace_answer_enabled=False` 降级边界：保证精确对象定位、视觉实读、跨版配对与多输出澄清，但**不再为无文字生成模式维护平行于 LLM 的确定性跨文件句子拼装正则**。
+4. **双轨 M2 门禁（G30）与中期路线重排**：
+   - 保留原 A03 锁口径与全部历史封存成绩作为**无文字生成内核的固定回归标尺**；M2 日常版裁决采用**双轨并列**：轨 1 为 A03 原锁底座核验（对象寻址、视觉实读、跨版对话、多输出消歧与 0 严重错误）；轨 2 为真实产品配置（开启文字生成 + 定向视觉）在**未见真实复杂排版 PDF、PPTX、Notebook** 上的真实浏览器端到端盲验。
+   - M2 通过后，中期优先推进 **J（真实多文件课程精准检索对照与定型，覆盖长文、纯图 PPTX、跨文件多跳与 FTS/双语/Jev/可选向量/有界工具循环同预算对比）**，检索定型后再推进 **H（单课程可溯源知识图谱）**；R 可并行推进，桌面端仍留在 K 之后的需求池。
+5. **G29 已完成实施与独立盲验签认（2026-11-23）**：实现分支 `feat/g29-orchestration-and-integration`（`33f0f14a0333a715c0e8e3a63ac0bb8110aa35f0`）已落地四阶段模块（`workspace_context.py`、`workspace_router.py`、`workspace_clarification.py`、`workspace_evidence.py`）与三分支预览对称化（`table_crop` 保留 Branch C 整页高亮坐标系），未改 HTTP API、请求 Schema、前端 JS 与 SQLite Schema；经 `review/g29-gate`（`b80e6553f2c89ff00f87513647f66a387246f898`）两轮独立盲验签认通过（`LibreOffice 26.8.3.1` 全量 `656 passed, 0 failed, 0 skipped`、Ruff 0 错误、未见两篇真实论文 68 对象审计达 `94.1% Recall / 92.8% Precision`，四处契约裂缝与多轮旧版隔离/全局表号均闭环，0 严重错误）。
+6. **G30 双轨 M2 裁决完成并放行 J01（2026-11-23）**：基于固定 SHA `33f0f14` 完成双轨独立验收——轨 1（A03 原锁单次封存复测，[报告](./docs/G/G30-a03-retest/README.md)）完成度 `10/10`、对话一致 `2/2`、关键题 `4/5`、整题 `4/10 → 6/10`、`读对答错` 清零、0 回退、0 严重错误（4 题未达原锁中 2 题为关闭外部文字生成下的跨文件综合上限，2 题为已定位的非阻塞小边界）；轨 2（真实 Chromium `/workspace/` 三格式 8 步学生流程，[报告](./docs/G/G30-web-e2e/README.md)）`8/8` 全通（真实 DeepSeek + `qwen3-vl-plus` + `LibreOffice 26.8.3.1`，0 严重错误）。双轨 M2 放行，正式开放 **J01（真实多文件精准检索对照设计）**。
+
 ## G26–G27 · 论文表格的查找、读取和追问
 
 学生问“几种配置各用多少张 GPU”时，普通问答可从当前资料范围检索已登记的表，与页内文字一同参与生成。明确要求打开指定表时，按位置、序号或描述定位原表。表格追问只从当前范围内、对话中已向用户展示或引用的表解析指代。后台为生成而读过的其他候选表不能单独成为“刚才那张表”的指代依据。
@@ -185,6 +221,8 @@ G17 的工作区检索保持 FTS 加邻接作为默认策略。显式策略可�
 G18 追加同源引用预览。打开侧栏时按会话已完成消息授权，通过其来源三元组及原件摘要复核历史渲染。定向读图的文字追问可以回到实际输入附件，复核实际输入摘要；读图区与展示整页分列。目录或引用预览不会发起模型调用。[G18 网页回放](./docs/G/G18-网页回放.md)
 
 G19 将浏览器的选中文档范围与版本化节点焦点分开。换版后重新绑定当前文档根节点，已完成消息继续保留旧版引用。跨文件三类证据已经实读、本地核对未得完整结果且没有明确冲突时，允许现有回答模型在已读证据内综合。引用须属于本轮输入证据，仍使用原快照授权及提交前复核；综合不再发起检索。服务失效时保留本地核对结果。[G19 独立整审](./docs/G/G19-独立整审与试用.md)
+
+G28 在启用生成问答的网页路径中，用现有快照、检索和阅读窗口处理未指定位置的定义与实验问题。同一提示词模式用于阅读窗口预留和最终生成。答案分别引用定义和实验结果，记录实验的对象、条件、指标和单位。纯文字 Notebook 输出从历史引用接口打开原文。双语改写因约束拒收且 FTS 未选中保存输出时，在已授权快照和原候选上限内优先补入保存输出。公式和代码标识在生成后对照实际引用输入，缺直接依据的结论会省略。同会话收窄文件范围时，通过上一轮的可见引用定位被排除的实验依据，仅用本轮内容判定实验缺项。缺项时说明范围变化与如何重新选择资料。收窄后的定义代词只从上一轮可见、当前同版原文确认唯一话题，并把名称补入当前问题，事实由本轮实读支撑。 [G28 网页复验](./docs/G/G28-自然问题的定义与实验.md)
 
 G15 在原生导入后提供按文档位置返回、带版本键与原文偏移的阅读窗口。长文档的游标与发布快照和段集合绑定。扫描 PDF 可在基础发布之后单独用已安装的 Docling 增强，写回校验课程、原件摘要、版号及发布代次。OCR 文字和视觉增强分别入索引。[阅读与 OCR 实证](./docs/G/G15-顺序阅读与扫描增强.md)
 

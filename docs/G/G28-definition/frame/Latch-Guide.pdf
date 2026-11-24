@@ -1,0 +1,41 @@
+%PDF-1.4
+%‚„œ”
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [4 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 650 440] /Resources << /Font << /F1 3 0 R >> >> /Contents 5 0 R >>
+endobj
+5 0 obj
+<< /Length 810 >>
+stream
+BT /F1 22 Tf 42 378 Td (Latch monitor specification) Tj ET
+BT /F1 12 Tf 42 336 Td (Wake dwell defines entry after five uninterrupted high readings above 7 V.) Tj ET
+BT /F1 12 Tf 42 314 Td (A sample at 7 V does not qualify as a high reading.) Tj ET
+BT /F1 12 Tf 42 292 Td (The wake holdoff interval suppresses new triggers for 11 readings after entry.) Tj ET
+BT /F1 12 Tf 42 270 Td (Holdoff is used to time service dispatch in the replay trial.) Tj ET
+BT /F1 12 Tf 42 248 Td (Only a full duplicate traversal on every update gives the scan its O\(n^2\) worst case.) Tj ET
+BT /F1 12 Tf 42 226 Td (An append-only trace need not rescan. The trial result is stored outside this guide.) Tj ET
+BT /F1 12 Tf 42 204 Td (Wake reserve is a reserved name without a defined rule.) Tj ET
+BT /F1 10 Tf 42 40 Td (Page 1) Tj ET
+endstream
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000015 00000 n 
+0000000064 00000 n 
+0000000121 00000 n 
+0000000191 00000 n 
+0000000317 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+1177
+%%EOF
